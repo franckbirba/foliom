@@ -1,3 +1,13 @@
+Meteor.publish('configurationMaster', function() {
+  return Configurations.find({master: true});
+});
+
+Meteor.publish('configurations', function(estateId) {
+  return Configurations.find({estate_id: estateId});
+});
+
+
+
 Meteor.publish('publicLists', function() {
   return Lists.find({userId: {$exists: false}});
 });

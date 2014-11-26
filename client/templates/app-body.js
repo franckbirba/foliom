@@ -39,7 +39,7 @@ Template.appBody.rendered = function() {
         .hide()
         .insertBefore(next)
         .fadeIn(function () {
-          listFadeInHold.release();
+         // listFadeInHold.release();
         });
     },
     removeElement: function(node) {
