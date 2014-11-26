@@ -1,3 +1,25 @@
 {
-	"hello": "wech wech bien?"
+	/* Global keywords */
+    "description": "Description",
+    "logo": "Logo",
+
+    "hello": "wech wech bien?",
+
+    /* Estate */
+
+    "estate_name": "Nom du Patrimoine",
+    "user_collection": "Utilisateurs reliés",
+
+    /* Configuration Compass */
+
+    "icc": "Indice du coût de la construction (ICC)",
+
+    "project_type_static_index": "Coefficients « fixes » de montage",
+    "classic": "Classique",
+    "cpe": "CPE",
+    "cr": "CR",
+    "crem": "CREM",
+    "ppp": "PPP",
+    "cpi": "CPI"
+
 }
