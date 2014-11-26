@@ -6,11 +6,11 @@
 standard-app-packages
 insecure
 less
-iron:router@0.9.4
 accounts-password
 bootstrap
 accounts-ui
 tap:i18n
 aldeed:collection2
 aldeed:autoform
+iron:router
 
