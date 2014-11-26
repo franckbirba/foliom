@@ -112,7 +112,7 @@ Template.appBody.events({
   'click .js-logout': function() {
     Meteor.logout();
 		Router.go('signin');
-    
+
     // if we are on a private list, we'll need to go to a public one
     // var current = Router.current();
  //    if (current.route.name === 'listsShow' && current.data().userId) {
