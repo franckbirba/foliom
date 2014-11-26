@@ -1,16 +1,31 @@
 // if the database is empty on server start, create some sample data.
 Meteor.startup(function () {
-	if (Meteor.users.length === 0) {
+	if (Meteor.users.find().count() === 0) {
+		console.log("creating user test");
     Accounts.createUser({
+			username: "test",
       email: "test@test.com",
       password: "test"
-    }, function(error) {
-      if (error) {
-        return Session.set(ERRORS_KEY, {'none': error.reason});
-      }
-
-      Router.go('home');
     });
+	}
+	if(Configurations.find().count() === 0) {
+		var tmpConfig = {
+    	master: true,
+    	creation_date: new Date(),
+    	indexes: [],
+    	project_type_static_index: {
+    	classic: 0,
+    	cpe: 0,
+    	cr: 0,
+    	crem: 0,
+    	ppp: 0,
+    	cpi: 0,
+    	},
+    	fluids: [],
+    	mailing_list: "eggre"
+		};
+		Configurations.insert(tmpConfig);
+		console.log('created master configuration');
 	}
   if (Lists.find().count() === 0) {
     var data = [
