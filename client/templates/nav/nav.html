@@ -1,0 +1,36 @@
+<template name="nav">
+   <header class="navbar" id="header">
+           <div class="navbar-inner">
+             <div class="container-fluid">
+               <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+               </button>
+               <a href="/" class="btn">e-portfolio</a>
+              {{> loginButtons}}
+               <div class="nav-collapse collapse">
+                 <ul class="nav">
+                   {{#if currentUser}}
+                     <li class="js-logout"><a href="#">logout</a></li>
+                     {{/if}}
+                   <li><a href="/settings">settings</a></li>
+                 </ul>
+                 <div class="dropdown">
+                   <a id="dLabel" data-target="#" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                     {{lang}}
+                     <span class="caret"></span>
+                   </a>
+
+                   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                     <li class="fr-lang {{langActiv 'fr'}}"><a>Français</a></li>
+                     <li class="en-lang {{langActiv 'en'}}"><a>English</a></li>
+                   </ul>
+                 </div>
+                 <ul class="nav pull-right">
+                 </ul>
+               </div>
+             </div>
+           </div>
+         </header>
+</template>
