@@ -20,6 +20,13 @@
     "cr": "CR",
     "crem": "CREM",
     "ppp": "PPP",
-    "cpi": "CPI"
+    "cpi": "CPI",
+
+
+    "area_useful": "Surface utile",
+
+    /* Units */
+    "m2 SHON": "m2 SHON FR",
+    "kWhEF": "kWhEF FR"
 
 }
