@@ -1,0 +1,16 @@
+<template name="playground2">
+    <div class="form-group {{#if afFieldIsInvalid name='cost'}}has-error{{/if}}">
+        <div class="input-group">
+            {{> afFieldInput name='cost'}}
+            <!-- <span class="input-group-addon">{{this.atts.unit}}</span> -->
+        </div>
+        {{#if afFieldIsInvalid name='cost'}}
+        <span class="help-block">{{afFieldMessage name='cost'}}</span>
+      {{/if}}
+
+        <!-- {{#if afFieldInput unit="€€€"}}
+            <p>boooya?</p>
+        {{/if}} -->
+
+    </div>
+</template>
