@@ -6,6 +6,9 @@ Meteor.publish('configurations', function(estateId) {
   return Configurations.find({estate_id: estateId});
 });
 
+Meteor.publish('estates', function(estateId) {
+  return Estates.find();
+});
 
 
 Meteor.publish('publicLists', function() {

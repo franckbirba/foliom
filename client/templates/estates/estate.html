@@ -1,2 +1,15 @@
 <template name="estate">
+  {{> nav}}
+
+<div>
+      <ul>
+        {{#each estates}}
+          <li>{{estate_name}}</li>
+        {{/each}}
+      </ul>
+      <button type="button" class="btn" data-toggle="modal" data-target="#estateForm">
+        new estate
+      </button>
+  {{>insertEstateForm}}
+</div>
 </template>
