@@ -23,6 +23,10 @@ Meteor.publish('privateLists', function() {
   }
 });
 
+Meteor.publish(null, function (){ 
+  return Meteor.roles.find({})
+});
+
 Meteor.publish('todos', function(listId) {
   check(listId, String);
 

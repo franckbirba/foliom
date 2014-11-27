@@ -43,5 +43,9 @@ Template.nav.helpers({
 		 if(TAPi18n.getLanguage() === lang)
 			 return 'active';
 		 return '';
+	 },
+	 admin: function(){
+	 	console.log(Meteor.user().roles.indexOf('admin') >= 0 ? true : false);
+	 	return (Meteor.user().roles.indexOf('admin') >= 0 ? true : null);
 	 }
 })

@@ -7,6 +7,15 @@ Meteor.startup(function () {
       email: "test@test.com",
       password: "test"
     });
+
+    Accounts.createUser({
+      username: "admin",
+      email: "admin@test.com",
+      password: "admin"
+    });
+
+    Roles.addUsersToRoles(Meteor.users.findOne({username:'test'}), ['user']);
+    Roles.addUsersToRoles(Meteor.users.findOne({username:'admin'}), ['admin']);
 	}
 	if(Configurations.find().count() === 0) {
 		var tmpConfig = {

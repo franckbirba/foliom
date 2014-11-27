@@ -5,7 +5,6 @@
 
 standard-app-packages
 insecure
-accounts-password
 accounts-ui
 tap:i18n
 aldeed:autoform
@@ -13,3 +12,6 @@ iron:router
 aldeed:collection2
 less
 nemo64:bootstrap
+accounts-password
+alanning:roles
+

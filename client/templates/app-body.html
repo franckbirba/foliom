@@ -14,7 +14,10 @@
     {{/unless}}
 
     <div class="content-overlay"></div>
-    {{> nav}}
+    {{#if currentUser}}
+
+          {{> nav}}
+    {{/if}}
 
     <div id="content-container">
        {{> yield}}
