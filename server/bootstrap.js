@@ -10,19 +10,19 @@ Meteor.startup(function () {
 	}
 	if(Configurations.find().count() === 0) {
 		var tmpConfig = {
-    	master: true,
-    	creation_date: new Date(),
-    	indexes: [],
-    	project_type_static_index: {
-    	classic: 0,
-    	cpe: 0,
-    	cr: 0,
-    	crem: 0,
-    	ppp: 0,
-    	cpi: 0,
-    	},
-    	fluids: [],
-    	mailing_list: "eggre"
+        	master: true,
+        	creation_date: new Date(),
+        	indexes: [],
+        	project_type_static_index: {
+            	classic: 0,
+            	cpe: 0,
+            	cr: 0,
+            	crem: 0,
+            	ppp: 0,
+            	cpi: 0,
+        	},
+        	fluids: [],
+        	mailing_list: "eggre"
 		};
 		Configurations.insert(tmpConfig);
 		console.log('created master configuration');
