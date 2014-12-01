@@ -2,7 +2,7 @@
 <div>
       <ul>
         {{#each estates}}
-          <li>{{estate_name}}</li>
+          <li><a href="#" data-toggle="modal" data-target="#estateForm" >{{estate_name}} - id: {{_id}}</a></li>
         {{/each}}
       </ul>
       <button type="button" class="btn" data-toggle="modal" data-target="#estateForm">
