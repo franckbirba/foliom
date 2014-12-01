@@ -24,6 +24,15 @@ Meteor.publish("userData", function () {
   }
 });
 
+
+Meteor.publish('fluids', function() {
+  return Fluids.find();
+});
+
+Meteor.publish('selectors', function() {
+  return Selectors.find();
+});
+
 Meteor.publish('publicLists', function() {
   return Lists.find({userId: {$exists: false}});
 });
@@ -36,7 +45,7 @@ Meteor.publish('privateLists', function() {
   }
 });
 
-Meteor.publish(null, function (){ 
+Meteor.publish("roles", function (){ 
   return Meteor.roles.find({})
 });
 
