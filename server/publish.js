@@ -10,6 +10,19 @@ Meteor.publish('estates', function(estateId) {
   return Estates.find();
 });
 
+Meteor.publish("userData", function () {
+  if (this.userId) {
+    var tmp = Meteor.users.findOne({_id: this.userId});
+    if(tmp && tmp.roles && tmp.roles.indexOf('admin') >= 0 ){
+      console.log('ADMIN USER DATA');
+      return Meteor.users.find();
+    }
+    else
+      return Meteor.users.find({_id: this.userId});
+  } else {
+    this.ready();
+  }
+});
 
 Meteor.publish('publicLists', function() {
   return Lists.find({userId: {$exists: false}});
