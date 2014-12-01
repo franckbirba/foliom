@@ -10,6 +10,14 @@ Meteor.publish('estates', function(estateId) {
   return Estates.find();
 });
 
+Meteor.publish('fluids', function() {
+  return Fluids.find();
+});
+
+Meteor.publish('selectors', function() {
+  return Selectors.find();
+});
+
 
 Meteor.publish('publicLists', function() {
   return Lists.find({userId: {$exists: false}});
@@ -23,7 +31,7 @@ Meteor.publish('privateLists', function() {
   }
 });
 
-Meteor.publish(null, function (){ 
+Meteor.publish(null, function (){
   return Meteor.roles.find({})
 });
 

@@ -36,6 +36,51 @@ Meteor.startup(function () {
 		Configurations.insert(tmpConfig);
 		console.log('created master configuration');
 	}
+    if(Selectors.find().count() === 0) {
+        var tmpSelectorList = [
+                // selector: {name : 'control_full'}
+                // devrait marcher, mais ne marche pas...
+                // {
+                //     name: 'building_control',
+                //     labels: [
+                //         {label : 'control_full'},
+                //         {label : 'control_shared'} ]
+                // }
+                {
+                    name: 'building_control',
+                    labels: ['control_full', 'control_shared' ]
+                },
+                {
+                    name: 'fluid_type',
+                    labels: ["fluid_electricity", "fluid_water", "fluid_heat" ],
+                    portfolio_id: ""
+                },
+                {
+                    name: 'fluid_provider',
+                    labels: ["EDF", "Poweo"],
+                    portfolio_id: ""
+                }];
+
+        _.each(tmpSelectorList, function(item) {
+            Selectors.insert(
+                    item
+                    // estate_id: item.estate_id
+                );
+
+            // var list_id = Lists.insert({name: list.name,
+            //     incompleteCount: list.items.length});
+
+            // _.each(list.items, function(text) {
+            //     Todos.insert({listId: list_id,
+            //                   text: text,
+            //                   createdAt: new Date(timestamp)});
+            //     timestamp += 1; // ensure unique timestamp.
+            //   });
+        });
+
+        console.log('created first Selector list - 2 items!');
+
+    }
   if (Lists.find().count() === 0) {
     var data = [
       {name: "Meteor Principles",
