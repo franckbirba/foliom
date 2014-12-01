@@ -2,20 +2,24 @@
 Meteor.startup(function () {
 	if (Meteor.users.find().count() === 0) {
 		console.log("creating user test");
-    Accounts.createUser({
-			username: "test",
+    var testUser = Accounts.createUser({
+      profile: {
+        username: "test"
+      },
       email: "test@test.com",
       password: "test"
     });
 
-    Accounts.createUser({
-      username: "admin",
+    var Admin = Accounts.createUser({
+      profile:{
+        username: "admin"
+      },
       email: "admin@test.com",
       password: "admin"
     });
 
-    Roles.addUsersToRoles(Meteor.users.findOne({username:'test'}), ['user']);
-    Roles.addUsersToRoles(Meteor.users.findOne({username:'admin'}), ['admin']);
+    Roles.addUsersToRoles(testUser, ['user']);
+    Roles.addUsersToRoles(Admin, ['admin']);
 	}
 	if(Configurations.find().count() === 0) {
 		var tmpConfig = {
@@ -81,6 +85,7 @@ Meteor.startup(function () {
         console.log('created first Selector list - 2 items!');
 
     }
+  
   if (Lists.find().count() === 0) {
     var data = [
       {name: "Meteor Principles",
@@ -128,5 +133,13 @@ Meteor.startup(function () {
         timestamp += 1; // ensure unique timestamp.
       });
     });
+    Meteor.methods({
+        addUser: function(user){
+           return Accounts.createUser(user);
+        },
+        addRole: function(user, roles){
+          return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
+        }
+  });
   }
 });

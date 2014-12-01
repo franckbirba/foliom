@@ -1,5 +1,3 @@
-
-
 Template.playground.helpers(
     {
         getEstateNames: function(){
