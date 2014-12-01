@@ -17,6 +17,7 @@ Template.user.events({
   'submit': function(event, template) {
     event.preventDefault();
     var email = template.$('[name=email]').val();
+     var username = template.$('[name=username]').val();
     var password = template.$('[name=password]').val();
     var confirm = template.$('[name=confirm]').val();
     var roles = template.$('[name=roles]').val();
@@ -24,6 +25,10 @@ Template.user.events({
 
     if (! email) {
       errors.email = 'Email required';
+    }
+
+    if (! username) {
+      errors.email = 'username required';
     }
 
     if (! password) {
@@ -39,22 +44,23 @@ Template.user.events({
       return;
     }
 
-    Accounts.createUser({
+    Meteor.call("addUser", {
+      profile:{username: username},
       email: email,
       password: password
-    }, function(error) {
-      if (error) {
-        console.log("CREATE USER ERROR", error);
-        return;
-        //return Session.set(ERRORS_KEY, {'none': error.reason});
-      }
-      if(roles){
-        var tmpUser = Meteor.users.findOne({email:email});
+    }, function(error, result){
+      console.log(error, result);
+        if(roles){
+          Meteor.call("addRole", result, roles.split(','),function(error, result){
+            console.log(error, result);
+          });
+        }
+        template.$("#userform")[0].reset();
+    });
+    /*if(roles){
+        var tmpUser = Meteor.users.find({email:email}).fetch();
         console.log(email,tmpUser);
        Roles.addUsersToRoles(tmpUser, roles.split(','));
-      }
-
-      Router.go('home');
-    });
+      }*/
   }
 });
