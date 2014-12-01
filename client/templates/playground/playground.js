@@ -1,15 +1,13 @@
-
-
 Template.playground.helpers(
     {
-        getEstateNames: function(){
+        getBlobNames: function(){
             var labelList = [] ;
+            var obj = {};
 
             Estates.find().forEach(function(estate) {
                 labelList.push({
                     label: estate.estate_name
                 });
-                console.log(estate.estate_name);
             });
             return labelList;
 

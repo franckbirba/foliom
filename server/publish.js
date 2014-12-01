@@ -23,14 +23,6 @@ Meteor.publish("userData", function () {
     this.ready();
   }
 });
-Meteor.publish('fluids', function() {
-  return Fluids.find();
-});
-
-Meteor.publish('selectors', function() {
-  return Selectors.find();
-});
-
 
 Meteor.publish('publicLists', function() {
   return Lists.find({userId: {$exists: false}});

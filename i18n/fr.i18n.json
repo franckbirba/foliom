@@ -31,13 +31,6 @@
     "mailing_list": "Envoi d’une alerte chaque année, pour actualisation des données",
 
 
-    /* Fluids */
-
-    "fluid_electricity": "Electricité",
-    "fluid_water": "Eau",
-    "fluid_heat": "Chaud",
-
-
     /* Estates */
 
     "estate_name": "Nom du Patrimoine",
