@@ -1,4 +1,4 @@
-<template name="user">
+<template name="join">
   <div class="page auth">
     <nav>
       <div class="nav-group">
@@ -8,9 +8,10 @@
 
     <div class="content-scrollable">
       <div class="wrapper-auth">
-        <h1 class="title-auth">New user</h1>
+        <h1 class="title-auth">Join.</h1>
+        <p class="subtitle-auth" >Joining allows you to make private lists</p>
 
-        <form id="userform">
+        <form>
           {{#if errorMessages}}
             <div class="list-errors">
               {{#each errorMessages}}
@@ -19,10 +20,6 @@
             </div>
           {{/if}}
 
-           <div class="input-symbol  {{errorClass 'username'}}">
-            <input type="text" name="username" placeholder="Your Username" />
-            <span class="icon-text" title="Your Username"></span>
-          </div>
           <div class="input-symbol  {{errorClass 'email'}}">
             <input type="email" name="email" placeholder="Your Email" />
             <span class="icon-email" title="Your Email"></span>
@@ -38,15 +35,11 @@
             <span class="icon-lock" title="Confirm Password"></span>
           </div>
 
-          <div class="input-symbol">
-            <input type="text" name="roles" placeholder="User roles" />
-            <span class="icon-lock" title="User roles"></span>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Create</button>
+          <button type="submit" class="btn-primary">Join Now</button>
         </form>
       </div>
 
+      <a href="{{pathFor 'signin'}}" class="link-auth-alt">Have an account? Sign in</a>
     </div>
   </div>
 </template>

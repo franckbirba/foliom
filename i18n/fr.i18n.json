@@ -1,20 +1,14 @@
 {
 	/* Global keywords */
+    "description": "Description",
+    "logo": "Logo",
 
     "hello": "wech wech bien?",
 
-    "description": "Description",
-    "logo": "Logo",
-    "address": "Adresse",
-    "images": "Photos",
+    /* Estate */
 
-
-    "street": "Rue",
-    "zip": "Code postal",
-    "city": "Ville",
-    "area": "Secteur",
-    "country": "Pays",
-
+    "estate_name": "Nom du Patrimoine",
+    "user_collection": "Utilisateurs reliés",
 
     /* Configuration Compass */
 
@@ -28,62 +22,11 @@
     "ppp": "PPP",
     "cpi": "CPI",
 
-    "mailing_list": "Envoi d’une alerte chaque année, pour actualisation des données",
 
-
-    /* Estates */
-
-    "estate_name": "Nom du Patrimoine",
-    "user_collection": "Utilisateurs reliés",
-
-
-
-    /* Portfolios */
-
-    "portfolio_name": "Surface utile",
-
-
-
-    /* Buildings */
-
-    "building_name": "Nom du Bâtiment",
-    "building_info": "Informations complémentaires",
-    "construction_year": "Année de Construction",
-    "building_control": "Contrôle",
-    "building_user": "Utilisateur",
-    "area_total": "Surface totale",
     "area_useful": "Surface utile",
-    "building_nb_floors": "Nombre de niveaux (y compris RDC)",
-    "carpark_spaces": "Nombre de places de parking",
-    "carpark_area": "Surface de parking",
-
-    /* Building Selectors */
-
-    "control_full": "Pleine propriété",
-    "control_shared": "Co-propriété",
-    "own_use": "Own use",
-    "rented": "Locataire",
-
-
-
-
-
-
-
 
     /* Units */
-
-    "u_kwhEF": "kWhEF",
-    "u_euro_kwhEF": "€ HT / kWhEF",
-    "u_m3": "m³",
-    "u_euro_m3": "€ HT / m³",
-    "u_m2": "m²",
-    "u_euro_m2": "€ HT / m²",
-    "u_kg_eqC02_m2_year": "kg (eq. C02) / m².an",
-    "u_m2_shon": "m² SHON",
-    "u_m2_useful": "m² utiles",
-    "u_kwh_m2_year_primEnergy": "kWh / m².an (énergie primaire)",
-    "u_kg_eqC02_m2_year": "kg (eq. C02)/ m².an"
-
+    "m2 SHON": "m2 SHON FR",
+    "kWhEF": "kWhEF FR"
 
 }

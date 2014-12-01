@@ -45,8 +45,7 @@ Template.nav.helpers({
 		 return '';
 	 },
 	 admin: function(){
-	 	if(!Meteor.user() || !Meteor.user().roles)
-	 		return null;
+	 	console.log(Meteor.user().roles.indexOf('admin') >= 0 ? true : false);
 	 	return (Meteor.user().roles.indexOf('admin') >= 0 ? true : null);
 	 }
 })

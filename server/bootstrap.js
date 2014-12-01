@@ -2,24 +2,20 @@
 Meteor.startup(function () {
 	if (Meteor.users.find().count() === 0) {
 		console.log("creating user test");
-    var testUser = Accounts.createUser({
-      profile: {
-        username: "test"
-      },
+    Accounts.createUser({
+			username: "test",
       email: "test@test.com",
       password: "test"
     });
 
-    var Admin = Accounts.createUser({
-      profile:{
-        username: "admin"
-      },
+    Accounts.createUser({
+      username: "admin",
       email: "admin@test.com",
       password: "admin"
     });
 
-    Roles.addUsersToRoles(testUser, ['user']);
-    Roles.addUsersToRoles(Admin, ['admin']);
+    Roles.addUsersToRoles(Meteor.users.findOne({username:'test'}), ['user']);
+    Roles.addUsersToRoles(Meteor.users.findOne({username:'admin'}), ['admin']);
 	}
 	if(Configurations.find().count() === 0) {
 		var tmpConfig = {
@@ -87,13 +83,5 @@ Meteor.startup(function () {
         timestamp += 1; // ensure unique timestamp.
       });
     });
-    Meteor.methods({
-        addUser: function(user){
-           return Accounts.createUser(user);
-        },
-        addRole: function(user, roles){
-          return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
-        }
-  });
   }
 });
