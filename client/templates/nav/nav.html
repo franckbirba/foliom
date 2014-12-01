@@ -22,12 +22,13 @@
           <ul class="dropdown-menu" role="menu">
             <li><a href="/estate" class="{{activPage 'estate'}}">Estates</a></li>
             <li><a href="/settings" class="{{activPage 'settings'}}">Settings</a></li>
-			<li><a href="/building_form">Building form</a></li>
+			       <li><a href="/building_form">Building form</a></li>
+             <li><a href="/user">Users</a></li>
           </ul>
         </li>
       </ul>
                 {{/if}}
-
+{{currentUser.username}}
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
