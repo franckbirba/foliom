@@ -2,10 +2,10 @@
 <div>
       <ul>
         {{#each estates}}
-          <li><a href="#" data-toggle="modal" data-target="#estateForm" class="upestate" >{{estate_name}} - id: {{_id}}</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#estateForm" class="update_estate" >Estate: {{estate_name}} - id: {{_id}}</a></li>
         {{/each}}
       </ul>
-      <button type="button" class="btn" data-toggle="modal" data-target="#estateForm">
+      <button type="button" data-toggle="modal" data-target="#estateForm" class="btn insert_estate">
         new estate
       </button>
   {{>insertEstateForm}}

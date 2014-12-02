@@ -3,7 +3,7 @@ Template.nav.events(
   'click .js-logout': function() {
     Meteor.logout();
 		Router.go('signin');
-    
+
     // if we are on a private list, we'll need to go to a public one
     // var current = Router.current();
  //    if (current.route.name === 'listsShow' && current.data().userId) {
@@ -43,10 +43,5 @@ Template.nav.helpers({
 		 if(TAPi18n.getLanguage() === lang)
 			 return 'active';
 		 return '';
-	 },
-	 admin: function(){
-	 	if(!Meteor.user() || !Meteor.user().roles)
-	 		return null;
-	 	return (Meteor.user().roles.indexOf('admin') >= 0 ? true : null);
 	 }
-})
+});

@@ -3,7 +3,7 @@ Template.home.events(
   'click .js-logout': function() {
     Meteor.logout();
 		Router.go('signin');
-    
+
     // if we are on a private list, we'll need to go to a public one
     // var current = Router.current();
  //    if (current.route.name === 'listsShow' && current.data().userId) {
@@ -36,4 +36,12 @@ Template.home.helpers({
 			 return 'active';
 		 return '';
 	 }
-})
+});
+
+// On Template rendered: Display Modal to choose Estate if Session Var is empty and User is linked to multiple Estates
+Template.home.rendered = function () {
+    if ( Meteor.user().roles.indexOf('admin') >= 0 ){
+        $('#SelectEstateForm').modal('show');
+    }
+
+};
