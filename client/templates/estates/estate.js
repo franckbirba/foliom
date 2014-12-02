@@ -14,25 +14,26 @@ Template.estate.helpers(
 	}
 );
 
-Template.estate.events({
-  // 'submit': function(event, template) {
-    'echo': function(id) {
-        event.preventDefault();
-        console.log('_id is: ' + this._id);
-  }
-});
+// Template.estate.events({
+//   // 'submit': function(event, template) {
+//     'click #estateForm': function(id) {
+//         event.preventDefault();
+//         console.log('_id is: ' + this._id);
+//         Session.set('current_estate_id', this._id)
+//   }
+// });
 
-$('#estateForm').on('show.bs.modal', function (event) {
-  // var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = $(event.relatedTarget).data('estId') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  // modal.find('.modal-title').text('New message to ' + recipient)
-  // modal.find('.modal-body input').val(recipient)
-  getEstate(this._id);
-  console.log("totoooo");
-})
+// $('#estateForm').on('show.bs.modal', function (event) {
+//   // var button = $(event.relatedTarget) // Button that triggered the modal
+//   var recipient = $(event.relatedTarget).data('estId') // Extract info from data-* attributes
+//   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+//   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+//   var modal = $(this)
+//   // modal.find('.modal-title').text('New message to ' + recipient)
+//   // modal.find('.modal-body input').val(recipient)
+//   getEstate(this._id);
+//   console.log("totoooo");
+// })
 
 // Template.postItem.helpers({
 //   domain: function() {

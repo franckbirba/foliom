@@ -11,7 +11,7 @@ Template.insertEstateForm.helpers(
             Meteor.users.find().forEach(function(user) {
 
                     console.log(user.username);
-                    labelList2.push({label:user.username, value:user.username});
+                    labelList2.push({label:user.profile.username, value:user.profile.username});
             });
             return labelList2;
         }
