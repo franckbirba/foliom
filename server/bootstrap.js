@@ -35,7 +35,8 @@ Meteor.startup(function () {
             	cpi: 0,
         	},
         	fluids: [],
-        	mailing_list: "eggre"
+        	mailing_list: "eggre",
+          yearly_values: [{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},]
 		};
 		Configurations.insert(tmpConfig);
 		console.log('created master configuration');

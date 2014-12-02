@@ -1,13 +1,29 @@
 Template.estate.helpers(
     {
-        'click .upestate': function(){
-            // Session.set('current_estate_id', id);
-            console.log('this is: ' + this);
-        }
+        estates: function(){
+			return Estates.find({},
+                        {sort: {estate_name:1}}
+                        ).fetch();
+		},
+		name: function(estate){
+			return estate.name;
+		},
+
+		upestate: function(){
+
+			return "console.log('"+JSON.stringify(this)+"')";
+		}
     }
 );
 
-Template.estate.helpers(
+Template.estate.events({
+	'click .upestate': function(){
+            // Session.set('current_estate_id', id);
+            console.log('this is: ',this);
+        }
+});
+
+/*Template.estate.helpers(
 	{
 		estates: function(){
 			return Estates.find({},
@@ -22,7 +38,7 @@ Template.estate.helpers(
 		}
 	}
 );
-
+*/
 
 // Template.estate.events({
 //   // 'submit': function(event, template) {
