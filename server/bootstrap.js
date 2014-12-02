@@ -40,6 +40,13 @@ Meteor.startup(function () {
 		Configurations.insert(tmpConfig);
 		console.log('created master configuration');
 	}
+    if(Estates.find().count() === 0) {
+        var tmpConfig = {
+            estate_name: "77",
+        };
+        Estates.insert(tmpConfig);
+        console.log('inserted estate 77');
+    }
     if(Selectors.find().count() === 0) {
         var tmpSelectorList = [
                 // selector: {name : 'control_full'}
@@ -85,7 +92,7 @@ Meteor.startup(function () {
         console.log('created first Selector list - 2 items!');
 
     }
-  
+
   if (Lists.find().count() === 0) {
     var data = [
       {name: "Meteor Principles",
