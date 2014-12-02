@@ -1,5 +1,14 @@
 // if the database is empty on server start, create some sample data.
 Meteor.startup(function () {
+  Meteor.methods({
+        addUser: function(user){
+           return Accounts.createUser(user);
+        },
+        addRole: function(user, roles){
+          return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
+        }
+  });
+  
 	if (Meteor.users.find().count() === 0) {
 		console.log("creating user test");
     var testUser = Accounts.createUser({
@@ -141,13 +150,6 @@ Meteor.startup(function () {
         timestamp += 1; // ensure unique timestamp.
       });
     });
-    Meteor.methods({
-        addUser: function(user){
-           return Accounts.createUser(user);
-        },
-        addRole: function(user, roles){
-          return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
-        }
-  });
+    
   }
 });
