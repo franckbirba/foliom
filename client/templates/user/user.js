@@ -1,15 +1,15 @@
 var ERRORS_KEY = 'joinErrors';
 
 Template.user.created = function() {
-  //Session.set(ERRORS_KEY, {});
+  Session.set(ERRORS_KEY, {});
 };
 
 Template.user.helpers({
   errorMessages: function() {
-    return ;//_.values(Session.get(ERRORS_KEY));
+    _.values(Session.get(ERRORS_KEY));
   },
   errorClass: function(key) {
-    return ;//Session.get(ERRORS_KEY)[key] && 'error';
+    Session.get(ERRORS_KEY)[key] && 'error';
   }
 });
 
@@ -39,7 +39,7 @@ Template.user.events({
       errors.confirm = 'Please confirm your password';
     }
 
-   // Session.set(ERRORS_KEY, errors);
+    Session.set(ERRORS_KEY, errors);
     if (_.keys(errors).length) {
       return;
     }
