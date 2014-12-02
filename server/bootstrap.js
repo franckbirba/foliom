@@ -8,7 +8,7 @@ Meteor.startup(function () {
           return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
         }
   });
-  
+
 	if (Meteor.users.find().count() === 0) {
 		console.log("creating user test");
     var testUser = Accounts.createUser({
@@ -44,8 +44,7 @@ Meteor.startup(function () {
             	cpi: 0,
         	},
         	fluids: [],
-        	mailing_list: "eggre",
-          yearly_values: [{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},{value: Math.floor(Math.random()*11)},]
+        	mailing_list: "eggre"
 		};
 		Configurations.insert(tmpConfig);
 		console.log('created master configuration');
@@ -150,6 +149,5 @@ Meteor.startup(function () {
         timestamp += 1; // ensure unique timestamp.
       });
     });
-    
   }
 });
