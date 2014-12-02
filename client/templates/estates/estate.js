@@ -1,14 +1,3 @@
-Template.estate.helpers(
-	{
-		estates: function(){
-			return Estates.find({},
-                        {sort: {estate_name:1}}
-                        ).fetch();
-		}
-	}
-);
-
-
 Template.estate.events({
     'click .update_estate': function() {
         // console.log('_id is: ' + this._id);
