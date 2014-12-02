@@ -1,4 +1,13 @@
 Template.estate.helpers(
+    {
+        'click .upestate': function(){
+            // Session.set('current_estate_id', id);
+            console.log('this is: ' + this);
+        }
+    }
+);
+
+Template.estate.helpers(
 	{
 		estates: function(){
 			return Estates.find({},
@@ -13,6 +22,7 @@ Template.estate.helpers(
 		}
 	}
 );
+
 
 // Template.estate.events({
 //   // 'submit': function(event, template) {
