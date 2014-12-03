@@ -52,9 +52,16 @@ AutoForm.addHooks(null, {
 AutoForm.hooks({
     AFinsertEstateForm: {
         onSuccess: function(operation, result, template) {
+            console.log(operation, result, template);
+
             // console.log("Success : operation is " + operation);
             if (operation == "insert") {
                 $('#estateForm').modal('hide');
+                Meteor.call("copyMasterCfg", result, function(error, result){
+                    if (error) {
+                        console.log(error);
+                    }
+                });
             } else if (operation == "update") {
                 $('#estateForm').modal('hide');
             }

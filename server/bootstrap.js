@@ -1,11 +1,21 @@
 // if the database is empty on server start, create some sample data.
 Meteor.startup(function () {
+
+
+  /*TODO: try to put this soewhere else*/
   Meteor.methods({
         addUser: function(user){
            return Accounts.createUser(user);
         },
         addRole: function(user, roles){
           return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
+        },
+        copyMasterCfg: function(estateId){
+          var MasterCfg = Configurations.findOne({master:true});
+          delete MasterCfg._id;
+          MasterCfg.estate_id = estateId;
+          Configurations.insert(MasterCfg);
+          console.log(MasterCfg);
         }
   });
 
@@ -31,7 +41,7 @@ Meteor.startup(function () {
     Roles.addUsersToRoles(Admin, ['admin']);
 	}
 	if(Configurations.find().count() === 0) {
-		var tmpConfig = {
+		var tmpMasterConfig = {
         	master: true,
         	creation_date: new Date(),
         	indexes: [],
@@ -46,15 +56,20 @@ Meteor.startup(function () {
         	fluids: [],
         	mailing_list: "eggre"
 		};
-		Configurations.insert(tmpConfig);
-		console.log('created master configuration');
+		var masterCfgId = Configurations.insert(tmpMasterConfig);
+		console.log('created master configuration ' + masterCfgId);
 	}
     if(Estates.find().count() === 0) {
         var tmpConfig = {
             estate_name: "77",
         };
-        Estates.insert(tmpConfig);
-        console.log('inserted estate 77');
+        var estate_id = Estates.insert(tmpConfig);
+        console.log('inserted estate 77, ' + estate_id);
+        var estateCfg = tmpMasterConfig;
+        delete estateCfg.master;
+        estateCfg.estate_id = estate_id;
+        var cfgId = Configurations.insert(estateCfg);
+        console.log('Inserted Cfg for estate 77 ' +  cfgId);
     }
     if(Selectors.find().count() === 0) {
         var tmpSelectorList = [
