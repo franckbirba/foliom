@@ -15,3 +15,14 @@ Template.registerHelper("estates",
                     ).fetch();
     }
 );
+
+// Get list of all Portfolios for current Estate, sorted by alpha (on name)
+Template.registerHelper("portfolios",
+    function(){
+        // var estate = Session.get('current_estate_doc');
+        // Pour l'instant on remonte tout
+        return Portfolios.find({},
+                    {sort: {name:1}}
+                    ).fetch();
+    }
+);
