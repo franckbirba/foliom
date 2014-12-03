@@ -10,6 +10,9 @@ Template.user.helpers({
   },
   errorClass: function(key) {
     Session.get(ERRORS_KEY)[key] && 'error';
+  },
+  users: function(){
+    return Meteor.users.find().fetch();
   }
 });
 

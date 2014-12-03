@@ -6,9 +6,23 @@
       </div>
     </nav>
 
+    <ul class="list-group" style="width:200px;">
+      {{#each users}}
+        <li class="list-group-item">{{profile.username}}</li>
+      {{/each}}
+    </ul>
+
     <div class="content-scrollable">
       <div class="wrapper-auth">
-        <h1 class="title-auth">New user</h1>
+        <button class="btn btn-success" data-toggle="modal" data-target="#userformmodal">New user</button>
+
+<div class="modal fade" id="userformmodal">
+<div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">New User</h4>
+          </div>
+          <div class="modal-body">
 
         <form id="userform">
           {{#if errorMessages}}
@@ -45,6 +59,9 @@
 
           <button type="submit" class="btn btn-primary">Create</button>
         </form>
+        </div>
+        </div>
+</div>
       </div>
 
     </div>
