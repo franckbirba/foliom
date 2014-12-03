@@ -1,0 +1,13 @@
+<template name="buildings">
+<div>
+      <ul>
+        {{#each building}}
+          <li><a href="#" data-toggle="modal" data-target="#buildingForm" class="update_building" >Building: {{building_name}} - id: {{_id}}</a></li>
+        {{/each}}
+      </ul>
+      <button type="button" data-toggle="modal" data-target="#buildingForm" class="btn insert_building">
+        new building
+      </button>
+  {{>insertEstateForm}}
+</div>
+</template>

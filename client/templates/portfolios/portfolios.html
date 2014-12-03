@@ -1,0 +1,28 @@
+<template name="portfolios">
+<div>
+    <ul>
+        {{#each estates}}
+            <li>
+                Estate: {{estate_name}} - id: {{_id}} <!-- - portfolios: {{portfolio_collection}} -->
+                <ul>
+                    {{#each portfolio_collection}}
+                        <li>Portfolio: {{this.valueOf}}</li>
+                    {{/each}}
+                </ul>
+            </li>
+        {{/each}}
+    </ul>
+
+    <div>Portfolio List</div>
+      <ul>
+        {{#each portfolios}}
+          <!-- <li><a href="#" data-toggle="modal" data-target="#portfolioForm" class="update_portfolio" >Portfolio: {{name}} - id: {{_id}}</a></li> -->
+          <li>Portfolio: {{name}} - id: {{_id}}</li>
+        {{/each}}
+      </ul>
+      <button type="button" data-toggle="modal" data-target="#portfolioForm" class="btn insert_portfolio">
+        new portfolio
+      </button>
+  {{>insertPortfolioForm}}
+</div>
+</template>
