@@ -10,6 +10,10 @@ Meteor.publish('estates', function(estateId) {
   return Estates.find();
 });
 
+Meteor.publish('portfolios', function(estateId) {
+  return Portfolios.find();
+});
+
 Meteor.publish("userData", function () {
   if (this.userId) {
     var tmp = Meteor.users.findOne({_id: this.userId});
