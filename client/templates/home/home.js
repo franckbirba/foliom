@@ -40,7 +40,8 @@ Template.home.helpers({
 
 // On Template rendered: Display Modal to choose Estate if Session Var is empty and User is linked to multiple Estates
 Template.home.rendered = function () {
-    if ( Meteor.user().roles.indexOf('admin') >= 0 ){
+	/* FBI: commented annoying behavior*/
+    if ( Meteor.user().roles.indexOf('admin') >= 0 && !Session.get('current_estate_doc')){
         $('#SelectEstateForm').modal('show');
     }
 

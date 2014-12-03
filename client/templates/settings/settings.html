@@ -1,7 +1,9 @@
 <template name="settings">
-  <div class="page">
-  <h1>settings</h1>
-  {{> quickForm collection="Configurations" id="configs" doc=getMaster template="plain-fieldset" label-class="col-sm-3" input-col-class="col-sm-9" type=getType}}
+  <div class="page" style="position:relative;">
+  <h1>settings<span style="position:absolute;right:10px;top:0px;" class="btn btn-small glyphicon glyphicon-globe edit-master {{isEditingMasterCfg}}">edit master</span></h1>
+
+
+  {{> quickForm collection="Configurations" id="configs" doc=getCfg template="plain-fieldset" label-class="col-sm-3" input-col-class="col-sm-9" type=getType}}
 </div>
 </template>
 
@@ -9,7 +11,7 @@
 <template name="settings2">
   <div class="page">
   <h1>settings</h1>
-  {{> quickForm collection="Configurations" id="configs" doc=getMaster template="plain" label-class="col-sm-3" input-col-class="col-sm-9" type=getType}}
+  {{> quickForm collection="Configurations" id="configs" doc=getCfg template="plain" label-class="col-sm-3" input-col-class="col-sm-9" type=getType}}
 </div>
 </template>
 
