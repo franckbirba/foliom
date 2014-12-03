@@ -4,6 +4,9 @@ Template.settings.helpers(
 			var curEstate = Session.get('current_estate_doc');
 			var masterCfg = Session.get('editingMasterCfg');
 			if(!curEstate || masterCfg) {
+				if(!masterCfg)
+					Session.set('editingMasterCfg', true);
+				console.log('MASTER');
 				return Configurations.findOne({master: true});
 			}
 			var curEstateId = curEstate._id;
@@ -21,7 +24,6 @@ Template.settings.helpers(
 Template.settings.events(
 	{
 		'click .edit-master': function(template, event){
-			var masterCfg = Configurations.findOne({master:true});
 			Session.set('editingMasterCfg', true);
 		}
 	}

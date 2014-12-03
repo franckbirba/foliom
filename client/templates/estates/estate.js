@@ -11,9 +11,5 @@ Template.estate.events({
     'click .insert_estate': function() {
         Session.set('update_estate_var', false);
         // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
-  },
-  'submit': function(event, template){
-     var estateForm = template.$('#AFinsertEstateForm')[0];
-     console.log(estateForm);
   }
 });
