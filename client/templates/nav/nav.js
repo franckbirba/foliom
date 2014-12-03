@@ -21,10 +21,9 @@ Template.nav.events(
 		'click .fr-lang': function() {
 			TAPi18n.setLanguage('fr');
 		},
-		'click .select_estate': function() {
+		'click .select_estate': function() { //??
 	        Session.set('current_estate_doc', this);
 	        Session.set('editingMasterCfg', false);
-	        $('#SelectEstateForm').modal('hide');
 	        console.log("current estate in Session is: ");
 	        console.log(this);
 	        Meteor.subscribe('configurations', this._id);
@@ -32,16 +31,6 @@ Template.nav.events(
 		}
 	}
 );
-
-Template.nav.events({
-    'click .update_estate': function() {
-        // console.log('_id is: ' + this._id);
-        Session.set('update_estate_doc', this);
-        Session.set('editingMasterCfg', false);
-        Session.set('update_estate_var', true);
-        // console.log('update_estate_var activated: ' +  Session.get('update_estate_var'));
-  }
-});
 
 
 Template.nav.helpers({

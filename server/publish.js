@@ -6,12 +6,16 @@ Meteor.publish('configurations', function(estateId) {
   return Configurations.find({estate_id: estateId});
 });
 
-Meteor.publish('estates', function(estateId) {
+Meteor.publish('estates', function() {
   return Estates.find();
 });
 
 Meteor.publish('portfolios', function(estateId) {
-  return Portfolios.find();
+  return Portfolios.find(); // TODO : if(!Admin) then : only send relevant Portfolios
+});
+
+Meteor.publish('buildings', function(portfolioId) {
+  return Buildings.find(); // TODO : only send relevant Buildings
 });
 
 Meteor.publish("userData", function () {
