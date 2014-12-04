@@ -6,64 +6,40 @@
       </div>
     </nav>
 
-    <ul class="list-group" style="width:200px;">
-      {{#each users}}
-        <li class="list-group-item">{{profile.username}}</li>
+    <ul class="list-group" style="width:400px;position:relative;">
+      {{#each getAllUsers}}
+        <li class="list-group-item" ><span class="update-user" style="width:100%" data-toggle="modal" data-target="#userformmodal">{{profile.firstName}} {{profile.lastName}}</span>
+        {{# quickRemoveButton collection=users _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;" class="btn btn-xs btn-danger"}}
+        <span class="glyphicon glyphicon-trash"></span>
+        {{/quickRemoveButton}}</li>
       {{/each}}
     </ul>
 
     <div class="content-scrollable">
       <div class="wrapper-auth">
-        <button class="btn btn-success" data-toggle="modal" data-target="#userformmodal">New user</button>
 
-<div class="modal fade" id="userformmodal">
-<div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title">New User</h4>
-          </div>
+        <button class="btn btn-success addUserBtn" data-toggle="modal" data-target="#userformmodal">New user</button>
+        <div class="modal fade" id="userformmodal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">{{getFormTitle}}</h4>
+            </div>
           <div class="modal-body">
 
-        <form id="userform">
-          {{#if errorMessages}}
-            <div class="list-errors">
-              {{#each errorMessages}}
-                <div class="list-item">{{this}}</div>
-              {{/each}}
-            </div>
-          {{/if}}
-
-           <div class="input-symbol  {{errorClass 'username'}}">
-            <input type="text" name="username" placeholder="Your Username" />
-            <span class="icon-text" title="Your Username"></span>
+            {{#autoForm schema=userSchema collection=users doc=getUser id="userAutoForm"}}
+            <fieldset>
+                {{> afQuickField name='emails'}}
+                {{> afObjectField name='profile'}}
+                {{> afQuickField name='roles' options=roles}}
+            </fieldset>
+            <button type="submit" class="btn btn-primary">Ok</button>
+            {{/autoForm}}
           </div>
-          <div class="input-symbol  {{errorClass 'email'}}">
-            <input type="email" name="email" placeholder="Your Email" />
-            <span class="icon-email" title="Your Email"></span>
-          </div>
-
-          <div class="input-symbol  {{errorClass 'password'}}">
-            <input type="password" name="password" placeholder="Password" />
-            <span class="icon-lock" title="Password"></span>
-          </div>
-
-          <div class="input-symbol {{errorClass 'confirm'}}">
-            <input type="password" name="confirm" placeholder="Confirm Password" />
-            <span class="icon-lock" title="Confirm Password"></span>
-          </div>
-
-          <div class="input-symbol">
-            <input type="text" name="roles" placeholder="User roles" />
-            <span class="icon-lock" title="User roles"></span>
-          </div>
-
-          <button type="submit" class="btn btn-primary">Create</button>
-        </form>
         </div>
-        </div>
-</div>
       </div>
-
     </div>
+
   </div>
+</div>
 </template>

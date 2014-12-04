@@ -10,6 +10,10 @@ Meteor.startup(function () {
         addRole: function(user, roles){
           return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
         },
+        updateUser: function(user){
+
+          return Meteor.users.update(user.id, user.update);
+        },
         copyMasterCfg: function(estateId){
           var MasterCfg = Configurations.findOne({master:true});
           delete MasterCfg._id;
@@ -23,7 +27,8 @@ Meteor.startup(function () {
 		console.log("creating user test");
     var testUser = Accounts.createUser({
       profile: {
-        username: "test"
+        firstName: "test",
+        lastName: "tester"
       },
       email: "test@test.com",
       password: "test"
@@ -31,7 +36,8 @@ Meteor.startup(function () {
 
     var Admin = Accounts.createUser({
       profile:{
-        username: "admin"
+        firstName: "admin",
+        lastName: "admin"
       },
       email: "admin@test.com",
       password: "admin"

@@ -5,7 +5,6 @@
 
 standard-app-packages
 insecure
-accounts-ui
 tap:i18n
 aldeed:autoform
 iron:router
@@ -14,4 +13,6 @@ less
 nemo64:bootstrap
 accounts-password
 alanning:roles
+aldeed:delete-button
+accounts-ui
 
