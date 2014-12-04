@@ -11,20 +11,40 @@
 
                     <div class="panel-body">
 
-                          <ul class="list-group">
-                            {{#each portfolios_current}}
-                                <!-- <li><a href="#" data-toggle="modal" data-target="#portfolioForm" class="update_portfolio" >Portfolio: {{name}} - id: {{_id}}</a></li> -->
-                                <li class="list-group-item">
-                                    Portfolio: {{name}}
-                                    {{#if isAdmin}}<div class="pull-right">...</div>{{/if}}
-                                </li>
-                            {{/each}}
-                          </ul>
+                        {{#if portfolio_level}}
+                            <div class="list-group">
+                                {{#each portfolios_current}}
+                                    <a href="#" class="list-group-item select_portfolio">
+                                        {{name}} - {{_id}}
 
-                          <button type="button" data-toggle="modal" data-target="#portfolioForm" class="btn insert_portfolio">
-                            new portfolio
-                          </button>
-                          {{>insertPortfolioForm}}
+                                        {{#if isAdmin}}
+                                            <div class="pull-right">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                            </div>
+                                        {{/if}}
+                                    </a>
+                                {{/each}}
+                            </div>
+
+                              <button type="button" data-toggle="modal" data-target="#portfolioForm" class="btn insert_portfolio">
+                                new portfolio
+                              </button>
+                              {{>insertPortfolioForm}}
+
+                        {{else}}
+                            <ul class="list-group">
+                                {{#each buildings_current}}
+                                    <li class="list-group-item">
+                                        {{name}}
+                                    </li>
+                                {{/each}}
+                            </ul>
+
+                            <button type="button" data-toggle="modal" data-target="#buildingForm" class="btn insert_building">new Building</button>
+                            <!-- {{>insertPortfolioForm}} -->
+
+                        {{/if}}
+
                     </div>
 
                 </div>

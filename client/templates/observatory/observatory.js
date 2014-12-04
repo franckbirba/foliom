@@ -15,6 +15,29 @@ Template.observatory.helpers({
             console.log(result);
             return result;
         };
+    },
+    // portfolio_level: function(){
+    //     return Session.get('observatoryPortfolio');
+    // }
+});
+
+Template.observatory.helpers({
+    portfolio_level: function(){
+        console.log("I was called!")
+        return Session.get('observatoryPortfolio');
     }
 });
 
+Template.observatory.events({
+    'click .select_portfolio': function() {
+        Session.set('current_portfolio_doc', this);
+
+        console.log("current Portfolio is: ");
+        console.log(this);
+
+        Session.set('observatoryPortfolio', "false");
+
+        // Meteor.subscribe('configurations', this._id);
+        // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
+  }
+});

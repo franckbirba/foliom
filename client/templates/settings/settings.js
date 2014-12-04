@@ -35,14 +35,3 @@ AutoForm.addHooks(null, {
 	}
 });
 
-AutoForm.hooks({
-	configs: {
-		before: {
-			onSubmit: function(insertDoc, updateDoc, currentDoc){
-				
-				console.log('onSubmit', arguments);
-			}
-		}
-	}
-});
-

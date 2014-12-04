@@ -7,5 +7,8 @@ Template.SelectEstate.events({
         console.log(this);
         Meteor.subscribe('configurations', this._id);
         // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
+
+        // We'll want to display the Portfolios in the Observatory
+        Session.set('observatoryPortfolio', "true");
   }
 });

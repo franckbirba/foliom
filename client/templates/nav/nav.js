@@ -48,7 +48,7 @@ Template.nav.helpers({
 	},
 	activPage: function(menuEntry){
 		var current = document.URL.split("/").pop();
-				console.log(menuEntry, current);
+				// console.log(menuEntry, current);
 
 		if(current === menuEntry)
 			return 'active';
