@@ -43,6 +43,6 @@ Template.home.rendered = function () {
 	/* FBI: commented annoying behavior*/
     if ( Meteor.user().roles.indexOf('admin') >= 0 && !Session.get('current_estate_doc')){
         $('#SelectEstateForm').modal('show');
-    }
+    };
 
 };

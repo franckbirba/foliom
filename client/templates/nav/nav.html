@@ -15,7 +15,7 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <div class="nav navbar-nav"> {{> loginButtons }}</div>
+      <!-- <div class="nav navbar-nav"> {{> loginButtons }}</div> -->
        {{#if isAdmin}}
       <ul class="nav navbar-nav">
         <li class="dropdown">
@@ -24,7 +24,7 @@
             <li><a href="/estate" class="{{activPage 'estate'}}">Estates</a></li>
             <li><a href="/settings" class="{{activPage 'settings'}}">Settings</a></li>
              <li><a href="/portfolios">Portfolios</a></li>
-			 <li><a href="/building_form">Building form</a></li>
+			 <li><a href="/buildings">Buildings</a></li>
               <li><a href="/playground">Playground</a></li>
               <li><a href="/fluids">Fluids</a></li>
              <li><a href="/user">Users</a></li>
@@ -52,6 +52,7 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right">
+         <li><a href="#">{{> loginButtons }}</a></li>
          <li class="js-logout"><a href="#">logout</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{lang}} <span class="caret"></span></a>
