@@ -26,8 +26,10 @@
                             {{/each}}
                         </div>
 
-<!--                         <button type="button" data-toggle="modal" data-target="#portfolioForm" class="btn insert_portfolio">new portfolio</button>
-                        {{>insertPortfolioForm}} -->
+                        {{#unless isBuilding}}
+                            <button type="button" data-toggle="modal" data-target="#portfolioForm" class="btn insert_portfolio">new portfolio</button>
+                            {{>insertPortfolioForm}}
+                        {{/unless}}
 
                         <!-- {{else}}
                             <ul class="list-group">
