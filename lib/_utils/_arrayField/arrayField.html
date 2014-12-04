@@ -1,0 +1,23 @@
+<template name="afArrayField_inline">
+  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+    <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label>
+    <div style="overflow-x: scroll;" class="{{rightColumnClass}}">
+      <div class="panel panel-default autoform-padding-fix">
+        {{#if afFieldIsInvalid name=this.atts.name}}
+        <div class="panel-body has-error">
+          <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+        </div>
+        {{/if}}
+        <table class="paginated table table-striped" style="overflow-x:visible;">
+          <tr>
+            {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+                  <td>
+                    {{> afObjectField name=this.name template="verylight" label=false}}
+                  </td>
+            {{/afEachArrayItem}}
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
