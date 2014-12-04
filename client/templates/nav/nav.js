@@ -22,7 +22,11 @@ Template.nav.events(
 			TAPi18n.setLanguage('fr');
 		},
 		'click .select_estate': function() { //??
-	        Session.set('current_estate_doc', this);
+	        var est = Estates.findOne({_id : this._id});
+            // console.log("tmp var est is: ");
+            // console.log(est);
+
+            Session.set('current_estate_doc', est );
 	        Session.set('editingMasterCfg', false);
 	        console.log("current estate in Session is: ");
 	        console.log(this);
