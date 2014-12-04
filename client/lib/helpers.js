@@ -1,3 +1,8 @@
+// Super "session" Helper
+Template.registerHelper('session', function(name) {
+    return Session.get(name);
+});
+
 // Check if User is Admin
 Template.registerHelper("isAdmin",
     function(){
@@ -24,5 +29,14 @@ Template.registerHelper("portfolios",
         return Portfolios.find({},
                     {sort: {name:1}}
                     ).fetch();
+    }
+);
+
+// Return current estate_name
+Template.registerHelper("current_estate_name_H",
+    function(){
+        return Session.get('current_estate_doc')
+            ? Session.get('current_estate_doc').estate_name
+            : "ESTATE NOT DEFINED";
     }
 );

@@ -5,7 +5,7 @@ AutoForm.hooks({
             if (operation == "insert") {
                 // $('#estateForm').modal('hide');
 
-                var currentEstateId = Session.get('current_estate_doc')._id;
+                 var currentEstateId = Session.get('current_estate_doc')._id;
                 // console.log("portfolio_id should be: " + result);
 
                 Estates.update(currentEstateId, { $push: { portfolio_collection: result } }, function(error) {

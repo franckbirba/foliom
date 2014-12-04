@@ -1,0 +1,68 @@
+<template name="observatory">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-5" style="border-radius">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{current_estate_name_H}}</h3>
+                    </div>
+
+                    <div class="panel-body">
+
+                          <ul class="list-group">
+                            {{#each portfolios_current}}
+                                <!-- <li><a href="#" data-toggle="modal" data-target="#portfolioForm" class="update_portfolio" >Portfolio: {{name}} - id: {{_id}}</a></li> -->
+                                <li class="list-group-item">
+                                    Portfolio: {{name}}
+                                    {{#if isAdmin}}<div class="pull-right">...</div>{{/if}}
+                                </li>
+                            {{/each}}
+                          </ul>
+
+                          <button type="button" data-toggle="modal" data-target="#portfolioForm" class="btn insert_portfolio">
+                            new portfolio
+                          </button>
+                          {{>insertPortfolioForm}}
+                    </div>
+
+                </div>
+
+                <small>
+                    <div>[DEBUG] Liste complète pour vérif</div>
+                    <ul>
+                        {{#each estates}}
+                            <li>
+                                Estate: {{estate_name}} - id: {{_id}} <!-- - portfolios: {{portfolio_collection}} -->
+                                <ul>
+                                    {{#each portfolio_collection}}
+                                        <li>Portfolio: {{this.valueOf}}</li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                        {{/each}}
+                    </ul>
+                </small>
+
+
+            </div>
+
+            <div class="col-md-7">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">DataVizzzz</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>MAP</p>
+                    <p>BarChart</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</template>
