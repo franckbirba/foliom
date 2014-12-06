@@ -8,7 +8,7 @@
 
 
 <template name="afFormGroup_verylight">
-  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div style="width:50px;" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
       {{> afFieldInput afFieldInputAtts}}
       <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
   </div>
@@ -26,8 +26,8 @@
 
 <template name="afInputNumber_verylight">
   {{#if isYear atts}}
-    <input class="form-control" style="width:100px;"   disabled type="text" value="{{this.value}}" {{atts}}/>
+    <input class="" readonly="readonly" style="width:40px;border: none;-webkit-appearance: none;" type="number" value="{{this.value}}" {{atts}}/>
   {{else}}
-    <input class="form-control" style="width:100px;" placeholder="{{getPlaceHolder atts.name}}" type="number" value="{{this.value}}" {{atts}}/>
+    <input class="" style="width:40px;border: none;-webkit-appearance: none;" placeholder="{{getPlaceHolder atts.name}}" type="number" value="{{this.value}}" {{atts}}/>
   {{/if}}
 </template>

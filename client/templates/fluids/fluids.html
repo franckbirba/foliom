@@ -8,7 +8,7 @@
 
     <ul class="list-group" style="width:400px;position:relative;">
       {{#each fluids}}
-        <li class="list-group-item" ><span class="update-fluid" style="width:100%" data-toggle="modal" data-target="#fluidformmodal">{{fluid.name}}</span>
+        <li class="list-group-item" ><span class="update-fluid" style="width:100%" data-toggle="modal" data-target="#fluidformmodal">{{fluid_type}} {{fluid_provider}}</span>
         {{# quickRemoveButton collection=Fluids _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;" class="btn btn-xs btn-danger"}}
         <span class="glyphicon glyphicon-trash"></span>
         {{/quickRemoveButton}}</li>
@@ -27,7 +27,14 @@
             </div>
           <div class="modal-body">
 
-            {{>quickForm collection="Fluids" template="inline" doc=getFluid id="fluidAutoForm"}}
+            {{#autoForm collection=fluidCollection template="inline" doc=getFluid id="fluidAutoForm"}}
+              {{> afFieldInput name='estate_id' value=getEstate}}
+              {{> afQuickField name='fluid_type'}}
+              {{> afQuickField name='fluid_provider'}}
+              {{> afQuickField name='global_evolution_index'}}
+              {{> afQuickField name='yearly_values' template="inline"}}
+              <button type="submit" class="btn btn-primary">Ok</button>
+            {{/autoForm}}
           </div>
         </div>
       </div>

@@ -14,8 +14,14 @@ Template.fluids.helpers({
   fluids: function () {
     return Fluids.find().fetch();
   },
+  fluidCollection: function(){
+    return Fluids;
+  },
   fluidSchema: function () {
     return Schema.Fluids;
+  },
+  getEstate: function() {
+    return Session.get('current_estate_doc') ? Session.get('current_estate_doc')._id : null ;
   },
   getType: function(){
     var curFluid = Session.get('update_fluid');
@@ -47,7 +53,29 @@ Template.fluids.events({
     Session.set('update_fluid', null);
   },
   'click .update-fluid': function(){
+    console.log("current fluid ",this);
     Session.set('update_fluid', this);
   }
 });
 
+AutoForm.hooks({
+  fluidAutoForm: {
+    onSubmit: function(insertDoc, updateDoc, currentDoc){
+      console.log(insertDoc, updateDoc, currentDoc);
+      var tmpId = Fluids.insert(insertDoc);
+      this.done();
+      return false;
+   },
+   before: {
+    insert: function(doc, Template){
+      alert('insert');
+      console.log('INSERT');
+      if(Session.get('current_estate_doc')){
+        doc.estate_id = Session.get('current_estate_doc')._id;
+        console.log(doc);
+      }
+    }
+   }
+
+  }
+});
