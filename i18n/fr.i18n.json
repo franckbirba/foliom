@@ -8,7 +8,6 @@
     "address": "Adresse",
     "images": "Photos",
 
-
     "street": "Rue",
     "zip": "Code postal",
     "city": "Ville",
@@ -17,6 +16,12 @@
 
     "yes": "Oui",
     "no": "Non",
+
+    "estate": "Estate",
+    "portfolio": "Portfolio",
+    "building": "Bâtiment",
+    "lease": "Bail",
+    "fluid": "Fluide",
 
 
     /* Configuration Compass */
@@ -88,11 +93,17 @@
     "igh": "IGH",
     "erp_status": "Status ERP",
     "erp_category": "Catégorie ERP",
+
     "dpe_energy_consuption": "DPE : consommation énergétique",
     "grade": "Notation",
     "value": "Valeur",
     "dpe_co2_emission": "DPE : émission CO2",
 
+    // end-use ("conso compteur fluides")
+    "fluid_consumption_meter": "Consommation compteur Fluides",
+    "fluid_yearly_subscription": "Abonnement annuel (€)",
+    "fluid_first_year_value": "Consommation compteur",
+    "yearly_cost": "Coût annuel",
 
 
 
@@ -109,6 +120,8 @@
 //      fr: 'Coût annuel',
 //      en: 'Yearly cost',
 // },
+
+
 
 // end_use_heating: {
 //      fr: "Chauffage",
