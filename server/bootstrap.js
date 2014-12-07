@@ -79,18 +79,6 @@ Meteor.startup(function () {
     }
     if(Selectors.find().count() === 0) {
         var tmpSelectorList = [
-                // selector: {name : 'control_full'}
-                // devrait marcher, mais ne marche pas...
-                // {
-                //     name: 'building_control',
-                //     labels: [
-                //         {label : 'control_full'},
-                //         {label : 'control_shared'} ]
-                // }
-                {
-                    name: 'building_control',
-                    labels: ['control_full', 'control_shared' ]
-                },
                 {
                     name: 'fluid_type',
                     labels: ["fluid_electricity", "fluid_water", "fluid_heat" ],
@@ -100,7 +88,14 @@ Meteor.startup(function () {
                     name: 'fluid_provider',
                     labels: ["EDF", "Poweo"],
                     portfolio_id: ""
-                }];
+                },
+                {
+                    name: 'lease_usage',
+                    labels: ["office", "retail", "residential"],
+                    portfolio_id: ""
+                },
+
+            ];
 
         _.each(tmpSelectorList, function(item) {
             Selectors.insert(

@@ -3,7 +3,7 @@ AutoForm.hooks({
         before: {
             insert: function(doc, template) {
                 // doc.portfolio_id = Session.get('current_estate_doc')._id;
-                doc.portfolio_id = "8XfERHMp33sjeja93";
+                doc.portfolio_id = Session.get('current_portfolio_doc')._id;;
                 return doc;
             }
             // update: function(docId, modifier, template) {},
