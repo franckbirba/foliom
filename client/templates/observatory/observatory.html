@@ -10,32 +10,47 @@
                     </div>
 
                     <div class="panel-body">
-                        {{#if isBuilding}}<a href="#" class="back2portfolios">Back to Portfolios list</a>{{/if}}
 
-                        <div class="list-group">
-                            {{#each current_item}}
-                                <a href="#" class="list-group-item select_portfolio">
-                                    {{displayName}} - {{_id}}
+                        <!-- All Portfolios -->
+                        <div id="portfolio_list">
+                            <div class="list-group">
+                                {{#each getPortfolioList}}
+                                    <a href="#" class="list-group-item select_portfolio">
+                                        {{name}} - {{_id}}
 
-                                    {{#if isAdmin}}
-                                        <div class="pull-right">
-                                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                        </div>
-                                    {{/if}}
-                                </a>
-                            {{/each}}
-                        </div>
+                                        {{#if isAdmin}}
+                                            <div class="pull-right">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                            </div>
+                                        {{/if}}
+                                    </a>
+                                {{/each}}
+                            </div>
 
-                        <!-- If Portfolio: display the button to create one (modal) -->
-                        {{#unless isBuilding}}
                             <button type="button" data-toggle="modal" data-target="#portfolioForm" class="btn insert_portfolio">new portfolio</button>
                             {{>insertPortfolioForm}}
-                        {{/unless}}
+                        </div>
 
-                        <!-- If Building: display the button to create one (new page) -->
-                        {{#if isBuilding}}
+                        <!-- Buildings for current Portfolio -->
+                        <div id="building_list" style="display: none;">
+                            {{#if isBuilding}}<a href="#" class="back2portfolios">Back to Portfolios list</a>{{/if}}
+
+                            <div class="list-group">
+                                {{#each getBuildingList}}
+                                    <a href="#" class="list-group-item select_building">
+                                        {{building_name}} - {{_id}}
+
+                                        {{#if isAdmin}}
+                                            <div class="pull-right">
+                                                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                            </div>
+                                        {{/if}}
+                                    </a>
+                                {{/each}}
+                            </div>
+
                             <a class="btn btn-default insert_building" href="{{pathFor 'newBuilding'}}" role="button">new building</a>
-                        {{/if}}
+                        </div>
 
                     </div>
 

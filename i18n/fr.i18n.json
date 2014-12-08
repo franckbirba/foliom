@@ -17,6 +17,11 @@
     "yes": "Oui",
     "no": "Non",
     "total": "Total",
+    "comments": "Commentaires",
+
+    "good": "Bon",
+    "average": "Moyen",
+    "bad": "Mauvais",
 
     "estate": "Estate",
     "portfolio": "Portfolio",
@@ -151,20 +156,20 @@
 
 
 
-
+    "certifications": "Certifications",
+    "cert_comments": "Commentaires (version, détails...) :",
 
 // certifications: [{
 //     cert_id:  Certifications ref,
 //     comments: String, default: 'Version, détails :'
 //   }],
 
-// comfort_qualitative_assessment {
-//     acoustic: Selector,
-//     visual: Selector,
-//     thermic: Selector,
-//     global_comfort_index: Number
-//     comments: String
-// }
+    "comfort_qualitative_assessment": "Appréciation qualitative du Confort",
+    "acoustic": "Acoustique",
+    "visual": "Visuel",
+    "thermic": "Thermique",
+    "global_comfort_index": "Indice de confort global",
+    "cqa_comments": "Commentaires: retours utilisateurs",
 
 // // Faire le fichier de Data à injecter + les Selectors
 // technical_compliance: {
