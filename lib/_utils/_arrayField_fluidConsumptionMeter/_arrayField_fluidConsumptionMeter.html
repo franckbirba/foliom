@@ -10,22 +10,30 @@
 
         <div >
 
-          <table class="" >
-            <!-- <tr>
-              {{#each getfluidConsumptionMeter_th}}
-                  <th>
-                    {{this.name}}
+          <table class="table" >
+             <tr style="display:block;">
+              {{#each getfluidConsumptionMeter_th name="fluid_consumption_meter"}}
+                  <th style="font-size:8px;width:80px;text-align: center;">
+                    {{this}}
                   </th>
               {{/each}}
-            </tr> -->
-            <tr>
+            </tr>
+            
               {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
                   <!-- <td>
                     {{> afObjectField name=this.name template="verylightBSE" label=false}}
                   </td> -->
+                  <tr>
+                  {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+                      <button type="button" class="btn btn-xs btn-danger autoform-remove-item pull-left"><span class="glyphicon glyphicon-trash"></span></button>
+                      {{/if}}
                     {{> afObjectField name=this.name template="verylightBSE" }}
+                    </tr>
               {{/afEachArrayItem}}
-            </tr>
+              {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+                  <button type="button" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+              {{/if}}
+            
           </table>
 
         </div>

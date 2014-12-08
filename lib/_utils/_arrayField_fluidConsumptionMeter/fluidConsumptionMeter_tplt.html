@@ -3,21 +3,21 @@
     {{#each afFieldNames name=this.atts.name}}
       <!-- {{> afFormGroup template="verylight" name=this options="auto"}} -->
         <td>
-            {{> afQuickField name=this options="auto" template="verylightBSE"}}
+            {{> afFormGroup name=this options="auto" template="verylightBSE"}}
         </td>
     {{/each}}
   </div>
 </template>
 
 
-<!-- <template name="afFormGroup_verylightBSE">
-  <div style="width:50px;" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+ <template name="afFormGroup_verylightBSE">
+  <div style="width:80px;" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
       {{> afFieldInput afFieldInputAtts}}
       <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
   </div>
 </template>
 
-
+<!--
 <template name="afFieldInput_verylightBSE">
   <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
       {{> afFieldInput afFieldInputAtts}}
