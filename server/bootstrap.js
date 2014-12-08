@@ -116,7 +116,54 @@ Meteor.startup(function () {
 
         console.log('created first Selector list - 2 items!');
 
-    }
+    };
+    if(EndUse.find().count() === 0) {
+        var data = [
+                {
+                    end_use_name: 'end_use_heating',
+                    color: "DarkRed",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_AC',
+                    color: "RoyalBlue",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_ventilation',
+                    color: "LightGray",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_lighting',
+                    color: "GreenYellow",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_aux',
+                    color: "Gray",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_ecs',
+                    color: "IndianRed",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_specific',
+                    color: "MediumPurple",
+                    portfolio_id: ""
+                },
+
+            ];
+
+        _.each(data, function(item) {
+            EndUse.insert( item );
+        });
+
+        console.log('created endUse!');
+
+    };
 
   if (Lists.find().count() === 0) {
     var data = [
