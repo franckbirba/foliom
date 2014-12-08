@@ -79,18 +79,6 @@ Meteor.startup(function () {
     }
     if(Selectors.find().count() === 0) {
         var tmpSelectorList = [
-                // selector: {name : 'control_full'}
-                // devrait marcher, mais ne marche pas...
-                // {
-                //     name: 'building_control',
-                //     labels: [
-                //         {label : 'control_full'},
-                //         {label : 'control_shared'} ]
-                // }
-                {
-                    name: 'building_control',
-                    labels: ['control_full', 'control_shared' ]
-                },
                 {
                     name: 'fluid_type',
                     labels: ["fluid_electricity", "fluid_water", "fluid_heat" ],
@@ -100,7 +88,14 @@ Meteor.startup(function () {
                     name: 'fluid_provider',
                     labels: ["EDF", "Poweo"],
                     portfolio_id: ""
-                }];
+                },
+                {
+                    name: 'lease_usage',
+                    labels: ["office", "retail", "residential"],
+                    portfolio_id: ""
+                },
+
+            ];
 
         _.each(tmpSelectorList, function(item) {
             Selectors.insert(
@@ -121,7 +116,54 @@ Meteor.startup(function () {
 
         console.log('created first Selector list - 2 items!');
 
-    }
+    };
+    if(EndUse.find().count() === 0) {
+        var data = [
+                {
+                    end_use_name: 'end_use_heating',
+                    color: "DarkRed",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_AC',
+                    color: "RoyalBlue",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_ventilation',
+                    color: "LightGray",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_lighting',
+                    color: "GreenYellow",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_aux',
+                    color: "Gray",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_ecs',
+                    color: "IndianRed",
+                    portfolio_id: ""
+                },
+                {
+                    end_use_name: 'end_use_specific',
+                    color: "MediumPurple",
+                    portfolio_id: ""
+                },
+
+            ];
+
+        _.each(data, function(item) {
+            EndUse.insert( item );
+        });
+
+        console.log('created endUse!');
+
+    };
 
   if (Lists.find().count() === 0) {
     var data = [

@@ -18,6 +18,14 @@ Meteor.publish('buildings', function(portfolioId) {
   return Buildings.find(); // TODO : only send relevant Buildings
 });
 
+Meteor.publish('leases', function(portfolioId) {
+  return Leases.find(); // TODO : only send relevant Leases
+});
+
+Meteor.publish('endUses', function(portfolioId) {
+  return EndUse.find(); // TODO : only send relevant Leases
+});
+
 Meteor.publish("userData", function () {
   if (this.userId) {
     var tmp = Meteor.users.findOne({_id: this.userId});

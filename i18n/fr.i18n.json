@@ -8,12 +8,21 @@
     "address": "Adresse",
     "images": "Photos",
 
-
     "street": "Rue",
     "zip": "Code postal",
     "city": "Ville",
     "area": "Secteur",
     "country": "Pays",
+
+    "yes": "Oui",
+    "no": "Non",
+    "total": "Total",
+
+    "estate": "Estate",
+    "portfolio": "Portfolio",
+    "building": "Bâtiment",
+    "lease": "Bail",
+    "fluid": "Fluide",
 
 
     /* Configuration Compass */
@@ -73,8 +82,153 @@
 
 
 
+    /* Leases */
+
+    "lease_name": "Nom du Bail",
+    "rental_status": "Statut locatif",
+    "rent": "Loyer",
+    "last_significant_renovation": "Dernière rénovation significative",
+    "lease_usage": "Usage",
+    "area_by_usage": "Surface de l'usage",
+    "lease_nb_floors": "Niveaux de l’usage (y compris RDC)",
+    "igh": "IGH",
+    "erp_status": "Status ERP",
+    "erp_category": "Catégorie ERP",
+
+    "dpe_energy_consuption": "DPE : consommation énergétique",
+    "grade": "Notation",
+    "value": "Valeur",
+    "dpe_co2_emission": "DPE : émission CO2",
+
+    // end-use fluid_consumption_meter ("conso compteur fluides")
+    "fluid_consumption_meter": "Consommation compteur Fluides",
+    "yearly_subscription": "Abonnement annuel (€)",
+    "first_year_value": "Consommation compteur",
+    "yearly_cost": "Coût annuel",
+
+    // end-use consumption_by_end_use ("Consommation d’énergie par poste")
+    "consumption_by_end_use": "Consommation d’énergie par poste",
 
 
+// end_use_heating: {
+//      fr: "Chauffage",
+//      en: "Heating",
+//      unit: 'u_kWhEF'
+// },
+// end_use_AC: {
+//      fr: "Climatisation",
+//      en: "Air conditioning",
+//      unit: "u_kWhEF"
+// },
+// end_use_ventilation: {
+//      fr: "Ventilation",
+//      en: "Air conditioning",
+//      unit: "u_kWhEF"
+// },
+// end_use_lighting: {
+//      fr: "Eclairage",
+//      en: "Lighting",
+//      unit: "u_kWhEF"
+// },
+// end_use_aux: {
+//      fr: "Auxiliaires",
+//      en: "Ancillaries",
+//      unit: "u_kWhEF"
+// },
+// end_use_ecs: {
+//      fr: "ECS",
+//      en: "Hot water",
+//      unit: "u_kWhEF",
+//      tooltip_FR: "Eau Chaude Sanitaires"
+// },
+// end_use_specific: {
+//      fr: "Spécifique",
+//      en: "", //Demander à EGIS
+//      unit: "u_kWhEF"
+//      tooltip_FR: "Consommation des ordinateurs, etc."
+//      tooltip_EN: "Computer usage, etc."
+// },
+
+
+
+
+
+// certifications: [{
+//     cert_id:  Certifications ref,
+//     comments: String, default: 'Version, détails :'
+//   }],
+
+// comfort_qualitative_assessment {
+//     acoustic: Selector,
+//     visual: Selector,
+//     thermic: Selector,
+//     global_comfort_index: Number
+//     comments: String
+// }
+
+// // Faire le fichier de Data à injecter + les Selectors
+// technical_compliance: {
+//     categories: [{
+//           name: String
+//           lifetime: Selector,
+//           conformity: Selector
+//           desc: String
+//     }],
+//     global_lifetime: String,
+//     global_conformity: String
+//     comments: String,
+//   }
+
+// conformity_info: [{
+//      name: String
+//      eligibility: Boolean
+//      due_date: {
+//           periodicity: Selector,
+//           due_date_value: Date } // l'un des 2 champs
+//      conformity: Selector
+//      last_diagnostic: Date
+//      diagnostic_alert: Boolean
+//      comments: String
+//      files: File ref [ ]
+//   }],
+
+
+
+    /* Leases Selectors */
+
+    "empty": "Vide",
+    "rented": "Loué",
+    "multitenant": "Multilocataires",
+    "office": "Bureau",
+    "retail": "Commerce",
+    "residential": "Résidentiel",
+
+    "erp_J": "J : Structures d’accueil pour personnes âgées ou personnes handicapées",
+    "erp_L": "L : Salles d'auditions, de conférences, de réunions, de spectacles ou à usage multiple",
+    "erp_M": "M : Magasins de vente, centres commerciaux",
+    "erp_N": "N : Restaurants et débits de boisson",
+    "erp_O": "O : Hôtels et autres établissements d’hébergement",
+    "erp_P": "P : Salles de danse et salles de jeux",
+    "erp_R": "R : Établissements d’éveil, d’enseignement, de formation, centres de vacances, centres de loisirs sans hébergement",
+    "erp_S": "S : Bibliothèques, centres de documentation",
+    "erp_T": "T : Salles d'exposition à vocation commerciale",
+    "erp_U": "U : Établissements de soins",
+    "erp_V": "V : Établissements de divers cultes",
+    "erp_W": "W : Administrations, banques, bureaux",
+    "erp_X": "X : Établissements sportifs couverts",
+    "erp_Y": "Y : Musées",
+
+    "erp_1": "1 - Plus de 1 500 personnes",
+    "erp_2": "2 - De 701 à 1 500 personnes",
+    "erp_3": "3 - De 301 à 700 personnes",
+    "erp_4": "4 - Inférieur à 301 personnes (sauf établissements de cat. 5)",
+    "erp_5": "5 - Etablissements accueillant un nombre de personnes inférieur au seuil dépendant du type d’établissement",
+
+    "dpe_A": "A",
+    "dpe_B": "B",
+    "dpe_C": "C",
+    "dpe_D": "D",
+    "dpe_E": "E",
 
 
 

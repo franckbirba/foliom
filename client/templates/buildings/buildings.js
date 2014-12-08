@@ -2,10 +2,6 @@
 Template.buildings.helpers({
     buildings_current: function(){
 
-        // var curr_est_doc = Estates.findOne(Session.get('current_estate_doc')._id)
-
-        var curr_portfolio_id = "8XfERHMp33sjeja93";
-
         // var result = Buildings.find({_id: curr_portfolio_id },
         //             {sort: {name:1}}
         //             ).fetch();
