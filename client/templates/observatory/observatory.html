@@ -12,7 +12,7 @@
                     <div class="panel-body">
                         {{#if isBuilding}}<a href="#" class="back2portfolios">Back to Portfolios list</a>{{/if}}
 
-                        <div class="list-group">
+                        <div class="list-group" id="portfolio_list">
                             {{#each current_item}}
                                 <a href="#" class="list-group-item select_portfolio">
                                     {{displayName}} - {{_id}}

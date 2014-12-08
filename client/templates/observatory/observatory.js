@@ -49,13 +49,16 @@ Template.observatory.helpers({
 
 Template.observatory.events({
     'click .select_portfolio': function() {
-        Session.set('current_portfolio_doc', this);
+        Session.set('current_portfolio_doc', this); // "this" is passed by Meteor - it's the current item
 
-        console.log("current Portfolio is: ");
-        console.log(this);
+        // console.log("current Portfolio is: ");
+        // console.log(this);
 
-        console.log("click on item!");
         Session.set('portfolio_level', false);
+
+        // $( "#portfolio_list" ).fadeOut(function() {
+        //     Session.set('portfolio_level', false);
+        // });
 
         // Meteor.subscribe('configurations', this._id);
         // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
