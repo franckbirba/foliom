@@ -93,11 +93,15 @@ Template.observatory.events({
             $( "#portfolio_list" ).fadeIn();
         });
     },
-    'click .select_building': function() {
+    'click .select_building': function(e) {
+        e.preventDefault();
         Session.set('current_building_doc', this); // "this" is passed by Meteor - it's the current item
 
         console.log("current Building is: ");
         console.log(this);
+
+        Router.go('buildingDetail', this);
+        // Router.go('/user');
 
         // $( "#portfolio_list" ).fadeOut("fast", function() {
         //     Session.set('portfolio_level', false);
