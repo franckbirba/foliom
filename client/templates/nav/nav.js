@@ -74,8 +74,7 @@ Template.nav.helpers({
 
 Template.nav.rendered = function () {
     /* FBI: commented annoying behavior*/
-    if ( Meteor.user().roles.indexOf('admin') >= 0 && !Session.get('current_estate_doc')){
-        console.log("I think that the current_estate_doc is undefined");
+    if ( Meteor.user().roles.indexOf('admin') >= 0 && Session.get('current_estate_doc') == undefined ){
         $('#SelectEstateForm').modal('show');
     };
 
