@@ -17,7 +17,11 @@ Template.buildingDetail.rendered = function () {
 Template.buildingDetail.helpers({
     messages: function() {
         //$('#messages').scrollTop($('#messages').prop("scrollHeight"));
-        return Messages.find({}, { sort: { time: 1}}).fetch();
+        return Messages.find(
+            //{portfolio_id: Session.get('current_portfolio_doc')._id }
+                {building_id:Session.get('current_building_doc')._id},
+                { sort: { time: 1}}
+            ).fetch();
     }
 })
 
@@ -42,6 +46,7 @@ Template.input.events = {
           name: name,
           message: message.value,
           time: Date.now(),
+          building_id: Session.get('current_building_doc')._id
         });
 
         // $("#messages").animate({
