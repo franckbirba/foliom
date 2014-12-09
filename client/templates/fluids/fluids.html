@@ -27,11 +27,12 @@
             </div>
           <div class="modal-body">
 
-            {{#autoForm collection=fluidCollection template="inline" doc=getFluid id="fluidAutoForm"}}
+            {{#autoForm schema=fluidSchema collection=fluidCollection  doc=getFluid id="fluidAutoForm"}}
               {{> afQuickField name='fluid_type'}}
               {{> afQuickField name='fluid_provider'}}
               {{> afQuickField name='global_evolution_index'}}
               {{> afQuickField name='yearly_values' template="inline"}}
+              {{> afQuickField name='estate_id' value=getEstate label=false type='hidden'}}
               <button type="submit" class="btn btn-primary">Ok</button>
             {{/autoForm}}
           </div>

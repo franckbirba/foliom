@@ -28,6 +28,7 @@ Template.fluids.helpers({
       return curFluid ? true : false;
   },
   getFluid: function(){
+    console.log(Session.get('update_fluid'));
     return Session.get('update_fluid') ? Session.get('update_fluid') : null;
   },
   beforeRemove: function () {
@@ -49,7 +50,8 @@ Template.fluids.helpers({
 });
 
 Template.fluids.events({
-  'click .addFluidBtn' : function(){
+  'click .addFluidBtn' : function(event){
+     event.preventDefault();
     Session.set('update_fluid', null);
   },
   'click .update-fluid': function(){
@@ -61,21 +63,12 @@ Template.fluids.events({
 AutoForm.hooks({
   fluidAutoForm: {
     onSubmit: function(insertDoc, updateDoc, currentDoc){
+      console.log('SUBMIT');
       console.log(insertDoc, updateDoc, currentDoc);
+      insertDoc.estate_id = Session.get('current_estate_doc')._id;
       var tmpId = Fluids.insert(insertDoc);
       this.done();
       return false;
-   },
-   before: {
-    insert: function(doc, Template){
-      alert('insert');
-      console.log('INSERT');
-      if(Session.get('current_estate_doc')){
-        doc.estate_id = Session.get('current_estate_doc')._id;
-        console.log(doc);
-      }
-    }
    }
-
   }
 });

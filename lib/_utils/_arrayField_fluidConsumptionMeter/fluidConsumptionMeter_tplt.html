@@ -2,16 +2,23 @@
   <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
     {{#each afFieldNames name=this.atts.name}}
       <!-- {{> afFormGroup template="verylight" name=this options="auto"}} -->
-        <td>
+      {{#if isFirstValue this}}
+         <td class="col-sm-6 col-xs-6">
             {{> afFormGroup name=this options="auto" template="verylightBSE"}}
         </td>
+      {{else}}
+           <td class="col-sm-2 col-xs-2">
+            {{> afFormGroup name=this options="auto" template="verylightBSE"}}
+        </td>
+      {{/if}}
+       
     {{/each}}
   </div>
 </template>
 
 
  <template name="afFormGroup_verylightBSE">
-  <div style="width:80px;" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div style="" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
       {{> afFieldInput afFieldInputAtts}}
       <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
   </div>

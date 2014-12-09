@@ -1,6 +1,7 @@
 {
 	/* Global keywords */
 
+
     "hello": "wech wech bien?",
 
     "description": "Description",
@@ -49,7 +50,7 @@
     "fluid_electricity": "Electricité",
     "fluid_water": "Eau",
     "fluid_heat": "Chaud",
-
+    "fluid_id": "fluide",
     /* Estates */
 
     "estate_name": "Nom du Patrimoine",
@@ -249,7 +250,8 @@
     "u_m2_shon": "m² SHON",
     "u_m2_useful": "m² utiles",
     "u_kwh_m2_year_primEnergy": "kWh / m².an (énergie primaire)",
-    "u_kg_eqC02_m2_year": "kg (eq. C02)/ m².an"
+    "u_kg_eqC02_m2_year": "kg (eq. C02)/ m².an",
+    "u_euro": "€"
 
 
 }
