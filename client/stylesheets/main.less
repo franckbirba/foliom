@@ -11,9 +11,103 @@
 // Sites
 @import "sites/home.import.less";
 
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+select {
+	-webkit-appearance: none;
+	border-top: none !important;
+	border-left: none !important;
+	border-right: none !important;
+	border-bottom: solid 1px #c9c9c9;
+	border-radius: 0px !important;
+}
+
+.input-group-addon {
+	background-color: white !important;
+	border: none !important;
+	border-radius: 0px !important;
+	font-size: 10px !important;
+	padding: 2px 2px;
+}
+
+input.form-control {
+	border-radius: 0px !important;
+	float : none !important;
+	border-top: none !important;
+	border-left: none !important;
+	border-right: none !important;
+	border-bottom: solid 1px #c9c9c9;
+}
+.form-control {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	padding: 0;
+}
+
+.form-horizontal .form-group {
+	margin: 0;
+}
+
+.panel {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	border-color: white;
+	width: 100%;
+	margin : 0;
+}
+
+.panel-body {
+	padding: 0;
+	height: 100%;	
+}
+
+.panel-heading {
+	background-color: white !important;
+	border:none;
+
+}
+.navbar-default .navbar-nav > li > a {
+	color: black;
+}
+
+.navbar-brand {
+	background-image: url('icon/logo_eportfolio.png');
+	padding: 6px 6px;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	/*background-color: rgb(135, 170, 0);*/
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	/*background-color: rgb(135, 170, 0);*/
+}
+
+#login-buttons a, .accounts-dialog a {
+	text-decoration: none;
+	color: black;
+}
+
+.navbar-default {
+	/*background-color: rgb(160, 188, 0);*/
+}
+
+.panel-footer {
+	padding: 0;
+	border-top:0;
+}
+
+.table-responsive {
+	border: none;
+}
+
+.form-horizontal .control-label {
+	font-size: 10px;
+	font-style: normal;
 }

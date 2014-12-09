@@ -1,6 +1,7 @@
 <template name="afArrayField_fluidConsumptionMeter">
-    <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label>
-    <div class="{{rightColumnClass}}">
+    <div class="form-group {{rightColumnClass}}">
+        <label class="control-label" {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label>
+
       <div class="" style="">
         {{#if afFieldIsInvalid name=this.atts.name}}
         <div class="panel-body has-error">
@@ -8,14 +9,21 @@
         </div>
         {{/if}}
 
-        <div >
-
-          <table class="table" >
+        <div class="panel panel-default autoform-padding-fix col-sm-9 col-xs-9">
+          <div class="panel-body">
+            <table class="table table-responsive" >
              <tr style="display:block;">
               {{#each getfluidConsumptionMeter_th name="fluid_consumption_meter"}}
-                  <th style="font-size:8px;width:80px;text-align: center;">
+                {{#if isFirstValue getfluidConsumptionMeter_th this}}
+                  <th style="float:left;font-size:8px;text-align: center;padding-bottom:10px;" class="col-sm-6 col-xs-6">
                     {{this}}
                   </th>
+                {{else}}
+                    <th style="float:left;font-size:8px;text-align: center;padding-bottom:10px;" class="col-sm-2 col-xs-2">
+                      {{this}}
+                    </th>
+                {{/if}}
+                  
               {{/each}}
             </tr>
             
@@ -25,18 +33,21 @@
                   </td> -->
                   <tr>
                   {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
-                      <button type="button" class="btn btn-xs btn-danger autoform-remove-item pull-left"><span class="glyphicon glyphicon-trash"></span></button>
+                      <button type="button" style="border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger autoform-remove-item pull-left"><span class="glyphicon glyphicon-trash"></span></button>
                       {{/if}}
                     {{> afObjectField name=this.name template="verylightBSE" }}
                     </tr>
               {{/afEachArrayItem}}
               {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
-                  <button type="button" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+                  <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
               {{/if}}
             
-          </table>
-
+            </table>
+          </div>
+           
         </div>
+         
+
 
 
 

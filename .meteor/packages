@@ -10,11 +10,11 @@ aldeed:autoform
 iron:router
 aldeed:collection2
 less
-nemo64:bootstrap
 accounts-password
 alanning:roles
 aldeed:delete-button
 accounts-ui
 forwarder:autoform-wizard
+nemo64:bootstrap
 d3js:d3
 
