@@ -26,6 +26,10 @@ Meteor.publish('endUses', function(portfolioId) {
   return EndUse.find(); // TODO : only send relevant Leases
 });
 
+Meteor.publish('messages', function(portfolioId) {
+  return Messages.find(); // TODO : only send relevant Leases
+});
+
 Meteor.publish("userData", function () {
   if (this.userId) {
     var tmp = Meteor.users.findOne({_id: this.userId});

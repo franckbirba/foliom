@@ -1,7 +1,65 @@
 <template name="buildingDetail">
-<div>
-      <p>I display Buildings!</p>
-      buildingId is: {{this}} - {{this.params}}
-      data is: {{data}}
-</div>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-5">
+                <p>I display Buildings!</p>
+                <div>
+                    buildingId is: {{_id}} <br/>
+                    building_name is: {{building_name}}
+                </div>
+            </div>
+
+
+            <div class="col-md-5">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-comment"></span> Chat
+                    </div>
+                    <div class="panel-body" id="messages">
+                        <ul class="chat" >
+                            {{#each messages}}
+                            <li class="left clearfix" id=""><span class="chat-img pull-left">
+                                <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+                            </span>
+                                <div class="chat-body clearfix">
+                                    <div class="header">
+                                        <strong class="primary-font">{{name}}</strong> <small class="pull-right text-muted">
+                                            <span class="glyphicon glyphicon-time"></span>{{prettifyDate time}}</small>
+                                    </div>
+                                    <p>
+                                        {{message}}
+                                    </p>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="input-group">
+                            {{> input }}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<!-- <template name="messages">
+  {{#each messages}}
+    <strong>{{name}}:</strong> {{message}}<br>
+  {{/each}}
+</template> -->
+
+<template name="input">
+  <!-- <p>Message: <input type="text" id="message"></p> -->
+    <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+    <span class="input-group-btn">
+        <button class="btn btn-sm" id="btn-chat">
+            Send</button>
+    </span>
 </template>
