@@ -34,10 +34,10 @@
     margin-right: 5px;
 }
 
-.panel-body
+.chat-panel
 {
     overflow-y: scroll;
-    height: 250px;
+    height: 250px !important ;
 }
 
 /*::-webkit-scrollbar-track

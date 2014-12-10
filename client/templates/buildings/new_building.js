@@ -26,8 +26,6 @@ Template.newBuilding.helpers({
       formId: 'building-stepform-leaseNb',
       onSubmit: function(data, wizard) {
             building_doc = wizard.mergedData() ;
-            console.log('building_doc is: ');
-            console.log(building_doc);
 
             building_doc.portfolio_id = Session.get('current_portfolio_doc')._id;
 
