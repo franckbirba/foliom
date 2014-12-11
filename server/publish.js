@@ -30,6 +30,11 @@ Meteor.publish('messages', function(portfolioId) {
   return Messages.find(); // TODO : only send relevant Leases
 });
 
+// Test
+Meteor.publish('circles', function() {
+  return Circles.find();
+});
+
 Meteor.publish("userData", function () {
   if (this.userId) {
     var tmp = Meteor.users.findOne({_id: this.userId});

@@ -40,6 +40,11 @@
     height: 250px !important ;
 }
 
+.chat .panel-heading
+{
+    background-color: rgb(204, 204, 204) !important;
+}
+
 /*::-webkit-scrollbar-track
 {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
