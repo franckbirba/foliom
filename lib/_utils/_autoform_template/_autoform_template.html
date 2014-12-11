@@ -35,14 +35,9 @@
 
 <template name="afObjectField_eportfolio-horizontal">
   <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
-    <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label>
     <div class="{{rightColumnClass}}">
-      <div class="panel panel-default autoform-padding-fix">
-        <div class="panel-body">
-        {{! We want to default to using eportfolio template below this point because we don't want horizontal within horizontal}}
-        {{> afQuickFields name=this.atts.name template="eportfolio"}}
-        </div>
-      </div>
+    <span>YOYOYOYOYOYO</span>
+      {{> afQuickFields name=this.atts.name template="eportfolio" label=false}}
     </div>
   </div>
 </template>
@@ -62,7 +57,7 @@
           <li class="list-group-item autoform-array-item">
             <div class="media">
               {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
-              <button type="button" class="btn btn-primary autoform-remove-item pull-left"><span class="glyphicon glyphicon-minus"></span></button>
+              <button type="button" style="border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger autoform-remove-item pull-left"><span class="glyphicon glyphicon-trash"></span></button>
               {{/if}}
               <div class="media-body">
                 {{> afQuickField name=this.name label=false}}
@@ -72,7 +67,7 @@
           {{/afEachArrayItem}}
           {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
           <li class="list-group-item">
-            <button type="button" class="btn btn-primary autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+            <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
           </li>
           {{/if}}
         </ul>
