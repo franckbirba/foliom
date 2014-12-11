@@ -19,6 +19,7 @@
     "no": "Non",
     "total": "Total",
     "comments": "Commentaires",
+    "comments_small": "Commentaire sommaire",
 
     "good": "Bon",
     "average": "Moyen",
@@ -90,6 +91,9 @@
 
     /* Leases */
 
+    "create_new_lease": "Nouveau Bail",
+
+
     "lease_name": "Nom du Bail",
     "rental_status": "Statut locatif",
     "rent": "Loyer",
@@ -160,11 +164,6 @@
     "certifications": "Certifications",
     "cert_comments": "Commentaires (version, détails...) :",
 
-// certifications: [{
-//     cert_id:  Certifications ref,
-//     comments: String, default: 'Version, détails :'
-//   }],
-
     "comfort_qualitative_assessment": "Appréciation qualitative du Confort",
     "acoustic": "Acoustique",
     "visual": "Visuel",
@@ -172,31 +171,35 @@
     "global_comfort_index": "Indice de confort global",
     "cqa_comments": "Commentaires: retours utilisateurs",
 
-// // Faire le fichier de Data à injecter + les Selectors
-// technical_compliance: {
-//     categories: [{
-//           name: String
-//           lifetime: Selector,
-//           conformity: Selector
-//           desc: String
-//     }],
-//     global_lifetime: String,
-//     global_conformity: String
-//     comments: String,
-//   }
+    "technical_compliance": "Données techniques et conformité",
+    "lifetime": "Vétusté",
+    "conformity": "Conformité",
+    "global_lifetime": "Indice global de vétusté",
+    "global_conformity": "Indice global de conformité",
+    "tc_comment": "Commentaire technique général",
 
-// conformity_info: [{
-//      name: String
-//      eligibility: Boolean
-//      due_date: {
-//           periodicity: Selector,
-//           due_date_value: Date } // l'un des 2 champs
-//      conformity: Selector
-//      last_diagnostic: Date
-//      diagnostic_alert: Boolean
-//      comments: String
-//      files: File ref [ ]
-//   }],
+    "core_and_shell": "Structure",
+    "facade": "Facade",
+    "roof_terrasse": "Toiture / étanchéité",
+    "heat_production": "Production Chaud",
+    "chiller": "Production Froid",
+    "power_supply": "TGBT",
+    "electrical_delivery": "Distribution électrique",
+    "thermal_delivery": "Distribution thermique",
+    "heating_terminal": "Terminaux chauffage",
+    "chiller_terminal": "Terminaux climatisation",
+    "lighting_terminal": "Terminaux d'éclairage",
+    "GTC/GTB": "GTC/GTB",
+    "air_system": "Centrales d'air",
+    "ventilation_system": "Réseaux ventilation",
+    "hot_water_production": "Production ECS",
+    "hot_water_delivery": "Distribution ECS",
+
+    "conformity_information": "Conformité réglementaire / audits / diagnostics",
+    "eligibility": "Eligibilité",
+    "due_date": "Echéance",
+    "last_diagnostic": "Date du dernier diagnostic",
+
 
 
 
@@ -236,6 +239,24 @@
     "dpe_D": "D",
     "dpe_E": "E",
 
+    "new_dvr": "Neuf",
+    "good_dvr": "Bon état (DVR > 10)",
+    "average_dvr": "Etat moyen (5 < DVR < 10)",
+    "bad_dvr": "Mauvais état (DVR < 5)",
+
+    "compliant": "Conforme",
+    "not_compliant_minor": "Non conformité mineure",
+    "not_compliant_major": "Non conformité majeure",
+
+
+    "monthly": "mensuel",
+    "quaterly": "trimestriel",
+    "bi_annual": "semestriel",
+    "yearly": "annuel",
+    "2_years": "Tous les 2 ans",
+    "5_years": "Tous les 5 ans",
+    "7_years": "Tous les 7 ans",
+    "10_years": "Tous les 10 ans",
 
 
     /* Units */

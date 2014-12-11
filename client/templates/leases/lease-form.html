@@ -1,0 +1,11 @@
+<template name="leaseForm">
+
+    <h2>{{_ "create_new_lease"}}</h2>
+    <h4>{{ session 'nbLeases_2create' }} Lease to create</h4>
+
+    <br/>
+    <div>
+        {{> quickForm collection="Leases" fields="lease_name,rental_status,rent,last_significant_renovation" id="insertLeaseForm" template="eportfolio-horizontal" type="insert"}}
+    </div>
+
+</template>
