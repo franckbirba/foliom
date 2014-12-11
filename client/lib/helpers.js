@@ -40,3 +40,15 @@ Template.registerHelper("current_estate_name_H",
             : "ESTATE NOT DEFINED";
     }
 );
+
+Template.registerHelper("beforeRemove",
+    function () {
+      return function (collection, id) {
+        var doc = collection.findOne(id);
+        console.log(doc);
+        if (confirm('Really delete "' + doc.name + '"?')) {
+          this.remove();
+        }
+      };
+    }
+);

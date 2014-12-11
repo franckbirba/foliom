@@ -14,6 +14,8 @@ Template.buildingDetail.rendered = function () {
 
 }
 
+// this.params._id
+
 Template.buildingDetail.helpers({
     messages: function() {
         //$('#messages').scrollTop($('#messages').prop("scrollHeight"));

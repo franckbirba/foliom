@@ -28,8 +28,7 @@ Template.nav.events(
 
             Session.set('current_estate_doc', est );
 	        Session.set('editingMasterCfg', false);
-	        console.log("current estate in Session is: ");
-	        console.log(this);
+
 	        Meteor.subscribe('configurations', this._id);
 	        // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
 		}
@@ -72,3 +71,11 @@ Template.nav.helpers({
 		 return '';
 	 }
 });
+
+Template.nav.rendered = function () {
+    /* FBI: commented annoying behavior*/
+    if ( Meteor.user().roles.indexOf('admin') >= 0 && Session.get('current_estate_doc') == undefined ){
+        $('#SelectEstateForm').modal('show');
+    };
+
+};

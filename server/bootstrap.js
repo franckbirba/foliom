@@ -102,16 +102,7 @@ Meteor.startup(function () {
                     item
                     // estate_id: item.estate_id
                 );
-
-            // var list_id = Lists.insert({name: list.name,
-            //     incompleteCount: list.items.length});
-
-            // _.each(list.items, function(text) {
-            //     Todos.insert({listId: list_id,
-            //                   text: text,
-            //                   createdAt: new Date(timestamp)});
-            //     timestamp += 1; // ensure unique timestamp.
-            //   });
+            console.log(item);
         });
 
         console.log('created first Selector list - 2 items!');
