@@ -91,6 +91,9 @@
 
     /* Leases */
 
+    "create_new_lease": "Nouveau Bail",
+
+
     "lease_name": "Nom du Bail",
     "rental_status": "Statut locatif",
     "rent": "Loyer",
