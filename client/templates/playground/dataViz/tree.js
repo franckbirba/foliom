@@ -59,8 +59,8 @@ Template.treeTplt.rendered = function () {
                     );
             });
 
-            console.log("tmp_list is:");
-            console.log(tmp_list);
+            // console.log("tmp_list is:");
+            // console.log(tmp_list);
 
             return tmp_list;
         };
