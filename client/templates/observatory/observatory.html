@@ -1,12 +1,36 @@
 <template name="observatory">
     <div class="container-fluid">
-        <div class="row">
+
+        <div class="map row">
+            {{> mapCanvas2}}
+        </div>
+
+        <!-- <div class="row">
+
+            <div class="col-md-7" style="border-radius">
+                <div class="panel panel-default">
+
+                </div>
+            </div>
 
             <div class="col-md-5" style="border-radius">
+                <div class="panel panel-default">
+                {{> inputMsg }}
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+
+            <div class="col-md-3" style="border-radius">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{current_estate_name_H}}</h3>
+                        <h3 class="panel-title">Portfolio: {{current_estate_name_H}}
+                            <div class="pull-right">
+                                <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                            </div>
+                        </h3>
                     </div>
 
                     <div class="panel-body">
@@ -31,10 +55,24 @@
                             {{>insertPortfolioForm}}
                         </div>
 
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="border-radius">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Buildings</h3>
+                    </div>
+
+                    <div class="panel-body">
+
+
                         <!-- Buildings for current Portfolio -->
                         <div id="building_list" style="display: none;">
-                            {{#if isBuilding}}<a href="#" class="back2portfolios">Back to Portfolios list</a>{{/if}}
 
+                        {{#if isBuilding}}
                             <div class="list-group">
                                 {{#each getBuildingList}}
                                     <a href="#" class="list-group-item select_building">
@@ -50,32 +88,17 @@
                             </div>
 
                             <a class="btn btn-default insert_building" href="{{pathFor 'newBuilding'}}" role="button">new building</a>
+                        {{/if}}
+
                         </div>
 
                     </div>
 
                 </div>
-
-                <!-- <small>
-                    <div>[DEBUG] Liste complète pour vérif</div>
-                    <ul>
-                        {{#each estates}}
-                            <li>
-                                Estate: {{estate_name}} - id: {{_id}}
-                                <ul>
-                                    {{#each portfolio_collection}}
-                                        <li>Portfolio: {{this.valueOf}}</li>
-                                    {{/each}}
-                                </ul>
-                            </li>
-                        {{/each}}
-                    </ul>
-                </small> -->
-
-
             </div>
 
-            <div class="col-md-7">
+
+            <div class="col-md-5">
 
                 <div class="panel panel-default">
                     <div class="panel-heading">

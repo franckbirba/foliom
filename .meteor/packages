@@ -21,4 +21,5 @@ yogiben:autoform-file
 cfs:standard-packages
 cfs:filesystem
 cfs:gridfs
+vazco:maps
 

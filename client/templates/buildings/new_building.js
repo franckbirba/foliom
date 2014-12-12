@@ -29,32 +29,89 @@ Template.newBuilding.helpers({
 
                 building_doc.portfolio_id = Session.get('current_portfolio_doc')._id;
 
+                // Geocoding
+                var tmpl = this;
+                VazcoMaps.init({}, function() {
+                    tmpl.mapEngine = VazcoMaps.gMaps();
 
-                Buildings.insert(building_doc, function(err, id) {
-                    if (err) {
-                      this.done();
-                    } else {
+                    var tmp_address = building_doc.address.street + " " + building_doc.address.city + " " + building_doc.address.country;
 
-                        //Set current building doc to the one we just created
-                        Session.set('current_building_id', id);
-                        console.log('new building _id is: '+ Session.get('current_building_id') );
+                    tmpl.mapEngine.geocode({
+                      address: tmp_address,
+                      callback: function(results, status) {
+                        if (status == 'OK') {
+                          var latlng = results[0].geometry.location;
+                          console.log(latlng);
 
-                        var nbL_create = AutoForm.getFormValues('building-stepform-leaseNb').insertDoc.n_lease ;
+                          building_doc.address.gps_lat = latlng.lat();
+                          // console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
+                          building_doc.address.gps_long = latlng.lng();
+                          // console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);
 
-                        // If field is set: store the value in a session var
-                        if (nbL_create) {
-                            Session.set('nbLeases_2create', nbL_create);
-                        } else { // Else: 1 Lease to create
-                            Session.set('nbLeases_2create', 1);
+
+
+                            console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
+                            console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);
+
+                            Buildings.insert(building_doc, function(err, id) {
+                                if (err) {
+                                  this.done();
+                                } else {
+
+                                    //Set current building doc to the one we just created
+                                    Session.set('current_building_id', id);
+                                    console.log('new building _id is: '+ Session.get('current_building_id') );
+
+                                    var nbL_create = AutoForm.getFormValues('building-stepform-leaseNb').insertDoc.n_lease ;
+
+                                    // If field is set: store the value in a session var
+                                    if (nbL_create) {
+                                        Session.set('nbLeases_2create', nbL_create);
+                                    } else { // Else: 1 Lease to create
+                                        Session.set('nbLeases_2create', 1);
+                                    }
+
+                                    console.log('nb of Leases to create: '+ Session.get('nbLeases_2create') );
+
+                                    Router.go('leaseForm', {
+                                        // _id: id
+                                    });
+                                }
+                            });
+
                         }
+                      }
+                    });
+                });
 
-                        console.log('nb of Leases to create: '+ Session.get('nbLeases_2create') );
+                // console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
+                // console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);
 
-                        Router.go('leaseForm', {
-                            // _id: id
-                        });
-                    }
-                  });
+                // Buildings.insert(building_doc, function(err, id) {
+                //     if (err) {
+                //       this.done();
+                //     } else {
+
+                //         //Set current building doc to the one we just created
+                //         Session.set('current_building_id', id);
+                //         console.log('new building _id is: '+ Session.get('current_building_id') );
+
+                //         var nbL_create = AutoForm.getFormValues('building-stepform-leaseNb').insertDoc.n_lease ;
+
+                //         // If field is set: store the value in a session var
+                //         if (nbL_create) {
+                //             Session.set('nbLeases_2create', nbL_create);
+                //         } else { // Else: 1 Lease to create
+                //             Session.set('nbLeases_2create', 1);
+                //         }
+
+                //         console.log('nb of Leases to create: '+ Session.get('nbLeases_2create') );
+
+                //         Router.go('leaseForm', {
+                //             // _id: id
+                //         });
+                //     }
+                // });
             },
     }]
   }
