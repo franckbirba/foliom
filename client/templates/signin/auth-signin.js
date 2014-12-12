@@ -39,7 +39,13 @@ Template.signin.events({
       if (error) {
         return Session.set(ERRORS_KEY, {'none': error.reason});
       }
-      
+       TAPi18n.setLanguage(Meteor.user().profile.lang)
+        .done(function () {
+        })
+      .fail(function (error_message) {
+        // Handle the situation
+        console.log(error_message);
+      });
       Router.go('home', Meteor.user);
     });
   }
