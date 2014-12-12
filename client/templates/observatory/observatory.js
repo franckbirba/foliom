@@ -21,25 +21,22 @@ Template.observatory.helpers({
         };
     },
     getBuildingList: function(){
-        if ( Session.get('portfolio_level') !== undefined && !Session.get('portfolio_level') ) {
+        if ( Session.get('current_portfolio_doc') !== undefined ) {
             return Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
                         {sort: {name:1}}
                         ).fetch();
         }
     },
-    displayName: function(){
-        if ( Session.get('portfolio_level') !== undefined && Session.get('portfolio_level') ) {
-            return this.name ;
-        }
-        if ( Session.get('portfolio_level') !== undefined && !Session.get('portfolio_level') ) {
-            return this.building_name ;
-        }
-    },
+    // displayName: function(){
+    //     if ( Session.get('portfolio_level') !== undefined && Session.get('portfolio_level') ) {
+    //         return this.name ;
+    //     }
+    //     if ( Session.get('portfolio_level') !== undefined && !Session.get('portfolio_level') ) {
+    //         return this.building_name ;
+    //     }
+    // },
     isBuilding: function(){
-        if ( Session.get('portfolio_level') !== undefined && Session.get('portfolio_level') ) {
-            return false ;
-        }
-        if ( Session.get('portfolio_level') !== undefined && !Session.get('portfolio_level') ) {
+        if ( Session.get('current_portfolio_doc') !== undefined ) {
             return true ;
         }
     }
@@ -69,6 +66,10 @@ Template.observatory.events({
             Session.set('portfolio_level', true);
             $( "#portfolio_list" ).fadeIn();
         });
+    },
+    'click .glyphicon-globe': function() {
+        Session.set('current_portfolio_doc', undefined);
+
     },
     'click .select_building': function(e) {
         e.preventDefault();
