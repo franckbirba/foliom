@@ -32,7 +32,7 @@
 
                 {{> afQuickField name='emails' template='eportfolio-horizontal'}}
                 {{#if creation}}
-                  {{> afQuickField name='password'}}
+                  {{> afQuickField name='services.password.bcrypt'}}
                 {{/if}}
                 {{> afQuickField name="profile.picture"}}
                 {{> afObjectField name='profile' }}

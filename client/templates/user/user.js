@@ -17,6 +17,10 @@ Template.user.helpers({
   users: function () {
     return Meteor.users;
   },
+  creation: function(){
+    var curUser = Session.get('update_user');
+      return curUser ? false : true;
+  },
   userSchema: function () {
     return Schema.User;
   },
@@ -114,7 +118,7 @@ AutoForm.hooks({
         var tmpDoc = {
           email: insertDoc.emails.shift().address,
           profile: insertDoc.profile,
-          password: insertDoc.password
+          password: insertDoc.services.password.bcrypt
         };
 
         Meteor.call("addUser", tmpDoc, function(error, result) {
