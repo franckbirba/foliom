@@ -9,8 +9,8 @@
     <ul class="list-group" style="width:400px;position:relative;">
       {{#each fluids}}
         <li class="list-group-item" ><span class="update-fluid" style="width:100%" data-toggle="modal" data-target="#fluidformmodal">{{fluid_type}} {{fluid_provider}}</span>
-        {{# quickRemoveButton collection=Fluids _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;" class="btn btn-xs btn-danger"}}
-        <span class="glyphicon glyphicon-trash"></span>
+        {{# quickRemoveButton collection=fluidCollection _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"}}
+        <span class="glyphicon glyphicon-trash" ></span>
         {{/quickRemoveButton}}</li>
       {{/each}}
     </ul>
@@ -18,7 +18,7 @@
     <div class="content-scrollable">
       <div class="wrapper-auth">
 
-        <button class="btn btn-success addFluidBtn" data-toggle="modal" data-target="#fluidformmodal">New fluid</button>
+        <button class="btn btn-success addFluidBtn" style="border:none !important;background-color:white;color:green;" data-toggle="modal" data-target="#fluidformmodal"><span class="glyphicon glyphicon-plus"></span></button>
         <div class="modal fade" id="fluidformmodal">
           <div class="modal-content">
             <div class="modal-header">
@@ -33,7 +33,7 @@
               {{> afQuickField name='global_evolution_index'}}
               {{> afQuickField name='yearly_values' template="inline"}}
               {{> afQuickField name='estate_id' value=getEstate label=false type='hidden'}}
-              <button type="submit" class="btn btn-primary">Ok</button>
+              <button type="submit" style="border:none !important;background-color:white;color:green;" class="btn btn-primary">Ok</button>
             {{/autoForm}}
           </div>
         </div>
