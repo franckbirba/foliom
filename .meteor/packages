@@ -17,4 +17,8 @@ accounts-ui
 forwarder:autoform-wizard
 nemo64:bootstrap
 d3js:d3
+yogiben:autoform-file
+cfs:standard-packages
+cfs:filesystem
+cfs:gridfs
 

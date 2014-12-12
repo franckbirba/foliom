@@ -106,7 +106,6 @@ Template.user.events({
   }
 });
 
-
 AutoForm.hooks({
   userAutoForm: {
     onSubmit: function(insertDoc, updateDoc, currentDoc){

@@ -43,7 +43,6 @@
         </li>
       </ul>
                 {{/if}}
-{{currentUser.firstName}} {{currentUser.lastName}}
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
@@ -52,6 +51,7 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right">
+        <li><a> <img src="{{getProfilePicture}}" width=25></a></li>
          <li><a href="#">{{> loginButtons }}</a></li>
          <li class="js-logout"><a href="#">logout</a></li>
             <li class="dropdown">

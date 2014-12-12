@@ -27,10 +27,15 @@
             </div>
           <div class="modal-body">
 
-            {{#autoForm schema=userSchema collection=users doc=getUser id="userAutoForm"}}
+            {{#autoForm schema=userSchema collection=users doc=getUser id="userAutoForm" template="eportfolio-horizontal"}}
             <fieldset>
-                {{> afQuickField name='emails'}}
-                {{> afObjectField name='profile'}}
+
+                {{> afQuickField name='emails' template='eportfolio-horizontal'}}
+                {{#if creation}}
+                  {{> afQuickField name='password'}}
+                {{/if}}
+                {{> afQuickField name="profile.picture"}}
+                {{> afObjectField name='profile' }}
                 {{> afQuickField name='roles' options=roles}}
             </fieldset>
             <button type="submit" class="btn btn-primary">Ok</button>

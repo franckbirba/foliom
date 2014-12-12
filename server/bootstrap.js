@@ -19,7 +19,16 @@ Meteor.startup(function () {
           delete MasterCfg._id;
           MasterCfg.estate_id = estateId;
           Configurations.insert(MasterCfg);
-          console.log(MasterCfg);
+        },
+        myServerMethod: function(doc) {
+          try {
+            check(doc, Schema.User);
+            Schema.User.clean(doc);
+          }catch(e){
+            throw new Meteor.Error(e);
+          }
+
+          //do some stuff here and throw a new Meteor.Error if there is a problem
         }
   });
 

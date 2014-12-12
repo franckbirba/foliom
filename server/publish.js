@@ -10,6 +10,10 @@ Meteor.publish('estates', function() {
   return Estates.find();
 });
 
+Meteor.publish('images', function() {
+  return Images.find();
+});
+
 Meteor.publish('portfolios', function(estateId) {
   return Portfolios.find(); // TODO : if(!Admin) then : only send relevant Portfolios
 });
