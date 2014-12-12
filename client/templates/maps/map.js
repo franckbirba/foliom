@@ -1,3 +1,10 @@
+/* References
+- https://atmospherejs.com/vazco/maps
+- http://hpneo.github.io/gmaps/documentation.html
+- http://hpneo.github.io/gmaps/
+- https://github.com/hpneo/gmaps
+*/
+
 Template.mapCanvas2.rendered = function () {
     var tmpl = this;
 
@@ -24,6 +31,11 @@ Template.mapCanvas2.rendered = function () {
         var query = {};
 
         Tracker.autorun(function () {
+            if ( Session.get('current_estate_doc') !== undefined) {
+                current_estate = Session.get('current_estate_doc');
+                // var portfolioIDs = Estates.findOne({_id: Session.get('current_estate_doc')._id}).portfolio_collection;
+            }
+
             if ( Session.get('current_portfolio_doc') !== undefined) {
                 query = {portfolio_id: Session.get('current_portfolio_doc')._id };
             }else  {
