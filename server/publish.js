@@ -27,11 +27,15 @@ Meteor.publish('leases', function(portfolioId) {
 });
 
 Meteor.publish('endUses', function(portfolioId) {
-  return EndUse.find(); // TODO : only send relevant Leases
+  return EndUse.find(); // TODO : only send relevant EndUses
 });
 
 Meteor.publish('messages', function(portfolioId) {
-  return Messages.find(); // TODO : only send relevant Leases
+  return Messages.find(); // TODO : only send relevant Messages
+});
+
+Meteor.publish('actions', function(portfolioId) {
+  return Actions.find(); // TODO : only send relevant Actions
 });
 
 // Test

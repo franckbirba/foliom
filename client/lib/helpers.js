@@ -41,6 +41,16 @@ Template.registerHelper("current_estate_name_H",
     }
 );
 
+Template.registerHelper("getProfilePicture",
+    function(){
+        var profile = Meteor.user().profile;
+        if(profile.picture){
+            return "/cfs/files/images/"+ profile.picture;
+        }
+        return ""
+    }
+);
+
 // Template.registerHelper("beforeRemove",
 //     function () {
 //       return function (collection, id) {
