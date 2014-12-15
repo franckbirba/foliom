@@ -120,6 +120,7 @@
     // end-use consumption_by_end_use ("Consommation d’énergie par poste")
     "consumption_by_end_use": "Consommation d’énergie par poste",
 
+    "end_use_heating": "chauffage",
 
 // end_use_heating: {
 //      fr: "Chauffage",
