@@ -1,3 +1,8 @@
+/*
+http://bl.ocks.org/dbuezas/9306799 : Pie charts labels (with lines)
+
+*/
+
 Template.pie.rendered = function () {
     var svg = d3.select(".piechart")
         .append("g")
