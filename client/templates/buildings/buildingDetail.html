@@ -9,9 +9,16 @@
                     building_name is: {{building_name}}
                 </div>
 
+
                 <div>
                     {{#each getLeases}}
-
+                         <br/>
+                        <div>
+                            Lease name is: {{_ lease_name}} <br/>
+                            Lease usage is: {{_ lease_usage}} <br/>
+                            DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}} <br/>
+                            DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
+                        </div>
                     {{/each}}
                 </div>
 
@@ -23,12 +30,16 @@
             </div>
         </div>
 
-        <!-- <div class="row">
-            <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-5">
+
+            </div>
+
+            <div class="col-md-7">
                 {{> pie}}
             </div>
 
-        </div> -->
+        </div>
 
     </div>
 </template>

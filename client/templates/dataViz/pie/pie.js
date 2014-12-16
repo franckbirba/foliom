@@ -1,8 +1,3 @@
-/*
-http://bl.ocks.org/dbuezas/9306799 : Pie charts labels (with lines)
-
-*/
-
 Template.pie.rendered = function () {
     var svg = d3.select(".piechart")
         .append("g")
@@ -14,7 +9,7 @@ Template.pie.rendered = function () {
     svg.append("g")
         .attr("class", "lines");
 
-    var width = 500,
+    var width = 300,
         height = 250,
         radius = Math.min(width, height) / 2;
 
@@ -95,75 +90,75 @@ Template.pie.rendered = function () {
 
         /* ------- TEXT LABELS -------*/
 
-        var text = svg.select(".labels").selectAll("text")
-            .data(pie(data), key);
+        // var text = svg.select(".labels").selectAll("text")
+        //     .data(pie(data), key);
 
-        text.enter()
-            .append("text")
-            .attr("dy", ".35em")
-            .text(function(d) {
-                var legend = transr(d.data.label);
-                return legend();
-            });
+        // text.enter()
+        //     .append("text")
+        //     .attr("dy", ".35em")
+        //     .text(function(d) {
+        //         var legend = transr(d.data.label);
+        //         return legend();
+        //     });
 
-        function midAngle(d){
-            return d.startAngle + (d.endAngle - d.startAngle)/2;
-        }
+        // function midAngle(d){
+        //     return d.startAngle + (d.endAngle - d.startAngle)/2;
+        // }
 
-        text.transition().duration(1000)
-            .attrTween("transform", function(d) {
-                this._current = this._current || d;
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function(t) {
-                    var d2 = interpolate(t);
-                    var pos = outerArc.centroid(d2);
-                    pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
-                    return "translate("+ pos +")";
-                };
-            })
-            .styleTween("text-anchor", function(d){
-                this._current = this._current || d;
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function(t) {
-                    var d2 = interpolate(t);
-                    return midAngle(d2) < Math.PI ? "start":"end";
-                };
-            });
+        // text.transition().duration(1000)
+        //     .attrTween("transform", function(d) {
+        //         this._current = this._current || d;
+        //         var interpolate = d3.interpolate(this._current, d);
+        //         this._current = interpolate(0);
+        //         return function(t) {
+        //             var d2 = interpolate(t);
+        //             var pos = outerArc.centroid(d2);
+        //             pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
+        //             return "translate("+ pos +")";
+        //         };
+        //     })
+        //     .styleTween("text-anchor", function(d){
+        //         this._current = this._current || d;
+        //         var interpolate = d3.interpolate(this._current, d);
+        //         this._current = interpolate(0);
+        //         return function(t) {
+        //             var d2 = interpolate(t);
+        //             return midAngle(d2) < Math.PI ? "start":"end";
+        //         };
+        //     });
 
-        text.exit()
-            .remove();
+        // text.exit()
+        //     .remove();
 
-        /* ------- SLICE TO TEXT POLYLINES -------*/
+        // /* ------- SLICE TO TEXT POLYLINES -------*/
 
-        var polyline = svg.select(".lines").selectAll("polyline")
-            .data(pie(data), key);
+        // var polyline = svg.select(".lines").selectAll("polyline")
+        //     .data(pie(data), key);
 
-        polyline.enter()
-            .append("polyline");
+        // polyline.enter()
+        //     .append("polyline");
 
-        polyline.transition().duration(1000)
-            .attrTween("points", function(d){
-                this._current = this._current || d;
-                var interpolate = d3.interpolate(this._current, d);
-                this._current = interpolate(0);
-                return function(t) {
-                    var d2 = interpolate(t);
-                    var pos = outerArc.centroid(d2);
-                    pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
-                    return [arc.centroid(d2), outerArc.centroid(d2), pos];
-                };
-            });
+        // polyline.transition().duration(1000)
+        //     .attrTween("points", function(d){
+        //         this._current = this._current || d;
+        //         var interpolate = d3.interpolate(this._current, d);
+        //         this._current = interpolate(0);
+        //         return function(t) {
+        //             var d2 = interpolate(t);
+        //             var pos = outerArc.centroid(d2);
+        //             pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
+        //             return [arc.centroid(d2), outerArc.centroid(d2), pos];
+        //         };
+        //     });
 
-        polyline.exit()
-            .remove();
+        // polyline.exit()
+        //     .remove();
 
         legend = svg.append("g")
             .attr("class","legend")
-            .attr("transform","translate(150,0)")
+            .attr("transform","translate(120,0)")
             .style("font-size","12px")
-            .call(d3.legend)
+            .call(d3.legend);
 
           // setTimeout(function() {
           //   legend

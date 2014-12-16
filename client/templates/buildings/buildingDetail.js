@@ -1,7 +1,7 @@
 // Get list of all Portfolios for current Estate, sorted by alpha (on name)
 Template.buildingDetail.helpers({
     getLeases: function(){
-        var result = Leases.find( { building_id: Session.get('current_building_doc') },
+        var result = Leases.find( { building_id: Session.get('current_building_doc')._id },
                     {sort: {name:1}}
                     ).fetch();
 
