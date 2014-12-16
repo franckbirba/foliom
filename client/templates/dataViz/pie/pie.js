@@ -72,7 +72,7 @@ Template.pie.rendered = function () {
             .insert("path")
             .style("fill", function(d) { return color(d.data.label); })
             .attr("class", "slice")
-            .attr("data-legend",function(d) { return d.data.label});
+            .attr("data-legend",function(d) { return transr(d.data.label)() });
 
         slice
             .transition().duration(1000)
@@ -156,7 +156,7 @@ Template.pie.rendered = function () {
 
         legend = svg.append("g")
             .attr("class","legend")
-            .attr("transform","translate(50,30)")
+            .attr("transform","translate(150,0)")
             .style("font-size","12px")
             .call(d3.legend)
 
