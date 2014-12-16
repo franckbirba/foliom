@@ -3,6 +3,7 @@
 - http://hpneo.github.io/gmaps/documentation.html
 - http://hpneo.github.io/gmaps/
 - https://github.com/hpneo/gmaps
+
 */
 
 Template.mapCanvas2.rendered = function () {
@@ -53,6 +54,23 @@ Template.mapCanvas2.rendered = function () {
 
                     // var_content = "Lat: " + building.address.gps_lat + " - long: " + building.address.gps_long;
 
+
+                    // Build content for the infoWindow
+                    var building_image_html = "";
+                    if(building.images){
+                        building_image = "/cfs/files/images/"+ building.images;
+                        building_image_html = '<img src="' + building_image + '" width=80 class="img_marker">' ;
+                    }
+                    content_marker =
+                        // '<div class="select_building">' +
+                        '<a href="/buildings/' + building._id + '">' +
+                            building_image_html +
+                            '<b>' + building.building_name + "</b><br/>" +
+                            building.address.street+' '+building.address.zip+' '+building.address.city+"<br/>" +
+                            // "Lat: " + building.address.gps_lat + " - long: " + building.address.gps_long
+                        '</a>'
+                    ;
+
                     tmpl.newMap2.addMarker({
                       lat: building.address.gps_lat,
                       lng: building.address.gps_long,
@@ -61,7 +79,7 @@ Template.mapCanvas2.rendered = function () {
                       //   alert('You clicked in this marker');
                       // }
                       infoWindow: {
-                        content: "Lat: " + building.address.gps_lat + " - long: " + building.address.gps_long
+                        content: content_marker
                       }
                     });
 

@@ -120,6 +120,13 @@
     // end-use consumption_by_end_use ("Consommation d’énergie par poste")
     "consumption_by_end_use": "Consommation d’énergie par poste",
 
+    "end_use_heating": "Chauffage",
+    "end_use_AC": "Climatisation",
+    "end_use_ventilation": "Ventilation",
+    "end_use_lighting": "Eclairage",
+    "end_use_aux": "Auxiliaires",
+    "end_use_ecs": "ECS",
+    "end_use_specific": "Spécifique",
 
 // end_use_heating: {
 //      fr: "Chauffage",
