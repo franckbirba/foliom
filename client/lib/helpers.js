@@ -51,6 +51,17 @@ Template.registerHelper("getProfilePicture",
     }
 );
 
+Template.registerHelper("getActionsList",
+    function(){
+        // ToDo : en cas d'update, il faut retirer l'Action en cours d'update. Sinon, cette même action va apparaître dans la liste (risque de référence circulaire)
+        // var estate = Session.get('current_estate_doc');
+        // Pour l'instant on remonte tout
+        return Actions.find({},
+                    {sort: {name:1}}
+                    ).fetch();
+    }
+);
+
 // Template.registerHelper("beforeRemove",
 //     function () {
 //       return function (collection, id) {
