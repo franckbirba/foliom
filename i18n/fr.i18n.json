@@ -21,10 +21,18 @@
     "total": "Total",
     "comments": "Commentaires",
     "comments_small": "Commentaire sommaire",
+    "NA": "Sans objet",
+
+    "priority": "Priorité",
+    "ratio": "Ratio",
 
     "good": "Bon",
     "average": "Moyen",
     "bad": "Mauvais",
+
+    "normal": "Normal",
+    "high": "Haut(e)",
+    "low": "Faible",
 
     "estate": "Estate",
     "portfolio": "Portfolio",
@@ -267,20 +275,71 @@
     "10_years": "Tous les 10 ans",
 
 
+
+
+    /* Actions */
+
+    "opportunity": "Gisement",
+    "project_type": "Montage",
+    "technical_field": "Lot technique concerné",
+    "feasable_while_occupied": "Faisabilité site occupé",
+
+    "impact_assessment_general": "Etude des impacts : généralités",
+    "comfort": "Confort",
+    "technical_compliance_a": "Conformité technique",
+    "regulatory_compliance": "Conformité réglementaire",
+    "residual_lifetime": "Durée de vie résiduelle",
+
+    "design_duration": "Durée des études",
+    "works_duration": "Durée des travaux",
+    "action_lifetime": "Durée de vie de l'action",
+    "action_link": "Lié à une autre action",
+
+    "impact_assessment_energy": "Etude des impacts : Energie",
+    "per_cent": "En %",
+    "or_kwhEF": "    Ou : en kWh (énergie finale) / an",
+    "yearly_budget": "En € / an",
+
+    "investment": "Investissements",
+    "investment_ratio": "Ratio d'investissement",
+    "investment_cost": "Coût d'investissement",
+
+    "subventions": "Aides à l’investissement",
+    "or_euro": "Ou : en €",
+    "or_euro_peryear": "Ou : en € / an",
+    "CEE_opportunity": "Certificat d'économie d'énergie",
+
+    "operating": "Fonctionnement (hors fluides)",
+    "operating_ratio": "Ratio de fonctionnement",
+    "operating_cost": "Coût de fonctionnement",
+
+    "savings_first_year": "Economies de charge en € à l’année initiale",
+    "savings_first_year_fluids": "Economies de fluides",
+    "savings_first_year_operations": "Economie de frais d’exploitation ",
+
+
+
     /* Units */
 
+    "u_months": "mois",
+    "u_years": "années",
     "u_kwhEF": "kWhEF",
+    "u_kwhEF_year": "kWhEF / an",
     "u_euro_kwhEF": "€ HT / kWhEF",
+    "u_percent": "%",
     "u_m3": "m³",
     "u_euro_m3": "€ HT / m³",
     "u_m2": "m²",
     "u_euro_m2": "€ HT / m²",
+    "u_euro_year": "€ HT / an",
+    "u_euro_m2_year": "€ HT / m².an",
     "u_kg_eqC02_m2_year": "kg (eq. C02) / m².an",
     "u_m2_shon": "m² SHON",
     "u_m2_useful": "m² utiles",
     "u_kwh_m2_year_primEnergy": "kWh / m².an (énergie primaire)",
     "u_kg_eqC02_m2_year": "kg (eq. C02)/ m².an",
-    "u_euro": "€"
+    "u_euro": "€ HT"
+
 
 
 }
