@@ -1,3 +1,10 @@
+/*
+    Legend
+    - http://stackoverflow.com/questions/20675617/how-to-add-legend-to-a-pie-chart-using-d3js-and-how-to-centralise-the-pie-chart
+    - http://bl.ocks.org/ZJONSSON/3918369
+
+*/
+
 Template.pie.rendered = function () {
     var svg = d3.select(".piechart")
         .append("g")
