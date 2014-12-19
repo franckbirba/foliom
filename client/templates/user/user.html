@@ -9,7 +9,7 @@
     <ul class="list-group" style="width:400px;position:relative;">
       {{#each getAllUsers}}
         <li class="list-group-item" ><span class="update-user" style="width:100%" data-toggle="modal" data-target="#userformmodal">{{profile.firstName}} {{profile.lastName}}</span>
-        {{# quickRemoveButton collection=users _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;" class="btn btn-xs btn-danger"}}
+        {{# quickRemoveButton collection=users _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"}}
         <span class="glyphicon glyphicon-trash"></span>
         {{/quickRemoveButton}}</li>
       {{/each}}
@@ -18,7 +18,7 @@
     <div class="content-scrollable">
       <div class="wrapper-auth">
 
-        <button class="btn btn-success addUserBtn" data-toggle="modal" data-target="#userformmodal">New user</button>
+        <button class="btn btn-success addUserBtn" style="border:none !important;background-color:white;color:green;" data-toggle="modal" data-target="#userformmodal"><span class="glyphicon glyphicon-plus"></span></button>
         <div class="modal fade" id="userformmodal">
           <div class="modal-content">
             <div class="modal-header">
@@ -38,7 +38,7 @@
                 {{> afObjectField name='profile' }}
                 {{> afQuickField name='roles' options=roles}}
             </fieldset>
-            <button type="submit" class="btn btn-primary">Ok</button>
+            <button type="submit" style="border:none !important;background-color:white;color:green;" class="btn btn-primary">Ok</button>
             {{/autoForm}}
           </div>
         </div>

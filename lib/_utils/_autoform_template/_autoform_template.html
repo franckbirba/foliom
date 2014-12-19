@@ -18,13 +18,15 @@
   {{/autoForm}}
 </template>
 
+
+
 <template name="afObjectField_table">
   <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
     {{#each afFieldNames name=this.atts.name}}
       <!-- {{> afFormGroup template="verylight" name=this options="auto"}} -->
-     <td class="col-sm-1 col-xs-1">
-            {{> afFormGroup name=this options="auto" template="verylightBSE"}}
-    </td>
+      <td class="col-sm-1 col-xs-1">
+        {{> afFormGroup name=this options="auto" template="verylightBSE"}}
+      </td>
        
     {{/each}}
   </div>
@@ -52,6 +54,7 @@
     </div>
   </div>
 </template>
+
 
 <template name="afArrayField_eportfolio-horizontal">
   <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
@@ -112,6 +115,9 @@
     </div>
   </div>
 </template>
+
+
+
 
 <template name="afCheckbox_eportfolio-horizontal">
    <div class="checkbox">

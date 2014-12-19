@@ -31,20 +31,20 @@ Template.fluids.helpers({
     return Session.get('update_fluid') ? Session.get('update_fluid') : null;
   },
   beforeRemove: function () {
-      return function (collection, id) {
-        var doc = collection.findOne(id);
-        if (confirm('Really delete "' + doc.fluid_type + ' ' +doc.fluid_provider+'"?')) {
-          this.remove();
-        }
-      };
-    },
-    getFormTitle: function(){
-      var tmpFluid = Session.get('update_fluid');
-      if(tmpFluid){
-        return tmpFluid.fluid_type + " " + tmpFluid.fluid_provider;
+    return function (collection, id) {
+      var doc = collection.findOne(id);
+      if (confirm('Really delete "' + doc.fluid_type + ' ' +doc.fluid_provider+'"?')) {
+        this.remove();
       }
-      return "New Fluid";
+    };
+  },
+  getFormTitle: function(){
+    var tmpFluid = Session.get('update_fluid');
+    if(tmpFluid){
+      return tmpFluid.fluid_type + " " + tmpFluid.fluid_provider;
     }
+    return "New Fluid";
+  }
 });
 
 Template.fluids.events({
@@ -54,22 +54,5 @@ Template.fluids.events({
   },
   'click .update-fluid': function(){
     Session.set('update_fluid', this);
-  }
-});
-
-AutoForm.hooks({
-  fluidAutoForm: {
-    onSubmit: function(insertDoc, updateDoc, currentDoc){
-      if(Session.get('update_fluid')){
-        Fluids.update(currentDoc._id,updateDoc);
-        
-      } else {
-        insertDoc.estate_id = Session.get('current_estate_doc')._id;
-        var tmpId = Fluids.insert(insertDoc);
-      }
-      $("#fluidformmodal").hide();
-      this.done();
-      return false;
-   }
   }
 });
