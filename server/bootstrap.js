@@ -103,6 +103,11 @@ Meteor.startup(function () {
                     labels: ["office", "retail", "residential"],
                     portfolio_id: ""
                 },
+                {
+                    name: 'conformity_options',
+                    labels: ["compliant", "not_compliant_minor", "not_compliant_major"],
+                    portfolio_id: ""
+                },
 
             ];
 

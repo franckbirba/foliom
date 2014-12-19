@@ -6,6 +6,7 @@
       </div>
     </nav>
 
+
     <ul class="list-group" style="width:400px;position:relative;">
       {{#each fluids}}
         <li class="list-group-item" ><span class="update-fluid" style="width:100%" data-toggle="modal" data-target="#fluidformmodal">{{fluid_type}} {{fluid_provider}}</span>
@@ -41,5 +42,20 @@
     </div>
 
   </div>
+
+
+  <!-- Fluid providers -->
+    <h4>Fluid types</h4>
+    <ul class="list-group" style="width:400px;position:relative;">
+      {{#each fluidTypesForCurrentEstate}}
+        {{#each labels}}
+            <li class="list-group-item" ><span class="update-fluidType" style="width:100%" data-toggle="modal" data-target="#fluidformmodal">{{_ this.valueOf}}</span>
+            {{# quickRemoveButton collection=fluidCollection _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"}}
+            <span class="glyphicon glyphicon-trash" ></span>
+            {{/quickRemoveButton}}</li>
+        {{/each}}
+      {{/each}}
+    </ul>
+
 </div>
 </template>

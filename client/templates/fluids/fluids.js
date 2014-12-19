@@ -44,7 +44,25 @@ Template.fluids.helpers({
         return tmpFluid.fluid_type + " " + tmpFluid.fluid_provider;
       }
       return "New Fluid";
-    }
+    },
+});
+
+// Helpers for Fluid types and Fluid providers
+Template.fluids.helpers({
+    fluidTypesForCurrentEstate: function () {
+        return Selectors.find({
+            $or: [
+                { // get fluidTypes that are generic (no estate_id)
+                    "name": "fluid_type",
+                    "estate_id": { $exists: false }
+                },
+                { // and get fluidTypes that are linked to this estate
+                    "name": "fluid_type",
+                    "estate_id": Session.get('current_estate_doc')._id
+                 }
+            ]
+        }).fetch();
+      },
 });
 
 Template.fluids.events({
@@ -62,7 +80,7 @@ AutoForm.hooks({
     onSubmit: function(insertDoc, updateDoc, currentDoc){
       if(Session.get('update_fluid')){
         Fluids.update(currentDoc._id,updateDoc);
-        
+
       } else {
         insertDoc.estate_id = Session.get('current_estate_doc')._id;
         var tmpId = Fluids.insert(insertDoc);

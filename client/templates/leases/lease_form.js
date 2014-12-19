@@ -36,9 +36,6 @@ AutoForm.hooks({
 //<select name="technical_compliance.categories.0.conformity" required="" data-schema-key="technical_compliance.categories.0.conformity" autocomplete="off" class="form-control">
 
 Template.leaseForm.rendered = function () {
-    // Track technical_compliance
-    // Tracker.autorun(function () {
-        // $(".tcc_lifetime").each(function(){console.log($(this).val())});
 
         $(".tcc_lifetime").change(function(){
             $("[name='technical_compliance.global_lifetime']").val(
@@ -52,8 +49,6 @@ Template.leaseForm.rendered = function () {
             )
         });
 
-        // console.log( calc_qualitative_assessment_class(".tcc_lifetime") ) ;
-    // });
 };
 
 // Template.leaseForm.events({
