@@ -174,7 +174,7 @@ Meteor.startup(function () {
         var data = [
                 {
                     "name":"robinet thermostatique",
-                    "logo":"/icon/actionIcons/iconmonstr-gear-10-icon-256.png",
+                    "logo":"/icon/actionIcons/iconmonstr-volume-control-2-icon-256.png",
                     "opportunity":"chauffage",
                     "project_type":"classic",
                     "technical_field":"heating_terminal",

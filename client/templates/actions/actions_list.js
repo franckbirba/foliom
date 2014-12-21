@@ -1,26 +1,37 @@
+Template.actionsList.rendered = function () {
+    // init session vars
+    Session.set('masterAction', null);
+    Session.set('newActionType', null);
+
+};
+
+
+
 Template.actionsList.helpers(
     {
-        getActions: function(){
-            return Actions.find().fetch(); //ToDo : renvoyer les bonnes actions
+        getMasterActions: function(){
+            return Actions.find({
+               "estate_id": { $exists: false }
+            }).fetch(); //ToDo : renvoyer les bonnes actions
         }
     }
-    // {
-    //     getActionLogo: function() {
-    //          // var profile = Meteor.user().profile;
-    //          console.log($(this));
-    //          if(this.logo){
-    //              return "/cfs/files/images/"+ this.logo;
-    //          }
-    //          return "";
-    //     }
-    // }
+);
+
+Template.actionsList.helpers(
+    {
+        getUserTemplateActions: function(){
+            return Actions.find({
+               "estate_id": Session.get('current_estate_doc')._id
+            }).fetch(); //ToDo : renvoyer les bonnes actions
+        }
+    }
 );
 
 Template.actionsList.helpers(
     {
         getActionLogo: function() {
-             // var profile = Meteor.user().profile;
-             console.log($(this));
+
+             // console.log($(this));
              if(this.logo){
                 // Check if the img URL links to images in the public folder
                 if(this.logo.charAt(0) == "/") {
@@ -34,3 +45,25 @@ Template.actionsList.helpers(
         }
     }
 );
+
+Template.actionsList.events({
+    'click .newGenericActionBtn': function(e) {
+        e.preventDefault();
+        Session.set('newActionType', "generic");
+
+        Router.go('actionForm');
+    },
+    'click .newActionFromMaster': function(e) {
+        e.preventDefault();
+        Session.set('newActionType', "user_template");
+        Session.set('masterAction', this);
+
+        Router.go('actionForm');
+    },
+    'click .newUserTempalteAction': function(e) {
+        e.preventDefault();
+        Session.set('newActionType', "user_template");
+
+        Router.go('actionForm');
+    },
+});

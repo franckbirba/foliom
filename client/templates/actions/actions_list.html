@@ -12,7 +12,11 @@
             </div>
 
             <div class="newActionBtn">
-                <a class="btn btn-default" href="{{pathFor 'actionForm'}}" role="button">{{_ "new_generic_action"}}</a>
+                <a class="btn btn-default newGenericActionBtn" role="button">{{_ "new_generic_action"}}</a>
+            </div>
+
+            <div class="newActionBtn">
+                <a class="btn btn-default" role="button">Appliquer les Actions</a>
             </div>
 
         </div>
@@ -20,13 +24,30 @@
         <div class="col-md-9">
 
             <div class="actionGrid">
-                {{#each getActions}}
-                    <div class="actionList">
+                {{#each getMasterActions}}
+                    <div class="actionList newActionFromMaster">
                         <a> <img src="{{getActionLogo}}" width=50></a>
                         <div>{{name}}</div>
                     </div>
                 {{/each}}
+
+                {{#each getUserTemplateActions}}
+                    <div class="actionList actionUserTemplate">
+                        <img src="{{getActionLogo}}" width=50>
+                        <div>{{name}}</div>
+                    </div>
+                {{/each}}
+
+                <!-- And one button to create a user_template Action -->
+                    <div class="actionList actionCreate">
+                        <a href="" class="newUserTempalteAction">
+                            <img src="/icon/actionIcons/iconmonstr-plus-5-icon-256.png" width=50>
+                            <div>{{_ "newUserTemplateAction"}}</div>
+                        </a>
+                    </div>
             </div>
+
+
         </div>
     </div>
 

@@ -11,6 +11,14 @@
     margin: 5px;
 }
 
+.actionUserTemplate {
+    border-color: rgb(43, 219, 226);;
+}
+
+.actionCreate {
+    border-color: black;
+}
+
 .actionTitle {
     /*border-right-style: solid;
     border-width: 2px;
