@@ -1,0 +1,12 @@
+<template name="actionsList">
+<div>
+      <ul>
+        {{#each actions}}
+          <!-- <li><a href="#" data-toggle="modal" data-target="#estateForm" class="update_estate" >Estate: {{estate_name}} - id: {{_id}}</a></li> -->
+          <li>Action: {{name}} - id: {{_id}}</li>
+        {{/each}}
+      </ul>
+      <a class="btn btn-default" href="{{pathFor 'actionForm'}}" role="button">new generic Action</a>
+
+</div>
+</template>

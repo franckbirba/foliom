@@ -1,3 +1,31 @@
+AutoForm.hooks({
+    insertActionForm: {
+        before: {
+            insert: function(doc, template) {
+                // doc.portfolio_id = Session.get('current_estate_doc')._id;
+
+
+                doc.action_type = "generic"; // ToDo : dynamiser pour créer le bon type d'action
+
+
+                // doc.portfolio_id = Session.get('current_portfolio_doc')._id;;
+                return doc;
+            }
+            // update: function(docId, modifier, template) {},
+            // "methodName": function(doc, template) {}
+
+        }
+        // onSuccess: function(operation, result, template) {
+        //     // console.log("Success : operation is " + operation);
+        //     if (operation == "insert") {
+        //         $('#estateForm').modal('hide');
+        //     } else if (operation == "update") {
+        //         $('#estateForm').modal('hide');
+        //     }
+        // },
+    }
+});
+
 // Template.actionForm.events({
 //   'keyup [name="investment.ratio"]': function(event) {
 //     // console.log("hi");
