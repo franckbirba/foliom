@@ -1,12 +1,45 @@
 <template name="actionsList">
 <div>
-      <ul>
-        {{#each actions}}
-          <!-- <li><a href="#" data-toggle="modal" data-target="#estateForm" class="update_estate" >Estate: {{estate_name}} - id: {{_id}}</a></li> -->
-          <li>Action: {{name}} - id: {{_id}}</li>
-        {{/each}}
-      </ul>
-      <a class="btn btn-default" href="{{pathFor 'actionForm'}}" role="button">new generic Action</a>
+
+    <div class="row">
+
+        <div class="col-md-3 actionTitle">
+
+            <div>
+                <img src="/icon/actionIcons/iconmonstr-gear-10-icon-256.png" width=100>
+                <br/>
+                <h4>{{_ "actionList_title"}}</h4>
+            </div>
+
+            <div class="newActionBtn">
+                <a class="btn btn-default" href="{{pathFor 'actionForm'}}" role="button">{{_ "new_generic_action"}}</a>
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+
+            <div class="actionGrid">
+                {{#each getActions}}
+                    <div class="actionList">
+                        <a> <img src="{{getActionLogo}}" width=50></a>
+                        <div>{{name}}</div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+
+    <div class="actionStuff">
+        - DEV - All actions:
+        <ul>
+            {{#each getActions}}
+              <!-- <li><a href="#" data-toggle="modal" data-target="#estateForm" class="update_estate" >Estate: {{estate_name}} - id: {{_id}}</a></li> -->
+              <li>Action: {{name}} - id: {{_id}}</li>
+            {{/each}}
+        </ul>
+
+    </div>
 
 </div>
 </template>

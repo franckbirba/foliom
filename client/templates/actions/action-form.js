@@ -14,15 +14,10 @@ AutoForm.hooks({
             // update: function(docId, modifier, template) {},
             // "methodName": function(doc, template) {}
 
-        }
-        // onSuccess: function(operation, result, template) {
-        //     // console.log("Success : operation is " + operation);
-        //     if (operation == "insert") {
-        //         $('#estateForm').modal('hide');
-        //     } else if (operation == "update") {
-        //         $('#estateForm').modal('hide');
-        //     }
-        // },
+        },
+        onSuccess: function(operation, result, template) {
+            Router.go('actionsList');
+        },
     }
 });
 
