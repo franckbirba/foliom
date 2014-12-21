@@ -22,7 +22,13 @@ Template.actionsList.helpers(
              // var profile = Meteor.user().profile;
              console.log($(this));
              if(this.logo){
-                 return "/cfs/files/images/"+ this.logo;
+                // Check if the img URL links to images in the public folder
+                if(this.logo.charAt(0) == "/") {
+                    return this.logo;
+                }
+                else {
+                    return "/cfs/files/images/"+ this.logo;
+                }
              }
              return "";
         }
