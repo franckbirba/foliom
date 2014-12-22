@@ -6,7 +6,7 @@
 
 Template.treeTplt.rendered = function () {
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
-    width = 960 - margin.right - margin.left,
+    width = 360 - margin.right - margin.left,
     height = 800 - margin.top - margin.bottom;
 
     var i = 0,
@@ -35,41 +35,72 @@ Template.treeTplt.rendered = function () {
              "children": []
         };
 
-        foliom_data.name = Session.get('current_estate_doc').estate_name ;
+        foliom_data.name = Session.get('current_portfolio_doc').name ;
 
-        // trick to make sure the Portfolio Collection is reactive
-        var tmp_current_estate_doc = Estates.findOne(Session.get('current_estate_doc')._id);
+        var tmp_current_portfolio_doc = Portfolios.findOne(Session.get('current_portfolio_doc')._id);
 
-        var portfolio_list = Portfolios.find({_id: {$in : tmp_current_estate_doc.portfolio_collection} },
+        var building_list = Buildings.find({portfolio_id: tmp_current_portfolio_doc._id },
                             {sort: {name:1}}
                             ).fetch();
 
-        function getBuildingsForPortfolio(id_param) {
-            var building_list = Buildings.find({portfolio_id: id_param },
+        // Method to get all Actions for Each building + build a children list for the Tree
+        function getActionsForBuilding(id_param) {
+            var action_list = Actions.find({
+                                "action_type":"child",
+                                "building_id": id_param
+                            },
                             {sort: {name:1}}
                             ).fetch();
 
             var tmp_list = [];
 
-            _.each(building_list, function(item) {
+            _.each(action_list, function(item) {
                 tmp_list.push(
                         {
-                            "name": item.building_name,
+                            "name": item.name,
                         }
                     );
             });
 
-            // console.log("tmp_list is:");
-            // console.log(tmp_list);
+            console.log(tmp_list);
 
             return tmp_list;
         };
 
-        _.each(portfolio_list, function(item) {
+        // OLD VERSION: display all Estates > Portfolios > Buildings
+        // trick to make sure the Portfolio Collection is reactive
+        // var tmp_current_estate_doc = Estates.findOne(Session.get('current_estate_doc')._id);
+
+        // var portfolio_list = Portfolios.find({_id: {$in : tmp_current_estate_doc.portfolio_collection} },
+        //                     {sort: {name:1}}
+        //                     ).fetch();
+
+        // function getBuildingsForPortfolio(id_param) {
+        //     var building_list = Buildings.find({portfolio_id: id_param },
+        //                     {sort: {name:1}}
+        //                     ).fetch();
+
+        //     var tmp_list = [];
+
+        //     _.each(building_list, function(item) {
+        //         tmp_list.push(
+        //                 {
+        //                     "name": item.building_name,
+        //                 }
+        //             );
+        //     });
+
+            // console.log("tmp_list is:");
+            // console.log(tmp_list);
+
+        //     return tmp_list;
+        // };
+
+        _.each(building_list, function(item) {
                 foliom_data.children.push(
                         {
-                            "name": item.name,
-                            "children": getBuildingsForPortfolio(item._id)
+                            "name": item.building_name,
+                            "children": getActionsForBuilding(item._id)
                         }
                     );
             });
@@ -189,6 +220,19 @@ Template.treeTplt.rendered = function () {
                 d.children = d._children;
                 d._children = null;
             }
+
+            if (d.depth == 1) { // Depth==1 means it's a building
+                console.log("I'm a building!");
+                var clickedBuilding = Buildings.findOne({
+                            portfolio_id: tmp_current_portfolio_doc._id,
+                            building_name: d.name
+                        });
+                console.log(clickedBuilding);
+            }
+            if (d.depth == 2) { // Depth==2 means it's an action
+                console.log("I'm an action!");
+            }
+
             update(d);
         }
     });
