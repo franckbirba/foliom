@@ -101,6 +101,7 @@
     /* Leases */
 
     "create_new_lease": "Nouveau Bail",
+    "leasesToCreate": "Baux à créer :",
 
 
     "lease_name": "Nom du Bail",
@@ -210,6 +211,7 @@
     "ventilation_system": "Réseaux ventilation",
     "hot_water_production": "Production ECS",
     "hot_water_delivery": "Distribution ECS",
+    "fire_security": "Sécurité incendie",
 
     "conformity_information": "Conformité réglementaire / audits / diagnostics",
     "eligibility": "Eligibilité",
@@ -317,6 +319,18 @@
     "savings_first_year_fluids": "Economies de fluides",
     "savings_first_year_operations": "Economie de frais d’exploitation ",
 
+    "efficiency_calc": "Calcul de l'efficacité",
+    "raw_roi": "Temps de retour brut",
+    "actualised_roi": "Temps de retour actualisé",
+    "value_analysis": "Analyse de la valeur",
+    "lec": "LEC",
+    "internal_return": "Taux de rentabilité interne",
+
+    "actionList_title": "Paramétrer les actions génériques",
+    "new_generic_action": "Nouvelle action générique",
+    "newUserTemplateAction": "Nouvelle action (vierge)",
+
+    "apply_actions": "Appliquer les actions au Patrimoine",
 
 
     /* Units */
@@ -325,6 +339,7 @@
     "u_years": "années",
     "u_kwhEF": "kWhEF",
     "u_kwhEF_year": "kWhEF / an",
+    "u_kwhEF_euro": "kWhEF / € HT",
     "u_euro_kwhEF": "€ HT / kWhEF",
     "u_percent": "%",
     "u_m3": "m³",

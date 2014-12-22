@@ -103,6 +103,11 @@ Meteor.startup(function () {
                     labels: ["office", "retail", "residential"],
                     portfolio_id: ""
                 },
+                {
+                    name: 'conformity_options',
+                    labels: ["compliant", "not_compliant_minor", "not_compliant_major"],
+                    portfolio_id: ""
+                },
 
             ];
 
@@ -164,6 +169,84 @@ Meteor.startup(function () {
         console.log('created endUse!');
 
     };
+
+    if(Actions.find().count() === 0) {
+        var data = [
+                {
+                    "name":"robinet thermostatique",
+                    "logo":"/icon/actionIcons/iconmonstr-volume-control-2-icon-256.png",
+                    "opportunity":"chauffage",
+                    "project_type":"classic",
+                    "technical_field":"heating_terminal",
+                    "feasable_while_occupied":"no",
+                    "priority":"high",
+                    "impact_assessment_general":{
+                        "comfort":"thermic",
+                        "technical_compliance_a":"not_compliant_minor",
+                        "regulatory_compliance":"no",
+                        "residual_lifetime":"NA"
+                    },
+                    "design_duration":3,
+                    "works_duration":2,
+                    "action_lifetime":15,
+                    "impact_assessment_energy":{
+                        "per_cent":"5"
+                    },
+                    "investment":{
+                        "ratio":"5"
+                    },
+                    "operating":{
+                        "ratio":"0.5"
+                    },
+                    "raw_roi":0,
+                    "actualised_roi":0,
+                    "value_analysis":0,
+                    "lec":0,
+                    "internal_return":0,
+                    "action_type":"generic"
+                },
+                {
+                    "name":"Désembouage des réseaux",
+                    "logo":"/icon/actionIcons/iconmonstr-loading-14-icon-256.png",
+                    "opportunity":"chauffage",
+                    "project_type":"cr",
+                    "technical_field":"thermal_delivery",
+                    "feasable_while_occupied":"yes",
+                    "priority":"high",
+                    "impact_assessment_general":{
+                        "comfort":"NA",
+                        "technical_compliance_a":"NA",
+                        "regulatory_compliance":"no",
+                        "residual_lifetime":"NA"
+                    },
+                    "design_duration":1,
+                    "works_duration":1,
+                    "action_lifetime":3,
+                    "impact_assessment_energy":{
+                        "per_cent":"1"
+                    },
+                    "investment":{
+                        "cost":"3000"
+                    },
+                    "raw_roi":0,
+                    "actualised_roi":0,
+                    "value_analysis":0,
+                    "lec":0,
+                    "internal_return":0,
+                    "action_type":"generic"
+                }
+
+
+            ];
+
+        _.each(data, function(item) {
+            Actions.insert( item );
+        });
+
+        // console.log('created endUse!');
+
+    };
+
 
   if (Lists.find().count() === 0) {
     var data = [

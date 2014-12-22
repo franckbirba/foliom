@@ -47,6 +47,24 @@ Template.fluids.helpers({
   }
 });
 
+// Helpers for Fluid types and Fluid providers
+Template.fluids.helpers({
+    fluidTypesForCurrentEstate: function () {
+        return Selectors.find({
+            $or: [
+                { // get fluidTypes that are generic (no estate_id)
+                    "name": "fluid_type",
+                    "estate_id": { $exists: false }
+                },
+                { // and get fluidTypes that are linked to this estate
+                    "name": "fluid_type",
+                    "estate_id": Session.get('current_estate_doc')._id
+                 }
+            ]
+        }).fetch();
+      },
+});
+
 Template.fluids.events({
   'click .addFluidBtn' : function(event){
      event.preventDefault();

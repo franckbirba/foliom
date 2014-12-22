@@ -1,0 +1,66 @@
+<template name="actionsList">
+<div>
+
+    <div class="row">
+
+        <div class="col-md-3 actionTitle">
+
+            <div>
+                <img src="/icon/actionIcons/iconmonstr-gear-10-icon-256.png" width=100>
+                <br/>
+                <h4>{{_ "actionList_title"}}</h4>
+            </div>
+
+            <div class="newActionBtn">
+                <a class="btn btn-default newGenericActionBtn" role="button">{{_ "new_generic_action"}}</a>
+            </div>
+
+            <div class="newActionBtn">
+                <a class="btn btn-default" role="button">Appliquer les Actions</a>
+            </div>
+
+        </div>
+
+        <div class="col-md-9">
+
+            <div class="actionGrid">
+                {{#each getMasterActions}}
+                    <div class="actionList newActionFromMaster">
+                        <a> <img src="{{getActionLogo}}" width=50></a>
+                        <div>{{name}}</div>
+                    </div>
+                {{/each}}
+
+                {{#each getUserTemplateActions}}
+                    <div class="actionList actionUserTemplate">
+                        <img src="{{getActionLogo}}" width=50>
+                        <div>{{name}}</div>
+                    </div>
+                {{/each}}
+
+                <!-- And one button to create a user_template Action -->
+                    <div class="actionList actionCreate">
+                        <a href="" class="newUserTempalteAction">
+                            <img src="/icon/actionIcons/iconmonstr-plus-5-icon-256.png" width=50>
+                            <div>{{_ "newUserTemplateAction"}}</div>
+                        </a>
+                    </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="actionStuff">
+        - DEV - All actions:
+        <ul>
+            {{#each getActions}}
+              <!-- <li><a href="#" data-toggle="modal" data-target="#estateForm" class="update_estate" >Estate: {{estate_name}} - id: {{_id}}</a></li> -->
+              <li>Action: {{name}} - id: {{_id}}</li>
+            {{/each}}
+        </ul>
+
+    </div>
+
+</div>
+</template>
