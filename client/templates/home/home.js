@@ -1,5 +1,4 @@
-Template.home.events(
-	{
+Template.home.events({
   'click .js-logout': function() {
     Meteor.logout();
 		Router.go('signin');
@@ -11,18 +10,23 @@ Template.home.events(
  //      Router.go('listsShow', Lists.findOne({userId: {$exists: false}}));
  //    }
   	},
-		'click #login-buttons-logout': function() {
-	    Meteor.logout();
-			Router.go('signin');
-		},
-		'click .en-lang': function() {
-			TAPi18n.setLanguage('en');
-		},
-		'click .fr-lang': function() {
-			TAPi18n.setLanguage('fr');
-		}
-	}
-);
+	'click #login-buttons-logout': function() {
+    Meteor.logout();
+		Router.go('signin');
+	},
+	'click .en-lang': function() {
+		TAPi18n.setLanguage('en');
+	},
+	'click .fr-lang': function() {
+		TAPi18n.setLanguage('fr');
+	},
+    'click .sextan': function() {
+        Router.go('observatory');
+    },
+    'click .compass': function() {
+        Router.go('actionHome');
+    },
+});
 
 Template.home.helpers({
   username: function () {
