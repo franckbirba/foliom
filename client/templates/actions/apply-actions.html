@@ -21,16 +21,18 @@
         </div>
 
         <div class="col-md-4">
-            ActionList
-                {{#each getUsableActions}}
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="">
-                        {{name}}
-                    </label>
-                </div>
-                {{/each}}
 
+            <div>
+                ActionList: {{currentBuildingName}}
+                    {{#each getUsableActions}}
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="{{_id}}" {{isChecked}}>
+                            {{name}}
+                        </label>
+                    </div>
+                    {{/each}}
+            </div>
 
 
 

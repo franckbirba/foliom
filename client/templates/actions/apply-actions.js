@@ -1,5 +1,8 @@
 Template.applyActions.rendered = function () {
 
+    // clear session var
+    Session.set('current_building_doc', null);
+
     if ($("#portfolioSelect").val()){
         Session.set('current_portfolio_doc',
                 Portfolios.findOne( $("#portfolioSelect").val() )
@@ -11,6 +14,41 @@ Template.applyActions.rendered = function () {
             Portfolios.findOne( $("#portfolioSelect").val() )
         );
     });
+
+    // monitor current_building_doc and set the checkboxes accordingly
+    // Tracker.autorun(function () {
+    //     var currBuilding = Session.get('current_building_doc');
+
+    //     var existingChildActions = Actions.find({
+    //                                 "action_type":"child",
+    //                                 "building_id": currBuilding._id
+    //                                 },
+    //                                 {sort: {name:1}}
+    //                                 ).fetch();
+
+    //     $( "input[type=checkbox]" ).each(function( index ) {
+    //         var currentAction = Actions.find({_id: $(this).val()}).fetch();
+
+    //         if ( _.contains(existingChildActions, $(this).val() ) ) { // check if current Action has a child associated to the building
+
+    //         }
+    //         // $(this).is(':checked')
+    //     });
+
+
+
+    // });
+
+
+    // $( "input[type=checkbox]" ).on( "click", function() {
+    //     console.log( $(this).val() + " is checked!" );
+    // });
+    // $("input[type=checkbox]:checked").each(
+        //     function() {
+        //        // Insérer son code ici
+        //        alert($(this).attr("id"));
+        //     }
+        // );
 
 
 };
@@ -33,3 +71,46 @@ Template.applyActions.helpers(
         }
     }
 );
+
+Template.applyActions.helpers({
+    currentBuildingName: function(){
+        if (Session.get('current_building_doc').building_name) {
+            return Session.get('current_building_doc').building_name;
+        }
+    }
+});
+
+// Template.applyActions.helpers({
+//     isChecked: function(){
+//         //get all child Actions of the current Building
+//         existingChildActions = Actions.find({
+//                                     "action_type":"child",
+//                                     "building_id": currBuilding._id
+//                                     },
+//                                     {sort: {name:1}}
+//                                     ).fetch();
+
+//         if ( _.contains(existingChildActions, this.name) ) {
+//             return "checked";
+//         }
+//     }
+// });
+
+Template.applyActions.events({
+    'change .checkbox': function(event) {
+        // console.log(this);
+        if (event.target.checked) {
+            var childActionToCreate = this;
+            console.log(childActionToCreate);
+        }
+
+        //Check if the Action is already associated
+        // var actionExists = Actions.findOne({
+        //     action_type: "child",
+        //     name: this.name,
+        //     building_id: Session.get('current_building_doc')._id,
+        // });
+
+        // console.log(actionExists);
+  }
+});

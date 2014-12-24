@@ -160,7 +160,7 @@ Template.treeTplt.rendered = function () {
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
           nodeUpdate.select("circle")
-              .attr("r", 4.5)
+              .attr("r", 14.5)
               .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
           nodeUpdate.select("text")
@@ -227,7 +227,7 @@ Template.treeTplt.rendered = function () {
                             portfolio_id: tmp_current_portfolio_doc._id,
                             building_name: d.name
                         });
-                console.log(clickedBuilding);
+                Session.set('current_building_doc', clickedBuilding);
             }
             if (d.depth == 2) { // Depth==2 means it's an action
                 console.log("I'm an action!");
