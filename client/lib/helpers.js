@@ -56,6 +56,15 @@ Template.registerHelper("current_estate_name_H",
     }
 );
 
+// Return current estate_name
+Template.registerHelper("current_portfolio_name_H",
+    function(){
+        return Session.get('current_portfolio_doc')
+            ? Session.get('current_portfolio_doc').name
+            : "PORTFOLIO NOT DEFINED";
+    }
+);
+
 Template.registerHelper("getProfilePicture",
     function(){
         var profile = Meteor.user().profile;

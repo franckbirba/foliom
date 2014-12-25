@@ -16,7 +16,7 @@ Template.pie.rendered = function () {
     svg.append("g")
         .attr("class", "lines");
 
-    var width = 300,
+    var width = 250,
         height = 250,
         radius = Math.min(width, height) / 2;
 

@@ -102,6 +102,8 @@ Template.applyActions.events({
         if (event.target.checked) {
             var childActionToCreate = this;
             console.log(childActionToCreate);
+
+            // childActionToCreate.
         }
 
         //Check if the Action is already associated

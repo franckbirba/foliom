@@ -1,8 +1,3 @@
-svg {
-    width: 100%;
-    height: 100%;
-}
-
 path.slice{
     stroke-width:2px;
 }
@@ -14,8 +9,14 @@ polyline{
     fill: none;
 }
 
+/*svg {
+    width: 100%;
+    height: 100%;
+}*/
+
 .piechart {
     height: 240px;
+    width: 100%;
 }
 
 .legend rect {

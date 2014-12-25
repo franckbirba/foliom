@@ -1,0 +1,17 @@
+.DPEchart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: start;
+}
+
+#DPEchart1 rect {
+  fill: rgb(101, 143, 101);
+}
+
+#DPEchart2 rect {
+  fill: rgb(142, 96, 179);
+}
+
+#DPEchart2 {
+    float: right;
+}

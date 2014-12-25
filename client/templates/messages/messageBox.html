@@ -2,16 +2,16 @@
     <div class="panel panel-primary chat">
 
         <div class="panel-heading">
-            <span class="glyphicon glyphicon-comment"></span> Chat
+            <span class="glyphicon glyphicon-comment"></span> {{_ "messages"}}
         </div>
 
         <div class="panel-body chat-panel" id="messages">
             <ul class="chat" >
                 {{#each messages}}
-                <li class="left clearfix" id=""><span class="chat-img pull-left">
-                    <!-- <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" /> -->
-                    <img src="{{getProfilePicture}}" width=50 class="img-circle">
-                </span>
+                <li class="left clearfix" id="">
+                    <span class="chat-img pull-left">
+                        <img src="{{getProfilePicture}}" width=40 class="img-circle">
+                    </span>
                     <div class="chat-body clearfix">
                         <div class="header">
                             <strong class="primary-font">{{name}}</strong> <small class="pull-right text-muted">
