@@ -72,6 +72,7 @@ minimongo@1.0.6
 mobile-status-bar@1.0.2
 mongo@1.0.10
 mongo-livedata@1.0.7
+mpowaga:string-template@0.1.0
 mrt:moment@2.6.0
 nemo64:bootstrap@3.3.0_1
 nemo64:bootstrap-data@3.3.0_1
@@ -79,6 +80,7 @@ npm-bcrypt@0.7.7
 observe-sequence@1.0.4
 ordered-dict@1.0.2
 raix:eventemitter@0.1.1
+raix:handlebar-helpers@0.1.2
 random@1.0.2
 reactive-dict@1.0.5
 reactive-var@1.0.4
@@ -103,3 +105,4 @@ vazco:maps@0.0.1
 webapp@1.1.5
 webapp-hashing@1.0.2
 yogiben:autoform-file@0.1.7
+yogiben:autoform-modals@0.2.7
