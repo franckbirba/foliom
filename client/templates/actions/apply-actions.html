@@ -1,7 +1,46 @@
 <template name="applyActions">
 <div>
 
+    <div>
+        Sélectionnez votre patrimoine:
+        <select class="form-control" id="portfolioSelect">
+            <option value="" disabled selected>Select your Portfolio</option>
+            {{#each getPortfolioList}}
+                <option value="{{_id}}">{{name}}</option>
+            {{/each}}
+        </select>
+    </div>
 
+    <br/>
+    <br/>
+
+    <div class="row">
+
+        <div class="col-md-8 treeViz">
+            {{> treeTplt }}
+        </div>
+
+        <div class="col-md-4">
+
+            <div>
+                ActionList: {{currentBuildingName}}
+                    {{#each getUsableActions}}
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="{{_id}}" {{isChecked}}>
+                            {{name}}
+                        </label>
+                    </div>
+                    {{/each}}
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
 
 </div>
 </template>

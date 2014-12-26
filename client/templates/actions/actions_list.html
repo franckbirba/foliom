@@ -16,7 +16,7 @@
             </div>
 
             <div class="newActionBtn">
-                <a class="btn btn-default" role="button">Appliquer les Actions</a>
+                <a href="/applyActions" class="btn btn-default" role="button">Appliquer les Actions</a>
             </div>
 
         </div>
@@ -24,7 +24,7 @@
         <div class="col-md-9">
 
             <div class="actionGrid">
-                {{#each getMasterActions}}
+                {{#each getGenericActions}}
                     <div class="actionList newActionFromMaster">
                         <a> <img src="{{getActionLogo}}" width=50></a>
                         <div>{{name}}</div>
@@ -52,11 +52,11 @@
     </div>
 
     <div class="actionStuff">
-        - DEV - All actions:
+        - DEV - All child actions:
         <ul>
-            {{#each getActions}}
+            {{#each getChildActions}}
               <!-- <li><a href="#" data-toggle="modal" data-target="#estateForm" class="update_estate" >Estate: {{estate_name}} - id: {{_id}}</a></li> -->
-              <li>Action: {{name}} - id: {{_id}}</li>
+              <li>Action: {{name}} - id: {{_id}} - {{action_type}} - building_id {{building_id}} - action_template_id {{action_template_id}}</li>
             {{/each}}
         </ul>
 
