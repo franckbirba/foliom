@@ -9,10 +9,11 @@ Template.actionsList.rendered = function () {
 
 Template.actionsList.helpers(
     {
-        getMasterActions: function(){
+        getGenericActions: function(){
             return Actions.find({
-               "estate_id": { $exists: false }
-            }).fetch(); //ToDo : renvoyer les bonnes actions
+               "estate_id": { $exists: false },
+               "action_type": "generic"
+            }).fetch();
         }
     }
 );
@@ -21,8 +22,20 @@ Template.actionsList.helpers(
     {
         getUserTemplateActions: function(){
             return Actions.find({
-               "estate_id": Session.get('current_estate_doc')._id
-            }).fetch(); //ToDo : renvoyer les bonnes actions
+               "estate_id": Session.get('current_estate_doc')._id,
+               "action_type": "user_template"
+            }).fetch();
+        }
+    }
+);
+
+Template.actionsList.helpers(
+    {
+        getChildActions: function(){
+            return Actions.find({
+               "estate_id": Session.get('current_estate_doc')._id,
+               "action_type": "child"
+            }).fetch();
         }
     }
 );

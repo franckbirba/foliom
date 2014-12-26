@@ -1,43 +1,179 @@
 <template name="buildingDetail">
     <div class="container">
 
-        <div class="row">
-            <div class="col-md-5">
-                <p>I display Buildings!</p>
-                <div>
-                    buildingId is: {{_id}} <br/>
-                    building_name is: {{building_name}}
-                </div>
-
-
-                <div>
-                    {{#each getLeases}}
-                         <br/>
-                        <div>
-                            Lease name is: {{_ lease_name}} <br/>
-                            Lease usage is: {{_ lease_usage}} <br/>
-                            DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}} <br/>
-                            DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
-                        </div>
-                    {{/each}}
-                </div>
-
-            </div>
-
-
-            <div class="col-md-5">
-                {{> messageBox}}
-            </div>
+        <div class="buildingTitle">
+            {{current_portfolio_name_H}} -
+            <span class="buildingName">{{building_name}}</span> -
+            <select class="form-control" id="leaseSelect">
+                <option value="all_leases" selected>All leases</option>
+                {{#each getLeases}}
+                    <option value="{{_id}}">{{lease_name}}</option>
+                {{/each}}
+            </select>
         </div>
 
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-4">
+
+                <div class="panel ep_panel">
+                  <div class="panel-heading">
+                    <b>{{_ "summary"}}</b>
+                  </div>
+
+                  <div class="panel-body" id="buildingSummary">
+                    buildingId is: {{_id}} <br/>
+                    building_name is: {{building_name}}
+
+                    <div>
+                        {{#each getLeases}}
+                            <br/>
+                            <div>
+                                Lease name is: {{_ lease_name}} <br/>
+                                Lease usage is: {{_ lease_usage}} <br/>
+                                DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}} <br/>
+                                DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
+                            </div>
+                        {{/each}}
+                    </div>
+
+                  </div>
+                </div>
+
+            </div> <!-- End of col -->
+
+
+            <div class="col-md-8">
+
+                <div class="panel ep_panel">
+                  <div class="panel-heading">
+                    <b>{{_ "assessment"}}</b>
+                  </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="panel ep_panel">
+                          <div class="panel-body">
+
+                            <div class="blockTitle">Certifications</div>
+
+                          </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="panel ep_panel">
+                          <div class="panel-body">
+
+                            {{> DPEchart}}
+
+                          </div>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
 
-            <div class="col-md-7">
+        </div>
+
+
+        <!-- NEW ROW -->
+
+        <div class="row">
+            <div class="col-md-4">
+                {{> messageBox}}
+            </div>
+
+           <!--  <div class="col-md-4">
                 {{> pie}}
+            </div> -->
+
+            <div class="col-md-5">
+                <div class="panel ep_panel">
+                    <div class="panel-body">
+                        <div class="blockTitle">Consommations énergétiques par usage</div>
+                        {{> pie}}
+                    </div>
+                </div>
             </div>
+
+            <div class="col-md-3">
+                <div class="panel ep_panel">
+                    <div class="panel-body">
+                        <div class="blockTitle">Water consumption</div>
+                        <table class="waterTable">
+                            <tr>
+                                <td colspan="2">102 m3</td>
+                            </tr>
+                            <tr>
+                                <td>3 m3/pers</td>
+                                <td>3 m3/m2</td>
+                            </tr>
+                            <tr>
+                                <td>3 €</td>
+                                <td>3 €/m3</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- NEW ROW -->
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="panel ep_panel">
+                  <div class="panel-heading">
+                    <b>{{_ "actionRecap"}}</b>
+                  </div>
+
+                  <div class="panel-body">
+                    Action1 <br/>
+                    Action2
+
+                  </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-8">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="panel ep_panel">
+                            <div class="panel-body">
+                                <div class="blockTitle">{{_ "global_lifetime"}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel ep_panel">
+                            <div class="panel-body">
+                                <div class="blockTitle">{{_ "global_conformity"}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel ep_panel">
+                            <div class="panel-body">
+                                <div class="blockTitle">{{_ "global_comfort_index"}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
 
         </div>
 

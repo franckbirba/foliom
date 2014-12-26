@@ -37,6 +37,24 @@ AutoForm.hooks({
 
 Template.leaseForm.rendered = function () {
 
+        //Apply End-Use to correct field
+        var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
+
+        $(".end_use_name").each(function( index ) {
+            $(this).val( transr(endUses[index].end_use_name) );
+            $(this).prop("readonly","readonly") ;
+            // $(this).val( index );
+        });
+
+        $(".technical_compliance_name").each(function( index ) {
+            $(this).val( transr( technical_compliance_items[index]) );
+            $(this).prop("readonly","readonly") ;
+            // $(this).val( index );
+        });
+
+
+
+
         $(".tcc_lifetime").change(function(){
             $("[name='technical_compliance.global_lifetime']").val(
                 calc_qualitative_assessment_class(".tcc_lifetime")

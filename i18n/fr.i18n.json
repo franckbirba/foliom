@@ -97,6 +97,10 @@
     "rented": "Locataire",
 
 
+    /* Building detail */
+    "summary": "Résumé",
+    "assessment": "Bilan",
+
 
     /* Leases */
 
@@ -185,7 +189,7 @@
     "acoustic": "Acoustique",
     "visual": "Visuel",
     "thermic": "Thermique",
-    "global_comfort_index": "Indice de confort global",
+    "global_comfort_index": "Indice global de confort",
     "cqa_comments": "Commentaires: retours utilisateurs",
 
     "technical_compliance": "Données techniques et conformité",
@@ -332,6 +336,9 @@
 
     "apply_actions": "Appliquer les actions au Patrimoine",
 
+
+    /* Message Box */
+    "messages": "Messages & Alertes",
 
     /* Units */
 

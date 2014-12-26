@@ -12,9 +12,13 @@
     border-bottom: 1px dotted #B3A9A9;
 }
 
+.chat-img {
+    margin-left: 5px;
+}
+
 .chat li.left .chat-body
 {
-    margin-left: 60px;
+    margin-left: 50px;
 }
 
 .chat li.right .chat-body
@@ -37,12 +41,13 @@
 .chat-panel
 {
     overflow-y: scroll;
-    height: 250px !important ;
+    height: 200px !important ;
+    background-color: #EDEDED !important;
 }
 
 .chat .panel-heading
 {
-    background-color: rgb(204, 204, 204) !important;
+    background-color: #B0C029 !important;
 }
 
 /*::-webkit-scrollbar-track
