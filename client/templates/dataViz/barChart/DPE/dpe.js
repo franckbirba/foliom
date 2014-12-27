@@ -1,4 +1,5 @@
 // http://www.d3noob.org/2013/07/arranging-more-than-one-d3js-graph-on.html
+// http://stackoverflow.com/questions/22060481/how-do-i-create-this-shape-in-svg
 
 Template.DPEchart.rendered = function () {
     var width = 170,

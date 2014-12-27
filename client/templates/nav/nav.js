@@ -1,3 +1,16 @@
+Template.nav.rendered = function () {
+
+
+};
+
+Tracker.autorun(function () {
+        if (Session.get('current_estate_doc') ) {
+            var estate_doc_id = Session.get('current_estate_doc')._id ;
+            Meteor.subscribe('configurations',  estate_doc_id) ;
+            console.log("I was here");
+        }
+    });
+
 Template.nav.events(
 	{
 	  'click .js-logout': function() {
@@ -29,7 +42,6 @@ Template.nav.events(
             Session.set('current_estate_doc', est );
 	        Session.set('editingMasterCfg', false);
 
-	        Meteor.subscribe('configurations', this._id);
 	        // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
 		}
 	}

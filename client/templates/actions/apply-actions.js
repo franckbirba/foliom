@@ -1,3 +1,9 @@
+/*
+- http://stackoverflow.com/questions/426258/checking-a-checkbox-with-jquery
+
+*/
+
+
 Template.applyActions.rendered = function () {
 
     // clear session var
