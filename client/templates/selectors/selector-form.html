@@ -8,19 +8,7 @@
           </div>
           <div class="modal-body">
 
-            {{> quickForm collection="Selectors" id="AFselectorForm"  type="insert" resetOnSuccess="true" fields="name, labels"}}
-
-            <!-- {{#autoForm collection="Estates" id="AFinsertEstateForm" doc=getEstate template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" type=getFormType resetOnSuccess="true"}}
-                <fieldset>
-                    {{> afQuickField name='estate_name'}}
-                    {{> afQuickField name='description'}}
-                    {{> afQuickField name='logo'}}
-                    {{> afQuickField name='users' options=users}}
-                </fieldset>
-                <button type="submit" class="btn btn-primary">{{getFormType}}</button>
-            {{/autoForm}} -->
-
-
+            {{> quickForm collection="Selectors" id="AFselectorForm" doc=getSelector type=getFormType resetOnSuccess="true" fields="name, labels"}}
 
           </div>
 

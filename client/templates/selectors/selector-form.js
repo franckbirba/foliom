@@ -10,13 +10,17 @@ AutoForm.hooks({
 
         },
         onSuccess: function(operation, result, template) {
-
-            if (operation == "insert") {
-                // $('#estateForm').modal('hide');
-
-            } else if (operation == "update") {
-                $('#estateForm').modal('hide');
-            }
+            $('#selectorFormModal').modal('hide');
         },
     }
+});
+
+Template.selectors.helpers({
+    getFormType: function(){
+        var update_selector = Session.get('update_selector');
+        return update_selector ? "insert" : "update";
+    },
+    getUser: function(){
+        return Session.get('update_user') ? Session.get('update_user') : null;
+    },
 });

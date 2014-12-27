@@ -20,6 +20,20 @@ Meteor.startup(function () {
           MasterCfg.estate_id = estateId;
           Configurations.insert(MasterCfg);
         },
+        updateSelector: function(selectorToUpdate, labelToUpdate){
+          // Selectors.update({name:"fluid_type", labels: "gas"}, { $pull: { "labels": "gas"} } );
+            searchQuery = {"name":selectorToUpdate, "labels": labelToUpdate};
+
+            if (Selectors.findOne(searchQuery).labels.length == 1) {
+                // If there's only one label in the item, the we delete it
+                Selectors.remove(searchQuery) ;
+            } else {
+                Selectors.update(
+                    searchQuery, //Search
+                    { $pull: { "labels": labelToUpdate} } // update query
+                  );
+            }
+        },
         myServerMethod: function(doc) {
           try {
             check(doc, Schema.User);
