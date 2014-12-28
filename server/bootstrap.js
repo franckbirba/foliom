@@ -109,7 +109,7 @@ Meteor.startup(function () {
                 },
                 {
                     name: 'fluid_provider',
-                    labels: ["EDF", "Poweo"],
+                    labels: ["EDF", "Poweo", "Lyonnaise des Eaux"],
                     portfolio_id: ""
                 },
                 {

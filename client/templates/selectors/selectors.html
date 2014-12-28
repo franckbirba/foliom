@@ -1,27 +1,55 @@
 <template name="selectors">
 <div class="page">
 
-    <div>
-        <h4>Fluid types</h4>
-        <i>Fluid types can only be deleted, not updated</i><br/>
+    <div class="row">
+        <div class="col-md-6">
 
-        <button class="btn btn-success addFluidTypeBtn" style="border:none !important;background-color:white;color:green;" data-toggle="modal" data-target="#selectorFormModal"><span class="glyphicon glyphicon-plus"></span></button>
+            <h4>Fluid types</h4>
+            <i>Fluid types can only be deleted, not updated</i><br/>
 
-        <ul class="list-group" style="width:400px;position:relative;">
-          {{#each fluidTypesForCurrentEstate}}
-             {{#each labels}}
+            <button class="btn btn-success addFluidTypeBtn" style="border:none !important;background-color:white;color:green;" data-toggle="modal" data-target="#selectorFormModal"><span class="glyphicon glyphicon-plus"></span></button>
 
-                <li class="list-group-item" >
-                    <!-- <span class="update-fluidTypes" style="width:100%" data-toggle="modal" data-target="#selectorFormModal">{{_ this.valueOf}}</span> -->
-                    <span class="update-fluidTypes" style="width:100%">{{_ this.valueOf}}</span>
+            <ul class="list-group" style="width:400px;position:relative;">
+              {{#each fluidTypesForCurrentEstate}}
+                 {{#each labels}}
 
-                    <span class="glyphicon glyphicon-trash btn btn-xs btn-danger remove-fluidTypes" style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;"></span>
+                    <li class="list-group-item" >
+                        <!-- <span class="update-fluidTypes" style="width:100%" data-toggle="modal" data-target="#selectorFormModal">{{_ this.valueOf}}</span> -->
+                        <span class="update-fluidTypes" style="width:100%">{{_ this.valueOf}}</span>
 
-                </li>
+                        <span class="glyphicon glyphicon-trash btn btn-xs btn-danger remove-fluidTypes" style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;"></span>
 
+                    </li>
+
+                  {{/each}}
               {{/each}}
-          {{/each}}
-        </ul>
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+
+            <h4>Fluid providers</h4>
+            <i>Fluid providers can only be deleted, not updated</i><br/>
+
+            <button class="btn btn-success addFluidProviderBtn" style="border:none !important;background-color:white;color:green;" data-toggle="modal" data-target="#selectorFormModal"><span class="glyphicon glyphicon-plus"></span></button>
+
+            <ul class="list-group" style="width:400px;position:relative;">
+              {{#each fluidProvidersForCurrentEstate}}
+                 {{#each labels}}
+
+                    <li class="list-group-item" >
+                        <!-- <span class="update-fluidTypes" style="width:100%" data-toggle="modal" data-target="#selectorFormModal">{{_ this.valueOf}}</span> -->
+                        <span class="update-fluidProviders" style="width:100%">{{_ this.valueOf}}</span>
+
+                        <span class="glyphicon glyphicon-trash btn btn-xs btn-danger remove-fluidProviders" style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;"></span>
+
+                    </li>
+
+                  {{/each}}
+              {{/each}}
+            </ul>
+        </div>
+
     </div>
 
     {{>SelectorForm}}
