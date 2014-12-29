@@ -75,46 +75,91 @@ Template.leaseForm.rendered = function () {
         });
 
         // Monitor fluid_consumption_meter and apply formulas
-        $(".fluidConsumptionMeter_fluidID").change(function(){
 
-            position = $(this).attr("name").split("."); // Extract position from smthg like fluid_consumption_meter.0.fluid_id
-            // So position[1] gives us the Index
 
-            var curr_fluid = $(this).val().split(" - ");
-            var curr_fluid_provider = curr_fluid[0];
-            var curr_fluid_type = curr_fluid[1];
+        Tracker.autorun(function () {
 
-            var correctFluid = _.where(currentConfigFluids,
-                {
-                    fluid_provider: curr_fluid_provider,
-                    fluid_type: curr_fluid_type
+            $("[name^='fluid_consumption_meter.'][name$='.yearly_cost']").each(function( index ) {
+            // "fluid_consumption_meter.0.yearly_cost"
+
+                var matchingFluid = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".fluid_id") ;
+                var matchingYearlySubscription = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".yearly_subscription") ;
+                var matchingFirstYearValue = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".first_year_value") ;
+
+                if (matchingFluid) {
+                    console.log("matchingFluid: "+matchingFluid);
+                    console.log("matchingYearlySubscription: "+matchingYearlySubscription);
+                    console.log("matchingFirstYearValue: "+matchingFirstYearValue);
+
+                    var curr_fluid = matchingFluid.split(" - ");
+                    var curr_fluid_provider = curr_fluid[0];
+                    var curr_fluid_type = curr_fluid[1];
+
+                    var correctFluid = _.where(currentConfigFluids,
+                        {
+                            fluid_provider: curr_fluid_provider,
+                            fluid_type: curr_fluid_type
+                        }
+                    )[0]; // force the first element (where returns an array)
+
+                    console.log("correctFluid: ");
+                    console.log(correctFluid);
+
+                    //target is for example fluid_consumption_meter.0.yearly_cost
+                    $("[name='fluid_consumption_meter." + index + ".yearly_cost']").val(
+                        matchingYearlySubscription +
+                            matchingFirstYearValue * correctFluid.yearly_values[0].cost // cost et pas evolution_index
+                    );
                 }
-            )[0]; // force the first element (where returns an array)
 
-            console.log(correctFluid);
-
-            //target is for example fluid_consumption_meter.0.first_year_value
-            $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val(
-                correctFluid.yearly_values[0].cost
-            );
+                // ToDo: create yearly Values
+            });
         });
 
-        // When fluid_consumption_meter(yearly_subscription) is entered: apply formula for Yearly cost
-        $(".fluidConsumptionMeter_yearlySubscription").keyup(function() {
-            position = $(this).attr("name").split("."); // Extract position
-
-            var yearly_subscription = $(this).val() ;
-            var meter = $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val();
-
-            var total = yearly_subscription*1 + meter*1 ;
 
 
-            // Set yearly_cost
-            $("[name='fluid_consumption_meter." + position[1] + ".yearly_cost']").val(
-                total
-            );
+        // $(".fluidConsumptionMeter_fluidID").change(function(){
 
-        });
+        //     position = $(this).attr("name").split("."); // Extract position from smthg like fluid_consumption_meter.0.fluid_id
+        //     // So position[1] gives us the Index
+
+        //     var curr_fluid = $(this).val().split(" - ");
+        //     var curr_fluid_provider = curr_fluid[0];
+        //     var curr_fluid_type = curr_fluid[1];
+
+        //     var correctFluid = _.where(currentConfigFluids,
+        //         {
+        //             fluid_provider: curr_fluid_provider,
+        //             fluid_type: curr_fluid_type
+        //         }
+        //     )[0]; // force the first element (where returns an array)
+
+        //     console.log(correctFluid);
+
+        //     //target is for example fluid_consumption_meter.0.first_year_value
+        //     $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val(
+        //         correctFluid.yearly_values[0].cost
+        //     );
+        // });
+
+        // // When fluid_consumption_meter(yearly_subscription) is entered: apply formula for Yearly cost
+        // $(".fluidConsumptionMeter_yearlySubscription").keyup(function() {
+        //     position = $(this).attr("name").split("."); // Extract position
+
+        //     var yearly_subscription = $(this).val() ;
+        //     var meter = $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val();
+
+        //     var total = yearly_subscription*1 + meter*1 ;
+
+
+        //     // Set yearly_cost
+        //     $("[name='fluid_consumption_meter." + position[1] + ".yearly_cost']").val(
+        //         total
+        //     );
+
+        // });
+
+
 
 
         // consumption_by_end_use - FORMULAS
