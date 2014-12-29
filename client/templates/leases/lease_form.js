@@ -98,6 +98,23 @@ Template.leaseForm.rendered = function () {
             );
         });
 
+        // When fluid_consumption_meter(yearly_subscription) is entered: apply formula for Yearly cost
+        $(".fluidConsumptionMeter_yearlySubscription").keyup(function() {
+            position = $(this).attr("name").split("."); // Extract position
+
+            var yearly_subscription = $(this).val() ;
+            var meter = $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val();
+
+            var total = yearly_subscription*1 + meter*1 ;
+
+
+            // Set yearly_cost
+            $("[name='fluid_consumption_meter." + position[1] + ".yearly_cost']").val(
+                total
+            );
+
+        });
+
 };
 
 /*
