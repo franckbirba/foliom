@@ -15,8 +15,8 @@ Template.mapCanvas2.rendered = function () {
 
         tmpl.newMap2 = new tmpl.mapEngine({
             div: '#map-canvas2',
-            lat: 51.10789,
-            lng: 17.03854,
+            lat: 48.9096436,
+            lng: 2.4393542,
             zoom: 6
         });
 
@@ -87,7 +87,7 @@ Template.mapCanvas2.rendered = function () {
                 // console.log(estate.estate_name);
             });;
 
-            tmpl.newMap2.fitLatLngBounds(buildingGeoList);
+            if (buildingGeoList.length >=0) { tmpl.newMap2.fitLatLngBounds(buildingGeoList) };
         });
         // address: addr(),
 

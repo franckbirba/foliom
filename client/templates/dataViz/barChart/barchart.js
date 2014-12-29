@@ -1,3 +1,12 @@
+/*
+- Simple Bar chart with axis: http://bl.ocks.org/mbostock/3885304
+- Sortable Bar chart: http://bl.ocks.org/mbostock/3885705
+- Using d3-tip to add tooltips to a d3 bar chart: http://bl.ocks.org/Caged/6476579
+-
+*/
+
+
+
 Template.barchart.rendered = function () {
     var width = 420,
     barHeight = 40;

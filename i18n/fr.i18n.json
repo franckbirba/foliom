@@ -61,6 +61,8 @@
     "fluid_water": "Eau",
     "fluid_heat": "Chaud",
     "fluid_id": "fluide",
+
+
     /* Estates */
 
     "estate_name": "Nom du Patrimoine",
