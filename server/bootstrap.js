@@ -17,6 +17,8 @@ Meteor.startup(function () {
         copyMasterCfg: function(estateId){
           var MasterCfg = Configurations.findOne({master:true});
           delete MasterCfg._id;
+          MasterCfg.master = false;
+          MasterCfg.creation_date = new Date();
           MasterCfg.estate_id = estateId;
           Configurations.insert(MasterCfg);
         },
@@ -69,7 +71,7 @@ Meteor.startup(function () {
             	cpi: 0,
         	},
         	fluids: [],
-        	mailing_list: "eggre"
+        	mailing_list: "admin@test.com"
 		};
 		var masterCfgId = Configurations.insert(tmpMasterConfig);
 		console.log('created master configuration ' + masterCfgId);
@@ -81,8 +83,10 @@ Meteor.startup(function () {
         var estate_id = Estates.insert(tmpConfig);
         console.log('inserted estate 77, ' + estate_id);
         var estateCfg = tmpMasterConfig;
-        delete estateCfg.master;
+        estateCfg.master = false;
+        estateCfg.creation_date = new Date();
         estateCfg.estate_id = estate_id;
+        estateCfg.mailing_list = "test@test.com"
         var cfgId = Configurations.insert(estateCfg);
         console.log('Inserted Cfg for estate 77 ' +  cfgId);
     }
