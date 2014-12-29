@@ -37,6 +37,13 @@ AutoForm.hooks({
 
 Template.leaseForm.rendered = function () {
 
+    var currentConfigFluids = Configurations.findOne(
+                {
+                    "master": { $exists: false }
+                }
+            ).fluids;
+
+
         //Apply End-Use to correct field
         var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
@@ -77,12 +84,6 @@ Template.leaseForm.rendered = function () {
             var curr_fluid_provider = curr_fluid[0];
             var curr_fluid_type = curr_fluid[1];
 
-            var currentConfigFluids = Configurations.findOne(
-                {
-                    "master": { $exists: false }
-                }
-            ).fluids;
-
             var correctFluid = _.where(currentConfigFluids,
                 {
                     fluid_provider: curr_fluid_provider,
@@ -114,6 +115,31 @@ Template.leaseForm.rendered = function () {
             );
 
         });
+
+
+        // consumption_by_end_use - FORMULAS
+        // interesting JQselector: $("[name^='consumption_by_end_use.'][name$='.end_use_name']")
+
+        // var currentEnergyFluids = Configurations.findOne({"fluids.fluid_type": {$in: ["fluid_electricity", "fluid_heat"]}});
+
+        // find all Elecrticity or Heat fluids
+        console.log(currentConfigFluids);
+
+        var ElecFluids = _.where(currentConfigFluids,
+                {fluid_type: "fluid_electricity"}
+            );
+        var HeatFluids = _.where(currentConfigFluids,
+                {fluid_type: "fluid_heat"}
+            );
+        var ElecAndHeatFluids = ElecFluids.concat(HeatFluids);
+
+
+        // console.log( JSON.stringify(ElecAndHeatFluids) );
+
+        // $("[name='consumption_by_end_use.6.end_use_name']").val(
+
+        // );
+
 
 };
 
