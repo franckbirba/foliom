@@ -54,7 +54,7 @@ Template.leaseForm.rendered = function () {
 
 
 
-
+        // Set values on change
         $(".tcc_lifetime").change(function(){
             $("[name='technical_compliance.global_lifetime']").val(
                 calc_qualitative_assessment_class(".tcc_lifetime")
@@ -67,7 +67,43 @@ Template.leaseForm.rendered = function () {
             )
         });
 
+        // Monitor fluid_consumption_meter and apply formulas
+        $(".fluidConsumptionMeter_fluidID").change(function(){
+
+            position = $(this).attr("name").split("."); // Extract position from smthg like fluid_consumption_meter.0.fluid_id
+            // So position[1] gives us the Index
+
+            var curr_fluid = $(this).val().split(" - ");
+            var curr_fluid_provider = curr_fluid[0];
+            var curr_fluid_type = curr_fluid[1];
+
+            var currentConfigFluids = Configurations.findOne(
+                {
+                    "master": { $exists: false }
+                }
+            ).fluids;
+
+            var correctFluid = _.where(currentConfigFluids,
+                {
+                    fluid_provider: curr_fluid_provider,
+                    fluid_type: curr_fluid_type
+                }
+            )[0]; // force the first element (where returns an array)
+
+            console.log(correctFluid);
+
+            //target is for example fluid_consumption_meter.0.first_year_value
+            $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val(
+                correctFluid.yearly_values[0].cost
+            );
+        });
+
 };
+
+/*
+[Object fluid_provider: "EDF"fluid_type: "fluid_electricity"global_evolution_index: 0.029yearly_values: Array[31]0: Objectcost: 1evolution_index: 0year: 2014
+
+*/
 
 // Template.leaseForm.events({
 //   'keyup [name^="rent"]': function(event) {
