@@ -12,6 +12,11 @@
   fill: rgb(142, 96, 179);
 }
 
+#DPEchart1 {
+    margin-left: 10px;
+}
+
 #DPEchart2 {
     float: right;
+    margin-right: 10px;
 }
