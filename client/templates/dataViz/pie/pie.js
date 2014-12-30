@@ -20,6 +20,7 @@ Template.pie.rendered = function () {
         height = 230,
         radius = Math.min(width, height) / 2;
 
+    var legend = null;
 
     var pie = d3.layout.pie()
         .sort(null)
@@ -53,7 +54,6 @@ Template.pie.rendered = function () {
 
         //Get the relevant Data
         var lease = Leases.findOne( query );
-        console.log(lease.consumption_by_end_use);
 
         // Force to the first Lease for the moment.
         var txt_domain = lease.consumption_by_end_use.map(function(item){
@@ -62,7 +62,6 @@ Template.pie.rendered = function () {
         var data = lease.consumption_by_end_use.map(function(item){
             return { label: item.end_use_name, value: item.first_year_value }
         });
-        console.log(data);
 
         // Original text domain: ["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"]
 
@@ -105,6 +104,10 @@ Template.pie.rendered = function () {
 
             slice.exit()
                 .remove();
+
+            if(legend){
+                svg.selectAll(".legend").remove();
+            }
 
             legend = svg.append("g")
                 .attr("class","legend")
