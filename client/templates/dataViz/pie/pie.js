@@ -43,34 +43,77 @@ Template.pie.rendered = function () {
 
     var key = function(d){ return d.data.label; };
 
-    //Get the relevant Data
-    var leases = Leases.find( { building_id: Session.get('current_building_doc')._id },
-                    {sort: {name:1}}
-                    ).fetch();
+    Tracker.autorun(function () {
 
-    // Force to the first Lease for the moment.
-    var txt_domain = leases[0].consumption_by_end_use.map(function(item){
-        return item.end_use_name;
+        if (Session.get("current_lease_id")) {
+            query = {_id:Session.get("current_lease_id")};
+        } else {
+            query = {};
+        }
+
+        //Get the relevant Data
+        var lease = Leases.findOne( query );
+        console.log(lease.consumption_by_end_use);
+
+        // Force to the first Lease for the moment.
+        var txt_domain = lease.consumption_by_end_use.map(function(item){
+            return item.end_use_name;
+        });
+        var data = lease.consumption_by_end_use.map(function(item){
+            return { label: item.end_use_name, value: item.first_year_value }
+        });
+        console.log(data);
+
+        // Original text domain: ["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"]
+
+        var color = d3.scale.ordinal()
+            .domain(txt_domain)
+            .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+        // function randomData (){
+        //     var labels = color.domain();
+        //     return labels.map(function(label){
+        //         return { label: label, value: Math.random() }
+        //     });
+        // }
+
+        // change(randomData());
+        change(data);
+
+        function change(data) {
+
+            /* ------- PIE SLICES -------*/
+            var slice = svg.select(".slices").selectAll("path.slice")
+                .data(pie(data), key);
+
+            slice.enter()
+                .insert("path")
+                .style("fill", function(d) { return color(d.data.label); })
+                .attr("class", "slice")
+                .attr("data-legend",function(d) { return transr(d.data.label)() });
+
+            slice
+                .transition().duration(1000)
+                .attrTween("d", function(d) {
+                    this._current = this._current || d;
+                    var interpolate = d3.interpolate(this._current, d);
+                    this._current = interpolate(0);
+                    return function(t) {
+                        return arc(interpolate(t));
+                    };
+                })
+
+            slice.exit()
+                .remove();
+
+            legend = svg.append("g")
+                .attr("class","legend")
+                .attr("transform","translate(120,0)")
+                .style("font-size","12px")
+                .call(d3.legend);
+        };
+
     });
-    var data = leases[0].consumption_by_end_use.map(function(item){
-        return { label: item.end_use_name, value: item.first_year_value }
-    });
-
-    // Original text domain: ["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"]
-
-    var color = d3.scale.ordinal()
-        .domain(txt_domain)
-        .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-    // function randomData (){
-    //     var labels = color.domain();
-    //     return labels.map(function(label){
-    //         return { label: label, value: Math.random() }
-    //     });
-    // }
-
-    // change(randomData());
-    change(data);
 
     d3.select(".randomize")
         .on("click", function(){

@@ -2,7 +2,7 @@
 
 Template.messageBox.rendered = function () {
 
-    console.log( Router.current().route.getName() );
+    // console.log( Router.current().route.getName() );
 
     $('#messages').scrollTop($('#messages').prop("scrollHeight"));
 

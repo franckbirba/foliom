@@ -1,15 +1,14 @@
 Template.nav.rendered = function () {
-
-
-};
-
-Tracker.autorun(function () {
+    // Subscribe for the correct configurations
+    Tracker.autorun(function () {
         if (Session.get('current_estate_doc') ) {
             var estate_doc_id = Session.get('current_estate_doc')._id ;
             Meteor.subscribe('configurations',  estate_doc_id) ;
             console.log("I was here");
         }
     });
+
+};
 
 Template.nav.events(
 	{
