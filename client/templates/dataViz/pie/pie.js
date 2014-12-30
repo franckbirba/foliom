@@ -16,8 +16,8 @@ Template.pie.rendered = function () {
     svg.append("g")
         .attr("class", "lines");
 
-    var width = 250,
-        height = 250,
+    var width = 230,
+        height = 230,
         radius = Math.min(width, height) / 2;
 
 
@@ -43,10 +43,18 @@ Template.pie.rendered = function () {
 
     var key = function(d){ return d.data.label; };
 
-    // ToDo : fetch only the right EndUses
-    var txt_domain = EndUse.find().fetch().map(function(x) {
-        return x.end_use_name;
-    }); // will return ["end_use_heating", "end_use_AC", ... , "end_use_specific"]
+    //Get the relevant Data
+    var leases = Leases.find( { building_id: Session.get('current_building_doc')._id },
+                    {sort: {name:1}}
+                    ).fetch();
+
+    // Force to the first Lease for the moment.
+    var txt_domain = leases[0].consumption_by_end_use.map(function(item){
+        return item.end_use_name;
+    });
+    var data = leases[0].consumption_by_end_use.map(function(item){
+        return { label: item.end_use_name, value: item.first_year_value }
+    });
 
     // Original text domain: ["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"]
 
@@ -54,14 +62,15 @@ Template.pie.rendered = function () {
         .domain(txt_domain)
         .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-    function randomData (){
-        var labels = color.domain();
-        return labels.map(function(label){
-            return { label: label, value: Math.random() }
-        });
-    }
+    // function randomData (){
+    //     var labels = color.domain();
+    //     return labels.map(function(label){
+    //         return { label: label, value: Math.random() }
+    //     });
+    // }
 
-    change(randomData());
+    // change(randomData());
+    change(data);
 
     d3.select(".randomize")
         .on("click", function(){

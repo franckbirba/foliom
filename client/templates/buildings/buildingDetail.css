@@ -8,6 +8,10 @@
     color: #B0C029 ;
 }
 
+#leaseSelect {
+    width: 150px;
+}
+
 .ep_panel .panel
 {
     margin-bottom: 25px;

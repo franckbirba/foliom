@@ -18,3 +18,14 @@ Template.buildingDetail.helpers({
         // };
     }
 });
+
+
+Template.buildingDetail.events({
+    'change #leaseSelect': function(event) {
+        if (event.target.value == "all_leases") {
+            Session.set("current_lease_id", null);
+        } else {
+            Session.set("current_lease_id", event.target.value);
+        }
+   }
+});

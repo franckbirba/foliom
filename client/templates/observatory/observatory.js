@@ -6,35 +6,13 @@ Template.observatory.rendered = function () {
 
 // Get list of all Portfolios for current Estate, sorted by alpha (on name)
 Template.observatory.helpers({
-    // getPortfolioList: function(){ /// NOW A GLOBAL HELPER
-
-    //     var curr_est_doc = Estates.findOne(Session.get('current_estate_doc')._id)
-
-    //     // only return smthg if Session.get('current_estate_doc') has a value
-    //     if (curr_est_doc !== undefined && curr_est_doc.hasOwnProperty("portfolio_collection") ) {
-    //         //console.log("I display current Portfolios");
-    //         var result = Portfolios.find({_id: {$in : curr_est_doc.portfolio_collection} },
-    //                 {sort: {name:1}}
-    //                 ).fetch();
-    //         console.log(result);
-    //         return result;
-    //     };
-    // },
     getBuildingList: function(){
         if ( Session.get('current_portfolio_doc') !== undefined ) {
             return Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
-                        {sort: {name:1}}
+                        {sort: {building_name:1}}
                         ).fetch();
         }
     },
-    // displayName: function(){
-    //     if ( Session.get('portfolio_level') !== undefined && Session.get('portfolio_level') ) {
-    //         return this.name ;
-    //     }
-    //     if ( Session.get('portfolio_level') !== undefined && !Session.get('portfolio_level') ) {
-    //         return this.building_name ;
-    //     }
-    // },
     isBuilding: function(){
         if ( Session.get('current_portfolio_doc') !== undefined ) {
             return true ;
@@ -87,7 +65,7 @@ Template.observatory.events({
                     var newId = Buildings.insert(tmpBuilding);
                     console.log('New building %s: %s created', tmpBuilding.building_name, newId);
                     });
-                       
+
                   });
               }
           },

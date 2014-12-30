@@ -39,7 +39,7 @@ Template.leaseForm.rendered = function () {
 
     var currentConfigFluids = Configurations.findOne(
                 {
-                    "master": { $exists: false }
+                    "master": false
                 }
             ).fluids;
 
@@ -150,34 +150,15 @@ Template.leaseForm.rendered = function () {
             });
             console.log("endUseVal_array is: "+ endUseVal_array);
             var specificFieldValue = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
-            console.log(specificFieldValue);
             var totalConsumption = AutoForm.getFieldValue("insertLeaseForm", "consumption_by_end_use_total") ;
-            console.log('totalConsumption is:' + totalConsumption);
             $("[name='consumption_by_end_use.6.first_year_value']").val(
                 totalConsumption - specificFieldValue
             ) ;
         });
 
 
-        // consumption_by_end_use - FORMULAS
-        // interesting JQselector: $("[name^='consumption_by_end_use.'][name$='.end_use_name']")
-
-        // var currentEnergyFluids = Configurations.findOne({"fluids.fluid_type": {$in: ["fluid_electricity", "fluid_heat"]}});
-
-        // find all Elecrticity or Heat fluids
-
-        // _.each(currentConfigFluids, function(item, i) {
-        //     console.log(item.fluid_type);
-        // });
-
-
-
 };
 
-/*
-[Object fluid_provider: "EDF"fluid_type: "fluid_electricity"global_evolution_index: 0.029yearly_values: Array[31]0: Objectcost: 1evolution_index: 0year: 2014
-
-*/
 
 // Template.leaseForm.events({
 //   'keyup [name^="rent"]': function(event) {
