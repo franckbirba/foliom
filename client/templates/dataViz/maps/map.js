@@ -6,18 +6,96 @@
 
 */
 
+var mapOptions=
+  {
+    styles:
+    [
+      {
+        "stylers":
+          [
+            {
+              "saturation":-100
+            }
+          ]
+      },
+      {
+        "featureType":"water",
+        "elementType":"geometry.fill",
+        "stylers":
+        [
+          {
+            "color":"#0099dd"
+          }
+        ]
+      },
+      {
+        "elementType":"labels",
+        "stylers":
+        [
+          {
+            "visibility":"off"
+          }
+        ]
+      },
+      {
+        "featureType":"poi.park",
+        "elementType":"geometry.fill",
+        "stylers":
+        [
+          {
+            "color":"#aadd55"
+          }
+        ]
+      },
+      {
+        "featureType":"road.highway",
+        "elementType":"labels",
+        "stylers":
+        [
+          {
+            "visibility":"on"
+          }
+        ]
+      },
+      {
+        "featureType":"road.arterial",
+        "elementType":"labels.text",
+        "stylers":
+        [
+          {
+            "visibility":"on"
+          }
+        ]
+      },
+      {
+        "featureType":"road.local",
+        "elementType":"labels.text",
+        "stylers":
+        [
+          {
+            "visibility":"on"
+          }
+        ]
+      }
+      ,
+      {
+      }
+    ]
+};
+
 Template.mapCanvas2.rendered = function () {
     var tmpl = this;
 
     VazcoMaps.init({}, function() {
-
+ 
         tmpl.mapEngine = VazcoMaps.gMaps();
 
         tmpl.newMap2 = new tmpl.mapEngine({
             div: '#map-canvas2',
             lat: 48.9096436,
             lng: 2.4393542,
-            zoom: 6
+            zoom: 6,
+            options: mapOptions
         });
 
         // var markerBounds = new google.maps.LatLngBounds();
