@@ -129,11 +129,12 @@
     // end-use fluid_consumption_meter ("conso compteur fluides")
     "fluid_consumption_meter": "Consommation compteur Fluides",
     "yearly_subscription": "Abonnement annuel (€)",
-    "first_year_value": "Consommation compteur",
+    "first_year_value": "Consommation compteur - première année (kWhEF ou m3)",
     "yearly_cost": "Coût annuel",
 
     // end-use consumption_by_end_use ("Consommation d’énergie par poste")
     "consumption_by_end_use": "Consommation d’énergie par poste",
+    "consumption_by_end_use_total": "Consommation d’énergie par poste : Total",
 
     "end_use_heating": "Chauffage",
     "end_use_AC": "Climatisation",

@@ -37,6 +37,13 @@ AutoForm.hooks({
 
 Template.leaseForm.rendered = function () {
 
+    var currentConfigFluids = Configurations.findOne(
+                {
+                    "master": { $exists: false }
+                }
+            ).fluids;
+
+
         //Apply End-Use to correct field
         var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
@@ -67,53 +74,103 @@ Template.leaseForm.rendered = function () {
             )
         });
 
+        var totalHeatElecFluids = 0;
+        var totalHeatElecFluids_array = [];
+
         // Monitor fluid_consumption_meter and apply formulas
-        $(".fluidConsumptionMeter_fluidID").change(function(){
+        Tracker.autorun(function () {
 
-            position = $(this).attr("name").split("."); // Extract position from smthg like fluid_consumption_meter.0.fluid_id
-            // So position[1] gives us the Index
+            $("[name^='fluid_consumption_meter.'][name$='.yearly_cost']").each(function( index ) {
+            // "fluid_consumption_meter.0.yearly_cost"
 
-            var curr_fluid = $(this).val().split(" - ");
-            var curr_fluid_provider = curr_fluid[0];
-            var curr_fluid_type = curr_fluid[1];
+                var matchingFluid = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".fluid_id") ;
+                var matchingYearlySubscription = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".yearly_subscription") ;
+                var matchingFirstYearValue = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".first_year_value") ;
 
-            var currentConfigFluids = Configurations.findOne(
-                {
-                    "master": { $exists: false }
+                if (matchingFluid) {
+                    // console.log("matchingFluid: "+matchingFluid);
+                    // console.log("matchingYearlySubscription: "+matchingYearlySubscription);
+                    // console.log("matchingFirstYearValue: "+matchingFirstYearValue);
+
+                    var curr_fluid = matchingFluid.split(" - ");
+                    var curr_fluid_provider = curr_fluid[0];
+                    var curr_fluid_type = curr_fluid[1];
+
+                    var correctFluid = _.where(currentConfigFluids,
+                        {
+                            fluid_provider: curr_fluid_provider,
+                            fluid_type: curr_fluid_type
+                        }
+                    )[0]; // force the first element (where returns an array)
+
+                    // console.log("correctFluid: ");
+                    // console.log(correctFluid);
+
+                    //target is for example fluid_consumption_meter.0.yearly_cost
+                    $("[name='fluid_consumption_meter." + index + ".yearly_cost']").val(
+                        matchingYearlySubscription +
+                            matchingFirstYearValue * correctFluid.yearly_values[0].cost // cost et pas evolution_index
+                    );
+
+                    /* ---------------------------------------------- */
+                    /* END-USE FORMULAS: consumption_by_end_use_total */
+                    /* ---------------------------------------------- */
+                        // 1- Take advatage of this Loop to update totalHeatElecFluids
+                        if (curr_fluid_type == "fluid_electricity" || curr_fluid_type == "fluid_heat") {
+                            totalHeatElecFluids_array[index] = matchingFirstYearValue ;
+                        } else {
+                            totalHeatElecFluids_array[index] = 0;
+                        }
+
+                        // So now update the field
+                        totalHeatElecFluids = _.reduce(totalHeatElecFluids_array, function(memo, num){ return memo + num; }, 0);
+                        $("[name='consumption_by_end_use_total']").val( totalHeatElecFluids );
                 }
-            ).fluids;
 
-            var correctFluid = _.where(currentConfigFluids,
-                {
-                    fluid_provider: curr_fluid_provider,
-                    fluid_type: curr_fluid_type
-                }
-            )[0]; // force the first element (where returns an array)
-
-            console.log(correctFluid);
-
-            //target is for example fluid_consumption_meter.0.first_year_value
-            $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val(
-                correctFluid.yearly_values[0].cost
-            );
+                // ToDo: create 30 yearly Values
+            });
         });
 
-        // When fluid_consumption_meter(yearly_subscription) is entered: apply formula for Yearly cost
-        $(".fluidConsumptionMeter_yearlySubscription").keyup(function() {
-            position = $(this).attr("name").split("."); // Extract position
+        /* ---------------- */
+        /* END-USE FORMULAS */
+        /* ---------------- */
 
-            var yearly_subscription = $(this).val() ;
-            var meter = $("[name='fluid_consumption_meter." + position[1] + ".first_year_value']").val();
+        // 1 - Set "Specific" field: always field #06
+        var endUseVal_array = [];
 
-            var total = yearly_subscription*1 + meter*1 ;
-
-
-            // Set yearly_cost
-            $("[name='fluid_consumption_meter." + position[1] + ".yearly_cost']").val(
-                total
-            );
-
+        Tracker.autorun(function () {
+            $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
+                // console.log(index);
+                if (index != 6) { // Exclude 6 as it's the specific field
+                    var firstYearValue = AutoForm.getFieldValue("insertLeaseForm", "consumption_by_end_use." + index + ".first_year_value") ;
+                    if(firstYearValue) {endUseVal_array[index] = firstYearValue ;}
+                } else {
+                    endUseVal_array[index] = 0;
+                }
+            });
+            console.log("endUseVal_array is: "+ endUseVal_array);
+            var specificFieldValue = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
+            console.log(specificFieldValue);
+            var totalConsumption = AutoForm.getFieldValue("insertLeaseForm", "consumption_by_end_use_total") ;
+            console.log('totalConsumption is:' + totalConsumption);
+            $("[name='consumption_by_end_use.6.first_year_value']").val(
+                totalConsumption - specificFieldValue
+            ) ;
         });
+
+
+        // consumption_by_end_use - FORMULAS
+        // interesting JQselector: $("[name^='consumption_by_end_use.'][name$='.end_use_name']")
+
+        // var currentEnergyFluids = Configurations.findOne({"fluids.fluid_type": {$in: ["fluid_electricity", "fluid_heat"]}});
+
+        // find all Elecrticity or Heat fluids
+
+        // _.each(currentConfigFluids, function(item, i) {
+        //     console.log(item.fluid_type);
+        // });
+
+
 
 };
 
