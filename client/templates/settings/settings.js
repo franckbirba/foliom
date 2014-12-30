@@ -6,7 +6,6 @@ Template.settings.helpers(
 			if(!curEstate || masterCfg) {
 				if(!masterCfg)
 					Session.set('editingMasterCfg', true);
-				console.log('MASTER');
 				return Configurations.findOne({master: true});
 			}
 			var curEstateId = curEstate._id;
@@ -25,7 +24,8 @@ Template.settings.helpers(
 		    return Session.get('current_estate_doc') ? Session.get('current_estate_doc')._id : null ;
 		},
 		getFluid: function(){
-		    return Session.get('update_fluid') ? Session.get('update_fluid') : null;
+			return null;
+		    //return Session.get('update_fluid') ? Session.get('update_fluid') : null;
 		  }
 
 	}	
@@ -33,37 +33,40 @@ Template.settings.helpers(
 
 Template.settings.events(
 	{
-		'click .edit-master': function(template, event){
+		'click .edit-master': function(event, template){
 			Session.set('editingMasterCfg', true);
-		},
-		'click .newfluid': function(){
-		    console.log('new fluid');
 		}
 	}
 );
 
 AutoForm.hooks({
+	configAutoForm: {
+		onSubmit: function(){
+			console.log('SUBMIT TOO');
+			debugger;
+		}
+	},
   fluidAutoForm: {
     onSubmit: function(insertDoc, updateDoc, currentDoc){
-    	var cfg = Configurations.findOne({master: {$exists:false}});
+    //	this.event.preventDefault();
+    	var cfg = Configurations.findOne({master: false});
     	cfg.fluids.push(insertDoc);
-    	console.log(cfg);
     	try {
     		Configurations.update(cfg._id, {$set: {fluids: cfg.fluids}}, {validate: false});
+	    	$("#fluidformmodal").modal('hide');
     	} catch(e){
     		console.log(e);
     	}
+    	this.done();
+    	return false;
+    	
+
       /*if(Session.get('update_fluid')){
         Fluids.update(currentDoc._id,updateDoc);
         
       } else {
         Fluids.insert(insertDoc);
       }*/
-      $("#fluidformmodal").hide();
-      this.done();
-      this.event.preventDefault();
-
-      return false;
    }
   }
 });

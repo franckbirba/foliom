@@ -3,7 +3,7 @@
   <h1>settings<span style="position:absolute;right:10px;top:0px;" class="btn btn-small glyphicon glyphicon-globe edit-master {{isEditingMasterCfg}}">edit master</span></h1>
 
 
-  {{> quickForm collection="Configurations" id="configs" doc=getCfg template="eportfolio-horizontal" type=getType}}
+  {{> quickForm collection="Configurations" id="configAutoForm" doc=getCfg template="eportfolio-horizontal" type=getType}}
 </div>
 
 <div class="modal fade" id="fluidformmodal">
@@ -19,7 +19,7 @@
 	      {{> afQuickField name='fluid_provider'}}
 	      {{> afQuickField name='global_evolution_index'}}
 	      {{> afQuickField name='yearly_values' template="inline"}}
-	      <button type="submit" style="border:none !important;background-color:white;color:green;" class="btn btn-primary">Ok</button>
+	      <button type="submit" style="border:none !important;background-color:white;color:green;" class="btn btn-primary submitFluid">Ok</button>
 	    {{/autoForm}}
 	  </div>
 	</div>
