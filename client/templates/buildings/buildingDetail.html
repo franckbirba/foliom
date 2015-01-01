@@ -106,15 +106,15 @@
                         <div class="blockTitle">Water consumption</div>
                         <table class="waterTable">
                             <tr>
-                                <td colspan="2">102 m3</td>
+                                <td colspan="2">{{waterConsumption "m3"}} m3</td>
                             </tr>
                             <tr>
-                                <td>3 m3/pers</td>
-                                <td>3 m3/m2</td>
+                                <td><span style="color:red;">- m3/pers</span></td>
+                                <td>{{waterConsumption "m3/m2" "3"}} m3/m2</td>
                             </tr>
                             <tr>
-                                <td>3 €</td>
-                                <td>3 €/m3</td>
+                                <td>{{waterConsumption "yearly_cost"}} €</td>
+                                <td>{{waterConsumption "€/m3" "0"}} €/m3</td>
                             </tr>
                         </table>
                     </div>

@@ -37,13 +37,6 @@ AutoForm.hooks({
 
 Template.leaseForm.rendered = function () {
 
-    var currentConfigFluids = Configurations.findOne(
-                {
-                    "master": false
-                }
-            ).fluids;
-
-
         //Apply End-Use to correct field
         var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
@@ -88,20 +81,8 @@ Template.leaseForm.rendered = function () {
                 var matchingFirstYearValue = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".first_year_value") ;
 
                 if (matchingFluid) {
-                    // console.log("matchingFluid: "+matchingFluid);
-                    // console.log("matchingYearlySubscription: "+matchingYearlySubscription);
-                    // console.log("matchingFirstYearValue: "+matchingFirstYearValue);
 
-                    var curr_fluid = matchingFluid.split(" - ");
-                    var curr_fluid_provider = curr_fluid[0];
-                    var curr_fluid_type = curr_fluid[1];
-
-                    var correctFluid = _.where(currentConfigFluids,
-                        {
-                            fluid_provider: curr_fluid_provider,
-                            fluid_type: curr_fluid_type
-                        }
-                    )[0]; // force the first element (where returns an array)
+                    var correctFluid = fluidToObject(matchingFluid); // gets the Fluid obj in the conf. from a txt like "EDF - fluid_heat"
 
                     // console.log("correctFluid: ");
                     // console.log(correctFluid);

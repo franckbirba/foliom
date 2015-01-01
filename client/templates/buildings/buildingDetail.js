@@ -6,16 +6,50 @@ Template.buildingDetail.helpers({
                     ).fetch();
 
         return result;
+    },
+    waterConsumption: function(param, precision){
+        //get the Water fluid
+        var waterFluids = [];
 
-        // only return smthg if Session.get('current_estate_doc') has a value
-        // if (curr_est_doc !== undefined && curr_est_doc.hasOwnProperty("portfolio_collection") ) {
-        //     console.log("I was here");
-        //     var result = Portfolios.find({_id: {$in : curr_est_doc.portfolio_collection} },
-        //             {sort: {name:1}}
-        //             ).fetch();
-        //     console.log(result);
-        //     return result;
-        // };
+        var current_building_doc_id = Session.get('current_building_doc')._id;
+        allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
+
+        _.each(allLeases, function(lease, i) {
+            //For each lease, extract the fluid with the fluid_type to water
+            _.each(lease.fluid_consumption_meter, function(entry, i) {
+                if( entry.fluid_id.split(" - ")[1] == "fluid_water" ) {
+                    // surcharge: add the surface and id to make the average easier
+                    entry.surface = lease.area_by_usage;
+                    entry.lease_id = lease._id ;
+
+                    waterFluids.push(entry);
+
+                }
+            });
+
+        });
+
+        console.log(waterFluids);
+
+        if (Session.get("current_lease_id")) {
+            // in waterFluids array, get the one corresponding to the Session var (set by selector)
+            var correctWaterFluid = _.where(waterFluids, { lease_id: Session.get("current_lease_id") } )[0];
+
+            if (param == "yearly_cost") {
+                return correctWaterFluid.yearly_cost;
+            }
+            if (param == "m3"){
+                return correctWaterFluid.first_year_value;
+            }
+            if (param == "m3/m2"){
+                return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
+            }
+            if (param == "€/m3"){
+                return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
+            }
+        }
+
+        else {return 4;}
     }
 });
 
@@ -32,6 +66,9 @@ Template.buildingDetail.events({
 
 Template.buildingDetail.rendered = function () {
 
+    /* ---------------------*/
+    //Create data for the Pie
+
     var dataHolder = [];
     var averagedData = {
         "text_domain": [],
@@ -39,11 +76,11 @@ Template.buildingDetail.rendered = function () {
     };
     var totalSurface = 0 ;
 
-    var current_building_doc_id = Session.get('current_building_doc')._id
-    lease = Leases.find({building_id:current_building_doc_id}).fetch();
+    var current_building_doc_id = Session.get('current_building_doc')._id;
+    var allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
 
     // Build the text domain and the Data
-    _.each(lease, function(entry, i) {
+    _.each(allLeases, function(entry, i) {
         dataHolder[i] = {
             _id: entry._id
         };
