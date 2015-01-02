@@ -25,9 +25,11 @@ Template.treeTplt.rendered = function () {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        console.log("1");
 
     Tracker.autorun(function () {
 
+        console.log("2");
         // Create our own JSON-structured file
         var foliom_data = new Object();
         foliom_data = {

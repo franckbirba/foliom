@@ -23,11 +23,12 @@
         <div class="col-md-4">
 
             <div>
-                ActionList: {{currentBuildingName}}
+                <!-- ActionList: {{currentBuildingName}} -->
                     {{#each getUsableActions}}
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="{{_id}}" {{isChecked}}>
+                            <!-- <input type="checkbox" value="{{_id}}" {{isChecked}}> -->
+                            <input type="checkbox" value="{{_id}}">
                             {{name}}
                         </label>
                     </div>
