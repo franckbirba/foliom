@@ -44,11 +44,7 @@ Template.newBuilding.helpers({
                           console.log(latlng);
 
                           building_doc.address.gps_lat = latlng.lat();
-                          // console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
                           building_doc.address.gps_long = latlng.lng();
-                          // console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);
-
-
 
                             console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
                             console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);

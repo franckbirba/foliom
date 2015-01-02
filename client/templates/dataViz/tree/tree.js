@@ -6,8 +6,12 @@
 
 Template.treeTplt.rendered = function () {
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
-    width = 360 - margin.right - margin.left,
-    height = 800 - margin.top - margin.bottom;
+    totalHeight = 700,
+    totalWidth = 600,
+    width = totalWidth - margin.right - margin.left,
+    height = totalHeight - margin.top - margin.bottom;
+
+    var clickedBuilding_d3ref = null ;
 
     var i = 0,
         duration = 750,
@@ -25,11 +29,8 @@ Template.treeTplt.rendered = function () {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        console.log("1");
-
     Tracker.autorun(function () {
 
-        console.log("2");
         // Create our own JSON-structured file
         var foliom_data = new Object();
         foliom_data = {
@@ -107,7 +108,6 @@ Template.treeTplt.rendered = function () {
                     );
             });
 
-
           root = foliom_data;
           root.x0 = height / 2;
           root.y0 = 0;
@@ -124,7 +124,7 @@ Template.treeTplt.rendered = function () {
           update(root);
 
 
-        d3.select(self.frameElement).style("height", "800px");
+        d3.select(self.frameElement).style("height", totalHeight);
 
         function update(source) {
 
@@ -133,7 +133,7 @@ Template.treeTplt.rendered = function () {
               links = tree.links(nodes);
 
           // Normalize for fixed-depth.
-          nodes.forEach(function(d) { d.y = d.depth * 180; });
+          nodes.forEach(function(d) { d.y = d.depth * 150; });
 
           // Update the nodes…
           var node = svg.selectAll("g.node")
@@ -162,7 +162,7 @@ Template.treeTplt.rendered = function () {
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 
           nodeUpdate.select("circle")
-              .attr("r", 4.5)
+              .attr("r", 5.5)
               .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
           nodeUpdate.select("text")
@@ -211,6 +211,13 @@ Template.treeTplt.rendered = function () {
             d.x0 = d.x;
             d.y0 = d.y;
           });
+
+          // New: force click on Building after a refresh
+          // if(clickedBuilding_d3ref) {
+          //   click(clickedBuilding_d3ref);
+          //   clickedBuilding_d3ref = null;
+          // }
+
         }
 
         // Toggle children on click.
@@ -225,6 +232,11 @@ Template.treeTplt.rendered = function () {
 
             if (d.depth == 1) { // Depth==1 means it's a building
                 console.log("I'm a building!");
+                console.log(d);
+
+                // clickedBuilding_d3ref = d; // To be able to keep track of it and expand it
+                // delete clickedBuilding_d3ref.parent ;
+
                 var clickedBuilding = Buildings.findOne({
                             portfolio_id: tmp_current_portfolio_doc._id,
                             building_name: d.name

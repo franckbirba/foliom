@@ -36,6 +36,12 @@ Meteor.startup(function () {
                   );
             }
         },
+        // toEnglish: function(itemToTranslate){
+        //     console.log( TAPi18n.__("Faisabilité site occupé", null, { lng: 'en' } ) );
+        //     console.log( TAPi18n.__("lead_disconnector", null, 'fr' ) );
+        //     console.log( TAPi18n.__("Conformité technique", 'en' ) );
+        // },
+
         myServerMethod: function(doc) {
           try {
             check(doc, Schema.User);

@@ -1,8 +1,8 @@
 <template name="applyActions">
 <div>
 
-    <div>
-        Sélectionnez votre patrimoine:
+    <div id="portfolioSelectZone">
+        {{_ "select_portfolio"}}
         <select class="form-control" id="portfolioSelect">
             <option value="" disabled selected>Select your Portfolio</option>
             {{#each getPortfolioList}}
@@ -11,19 +11,16 @@
         </select>
     </div>
 
-    <br/>
-    <br/>
-
     <div class="row">
 
-        <div class="col-md-8 treeViz">
+        <div class="col-md-9 treeViz">
             {{> treeTplt }}
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3">
 
             <div>
-                <!-- ActionList: {{currentBuildingName}} -->
+                ActionList: {{currentBuildingName}}
                     {{#each getUsableActions}}
                     <div class="checkbox">
                         <label>

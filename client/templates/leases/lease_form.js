@@ -142,7 +142,8 @@ Template.leaseForm.rendered = function () {
     $("[name^='conformity_information.'][name$='.name']").each(function( index ) {
         $(this).val( transr( conformity_information_items[index]) );
         $(this).prop("readonly","readonly") ;
-        // $(this).val( index );
+        // i18n.t($(this).val(), { lng: 'en' });
+        // console.log( TAPi18n.__($(this).val(), null, 'en' ) );
     });
 };
 

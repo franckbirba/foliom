@@ -80,7 +80,7 @@ Template.applyActions.helpers(
 
 Template.applyActions.helpers({
     currentBuildingName: function(){
-        if (Session.get('current_building_doc').building_name) {
+        if (Session.get('current_building_doc')) {
             return Session.get('current_building_doc').building_name;
         }
     }
@@ -107,9 +107,20 @@ Template.applyActions.events({
         // console.log(this);
         if (event.target.checked) {
             var childActionToCreate = this;
-            console.log(childActionToCreate);
+            // console.log("original action is:");
+            // console.log(this);
 
-            // childActionToCreate.
+            //Set the correct properties for the Child Action
+            delete childActionToCreate._id ;
+            childActionToCreate.action_type = "child";
+            childActionToCreate.building_id = Session.get('current_building_doc')._id;
+
+            var newActionID = Actions.insert(childActionToCreate);
+
+            // console.log("child action is:");
+            // console.log(childActionToCreate);
+            // console.log("id is: " + newActionID);
+
         }
 
         //Check if the Action is already associated

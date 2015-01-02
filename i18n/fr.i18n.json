@@ -299,7 +299,7 @@
     "chiller_system": "Groupe Froid",
 
 
-    /* Actions */
+    /* Action Form */
 
     "opportunity": "Gisement",
     "project_type": "Montage",
@@ -350,7 +350,9 @@
     "new_generic_action": "Nouvelle action générique",
     "newUserTemplateAction": "Nouvelle action (vierge)",
 
+    /* Apply Actions */
     "apply_actions": "Appliquer les actions au Patrimoine",
+    "select_portfolio": "Sélectionnez votre patrimoine :",
 
 
     /* Message Box */
