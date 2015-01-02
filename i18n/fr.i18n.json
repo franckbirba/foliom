@@ -283,7 +283,20 @@
     "7_years": "Tous les 7 ans",
     "10_years": "Tous les 10 ans",
 
-
+    "accessibility": "Accessibilité",
+    "elevators": "Ascenseurs",
+    "ssi": "SSI (périodicité selon catégorie ERP/IGH)",
+    "asbestos": "Amiante (DTA)",
+    "lead": "Plomb",
+    "legionella": "Légionelle",
+    "electrical_installation": "Installations électriques",
+    "DPE": "DPE",
+    "indoor_air_quality": "Qualité de l'air intérieur (QAI)",
+    "radon": "Radon",
+    //"chiller_terminal": "Terminaux climatisation", // Deja présent
+    "lead_disconnector": "Disconnecteurs Plomb",
+    "automatic_doors":"Portes automatiques",
+    "chiller_system": "Groupe Froid",
 
 
     /* Actions */
