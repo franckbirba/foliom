@@ -1,70 +1,33 @@
-// Get list of all Portfolios for current Estate, sorted by alpha (on name)
-Template.buildingDetail.helpers({
-    getLeases: function(){
-        var result = Leases.find( { building_id: Session.get('current_building_doc')._id },
-                    {sort: {name:1}}
-                    ).fetch();
-
-        return result;
-    },
-    waterConsumption: function(param, precision){
-        //get the Water fluid
-        var waterFluids = [];
-
-        var current_building_doc_id = Session.get('current_building_doc')._id;
-        allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
-
-        _.each(allLeases, function(lease, i) {
-            //For each lease, extract the fluid with the fluid_type to water
-            _.each(lease.fluid_consumption_meter, function(entry, i) {
-                if( entry.fluid_id.split(" - ")[1] == "fluid_water" ) {
-                    // surcharge: add the surface and id to make the average easier
-                    entry.surface = lease.area_by_usage;
-                    entry.lease_id = lease._id ;
-
-                    waterFluids.push(entry);
-
-                }
-            });
-
-        });
-
-        console.log(waterFluids);
-
-        if (Session.get("current_lease_id")) {
-            // in waterFluids array, get the one corresponding to the Session var (set by selector)
-            var correctWaterFluid = _.where(waterFluids, { lease_id: Session.get("current_lease_id") } )[0];
-
-            if (param == "yearly_cost") {
-                return correctWaterFluid.yearly_cost;
-            }
-            if (param == "m3"){
-                return correctWaterFluid.first_year_value;
-            }
-            if (param == "m3/m2"){
-                return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
-            }
-            if (param == "€/m3"){
-                return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
-            }
-        }
-
-        else {return 4;}
-    }
-});
-
-
-Template.buildingDetail.events({
-    'change #leaseSelect': function(event) {
-        if (event.target.value == "all_leases") {
-            Session.set("current_lease_id", null);
-        } else {
-            Session.set("current_lease_id", event.target.value);
-        }
-   }
-});
+Template.buildingDetail.created = function () {
+    waterFluids = [];
+};
 
 Template.buildingDetail.rendered = function () {
+
+    //Reset the var session associated to the Selector
+    Session.set("current_lease_id", null);
+
+    /* ---------------------*/
+    //get the Water fluids for each Lease
+
+    var current_building_doc_id = Session.get('current_building_doc')._id;
+    allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
+
+    _.each(allLeases, function(lease, i) {
+        //For each lease, extract the fluid with the fluid_type to water
+        _.each(lease.fluid_consumption_meter, function(entry, i) {
+            if( entry.fluid_id.split(" - ")[1] == "fluid_water" ) {
+                // surcharge: add the surface and id to make the average easier
+                entry.surface = lease.area_by_usage;
+                entry.lease_id = lease._id ;
+
+                waterFluids.push(entry);
+
+            }
+        });
+
+    });
+    console.log(waterFluids);
 
     /* ---------------------*/
     //Create data for the Pie
@@ -135,3 +98,69 @@ Template.buildingDetail.rendered = function () {
     Session.set('pieData', dataHolder);
     Session.set('averagedPieData', averagedData);
 };
+
+
+
+// Get list of all Portfolios for current Estate, sorted by alpha (on name)
+Template.buildingDetail.helpers({
+    getLeases: function(){
+        var result = Leases.find( { building_id: Session.get('current_building_doc')._id },
+                    {sort: {name:1}}
+                    ).fetch();
+
+        return result;
+    },
+    waterConsumption: function(param, precision){
+        if(waterFluids){ //wait until the waterFluids array has been generated
+            if (Session.get("current_lease_id")) {
+                // in waterFluids array, get the one corresponding to the Session var (set by selector)
+                var correctWaterFluid = _.where(waterFluids, { lease_id: Session.get("current_lease_id") } )[0];
+
+                if (param == "yearly_cost") {
+                    return correctWaterFluid.yearly_cost;
+                }
+                if (param == "m3"){
+                    return correctWaterFluid.first_year_value;
+                }
+                if (param == "m3/m2"){
+                    return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
+                }
+                if (param == "€/m3"){
+                    return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
+                }
+            }
+            else {
+                if (param == "yearly_cost") {
+                    // return waterFluids.map(function(fluid){
+                    //     return { label: item.end_use_name, value: item.first_year_value }
+                    // });
+                    return 4;
+                }
+                if (param == "m3"){
+                    // return correctWaterFluid.first_year_value;
+                    return 4;
+                }
+                if (param == "m3/m2"){
+                    // return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
+                    return 4;
+                }
+                if (param == "€/m3"){
+                    // return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
+                    return 4;
+                }
+            }
+        }
+
+    }
+});
+
+
+Template.buildingDetail.events({
+    'change #leaseSelect': function(event) {
+        if (event.target.value == "all_leases") {
+            Session.set("current_lease_id", null);
+        } else {
+            Session.set("current_lease_id", event.target.value);
+        }
+   }
+});

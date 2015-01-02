@@ -36,6 +36,19 @@
     font-size: small;
 }
 
+#buildingSummary {
+    height: 200px;
+    overflow-y: scroll;
+    font-size: small;
+}
+
+
+.ep_panel .indexes {
+    float: right;
+    margin-left: 10px;
+}
+
+
 /* -------- Water -------- */
 .water_block{
     height: 272px !important ;
@@ -86,12 +99,4 @@
 
 
 
-#buildingSummary {
-    min-height: 200px;
-}
 
-
-.ep_panel .indexes {
-    float: right;
-    margin-left: 10px;
-}

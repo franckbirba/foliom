@@ -2,17 +2,17 @@
 // http://stackoverflow.com/questions/22060481/how-do-i-create-this-shape-in-svg
 
 Template.DPEchart.rendered = function () {
-    var width = 170,
+    var width = 150,
     barHeight = 25;
 
     var data = [
       {name: "A",    value:  10},
-      {name: "B",    value:  17},
-      {name: "C",    value:  24},
-      {name: "D",    value:  31},
-      {name: "E",    value:  38},
-      {name: "F",    value:  45},
-      {name: "G",    value:  52},
+      {name: "B",    value:  15},
+      {name: "C",    value:  20},
+      {name: "D",    value:  25},
+      {name: "E",    value:  30},
+      {name: "F",    value:  35},
+      {name: "G",    value:  40},
     ];
 
     var chart = d3.select("#DPEchart1")
