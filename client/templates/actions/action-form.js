@@ -57,6 +57,11 @@ Template.actionForm.rendered = function () {
     // If updating a child Action, then prevent from changing the name
     if ( Session.get('childActionToEdit') ) {
         $('[name="name"]').prop("readonly","readonly") ;
+
+        // Set the selector
+        // $("[name^='impact_assessment_fluids.'][name$='.opportunity']").each(function( index ) {
+
+        // });
     }
 
 };

@@ -105,6 +105,7 @@ Template.applyActions.events({
             //Set the correct properties for the Child Action
             delete childActionToCreate._id ;
             childActionToCreate.action_type = "child";
+            childActionToCreate.estate_id = Session.get('current_estate_doc')._id;
             childActionToCreate.building_id = Session.get('current_building_doc')._id;
 
             // childActionToCreate.action_template_id = this._id;

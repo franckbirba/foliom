@@ -201,9 +201,7 @@ Meteor.startup(function () {
                     "logo": "/icon/actionIcons/iconmonstr-volume-control-2-icon-256.png",
                     "impact_assessment_fluids": [
                         {
-                          "opportunity": [
-                            "A"
-                          ],
+                          "opportunity": "A",
                           "per_cent": "5"
                         }
                     ],
@@ -233,37 +231,38 @@ Meteor.startup(function () {
                     "internal_return": 0,
                     "action_type": "generic"
                 },
-                // {
-                //     "name":"Désembouage des réseaux",
-                //     "logo":"/icon/actionIcons/iconmonstr-loading-14-icon-256.png",
-                //     "opportunity":"chauffage",
-                //     "project_type":"cr",
-                //     "technical_field":"thermal_delivery",
-                //     "feasable_while_occupied":"yes",
-                //     "priority":"high",
-                //     "impact_assessment_general":{
-                //         "comfort":"NA",
-                //         "technical_compliance_a":"NA",
-                //         "regulatory_compliance":"no",
-                //         "residual_lifetime":"NA"
-                //     },
-                //     "design_duration":1,
-                //     "works_duration":1,
-                //     "action_lifetime":3,
-                //     "impact_assessment_energy":{
-                //         "per_cent":"1"
-                //     },
-                //     "investment":{
-                //         "cost":"3000"
-                //     },
-                //     "raw_roi":0,
-                //     "actualised_roi":0,
-                //     "value_analysis":0,
-                //     "lec":0,
-                //     "internal_return":0,
-                //     "action_type":"generic"
-                // }
-
+                {
+                    "name": "Désembouage des réseaux",
+                    "logo":"/icon/actionIcons/iconmonstr-loading-14-icon-256.png",
+                    "impact_assessment_fluids": [
+                        {
+                          "opportunity": "chauffage",
+                          "per_cent": "1"
+                        }
+                    ],
+                    "project_type": "cr",
+                    "technical_field": "thermal_delivery",
+                    "feasable_while_occupied": "yes",
+                    "priority": "high",
+                    "impact_assessment_general": {
+                        "comfort": "NA",
+                        "technical_compliance_a": "NA",
+                        "regulatory_compliance": "no",
+                        "residual_lifetime": "NA"
+                    },
+                    "design_duration": 1,
+                    "works_duration": 1,
+                    "action_lifetime": 3,
+                    "investment": {
+                        "cost":"3000"
+                    },
+                    "raw_roi": 0,
+                    "actualised_roi": 0,
+                    "value_analysis": 0,
+                    "lec": 0,
+                    "internal_return": 0,
+                    "action_type": "generic"
+                },
 
             ];
 
