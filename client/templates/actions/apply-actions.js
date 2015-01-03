@@ -125,13 +125,12 @@ Template.applyActions.events({
             Actions.remove(childId);
         }
 
-        //Check if the Action is already associated
-        // var actionExists = Actions.findOne({
-        //     action_type: "child",
-        //     name: this.name,
-        //     building_id: Session.get('current_building_doc')._id,
-        // });
+        // To finish: click the correct node
+        var itemToClick = '#' + Session.get('current_building_doc').building_name;
 
-        // console.log(actionExists);
+        // But first give the time to reload the graph
+        setTimeout(function(){
+            $(itemToClick).d3Click();
+        },1000);
   }
 });

@@ -5,6 +5,19 @@
 // tree origin: http://bl.ocks.org/mbostock/4339083
 
 Template.treeTplt.rendered = function () {
+
+    // Extend jQuery click method so that we can call it with jQuery selectors
+    // Ref: http://stackoverflow.com/questions/9063383/how-to-invoke-click-event-programmaticaly-in-d3
+    jQuery.fn.d3Click = function () {
+      this.each(function (i, e) {
+        var evt = document.createEvent("MouseEvents");
+        evt.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+
+        e.dispatchEvent(evt);
+      });
+    };
+
+    // Tree
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
     totalHeight = 700,
     totalWidth = 600,
@@ -158,7 +171,8 @@ Template.treeTplt.rendered = function () {
               .attr("dy", ".35em")
               .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
               .text(function(d) { return d.name; })
-              .style("fill-opacity", 1e-6);
+              .style("fill-opacity", 1e-6)
+              .attr("id", function(d) { return d.name; }); // Add an ID to be able to select
 
           // Transition nodes to their new position.
           var nodeUpdate = node.transition()
@@ -236,7 +250,8 @@ Template.treeTplt.rendered = function () {
 
             if (d.depth == 1) { // Depth==1 means it's a building
                 console.log("I'm a building!");
-                console.log(d);
+                // console.log(d);
+                // console.log(d.name);
 
                 // clickedBuilding_d3ref = d; // To be able to keep track of it and expand it
                 // delete clickedBuilding_d3ref.parent ;
