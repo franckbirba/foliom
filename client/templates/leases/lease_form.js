@@ -2,7 +2,33 @@ AutoForm.hooks({
     insertLeaseForm: {
         before: {
             insert: function(doc, template) {
-                // doc.portfolio_id = Session.get('current_estate_doc')._id;
+
+                /* ------------------------------------- */
+                /* --- Insert EndUse data in Estate --- */
+                /* ------------------------------------- */
+                var leaseEndUses = _.pluck(doc.consumption_by_end_use, "end_use_name"); // extract all EndUses from the Lease doc
+
+                var currEstate = Estates.findOne(Session.get('current_estate_doc')._id) ;
+
+                if(currEstate.estate_properties && currEstate.estate_properties.endUseList) {
+                    var estateEndUseList = currEstate.estate_properties.endUseList ;
+                } else {
+                    estateEndUseList = [] ;
+                }
+                // Use union method to keep all unique endUses
+                var newEndUseList = _.union(estateEndUseList, leaseEndUses) ;
+
+                Estates.update(Session.get('current_estate_doc')._id,
+                    { $set: {
+                        "estate_properties.endUseList" : newEndUseList
+                      }
+                    },
+                    {validate: false}
+                );
+
+                /* ------------------------------------- */
+                /* --- Insert relevant data in Lease --- */
+                /* ------------------------------------- */
                 doc.building_id = Session.get('current_building_id');
                 return doc;
             }
@@ -11,6 +37,10 @@ AutoForm.hooks({
 
         },
         onSuccess: function(operation, result, template) {
+
+            /* ------------------------------------- */
+            /* Manage the number of Leases to create */
+            /* ------------------------------------- */
             var nbLeases_2create = Session.get('nbLeases_2create');
 
             if(nbLeases_2create>1) {
@@ -94,7 +124,7 @@ Template.leaseForm.rendered = function () {
                 /* END-USE FORMULAS: consumption_by_end_use_total */
                 /* ---------------------------------------------- */
                     // 1- Take advatage of this Loop to update totalHeatElecFluids
-                    if (curr_fluid_type == "fluid_electricity" || curr_fluid_type == "fluid_heat") {
+                    if (correctFluid.fluid_type == "fluid_electricity" || correctFluid.fluid_type == "fluid_heat") {
                         totalHeatElecFluids_array[index] = matchingFirstYearValue ;
                     } else {
                         totalHeatElecFluids_array[index] = 0;

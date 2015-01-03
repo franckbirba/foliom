@@ -6,13 +6,21 @@ Template.nav.rendered = function () {
 // Subscribe for the correct configurations
     Tracker.autorun(function () {
         if (Session.get('current_estate_doc') ) {
+            // console.log("Estate doc changed to: " + Session.get('current_estate_doc').estate_name);
             var estate_doc_id = Session.get('current_estate_doc')._id ;
+
+            // CONFIGURATIONS
+            //Subscribe to the Estate config
             Meteor.subscribe('configurations',  estate_doc_id) ;
-            console.log("I was here");
 
             //Also set a Session var
             var curr_config = Configurations.findOne( { "master": false }) ;
             if (curr_config) { Session.set('current_config', curr_config ) ; }
+
+
+            //PORTFOLIOS
+            Meteor.subscribe('portfolios',  estate_doc_id) ;
+            Session.set('current_portfolio_doc', undefined ); // Empty the current Portfolio doc
         }
     });
 

@@ -29,7 +29,10 @@ Template.treeTplt.rendered = function () {
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    Tracker.autorun(function () {
+    //Set up an autorun that will be destroyed with the template is destroyed
+    this.autorun(function () {
+        // but only start it when he Portfolio is defined
+        if(Session.get('current_portfolio_doc')) {
 
         // Create our own JSON-structured file
         var foliom_data = new Object();
@@ -122,6 +125,7 @@ Template.treeTplt.rendered = function () {
 
           root.children.forEach(collapse);
           update(root);
+        }
 
 
         d3.select(self.frameElement).style("height", totalHeight);
@@ -249,7 +253,9 @@ Template.treeTplt.rendered = function () {
 
             update(d);
         }
-    });
+
+    }); // END OF AUTORUN
+
 
 
 }

@@ -7,11 +7,11 @@ Template.buildingDetail.rendered = function () {
     //Reset the var session associated to the Selector
     Session.set("current_lease_id", null);
 
-    /* ---------------------*/
-    //get the Water fluids for each Lease
-
     var current_building_doc_id = Session.get('current_building_doc')._id;
     allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
+
+    /* ---------------------*/
+    //get the Water fluids for each Lease
 
     _.each(allLeases, function(lease, i) {
         //For each lease, extract the fluid with the fluid_type to water
@@ -39,8 +39,6 @@ Template.buildingDetail.rendered = function () {
     };
     var totalSurface = 0 ;
 
-    var current_building_doc_id = Session.get('current_building_doc')._id;
-    var allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
 
     // Build the text domain and the Data
     _.each(allLeases, function(entry, i) {

@@ -9,12 +9,17 @@ Template.applyActions.rendered = function () {
     // clear session var
     Session.set('current_building_doc', null);
 
+    // Init: choose a random Portfolio from the current Estate doc
+    $("#portfolioSelect").val(Portfolios.findOne()._id);
+
+    // If Portfolio selector has a value: set the correct current Portfolio Doc
     if ($("#portfolioSelect").val()){
         Session.set('current_portfolio_doc',
                 Portfolios.findOne( $("#portfolioSelect").val() )
             );
     }
 
+    // On Portfolio selector change: set the correct current Portfolio Doc
     $("#portfolioSelect").change(function(){
         Session.set('current_portfolio_doc',
             Portfolios.findOne( $("#portfolioSelect").val() )
@@ -114,6 +119,7 @@ Template.applyActions.events({
             delete childActionToCreate._id ;
             childActionToCreate.action_type = "child";
             childActionToCreate.building_id = Session.get('current_building_doc')._id;
+            childActionToCreate.action_template_id = this._id;
 
             var newActionID = Actions.insert(childActionToCreate);
 

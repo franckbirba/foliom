@@ -15,7 +15,15 @@ Meteor.publish('images', function() {
 });
 
 Meteor.publish('portfolios', function(estateId) {
-  return Portfolios.find(); // TODO : if(!Admin) then : only send relevant Portfolios
+    // return Portfolios.find(); // TODO : if(!Admin) then : only send relevant Portfolios
+    var curr_est_doc = Estates.findOne(estateId);
+
+    // only return smthg if curr_est_doc is defined and has a "portfolio_collection"
+    if (curr_est_doc !== undefined && curr_est_doc.hasOwnProperty("portfolio_collection") ) {
+        return Portfolios.find({_id: {$in : curr_est_doc.portfolio_collection} },
+                            {sort: {name:1}}
+                            );
+    }
 });
 
 Meteor.publish('buildings', function(portfolioId) {
