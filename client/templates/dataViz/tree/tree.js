@@ -269,10 +269,10 @@ Template.treeTplt.rendered = function () {
                     // Look in child Actions if we find a match
                     var actionID = $(this).val();
                     actionExists = Actions.findOne({
-                                                "action_type":"child",
-                                                "building_id": Session.get('current_building_doc')._id,
-                                                "action_template_id": actionID
-                                                });
+                                        "action_type":"child",
+                                        "building_id": Session.get('current_building_doc')._id,
+                                        "action_template_id": actionID
+                                        });
 
                     if(actionExists) {
                         $(this).prop("checked", true);
@@ -283,7 +283,15 @@ Template.treeTplt.rendered = function () {
 
             }
             if (d.depth == 2) { // Depth==2 means it's an action
-                console.log("I'm an action!");
+                // find the Action
+                actionExists = Actions.findOne({
+                                    "action_type":"child",
+                                    "building_id": Session.get('current_building_doc')._id,
+                                    "name": d.name
+                                    });
+
+                Session.set('childActionToEdit', actionExists);
+                Router.go('actionForm');
             }
 
             update(d);

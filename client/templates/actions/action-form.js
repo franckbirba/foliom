@@ -18,17 +18,65 @@ AutoForm.hooks({
 
         },
         onSuccess: function(operation, result, template) {
-            Session.set('newActionType', null) ;
-            Router.go('actionsList');
+            if (Session.get('childActionToEdit')) {
+                Session.set('childActionToEdit', null) ;
+                Router.go('applyActions');
+            }
+            else {
+                Session.set('newActionType', null) ;
+                Router.go('actionsList');
+            }
+
+
         },
     }
 });
 
 Template.actionForm.helpers({
     getAction: function(){
-        return Session.get('masterAction');
+        if( Session.get('newActionType') == "generic") {
+            return null;
+        }
+        if( Session.get('masterAction') ) {
+            return Session.get('masterAction');
+        }
+        if( Session.get('childActionToEdit') ) {
+            // console.log('gonna update child');
+            return Session.get('childActionToEdit');
+        }
+    },
+    getType: function(){
+        if( Session.get('childActionToEdit') ) {
+            console.log('gonna UPDATE child');
+            return "update";
+        } else return "insert";
     }
 });
+
+Template.actionForm.rendered = function () {
+    // If updating a child Action, then prevent from changing the name
+    if ( Session.get('childActionToEdit') ) {
+        $('[name="name"]').prop("readonly","readonly") ;
+    }
+
+};
+
+Template.actionForm.destroyed = function () {
+    Session.set('childActionToEdit', null);
+};
+
+    // var current_building_doc_id = Session.get('current_building_doc')._id;
+    // var allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
+
+    // // Build the text domain and the Data
+    // _.each(allLeases, function(entry, i) {
+    //     dataHolder[i] = {
+    //         _id: entry._id
+    //     };
+
+    //     dataHolder[i].text_domain = entry.consumption_by_end_use.map(function(item){
+    //         return item.end_use_name; // returns an array of the EndUse names
+    //     });
 
 // Template.actionForm.events({
 //   'keyup [name="investment.ratio"]': function(event) {
