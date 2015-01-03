@@ -31,6 +31,7 @@ Template.buildingDetail.rendered = function () {
 
     /* ---------------------*/
     //Create data for the Pie
+    /* ---------------------*/
 
     var dataHolder = [];
     var averagedData = {
@@ -95,6 +96,14 @@ Template.buildingDetail.rendered = function () {
 
     Session.set('pieData', dataHolder);
     Session.set('averagedPieData', averagedData);
+
+
+
+    /* ------------------------------ */
+    //Create data for the DPE barchart
+    /* ------------------------------ */
+    //TODO
+
 };
 
 

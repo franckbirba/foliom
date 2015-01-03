@@ -91,42 +91,48 @@ Template.applyActions.helpers({
     }
 });
 
-// Template.applyActions.helpers({
-//     isChecked: function(){
-//         //get all child Actions of the current Building
-//         existingChildActions = Actions.find({
-//                                     "action_type":"child",
-//                                     "building_id": currBuilding._id
-//                                     },
-//                                     {sort: {name:1}}
-//                                     ).fetch();
+Template.applyActions.helpers({
+    isChecked: function(){
+        var actionID = this._id;
 
-//         if ( _.contains(existingChildActions, this.name) ) {
-//             return "checked";
-//         }
-//     }
-// });
+        if (Session.get('current_building_doc')) {
+
+        }
+        //get all child Actions of the current Building
+        // existingChildActions = Actions.find({
+        //                             "action_type":"child",
+        //                             "building_id": currBuilding._id
+        //                             },
+        //                             {sort: {name:1}}
+        //                             ).fetch();
+
+        // if ( _.contains(existingChildActions, this.name) ) {
+        //     return "checked";
+        // }
+    }
+});
 
 Template.applyActions.events({
     'change .checkbox': function(event) {
         // console.log(this);
         if (event.target.checked) {
             var childActionToCreate = this;
-            // console.log("original action is:");
-            // console.log(this);
+
+            var original_id = this._id ; // need to save it otherwise destroyed by the delete??
 
             //Set the correct properties for the Child Action
             delete childActionToCreate._id ;
             childActionToCreate.action_type = "child";
             childActionToCreate.building_id = Session.get('current_building_doc')._id;
-            childActionToCreate.action_template_id = this._id;
+
+            // childActionToCreate.action_template_id = this._id;
+            childActionToCreate.action_template_id = original_id;
 
             var newActionID = Actions.insert(childActionToCreate);
 
             // console.log("child action is:");
             // console.log(childActionToCreate);
             // console.log("id is: " + newActionID);
-
         }
 
         //Check if the Action is already associated

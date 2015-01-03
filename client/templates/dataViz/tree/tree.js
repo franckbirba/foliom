@@ -245,7 +245,27 @@ Template.treeTplt.rendered = function () {
                             portfolio_id: tmp_current_portfolio_doc._id,
                             building_name: d.name
                         });
+
+                // Set building session var
                 Session.set('current_building_doc', clickedBuilding);
+
+                // Set checkboxes
+                $(".ActionCheckbox").each(function () {
+                    // Look in child Actions if we find a match
+                    var actionID = $(this).val();
+                    actionExists = Actions.findOne({
+                                                "action_type":"child",
+                                                "building_id": Session.get('current_building_doc')._id,
+                                                "action_template_id": actionID
+                                                });
+
+                    if(actionExists) {
+                        $(this).prop("checked", true);
+                    } else {
+                        $(this).prop("checked", false);
+                    }
+                });
+
             }
             if (d.depth == 2) { // Depth==2 means it's an action
                 console.log("I'm an action!");
