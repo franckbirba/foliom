@@ -91,35 +91,17 @@ Template.applyActions.helpers({
     }
 });
 
-Template.applyActions.helpers({
-    isChecked: function(){
-        var actionID = this._id;
-
-        if (Session.get('current_building_doc')) {
-
-        }
-        //get all child Actions of the current Building
-        // existingChildActions = Actions.find({
-        //                             "action_type":"child",
-        //                             "building_id": currBuilding._id
-        //                             },
-        //                             {sort: {name:1}}
-        //                             ).fetch();
-
-        // if ( _.contains(existingChildActions, this.name) ) {
-        //     return "checked";
-        // }
-    }
-});
-
 Template.applyActions.events({
     'change .checkbox': function(event) {
         // console.log(this);
+        // var childActionToCreate = this;
+
+        var childActionToCreate = jQuery.extend(true, {}, this);
+
+        var original_id = this._id ; // need to save it otherwise destroyed by the delete??
+        console.log("original_id is: " + original_id);
+
         if (event.target.checked) {
-            var childActionToCreate = this;
-
-            var original_id = this._id ; // need to save it otherwise destroyed by the delete??
-
             //Set the correct properties for the Child Action
             delete childActionToCreate._id ;
             childActionToCreate.action_type = "child";
@@ -133,6 +115,14 @@ Template.applyActions.events({
             // console.log("child action is:");
             // console.log(childActionToCreate);
             // console.log("id is: " + newActionID);
+        } else {
+            // In this case we want to remove the child action
+            var childId = Actions.findOne({
+                "action_type":"child",
+                "building_id": Session.get('current_building_doc')._id,
+                "action_template_id": original_id
+                })._id;
+            Actions.remove(childId);
         }
 
         //Check if the Action is already associated
