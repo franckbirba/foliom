@@ -7,6 +7,7 @@ AutoForm.hooks({
                 /* --- Insert EndUse data in Estate --- */
                 /* ------------------------------------- */
                 var leaseEndUses = _.pluck(doc.consumption_by_end_use, "end_use_name"); // extract all EndUses from the Lease doc
+                console.log(leaseEndUses);
 
                 var currEstate = Estates.findOne(Session.get('current_estate_doc')._id) ;
 
@@ -175,6 +176,53 @@ Template.leaseForm.rendered = function () {
         // i18n.t($(this).val(), { lng: 'en' });
         // console.log( TAPi18n.__($(this).val(), null, 'en' ) );
     });
+
+    if (debugMode){
+
+        $("[name^='fluid_consumption_meter.'][name$='.first_year_value']").each(function( index ) {
+            $(this).val( randomIntFromInterval(0,100) );
+        });
+        $("[name^='fluid_consumption_meter.'][name$='.yearly_subscription']").each(function( index ) {
+            $(this).val( randomIntFromInterval(0,100) );
+        });
+
+        $("[name^='technical_compliance.categories.'][name$='.lifetime']").each(function( index ) {
+            $(this).val( "bad_dvr" );
+        });
+
+        $("[name^='technical_compliance.categories.'][name$='.conformity']").each(function( index ) {
+            $(this).val( "compliant" );
+        });
+
+        $("[name^='conformity_information.'][name$='.eligibility']").each(function( index ) {
+            if(randomIntFromInterval(0,1)>0){
+                $(this).prop("checked", true);
+            }
+        });
+
+        var fakeOptionInput = function (name1, name2){
+            var options = $("[name='"+name1+".0."+name2+"'] option").map(function() { return $(this).val(); });
+            $("[name^='"+name1+".'][name$='."+name2+"']").each(function( index ) {
+                $(this).val( options[randomIntFromInterval(1,options.length-1)] );
+            });
+        }
+
+        fakeOptionInput("conformity_information", "periodicity");
+        fakeOptionInput("conformity_information", "conformity");
+
+        $("[name^='conformity_information.'][name$='.due_date']").each(function( index ) {
+            $(this).val("2015-01-16");
+        });
+        $("[name^='conformity_information.'][name$='.last_diagnostic']").each(function( index ) {
+            $(this).val("2015-01-16");
+        });
+
+        var options = $("[name='consumption_by_end_use.0.fluid_id'] option").map(function() { return $(this).val(); });
+        $("[name^='consumption_by_end_use.'][name$='.fluid_id']").each(function( index ) {
+            $(this).val( options[3] );
+        });
+
+    }
 };
 
 
