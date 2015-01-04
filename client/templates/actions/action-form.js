@@ -69,11 +69,13 @@ Template.actionForm.rendered = function () {
     //     $('[name="name"]').prop("readonly","readonly") ;
     // }
 
-
+    /* -------------- */
+    /* EndUse formula */
+    /* -------------- */
     allLeases = Leases.find({building_id:Session.get('current_building_doc')._id}).fetch();
     firstLease = allLeases[0];
 
-    Tracker.autorun(function () {
+    this.autorun(function () {
         $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
 
             var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
@@ -131,6 +133,71 @@ Template.actionForm.rendered = function () {
 
     });
 
+
+    /* ------------------ */
+    /* Other form formula */
+    /* ------------------ */
+
+    // Investment ratio and cost
+    $("[name='investment.ratio'], [name='investment.cost']").change(function() {
+        var curr_field = $(this).val();
+        var target, estimate;
+        var source = Session.get('current_building_doc').building_info.area_total ;
+
+        if( $(this).attr("name") == "investment.ratio") {
+            estimate = curr_field * source ;
+            target = $('[name="investment.cost"]');
+        } else {
+            estimate = curr_field / source ;
+            target = $('[name="investment.ratio"]');
+        }
+
+        if ( target.val() !== estimate ) {
+                target.val(estimate) ;
+        }
+    });
+    $("[name='investment.ratio'], [name='investment.cost']").change() ; // Execute once at form render
+
+    this.autorun(function () {
+        // ToDo: NOT FULLY REACTIVE
+        // make sur that the investment cost change triggers the following formulas
+        if (AutoForm.getFieldValue("insertActionForm", "investment.cost") ) {
+            $("[name='subventions.ratio']").change();
+            console.log("change!");
+        }
+    });
+    // Subventions: ratio and cost in Euro
+    $("[name='subventions.ratio'], [name='subventions.or_euro']").change(function() {
+        var curr_field = $(this).val();
+        var target, estimate;
+        // var source = $("[name='investment.cost']").val();
+        var source = AutoForm.getFieldValue("insertActionForm", "investment.cost") ;
+
+        if( $(this).attr("name") == "subventions.ratio") {
+            estimate = curr_field/100 * source ;
+            target = $('[name="subventions.or_euro"]');
+        } else {
+            estimate = curr_field*100 / source ;
+            target = $('[name="subventions.ratio"]');
+        }
+
+        if ( target.val() !== estimate ) {
+                target.val(estimate) ;
+        }
+    });
+    $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
+
+    // ToDo: NOT FULLY REACTIVE
+    // Subventions: residual cost
+    this.autorun(function () {
+        investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost") ;
+        sub_euro = AutoForm.getFieldValue("insertActionForm", "subventions.or_euro") ;
+        cee_opportunity = AutoForm.getFieldValue("insertActionForm", "subventions.CEE_opportunity") ;
+
+        $("[name='subventions.residual_cost']").val(
+            investment_cost - sub_euro - cee_opportunity
+        );
+    });
 
 };
 

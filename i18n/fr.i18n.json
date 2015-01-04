@@ -327,9 +327,12 @@
     "investment_cost": "Coût d'investissement",
 
     "subventions": "Aides à l’investissement",
+    "subventions_per_cent": "Subventions : en %",
     "or_euro": "Ou : en €",
+    "euro_peryear": "En € / an",
     "or_euro_peryear": "Ou : en € / an",
     "CEE_opportunity": "Certificat d'économie d'énergie",
+    "residual_cost": "Coût résiduel",
 
     "operating": "Fonctionnement (hors fluides)",
     "operating_ratio": "Ratio de fonctionnement",
