@@ -197,11 +197,11 @@ Meteor.startup(function () {
     if(Actions.find().count() === 0) {
         var data = [
                 {
-                    "name": "robinet thermostatique",
+                    "name": "Robinet thermostatique",
                     "logo": "/icon/actionIcons/iconmonstr-volume-control-2-icon-256.png",
                     "impact_assessment_fluids": [
                         {
-                          "opportunity": "A",
+                          "opportunity": "end_use_heating",
                           "per_cent": "5"
                         }
                     ],
@@ -236,7 +236,7 @@ Meteor.startup(function () {
                     "logo":"/icon/actionIcons/iconmonstr-loading-14-icon-256.png",
                     "impact_assessment_fluids": [
                         {
-                          "opportunity": "chauffage",
+                          "opportunity": "end_use_heating",
                           "per_cent": "1"
                         }
                     ],

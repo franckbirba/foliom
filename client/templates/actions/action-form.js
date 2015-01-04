@@ -69,6 +69,69 @@ Template.actionForm.rendered = function () {
     //     $('[name="name"]').prop("readonly","readonly") ;
     // }
 
+
+    allLeases = Leases.find({building_id:Session.get('current_building_doc')._id}).fetch();
+    firstLease = allLeases[0];
+
+    Tracker.autorun(function () {
+        $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
+
+            var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
+            var endUseInLease ;
+            var meterInLease ;
+            var confFluidToUse ;
+
+            if (matchingEndUse) {
+                // find the corresponding endUse in the Lease
+                _.each(firstLease.consumption_by_end_use, function(endUse) {
+                    if(endUse.end_use_name == matchingEndUse){
+                        matchingEndUseInLease = endUse;
+                        console.log("matchingEndUseInLease: ");
+                        console.log(matchingEndUseInLease);
+                    }
+                });
+
+                // NOT NECESSARILY USEFUL ???
+                // find the corresponding fluid_consumption_meter in the Lease
+                _.each(firstLease.fluid_consumption_meter, function(meter) {
+                    if(meter.fluid_id == matchingEndUseInLease.fluid_id){
+                        meterInLease = meter;
+                        console.log("meter: ");
+                        console.log(meter);
+                    }
+                });
+
+                // find the corresponding fluid in the Conf
+                confFluids = Session.get('current_config').fluids ;
+                _.each(confFluids, function(fluid) {
+                    completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type ;
+                    if (completeFluideName == matchingEndUseInLease.fluid_id) {
+                        confFluidToUse = fluid ;
+                    }
+                });
+                console.log("confFluidToUse") ;
+                console.log(confFluidToUse) ;
+
+            }
+
+            var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
+
+            // If first 2 fields are entered, then set the kWef and yearly_budget
+            if (matchingEndUse && matchingPerCent){
+                var in_kwhef = matchingEndUseInLease.first_year_value * matchingPerCent/100 ;
+                $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef );
+
+                $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
+                    // Create loop for all YEARS here ??
+                    in_kwhef * confFluidToUse.yearly_values[0].cost
+                );
+            }
+
+        });
+
+    });
+
+
 };
 
 Template.actionForm.destroyed = function () {

@@ -80,40 +80,9 @@ Template.treeTplt.rendered = function () {
                         }
                     );
             });
-
-            console.log(tmp_list);
-
+            // console.log(tmp_list);
             return tmp_list;
         };
-
-        // OLD VERSION: display all Estates > Portfolios > Buildings
-        // trick to make sure the Portfolio Collection is reactive
-        // var tmp_current_estate_doc = Estates.findOne(Session.get('current_estate_doc')._id);
-
-        // var portfolio_list = Portfolios.find({_id: {$in : tmp_current_estate_doc.portfolio_collection} },
-        //                     {sort: {name:1}}
-        //                     ).fetch();
-
-        // function getBuildingsForPortfolio(id_param) {
-        //     var building_list = Buildings.find({portfolio_id: id_param },
-        //                     {sort: {name:1}}
-        //                     ).fetch();
-
-        //     var tmp_list = [];
-
-        //     _.each(building_list, function(item) {
-        //         tmp_list.push(
-        //                 {
-        //                     "name": item.building_name,
-        //                 }
-        //             );
-        //     });
-
-            // console.log("tmp_list is:");
-            // console.log(tmp_list);
-
-        //     return tmp_list;
-        // };
 
         _.each(building_list, function(item) {
                 foliom_data.children.push(
