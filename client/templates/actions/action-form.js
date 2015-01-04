@@ -35,39 +35,45 @@ AutoForm.hooks({
 Template.actionForm.helpers({
     getAction: function(){
         if( Session.get('newActionType') == "generic") {
+            console.log("Creating a new Generic action");
             return null;
         }
         if( Session.get('masterAction') ) {
+            console.log("Creating a UserTemplate action from a Generic action");
             return Session.get('masterAction');
         }
-        if( Session.get('childActionToEdit') ) {
-            // console.log('gonna update child');
+        if( Session.get('childActionToEdit') ) { // Child action update
+            console.log('Editing a child action');
             return Session.get('childActionToEdit');
+        }
+        if ( Session.get('updateAction') ){ // Generic update case
+            console.log("Editing a Generic or UserTemplate action");
+            return Session.get('updateAction');
         }
     },
     getType: function(){
-        if( Session.get('childActionToEdit') ) {
-            console.log('gonna UPDATE child');
+        if( Session.get('childActionToEdit') || Session.get('updateAction') ) {
+            console.log("Type is: update");
             return "update";
-        } else return "insert";
+        } else {
+            console.log("Type is: insert");
+            return "insert";
+        }
     }
 });
 
 Template.actionForm.rendered = function () {
+    // NOT NEEDED?
     // If updating a child Action, then prevent from changing the name
-    if ( Session.get('childActionToEdit') ) {
-        $('[name="name"]').prop("readonly","readonly") ;
-
-        // Set the selector
-        // $("[name^='impact_assessment_fluids.'][name$='.opportunity']").each(function( index ) {
-
-        // });
-    }
+    // if ( Session.get('childActionToEdit') ) {
+    //     $('[name="name"]').prop("readonly","readonly") ;
+    // }
 
 };
 
 Template.actionForm.destroyed = function () {
     Session.set('childActionToEdit', null);
+    Session.set('updateAction', null);
 };
 
     // var current_building_doc_id = Session.get('current_building_doc')._id;

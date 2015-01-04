@@ -9,6 +9,15 @@
     height: 105px;
     background-color: rgb(240, 248, 236);
     margin: 5px;
+
+    /* So that we can position the Edit button*/
+    position:relative;
+}
+
+.editAction {
+    position:absolute;
+    top:0;
+    right:0;
 }
 
 .actionUserTemplate {

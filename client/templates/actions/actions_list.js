@@ -79,4 +79,10 @@ Template.actionsList.events({
 
         Router.go('actionForm');
     },
+    'click .editAction': function(e) { //Sends to the Action form for updating
+        e.preventDefault();
+        Session.set('updateAction', this);
+
+        Router.go('actionForm');
+    },
 });
