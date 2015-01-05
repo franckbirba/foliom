@@ -7,9 +7,9 @@
     </nav>
 
     <div class="content-scrollable">
-      <div class="wrapper-auth">
+      <div class="wrapper-auth newAuth">
         <h1 class="title-auth">e-Portfolio</h1>
-        <p class="subtitle-auth" >please login</p>
+        <p class="subtitle-auth" >Mon compte</p>
 
         <form>
           {{#if errorMessages}}
@@ -30,11 +30,17 @@
             <span class="icon-lock" title="Password"></span>
           </div>
 
-          <button type="submit" class="btn btn-primary">Sign in</button>
+          <button type="submit" class="btn btn-signin">Se connecter</button>
         </form>
+
+        <a href="" id="whatIsEportfolio">
+          <!-- <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> -->
+          E-portfolio, qu'est-ce que c'est ?
+        </a>
+
       </div>
 
-      <a href="{{pathFor 'join'}}" class="link-auth-alt">Need an account? Join Now.</a>
+
     </div>
   </div>
 </template>

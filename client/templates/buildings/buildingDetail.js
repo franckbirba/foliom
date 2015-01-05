@@ -141,19 +141,19 @@ Template.buildingDetail.helpers({
                     // return waterFluids.map(function(fluid){
                     //     return { label: item.end_use_name, value: item.first_year_value }
                     // });
-                    return 4;
+                    return 0;
                 }
                 if (param == "m3"){
                     // return correctWaterFluid.first_year_value;
-                    return 4;
+                    return 0;
                 }
                 if (param == "m3/m2"){
                     // return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
-                    return 4;
+                    return 0;
                 }
                 if (param == "€/m3"){
                     // return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
-                    return 4;
+                    return 0;
                 }
             }
         }

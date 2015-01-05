@@ -121,12 +121,12 @@ Template.actionForm.rendered = function () {
             // If first 2 fields are entered, then set the kWef and yearly_budget
             if (matchingEndUse && matchingPerCent){
                 var in_kwhef = matchingEndUseInLease.first_year_value * matchingPerCent/100 ;
-                $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef );
+                $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef ).change();
 
                 $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
                     // Create loop for all YEARS here ??
                     in_kwhef * confFluidToUse.yearly_values[0].cost
-                );
+                ).change();
             }
 
         });
@@ -140,7 +140,7 @@ Template.actionForm.rendered = function () {
 
     // Investment ratio and cost
     $("[name='investment.ratio'], [name='investment.cost']").change(function() {
-        var curr_field = $(this).val();
+        var curr_field = $(this).val()*1;
         var target, estimate;
         var source = Session.get('current_building_doc').building_info.area_total ;
 
@@ -152,14 +152,14 @@ Template.actionForm.rendered = function () {
             target = $('[name="investment.ratio"]');
         }
 
-        if ( target.val() !== estimate ) {
-                target.val(estimate) ;
+        if ( target.val()*1 !== estimate ) {
+                target.val(estimate).change() ;
         }
     });
     $("[name='investment.ratio'], [name='investment.cost']").change() ; // Execute once at form render
 
     this.autorun(function () {
-        // ToDo: NOT FULLY REACTIVE
+        // Check: FULLY REACTIVE?
         // make sur that the investment cost change triggers the following formulas
         if (AutoForm.getFieldValue("insertActionForm", "investment.cost") ) {
             $("[name='subventions.ratio']").change();
@@ -168,10 +168,10 @@ Template.actionForm.rendered = function () {
     });
     // Subventions: ratio and cost in Euro
     $("[name='subventions.ratio'], [name='subventions.or_euro']").change(function() {
-        var curr_field = $(this).val();
+        var curr_field = $(this).val()*1;
         var target, estimate;
         // var source = $("[name='investment.cost']").val();
-        var source = AutoForm.getFieldValue("insertActionForm", "investment.cost") ;
+        var source = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
 
         if( $(this).attr("name") == "subventions.ratio") {
             estimate = curr_field/100 * source ;
@@ -181,24 +181,59 @@ Template.actionForm.rendered = function () {
             target = $('[name="subventions.ratio"]');
         }
 
-        if ( target.val() !== estimate ) {
-                target.val(estimate) ;
+        if ( target.val()*1 !== estimate ) {
+                target.val(estimate).change() ;
         }
     });
     $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
 
-    // ToDo: NOT FULLY REACTIVE
+
     // Subventions: residual cost
     this.autorun(function () {
-        investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost") ;
-        sub_euro = AutoForm.getFieldValue("insertActionForm", "subventions.or_euro") ;
-        cee_opportunity = AutoForm.getFieldValue("insertActionForm", "subventions.CEE_opportunity") ;
+        investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
+        sub_euro = AutoForm.getFieldValue("insertActionForm", "subventions.or_euro")*1 ;
+        cee_opportunity = AutoForm.getFieldValue("insertActionForm", "subventions.CEE_opportunity")*1 ;
 
         $("[name='subventions.residual_cost']").val(
             investment_cost - sub_euro - cee_opportunity
-        );
+        ).change();
     });
 
+    /* ----------------------- */
+    // Operating ratio and cost
+    $("[name='operating.ratio'], [name='operating.cost']").change(function() {
+        var curr_field = $(this).val()*1;
+        var target, estimate;
+        var source = Session.get('current_building_doc').building_info.area_total*1 ;
+
+        if( $(this).attr("name") == "operating.ratio") {
+            estimate = curr_field * source ;
+            target = $('[name="operating.cost"]');
+        } else {
+            estimate = curr_field / source ;
+            target = $('[name="operating.ratio"]');
+        }
+
+        if ( target.val()*1 !== estimate ) {
+                target.val(estimate).change() ;
+        }
+    });
+    $("[name='operating.ratio'], [name='operating.cost']").change() ; // Execute once at form render
+
+    // --------------------------------------
+    // savings_first_year.fluids.euro_peryear
+    var totalSavings = [];
+    this.autorun(function () {
+        $("[name^='impact_assessment_fluids.'][name$='.yearly_budget']").each(function( index ) {
+            var val = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".yearly_budget") ;
+            totalSavings[index] = val*1;
+        });
+        var totalSavingsValue = _.reduce(totalSavings, function(memo, num){ return memo + num; }, 0);
+
+        $("[name='savings_first_year.fluids.euro_peryear']").val( totalSavingsValue ) ;
+    });
+    // target: savings_first_year.fluids.euro_peryear
+    // impact_assessment_fluids.0.yearly_budget
 };
 
 Template.actionForm.destroyed = function () {

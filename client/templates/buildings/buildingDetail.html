@@ -21,18 +21,17 @@
                   </div>
 
                   <div class="panel-body" id="buildingSummary">
-                    buildingId is: {{_id}} <br/>
-                    building_name is: {{building_name}}
 
                     <div>
+                        Leases present:
                         {{#each getLeases}}
                             <br/>
                             <div>
-                                Lease name is: {{_ lease_name}} <br/>
+                                <b>{{_ lease_name}}</b><br/>
                                 Lease usage is: {{_ lease_usage}} <br/>
                                 Lease surface is: {{_ area_by_usage}} <br/>
                                 DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}} <br/>
-                                DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
+                                DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}<br/>
                             </div>
                         {{/each}}
                     </div>

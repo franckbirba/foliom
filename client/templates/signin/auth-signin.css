@@ -1,0 +1,22 @@
+.newAuth {
+    margin-left: 20% ;
+    margin-right: auto ;
+    width: 20em ;
+    padding-top: 100px;
+}
+
+.newAuth form {
+    margin-top: 20px;
+}
+
+.btn-signin {
+    color: #ffffff;
+    background-color: #B0C029;
+    border-color: #B0C029;
+    border-radius: 0px;
+}
+
+#whatIsEportfolio{
+    /*padding-top: 10px;*/
+    color: black;
+}
