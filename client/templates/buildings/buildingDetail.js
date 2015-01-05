@@ -169,5 +169,14 @@ Template.buildingDetail.events({
         } else {
             Session.set("current_lease_id", event.target.value);
         }
-   }
+   },
+   'click .update_lease': function(e) {
+        e.preventDefault();
+        Session.set('leaseToEdit', this); // "this" is passed by Meteor - it's the current item
+
+        console.log("current lease is: ");
+        console.log(this);
+
+        Router.go('leaseForm');
+    },
 });

@@ -27,7 +27,7 @@
                         {{#each getLeases}}
                             <br/>
                             <div>
-                                <b>{{_ lease_name}}</b><br/>
+                                <b><a href="#" class="update_lease">{{_ lease_name}}</a></b><br/>
                                 Lease usage is: {{_ lease_usage}} <br/>
                                 Lease surface is: {{_ area_by_usage}} <br/>
                                 DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}} <br/>

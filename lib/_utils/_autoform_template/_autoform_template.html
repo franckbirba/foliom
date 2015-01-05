@@ -27,7 +27,7 @@
       <td class="col-sm-1 col-xs-1">
         {{> afFormGroup name=this options="auto" template="verylightBSE"}}
       </td>
-       
+
     {{/each}}
   </div>
 </template>
@@ -48,7 +48,8 @@
 </template>
 
 <template name="afObjectField_eportfolio-horizontal">
-  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
+    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
     <div class="{{rightColumnClass}}">
       {{> afQuickFields name=this.atts.name }}
     </div>
@@ -57,8 +58,9 @@
 
 
 <template name="afArrayField_eportfolio-horizontal">
-  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
-    <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label>
+  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
+    <!-- <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label> -->
+    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
     {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
                   <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
               {{/if}}
@@ -95,7 +97,7 @@
                 <th style="margin-left:auto;margin-right:auto;float:left;font-size:8px;text-align: center;padding-bottom:10px;" class="{{this.bootstrap}}">
                     {{this.label}}
                 </th>
-                  
+
               {{/each}}
             </tr>
 

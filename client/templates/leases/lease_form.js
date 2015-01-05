@@ -39,28 +39,52 @@ AutoForm.hooks({
         },
         onSuccess: function(operation, result, template) {
 
-            /* ------------------------------------- */
-            /* Manage the number of Leases to create */
-            /* ------------------------------------- */
-            var nbLeases_2create = Session.get('nbLeases_2create');
-
-            if(nbLeases_2create>1) {
-                // One less lease to create, so we update the session var
-                Session.set('nbLeases_2create', nbLeases_2create-1);
-
-                Router.go('leaseForm', {
-                            // _id: id
-                        });
-            } else {
-                Session.set('nbLeases_2create', 0);
-                Router.go('buildingDetail', {_id: Session.get('current_building_id') });
+            // If update: go back to buildingDetail
+            if( Session.get('leaseToEdit') ) {
+                Router.go('buildingDetail', {_id: Session.get('current_building_doc')._id });
             }
+            else {
+                /* ------------------------------------- */
+                /* Manage the number of Leases to create */
+                /* ------------------------------------- */
+                var nbLeases_2create = Session.get('nbLeases_2create');
 
+                if(nbLeases_2create>1) {
+                    // One less lease to create, so we update the session var
+                    Session.set('nbLeases_2create', nbLeases_2create-1);
+
+                    Router.go('leaseForm', {
+                                // _id: id
+                            });
+                } else {
+                    Session.set('nbLeases_2create', 0);
+                    Router.go('buildingDetail', {_id: Session.get('current_building_id') });
+                }
+            }
 
         },
     }
 });
 
+Template.leaseForm.destroyed = function () {
+    Session.set('leaseToEdit', null);
+};
+
+Template.leaseForm.helpers({
+    getLeaseToEdit: function(){
+        if( Session.get('leaseToEdit') ) {
+            return Session.get('leaseToEdit');
+        }
+        else return null;
+    },
+    getType: function(){
+        if( Session.get('leaseToEdit') ) {
+            return "update";
+        } else {
+            return "insert";
+        }
+    }
+});
 
 
 Template.leaseForm.rendered = function () {
@@ -69,6 +93,20 @@ Template.leaseForm.rendered = function () {
     var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
     Tracker.autorun(function () {
+
+        // Set values on change
+        $(".tcc_lifetime").change(function(){
+            $("[name='technical_compliance.global_lifetime']").val(
+                calc_qualitative_assessment_class(".tcc_lifetime")
+            ).change();
+        });
+
+        $(".tcc_conformity").change(function(){
+            $("[name='technical_compliance.global_conformity']").val(
+                calc_qualitative_assessment_class(".tcc_conformity")
+            ).change();
+        });
+
         if( !Session.equals('nbLeases_2create',0) ){
             $(".end_use_name").each(function( index ) {
                 $(this).val( transr(endUses[index].end_use_name) );
@@ -82,20 +120,6 @@ Template.leaseForm.rendered = function () {
                 // $(this).val( index );
             });
 
-
-
-            // Set values on change
-            $(".tcc_lifetime").change(function(){
-                $("[name='technical_compliance.global_lifetime']").val(
-                    calc_qualitative_assessment_class(".tcc_lifetime")
-                )
-            });
-
-            $(".tcc_conformity").change(function(){
-                $("[name='technical_compliance.global_conformity']").val(
-                    calc_qualitative_assessment_class(".tcc_conformity")
-                )
-            });
 
             /* ------------------------------------------------------------------------ */
             /* conformity_information (Conformité réglementaire / audits / diagnostics) */

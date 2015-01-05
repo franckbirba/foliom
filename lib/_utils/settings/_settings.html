@@ -13,10 +13,10 @@
           </td>
         {{/each}}
       </tr>
-      
+
     </table>
 
-    
+
   </div>
 </template>
 
@@ -53,11 +53,13 @@
 
 <template name="afArrayField_eportfolio-settings">
   <div style="" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
-    <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label>
+    <!-- <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label> -->
+    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}
     {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
         <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success newfluid" data-toggle="modal" data-target="#fluidformmodal"><span class="glyphicon glyphicon-plus"></span></button>
-
     {{/if}}
+    </div>
+
     {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
 
       <div style="position:relative;">
@@ -66,9 +68,9 @@
             <button type="button" style="position:absolute;right:0px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger autoform-remove-item pull-left"><span class="glyphicon glyphicon-trash"></span></button>
         {{/if}}
       </div>
-    
+
     {{/afEachArrayItem}}
-    
+
   </div>
 
 </template>

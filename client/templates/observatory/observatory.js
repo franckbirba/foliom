@@ -110,13 +110,6 @@ Template.observatory.events({
         console.log(this);
 
         Router.go('buildingDetail', this);
-        // Router.go('/user');
-
-        // $( "#portfolio_list" ).fadeOut("fast", function() {
-        //     Session.set('portfolio_level', false);
-        //     $( "#building_list" ).fadeIn();
-        // });
-
     },
 
 });
