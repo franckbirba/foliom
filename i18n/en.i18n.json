@@ -50,5 +50,12 @@
 		"global_tri": "Global TRI",
 		"calculating": "Pending...",
 		"energy_saving": "Energy saving",
-		"action_reservoir": "Action reservoir"
+		"action_reservoir": "Action reservoir",
+
+		"consumption_noaction": "Current consumption",
+		"consumption_action_co2": "Consommation after CO2 actions",
+		"consumption_action_kwh": "Consommation after kWh actions",
+		"planning_budget_global": "Budget",
+		"planning_budget_investments": "Investments",
+		"planning_budget_subventions": "Investments - Subventions"
 }

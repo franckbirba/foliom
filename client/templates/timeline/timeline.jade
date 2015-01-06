@@ -1,26 +1,46 @@
 template(name='timeline')
   .row
-    .col-xs-12
-      .col-xs-2: button.btn.btn-lg.btn-success {{_ 'scenario'}} #{scenarioId}
-      .col-xs-2: .well.well-sm#actions #{nbActions} {{_ 'actions'}}
-      .col-xs-2: .well.well-sm#amount #{amount}
-      .col-xs-3: .well.well-sm {{_ 'global_tri'}} : <strong>#{triGlobal}</strong>
-      .col-xs-3: .well.well-sm {{_ 'energy_saving'}} : <strong>#{energySaving}</strong>
+    .col-md-2: button.btn.btn-lg.btn-success {{_ 'scenario'}} #{scenarioId}
+    .col-md-2: .well.well-sm#actions #{nbActions} {{_ 'actions'}}
+    .col-md-2: .well.well-sm#amount #{amount}
+    .col-md-3: .well.well-sm {{_ 'global_tri'}} : <strong>#{triGlobal}</strong>
+    .col-md-3: .well.well-sm {{_ 'energy_saving'}} : <strong>#{energySaving}</strong>
   .row
-    .col-xs-12
-      .col-xs-8
-        .panel.panel-default
-          .panel-body
-            #consumption.ct-chart.ct-double-octave
-            #planning_budget.ct-chart.ct-double-octave
-      .col-xs-4
-        .panel.panel-default
-          .panel-body
-            p Big table as a timeline
-  .row
-    .col-xs-12
-      .panel.panel.panel-default
-        .panel-heading
-          h3.panel-title {{ _'action_reservoir'}}
+    // The charts
+    .col-md-8
+      .panel.panel-default
         .panel-body
-          p Big table of avaliable actions                  
+          // The consumption chart
+          .row
+            // The chart
+            .col-md-8
+              #consumption.ct-chart.ct-double-octave
+            // The legend as a simple table
+            .col-md-4
+              small: .table-responsive: table.table.table-condensed: tbody
+                each consumptionLegend
+                  tr
+                    td(style=style): div.chart-legend(style=round)
+                    td(style=style)= name
+          // The Planning budget chart
+          .row
+            // The chart
+            .col-md-8
+              #planning_budget.ct-chart.ct-double-octave
+            // The legend as a simple table
+            .col-md-4
+              small: .table-responsive: table.table.table-condensed: tbody
+                each planningBudgetLegend
+                  tr
+                    td(style=style): div.chart-legend(style=round)
+                    td(style=style)= name
+    .col-md-4
+      .panel.panel-default
+        .panel-body
+          p Big table as a timeline
+  .row
+    .panel.panel.panel-default
+      .panel-heading
+        h3.panel-title {{ _'action_reservoir'}}
+      .panel-body
+        p Big table of avaliable actions                  

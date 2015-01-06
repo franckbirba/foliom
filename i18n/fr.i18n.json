@@ -387,5 +387,12 @@
 		"global_tri": "TRI global",
 		"calculating": "Calcul...",
 		"energy_saving": "Economie d'énergie",
-		"action_reservoir": "Réservoir d'actions"
+		"action_reservoir": "Réservoir d'actions",
+
+		"consumption_noaction": "Consommation courante",
+		"consumption_action_co2": "Consommation après actions CO2",
+		"consumption_action_kwh": "Consommation après actions kWh",
+		"planning_budget_global": "Budget",
+		"planning_budget_investments": "Investissements",
+		"planning_budget_subventions": "Investissements - Subventions"
 }
