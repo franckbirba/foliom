@@ -107,7 +107,7 @@ Template.leaseForm.rendered = function () {
             ).change();
         });
 
-        if( !Session.equals('nbLeases_2create',0) ){
+        if( !Session.get('leaseToEdit') ){
             $(".end_use_name").each(function( index ) {
                 $(this).val( transr(endUses[index].end_use_name) );
                 $(this).prop("readonly","readonly") ;

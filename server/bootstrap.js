@@ -99,7 +99,10 @@ Meteor.startup(function () {
     if(Estates.find().count() === 0) {
         var tmpConfig = {
             estate_name: "77",
-            portfolio_collection:["3tdkJMaCWcuHLotJw"]
+            portfolio_collection:["3tdkJMaCWcuHLotJw"],
+            estate_properties:{
+                endUseList: ["end_use_heating", "end_use_AC", "end_use_ventilation", "end_use_lighting", "end_use_aux", "end_use_ecs", "end_use_specific"]
+            }
         };
         var estate_id = Estates.insert(tmpConfig);
         console.log('inserted estate 77, ' + estate_id);
