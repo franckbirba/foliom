@@ -9,5 +9,6 @@
 		"actions": "actions",
 		"global_tri": "Global TRI",
 		"calculating": "Pending...",
-		"energy_saving": "Energy saving"
+		"energy_saving": "Energy saving",
+		"action_reservoir": "Action reservoir"
 }

@@ -6,3 +6,21 @@ template(name='timeline')
       .col-xs-2: .well.well-sm#amount #{amount}
       .col-xs-3: .well.well-sm {{_ 'global_tri'}} : <strong>#{triGlobal}</strong>
       .col-xs-3: .well.well-sm {{_ 'energy_saving'}} : <strong>#{energySaving}</strong>
+  .row
+    .col-xs-12
+      .col-xs-8
+        .panel.panel-default
+          .panel-body
+            p Chart 1
+            p Chart 2
+      .col-xs-4
+        .panel.panel-default
+          .panel-body
+            p Big table as a timeline
+  .row
+    .col-xs-12
+      .panel.panel.panel-default
+        .panel-heading
+          h3.panel-title {{ _'action_reservoir'}}
+        .panel-body
+          p Big table of avaliable actions                  

@@ -388,5 +388,6 @@
 		"actions": "actions",
 		"global_tri": "TRI global",
 		"calculating": "Calcul...",
-		"energy_saving": "Economie d'énergie"
+		"energy_saving": "Economie d'énergie",
+		"action_reservoir": "Réservoir d'actions"
 }
