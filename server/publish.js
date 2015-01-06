@@ -89,9 +89,3 @@ Meteor.publish('privateLists', function() {
 Meteor.publish("roles", function (){
   return Meteor.roles.find({})
 });
-
-Meteor.publish('todos', function(listId) {
-  check(listId, String);
-
-  return Todos.find({listId: listId});
-});

@@ -10,10 +10,6 @@ Template.playground.helpers(
                 console.log(estate.estate_name);
             });
             return labelList;
-
-            // Todos.find({listId: list._id}).forEach(function(todo) {
-            //     Todos.remove(todo._id);
-            // });
         }
     }
 );
