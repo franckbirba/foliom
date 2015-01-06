@@ -28,7 +28,7 @@ var getPortfolioId = function(portfolioName, callback){
       }
       return tmp._id;
     };
-var wrappedGetPortfolioId = Meteor._wrapAsync(getPortfolioId);
+var wrappedGetPortfolioId = Meteor.wrapAsync(getPortfolioId);
 
 Template.observatory.events({
     'click .importPortfolio': function(){
