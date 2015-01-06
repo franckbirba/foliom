@@ -87,8 +87,6 @@ Template.actionForm.rendered = function () {
             ).fetch();
         firstLease = allLeases[1]; // ToDo : boucler sur tous les Leases
         var allEndUseData = [];
-        var matchingEndUseInLease = [];
-        var confFluidToUse =[] ;
         var confFluids = Session.get('current_config').fluids ;
 
         this.autorun(function () {
@@ -96,9 +94,11 @@ Template.actionForm.rendered = function () {
             // Being in an autoRun, it's reactive
             $("[name^='impact_assessment_fluids.'][name$='.opportunity']").each(function( index ) {
 
-                var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ; // Use a reactive var
+                var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
 
                 if (matchingEndUse !== "") {
+                    var matchingEndUseInLease = [];
+
                     // Go through all Leases until we find the corresponding endUse in the Lease
                     // Note: could be better with a "break" when the EndUse is found
                     _.each(allLeases, function(lease, leaseIndex) {
@@ -126,29 +126,45 @@ Template.actionForm.rendered = function () {
                     console.log("allEndUseData: ");
                     console.log(allEndUseData);
 
-                    /// HERE
-                    var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
-                    var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".or_kwhef") ;
+                    // We now have all EndUses for all Leases, for all EndUses
+                    // -------------------------------------------------------
 
-                    // Investment ratio and cost
-                    // $("[name='investment.ratio'], [name='investment.cost']").change(function() {
-                    //     var curr_field = $(this).val()*1;
-                    //     var target, estimate;
-                    //     var source = Session.get('current_building_doc').building_info.area_total ;
+                    // -------------------------------------------------------
+                    // Track and set the two other fields
+                    var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent")*1 ;
+                    // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".or_kwhef")*1 ;
 
-                    //     if( $(this).attr("name") == "investment.ratio") {
-                    //         estimate = (curr_field * source).toFixed(2) ; //We're dealing with % and € so it's OK to only keep 2 decimals
-                    //         target = $('[name="investment.cost"]');
-                    //     } else {
-                    //         estimate = (curr_field / source).toFixed(2) ;
-                    //         target = $('[name="investment.ratio"]');
-                    //     }
+                    // if the field has a value
+                    if (matchingPerCent !== 0){
 
-                    //     if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
-                    //             target.val(estimate).change() ;
-                    //     }
-                    // });
-                } else { console.log("ha, empty"); }
+                        // If first 2 fields are entered, then set the kWef and yearly_budget
+
+                        // THIS IS WHERE WE HAVE TO CALCULATE FOR ALL LEASES
+                        var in_kwhef = 0, yearly_budget ;
+
+                        console.log("calculating in_kwhef");
+                        _.each(matchingEndUseInLease, function(endUse, tmp_index) {
+                            console.log("endUse.first_year_value is: " + endUse.first_year_value) ;
+                            in_kwhef += (endUse.first_year_value * matchingPerCent/100) ;
+                        });
+                        console.log("in_kwhef is: " + in_kwhef);
+
+                        // in_kwhef = (matchingEndUseInLease[0].first_year_value * matchingPerCent/100).toFixed(2) ;
+
+
+                        $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef.toFixed(2) ).change();
+
+                        // A REVOIR A PARTIR D'ICI !
+                        $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
+
+                            in_kwhef * matchingEndUseInLease[0].fluid.yearly_values[0].cost
+                        ).change();
+
+                        // Create loop for all YEARS here ??
+
+                    }
+
+                }
             });
         });
 
