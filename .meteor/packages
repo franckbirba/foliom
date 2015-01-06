@@ -22,7 +22,6 @@ cfs:standard-packages
 cfs:filesystem
 cfs:gridfs
 vazco:maps
-
 yogiben:autoform-modals
 harrison:papa-parse
 harrison:babyparse
