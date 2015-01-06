@@ -43,9 +43,11 @@ Template.nav.events(
 		},
 		'click .en-lang': function() {
 			TAPi18n.setLanguage('en');
+      numeral.language('en');
 		},
 		'click .fr-lang': function() {
 			TAPi18n.setLanguage('fr');
+      numeral.language('fr');
 		},
 		'click .select_estate': function() { //??
 	        var est = Estates.findOne({_id : this._id});

@@ -381,8 +381,12 @@
     "u_m2_useful": "m² utiles",
     "u_kwh_m2_year_primEnergy": "kWh / m².an (énergie primaire)",
     "u_kg_eqC02_m2_year": "kg (eq. C02)/ m².an",
-    "u_euro": "€ HT"
+    "u_euro": "€ HT",
 
-
-
+		/* Timeline screen */
+		"scenario": "Scénario",
+		"actions": "actions",
+		"global_tri": "TRI global",
+		"calculating": "Calcul...",
+		"energy_saving": "Economie d'énergie"
 }

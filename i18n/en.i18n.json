@@ -2,5 +2,12 @@
 	"hello": "Welcome to e-portfolio",
     "estate_name": "Estate name",
     "u_euro": "€",
-    "yearly_cost": "yearly cost"
+    "yearly_cost": "yearly cost",
+
+		/* Timeline screen */
+		"scenario": "Scenario",
+		"actions": "actions",
+		"global_tri": "Global TRI",
+		"calculating": "Calculating...",
+		"energy_saving": "Energy saving"
 }

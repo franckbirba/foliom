@@ -1,8 +1,8 @@
 template(name='timeline')
   .row
     .col-xs-12
-      .col-xs-2: button.btn.btn-success Scénario #{scenarioId}
-      .col-xs-2: .well.well-sm#actions #{nbActions} actions
+      .col-xs-2: button.btn.btn-success {{_ 'scenario'}} #{scenarioId}
+      .col-xs-2: .well.well-sm#actions #{nbActions} {{_ 'actions'}}
       .col-xs-2: .well.well-sm#amount #{amount}
-      .col-xs-2: .well.well-sm TRI Global <strong>#{triGlobal}</strong>
-      .col-xs-4: .well.well-sm Economie d'énergie : <strong>#{energySaving}</strong>
+      .col-xs-2: .well.well-sm {{_ 'global_tri'}} <strong>#{triGlobal}</strong>
+      .col-xs-4: .well.well-sm {{_ 'energy_saving'}} : <strong>#{energySaving}</strong>
