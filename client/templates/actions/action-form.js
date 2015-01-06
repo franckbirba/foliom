@@ -69,171 +69,177 @@ Template.actionForm.rendered = function () {
     //     $('[name="name"]').prop("readonly","readonly") ;
     // }
 
-    /* -------------- */
-    /* EndUse formula */
-    /* -------------- */
-    allLeases = Leases.find({building_id:Session.get('current_building_doc')._id}).fetch();
-    firstLease = allLeases[0];
+    // Only apply formulas if we're editing a child action
+    if ( Session.get('childActionToEdit') ) {
+        /* -------------- */
+        /* EndUse formula */
+        /* -------------- */
+        allLeases = Leases.find({building_id:Session.get('current_building_doc')._id}).fetch();
+        firstLease = allLeases[1]; // ToDo : boucler sur tous les Leases
 
-    this.autorun(function () {
-        $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
+        this.autorun(function () {
+            // Have this loop monitor all opportunity Selectors (target: '.or_kwhef')
+            // Being in an autoRun, it's reactive
+            $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
 
-            var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
-            var endUseInLease ;
-            var meterInLease ;
-            var confFluidToUse ;
+                var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
+                var endUseInLease ;
+                var meterInLease ;
+                var confFluidToUse ;
+                var matchingEndUseInLease ;
 
-            if (matchingEndUse) {
-                // find the corresponding endUse in the Lease
-                _.each(firstLease.consumption_by_end_use, function(endUse) {
-                    if(endUse.end_use_name == matchingEndUse){
-                        matchingEndUseInLease = endUse;
-                        console.log("matchingEndUseInLease: ");
-                        console.log(matchingEndUseInLease);
-                    }
-                });
+                if (matchingEndUse) {
+                    // find the corresponding endUse in the Lease
+                    _.each(firstLease.consumption_by_end_use, function(endUse) {
+                        if(endUse.end_use_name == matchingEndUse){
+                            matchingEndUseInLease = endUse; // Tableau ?
+                            console.log("matchingEndUseInLease: ");
+                            console.log(matchingEndUseInLease);
+                        }
+                    });
 
-                // NOT NECESSARILY USEFUL ???
-                // find the corresponding fluid_consumption_meter in the Lease
-                _.each(firstLease.fluid_consumption_meter, function(meter) {
-                    if(meter.fluid_id == matchingEndUseInLease.fluid_id){
-                        meterInLease = meter;
-                        console.log("meter: ");
-                        console.log(meter);
-                    }
-                });
+                    // NOT NECESSARILY USEFUL ???
+                    // find the corresponding fluid_consumption_meter in the Lease
+                    _.each(firstLease.fluid_consumption_meter, function(meter) {
+                        if(meter.fluid_id == matchingEndUseInLease.fluid_id){
+                            meterInLease = meter;
+                            console.log("meter: ");
+                            console.log(meter);
+                        }
+                    });
 
-                // find the corresponding fluid in the Conf
-                confFluids = Session.get('current_config').fluids ;
-                _.each(confFluids, function(fluid) {
-                    completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type ;
-                    if (completeFluideName == matchingEndUseInLease.fluid_id) {
-                        confFluidToUse = fluid ;
-                    }
-                });
-                console.log("confFluidToUse") ;
-                console.log(confFluidToUse) ;
+                    // find the corresponding fluid in the Conf
+                    confFluids = Session.get('current_config').fluids ;
+                    _.each(confFluids, function(fluid) {
+                        completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type ;
+                        if (completeFluideName == matchingEndUseInLease.fluid_id) {
+                            confFluidToUse = fluid ; // Tableau ?
+                        }
+                    });
+                    console.log("confFluidToUse") ;
+                    console.log(confFluidToUse) ;
 
-            }
+                }
 
-            var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
+                var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
 
-            // If first 2 fields are entered, then set the kWef and yearly_budget
-            if (matchingEndUse && matchingPerCent){
-                var in_kwhef = matchingEndUseInLease.first_year_value * matchingPerCent/100 ;
-                $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef ).change();
+                // If first 2 fields are entered, then set the kWef and yearly_budget
+                if (matchingEndUse && matchingPerCent){
+                    var in_kwhef = matchingEndUseInLease.first_year_value * matchingPerCent/100 ;
+                    $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef ).change();
 
-                $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
-                    // Create loop for all YEARS here ??
-                    in_kwhef * confFluidToUse.yearly_values[0].cost
-                ).change();
-            }
+                    $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
+                        // Create loop for all YEARS here ??
+                        in_kwhef * confFluidToUse.yearly_values[0].cost
+                    ).change();
+                }
+
+            });
 
         });
 
-    });
 
+        /* ------------------ */
+        /* Other form formula */
+        /* ------------------ */
 
-    /* ------------------ */
-    /* Other form formula */
-    /* ------------------ */
+        // Investment ratio and cost
+        $("[name='investment.ratio'], [name='investment.cost']").change(function() {
+            var curr_field = $(this).val()*1;
+            var target, estimate;
+            var source = Session.get('current_building_doc').building_info.area_total ;
 
-    // Investment ratio and cost
-    $("[name='investment.ratio'], [name='investment.cost']").change(function() {
-        var curr_field = $(this).val()*1;
-        var target, estimate;
-        var source = Session.get('current_building_doc').building_info.area_total ;
+            if( $(this).attr("name") == "investment.ratio") {
+                estimate = (curr_field * source).toFixed(2) ; //We're dealing with % and € so it's OK to only keep 2 decimals
+                target = $('[name="investment.cost"]');
+            } else {
+                estimate = (curr_field / source).toFixed(2) ;
+                target = $('[name="investment.ratio"]');
+            }
 
-        if( $(this).attr("name") == "investment.ratio") {
-            estimate = curr_field * source ;
-            target = $('[name="investment.cost"]');
-        } else {
-            estimate = curr_field / source ;
-            target = $('[name="investment.ratio"]');
-        }
-
-        if ( target.val()*1 !== estimate ) {
-                target.val(estimate).change() ;
-        }
-    });
-    $("[name='investment.ratio'], [name='investment.cost']").change() ; // Execute once at form render
-
-    this.autorun(function () {
-        // Check: FULLY REACTIVE?
-        // make sur that the investment cost change triggers the following formulas
-        if (AutoForm.getFieldValue("insertActionForm", "investment.cost") ) {
-            $("[name='subventions.ratio']").change();
-            console.log("change!");
-        }
-    });
-    // Subventions: ratio and cost in Euro
-    $("[name='subventions.ratio'], [name='subventions.or_euro']").change(function() {
-        var curr_field = $(this).val()*1;
-        var target, estimate;
-        // var source = $("[name='investment.cost']").val();
-        var source = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
-
-        if( $(this).attr("name") == "subventions.ratio") {
-            estimate = curr_field/100 * source ;
-            target = $('[name="subventions.or_euro"]');
-        } else {
-            estimate = curr_field*100 / source ;
-            target = $('[name="subventions.ratio"]');
-        }
-
-        if ( target.val()*1 !== estimate ) {
-                target.val(estimate).change() ;
-        }
-    });
-    $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
-
-
-    // Subventions: residual cost
-    this.autorun(function () {
-        investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
-        sub_euro = AutoForm.getFieldValue("insertActionForm", "subventions.or_euro")*1 ;
-        cee_opportunity = AutoForm.getFieldValue("insertActionForm", "subventions.CEE_opportunity")*1 ;
-
-        $("[name='subventions.residual_cost']").val(
-            investment_cost - sub_euro - cee_opportunity
-        ).change();
-    });
-
-    /* ----------------------- */
-    // Operating ratio and cost
-    $("[name='operating.ratio'], [name='operating.cost']").change(function() {
-        var curr_field = $(this).val()*1;
-        var target, estimate;
-        var source = Session.get('current_building_doc').building_info.area_total*1 ;
-
-        if( $(this).attr("name") == "operating.ratio") {
-            estimate = curr_field * source ;
-            target = $('[name="operating.cost"]');
-        } else {
-            estimate = curr_field / source ;
-            target = $('[name="operating.ratio"]');
-        }
-
-        if ( target.val()*1 !== estimate ) {
-                target.val(estimate).change() ;
-        }
-    });
-    $("[name='operating.ratio'], [name='operating.cost']").change() ; // Execute once at form render
-
-    // --------------------------------------
-    // savings_first_year.fluids.euro_peryear
-    var totalSavings = [];
-    this.autorun(function () {
-        $("[name^='impact_assessment_fluids.'][name$='.yearly_budget']").each(function( index ) {
-            var val = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".yearly_budget") ;
-            totalSavings[index] = val*1;
+            if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
+                    target.val(estimate).change() ;
+            }
         });
-        var totalSavingsValue = _.reduce(totalSavings, function(memo, num){ return memo + num; }, 0);
+        $("[name='investment.ratio'], [name='investment.cost']").change() ; // Execute once at form render
 
-        $("[name='savings_first_year.fluids.euro_peryear']").val( totalSavingsValue ) ;
-    });
-    // target: savings_first_year.fluids.euro_peryear
-    // impact_assessment_fluids.0.yearly_budget
+        this.autorun(function () {
+            // Check: FULLY REACTIVE?
+            // make sur that the investment cost change triggers the following formulas
+            if (AutoForm.getFieldValue("insertActionForm", "investment.cost") ) {
+                $("[name='subventions.ratio']").change();
+                console.log("change!");
+            }
+        });
+        // Subventions: ratio and cost in Euro
+        $("[name='subventions.ratio'], [name='subventions.or_euro']").change(function() {
+            var curr_field = $(this).val()*1;
+            var target, estimate;
+            // var source = $("[name='investment.cost']").val();
+            var source = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
+
+            if( $(this).attr("name") == "subventions.ratio") {
+                estimate = (curr_field/100 * source).toFixed(2) ;
+                target = $('[name="subventions.or_euro"]');
+            } else {
+                estimate = (curr_field*100 / source).toFixed(2) ;
+                target = $('[name="subventions.ratio"]');
+            }
+
+            if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
+                    target.val(estimate).change() ;
+            }
+        });
+        $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
+
+
+        // Subventions: residual cost
+        this.autorun(function () {
+            investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
+            sub_euro = AutoForm.getFieldValue("insertActionForm", "subventions.or_euro")*1 ;
+            cee_opportunity = AutoForm.getFieldValue("insertActionForm", "subventions.CEE_opportunity")*1 ;
+
+            $("[name='subventions.residual_cost']").val(
+                investment_cost - sub_euro - cee_opportunity
+            ).change();
+        });
+
+        /* ----------------------- */
+        // Operating ratio and cost
+        $("[name='operating.ratio'], [name='operating.cost']").change(function() {
+            var curr_field = $(this).val()*1;
+            var target, estimate;
+            var source = Session.get('current_building_doc').building_info.area_total*1 ;
+
+            if( $(this).attr("name") == "operating.ratio") {
+                estimate = (curr_field * source).toFixed(2) ;
+                target = $('[name="operating.cost"]');
+            } else {
+                estimate = (curr_field / source).toFixed(2) ;
+                target = $('[name="operating.ratio"]');
+            }
+
+            if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
+                    target.val(estimate).change() ;
+            }
+        });
+        $("[name='operating.ratio'], [name='operating.cost']").change() ; // Execute once at form render
+
+        // --------------------------------------
+        // savings_first_year.fluids.euro_peryear
+        var totalSavings = [];
+        this.autorun(function () {
+            $("[name^='impact_assessment_fluids.'][name$='.yearly_budget']").each(function( index ) {
+                var val = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".yearly_budget") ;
+                totalSavings[index] = val*1;
+            });
+            var totalSavingsValue = _.reduce(totalSavings, function(memo, num){ return memo + num; }, 0);
+
+            $("[name='savings_first_year.fluids.euro_peryear']").val( totalSavingsValue ) ;
+        });
+        // target: savings_first_year.fluids.euro_peryear
+        // impact_assessment_fluids.0.yearly_budget
+    }
 };
 
 Template.actionForm.destroyed = function () {

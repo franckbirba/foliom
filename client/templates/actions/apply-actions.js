@@ -6,17 +6,15 @@
 
 Template.applyActions.rendered = function () {
 
-    // clear session var
+    // clear building_doc session var
     Session.set('current_building_doc', null);
 
-    // Init: choose a random Portfolio from the current Estate doc
-    $("#portfolioSelect").val(Portfolios.findOne()._id);
-
-    // If Portfolio selector has a value: set the correct current Portfolio Doc
-    if ($("#portfolioSelect").val()){
-        Session.set('current_portfolio_doc',
-                Portfolios.findOne( $("#portfolioSelect").val() )
-            );
+    if (Session.get('current_portfolio_doc')) {
+        // If a Portfolio is alreay "selected", then use it
+        $("#portfolioSelect").val( Session.get('current_portfolio_doc')._id ).change();
+    } else {
+        // Else init by choosing a random Portfolio from the current Estate doc
+        $("#portfolioSelect").val(Portfolios.findOne()._id).change();
     }
 
     // On Portfolio selector change: set the correct current Portfolio Doc
@@ -25,42 +23,6 @@ Template.applyActions.rendered = function () {
             Portfolios.findOne( $("#portfolioSelect").val() )
         );
     });
-
-    // monitor current_building_doc and set the checkboxes accordingly
-    // Tracker.autorun(function () {
-    //     var currBuilding = Session.get('current_building_doc');
-
-    //     var existingChildActions = Actions.find({
-    //                                 "action_type":"child",
-    //                                 "building_id": currBuilding._id
-    //                                 },
-    //                                 {sort: {name:1}}
-    //                                 ).fetch();
-
-    //     $( "input[type=checkbox]" ).each(function( index ) {
-    //         var currentAction = Actions.find({_id: $(this).val()}).fetch();
-
-    //         if ( _.contains(existingChildActions, $(this).val() ) ) { // check if current Action has a child associated to the building
-
-    //         }
-    //         // $(this).is(':checked')
-    //     });
-
-
-
-    // });
-
-
-    // $( "input[type=checkbox]" ).on( "click", function() {
-    //     console.log( $(this).val() + " is checked!" );
-    // });
-    // $("input[type=checkbox]:checked").each(
-        //     function() {
-        //        // Insérer son code ici
-        //        alert($(this).attr("id"));
-        //     }
-        // );
-
 
 };
 
