@@ -49,7 +49,7 @@ Template.timeline.rendered = ->
   consumptionData =
     labels: timeline
     series: [
-      [5, 5, 5, 5, 5]
+      [3, 4, 4.5, 4.7, 5]
       [3, 3.5, 3.2, 3.1, 2]
       [3, 3.5, 4, 4.2, 4.5]
     ]
