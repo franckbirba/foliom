@@ -19,11 +19,11 @@ AutoForm.hooks({
         },
         onSuccess: function(operation, result, template) {
             if (Session.get('childActionToEdit')) {
-                Session.set('childActionToEdit', null) ;
+                // Session.set('childActionToEdit', null); // Always set "nul when template destroyed
                 Router.go('applyActions');
             }
             else {
-                Session.set('newActionType', null) ;
+                // Session.set('newActionType', null); // Always set "nul when template destroyed
                 Router.go('actionsList');
             }
 
@@ -31,6 +31,13 @@ AutoForm.hooks({
         },
     }
 });
+
+Template.actionForm.destroyed = function () {
+    Session.set('newActionType', null);
+    Session.set('childActionToEdit', null);
+    Session.set('updateAction', null);
+    Session.set('masterAction', null);
+};
 
 Template.actionForm.helpers({
     getAction: function(){
@@ -74,69 +81,150 @@ Template.actionForm.rendered = function () {
         /* -------------- */
         /* EndUse formula */
         /* -------------- */
-        allLeases = Leases.find({building_id:Session.get('current_building_doc')._id}).fetch();
+        allLeases = Leases.find(
+                {building_id:Session.get('current_building_doc')._id},
+                {sort: {lease_name:1}}
+            ).fetch();
         firstLease = allLeases[1]; // ToDo : boucler sur tous les Leases
+        var allEndUseData = [];
+        var matchingEndUseInLease = [];
+        var confFluidToUse =[] ;
+        var confFluids = Session.get('current_config').fluids ;
 
         this.autorun(function () {
-            // Have this loop monitor all opportunity Selectors (target: '.or_kwhef')
+            // Have this loop monitor all opportunity Selectors
             // Being in an autoRun, it's reactive
-            $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
+            $("[name^='impact_assessment_fluids.'][name$='.opportunity']").each(function( index ) {
 
-                var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
-                var endUseInLease ;
-                var meterInLease ;
-                var confFluidToUse ;
-                var matchingEndUseInLease ;
+                var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ; // Use a reactive var
 
-                if (matchingEndUse) {
-                    // find the corresponding endUse in the Lease
-                    _.each(firstLease.consumption_by_end_use, function(endUse) {
-                        if(endUse.end_use_name == matchingEndUse){
-                            matchingEndUseInLease = endUse; // Tableau ?
-                            console.log("matchingEndUseInLease: ");
-                            console.log(matchingEndUseInLease);
-                        }
+                if (matchingEndUse !== "") {
+                    // Go through all Leases until we find the corresponding endUse in the Lease
+                    // Note: could be better with a "break" when the EndUse is found
+                    _.each(allLeases, function(lease, leaseIndex) {
+                        _.each(lease.consumption_by_end_use, function(endUse) {
+                            if(endUse.end_use_name == matchingEndUse){
+                                endUse.lease_name = lease.lease_name ;
+                                endUse.consumption_by_end_use_total = lease.consumption_by_end_use_total;
+
+                                // For each EndUse found, we search for the corresponding Fluid in the conf
+                                _.each(confFluids, function(fluid) {
+                                    completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type ;
+                                    if (completeFluideName == endUse.fluid_id) {
+                                        endUse.fluid = fluid ; // We store the Fluid in the array
+                                    }
+                                });
+
+                                matchingEndUseInLease[leaseIndex] = endUse;
+                            }
+                        });
                     });
+                    console.log("matchingEndUseInLease: ");
+                    console.log(matchingEndUseInLease);
 
-                    // NOT NECESSARILY USEFUL ???
-                    // find the corresponding fluid_consumption_meter in the Lease
-                    _.each(firstLease.fluid_consumption_meter, function(meter) {
-                        if(meter.fluid_id == matchingEndUseInLease.fluid_id){
-                            meterInLease = meter;
-                            console.log("meter: ");
-                            console.log(meter);
-                        }
-                    });
+                    allEndUseData[index] = matchingEndUseInLease;
+                    console.log("allEndUseData: ");
+                    console.log(allEndUseData);
 
-                    // find the corresponding fluid in the Conf
-                    confFluids = Session.get('current_config').fluids ;
-                    _.each(confFluids, function(fluid) {
-                        completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type ;
-                        if (completeFluideName == matchingEndUseInLease.fluid_id) {
-                            confFluidToUse = fluid ; // Tableau ?
-                        }
-                    });
-                    console.log("confFluidToUse") ;
-                    console.log(confFluidToUse) ;
+                    /// HERE
+                    var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
+                    var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".or_kwhef") ;
 
-                }
+                    // Investment ratio and cost
+                    // $("[name='investment.ratio'], [name='investment.cost']").change(function() {
+                    //     var curr_field = $(this).val()*1;
+                    //     var target, estimate;
+                    //     var source = Session.get('current_building_doc').building_info.area_total ;
 
-                var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
+                    //     if( $(this).attr("name") == "investment.ratio") {
+                    //         estimate = (curr_field * source).toFixed(2) ; //We're dealing with % and € so it's OK to only keep 2 decimals
+                    //         target = $('[name="investment.cost"]');
+                    //     } else {
+                    //         estimate = (curr_field / source).toFixed(2) ;
+                    //         target = $('[name="investment.ratio"]');
+                    //     }
 
-                // If first 2 fields are entered, then set the kWef and yearly_budget
-                if (matchingEndUse && matchingPerCent){
-                    var in_kwhef = matchingEndUseInLease.first_year_value * matchingPerCent/100 ;
-                    $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef ).change();
-
-                    $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
-                        // Create loop for all YEARS here ??
-                        in_kwhef * confFluidToUse.yearly_values[0].cost
-                    ).change();
-                }
-
+                    //     if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
+                    //             target.val(estimate).change() ;
+                    //     }
+                    // });
+                } else { console.log("ha, empty"); }
             });
-
         });
+
+        // var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
+
+        // // If first 2 fields are entered, then set the kWef and yearly_budget
+        // if (matchingEndUse && matchingPerCent){
+        //     var in_kwhef = matchingEndUseInLease.first_year_value * matchingPerCent/100 ;
+        //     $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef ).change();
+
+        //     $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
+        //         // Create loop for all YEARS here ??
+        //         in_kwhef * confFluidToUse.yearly_values[0].cost
+        //     ).change();
+        // }
+
+        // this.autorun(function () {
+        //     // Have this loop monitor all opportunity Selectors (target: '.or_kwhef')
+        //     // Being in an autoRun, it's reactive
+        //     $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
+
+        //         var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
+        //         var endUseInLease ;
+        //         var meterInLease ;
+        //         var confFluidToUse ;
+        //         var matchingEndUseInLease ;
+
+        //         if (matchingEndUse) {
+        //             // find the corresponding endUse in the Lease
+        //             _.each(firstLease.consumption_by_end_use, function(endUse) {
+        //                 if(endUse.end_use_name == matchingEndUse){
+        //                     matchingEndUseInLease = endUse; // Tableau ?
+        //                     console.log("matchingEndUseInLease: ");
+        //                     console.log(matchingEndUseInLease);
+        //                 }
+        //             });
+
+        //             // NOT NECESSARILY USEFUL ???
+        //             // find the corresponding fluid_consumption_meter in the Lease
+        //             _.each(firstLease.fluid_consumption_meter, function(meter) {
+        //                 if(meter.fluid_id == matchingEndUseInLease.fluid_id){
+        //                     meterInLease = meter;
+        //                     console.log("meter: ");
+        //                     console.log(meter);
+        //                 }
+        //             });
+
+        //             // find the corresponding fluid in the Conf
+        //             confFluids = Session.get('current_config').fluids ;
+        //             _.each(confFluids, function(fluid) {
+        //                 completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type ;
+        //                 if (completeFluideName == matchingEndUseInLease.fluid_id) {
+        //                     confFluidToUse = fluid ; // Tableau ?
+        //                 }
+        //             });
+        //             console.log("confFluidToUse") ;
+        //             console.log(confFluidToUse) ;
+
+        //         }
+
+        //         var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent") ;
+
+        //         // If first 2 fields are entered, then set the kWef and yearly_budget
+        //         if (matchingEndUse && matchingPerCent){
+        //             var in_kwhef = matchingEndUseInLease.first_year_value * matchingPerCent/100 ;
+        //             $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef ).change();
+
+        //             $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
+        //                 // Create loop for all YEARS here ??
+        //                 in_kwhef * confFluidToUse.yearly_values[0].cost
+        //             ).change();
+        //         }
+
+        //     });
+
+        // });
 
 
         /* ------------------ */
@@ -242,10 +330,7 @@ Template.actionForm.rendered = function () {
     }
 };
 
-Template.actionForm.destroyed = function () {
-    Session.set('childActionToEdit', null);
-    Session.set('updateAction', null);
-};
+
 
     // var current_building_doc_id = Session.get('current_building_doc')._id;
     // var allLeases = Leases.find({building_id:current_building_doc_id}).fetch();
