@@ -85,7 +85,6 @@ Template.actionForm.rendered = function () {
                 {building_id:Session.get('current_building_doc')._id},
                 {sort: {lease_name:1}}
             ).fetch();
-        firstLease = allLeases[1]; // ToDo : boucler sur tous les Leases
         var allEndUseData = [];
         var confFluids = Session.get('current_config').fluids ;
 
@@ -96,10 +95,10 @@ Template.actionForm.rendered = function () {
 
                 var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".opportunity") ;
 
-                if (matchingEndUse !== "") {
-                    var matchingEndUseInLease = [];
+                if (matchingEndUse !== "") { // We make sure that something is selected
+                    var matchingEndUseInLease = []; // Array in which we'll store all relevant Data
 
-                    // Go through all Leases until we find the corresponding endUse in the Lease
+                    // We now have an opportinity. We go through all Leases: for each one we find the corresponding endUse in the Lease
                     // Note: could be better with a "break" when the EndUse is found
                     _.each(allLeases, function(lease, leaseIndex) {
                         _.each(lease.consumption_by_end_use, function(endUse) {
@@ -119,46 +118,104 @@ Template.actionForm.rendered = function () {
                             }
                         });
                     });
-                    console.log("matchingEndUseInLease: ");
+                    /* matchingEndUseInLease looks like
+                    [{
+                        "end_use_name":"end_use_heating",
+                        "fluid_id":"EDF - fluid_heat",
+                        "lease_name":"Lease1Test",
+                        "first_year_value":12,
+                        "consumption_by_end_use_total":98,
+                        "fluid":{
+                            "fluid_type":"fluid_heat",
+                            "fluid_provider":"EDF",
+                            "yearly_values":[
+                                {"year":2014,"cost":10,"evolution_index":0},
+                                {"year":2015,"cost":10,"evolution_index":0},
+                                {"year":2016,"cost":10.1,"evolution_index":1},
+                                ...
+                                {"year":2043,"cost":10.5,"evolution_index":0},
+                                {"year":2044,"cost":10.5,"evolution_index":0}
+                            ],
+                            "global_evolution_index":5
+                        }
+                    },
+                    {
+                        "end_use_name":"end_use_heating",
+                        "fluid_id":"EDF - fluid_electricity",
+                        "lease_name":"thisLease2",
+                        "first_year_value":30,
+                        "consumption_by_end_use_total":170,
+                        "fluid":{
+                            "fluid_type":"fluid_electricity",
+                            "fluid_provider":"EDF",
+                            "yearly_values":[{...}]
+                    */
+                    console.log("matchingEndUseInLease "+"for index: "+index);
                     console.log(matchingEndUseInLease);
 
-                    allEndUseData[index] = matchingEndUseInLease;
+                    allEndUseData[index] = matchingEndUseInLease; // Remeber: index is the line number in the form
                     console.log("allEndUseData: ");
                     console.log(allEndUseData);
 
-                    // We now have all EndUses for all Leases, for all EndUses
+                    // We now have all EndUses for all Leases
                     // -------------------------------------------------------
 
+
                     // -------------------------------------------------------
-                    // Track and set the two other fields
+                    // If first EndUse and matchingPerCent fields are entered, then set the kWef
+
                     var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".per_cent")*1 ;
                     // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".or_kwhef")*1 ;
 
-                    // if the field has a value
+                    // if matchingPerCent has a value
                     if (matchingPerCent !== 0){
+                        var in_kwhef = 0 ;
 
-                        // If first 2 fields are entered, then set the kWef and yearly_budget
-
-                        // THIS IS WHERE WE HAVE TO CALCULATE FOR ALL LEASES
-                        var in_kwhef = 0, yearly_budget ;
-
-                        console.log("calculating in_kwhef");
+                        // matchingEndUseInLease contains all that we need - we're still in the loop that applies to each line
+                        // We go through each endUse and sum the percent*EndUse_consumption
                         _.each(matchingEndUseInLease, function(endUse, tmp_index) {
-                            console.log("endUse.first_year_value is: " + endUse.first_year_value) ;
-                            in_kwhef += (endUse.first_year_value * matchingPerCent/100) ;
+                            // console.log("endUse.first_year_value is: " + endUse.first_year_value) ;
+                            result = (endUse.first_year_value * matchingPerCent/100) ;
+                            endUse.in_kwhef_lease = result;
+
+                            in_kwhef += result;
                         });
-                        console.log("in_kwhef is: " + in_kwhef);
 
-                        // in_kwhef = (matchingEndUseInLease[0].first_year_value * matchingPerCent/100).toFixed(2) ;
-
-
+                        // Now set the in_kwhef val
                         $("[name='impact_assessment_fluids." + index + ".or_kwhef']").val( in_kwhef.toFixed(2) ).change();
+                    }
 
-                        // A REVOIR A PARTIR D'ICI !
-                        $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(
+                    // -------------------------------------------------------
+                    // If first matchingPerCent and in_kwhef are set, then set yearly_budget
+                    // AND: create all yearly values
+                    if (matchingPerCent !== 0 && in_kwhef !== 0){
+                        //create an array with 31 zeros
+                        var yearly_budget = Array.apply(null, new Array(31)).map(Number.prototype.valueOf,0); ;
 
-                            in_kwhef * matchingEndUseInLease[0].fluid.yearly_values[0].cost
-                        ).change();
+                        _.each(matchingEndUseInLease, function(endUse, tmp_index) {
+                            // For this endUse, create yearly values for in_kwhef
+                            var impact_assessment = [];
+                            _.each(endUse.fluid.yearly_values, function(year, year_index) {
+                                //For each year, calc the euro reduction : in_kwhef_lease * yearly fuild cost
+                                var euro_reduction = (endUse.in_kwhef_lease * year.cost).toFixed(2)*1;
+
+                                //Save the result in the EndUse
+                                impact_assessment[year_index] = {
+                                    "year": year_index,
+                                    "euro_reduction": euro_reduction
+                                }
+
+                                //We also create the sum in the yearly_budget array
+                                yearly_budget[year_index] = (yearly_budget[year_index] + euro_reduction).toFixed(2)*1;
+                            });
+                            endUse.impact_assessment_fluids = impact_assessment;
+
+                        });
+
+                        console.log("yearly_budget is: ");
+                        console.log(yearly_budget);
+
+                        $("[name='impact_assessment_fluids." + index + ".yearly_budget']").val(yearly_budget[0] ).change();
 
                         // Create loop for all YEARS here ??
 

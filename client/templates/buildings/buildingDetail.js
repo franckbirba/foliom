@@ -112,7 +112,7 @@ Template.buildingDetail.rendered = function () {
 Template.buildingDetail.helpers({
     getLeases: function(){
         var result = Leases.find( { building_id: Session.get('current_building_doc')._id },
-                    {sort: {name:1}}
+                    {sort: {lease_name:1}}
                     ).fetch();
 
         return result;
