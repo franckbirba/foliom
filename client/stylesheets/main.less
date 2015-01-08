@@ -1,12 +1,7 @@
-// Import Vendors
-@import "vendor/custom.bootstrap.mixins.import.less";
-@import "vendor/custom.bootstrap.import.less";
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 html, body, .page {
@@ -20,7 +15,7 @@ html, body, .page {
   		padding: 0;
 }
 
-body{
+body {
 	background-color: transparent !important;
 }
 
@@ -87,21 +82,9 @@ input.form-control {
 	padding: 6px 6px;
 }
 
-.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-	/*background-color: rgb(135, 170, 0);*/
-}
-
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-	/*background-color: rgb(135, 170, 0);*/
-}
-
 #login-buttons a, .accounts-dialog a {
 	text-decoration: none;
 	color: black;
-}
-
-.navbar-default {
-	/*background-color: rgb(160, 188, 0);*/
 }
 
 .panel-footer {
@@ -116,31 +99,4 @@ input.form-control {
 .form-horizontal .control-label {
 	font-size: 11px;
 	font-style: normal;
-}
-
-/* HOME */
-
-.mainMenuImg{
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 340px;
-
-  padding: 10px;
-
-  opacity: 0.7;
-  filter: alpha(opacity=70); /* For IE8 and earlier */
-}
-
-.mainMenuImg:hover {
-    opacity: 1.0;
-    filter: alpha(opacity=100); /* For IE8 and earlier */
-}
-
-.sextan {
-  background-image: url(/icon/sextan.png);
-}
-
-.compass {
-  background-image: url(/icon/compass.png);
-
 }
