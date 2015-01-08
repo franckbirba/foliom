@@ -8,6 +8,17 @@
 		"followup_tools": "Follow-up tools",
 		"view_all_message": "View all messages",
 
+		/* Signin */
+		"hangs": "Design, monitor and evaluate its estate master plans",
+		"my_account": "My account",
+		"email": "Email",
+		"your_email": "Your email",
+		"email_required": "Your email is required.",
+		"password": "Password",
+		"your_password": "Your password",
+		"password_required": "Your password is required.",
+		"connect": "Connect",
+		"e_portfolio_what_is_it": "E-portfolio, what is it?",
 
 		"description": "Description",
 		"logo": "Logo",

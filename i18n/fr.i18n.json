@@ -8,6 +8,18 @@
 		"followup_tools": "Outils de suivi",
 		"view_all_message": "Voir tous les messages",
 
+		/* Signin */
+		"hangs": "Concevoir, suivre et évaluer ses schémas directeurs immobiliers",
+		"my_account": "Mon compte",
+		"email": "Email",
+		"email_required": "Votre email est requis.",
+		"your_email": "Votre email",
+		"password": "Mot de passe",
+		"password_required": "Votre mot de passe est requis.",
+		"your_password": "Votre mot de passe",
+		"connect": "Se connecter",
+		"e_portfolio_what_is_it": "E-portfolio, qu'est-ce que c'est ?",
+
     "description": "Description",
     "logo": "Logo",
     "address": "Adresse",

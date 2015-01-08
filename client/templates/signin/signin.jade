@@ -1,0 +1,23 @@
+template(name='signin')
+  .signin.container-fluid
+    .row
+      .col-sm-offset-2.col-sm-5
+        img.logo(src='/img/logo_eportfolio.png')
+    .row
+      .col-sm-offset-3.col-sm-4
+        p.hangs {{_ 'hangs'}}
+        p {{_ 'my_account'}}
+        form
+          if errorMessages
+            .list-errors
+              each errorMessages
+                .list-item= this
+          input.form-control(type='email', name='email', placeholder=emailPlaceholder)
+          input.form-control(type='password', name='password', placeholder=passwordPlaceholder)
+          .clearfix
+            button.btn.btn-primary.pull-right(type='submit') {{_ 'connect'}}
+    .row
+      .col-sm-offset-3.col-sm-4
+        .clearfix
+          .pull-left.interrogation ?
+          .pull-left.what-is: a(href='#') {{_ 'e_portfolio_what_is_it'}}
