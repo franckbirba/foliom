@@ -2,6 +2,12 @@
 		/* Global keywords */
     "hello": "Bienvenue sur e-portfolio",
 
+		/* Home */
+		"observe": "Observer",
+		"plan": "Planifier",
+		"followup_tools": "Outils de suivi",
+		"view_all_message": "Voir tous les messages",
+
     "description": "Description",
     "logo": "Logo",
     "address": "Adresse",

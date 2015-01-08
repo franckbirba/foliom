@@ -1,11 +1,17 @@
 template(name="home")
-  .page.home
+  .page.home.row
     p {{_ "hello"}} {{username}}
     .container-fluid
       .row
-        .col-md-4.mainMenuImg.sextan
-          a.btn.btn-default(href='/observatory') Observer
-        .col-md-4.mainMenuImg.compass
-          a.btn.btn-default(href='/actionHome') Planifier
-        .col-md-4.mainMenuImg.msgBox
-          button.btn.btn-default(href='/actionHome') MsgBox
+        .col-md-8
+          .row
+            .col-md-6.home.main-menu.sextan
+              a.btn.btn-default(href='/observatory') {{_ 'observe'}}
+            .col-md-6.home.main-menu.compass
+              a.btn.btn-default(href='/actionHome') {{_ 'plan'}}
+          .row
+            .home.followup-tools
+              p {{_ 'followup_tools'}}
+        .col-md-4
+          .home.messages
+            button.btn.btn-default(href='/actionHome') MsgBox
