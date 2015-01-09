@@ -8,12 +8,24 @@ html, body
   height 100%
   padding 1em 0
   background-color white
+
+  // Main page title
+  // @NOTE An h1 is used for semantic but the size in the design is equivalent
+  // to an h3, therefore we reduce it.
+  h1.page-title
+    font-size 1.6em
+
+  // Corner icon as a paper map for all in the section "evaluate"
   &.evaluate
     background-image url(/icon/bg_evaluate.svg)
     background-repeat no-repeat
+
+  // Corner icon as a sextant for all pages in the section "observe"
   &.observe
     background-image url(/icon/bg_observe.svg)
     background-repeat no-repeat
+
+  // Corner icon as compass for all pages in the section "plan"
   &.plan
     background-image url(/icon/bg_plan.svg)
     background-repeat no-repeat
