@@ -14,15 +14,15 @@ template(name='nav')
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                | Menu 
+                | Menu
                 span.caret
               ul.dropdown-menu(role='menu')
-                li: a(href='/estate', class="{{activPage 'estate'}}") Estates
+                //- li: a(href='/estate', class="{{activPage 'estate'}}") Estates
                 li: a(href='/settings', class="{{activPage 'settings'}}") Settings
-                li: a(href='/portfolios') Portfolios
-                li: a(href='/buildings') Buildings
-                li: a(href='/playground') Playground
-                li: a(href='/fluids') Fluids
+                //- li: a(href='/portfolios') Portfolios
+                //- li: a(href='/buildings') Buildings
+                //- li: a(href='/playground') Playground
+                //- li: a(href='/fluids') Fluids
                 li: a(href='/user') Users
                 li: a(href='/selectors') Selectors
                 li: a(href='/actionsList') ActionsList
@@ -31,7 +31,7 @@ template(name='nav')
           ul.nav.navbar-nav
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                | {{currentEstate}} 
+                | {{currentEstate}}
                 span.caret
               ul.dropdown-menu(role='menu')
                 each estates
@@ -46,7 +46,7 @@ template(name='nav')
             +loginButtons
           li.dropdown
             a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-              | {{lang}} 
+              | {{lang}}
               span.caret
             ul.dropdown-menu(role='menu')
               li: a.fr-lang(href='#', class="{{langActiv 'fr'}}") Français
