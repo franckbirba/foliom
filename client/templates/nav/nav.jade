@@ -40,10 +40,11 @@ template(name='nav')
           input.form-control(type='text', placeholder='Search')
         button.btn.btn-default(type='submit') Submit
       ul.nav.navbar-nav.navbar-right
-        li: a: img(src='{{getProfilePicture}}', width='25')
+        // Removed as there is no profil picture yet in User's definition.
+        // li: a: img(src='{{getProfilePicture}}', width='25')
         li: a(href='#')
           +loginButtons
-        li.dropdown.text-right
+        li.dropdown
           a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
             | {{lang}}
             span.caret
