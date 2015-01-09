@@ -39,6 +39,8 @@ Template.actionForm.destroyed = function () {
     Session.set('childActionToEdit', null);
     Session.set('updateAction', null);
     Session.set('masterAction', null);
+
+    Session.set('YS_values', null);
 };
 
 Template.actionForm.helpers({
@@ -250,6 +252,8 @@ Template.actionForm.rendered = function () {
                 }
                 console.log("all_yearly_savings");
                 console.log(all_yearly_savings);
+
+                Session.set('YS_values', all_yearly_savings_simplyValues);
             });
         });
 
@@ -340,6 +344,7 @@ Template.actionForm.rendered = function () {
         // savings_first_year.fluids.euro_peryear
         var totalSavings = [];
         var totalSavings2 = [];
+        var total_savings_array = [];
         this.autorun(function () {
             $("[name^='impact_assessment_fluids.'][name$='.yearly_savings']").each(function( index ) {
                 var val = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".yearly_savings") ;
@@ -361,11 +366,7 @@ Template.actionForm.rendered = function () {
 
             // });
 
-            // var arrays = [[1,2,3,4,5,6], [1,1,1,1,1,1], [2,2,2,2,2,2]];
-
-            var total_savings_array = _.map(_.zip.apply(_, all_yearly_savings_simplyValues), function(pieces) {
-                 return _.reduce(pieces, function(m, p) {return m+p;}, 0);
-            });
+            total_savings_array = addValuesForArrays(all_yearly_savings_simplyValues);
 
             console.log("total_savings_array");
             console.log(total_savings_array);
@@ -379,18 +380,90 @@ Template.actionForm.rendered = function () {
         /* FORMULAS: efficiency_calc  */
         /* -------------------------- */
 
-        //target raw_roi
-        //= "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
         this.autorun(function () {
+            /* -------------------------- */
+            /*     target raw_roi         */
+            // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
             investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
             operating_cost = AutoForm.getFieldValue("insertActionForm", "operating.cost")*1 ;
+            var YS_array = Session.get('YS_values');
 
             // ToDo: changer savings_first_year pour prendre les 31 vals + faire tab projections >> sera utile ici
 
             // $("[name='raw_roi']").val(
             //     investment_cost - sub_euro - cee_opportunity
             // ).change();
+
+
+            /* -------------------------- */
+            /*          TRA / TRI         */
+            action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
+
+            // PREPARE INVESTMENT_COST_ARRRAY
+            // create an array for investment cost with as many 0 as the action_lifetime+1
+            // @Blandine: OK pour action_lifetime+1
+            var ic_array = buildArrayWithZeroes((action_lifetime+1));
+            ic_array[0]= investment_cost; //Set the first value to the investment_cost
+
+            //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
+            var ic_array_actualized = _.map(ic_array, function(num, ic_index){
+                var result = num * Math.pow( 1+actualization_rate , -ic_index);
+                return result.toFixed(2)*1;
+            });
+            console.log("ic_array_actualized");
+            console.log(ic_array_actualized);
+
+            // PREPARE ENERGY SAVINGS
+            //@Blandine: l'économie de fluides est basée sur le coût du fluide (qui évolue) >> besoin d'actualiser (seulement inflater) ?
+            // check all_yearly_savings_simplyValues
+            var all_yearly_savings_simplyValues_actualized = [];
+            // debugger
+            _.each(YS_array, function(allYSavings, tmp_index) {
+                actualized_energy = _.map(allYSavings, function(num, allYSavings_index){
+                        var result = num * Math.pow( 1+actualization_rate , -allYSavings_index);
+                        return result.toFixed(2)*1;
+                    });
+                all_yearly_savings_simplyValues_actualized.push(actualized_energy);
+            });
+            console.log("all_yearly_savings_simplyValues_actualized");
+            console.log(all_yearly_savings_simplyValues_actualized);
+
+            // Operating savings (économie de frais d'exploitation)
+            var operatingSavings_array = buildArrayWithZeroes(action_lifetime+1);
+                //@Blandine: pour l'instant on met l'éco. en année 0
+            operatingSavings_array[0]=operating_cost;
+            //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
+            var operatingSavings_array_actualized = _.map(operatingSavings_array, function(num, ic_index){
+                var result = num * Math.pow( 1+actualization_rate , -ic_index);
+                return result.toFixed(2)*1;
+            });
+
+            // PREPARE FLUX (savings - investments)
+            var flux = _.map(ic_array_actualized, function(num, tmp_index){
+                return - ic_array_actualized[tmp_index]
+                        + operatingSavings_array_actualized[tmp_index]
+                        + total_savings_array[tmp_index] ; //check suite aux retours de @Blandine sur l'actualisation des fluides
+            });
+            console.log("flux");
+            console.log(flux);
+
+            // PREPARE FLUX NOT ACTUALIZED (savings - investments)
+            var flux_notActualized = _.map(ic_array, function(num, tmp_index){
+                return - ic_array[tmp_index] // Pas actualisé
+                        + operatingSavings_array[tmp_index] // Pas actualisé
+                        + total_savings_array[tmp_index] ; // Pas actualisé : check suite aux retours de @Blandine sur l'actualisation des fluides
+            });
+            console.log("flux_notActualized");
+            console.log(flux_notActualized);
+
+            var irr = IRR(flux_notActualized);
+            $("[name='internal_return']").val( irr.toFixed(2)*1 ) ;
+
         });
+
+
+
+
 
     }
 };
