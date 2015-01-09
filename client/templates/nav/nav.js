@@ -1,8 +1,3 @@
-Template.nav.rendered = function () {
-
-
-};
-
 // Subscribe for the correct configurations
     Tracker.autorun(function () {
         if (Session.get('current_estate_doc') ) {
