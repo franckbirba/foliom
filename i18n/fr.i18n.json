@@ -23,6 +23,9 @@
 		/* Estate */
 		"new_estate": "Nouvel estate",
 
+		/* Settings */
+		"settings": "Réglages",
+
     "description": "Description",
     "logo": "Logo",
     "address": "Adresse",

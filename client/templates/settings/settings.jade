@@ -1,0 +1,25 @@
+template(name='settings')
+  .page.evaluate
+    .container
+      .row
+        .col-md-10
+          h1 {{_ 'settings'}}
+        .col-md-2
+          span.btn.btn-small.glyphicon.glyphicon-globe.edit-master(class=isEditingMasterCfg) edit master
+      .row
+        +quickForm collection="Configurations" id="configAutoForm" doc=getCfg template="eportfolio-horizontal" type=getType
+
+  #fluidformmodal.modal.fade
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') ×
+          span.sr-only Close
+        h4.modal-title {{getFormTitle}}
+      .modal-body
+        +autoForm schema=fluidSchema doc=getFluid id="fluidAutoForm"
+          +afQuickField name='fluid_type'
+          +afQuickField name='fluid_provider'
+          +afQuickField name='yearly_values' template="inline"
+          +afQuickField name='global_evolution_index'
+        button.btn.btn-primary.submitFluid(type='submit') Ok
