@@ -1,0 +1,44 @@
+template(name='observatory')
+  .page.observe
+    .container
+      .row: .col-md-12
+        h1 Gérer ses portefeuilles
+        +mapCanvas2
+      .row
+        .col-md-3
+          .panel.panel-primary
+            .panel-heading
+              h3.panel-title
+                | {{_ "portfolio"}}
+                .pull-right
+                  span.glyphicon.glyphicon-globe(aria-hidden='true')
+            .panel-body
+              // All Portfolios
+              #portfolio_list
+                .list-group
+                  each getPortfolioList
+                    a.list-group-item.select_portfolio(href='#')= name
+                button.btn.btn-primary.insert_portfolio(type='button', data-toggle='modal', data-target='#portfolioForm') new portfolio
+                +insertPortfolioForm
+        .col-md-3
+          .panel.panel-default
+            .panel-heading
+              h3.panel-title Buildings
+            .panel-body
+              // Buildings for current Portfolio
+              #building_list(style='display: none;')
+                if isBuilding
+                  .list-group
+                    each getBuildingList
+                      a.list-group-item.select_building(href='#')= building_name
+                  a.btn.btn-primary(href="{{pathFor 'newBuilding'}}", role='button') new building
+                  div
+                    input#importPortfolio(type='file', style='float:left')
+                    a.importPortfolio.btn.btn-primary(href='', role='button') import
+        .col-md-6
+          .panel.panel-primary
+            .panel-heading
+              h3.panel-title DataViz
+            .panel-body
+              p
+                +barchart

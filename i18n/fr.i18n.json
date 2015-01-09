@@ -25,6 +25,9 @@
 
 		/* Settings */
 		"settings": "Réglages",
+		
+		/* Ovservatory */
+		"manage_portfolios": "Gérer ses portefeuilles",
 
     "description": "Description",
     "logo": "Logo",
