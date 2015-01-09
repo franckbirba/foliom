@@ -1,16 +1,16 @@
 template(name="home")
   .page.home
     .container
-      .row
-        p {{_ "hello"}} {{username}}
+      .row: .col-md-12
+        h1.page-title {{_ "hello"}} {{username}}
       .row
         .col-md-8
           .row
-            .col-md-6.home.main-menu.sextan
+            .col-md-6: .home.main-menu.sextan
               a.btn.btn-default(href='/observatory') {{_ 'observe'}}
-            .col-md-6.home.main-menu.compass
+            .col-md-6: .home.main-menu.compass
               a.btn.btn-default(href='/actionHome') {{_ 'plan'}}
-          .row
+          .row: .col-md-12
             .home.followup-tools
               p {{_ 'followup_tools'}}
         .col-md-4
