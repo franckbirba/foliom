@@ -1,3 +1,5 @@
+// For dates: check http://momentjs.com/
+
 AutoForm.hooks({
     insertActionForm: {
         before: {
@@ -84,6 +86,7 @@ Template.actionForm.rendered = function () {
         var confFluids = Session.get('current_config').fluids ;
 
         var all_yearly_savings = []; // Will contain all savings, for each EndUse
+        var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
         // // Init this array
         // for (var i = 0; i < 31; i++)
         //     all_yearly_savings.push({
@@ -195,6 +198,7 @@ Template.actionForm.rendered = function () {
                     if (in_kwhef !== 0){
 
                         var yearly_savings = []; // In this array we'll store the total savings for this EndUse
+                        var yearly_savings_complete = []; // In this array we'll store the total savings for this EndUse
                         // Init this array
                         for (var i = 0; i < 31; i++)
                             yearly_savings.push({
@@ -221,6 +225,10 @@ Template.actionForm.rendered = function () {
                                     "year": year.year,
                                     "euro_savings": yearly_total
                                 };
+
+                                //@BSE : test to have a simple array
+                                yearly_savings_complete[year_index] = yearly_total;
+
                             });
                             endUse.impact_assessment_fluids = impact_assessment;
 
@@ -236,6 +244,7 @@ Template.actionForm.rendered = function () {
                             "opportunity": matchingEndUseInLease[0].end_use_name,
                             "savings": yearly_savings
                         }
+                        all_yearly_savings_simplyValues[index] = yearly_savings_complete;
                     }
 
                 }
@@ -330,14 +339,39 @@ Template.actionForm.rendered = function () {
         // --------------------------------------
         // savings_first_year.fluids.euro_peryear
         var totalSavings = [];
+        var totalSavings2 = [];
         this.autorun(function () {
             $("[name^='impact_assessment_fluids.'][name$='.yearly_savings']").each(function( index ) {
                 var val = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".yearly_savings") ;
                 totalSavings[index] = val*1;
             });
             var totalSavingsValue = _.reduce(totalSavings, function(memo, num){ return memo + num; }, 0);
+            console.log("totalSavingsValue is:");
+            console.log(totalSavingsValue);
 
-            $("[name='savings_first_year.fluids.euro_peryear']").val( totalSavingsValue ) ;
+            console.log("all_yearly_savings_simplyValues");
+            console.log(all_yearly_savings_simplyValues);
+
+            //New formula
+            // _.each(all_yearly_savings, function(yearly_savings_item, ysloop_index) {
+            //     _.each(yearly_savings_item.savings, function(savings_this_year, savings_this_year_index) {
+            //         totalSavings2[savings_this_year_index] = totalSavings2[savings_this_year_index]*1 + savings_this_year[savings_this_year_index];
+
+            //     });
+
+            // });
+
+            // var arrays = [[1,2,3,4,5,6], [1,1,1,1,1,1], [2,2,2,2,2,2]];
+
+            var total_savings_array = _.map(_.zip.apply(_, all_yearly_savings_simplyValues), function(pieces) {
+                 return _.reduce(pieces, function(m, p) {return m+p;}, 0);
+            });
+
+            console.log("total_savings_array");
+            console.log(total_savings_array);
+
+
+            // $("[name='savings_first_year.fluids.euro_peryear']").val( totalSavingsValue ) ;
         });
 
 
