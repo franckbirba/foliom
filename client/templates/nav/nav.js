@@ -80,13 +80,6 @@ Template.nav.helpers({
 			return 'active';
 		return "";
 	},
-	// getProfilePicture: NOW A GLOBAL HELPER
-	// 	var profile = Meteor.user().profile;
-	// 	if(profile.picture){
-	// 		return "/cfs/files/images/"+ profile.picture;
-	// 	}
-	// 	return ""
-	// },
 	activEstate: function(estate_id){
 		return Session.get('current_estate_doc')._id === estate_id ? 'active' : '';
 	},
