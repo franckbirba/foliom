@@ -1,27 +1,33 @@
 template(name='actionsList')
   .page.plan
-    .row
-      .col-md-3.actionTitle
-        p: img(src='/icon/actionIcons/iconmonstr-gear-10-icon-256.png', width='100')
-        h4 {{_ "actionList_title"}}
-        .newActionBtn: a.btn.btn-primary.newGenericActionBtn(role='button') {{_ "new_generic_action"}}
-        .newActionBtn: a.btn.btn-primary(href='/applyActions', role='button') Appliquer les Actions
-      .col-md-9
-        .actionGrid
-          each getGenericActions
-            .actionList.newActionFromMaster
-              if isAdmin
-                button.btn.btn-default.btn-xs.editAction
-                  span.glyphicon.glyphicon-pencil(aria-hidden='true')
-              a: img(src=getActionLogo, width='50')
-              div= name
-          each getUserTemplateActions
-            .actionList.actionUserTemplate
-              button.btn.btn-default.btn-xs.editAction
-                span.glyphicon.glyphicon-pencil(aria-hidden='true')
-              img(src='{{getActionLogo}}', width='50')
-              div= name
-          .actionList.actionCreate
-            a.newUserTempalteAction(href='')
-              img(src='/icon/actionIcons/iconmonstr-plus-5-icon-256.png', width='50')
-              div {{_ "newUserTemplateAction"}}
+    .container
+      .row
+        .col-md-3
+          .text-center
+            p: img(src='/icon/actionIcons/iconmonstr-gear-10-icon-256.png', width='100')
+            h4 {{_ "actionList_title"}}
+            .newActionBtn: a.btn.btn-primary.newGenericActionBtn(role='button') {{_ "new_generic_action"}}
+            .newActionBtn: a.btn.btn-primary(href='/applyActions', role='button') Appliquer les Actions
+        .col-md-9
+          .actionGrid
+            .row
+              each getGenericActions
+                .col-md-4
+                  .actionList.newActionFromMaster
+                    if isAdmin
+                      button.btn.btn-default.btn-xs.editAction
+                        span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                    a: img(src=getActionLogo, width='50')
+                    div= name
+              each getUserTemplateActions
+                .col-md-4
+                  .actionList.actionUserTemplate
+                    button.btn.btn-default.btn-xs.editAction
+                      span.glyphicon.glyphicon-pencil(aria-hidden='true')
+                    img(src='{{getActionLogo}}', width='50')
+                    div= name
+              .col-md-4
+                .actionList.actionCreate
+                  a.newUserTempalteAction(href='')
+                    img(src='/icon/actionIcons/iconmonstr-plus-5-icon-256.png', width='50')
+                    div {{_ "newUserTemplateAction"}}
