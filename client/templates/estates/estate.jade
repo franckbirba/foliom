@@ -1,8 +1,9 @@
 template(name='estate')
-  .container
-    ul
-      each estates
-        li
-          a.update_estate(href='#', data-toggle='modal', data-target='#estateForm') Estate: {{estate_name}} - id: {{_id}}
-    button.btn.btn-primary.insert_estate(data-toggle='modal', data-target='#estateForm') {{_ 'new_estate'}}
-    +insertEstateForm
+  .page.evaluate
+    .container
+      ul
+        each estates
+          li
+            a.update_estate(href='#', data-toggle='modal', data-target='#estateForm') Estate: {{estate_name}} - id: {{_id}}
+      button.btn.btn-primary.insert_estate(data-toggle='modal', data-target='#estateForm') {{_ 'new_estate'}}
+      +insertEstateForm
