@@ -1,8 +1,16 @@
+// Styles specific for pages
 html, body
   height 100%
   margin 0
   border 0
   padding 0
+
+
+// Mixin used for all background on page corner
+pageBgCorner(bgUrl)
+  background-image bgUrl
+  background-repeat no-repeat
+  background-size 170px 170px
 
 .page
   height 100%
@@ -17,15 +25,12 @@ html, body
 
   // Corner icon as a paper map for all in the section "evaluate"
   &.evaluate
-    background-image url(/icon/bg_evaluate.svg)
-    background-repeat no-repeat
+    pageBgCorner(url(/icon/bg_evaluate.svg))
 
   // Corner icon as a sextant for all pages in the section "observe"
   &.observe
-    background-image url(/icon/bg_observe.svg)
-    background-repeat no-repeat
+    pageBgCorner(url(/icon/bg_observe.svg))
 
   // Corner icon as compass for all pages in the section "plan"
   &.plan
-    background-image url(/icon/bg_plan.svg)
-    background-repeat no-repeat
+    pageBgCorner(url(/icon/bg_plan.svg))
