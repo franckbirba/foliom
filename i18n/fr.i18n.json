@@ -20,6 +20,9 @@
 		"connect": "Se connecter",
 		"e_portfolio_what_is_it": "E-portfolio, qu'est-ce que c'est ?",
 
+		/* Estate */
+		"new_estate": "Nouvel estate",
+
     "description": "Description",
     "logo": "Logo",
     "address": "Adresse",
