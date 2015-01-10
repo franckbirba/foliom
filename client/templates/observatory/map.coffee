@@ -70,6 +70,8 @@ Template.mapCanvas2.rendered = ->
             lat: building.address.gps_lat
             lng: building.address.gps_long
             title: building.building_name
+            animation: google.maps.Animation.DROP
+            icon: '/icon/pin.svg'
             infoWindow:
               content: content_marker
       tmpl.newMap2.fitLatLngBounds buildingGeoList  if buildingGeoList.length >= 0
