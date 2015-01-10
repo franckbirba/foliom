@@ -1,0 +1,8 @@
+#buildingForm.modal.fade: .modal-dialog: .modal-content
+  .modal-header
+    button.close(type='button', data-dismiss='modal')
+      span(aria-hidden='true') ×
+      span.sr-only Close
+    h4.modal-title Modal title
+  .modal-body
+    +quickForm collection="Buildings" id="AFbuildingForm" template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" type="insert" resetOnSuccess="true"

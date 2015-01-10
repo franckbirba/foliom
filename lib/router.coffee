@@ -41,8 +41,10 @@ if Meteor.isClient
 Router.map ->
   # Routes that matches their template's name
   routes = [
-    'join', 'signin', 'settings', 'portfolios', 'buildings', 'observatory'
+    'join', 'signin', 'settings', 'portfolios', 'observatory'
     'user', 'selectors', 'scenarioForm', 'timeline', 'leaseForm'
+    # Buildings
+    'buildings', 'building-form'
     # Estates
     'estate-form'
     # Actions
@@ -52,7 +54,6 @@ Router.map ->
 
   # Routes with URL that not relies on template's name
   @route 'home', path: '/'
-  @route 'insertBuildingForm', path: '/building_form'
   @route 'newBuilding', path: '/new_building'
   @route 'treeTplt', path: '/tree'
 
