@@ -12,7 +12,7 @@ LeaseNumber.attachSchema(new SimpleSchema({
   }
 }));
 
-Template.newBuilding.helpers({
+Template.buildingNew.helpers({
     steps: function() {
         return [{
           id: 'genral_info',
@@ -79,35 +79,6 @@ Template.newBuilding.helpers({
                       }
                     });
                 });
-
-                // console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
-                // console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);
-
-                // Buildings.insert(building_doc, function(err, id) {
-                //     if (err) {
-                //       this.done();
-                //     } else {
-
-                //         //Set current building doc to the one we just created
-                //         Session.set('current_building_id', id);
-                //         console.log('new building _id is: '+ Session.get('current_building_id') );
-
-                //         var nbL_create = AutoForm.getFormValues('building-stepform-leaseNb').insertDoc.n_lease ;
-
-                //         // If field is set: store the value in a session var
-                //         if (nbL_create) {
-                //             Session.set('nbLeases_2create', nbL_create);
-                //         } else { // Else: 1 Lease to create
-                //             Session.set('nbLeases_2create', 1);
-                //         }
-
-                //         console.log('nb of Leases to create: '+ Session.get('nbLeases_2create') );
-
-                //         Router.go('leaseForm', {
-                //             // _id: id
-                //         });
-                //     }
-                // });
             },
     }]
   }

@@ -25,12 +25,7 @@ Router.configure
     Meteor.subscribe 'actions'
   ]
 
-@dataReadyHold = null
-
 if Meteor.isClient
-  # Keep showing the launch screen on mobile devices until we have loaded
-  # the app's data
-  dataReadyHold = LaunchScreen.hold()
   requireLogin = ->
     unless Meteor.user()
       @render 'signin'
@@ -41,8 +36,10 @@ if Meteor.isClient
 Router.map ->
   # Routes that matches their template's name
   routes = [
-    'join', 'signin', 'settings', 'portfolios', 'buildings', 'observatory'
+    'join', 'signin', 'settings', 'portfolios', 'observatory'
     'user', 'selectors', 'scenarioForm', 'timeline', 'leaseForm'
+    # Buildings
+    'buildings', 'building-new', 'building-form'
     # Estates
     'estate-form'
     # Actions
@@ -52,8 +49,6 @@ Router.map ->
 
   # Routes with URL that not relies on template's name
   @route 'home', path: '/'
-  @route 'insertBuildingForm', path: '/building_form'
-  @route 'newBuilding', path: '/new_building'
   @route 'treeTplt', path: '/tree'
 
   # Routes with specific parameters
