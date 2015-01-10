@@ -47,6 +47,7 @@ Template.mapCanvas2.rendered = ->
       lng: 2.4393542
       zoom: 6
       options: mapOptions
+      panControl: false
     )
     query = {}
     Tracker.autorun ->
