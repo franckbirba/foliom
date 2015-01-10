@@ -1,0 +1,26 @@
+.page.evaluate
+  .container
+    .row
+      .col-md-6
+        h4 Fluid types
+        p: i Fluid types can only be deleted, not updated
+        button.btn.btn-success.addFluidTypeBtn(style='border:none !important;background-color:transparent;color:green;', data-toggle='modal', data-target='#selectorFormModal')
+          span.glyphicon.glyphicon-plus
+        ul.list-group(style='width:400px;position:relative;')
+          +each fluidTypesForCurrentEstate}}
+            +each labels
+              li.list-group-item
+                span.update-fluidTypes(style='width:100%') {{_ this.valueOf}}
+                span.glyphicon.glyphicon-trash.btn.btn-xs.btn-danger.remove-fluidTypes(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
+      .col-md-6
+        h4 Fluid providers
+        p: i Fluid providers can only be deleted, not updated
+        button.btn.btn-success.addFluidProviderBtn(style='border:none !important;background-color:transparent;color:green;', data-toggle='modal', data-target='#selectorFormModal')
+          span.glyphicon.glyphicon-plus
+        ul.list-group(style='width:400px;position:relative;')
+          each fluidProvidersForCurrentEstate
+            each labels
+              li.list-group-item
+                span.update-fluidProviders(style='width:100%') {{_ this.valueOf}}
+                span.glyphicon.glyphicon-trash.btn.btn-xs.btn-danger.remove-fluidProviders(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
+  +SelectorForm
