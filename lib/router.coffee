@@ -44,7 +44,7 @@ Router.map ->
     'join', 'signin', 'settings', 'portfolios', 'observatory'
     'user', 'selectors', 'scenarioForm', 'timeline', 'leaseForm'
     # Buildings
-    'buildings', 'building-form'
+    'buildings', 'building-new', 'building-form'
     # Estates
     'estate-form'
     # Actions
@@ -54,7 +54,6 @@ Router.map ->
 
   # Routes with URL that not relies on template's name
   @route 'home', path: '/'
-  @route 'newBuilding', path: '/new_building'
   @route 'treeTplt', path: '/tree'
 
   # Routes with specific parameters
