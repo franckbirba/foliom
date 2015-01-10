@@ -3,7 +3,7 @@
   .row: .col-md-12
     h1.page-title
       | {{current_portfolio_name_H}} -
-      span.buildingName= building_name
+      span.text-primary= building_name
       |  -
       select#leaseSelect.form-control
         option(value='all_leases', selected='') All leases
@@ -24,17 +24,17 @@
           p DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
     // Assesment
     .col-md-8: .panel.panel-primary
-      .panel-heading: h3.panel-title.text-center {{_ "assessment"}}
+      .panel-heading: h3.panel-title {{_ "assessment"}}
       .panel-body
         .row
           // Certifications
-          .col-md-6
+          .col-md-4
             h4.panel-inner-title Certifications
             p: strong TODO Add certification vignettes
           // DPE
-          .col-md-3: +dpe
+          .col-md-4: +dpe
           // GES
-          .col-md-3: +ges
+          .col-md-4: +ges
   // Second row: Messages & alerts, Pie chart, Water consumption
   .row
     // Message box

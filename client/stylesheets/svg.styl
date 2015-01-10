@@ -1,0 +1,20 @@
+// Class to add on SVG when set within any SVG container
+.svg-content
+  display inline-block
+  position absolute
+  top 0
+  left 0
+
+// Container for responsive SVG
+// Mixin for creating SVG container with specific aspect ratio
+svgContainer(aspectRatio)
+  display inline-block
+  position relative
+  width 100%
+  vertical-align middle
+  overflow hidden
+  padding-bottom aspectRatio
+
+// This container targets 1:1 SVG
+.svg-container-square
+  svgContainer(100%)

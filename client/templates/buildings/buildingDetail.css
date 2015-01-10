@@ -1,21 +1,11 @@
-.buildingTitle {
-    margin-top: 5px;
-    margin-bottom: 15px;
-    font-size: 20px
-}
-
-.buildingName {
-    color: #B0C029 ;
-}
-
 #leaseSelect {
-    width: 150px;
+  width: 150px;
 }
 
 #buildingSummary {
-    height: 200px;
-    overflow-y: scroll;
-    font-size: small;
+  height: 200px;
+  overflow-y: scroll;
+  font-size: small;
 }
 
 /* -------- Water -------- */

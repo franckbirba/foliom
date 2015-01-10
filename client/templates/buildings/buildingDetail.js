@@ -110,6 +110,7 @@ Template.buildingDetail.rendered = function () {
 
 // Get list of all Portfolios for current Estate, sorted by alpha (on name)
 Template.buildingDetail.helpers({
+    buildingGes: function() { return 'stuff'; },
     getLeases: function(){
         var result = Leases.find( { building_id: Session.get('current_building_doc')._id },
                     {sort: {lease_name:1}}
