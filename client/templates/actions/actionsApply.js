@@ -4,7 +4,7 @@
 */
 
 
-Template.applyActions.rendered = function () {
+Template.actionsApply.rendered = function () {
 
     // clear building_doc session var
     Session.set('current_building_doc', null);
@@ -26,7 +26,7 @@ Template.applyActions.rendered = function () {
 
 };
 
-Template.applyActions.helpers(
+Template.actionsApply.helpers(
     {
         getUsableActions: function(){
             return Actions.find({
@@ -41,11 +41,7 @@ Template.applyActions.helpers(
                     }
                 ]
             }).fetch();
-        }
-    }
-);
-
-Template.applyActions.helpers({
+        },
     currentBuildingName: function(){
         if (Session.get('current_building_doc')) {
             return Session.get('current_building_doc').building_name;
@@ -53,7 +49,7 @@ Template.applyActions.helpers({
     }
 });
 
-Template.applyActions.events({
+Template.actionsApply.events({
     'change .checkbox': function(event) {
         // console.log(this);
         // var childActionToCreate = this;
@@ -75,9 +71,6 @@ Template.applyActions.events({
 
             var newActionID = Actions.insert(childActionToCreate);
 
-            // console.log("child action is:");
-            // console.log(childActionToCreate);
-            // console.log("id is: " + newActionID);
         } else {
             // In this case we want to remove the child action
             var childId = Actions.findOne({

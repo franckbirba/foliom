@@ -20,6 +20,10 @@
 		"connect": "Connect",
 		"e_portfolio_what_is_it": "E-portfolio, what is it?",
 
+    /* Apply Actions */
+    "actions_apply": "Apply actions on your portfolio",
+    "select_portfolio": "Select your portfolio:",		
+
 		/* Estate */
 		"new_estate": "New estate",
 

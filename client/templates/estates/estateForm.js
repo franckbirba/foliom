@@ -1,4 +1,4 @@
-Template.insertEstateForm.helpers(
+Template.estateForm.helpers(
     {
         users: function(){
             var labelList2 = [] ;
@@ -9,40 +9,26 @@ Template.insertEstateForm.helpers(
                     labelList2.push({label:name, value:name});
             });
             return labelList2;
-        }
-    });
-Template.insertEstateForm.helpers(
-    {
+        },
         getEstate: function(){
             if (Session.get('update_estate_var')) {
                 return Session.get('update_estate_doc');
             } else {
                 return "";
             };
-
-            // var est = Estates.findOne(
-            //             // "77" en dur pour l'instant
-            //             {_id:this._id}
-            //             ); // sans .fetch() ?
         }
     });
-Template.insertEstateForm.helpers(
+Template.estateForm.helpers(
     {
         getFormType: function(){
-            // var isUpdate = Session.get('update_estate_var');
-            // console.log('isUpdate value: ' + isUpdate);
-
             if(Session.get('update_estate_var')) {
                 return "update";
             } else {
                 return "insert";
             }
-             //Configurations.findOne({master:true});
         }
     }
 );
-
-
 
 AutoForm.addHooks(null, {
     onError: function(){
@@ -51,7 +37,7 @@ AutoForm.addHooks(null, {
 });
 
 AutoForm.hooks({
-    AFinsertEstateForm: {
+    AFestateForm: {
         onSuccess: function(operation, result, template) {
             console.log(operation, result, template);
 

@@ -42,14 +42,16 @@ Router.map ->
   # Routes that matches their template's name
   routes = [
     'join', 'signin', 'settings', 'portfolios', 'buildings', 'observatory'
-    'user', 'fluids', 'selectors', 'scenarioForm', 'timeline'
-    'leaseForm', 'actionForm', 'actionHome', 'applyActions'
+    'user', 'fluids', 'selectors', 'scenarioForm', 'timeline', 'leaseForm'
+    # Estates
+    'estate-form'
+    # Actions
+    'action-form', 'actions-home', 'actions-apply', 'actions-list'
   ]
   @route route for route in routes
 
   # Routes with URL that not relies on template's name
   @route 'home', path: '/'
-  @route 'insertEstateForm', path: '/estate_form'
   @route 'insertBuildingForm', path: '/building_form'
   @route 'newBuilding', path: '/new_building'
   @route 'treeTplt', path: '/tree'

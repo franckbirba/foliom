@@ -37,7 +37,7 @@ mapOptions = styles: [
   }
 ]
 
-Template.mapCanvas2.rendered = ->
+Template.map.rendered = ->
   tmpl = this
   VazcoMaps.init {}, ->
     tmpl.mapEngine = VazcoMaps.gMaps()
@@ -77,7 +77,7 @@ Template.mapCanvas2.rendered = ->
               content: content_marker
       tmpl.newMap2.fitLatLngBounds buildingGeoList  if buildingGeoList.length >= 0
 
-Template.mapCanvas2.events 'submit form': (e, tmpl) ->
+Template.map.events 'submit form': (e, tmpl) ->
   e.preventDefault()
   searchInput = $(e.target).find('#address')
   tmpl.newMap.removeMarkers()

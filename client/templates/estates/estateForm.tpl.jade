@@ -1,0 +1,14 @@
+#estateForm.modal.fade: .modal-dialog: .modal-content
+  .modal-header
+    button.close(type='button', data-dismiss='modal')
+      span(aria-hidden='true') ×
+      span.sr-only Close
+    h4.modal-title Modal title
+  .modal-body
+    +autoForm collection="Estates" id="AFestateForm" doc=getEstate template="bootstrap3-horizontal" label-class="col-sm-3" input-col-class="col-sm-9" type=getFormType resetOnSuccess="true"
+      fieldset
+        +afQuickField name='estate_name'
+        +afQuickField name='description'
+        +afQuickField name='images'
+        +afQuickField name='users' options=users
+    button.btn.btn-primary(type='submit')= getFormType
