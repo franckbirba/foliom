@@ -260,7 +260,7 @@ Template.treeTplt.rendered = function () {
                                     });
 
                 Session.set('childActionToEdit', actionExists);
-                Router.go('actionForm');
+                Router.go('action-form');
             }
 
             update(d);
