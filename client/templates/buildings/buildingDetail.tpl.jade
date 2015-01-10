@@ -1,0 +1,85 @@
+.page.observe: .container
+  .row: .col-md-12
+    .buildingTitle
+      | {{current_portfolio_name_H}} -
+      span.buildingName= building_name
+      |  -
+      select#leaseSelect.form-control
+        option(value='all_leases', selected='') All leases
+        each getLeases
+          option(value='{{_id}}')= lease_name
+  .row
+    .col-md-4: .panel.panel-primary
+      .panel-heading
+        b {{_ "summary"}}
+      #buildingSummary.panel-body
+        p Leases present:
+        each getLeases
+          div: a.update_lease(href='#') {{_ lease_name}}
+          div Lease usage is: {{_ lease_usage}} 
+          div Lease surface is: {{_ area_by_usage}} 
+          div DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}} 
+          p DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
+    // End of col
+    .col-md-8
+      .panel.ep_panel
+        .panel-heading
+          b {{_ "assessment"}}
+      .row
+        .col-md-5: .panel.ep_panel: .panel-body
+          .blockTitle Certifications
+        .col-md-7: .panel.ep_panel: .panel-body
+          +DPEchart
+  // NEW ROW
+  .row
+    .col-md-4
+      +messageBox
+    .col-md-5: .panel.ep_panel: .panel-body
+      .blockTitle Consommations énergétiques par usage
+      +pie
+    .col-md-3
+      .panel.ep_panel.water_block
+        .panel-body
+          .blockTitle Water consumption
+          table#waterTblBig.waterTable
+            tr
+              td(colspan='2')
+                .water1
+                  span.glyphicon.glyphicon-tint(aria-hidden='true', style='font-size: 25px;')
+                  | {{waterConsumption "m3"}} m3
+          table#waterTblSmall.waterTable
+            tr
+              td
+                .water2 -
+                br
+                .water2u m3/pers
+              td
+                .water2 {{waterConsumption "m3/m2" "3"}}
+                br
+                .water2u m3/m2
+            tr
+              td
+                .water2 {{waterConsumption "yearly_cost"}}
+                br
+                .water2u €
+              td
+                .water2 {{waterConsumption "€/m3" "0"}}
+                br
+                .water2u €/m3
+  // NEW ROW
+  .row
+    .col-md-4
+      .panel.ep_panel
+        .panel-heading
+          b {{_ "actionRecap"}}
+        .panel-body
+          p Action1 
+          p Action2
+    .col-md-8
+      .row
+        .col-md-4: .panel.ep_panel: .panel-body
+          .blockTitle {{_ "global_lifetime"}}
+        .col-md-4: .panel.ep_panel: .panel-body
+          .blockTitle {{_ "global_conformity"}}
+        .col-md-4: .panel.ep_panel: .panel-body
+          .blockTitle {{_ "global_comfort_index"}}
