@@ -24,7 +24,7 @@ Template.home.events({
         Router.go('observatory');
     },
     'click .compass': function() {
-        Router.go('actionHome');
+        Router.go('actions-home');
     },
 });
 

@@ -41,11 +41,7 @@ Template.applyActions.helpers(
                     }
                 ]
             }).fetch();
-        }
-    }
-);
-
-Template.applyActions.helpers({
+        },
     currentBuildingName: function(){
         if (Session.get('current_building_doc')) {
             return Session.get('current_building_doc').building_name;
@@ -75,9 +71,6 @@ Template.applyActions.events({
 
             var newActionID = Actions.insert(childActionToCreate);
 
-            // console.log("child action is:");
-            // console.log(childActionToCreate);
-            // console.log("id is: " + newActionID);
         } else {
             // In this case we want to remove the child action
             var childId = Actions.findOne({
