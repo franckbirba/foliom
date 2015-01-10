@@ -41,6 +41,7 @@ Template.actionForm.destroyed = function () {
     Session.set('masterAction', null);
 
     Session.set('YS_values', null);
+    Session.set("flux_notActualized", null);
 };
 
 Template.actionForm.helpers({
@@ -455,13 +456,40 @@ Template.actionForm.rendered = function () {
             });
             console.log("flux_notActualized");
             console.log(flux_notActualized);
+            Session.set("flux_notActualized", flux_notActualized);
 
-            var irr = IRR(flux_notActualized);
-            $("[name='internal_return']").val( irr.toFixed(2)*1 ) ;
+            // IRR (TRI)
+            var irr = IRR( Session.get("flux_notActualized") );
+            $("[name='internal_return']").val( (irr*100).toFixed(2) ) ;
+
+
+            // FLUX ACCUMULATION (savings - investments over all the previous years)
+            var total_YS_val_actualized = addValuesForArrays (all_yearly_savings_simplyValues_actualized) ; // Sum all actualized savings by year
+
+            var flux_accumulation = _.map(ic_array_actualized, function(num, tmp_index){
+                var sum = 0
+                for (var i = 0; i < tmp_index+1; i++) { //@BSE CHECK LE +1
+                    sum += - ic_array_actualized[i]
+                        + operatingSavings_array_actualized[i] // Pas actualisé
+                        + total_YS_val_actualized[i] ;
+                    }
+                return sum.toFixed(2)*1;
+            });
+            console.log("flux_accumulation");
+            console.log(flux_accumulation);
+
+
+            // TRA
+            //We find the first positive value in the flux_accumulation
+            var firstPositive = _.find(flux_accumulation, function(num){
+                if (num >= 0) return num;
+            });
+            var TRA = _.indexOf(flux_accumulation, firstPositive); // if value is not found: returns -1
+            console.log("TRA: " + TRA);
+            if (TRA !== -1) { $("[name='actualised_roi']").val( TRA ) ; }
+
 
         });
-
-
 
 
 
