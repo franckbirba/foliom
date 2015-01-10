@@ -382,30 +382,35 @@ Template.actionForm.rendered = function () {
         /* -------------------------- */
 
         this.autorun(function () {
+            action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
+            investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
+            operating_cost = AutoForm.getFieldValue("insertActionForm", "operating.cost")*1 ;
+            operating_savings = AutoForm.getFieldValue("insertActionForm", "savings_first_year.operations.or_euro_peryear")*1 ;
+            var YS_array = Session.get('YS_values');
+
+            // PREPARE INVESTMENT_COST_ARRRAY
+            // create an array for investment cost with as many 0 as the action_lifetime+1
+            // @Blandine: confirmer taille du tableau = (action_lifetime+1) ?
+            var ic_array = buildArrayWithZeroes((action_lifetime+1));
+            ic_array[0]= investment_cost; //Set the first value to the investment_cost
+
             /* -------------------------- */
             /*     target raw_roi         */
             // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
-            investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
-            operating_cost = AutoForm.getFieldValue("insertActionForm", "operating.cost")*1 ;
-            var YS_array = Session.get('YS_values');
+            var operatingCost_array = buildArrayWithZeroes(action_lifetime+1);
+            operatingCost_array[0]=operating_cost;
 
-            // ToDo: changer savings_first_year pour prendre les 31 vals + faire tab projections >> sera utile ici
+            var raw_roi = investment_cost / (total_savings_array[0] + operating_cost); //@Blandine : année 0 des économies d'énergie
 
-            // $("[name='raw_roi']").val(
-            //     investment_cost - sub_euro - cee_opportunity
-            // ).change();
+            $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
+            console.log("raw_roi");
+            console.log(raw_roi);
 
 
             /* -------------------------- */
             /*          TRA / TRI         */
-            action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
 
-            // PREPARE INVESTMENT_COST_ARRRAY
-            // create an array for investment cost with as many 0 as the action_lifetime+1
-            // @Blandine: OK pour action_lifetime+1
-            var ic_array = buildArrayWithZeroes((action_lifetime+1));
-            ic_array[0]= investment_cost; //Set the first value to the investment_cost
-
+            // ACTUALIZE INVESTMENT_COST_ARRRAY
             //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
             var ic_array_actualized = _.map(ic_array, function(num, ic_index){
                 var result = num * Math.pow( 1+actualization_rate , -ic_index);
@@ -432,7 +437,8 @@ Template.actionForm.rendered = function () {
             // Operating savings (économie de frais d'exploitation)
             var operatingSavings_array = buildArrayWithZeroes(action_lifetime+1);
                 //@Blandine: pour l'instant on met l'éco. en année 0
-            operatingSavings_array[0]=operating_cost;
+            operatingSavings_array[0]=operating_savings;
+
             //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
             var operatingSavings_array_actualized = _.map(operatingSavings_array, function(num, ic_index){
                 var result = num * Math.pow( 1+actualization_rate , -ic_index);
