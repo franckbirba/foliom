@@ -1,4 +1,4 @@
 .page.plan: .container: .row
-  .col-md-4: a.btn.btn-primary(href='/actionsList') {{_ "actionList_title"}}
-  .col-md-4: a.btn.btn-primary(href='/applyActions') {{_ "apply_actions"}}
+  .col-md-4: a.btn.btn-primary(href='{{pathFor "actionsList"}}') {{_ "actionList_title"}}
+  .col-md-4: a.btn.btn-primary(href='{{pathFor "applyActions"}}') {{_ "apply_actions"}}
   .col-md-4: a.btn.btn-primary(href='#') SchemaDir
