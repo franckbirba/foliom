@@ -1,10 +1,87 @@
 // Expand Boostrap styles for fonts and types
+
+// Font faces for Comfortaa (the rounded font in the design)
 @font-face
   font-family Comfortaa
   src url(/fonts/Comfortaa/Comfortaa_Bold.ttf)
   font-weight bold
+  font-style normal
 
 @font-face
   font-family Comfortaa
   src url(/fonts/Comfortaa/Comfortaa_Regular.ttf)
   font-weight normal
+  font-style normal
+
+@font-face
+  font-family Comfortaa
+  src url(/fonts/Comfortaa/Comfortaa_Thin.ttf)
+  font-weight 100
+  font-style normal
+
+// Font faces for OpenSans (the sans-serif default in the design)
+// @NOTE This style is applied by default in the Boostrap customization.
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-ExtraBold.ttf)
+  font-weight 800
+  font-style normal
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-ExtraBoldItalic.ttf)
+  font-weight 800
+  font-style italic
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-Bold.ttf)
+  font-weight bold
+  font-style normal
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-BoldItalic.ttf)
+  font-weight bold
+  font-style italic
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-SemiBold.ttf)
+  font-weight 600
+  font-style normal
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-SemiBoldItalic.ttf)
+  font-weight 600
+  font-style italic
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-Regular.ttf)
+  font-weight normal
+  font-style normal
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-Italic.ttf)
+  font-weight normal
+  font-style italic
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-Light.ttf)
+  font-weight 300
+  font-style normal
+
+@font-face
+  font-family OpenSans
+  src url(/fonts/open-sans/OpenSans-LightItalic.ttf)
+  font-weight 300
+  font-style italic
+
+// Applying font face globally for specific styles not covered by the generic
+// Bootstrap behavior
+h1, h2, h3, h4, h5, h6, button, .btn
+  font-family Comfortaa

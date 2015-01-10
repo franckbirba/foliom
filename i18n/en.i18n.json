@@ -73,11 +73,15 @@
 
 		/* Timeline screen */
 		"scenario": "Scenario",
+		"timeline": "Timeline",
+		"appraisal": "Appraisal",
+		"nb_actions": "Number of actions:",
 		"actions": "actions",
+		"total_cost": "Total cost:",
 		"global_tri": "Global TRI",
-		"calculating": "Pending...",
+		"calculating": "...",
 		"energy_saving": "Energy saving",
-		"action_reservoir": "Action reservoir",
+		"action_bucket": "Action bucket",
 
 		"consumption_noaction": "Current consumption",
 		"consumption_action_co2": "Consommation after CO2 actions",

@@ -1,7 +1,3 @@
-# Chartist colors are extracted from:
-# https://github.com/gionkunz/chartist-js/blob/develop/src/styles/settings/_chartist-settings.scss
-CHARTIST_COLORS = ['#d70206', '#F05B4F', '#F4C63D', '#453D3F']
-
 Template.timeline.helpers
   scenarioId: -> 1
   nbActions: -> 54
