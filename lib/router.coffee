@@ -8,21 +8,21 @@ Router.configure
   # wait on the following subscriptions before rendering the page to ensure
   # the data it's expecting is present
   waitOn: -> [
-    Meteor.subscribe('publicLists')
-    Meteor.subscribe('privateLists')
-    Meteor.subscribe('configurationMaster')
-    Meteor.subscribe('userData')
-    Meteor.subscribe('estates', null)
+    Meteor.subscribe 'publicLists'
+    Meteor.subscribe 'privateLists'
+    Meteor.subscribe 'configurationMaster'
+    Meteor.subscribe 'userData'
+    Meteor.subscribe 'estates', null
     # @NOTE Portfolio sub. is now done when Estate is set (in NAV.js)
-    # Meteor.subscribe('portfolios', null)
-    Meteor.subscribe('buildings', null)
-    Meteor.subscribe('leases', null)
-    Meteor.subscribe('fluids', null)
-    Meteor.subscribe('selectors', null)
-    Meteor.subscribe('endUses', null)
-    Meteor.subscribe('messages', null)
-    Meteor.subscribe('images')
-    Meteor.subscribe('actions')
+    # Meteor.subscribe 'portfolios', null
+    Meteor.subscribe 'buildings', null
+    Meteor.subscribe 'leases', null
+    Meteor.subscribe 'fluids', null
+    Meteor.subscribe 'selectors', null
+    Meteor.subscribe 'endUses', null
+    Meteor.subscribe 'messages', null
+    Meteor.subscribe 'images'
+    Meteor.subscribe 'actions'
   ]
 
 @dataReadyHold = null
@@ -33,7 +33,7 @@ if Meteor.isClient
   dataReadyHold = LaunchScreen.hold()
   requireLogin = ->
     unless Meteor.user()
-      @render "signin"
+      @render 'signin'
     else
       @next()
   Router.onBeforeAction requireLogin
@@ -55,8 +55,8 @@ Router.map ->
   @route 'treeTplt', path: '/tree'
 
   # Routes with specific parameters
-  @route "/buildings/:_id",
-    name: "buildingDetail"
+  @route '/buildings/:_id',
+    name: 'buildingDetail'
     data: ->
       curr_building = Buildings.findOne(@params._id)
       # Apparently the router goes several times through the loop
@@ -66,7 +66,7 @@ Router.map ->
       curr_portfolio = Portfolios.findOne(_id: curr_building.portfolio_id)
       curr_estate = Estates.findOne(portfolio_collection: curr_portfolio._id)
       # Set Session var for Estate & Building
-      Session.set "current_building_doc", curr_building
-      Session.set "current_portfolio_doc", curr_portfolio
-      Session.set "current_estate_doc", curr_estate
+      Session.set 'current_building_doc', curr_building
+      Session.set 'current_portfolio_doc', curr_portfolio
+      Session.set 'current_estate_doc', curr_estate
       curr_building
