@@ -1,6 +1,7 @@
 .page.observe: .container
+  // Dynamic page title
   .row: .col-md-12
-    .buildingTitle
+    h1.page-title
       | {{current_portfolio_name_H}} -
       span.buildingName= building_name
       |  -
@@ -8,10 +9,11 @@
         option(value='all_leases', selected='') All leases
         each getLeases
           option(value='{{_id}}')= lease_name
+  // First row: Summary & Assesment
   .row
+    // Summary
     .col-md-4: .panel.panel-primary
-      .panel-heading
-        b {{_ "summary"}}
+      .panel-heading: h3.panel-title.text-center {{_ "summary"}}
       #buildingSummary.panel-body
         p Leases present:
         each getLeases
@@ -20,66 +22,72 @@
           div Lease surface is: {{_ area_by_usage}} 
           div DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}} 
           p DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
-    // End of col
-    .col-md-8
-      .panel.ep_panel
-        .panel-heading
-          b {{_ "assessment"}}
-      .row
-        .col-md-5: .panel.ep_panel: .panel-body
-          .blockTitle Certifications
-        .col-md-7: .panel.ep_panel: .panel-body
-          +DPEchart
-  // NEW ROW
+    // Assesment
+    .col-md-8: .panel.panel-primary
+      .panel-heading: h3.panel-title.text-center {{_ "assessment"}}
+      .panel-body
+        .row
+          // Certifications
+          .col-md-6
+            h4.panel-inner-title Certifications
+            p: strong TODO Add certification vignettes
+          // DPE
+          .col-md-3: +dpe
+          // GES
+          .col-md-3: +ges
+  // Second row: Messages & alerts, Pie chart, Water consumption
   .row
-    .col-md-4
-      +messageBox
-    .col-md-5: .panel.ep_panel: .panel-body
-      .blockTitle Consommations énergétiques par usage
+    // Message box
+    .col-md-4: +messageBox
+    // Pie chart for energy consumption by usage
+    .col-md-5: .panel.panel-primary: .panel-body
+      h4.panel-inner-title Consommations énergétiques par usage
       +pie
+    // Water consumption
     .col-md-3
-      .panel.ep_panel.water_block
-        .panel-body
-          .blockTitle Water consumption
-          table#waterTblBig.waterTable
-            tr
-              td(colspan='2')
-                .water1
-                  span.glyphicon.glyphicon-tint(aria-hidden='true', style='font-size: 25px;')
-                  | {{waterConsumption "m3"}} m3
-          table#waterTblSmall.waterTable
-            tr
-              td
-                .water2 -
-                br
-                .water2u m3/pers
-              td
-                .water2 {{waterConsumption "m3/m2" "3"}}
-                br
-                .water2u m3/m2
-            tr
-              td
-                .water2 {{waterConsumption "yearly_cost"}}
-                br
-                .water2u €
-              td
-                .water2 {{waterConsumption "€/m3" "0"}}
-                br
-                .water2u €/m3
-  // NEW ROW
+      .panel.panel-primary.water_block: .panel-body
+        h4.panel-inner-title Water consumption
+        table#waterTblBig.waterTable
+          tr
+            td(colspan='2')
+              .water1
+                span.glyphicon.glyphicon-tint(aria-hidden='true', style='font-size: 25px;')
+                | {{waterConsumption "m3"}} m3
+        table#waterTblSmall.waterTable
+          tr
+            td
+              .water2 -
+              br
+              .water2u m3/pers
+            td
+              .water2 {{waterConsumption "m3/m2" "3"}}
+              br
+              .water2u m3/m2
+          tr
+            td
+              .water2 {{waterConsumption "yearly_cost"}}
+              br
+              .water2u €
+            td
+              .water2 {{waterConsumption "€/m3" "0"}}
+              br
+              .water2u €/m3
+  // Last row: Actions summary, Indices
   .row
-    .col-md-4
-      .panel.ep_panel
-        .panel-heading
-          b {{_ "actionRecap"}}
-        .panel-body
-          p Action1 
-          p Action2
-    .col-md-8
-      .row
-        .col-md-4: .panel.ep_panel: .panel-body
-          .blockTitle {{_ "global_lifetime"}}
-        .col-md-4: .panel.ep_panel: .panel-body
-          .blockTitle {{_ "global_conformity"}}
-        .col-md-4: .panel.ep_panel: .panel-body
-          .blockTitle {{_ "global_comfort_index"}}
+    // Actions summary
+    .col-md-4: .panel.panel-primary
+      .panel-heading: h3.panel-title.text-center {{_ 'actionRecap'}}
+      .panel-body
+        p Action1
+        p Action2
+    // Idices
+    .col-md-8: .row
+      // Indices lifetime
+      .col-md-4: .panel.panel-primary: .panel-body
+        h4.panel-inner-title {{_ "global_lifetime"}}
+      // Indices Conformity
+      .col-md-4: .panel.panel-primary: .panel-body
+        h4.panel-inner-title {{_ "global_conformity"}}
+      // Indices Comfort
+      .col-md-4: .panel.panel-primary: .panel-body
+        h4.panel-inner-title {{_ "global_comfort_index"}}

@@ -89,22 +89,14 @@
 
 
     /* Estates */
-
     "estate_name": "Nom du Patrimoine",
     "user_collection": "Utilisateurs reliés",
-
     "create_estate": "Nouvel Estate",
 
-
-
     /* Portfolios */
-
     "portfolio_name": "Surface utile",
 
-
-
     /* Buildings */
-
     "building_name": "Nom du Bâtiment",
     "building_info": "Informations complémentaires",
     "construction_year": "Année de Construction",
@@ -117,23 +109,19 @@
     "carpark_area": "Surface de parking",
 
     /* Building Selectors */
-
     "control_full": "Pleine propriété",
     "control_shared": "Co-propriété",
     "own_use": "Own use",
     "rented": "Locataire",
 
-
     /* Building detail */
     "summary": "Résumé",
     "assessment": "Bilan",
-
+		"actionRecap": "Récépitulatif des actions",
 
     /* Leases */
-
     "create_new_lease": "Nouveau Bail",
     "leasesToCreate": "Baux à créer :",
-
 
     "lease_name": "Nom du Bail",
     "rental_status": "Statut locatif",
@@ -209,7 +197,6 @@
 // },
 
 
-
     "certifications": "Certifications",
     "cert_comments": "Commentaires (version, détails...) :",
 
@@ -250,11 +237,7 @@
     "due_date": "Echéance",
     "last_diagnostic": "Date du dernier diagnostic",
 
-
-
-
     /* Leases Selectors */
-
     "empty": "Vide",
     "rented": "Loué",
     "multitenant": "Multilocataires",

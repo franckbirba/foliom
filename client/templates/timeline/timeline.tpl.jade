@@ -16,19 +16,19 @@
           .row
             // Number of actions
             .col-xs-3.timeline.appraisal-sep
-              p.timeline.appraisal-kind {{_ 'nb_actions'}}
+              h4.panel-inner-title {{_ 'nb_actions'}}
               p.timeline.appraisal-value #{nbActions} {{_ 'actions'}}
             // Total costs
             .col-xs-3.timeline.appraisal-sep
-              p.timeline.appraisal-kind {{_ 'total_cost'}}
+              h4.panel-inner-title {{_ 'total_cost'}}
               p.timeline.appraisal-value #{amount}
             // Global TRI
             .col-xs-3.timeline.appraisal-sep
-              p.timeline.appraisal-kind {{_ 'global_tri'}}
+              h4.panel-inner-title {{_ 'global_tri'}}
               p.timeline.appraisal-value #{triGlobal}
             // Total costs
             .col-xs-3
-              p.timeline.appraisal-kind {{_ 'energy_saving'}}
+              h4.panel-inner-title {{_ 'energy_saving'}}
               p.timeline.appraisal-value #{energySaving}
       // The charts
       .row: .col-md-12: .panel.panel-primary: .panel-body

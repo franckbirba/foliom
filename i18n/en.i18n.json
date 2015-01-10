@@ -22,7 +22,7 @@
 
     /* Apply Actions */
     "actions_apply": "Apply actions on your portfolio",
-    "select_portfolio": "Select your portfolio:",		
+    "select_portfolio": "Select your portfolio:",
 
 		/* Estate */
 		"new_estate": "New estate",
@@ -69,11 +69,17 @@
 		"lease": "Bail",
 		"fluid": "Fluide",
 
-
-
     "estate_name": "Estate name",
     "u_euro": "€",
     "yearly_cost": "yearly cost",
+
+    /* Building detail */
+    "summary": "Summary",
+    "assessment": "Assesment",
+		"actionRecap": "Actions summary",
+
+    /* Message Box */
+    "messages": "Messages & Alerts",
 
 		/* Timeline screen */
 		"scenario": "Scenario",
