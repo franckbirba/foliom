@@ -77,11 +77,6 @@ Template.observatory.events({
     'click .select_portfolio': function() {
         Session.set('current_portfolio_doc', this); // "this" is passed by Meteor - it's the current item
 
-        // $( "#portfolio_list" ).fadeOut("fast", function() {
-        //     Session.set('portfolio_level', false);
-        //     $( "#building_list" ).fadeIn();
-        // });
-
         if ( Session.get('portfolio_level') ) {
             Session.set('portfolio_level', false);
             $( "#building_list" ).fadeIn();
@@ -89,14 +84,6 @@ Template.observatory.events({
 
         // Meteor.subscribe('configurations', this._id);
         // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
-    },
-    'click .back2portfolios': function() {
-        Session.set('portfolio_level', true);
-
-        $( "#building_list" ).fadeOut("fast", function() {
-            Session.set('portfolio_level', true);
-            $( "#portfolio_list" ).fadeIn();
-        });
     },
     'click .glyphicon-globe': function() {
         Session.set('current_portfolio_doc', undefined);
