@@ -42,7 +42,7 @@ Router.map ->
   # Routes that matches their template's name
   routes = [
     'join', 'signin', 'settings', 'portfolios', 'buildings', 'observatory'
-    'user', 'fluids', 'selectors', 'scenarioForm', 'timeline', 'leaseForm'
+    'user', 'selectors', 'scenarioForm', 'timeline', 'leaseForm'
     # Estates
     'estate-form'
     # Actions
