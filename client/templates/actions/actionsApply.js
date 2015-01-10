@@ -4,7 +4,7 @@
 */
 
 
-Template.applyActions.rendered = function () {
+Template.actionsApply.rendered = function () {
 
     // clear building_doc session var
     Session.set('current_building_doc', null);
@@ -26,7 +26,7 @@ Template.applyActions.rendered = function () {
 
 };
 
-Template.applyActions.helpers(
+Template.actionsApply.helpers(
     {
         getUsableActions: function(){
             return Actions.find({
@@ -49,7 +49,7 @@ Template.applyActions.helpers(
     }
 });
 
-Template.applyActions.events({
+Template.actionsApply.events({
     'change .checkbox': function(event) {
         // console.log(this);
         // var childActionToCreate = this;

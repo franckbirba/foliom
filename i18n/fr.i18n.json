@@ -379,7 +379,7 @@
     "newUserTemplateAction": "Nouvelle action (vierge)",
 
     /* Apply Actions */
-    "apply_actions": "Appliquer les actions au Patrimoine",
+    "actions_apply": "Appliquer les actions au Patrimoine",
     "select_portfolio": "Sélectionnez votre patrimoine :",
 
 

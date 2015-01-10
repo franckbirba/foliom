@@ -43,7 +43,7 @@ Router.map ->
   routes = [
     'join', 'signin', 'settings', 'portfolios', 'buildings', 'observatory'
     'user', 'fluids', 'selectors', 'scenarioForm', 'timeline', 'leaseForm'
-    'actionForm', 'actions-home', 'applyActions', 'actionsList'
+    'action-form', 'actions-home', 'actions-apply', 'actions-list'
   ]
   @route route for route in routes
 
