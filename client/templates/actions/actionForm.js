@@ -22,7 +22,7 @@ AutoForm.hooks({
         onSuccess: function(operation, result, template) {
             if (Session.get('childActionToEdit')) {
                 // Session.set('childActionToEdit', null); // Always set "nul when template destroyed
-                Router.go('actionsApply');
+                Router.go('applyActions');
             }
             else {
                 // Session.set('newActionType', null); // Always set "nul when template destroyed
@@ -254,6 +254,9 @@ Template.actionForm.rendered = function () {
                 console.log("all_yearly_savings");
                 console.log(all_yearly_savings);
 
+                console.log("all_yearly_savings_simplyValues");
+                console.log(all_yearly_savings_simplyValues);
+
                 Session.set('YS_values', all_yearly_savings_simplyValues);
             });
         });
@@ -343,37 +346,14 @@ Template.actionForm.rendered = function () {
 
         // --------------------------------------
         // savings_first_year.fluids.euro_peryear
-        var totalSavings = [];
-        var totalSavings2 = [];
         var total_savings_array = [];
         this.autorun(function () {
-            $("[name^='impact_assessment_fluids.'][name$='.yearly_savings']").each(function( index ) {
-                var val = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".yearly_savings") ;
-                totalSavings[index] = val*1;
-            });
-            var totalSavingsValue = _.reduce(totalSavings, function(memo, num){ return memo + num; }, 0);
-            console.log("totalSavingsValue is:");
-            console.log(totalSavingsValue);
-
-            console.log("all_yearly_savings_simplyValues");
-            console.log(all_yearly_savings_simplyValues);
-
-            //New formula
-            // _.each(all_yearly_savings, function(yearly_savings_item, ysloop_index) {
-            //     _.each(yearly_savings_item.savings, function(savings_this_year, savings_this_year_index) {
-            //         totalSavings2[savings_this_year_index] = totalSavings2[savings_this_year_index]*1 + savings_this_year[savings_this_year_index];
-
-            //     });
-
-            // });
-
-            total_savings_array = addValuesForArrays(all_yearly_savings_simplyValues);
+            total_savings_array = addValuesForArrays( Session.get('YS_values') );
 
             console.log("total_savings_array");
             console.log(total_savings_array);
 
-
-            // $("[name='savings_first_year.fluids.euro_peryear']").val( totalSavingsValue ) ;
+            $("[name='savings_first_year.fluids.euro_peryear']").val( total_savings_array[0] ) ;
         });
 
 
@@ -405,6 +385,8 @@ Template.actionForm.rendered = function () {
             $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
             console.log("raw_roi");
             console.log(raw_roi);
+
+
 
 
             /* -------------------------- */
