@@ -46,11 +46,6 @@ Meteor.publish('actions', function(portfolioId) {
   return Actions.find(); // TODO : only send relevant Actions
 });
 
-// Test
-Meteor.publish('circles', function() {
-  return Circles.find();
-});
-
 Meteor.publish("userData", function () {
   if (this.userId) {
     var tmp = Meteor.users.findOne({_id: this.userId});
