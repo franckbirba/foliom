@@ -64,25 +64,25 @@ Template.actionsList.events({
         e.preventDefault();
         Session.set('newActionType', "generic");
 
-        Router.go('actionForm');
+        Router.go('action-form');
     },
     'click .newActionFromMaster': function(e) {
         e.preventDefault();
         Session.set('newActionType', "user_template");
         Session.set('masterAction', this);
 
-        Router.go('actionForm');
+        Router.go('action-form');
     },
     'click .newUserTempalteAction': function(e) {
         e.preventDefault();
         Session.set('newActionType', "user_template");
 
-        Router.go('actionForm');
+        Router.go('action-form');
     },
     'click .editAction': function(e) { //Sends to the Action form for updating
         e.preventDefault();
         Session.set('updateAction', this);
 
-        Router.go('actionForm');
+        Router.go('action-form');
     },
 });
