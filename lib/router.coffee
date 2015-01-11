@@ -8,8 +8,6 @@ Router.configure
   # wait on the following subscriptions before rendering the page to ensure
   # the data it's expecting is present
   waitOn: -> [
-    Meteor.subscribe 'publicLists'
-    Meteor.subscribe 'privateLists'
     Meteor.subscribe 'configurationMaster'
     Meteor.subscribe 'userData'
     Meteor.subscribe 'estates', null
@@ -53,7 +51,7 @@ Router.map ->
 
   # Routes with specific parameters
   @route '/buildings/:_id',
-    name: 'buildingDetail'
+    name: 'building-detail'
     data: ->
       curr_building = Buildings.findOne(@params._id)
       # Apparently the router goes several times through the loop

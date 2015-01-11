@@ -96,7 +96,7 @@ Template.observatory.events({
         console.log("current Building is: ");
         console.log(this);
 
-        Router.go('buildingDetail', this);
+        Router.go('building-detail', this);
     },
 
 });

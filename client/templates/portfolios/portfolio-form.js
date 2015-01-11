@@ -12,8 +12,6 @@ AutoForm.hooks({
                   if (error) {
                     // display the error to the user
                     alert(error.reason);
-                  } else {
-                    // Router.go('postPage', {_id: currentPostId});
                   }
                 });
 

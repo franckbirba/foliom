@@ -177,6 +177,6 @@ Template.buildingDetail.events({
         console.log("current lease is: ");
         console.log(this);
 
-        Router.go('leaseForm');
+        Router.go('lease-form');
     },
 });

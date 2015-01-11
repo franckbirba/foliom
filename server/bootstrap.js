@@ -1078,16 +1078,7 @@ Meteor.startup(function () {
               "global_lifetime": 0,
               "global_conformity": 0
             },
-            // "conformity_information": [
-            //   {
-            //     "name": "tgbt",
-            //     "eligibility": false,
-            //     "periodicity": "2_years",
-            //     "due_date": "2014-12-29T00:00:00.000Z",
-            //     "conformity": "compliant",
-            //     "last_diagnostic": "2014-12-22T00:00:00.000Z"
-            //   }
-            // ],
+
             "building_id": "25bQcnwe2RZHdjsu5"
           },
           {
@@ -1279,9 +1270,6 @@ Meteor.startup(function () {
         });
     }
 
-
-
-
     if(Actions.find().count() === 0) {
         var data = [
                 {
@@ -1358,50 +1346,5 @@ Meteor.startup(function () {
             Actions.insert( item );
         });
 
-        // console.log('created endUse!');
-
-    };
-
-
-  if (Lists.find().count() === 0) {
-    var data = [
-      {name: "Meteor Principles",
-       items: ["Data on the Wire",
-         "One Language",
-         "Database Everywhere",
-         "Latency Compensation",
-         "Full Stack Reactivity",
-         "Embrace the Ecosystem",
-         "Simplicity Equals Productivity"
-       ]
-      },
-      {name: "Languages",
-       items: ["Lisp",
-         "C",
-         "C++",
-         "Python",
-         "Ruby",
-         "JavaScript",
-         "Scala",
-         "Erlang",
-         "6502 Assembly"
-         ]
-      },
-      {name: "Favorite Scientists",
-       items: ["Ada Lovelace",
-         "Grace Hopper",
-         "Marie Curie",
-         "Carl Friedrich Gauss",
-         "Nikola Tesla",
-         "Claude Shannon"
-       ]
-      }
-    ];
-
-    var timestamp = (new Date()).getTime();
-    _.each(data, function(list) {
-      var list_id = Lists.insert({name: list.name,
-        incompleteCount: list.items.length});
-    });
-  }
+    }
 });

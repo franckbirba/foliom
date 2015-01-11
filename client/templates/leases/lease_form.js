@@ -41,7 +41,7 @@ AutoForm.hooks({
 
             // If update: go back to buildingDetail
             if( Session.get('leaseToEdit') ) {
-                Router.go('buildingDetail', {_id: Session.get('current_building_doc')._id });
+                Router.go('building-detail', {_id: Session.get('current_building_doc')._id });
             }
             else {
                 /* ------------------------------------- */
@@ -53,12 +53,12 @@ AutoForm.hooks({
                     // One less lease to create, so we update the session var
                     Session.set('nbLeases_2create', nbLeases_2create-1);
 
-                    Router.go('leaseForm', {
+                    Router.go('lease-form', {
                                 // _id: id
                             });
                 } else {
                     Session.set('nbLeases_2create', 0);
-                    Router.go('buildingDetail', {_id: Session.get('current_building_id') });
+                    Router.go('building-detail', {_id: Session.get('current_building_id') });
                 }
             }
 

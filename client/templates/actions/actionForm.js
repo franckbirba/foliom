@@ -22,11 +22,11 @@ AutoForm.hooks({
         onSuccess: function(operation, result, template) {
             if (Session.get('childActionToEdit')) {
                 // Session.set('childActionToEdit', null); // Always set "nul when template destroyed
-                Router.go('applyActions');
+                Router.go('apply-actions');
             }
             else {
                 // Session.set('newActionType', null); // Always set "nul when template destroyed
-                Router.go('actionsList');
+                Router.go('actions-list');
             }
 
 
