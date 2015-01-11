@@ -44,6 +44,7 @@ email@1.0.5
 fastclick@1.0.2
 follower-livedata@1.0.3
 forwarder:autoform-wizard@0.3.4
+gabrielpoca:bender@0.1.7
 geojson-utils@1.0.2
 harrison:babyparse@1.0.1
 harrison:papa-parse@1.0.10
@@ -78,12 +79,12 @@ mongo@1.0.11
 mongo-livedata@1.0.7
 mpowaga:string-template@0.1.0
 mquandalle:jade@0.4.1
-natestrauser:animate-css@3.1.2
 nemo64:bootstrap@3.3.1_1
 nemo64:bootstrap-data@3.3.1_1
 npm-bcrypt@0.7.7
 observe-sequence@1.0.4
 ordered-dict@1.0.2
+percolate:velocityjs@1.0.0
 raix:eventemitter@0.1.1
 raix:handlebar-helpers@0.2.4
 random@1.0.2
