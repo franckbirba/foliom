@@ -29,7 +29,7 @@
               .list-group
                 each getBuildingList
                   a.list-group-item.select_building(href='#')= building_name
-              a.btn.btn-primary(href="{{pathFor 'buildingNew'}}", role='button') new building
+              a.btn.btn-primary(href="{{pathFor 'building-new'}}", role='button') new building
               div
                 input#importPortfolio(type='file', style='float:left')
                 a.importPortfolio.btn.btn-primary(href='', role='button') import
