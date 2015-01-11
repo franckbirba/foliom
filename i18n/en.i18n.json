@@ -77,6 +77,10 @@
     "summary": "Summary",
     "assessment": "Assesment",
 		"actionRecap": "Actions summary",
+		"efficient_housing": "Efficient housing",
+		"high_energy_housing": "High energy housing",
+		"low_emission_of_greenhouse_gases": "Low emission GHG",
+		"strong_emission_of_greenhouse_gases": "High emission GHG",
 
     /* Message Box */
     "messages": "Messages & Alerts",

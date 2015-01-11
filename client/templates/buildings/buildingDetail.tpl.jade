@@ -32,9 +32,15 @@
             h4.panel-inner-title Certifications
             p: strong TODO Add certification vignettes
           // DPE
-          .col-md-4: +dpe
+          .col-md-4
+            p.dpe-gpe-legend {{_ 'efficient_housing'}}
+            .dpe-gpe-chart: +dpe
+            p.dpe-gpe-legend {{_ 'high_energy_housing'}}
           // GES
-          .col-md-4: +ges
+          .col-md-4
+            p.dpe-gpe-legend {{_ 'low_emission_of_greenhouse_gases'}}
+            .dpe-gpe-chart: +ges
+            p.dpe-gpe-legend {{_ 'strong_emission_of_greenhouse_gases'}}
   // Second row: Messages & alerts, Pie chart, Water consumption
   .row
     // Message box
@@ -50,7 +56,7 @@
         table#waterTblBig.waterTable
           tr
             td(colspan='2')
-              .water1
+              .water1.text-primary
                 span.glyphicon.glyphicon-tint(aria-hidden='true', style='font-size: 25px;')
                 | {{waterConsumption "m3"}} m3
         table#waterTblSmall.waterTable
