@@ -239,8 +239,8 @@ Template.actionForm.rendered = function () {
 
                         $("[name='impact_assessment_fluids." + index + ".yearly_savings']").val(yearly_savings[0].euro_savings ).change();
 
-                        console.log("yearly_savings " + index + " is:");
-                        console.log(yearly_savings);
+                        // console.log("yearly_savings " + index + " is:");
+                        // console.log(yearly_savings);
 
                         // Save the yearly savings in the array that stores all savings
                         all_yearly_savings[index] = {
@@ -387,6 +387,23 @@ Template.actionForm.rendered = function () {
             console.log(raw_roi);
 
 
+            /* -------------------------- */
+            /*    target value_analysis   */
+            var value_analysis = 0;
+            var fluidImpact_in_kwhef =0 ;
+            // Sum all in_kwhef vars
+            // _.each(allEndUseData, function(endUseItem, tmp_index) {
+            //     _.each(endUseItem, function(leaseItem, tmp_index2) {
+            //         fluidImpact_in_kwhef += leaseItem.in_kwhef_lease;
+            //     });
+            // });
+            $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
+
+                fluidImpact_in_kwhef += AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".or_kwhef")*1 ;
+            });
+            console.log("fluidImpact_in_kwhef is: "+fluidImpact_in_kwhef);
+            value_analysis = action_lifetime * fluidImpact_in_kwhef / investment_cost;
+            $("[name='value_analysis']").val( value_analysis.toFixed(2)*1 );
 
 
             /* -------------------------- */
