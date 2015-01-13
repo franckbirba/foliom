@@ -6,7 +6,8 @@
     .col-md-4: .panel.panel-primary
       .panel-heading: h3.panel-title {{_ 'timeline'}}
       .panel-body
-        p: strong: TODO Create table
+        each actions
+          .timeline.timeline-action-items!= icon
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal
