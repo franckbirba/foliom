@@ -14,7 +14,12 @@ Template.actionsApply.rendered = function () {
         $("#portfolioSelect").val( Session.get('current_portfolio_doc')._id ).change();
     } else {
         // Else init by choosing a random Portfolio from the current Estate doc
-        $("#portfolioSelect").val(Portfolios.findOne()._id).change();
+        var randomPortfolioId = Portfolios.findOne()._id ;
+        $("#portfolioSelect").val(randomPortfolioId);
+        // There's apparently a delay in the rendering, so delay the .change() for 300ms
+        setTimeout(function(){
+            $("#portfolioSelect").change();
+        }, 300);
     }
 
     // On Portfolio selector change: set the correct current Portfolio Doc
