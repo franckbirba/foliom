@@ -1,9 +1,54 @@
 # Action bucket is hidden by default
 Session.set 'timeline_action_bucket_displayed', false
 
+# @TODO Fake data
+actions = [
+  {
+    icon: '&#58880;'
+    description: 'Nouveaux compteurs'
+    start: 'Tue Jan 13 2015 17:47:19 GMT+0100 (CET)'
+    # Action duration is provided as years
+    duration: 3
+    price: 150000
+  }
+  {
+    icon: '&#58881;'
+    description: 'Etanchéïté'
+    start: 'Tue Jan 13 2015 17:47:19 GMT+0100 (CET)'
+    # Action duration is provided as years
+    duration: 2.5
+    price: 200000
+  }
+  {
+    icon: '&#58882;'
+    description: 'Double vitrage'
+    start: 'Tue Jan 13 2015 17:47:19 GMT+0100 (CET)'
+    # Action duration is provided as years
+    duration: 1.5
+    price: 300000
+  }
+  {
+    icon: '&#58883;'
+    description: 'Etanchéïté sol'
+    start: 'Wed Jan 13 2016 17:50:29 GMT+0100 (CET)'
+    # Action duration is provided as years
+    duration: 2.5
+    price: 100000
+  }
+  {
+    icon: '&#58884;'
+    description: 'Etanchéïté plafond'
+    start: 'Wed Jul 13 2016 17:50:29 GMT+0200 (CEST)'
+    # Action duration is provided as years
+    duration: 2.5
+    price: 100000
+  }
+]
+
 Template.timeline.helpers
   scenarioId: -> 1
-  nbActions: -> 54
+  nbActions: -> actions.length
+  actions: -> actions
   amount: -> numeral(1950000).format '0,0[.]00 $'
   triGlobal: -> TAPi18n.__ 'calculating'
   energySaving: -> TAPi18n.__ 'calculating'
