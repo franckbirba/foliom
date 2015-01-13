@@ -16,8 +16,8 @@ Template.scenarioForm.rendered = function() {
 };
 
 Template.scenarioForm.helpers({
-    criterionName: function(){
-        return TAPi18n.__("yearly_expense_max");
+    isCheckbox: function(type){
+        return (type == "checkbox") ? true : false;
     },
     getCriterion: function(){
         return [
