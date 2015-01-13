@@ -1,13 +1,30 @@
+colorPrimary = #A9C700
+colorSecondary = #808080
+
+headingHeight = 2.4em
+
 .timeline
   &.appraisal-value
-    color #A9C700
+    color colorPrimary
     font-size 1.4em
     font-weight bolder
     margin-bottom 0
   &.appraisal-sep
-    border-right 1px solid #808080
+    border-right 1px solid colorSecondary
   // The little round shapes used for the charts legends
   &.chart-legend
     width 1em
     height 1em
     border-radius 1em
+  // Action bucket
+  &.action-bucket-heading
+    height headingHeight
+  &.action-bucket-arrow
+    width 4em
+    height headingHeight
+    line-height headingHeight
+    text-align center
+    margin-top -.6em
+    margin-right -1em
+    color white
+    background-color colorSecondary

@@ -58,6 +58,9 @@
                   td(style=style)= name
       // Action bucket
       .row: .col-md-12: .panel.panel.panel-primary
-        .panel-heading: h3.panel-title {{ _'action_bucket'}}
-        .panel-body
-          p: strong TODO Table of available actions
+        .panel-heading.timeline.action-bucket-heading(data-trigger='timeline-action-bucket-toggle'): clearfix
+          h3.panel-title.pull-left {{ _'action_bucket'}}
+          .timeline.action-bucket-arrow.pull-right: span.glyphicon.glyphicon-circle-arrow-up
+        if isActionBucketDisplayed
+          .panel-body
+            p: strong TODO Table of available actions

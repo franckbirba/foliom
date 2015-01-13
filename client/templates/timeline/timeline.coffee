@@ -1,3 +1,6 @@
+# Action bucket is hidden by default
+Session.set 'timeline_action_bucket_displayed', false
+
 Template.timeline.helpers
   scenarioId: -> 1
   nbActions: -> 54
@@ -39,6 +42,8 @@ Template.timeline.helpers
       name:  TAPi18n.__ 'planning_budget_subventions'
     }
   ]
+  # Action bucket trigger
+  isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
 
 Template.timeline.rendered = ->
   timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
@@ -58,3 +63,9 @@ Template.timeline.rendered = ->
     ]
   new Chartist.Line '#consumption.ct-chart', consumptionData
   new Chartist.Line '#planning_budget.ct-chart', planningBudgetData
+
+Template.timeline.events
+  'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
+    # Display content of the action bucket
+    Session.set 'timeline_action_bucket_displayed', \
+      (not Session.get 'timeline_action_bucket_displayed')
