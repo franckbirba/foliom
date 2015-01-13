@@ -388,6 +388,9 @@
 
     /* Criterion */
     "yearly_expense_max": "Dépense annuelle max",
+    "energy_consumption_atLeast_in_euro_year": "Consommation d’énergie en € / an : réduction au moins égale à",
+    "wait_for_obsolescence": "Tenir compte de l’obsolescence pour déclencher les actions",
+    "priority_to_gobal_obsolescence": "Priorité à l’indice global d’obsolescence",
 
 
     /* Units */

@@ -21,10 +21,10 @@ Template.scenarioForm.helpers({
     },
     getCriterion: function(){
         return [
-            {"label": "Dépense annuelle max"},
-            {"label": "Consommation d’énergie en € / an : réduction au moins égale à"},
-            {"label": "Tenir compte de l’obsolescence pour déclencher les actions"},
-            {"label": "Priorité à l’indice global d’obsolescence"}
+            {"label": "yearly_expense_max"},
+            {"label": "energy_consumption_atLeast_in_euro_year"},
+            {"label": "wait_for_obsolescence", "type":"checkbox"},
+            {"label": "priority_to_gobal_obsolescence"}
             ];
     },
 });
