@@ -65,6 +65,8 @@
     "lease": "Bail",
     "fluid": "Fluide",
 
+    "In": "En",
+
 
     /* Configuration Compass */
 
@@ -373,6 +375,15 @@
     /* Message Box */
     "messages": "Messages & Alertes",
 
+    /* Scenarios */
+    "create_scenario": "Nouveau scénario",
+    "duration": "Durée",
+    "total_expenditure": "Dépense totale",
+    "roi_less_than": "Temps de retour inférieur à",
+
+    "scenario_criterion": "Critères à appliquer, par ordre d'importance",
+    "other_criterion": "Ajouter un critère",
+
     /* Units */
 
     "u_months": "mois",
@@ -413,4 +424,5 @@
 		"planning_budget_global": "Budget",
 		"planning_budget_investments": "Investissements",
 		"planning_budget_subventions": "Investissements - Subventions"
+
 }
