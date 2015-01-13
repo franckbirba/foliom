@@ -2,6 +2,8 @@ colorPrimary = #A9C700
 colorSecondary = #808080
 
 headingHeight = 2.4em
+rondFontSize = 22px
+roundIconSize = 1.7 * rondFontSize
 
 .timeline
   &.appraisal-value
@@ -30,7 +32,10 @@ headingHeight = 2.4em
     background-color colorSecondary
   &.timeline-action-items
     font-family 'foliom-picto'
-    color white
-    font-size 5em
-    text-align center
     background-color colorPrimary
+    color white
+    font-size rondFontSize
+    width roundIconSize
+    border-radius roundIconSize
+    line-height roundIconSize
+    text-align center

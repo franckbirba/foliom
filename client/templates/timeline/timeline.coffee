@@ -6,7 +6,7 @@ actions = [
   {
     icon: '&#58880;'
     description: 'Nouveaux compteurs'
-    start: 'Tue Jan 13 2015 17:47:19 GMT+0100 (CET)'
+    start: new Date
     # Action duration is provided as years
     duration: 3
     price: 150000
@@ -14,7 +14,7 @@ actions = [
   {
     icon: '&#58881;'
     description: 'Etanchéïté'
-    start: 'Tue Jan 13 2015 17:47:19 GMT+0100 (CET)'
+    start: new Date
     # Action duration is provided as years
     duration: 2.5
     price: 200000
@@ -22,7 +22,7 @@ actions = [
   {
     icon: '&#58882;'
     description: 'Double vitrage'
-    start: 'Tue Jan 13 2015 17:47:19 GMT+0100 (CET)'
+    start: moment(new Date).add(1, 'y').toDate()
     # Action duration is provided as years
     duration: 1.5
     price: 300000
@@ -30,7 +30,7 @@ actions = [
   {
     icon: '&#58883;'
     description: 'Etanchéïté sol'
-    start: 'Wed Jan 13 2016 17:50:29 GMT+0100 (CET)'
+    start: moment(new Date).add(1, 'y').toDate()
     # Action duration is provided as years
     duration: 2.5
     price: 100000
@@ -38,7 +38,7 @@ actions = [
   {
     icon: '&#58884;'
     description: 'Etanchéïté plafond'
-    start: 'Wed Jul 13 2016 17:50:29 GMT+0200 (CEST)'
+    start: moment(new Date).add(1, 'y').toDate()
     # Action duration is provided as years
     duration: 2.5
     price: 100000
@@ -48,8 +48,25 @@ actions = [
 Template.timeline.helpers
   scenarioId: -> 1
   nbActions: -> actions.length
-  actions: -> actions
-  amount: -> numeral(1950000).format '0,0[.]00 $'
+  actions: ->
+    # Return an empty array in case no action are contained in the scenario
+    return [] unless actions[0]?
+    # Calculate begining of actions selected in the scenario
+    minDate = _.reduce actions, ((memo, num) ->
+      (moment(memo).min num.start).toDate()
+    ), actions[0].start
+    # Calculate end of actions selected in the scenario
+    maxDate = _.reduce actions, ((memo, num) ->
+      moment(memo).max(moment(num.start).add num.duration, 'y').toDate()
+    ), (moment(actions[0].start).add actions[0].duration, 'y').toDate()
+    console.log 'Min', minDate, 'Max', maxDate
+    actions
+  amount: ->
+    if actions[0]?
+      budget = _.reduce actions, ((memo, num) -> memo+num.price), 0
+      numeral(budget).format '0,0[.]00 $'
+    else
+      TAPi18n.__ 'calculating'
   triGlobal: -> TAPi18n.__ 'calculating'
   energySaving: -> TAPi18n.__ 'calculating'
   # Legends are created as simple <table>
