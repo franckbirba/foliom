@@ -22,9 +22,9 @@ Template.scenarioForm.helpers({
     getCriterion: function(){
         return [
             {"label": "yearly_expense_max"},
-            {"label": "energy_consumption_atLeast_in_euro_year"},
-            {"label": "wait_for_obsolescence", "type":"checkbox"},
-            {"label": "priority_to_gobal_obsolescence"}
+            {"label": "energy_consum_atLeast_in_E_year"},
+            {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc"},
+            {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc"}
             ];
     },
 });
