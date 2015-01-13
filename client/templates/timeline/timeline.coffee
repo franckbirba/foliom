@@ -69,3 +69,7 @@ Template.timeline.events
     # Display content of the action bucket
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
+    # Change arrow orientation
+    $ '.action-bucket-arrow-icon'
+    .toggleClass 'glyphicon-circle-arrow-up'
+    .toggleClass 'glyphicon-circle-arrow-down'
