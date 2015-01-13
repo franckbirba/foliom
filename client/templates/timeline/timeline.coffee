@@ -53,11 +53,11 @@ Template.timeline.helpers
     return [] unless actions[0]?
     # Calculate begining of actions selected in the scenario
     minDate = _.reduce actions, ((memo, num) ->
-      (moment(memo).min num.start).toDate()
+      (moment.min moment(memo), moment(num.start)).toDate()
     ), actions[0].start
     # Calculate end of actions selected in the scenario
     maxDate = _.reduce actions, ((memo, num) ->
-      moment(memo).max(moment(num.start).add num.duration, 'y').toDate()
+      moment.max(moment(memo), moment(num.start).add num.duration, 'y').toDate()
     ), (moment(actions[0].start).add actions[0].duration, 'y').toDate()
     console.log 'Min', minDate, 'Max', maxDate
     actions
