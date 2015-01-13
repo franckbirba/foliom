@@ -1104,34 +1104,34 @@ Meteor.startup(function () {
             "fluid_consumption_meter": [
               {
                 "fluid_id": "EDF - fluid_heat",
-                "yearly_subscription": 11,
-                "first_year_value": 43,
-                "yearly_cost": 441
+                "yearly_subscription": 50,
+                "first_year_value": 60,
+                "yearly_cost": 650
               },
               {
                 "fluid_id": "Lyonnaise des Eaux - fluid_water",
-                "yearly_subscription": 43,
-                "first_year_value": 17,
-                "yearly_cost": 383
+                "yearly_subscription": 31,
+                "first_year_value": 74,
+                "yearly_cost": 1151
               },
               {
                 "fluid_id": "EDF - fluid_electricity",
-                "yearly_subscription": 17,
-                "first_year_value": 24,
-                "yearly_cost": 737
+                "yearly_subscription": 50,
+                "first_year_value": 61,
+                "yearly_cost": 1180
               },
               {
                 "fluid_id": "Poweo - fluid_heat",
-                "yearly_subscription": 14,
-                "first_year_value": 31,
-                "yearly_cost": 386
+                "yearly_subscription": 57,
+                "first_year_value": 49,
+                "yearly_cost": 645
               }
             ],
             "consumption_by_end_use": [
               {
                 "end_use_name": "end_use_heating",
-                "fluid_id": "EDF - fluid_heat",
-                "first_year_value": 15
+                "fluid_id": "EDF - fluid_electricity",
+                "first_year_value": 30
               },
               {
                 "end_use_name": "end_use_AC",
@@ -1161,10 +1161,10 @@ Meteor.startup(function () {
               {
                 "end_use_name": "end_use_specific",
                 "fluid_id": "EDF - fluid_electricity",
-                "first_year_value": 4
+                "first_year_value": 61
               }
             ],
-            "consumption_by_end_use_total": 98,
+            "consumption_by_end_use_total": 170,
             "comfort_qualitative_assessment": {
               "acoustic": "good",
               "visual": "average",
