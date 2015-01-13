@@ -375,6 +375,8 @@
     /* Message Box */
     "messages": "Messages & Alertes",
 
+
+
     /* Scenarios */
     "create_scenario": "Nouveau scénario",
     "duration": "Durée",
@@ -383,6 +385,10 @@
 
     "scenario_criterion": "Critères à appliquer, par ordre d'importance",
     "other_criterion": "Ajouter un critère",
+
+    /* Criterion */
+    "yearly_expense_max": "Dépense annuelle max",
+
 
     /* Units */
 

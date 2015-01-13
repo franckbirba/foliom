@@ -15,3 +15,8 @@ Template.scenarioForm.rendered = function() {
     $( "#sortable" ).disableSelection();
 };
 
+Template.scenarioForm.helpers({
+    criterionName: function(){
+        return TAPi18n.__("yearly_expense_max");
+    },
+});

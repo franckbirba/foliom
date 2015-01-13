@@ -6,41 +6,55 @@
       form.form-horizontal
         .form-group
           label.col-sm-4.control-label(for="scenario_name") {{_ 'name'}}
-          .col-sm-8
-            input.form-control#scenario_name(type="text" placeholder=name_pl)
+          .col-sm-8: input.form-control#scenario_name(type="text" placeholder=name_pl)
         .form-group
           label.col-sm-4.control-label(for="duration") {{_ 'duration'}}
-          .col-sm-8
-            input.form-control#duration(type="number" placeholder=duration_pl)
+          .col-sm-8: input.form-control#duration(type="number" placeholder=duration_pl)
         .form-group
           label.col-sm-4.control-label(for="total_expenditure") {{_ 'total_expenditure'}}
-          .col-sm-8
-            input.form-control#total_expenditure(type="number" placeholder=total_expenditure_pl)
+          .col-sm-8: input.form-control#total_expenditure(type="number" placeholder=total_expenditure_pl)
         .form-group
           label.col-sm-4.control-label(for="roi_less_than") {{_ 'roi_less_than'}}
-          .col-sm-8
-            input.form-control#roi_less_than(type="number" placeholder=duration_pl)
+          .col-sm-8: input.form-control#roi_less_than(type="number" placeholder=duration_pl)
     .col-md-4
       img.img-thumbnail(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" alt="...")
-  //Criterions
+  //- Criterions
   .row.scenario_row
     #scenarioCriterion {{_ "scenario_criterion"}}
     ul#sortable
       li
-        span.ui-icon.ui-icon-arrowthick-2-n-s
-        |Item 1
+        .col-sm-1: span.glyphicon.glyphicon-move(aria-hidden="true")
+        .col-sm-6 {{criterionName}}
+        .col-sm-4
+          .form-inline: .form-group: .input-group
+            input.form-control#exampleInputAmount(type="text" placeholder="Amount")
+            .input-group-addon {{_ "u_euro_year"}}
+        .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
       li
-        span.ui-icon.ui-icon-arrowthick-2-n-s
-        | Item 2
+        .col-sm-1: span.glyphicon.glyphicon-move(aria-hidden="true")
+        .col-sm-6 {{criterionName}}
+        .col-sm-4
+          .form-inline: .form-group: .input-group
+            input.form-control#exampleInputAmount(type="text" placeholder="Amount")
+            .input-group-addon {{_ "u_euro_year"}}
+        .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
       li
-        span.ui-icon.ui-icon-arrowthick-2-n-s
-        |Item 3
+        .col-sm-1: span.glyphicon.glyphicon-move(aria-hidden="true")
+        .col-sm-6 {{criterionName}}
+        .col-sm-4
+          .form-inline: .form-group: .input-group
+            input.form-control#exampleInputAmount(type="text" placeholder="Amount")
+            .input-group-addon {{_ "u_euro_year"}}
+        .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
       li
-        span.ui-icon.ui-icon-arrowthick-2-n-s
-        | Item 4
-      li
-        span.ui-icon.ui-icon-arrowthick-2-n-s
-        | Item 5
+        .col-sm-1: span.glyphicon.glyphicon-move(aria-hidden="true")
+        .col-sm-6 {{criterionName}}
+        .col-sm-4
+          .form-inline: .form-group: .input-group
+            input.form-control#exampleInputAmount(type="text" placeholder="Amount")
+            .input-group-addon {{_ "u_euro_year"}}
+        .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
+  //- Add a criterion
   .row.scenario_row
     .col-md-2 {{_ 'other_criterion'}}
     .col-md-10
