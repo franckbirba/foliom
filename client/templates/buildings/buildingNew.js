@@ -69,7 +69,7 @@ Template.buildingNew.helpers({
 
                                     console.log('nb of Leases to create: '+ Session.get('nbLeases_2create') );
 
-                                    Router.go('lease-form', {
+                                    Router.go('leaseForm', {
                                         // _id: id
                                     });
                                 }
