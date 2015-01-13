@@ -34,6 +34,12 @@
                     .row
                       .col-sm-2: input(type="checkbox" value="")
                       .col-sm-10: .criterion-label.criterion-desc {{_ desc}}
+                  else if isSelectorTechfield type
+                    select#addTechfield.form-control
+                      option(value="" disabled selected) {{_ "select_techField"}}
+                      option Consommation d’énergie en € / an : réduction sur le Bâtiment au moins égale à (en %)
+                      option 2
+                      option 3
                   else
                     input.form-control#criterionAmount(type="text" placeholder="Amount")
                     .input-group-addon {{_ "u_euro_year"}}
