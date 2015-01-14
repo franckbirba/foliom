@@ -32,6 +32,8 @@ roundIconSize = 1.5 * rondFontSize
       border 0
   &.timeline-year-panel
     padding 0
+    max-height 300px
+    overflow auto
   &.timeline-year-table
     width 100%
     >tr:nth-child(even)
@@ -42,10 +44,12 @@ roundIconSize = 1.5 * rondFontSize
     width 100%
     >tr:not(:last-child)
       border-bottom 1px colorSecondary dashed
-    >tr:fisrt-child
-      background-color red
+    td:first-child
+      width 2em
+      h4.panel-inner-title
+        width 1.4em
     td
-      height 1.4em
+      height 1.8em
       padding .1em
   &.timeline-year
     padding .1em
@@ -56,7 +60,7 @@ roundIconSize = 1.5 * rondFontSize
     color colorPrimary
     font-weight bold
     font-size 1.4em
-  &.timeline-action-items
+  .timeline-action-items
     font-family 'foliom-picto'
     background-color colorPrimary
     color white
@@ -65,6 +69,23 @@ roundIconSize = 1.5 * rondFontSize
     border-radius roundIconSize
     line-height roundIconSize
     text-align center
+    height roundIconSize
+    display inline-flex
+    margin .2em
+    padding-left .2em
+    >span
+      background-color colorSecondary
+      font-family OpenSans
+      font-size .5em
+      border-radius 1.5em
+      width 2em
+      height 1.5em
+      line-height 1.5em
+      left .4em
+      display block
+      position relative
+    >span[data-value='1']
+      display none
   &.appraisal-value
     margin-bottom 0
   &.appraisal-sep

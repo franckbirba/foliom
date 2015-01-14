@@ -93,10 +93,12 @@ Template.timeline.created = ->
     yearContent =
       yearValue: currentYear
       quarterContent: []
+    dummy1 = _.findWhere actions, _id: 4
+    dummy2 = _.findWhere actions, _id: 1
     while currentYear is quarter.year()
       yearContent.quarterContent.push
         value: quarter.quarter()
-        actions: [_.findWhere actions, _id: 4]
+        actions: [dummy1, dummy2]
 
 
 
@@ -104,10 +106,6 @@ Template.timeline.created = ->
       quarter.add 1, 'Q'
     timelineActions.push yearContent
   console.log timelineActions
-
-
-
-
 
 
 

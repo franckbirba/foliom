@@ -18,9 +18,12 @@
             td: table.timeline.timeline-quarter-table
               each quarterContent
                 tr(data-value=value).timeline.timeline-quarter
-                  td {{_ 'quarter_abbreviation'}}#{value}
-                  each actions
-                    td: .timeline.timeline-action-items!= logo
+                  td: h4.panel-inner-title {{_ 'quarter_abbreviation'}}#{value}
+                  td
+                    each actions
+                      .timeline.timeline-action-items
+                        | !{logo}
+                        span(data-value=buildingIds.length)= buildingIds.length
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal
