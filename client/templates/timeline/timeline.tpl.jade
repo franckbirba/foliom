@@ -11,9 +11,11 @@
             option(value='all') {{_ 'all'}}
             each availableBuildings
               option(value=_id)= building_name
-      .panel-body
+      .panel-body.timeline.timeline-year-panel: table.timeline.timeline-year-table
         each timelineActions
-          p= yearValue
+          tr(data-value=yearValue)
+            td.timeline.timeline-year= yearValue
+            td: p Trimestre & actions
           //.timeline.timeline-action-items!= logo
     // Appraisal, charts and available actions
     .col-md-8

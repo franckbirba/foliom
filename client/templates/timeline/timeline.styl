@@ -30,10 +30,24 @@ roundIconSize = 1.5 * rondFontSize
       background transparent
       padding 0 1em
       border 0
-  &.appraisal-value
+  &.timeline-year-panel
+    padding 0
+  &.timeline-year-table
+    width 100%
+    tr:nth-child(even)
+      background-color white
+    tr
+      border-bottom 1px colorSecondary solid
+  &.timeline-year
+    padding .1em
+    text-align center
+    width 3.5em
+    border-right 3px colorSecondary solid
+  &.timeline-year, &.appraisal-value
     color colorPrimary
+    font-weight bold
     font-size 1.4em
-    font-weight bolder
+  &.appraisal-value
     margin-bottom 0
   &.appraisal-sep
     border-right 1px solid colorSecondary
