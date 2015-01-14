@@ -143,14 +143,15 @@ Template.timeline.rendered = ->
     cursor: '-webkit-grabbing'
     scrollSensitivity: 100
     scrollSpeed: 100
-    axis: 'y'
+    # @TODO à vérfier avec BSE axis: 'y'
     containment: 'table.timeline.timeline-year-table'
-    revert: true
-    snap: 'td[data-role=\'dropable-container\']'
-    #grid: [20, 44]
-    stop: ->
-      console.log 'Drag stopped', @
-  ($ '[data-role=\'dropable-container\']').droppable()
+    revert: 'invalid'
+    # @TODO à vérfier avec BSE snap: 'td[data-role=\'dropable-container\']'
+    # @TODO à vérfier avec BSE grid: [20, 44]
+    stop: (e, t) -> console.log 'Drag stopped', @, e, t
+  ($ '[data-role=\'dropable-container\']').droppable
+    hoverClass: 'dropable'
+    drop: (e, t) -> console.log 'Drop received', @, e, t
   # Create SVG charts with Chartist and attach them to the DOM
   new Chartist.Line '[data-role=\'consumption-chart\']', \
     consumptionData, low: 0
