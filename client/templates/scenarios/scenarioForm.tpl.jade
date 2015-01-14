@@ -27,16 +27,21 @@
           li.criterion
             .row.row-correct
               .col-sm-1: span.glyphicon.glyphicon-move.handlerIcon(aria-hidden="true")
-              .col-sm-5: span.criterion-label {{_ label}}
+              .col-sm-5: span.criterion-text.criterion-label(true_label=label) {{_ label}}
               .col-sm-5
                 .form-inline: .form-group: .input-group
                   if isCheckbox type
                     .row
                       .col-sm-2: input(type="checkbox" value="")
-                      .col-sm-10: .criterion-label.criterion-desc {{_ desc}}
+                      .col-sm-10: .criterion-text.criterion-desc {{_ desc}}
+                  else if isSelectorTechfield type
+                    select#addTechfield.form-control
+                      option(value="" disabled selected) {{_ "select_techField"}}
+                      each getTechnical_compliance_items
+                        option(value=value) {{_ label}}
                   else
                     input.form-control#criterionAmount(type="text" placeholder="Amount")
-                    .input-group-addon {{_ "u_euro_year"}}
+                    .input-group-addon {{_ unit}}
               .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
         li#addCriterionLi.criterion
             .col-md-3 {{_ 'add_criterion'}}

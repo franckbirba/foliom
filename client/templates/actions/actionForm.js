@@ -419,7 +419,7 @@ Template.actionForm.rendered = function () {
             console.log(ic_array_actualized);
 
             // PREPARE ENERGY SAVINGS
-            //@Blandine: l'économie de fluides est basée sur le coût du fluide (qui évolue) >> besoin d'actualiser (seulement inflater) ?
+            //@Blandine: l'économie de fluides est basée sur le coût du fluide (qui évolue) >> besoin d'actualiser (seulement inflater) ? >> 14/1: YES
             // check all_yearly_savings_simplyValues
             var all_yearly_savings_simplyValues_actualized = [];
             // debugger
