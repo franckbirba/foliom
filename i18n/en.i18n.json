@@ -88,6 +88,7 @@
 		/* Timeline screen */
 		"scenario": "Scenario",
 		"timeline": "Timeline",
+		"all": "All",
 		"appraisal": "Appraisal",
 		"nb_actions": "Number of actions:",
 		"actions": "actions",

@@ -4,16 +4,17 @@
   .row
     // Timeline
     .col-md-4: .panel.panel-primary
-      .panel-heading: clearfix
+      .panel-heading.timeline.timeline-header.noselect: clearfix
         h3.pull-left.panel-title {{_ 'timeline'}}
-        select.form-control
-          option All
-          each availableBuildings
-            option(value=id)= name
+        .timeline.timeline-filter.pull-right
+          select(data-trigger='timeline-trigger-building-filter')
+            option {{_ 'all'}}
+            each availableBuildings
+              option(value=_id)= building_name
       .panel-body
         p TODO Filter on building
         each timelineActions
-          .timeline.timeline-action-items!= icon
+          .timeline.timeline-action-items!= logo
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal

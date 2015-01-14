@@ -2,24 +2,24 @@
 Session.set 'timeline_action_bucket_displayed', false
 
 # @TODO Fake data
-buildings = [
+@buildings = [
   {
-    id: 1
-    name: 'Building 1'
+    _id: 1
+    building_name: 'Building 1'
   }
   {
-    id: 2
-    name: 'Building 2'
+    _id: 2
+    building_name: 'Building 2'
   }
   {
-    id: 3
-    name: 'Building 3'
+    _id: 3
+    building_name: 'Building 3'
   }
 ]
 
-actions = [
+@actions = [
   {
-    icon: '&#58880;'
+    logo: '&#58880;'
     name: 'Nouveaux compteurs'
     start: new Date
     duration: 36
@@ -27,7 +27,7 @@ actions = [
     buildingIds: [1]
   }
   {
-    icon: '&#58881;'
+    logo: '&#58881;'
     name: 'Etanchéïté'
     start: moment(new Date).subtract(1, 'M').toDate()
     duration: 30
@@ -35,7 +35,7 @@ actions = [
     buildingIds: [1, 2]
   }
   {
-    icon: '&#58882;'
+    logo: '&#58882;'
     name: 'Double vitrage'
     start: moment(new Date).add(1, 'y').toDate()
     duration: 4
@@ -43,7 +43,7 @@ actions = [
     buildingIds: [1]
   }
   {
-    icon: '&#58883;'
+    logo: '&#58883;'
     name: 'Etanchéïté sol'
     start: moment(new Date).add(1, 'y').toDate()
     duration: 12
@@ -51,7 +51,7 @@ actions = [
     buildingIds: [1, 2]
   }
   {
-    icon: '&#58884;'
+    logo: '&#58884;'
     name: 'Etanchéïté plafond'
     start: moment(new Date).add(1, 'y').add(1, 'M').toDate()
     duration: 8
@@ -101,8 +101,11 @@ Template.timeline.created = ->
 Template.timeline.helpers
   scenarioId: -> 1
   availableBuildings: ->
-    [].push {id: id, name: (_.findWhere buildings, id: id).name} for id in \
-      _.uniq (_.flatten (_.pluck actions, 'buildingIds'))
+    buildingIdInActions = _.uniq (_.flatten (_.pluck actions, 'buildingIds'))
+    availableBuildings = []
+    for id in buildingIdInActions
+      availableBuildings.push _.findWhere buildings, _id: id
+    availableBuildings
   nbActions: -> nbActions
   timelineActions: -> timelineActions
   totalCost: -> (numeral totalCost).format '0,0[.]00 $'
@@ -171,6 +174,6 @@ Template.timeline.events
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
     # Change arrow orientation
-    $ '.action-bucket-arrow-icon'
-    .toggleClass 'glyphicon-circle-arrow-up'
-    .toggleClass 'glyphicon-circle-arrow-down'
+    $ '.action-bucket-arrow-logo'
+    .toggleClass 'glyphlogo-circle-arrow-up'
+    .toggleClass 'glyphlogo-circle-arrow-down'

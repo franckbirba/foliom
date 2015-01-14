@@ -6,6 +6,30 @@ rondFontSize = 22px
 roundIconSize = 1.5 * rondFontSize
 
 .timeline
+  &.timeline-header
+    height headingHeight
+  &.timeline-filter
+    background-color colorSecondary
+    width 8em
+    height headingHeight
+    margin-top -.6em
+    margin-right -1em
+    padding-top .5em
+    color white
+    display table
+    &:after
+      padding-top .1em
+      padding-right .5em
+      width: 1em
+      font-family 'Glyphicons Halflings'
+      content '\e138'
+    select
+      -webkit-appearance none
+      width 6.5em
+      font-family Comfortaa
+      background transparent
+      padding 0 1em
+      border 0
   &.appraisal-value
     color colorPrimary
     font-size 1.4em
