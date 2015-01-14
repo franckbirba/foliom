@@ -4,9 +4,15 @@
   .row
     // Timeline
     .col-md-4: .panel.panel-primary
-      .panel-heading: h3.panel-title {{_ 'timeline'}}
+      .panel-heading: clearfix
+        h3.pull-left.panel-title {{_ 'timeline'}}
+        select.form-control
+          option All
+          each availableBuildings
+            option(value=id)= name
       .panel-body
-        each actions
+        p TODO Filter on building
+        each timelineActions
           .timeline.timeline-action-items!= icon
     // Appraisal, charts and available actions
     .col-md-8
@@ -22,7 +28,7 @@
             // Total costs
             .col-xs-3.timeline.appraisal-sep
               h4.panel-inner-title {{_ 'total_cost'}}
-              p.timeline.appraisal-value #{amount}
+              p.timeline.appraisal-value #{totalCost}
             // Global TRI
             .col-xs-3.timeline.appraisal-sep
               h4.panel-inner-title {{_ 'global_tri'}}
