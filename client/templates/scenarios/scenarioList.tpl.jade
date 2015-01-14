@@ -13,4 +13,10 @@
       each getScenarios
         .col-md-4
           .scenarioItem
+            img(src='/icon/actionIcons/iconmonstr-loading-14-icon-256.png', width='50')
             div= name
+      .col-md-4
+        #scenarioCreate.scenarioItem
+          a.newScenario(href='')
+            img(src='/icon/actionIcons/iconmonstr-plus-5-icon-256.png', width='50')
+            div {{_ "create_scenario"}}

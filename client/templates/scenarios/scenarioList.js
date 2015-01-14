@@ -26,7 +26,7 @@ Template.scenarioList.rendered = function () {
 
 Template.scenarioList.helpers({
     getScenarios: function(){
-        if (Session.get('current_portfolio_doc') !== null) {
+        if (Session.get('current_portfolio_doc')) {
             return Scenarios.find({
                "portfolio_id": Session.get('current_portfolio_doc')._id
             }).fetch();
