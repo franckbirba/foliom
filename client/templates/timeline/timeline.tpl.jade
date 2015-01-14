@@ -58,7 +58,7 @@
           .col-md-4
             small: .table-responsive: table.table.table-condensed: tbody
               each consumptionLegend
-                .timeline.div.chart-legend(style=round)= name
+                .timeline.div.chart-legend(class=color)= name
         // The Planning budget chart
         .row
           // The chart
@@ -68,9 +68,7 @@
           .col-md-4
             small: .table-responsive: table.table.table-condensed: tbody
               each planningBudgetLegend
-                tr
-                  td(style=style): .timeline.chart-legend(style=round)
-                  td(style=style)= name
+                .timeline.div.chart-legend(class=color)= name
       // Action bucket
       .row: .col-md-12: .panel.panel.panel-primary
         .panel-heading.timeline.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix

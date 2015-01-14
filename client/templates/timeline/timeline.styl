@@ -93,17 +93,32 @@ roundIconSize = 1.5 * rondFontSize
   // The little round shapes used for the charts legends
   &.chart-legend
     font-size .8em
-    font-weight thin
+    font-weight thinner
+    &.colorA
+      color colorA
+    &.colorB
+      color colorB
+    &.colorC
+      color colorC
+    &.colorD
+      color colorD
     &:before
-      content '?'
+      content ''
       display inline-block
       width 1em
       height 1em
       border-radius 1em
-      line-height 1em
       text-align center
       margin-right .5em
-      background-color red
+      padding 0
+      .colorA&
+        background-color colorA
+      .colorB&
+        background-color colorB
+      .colorC&
+        background-color colorC
+      .colorD&
+        background-color colorD
   // Action bucket
   &.action-bucket-heading
     height headingHeight

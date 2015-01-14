@@ -124,44 +124,20 @@ Template.timeline.helpers
   energySaving: -> TAPi18n.__ 'calculating'
   # Legends are created as simple <table>
   consumptionLegend: -> [
-    {
-      round: "background-color: #{CHARTIST_COLORS[0]};"
-      style: "color: #{CHARTIST_COLORS[0]};"
-      name:  TAPi18n.__ 'consumption_noaction'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[1]};"
-      style: "color: #{CHARTIST_COLORS[1]};"
-      name:  TAPi18n.__ 'consumption_action_co2'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[2]};"
-      style: "color: #{CHARTIST_COLORS[2]};"
-      name:  TAPi18n.__ 'consumption_action_kwh'
-    }
+    { color: 'colorA', name:  TAPi18n.__ 'consumption_noaction' }
+    { color: 'colorB', name:  TAPi18n.__ 'consumption_action_co2' }
+    { color: 'colorC', name:  TAPi18n.__ 'consumption_action_kwh' }
   ]
   planningBudgetLegend: -> [
-    {
-      round: "background-color: #{CHARTIST_COLORS[0]};"
-      style: "color: #{CHARTIST_COLORS[0]};"
-      name:  TAPi18n.__ 'planning_budget_global'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[1]};"
-      style: "color: #{CHARTIST_COLORS[1]};"
-      name:  TAPi18n.__ 'planning_budget_investments'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[2]};"
-      style: "color: #{CHARTIST_COLORS[2]};"
-      name:  TAPi18n.__ 'planning_budget_subventions'
-    }
+    { color: 'colorA', name:  TAPi18n.__ 'planning_budget_global' }
+    { color: 'colorB', name:  TAPi18n.__ 'planning_budget_investments' }
+    { color: 'colorC', name:  TAPi18n.__ 'planning_budget_subventions' }
   ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
 
 Template.timeline.rendered = ->
-  
+
   timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
   consumptionData =
     labels: timeline
