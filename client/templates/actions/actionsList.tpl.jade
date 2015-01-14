@@ -3,7 +3,7 @@
       p: img(src='/icon/actionIcons/iconmonstr-gear-10-icon-256.png', width='100')
       h4 {{_ "actionList_title"}}
       .newActionBtn: a.btn.btn-primary.newGenericActionBtn(role='button') {{_ "new_generic_action"}}
-      .newActionBtn: a.btn.btn-primary(href='/applyActions', role='button') Appliquer les Actions
+      .newActionBtn: a.btn.btn-primary(href='{{pathFor "actions-apply"}}', role='button') Appliquer les Actions
   .col-md-9: .actionGrid: .row
     each getGenericActions
       .col-md-4

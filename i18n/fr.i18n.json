@@ -378,6 +378,8 @@
 
 
     /* Scenarios */
+    "schemaDir_create": "Développer le schéma directeur",
+
     "create_scenario": "Nouveau scénario",
     "duration": "Durée",
     "total_expenditure": "Dépense totale",

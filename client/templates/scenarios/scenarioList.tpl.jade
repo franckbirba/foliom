@@ -1,0 +1,11 @@
+.page.plan: .container
+  #portfolioSelectZone
+    | {{_ "select_portfolio"}}
+    select#portfolioSelect.form-control
+      option(value='', disabled='', selected='') Select your Portfolio
+      each getPortfolioList
+        option(value=_id)= name
+  #allScenarios
+    each getScenarios
+      .scenarioItem
+        div= name
