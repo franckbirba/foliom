@@ -21,6 +21,7 @@ Router.configure
     Meteor.subscribe 'messages', null
     Meteor.subscribe 'images'
     Meteor.subscribe 'actions'
+    Meteor.subscribe 'scenarios'
   ]
 
 if Meteor.isClient

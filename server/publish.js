@@ -46,6 +46,10 @@ Meteor.publish('actions', function(portfolioId) {
   return Actions.find(); // TODO : only send relevant Actions
 });
 
+Meteor.publish('scenarios', function(portfolioId) {
+  return Scenarios.find(); // TODO : only send relevant Scenarios
+});
+
 Meteor.publish("userData", function () {
   if (this.userId) {
     var tmp = Meteor.users.findOne({_id: this.userId});

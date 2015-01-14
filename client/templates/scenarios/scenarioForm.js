@@ -44,10 +44,25 @@ Template.scenarioForm.helpers({
     },
 });
 
-// Template.scenarioForm.events({
-//   'click .removeCriterion': function(event) {
-//     console.log(this);
-//     console.log(event.currentTarget);
-//     this.remove();
-//   },
-// });
+Template.scenarioForm.events({
+  'submit form': function(e) {
+    e.preventDefault();
+
+    var scenario = {
+      name: $(e.target).find('#scenario_name').val(),
+      duration: $(e.target).find('#duration').val()*1,
+      total_expenditure: $(e.target).find('#total_expenditure').val()*1,
+      roi_less_than: $(e.target).find('#roi_less_than').val()*1,
+    };
+
+    scenario.portfolio_id = "3tdkJMaCWcuHLotJw";
+
+    console.log(scenario);
+
+    scenario._id = Scenarios.insert(scenario);
+
+    // $(".criterion .criterion-label")
+    // $(".criterion .criterion-label, .criterion :input")
+    // Router.go('postPage', post);
+  }
+});
