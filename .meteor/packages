@@ -28,7 +28,7 @@ mquandalle:jade
 coffeescript
 vsivsi:numeral
 mfpierre:chartist-js
-stylus
 mizzao:jquery-ui
 momentjs:moment
 tap:i18n
+mquandalle:stylus

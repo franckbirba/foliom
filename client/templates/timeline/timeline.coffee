@@ -161,6 +161,7 @@ Template.timeline.helpers
   isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
 
 Template.timeline.rendered = ->
+  
   timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
   consumptionData =
     labels: timeline

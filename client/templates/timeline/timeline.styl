@@ -1,5 +1,4 @@
-colorPrimary = #A9C700
-colorSecondary = #808080
+@import 'client/stylesheets/colors.import.styl'
 
 headingHeight = 2.6em
 rondFontSize = 22px
@@ -9,7 +8,7 @@ roundIconSize = 1.5 * rondFontSize
   &.timeline-header
     height headingHeight
   &.timeline-filter
-    background-color colorSecondary
+    background-color colorC
     width 8em
     height headingHeight
     margin-top -.6em
@@ -34,17 +33,17 @@ roundIconSize = 1.5 * rondFontSize
     padding 0
     max-height 580px
     overflow auto
-    border-bottom 3px colorSecondary solid
+    border-bottom 3px colorC solid
   &.timeline-year-table
     width 100%
     >tr:nth-child(even)
       background-color white
     >tr
-      border-bottom 1px colorSecondary solid
+      border-bottom 1px colorC solid
   &.timeline-quarter-table
     width 100%
     >tr:not(:last-child)
-      border-bottom 1px colorSecondary dashed
+      border-bottom 1px colorC dashed
     td:first-child
       width 2em
       h4.panel-inner-title
@@ -56,14 +55,14 @@ roundIconSize = 1.5 * rondFontSize
     padding .1em
     text-align center
     width 3.5em
-    border-right 3px colorSecondary solid
+    border-right 3px colorC solid
   &.timeline-year, &.appraisal-value
-    color colorPrimary
+    color colorA
     font-weight bold
     font-size 1.4em
   .timeline-action-items
     font-family 'foliom-picto'
-    background-color colorPrimary
+    background-color colorA
     color white
     font-size rondFontSize
     width roundIconSize
@@ -75,7 +74,7 @@ roundIconSize = 1.5 * rondFontSize
     margin .2em
     padding-left .2em
     >span
-      background-color colorSecondary
+      background-color colorC
       font-family OpenSans
       font-size .5em
       border-radius 1.5em
@@ -90,7 +89,7 @@ roundIconSize = 1.5 * rondFontSize
   &.appraisal-value
     margin-bottom 0
   &.appraisal-sep
-    border-right 1px solid colorSecondary
+    border-right 1px solid colorC
   // The little round shapes used for the charts legends
   &.chart-legend
     font-size .8em
@@ -116,4 +115,4 @@ roundIconSize = 1.5 * rondFontSize
     margin-top -.6em
     margin-right -1em
     color white
-    background-color colorSecondary
+    background-color colorC
