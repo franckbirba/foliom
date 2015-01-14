@@ -55,7 +55,21 @@ actions = [
     buildingIds: [2]
   }
 ]
-
+timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
+consumptionData =
+  labels: timeline
+  series: [
+    [3, 4, 4.5, 4.7, 5]
+    [3, 3.5, 3.2, 3.1, 2]
+    [3, 3.5, 4, 4.2, 4.5]
+  ]
+planningBudgetData =
+  labels: timeline
+  series: [
+    [5, 5, 5, 5, 5]
+    [0, 1, 2, 4, 4.7]
+    [0, .5, 1.2, 2.5, 3.5]
+  ]
 nbActions = totalCost = 0
 minDate = maxDate = null
 timelineActions = []
@@ -95,9 +109,6 @@ Template.timeline.created = ->
       # Increment by 1 quarter
       quarter.add 1, 'Q'
     timelineActions.push yearContent
-  console.log timelineActions
-
-
 
 Template.timeline.helpers
   scenarioId: -> 1
@@ -132,21 +143,6 @@ Template.timeline.rendered = ->
     cursor: '-webkit-grabbing'
   ($ '[data-role=\'dropable-container\']').droppable()
   # Create SVG charts with Chartist and attach them to the DOM
-  timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
-  consumptionData =
-    labels: timeline
-    series: [
-      [3, 4, 4.5, 4.7, 5]
-      [3, 3.5, 3.2, 3.1, 2]
-      [3, 3.5, 4, 4.2, 4.5]
-    ]
-  planningBudgetData =
-    labels: timeline
-    series: [
-      [5, 5, 5, 5, 5]
-      [0, 1, 2, 4, 4.7]
-      [0, .5, 1.2, 2.5, 3.5]
-    ]
   new Chartist.Line '[data-role=\'consumption-chart\']', \
     consumptionData, low: 0
   new Chartist.Line '[data-role=\'budget-planning-chart\']', \
@@ -165,10 +161,17 @@ Template.timeline.events
     $ '.action-bucket-arrow-icon'
     .toggleClass 'glyphicon-circle-arrow-up'
     .toggleClass 'glyphicon-circle-arrow-down'
-    # Reduce chart's sizes
+    # Reduce chart's sizes and its SVG content
     $ '[data-role=\'consumption-chart\']'
     .toggleClass 'ct-octave'
     .toggleClass 'ct-double-octave'
+    .html('')
     $ '[data-role=\'budget-planning-chart\']'
     .toggleClass 'ct-octave'
     .toggleClass 'ct-double-octave'
+    .html('')
+    # Redraw charts with the new aspect ratio
+    new Chartist.Line '[data-role=\'consumption-chart\']', \
+      consumptionData, low: 0
+    new Chartist.Line '[data-role=\'budget-planning-chart\']', \
+      planningBudgetData, low: 0
