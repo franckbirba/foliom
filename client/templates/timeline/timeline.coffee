@@ -128,8 +128,9 @@ Template.timeline.helpers
 
 Template.timeline.rendered = ->
   # Make actions draggable and droppable
-  ($ '[data-role=\'draggable-action\']').draggable()
-  ($ '[data-role=\'dropable-container\']').draggable()
+  ($ '[data-role=\'draggable-action\']').draggable
+    cursor: '-webkit-grabbing'
+  ($ '[data-role=\'dropable-container\']').droppable()
   # Create SVG charts with Chartist and attach them to the DOM
   timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
   consumptionData =
@@ -161,9 +162,9 @@ Template.timeline.events
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
     # Change arrow orientation
-    $ '.action-bucket-arrow-logo'
-    .toggleClass 'glyphlogo-circle-arrow-up'
-    .toggleClass 'glyphlogo-circle-arrow-down'
+    $ '.action-bucket-arrow-icon'
+    .toggleClass 'glyphicon-circle-arrow-up'
+    .toggleClass 'glyphicon-circle-arrow-down'
     # Reduce chart's sizes
     $ '[data-role=\'consumption-chart\']'
     .toggleClass 'ct-octave'
