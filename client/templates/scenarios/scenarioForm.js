@@ -55,11 +55,19 @@ Template.scenarioForm.events({
       roi_less_than: $(e.target).find('#roi_less_than').val()*1,
     };
 
+    var criterion_list = [];
+    $(".criterion .criterion-label").each(function( index ) {
+        criterion_list.push( {label: $(this).attr("true_label")} );
+    });
+
+    scenario.criterion_list = criterion_list;
+
     scenario.portfolio_id = "3tdkJMaCWcuHLotJw";
 
     console.log(scenario);
 
-    scenario._id = Scenarios.insert(scenario);
+    // scenario._id = Scenarios.insert(scenario);
+    Scenarios.insert(scenario);
 
     // $(".criterion .criterion-label")
     // $(".criterion .criterion-label, .criterion :input")
