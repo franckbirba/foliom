@@ -28,6 +28,17 @@ Template.scenarioForm.helpers({
     isSelectorTechfield: function(type){
         return (type == "selector_techfield") ? true : false;
     },
+    getTechnical_compliance_items: function() {
+        // return technical_compliance_items;
+
+        var result = _.map(technical_compliance_items, function(item){
+            return { label: item, value: item }
+        });
+        console.log(result);
+        return result;
+
+        // return buildOptions(technical_compliance_items);
+    },
     getCriterion: function(){
         return [
             {"label": "yearly_expense_max"},
