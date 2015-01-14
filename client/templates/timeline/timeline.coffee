@@ -3,20 +3,10 @@ Session.set 'timeline_action_bucket_displayed', false
 
 # @TODO Fake data
 buildings = [
-  {
-    _id: 1
-    building_name: 'Building 1'
-  }
-  {
-    _id: 2
-    building_name: 'Building 2'
-  }
-  {
-    _id: 3
-    building_name: 'Building 3'
-  }
+  { _id: 1, building_name: 'Building 1' }
+  { _id: 2, building_name: 'Building 2' }
+  { _id: 3, building_name: 'Building 3' }
 ]
-
 # Actions are sorted by start date
 actions = [
   {
@@ -137,7 +127,10 @@ Template.timeline.helpers
   isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
 
 Template.timeline.rendered = ->
-
+  # Make actions draggable and droppable
+  ($ '[data-role=\'draggable-action\']').draggable()
+  ($ '[data-role=\'dropable-container\']').draggable()
+  # Create SVG charts with Chartist and attach them to the DOM
   timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
   consumptionData =
     labels: timeline
@@ -153,10 +146,16 @@ Template.timeline.rendered = ->
       [0, 1, 2, 4, 4.7]
       [0, .5, 1.2, 2.5, 3.5]
     ]
-  new Chartist.Line '#consumption.ct-chart', consumptionData
-  new Chartist.Line '#planning_budget.ct-chart', planningBudgetData
+  new Chartist.Line '[data-role=\'consumption-chart\']', \
+    consumptionData, low: 0
+  new Chartist.Line '[data-role=\'budget-planning-chart\']', \
+    planningBudgetData, low: 0
 
 Template.timeline.events
+  # Change filter on the timeline
+  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
+    console.log 'Selected building', e.currentTarget.value
+  # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
     # Display content of the action bucket
     Session.set 'timeline_action_bucket_displayed', \
@@ -165,5 +164,10 @@ Template.timeline.events
     $ '.action-bucket-arrow-logo'
     .toggleClass 'glyphlogo-circle-arrow-up'
     .toggleClass 'glyphlogo-circle-arrow-down'
-  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
-    console.log 'Selected building', e.currentTarget.value
+    # Reduce chart's sizes
+    $ '[data-role=\'consumption-chart\']'
+    .toggleClass 'ct-octave'
+    .toggleClass 'ct-double-octave'
+    $ '[data-role=\'budget-planning-chart\']'
+    .toggleClass 'ct-octave'
+    .toggleClass 'ct-double-octave'

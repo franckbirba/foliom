@@ -19,9 +19,9 @@
               each quarterContent
                 tr(data-value=value).timeline.timeline-quarter
                   td: h4.panel-inner-title {{_ 'quarter_abbreviation'}}#{value}
-                  td
+                  td(data-role='dropable-container')
                     each actions
-                      .timeline.timeline-action-items
+                      .timeline.timeline-action-items(data-role='draggable-action')
                         | !{logo}
                         span(data-value=buildingIds.length)= buildingIds.length
     // Appraisal, charts and available actions
@@ -52,28 +52,24 @@
         // The consumption chart
         .row
           // The chart
-          .col-md-8
-            #consumption.ct-chart.ct-octave
+          .col-md-8: .ct-chart.ct-octave(data-role='consumption-chart')
           // The legend as a simple table
-          .col-md-4
-            small: .table-responsive: table.table.table-condensed: tbody
-              each consumptionLegend
-                .timeline.div.chart-legend(class=color)= name
+          .col-md-4: small: .table-responsive: table.table.table-condensed: tbody
+            each consumptionLegend
+              .timeline.div.chart-legend(class=color)= name
         // The Planning budget chart
         .row
           // The chart
-          .col-md-8
-            #planning_budget.ct-chart.ct-octave
+          .col-md-8: .ct-chart.ct-octave(data-role='budget-planning-chart')
           // The legend as a simple table
-          .col-md-4
-            small: .table-responsive: table.table.table-condensed: tbody
-              each planningBudgetLegend
-                .timeline.div.chart-legend(class=color)= name
+          .col-md-4: small: .table-responsive: table.table.table-condensed: tbody
+            each planningBudgetLegend
+              .timeline.div.chart-legend(class=color)= name
       // Action bucket
       .row: .col-md-12: .panel.panel.panel-primary
         .panel-heading.timeline.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
           h3.panel-title.pull-left {{ _'action_bucket'}}
           .timeline.action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
         if isActionBucketDisplayed
-          .panel-body
+          .panel-body.timeline.action-bucket-table
             p: strong TODO Table of available actions
