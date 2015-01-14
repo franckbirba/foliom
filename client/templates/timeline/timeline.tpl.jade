@@ -4,10 +4,22 @@
   .row
     // Timeline
     .col-md-4: .panel.panel-primary
-      .panel-heading: h3.panel-title {{_ 'timeline'}}
-      .panel-body
-        each actions
-          .timeline.timeline-action-items!= icon
+      .panel-heading.timeline.timeline-header.noselect: clearfix
+        h3.pull-left.panel-title {{_ 'timeline'}}
+        .timeline.timeline-filter.pull-right
+          select(data-trigger='timeline-trigger-building-filter')
+            option(value='all') {{_ 'all'}}
+            each availableBuildings
+              option(value=_id)= building_name
+      .panel-body.timeline.timeline-year-panel: table.timeline.timeline-year-table
+        each timelineActions
+          tr(data-value=yearValue)
+            td.timeline.timeline-year= yearValue
+            td: table.timeline.timeline-quarter-table
+              each quarterContent
+                tr(data-value=value).timeline.timeline-quarter
+                  td {{_ 'quarter_abbreviation'}}#{value}
+          //.timeline.timeline-action-items!= logo
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal
@@ -22,7 +34,7 @@
             // Total costs
             .col-xs-3.timeline.appraisal-sep
               h4.panel-inner-title {{_ 'total_cost'}}
-              p.timeline.appraisal-value #{amount}
+              p.timeline.appraisal-value #{totalCost}
             // Global TRI
             .col-xs-3.timeline.appraisal-sep
               h4.panel-inner-title {{_ 'global_tri'}}

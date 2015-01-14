@@ -2,71 +2,125 @@
 Session.set 'timeline_action_bucket_displayed', false
 
 # @TODO Fake data
-actions = [
+buildings = [
   {
-    icon: '&#58880;'
-    description: 'Nouveaux compteurs'
-    start: new Date
-    # Action duration is provided as years
-    duration: 3
-    price: 150000
+    _id: 1
+    building_name: 'Building 1'
   }
   {
-    icon: '&#58881;'
-    description: 'Etanchéïté'
-    start: new Date
-    # Action duration is provided as years
-    duration: 2.5
-    price: 200000
+    _id: 2
+    building_name: 'Building 2'
   }
   {
-    icon: '&#58882;'
-    description: 'Double vitrage'
-    start: moment(new Date).add(1, 'y').toDate()
-    # Action duration is provided as years
-    duration: 1.5
-    price: 300000
-  }
-  {
-    icon: '&#58883;'
-    description: 'Etanchéïté sol'
-    start: moment(new Date).add(1, 'y').toDate()
-    # Action duration is provided as years
-    duration: 2.5
-    price: 100000
-  }
-  {
-    icon: '&#58884;'
-    description: 'Etanchéïté plafond'
-    start: moment(new Date).add(1, 'y').toDate()
-    # Action duration is provided as years
-    duration: 2.5
-    price: 100000
+    _id: 3
+    building_name: 'Building 3'
   }
 ]
 
+# Actions are sorted by start date
+actions = [
+  {
+    _id: 1
+    logo: '&#58880;'
+    name: 'Nouveaux compteurs'
+    start: moment(new Date).subtract(1, 'M').toDate()
+    duration: 36
+    costs: [150000]
+    buildingIds: [1]
+  }
+  {
+    _id: 2
+    logo: '&#58881;'
+    name: 'Etanchéïté'
+    start: new Date
+    duration: 30
+    costs: [200000, 200000]
+    buildingIds: [1, 2]
+  }
+  {
+    _id: 3
+    logo: '&#58882;'
+    name: 'Double vitrage'
+    start: moment(new Date).add(1, 'y').toDate()
+    duration: 4
+    costs: [300000]
+    buildingIds: [1]
+  }
+  {
+    _id: 4
+    logo: '&#58883;'
+    name: 'Etanchéïté sol'
+    start: moment(new Date).add(1, 'y').toDate()
+    duration: 12
+    costs: [100000, 100000]
+    buildingIds: [1, 2]
+  }
+  {
+    _id: 5
+    logo: '&#58884;'
+    name: 'Etanchéïté plafond'
+    start: moment(new Date).add(1, 'y').add(1, 'M').toDate()
+    duration: 8
+    costs: [100000]
+    buildingIds: [2]
+  }
+]
+
+nbActions = totalCost = 0
+minDate = maxDate = null
+timelineActions = []
+
+Template.timeline.created = ->
+  # Reset former state
+  nbActions = totalCost = 0
+  minDate = maxDate = moment actions?[0].start
+  timelineActions = []
+  # Iterate over current selected scenarios for preparing all calculations
+  for action in actions
+    # Number of actions as detailes in the appraisal
+    nbActions += action.buildingIds.length
+    # Total costs
+    totalCost += cost for cost in action.costs
+    # Get begining of actions
+    mStart = moment action.start
+    minDate = moment.min minDate, moment action.start
+    # Get end of actions
+    maxDate = moment.max maxDate, mStart.add action.duration, 'M'
+  # Build formatted data
+  quarter = moment year: minDate.year(), month: (minDate.quarter() * 3) - 1
+  while quarter.isBefore maxDate
+    currentYear = quarter.year()
+    yearContent =
+      yearValue: currentYear
+      quarterContent: []
+    while currentYear is quarter.year()
+      yearContent.quarterContent.push
+        value: quarter.quarter()
+
+
+
+      # Increment by 1 quarter
+      quarter.add 1, 'Q'
+    timelineActions.push yearContent
+  console.log timelineActions
+
+
+
+
+
+
+
 Template.timeline.helpers
   scenarioId: -> 1
-  nbActions: -> actions.length
-  actions: ->
-    # Return an empty array in case no action are contained in the scenario
-    return [] unless actions[0]?
-    # Calculate begining of actions selected in the scenario
-    minDate = _.reduce actions, ((memo, num) ->
-      (moment.min moment(memo), moment(num.start)).toDate()
-    ), actions[0].start
-    # Calculate end of actions selected in the scenario
-    maxDate = _.reduce actions, ((memo, num) ->
-      moment.max(moment(memo), moment(num.start).add num.duration, 'y').toDate()
-    ), (moment(actions[0].start).add actions[0].duration, 'y').toDate()
-    console.log 'Min', minDate, 'Max', maxDate
-    actions
-  amount: ->
-    if actions[0]?
-      budget = _.reduce actions, ((memo, num) -> memo+num.price), 0
-      numeral(budget).format '0,0[.]00 $'
-    else
-      TAPi18n.__ 'calculating'
+  availableBuildings: ->
+    buildingIdInActions = _.uniq (_.flatten (_.pluck actions, 'buildingIds'))
+    availableBuildings = []
+    for id in buildingIdInActions
+      availableBuildings.push _.findWhere buildings, _id: id
+    availableBuildings
+  nbActions: -> nbActions
+  timelineActions: -> timelineActions
+  totalCost: -> (numeral totalCost).format '0,0[.]00 $'
   triGlobal: -> TAPi18n.__ 'calculating'
   energySaving: -> TAPi18n.__ 'calculating'
   # Legends are created as simple <table>
@@ -132,6 +186,8 @@ Template.timeline.events
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
     # Change arrow orientation
-    $ '.action-bucket-arrow-icon'
-    .toggleClass 'glyphicon-circle-arrow-up'
-    .toggleClass 'glyphicon-circle-arrow-down'
+    $ '.action-bucket-arrow-logo'
+    .toggleClass 'glyphlogo-circle-arrow-up'
+    .toggleClass 'glyphlogo-circle-arrow-down'
+  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
+    console.log 'Selected building', e.currentTarget.value

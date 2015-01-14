@@ -88,6 +88,8 @@
 		/* Timeline screen */
 		"scenario": "Scenario",
 		"timeline": "Timeline",
+		"all": "All",
+		"quarter_abbreviation": "Q",
 		"appraisal": "Appraisal",
 		"nb_actions": "Number of actions:",
 		"actions": "actions",

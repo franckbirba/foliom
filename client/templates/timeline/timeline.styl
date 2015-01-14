@@ -1,15 +1,59 @@
 colorPrimary = #A9C700
 colorSecondary = #808080
 
-headingHeight = 2.4em
+headingHeight = 2.6em
 rondFontSize = 22px
-roundIconSize = 1.7 * rondFontSize
+roundIconSize = 1.5 * rondFontSize
 
 .timeline
-  &.appraisal-value
+  &.timeline-header
+    height headingHeight
+  &.timeline-filter
+    background-color colorSecondary
+    width 8em
+    height headingHeight
+    margin-top -.6em
+    margin-right -.9em
+    padding-top .5em
+    color white
+    display table
+    &:after
+      padding-top .1em
+      padding-right .5em
+      width: 1em
+      font-family 'Glyphicons Halflings'
+      content '\e138'
+    select
+      outline none
+      width 6.5em
+      font-family Comfortaa
+      background transparent
+      padding 0 1em
+      border 0
+  &.timeline-year-panel
+    padding 0
+  &.timeline-year-table
+    width 100%
+    >tr:nth-child(even)
+      background-color white
+    >tr
+      border-bottom 1px colorSecondary solid
+  &.timeline-quarter-table
+    width 100%
+    >tr:not(:last-child)
+      border-bottom 1px colorSecondary dashed
+    >td
+      padding .5em
+  &.timeline-year
+    padding .1em
+    text-align center
+    width 3.5em
+    border-right 3px colorSecondary solid
+  &.timeline-year, &.appraisal-value
     color colorPrimary
+    font-weight bold
     font-size 1.4em
-    font-weight bolder
+  &.appraisal-value
     margin-bottom 0
   &.appraisal-sep
     border-right 1px solid colorSecondary
