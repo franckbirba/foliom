@@ -2,7 +2,7 @@
 Session.set 'timeline_action_bucket_displayed', false
 
 # @TODO Fake data
-@buildings = [
+buildings = [
   {
     _id: 1
     building_name: 'Building 1'
@@ -17,24 +17,28 @@ Session.set 'timeline_action_bucket_displayed', false
   }
 ]
 
-@actions = [
+# Actions are sorted by start date
+actions = [
   {
+    _id: 1
     logo: '&#58880;'
     name: 'Nouveaux compteurs'
-    start: new Date
+    start: moment(new Date).subtract(1, 'M').toDate()
     duration: 36
     costs: [150000]
     buildingIds: [1]
   }
   {
+    _id: 2
     logo: '&#58881;'
     name: 'Etanchéïté'
-    start: moment(new Date).subtract(1, 'M').toDate()
+    start: new Date
     duration: 30
     costs: [200000, 200000]
     buildingIds: [1, 2]
   }
   {
+    _id: 3
     logo: '&#58882;'
     name: 'Double vitrage'
     start: moment(new Date).add(1, 'y').toDate()
@@ -43,6 +47,7 @@ Session.set 'timeline_action_bucket_displayed', false
     buildingIds: [1]
   }
   {
+    _id: 4
     logo: '&#58883;'
     name: 'Etanchéïté sol'
     start: moment(new Date).add(1, 'y').toDate()
@@ -51,6 +56,7 @@ Session.set 'timeline_action_bucket_displayed', false
     buildingIds: [1, 2]
   }
   {
+    _id: 5
     logo: '&#58884;'
     name: 'Etanchéïté plafond'
     start: moment(new Date).add(1, 'y').add(1, 'M').toDate()
@@ -61,7 +67,7 @@ Session.set 'timeline_action_bucket_displayed', false
 ]
 
 nbActions = totalCost = 0
-minDate = maxDate = null
+@minDate = maxDate = null
 timelineActions = []
 
 Template.timeline.created = ->
@@ -83,14 +89,19 @@ Template.timeline.created = ->
   # Build formatted data
   quarter = minDate.clone()
   while quarter.isBefore maxDate
-    timelineActions.push
-      quarterLabel: "T#{quarter.quarter()} - #{quarter.year()}"
-    # Increment by 1 quarter
-    quarter.add 1, 'Q'
-  console.log 'minDate', minDate.toString()
-  console.log 'maxDate', maxDate.toString()
-  console.log 'quarter', quarter.toString()
-  console.log 'timelineActions', timelineActions
+    currentYear = quarter.year()
+    yearContent =
+      yearValue: currentYear
+      quarterContent: []
+    while currentYear is quarter.year()
+      yearContent.quarterContent.push
+        value: quarter.quarter()
+        #actions:
+
+
+      # Increment by 1 quarter
+      quarter.add 1, 'Q'
+    timelineActions.push yearContent
 
 
 
@@ -177,3 +188,5 @@ Template.timeline.events
     $ '.action-bucket-arrow-logo'
     .toggleClass 'glyphlogo-circle-arrow-up'
     .toggleClass 'glyphlogo-circle-arrow-down'
+  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
+    console.log 'Selected building', e.currentTarget.value
