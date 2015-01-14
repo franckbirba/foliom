@@ -141,6 +141,15 @@ Template.timeline.rendered = ->
   # Make actions draggable and droppable
   ($ '[data-role=\'draggable-action\']').draggable
     cursor: '-webkit-grabbing'
+    scrollSensitivity: 100
+    scrollSpeed: 100
+    axis: 'y'
+    containment: 'table.timeline.timeline-year-table'
+    revert: true
+    snap: 'td[data-role=\'dropable-container\']'
+    #grid: [20, 44]
+    stop: ->
+      console.log 'Drag stopped', @
   ($ '[data-role=\'dropable-container\']').droppable()
   # Create SVG charts with Chartist and attach them to the DOM
   new Chartist.Line '[data-role=\'consumption-chart\']', \

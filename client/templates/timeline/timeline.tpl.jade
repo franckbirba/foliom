@@ -11,7 +11,7 @@
             option(value='all') {{_ 'all'}}
             each availableBuildings
               option(value=_id)= building_name
-      .panel-body.timeline.timeline-year-panel: table.timeline.timeline-year-table
+      .panel-body.timeline.timeline-year-panel.noselect: table.timeline.timeline-year-table
         each timelineActions
           tr(data-value=yearValue)
             td.timeline.timeline-year= yearValue
