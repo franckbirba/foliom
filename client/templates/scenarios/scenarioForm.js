@@ -71,6 +71,7 @@ Template.scenarioForm.events({
 
     // $(".criterion .criterion-label")
     // $(".criterion .criterion-label, .criterion :input")
+    // $(".criterion :input").prop( "checked" )
     // Router.go('postPage', post);
   }
 });
