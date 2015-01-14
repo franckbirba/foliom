@@ -67,7 +67,7 @@ actions = [
 ]
 
 nbActions = totalCost = 0
-@minDate = maxDate = null
+minDate = maxDate = null
 timelineActions = []
 
 Template.timeline.created = ->
@@ -87,7 +87,7 @@ Template.timeline.created = ->
     # Get end of actions
     maxDate = moment.max maxDate, mStart.add action.duration, 'M'
   # Build formatted data
-  quarter = minDate.clone()
+  quarter = moment year: minDate.year(), month: (minDate.quarter() * 3) - 1
   while quarter.isBefore maxDate
     currentYear = quarter.year()
     yearContent =
@@ -96,12 +96,13 @@ Template.timeline.created = ->
     while currentYear is quarter.year()
       yearContent.quarterContent.push
         value: quarter.quarter()
-        #actions:
+
 
 
       # Increment by 1 quarter
       quarter.add 1, 'Q'
     timelineActions.push yearContent
+  console.log timelineActions
 
 
 

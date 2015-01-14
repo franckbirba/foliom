@@ -34,10 +34,16 @@ roundIconSize = 1.5 * rondFontSize
     padding 0
   &.timeline-year-table
     width 100%
-    tr:nth-child(even)
+    >tr:nth-child(even)
       background-color white
-    tr
+    >tr
       border-bottom 1px colorSecondary solid
+  &.timeline-quarter-table
+    width 100%
+    >tr:not(:last-child)
+      border-bottom 1px colorSecondary dashed
+    >td
+      padding .5em
   &.timeline-year
     padding .1em
     text-align center

@@ -15,7 +15,10 @@
         each timelineActions
           tr(data-value=yearValue)
             td.timeline.timeline-year= yearValue
-            td: p Trimestre & actions
+            td: table.timeline.timeline-quarter-table
+              each quarterContent
+                tr(data-value=value).timeline.timeline-quarter
+                  td {{_ 'quarter_abbreviation'}}#{value}
           //.timeline.timeline-action-items!= logo
     // Appraisal, charts and available actions
     .col-md-8
