@@ -19,7 +19,8 @@
               each quarterContent
                 tr(data-value=value).timeline.timeline-quarter
                   td {{_ 'quarter_abbreviation'}}#{value}
-          //.timeline.timeline-action-items!= logo
+                  each actions
+                    td: .timeline.timeline-action-items!= logo
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal

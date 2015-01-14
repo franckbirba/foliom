@@ -23,7 +23,7 @@ actions = [
     _id: 1
     logo: '&#58880;'
     name: 'Nouveaux compteurs'
-    start: moment(new Date).subtract(1, 'M').toDate()
+    start: moment().subtract(1, 'M').toDate()
     duration: 36
     costs: [150000]
     buildingIds: [1]
@@ -41,7 +41,7 @@ actions = [
     _id: 3
     logo: '&#58882;'
     name: 'Double vitrage'
-    start: moment(new Date).add(1, 'y').toDate()
+    start: moment().add(1, 'y').toDate()
     duration: 4
     costs: [300000]
     buildingIds: [1]
@@ -50,7 +50,7 @@ actions = [
     _id: 4
     logo: '&#58883;'
     name: 'Etanchéïté sol'
-    start: moment(new Date).add(1, 'y').toDate()
+    start: moment().add(1, 'y').toDate()
     duration: 12
     costs: [100000, 100000]
     buildingIds: [1, 2]
@@ -59,8 +59,8 @@ actions = [
     _id: 5
     logo: '&#58884;'
     name: 'Etanchéïté plafond'
-    start: moment(new Date).add(1, 'y').add(1, 'M').toDate()
-    duration: 8
+    start: moment().add(1, 'y').add(1, 'M').toDate()
+    duration: 168
     costs: [100000]
     buildingIds: [2]
   }
@@ -96,6 +96,7 @@ Template.timeline.created = ->
     while currentYear is quarter.year()
       yearContent.quarterContent.push
         value: quarter.quarter()
+        actions: [_.findWhere actions, _id: 4]
 
 
 

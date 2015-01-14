@@ -42,8 +42,11 @@ roundIconSize = 1.5 * rondFontSize
     width 100%
     >tr:not(:last-child)
       border-bottom 1px colorSecondary dashed
-    >td
-      padding .5em
+    >tr:fisrt-child
+      background-color red
+    td
+      height 1.4em
+      padding .1em
   &.timeline-year
     padding .1em
     text-align center
@@ -53,6 +56,15 @@ roundIconSize = 1.5 * rondFontSize
     color colorPrimary
     font-weight bold
     font-size 1.4em
+  &.timeline-action-items
+    font-family 'foliom-picto'
+    background-color colorPrimary
+    color white
+    font-size rondFontSize
+    width roundIconSize
+    border-radius roundIconSize
+    line-height roundIconSize
+    text-align center
   &.appraisal-value
     margin-bottom 0
   &.appraisal-sep
@@ -74,12 +86,3 @@ roundIconSize = 1.5 * rondFontSize
     margin-right -1em
     color white
     background-color colorSecondary
-  &.timeline-action-items
-    font-family 'foliom-picto'
-    background-color colorPrimary
-    color white
-    font-size rondFontSize
-    width roundIconSize
-    border-radius roundIconSize
-    line-height roundIconSize
-    text-align center
