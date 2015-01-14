@@ -32,8 +32,9 @@ roundIconSize = 1.5 * rondFontSize
       border 0
   &.timeline-year-panel
     padding 0
-    max-height 300px
+    max-height 580px
     overflow auto
+    border-bottom 3px colorSecondary solid
   &.timeline-year-table
     width 100%
     >tr:nth-child(even)
@@ -92,9 +93,18 @@ roundIconSize = 1.5 * rondFontSize
     border-right 1px solid colorSecondary
   // The little round shapes used for the charts legends
   &.chart-legend
-    width 1em
-    height 1em
-    border-radius 1em
+    font-size .8em
+    font-weight thin
+    &:before
+      content '?'
+      display inline-block
+      width 1em
+      height 1em
+      border-radius 1em
+      line-height 1em
+      text-align center
+      margin-right .5em
+      background-color red
   // Action bucket
   &.action-bucket-heading
     height headingHeight

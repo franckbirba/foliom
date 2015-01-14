@@ -58,9 +58,7 @@
           .col-md-4
             small: .table-responsive: table.table.table-condensed: tbody
               each consumptionLegend
-                tr
-                  td(style=style): .timeline.div.chart-legend(style=round)
-                  td(style=style)= name
+                .timeline.div.chart-legend(style=round)= name
         // The Planning budget chart
         .row
           // The chart
