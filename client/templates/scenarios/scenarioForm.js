@@ -29,20 +29,14 @@ Template.scenarioForm.helpers({
         return (type == "selector_techfield") ? true : false;
     },
     getTechnical_compliance_items: function() {
-        // return technical_compliance_items;
-
-        var result = _.map(technical_compliance_items, function(item){
+        return result = _.map(technical_compliance_items, function(item){
             return { label: item, value: item }
         });
-        console.log(result);
-        return result;
-
-        // return buildOptions(technical_compliance_items);
     },
     getCriterion: function(){
         return [
-            {"label": "yearly_expense_max"},
-            {"label": "energy_consum_atLeast_in_E_year"},
+            {"label": "yearly_expense_max", "unit": "u_euro_year"},
+            {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent"},
             {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc"},
             {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc"},
             {"label": "priority_to_techField", "type":"selector_techfield"}
