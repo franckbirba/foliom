@@ -33,3 +33,19 @@ Template.scenarioList.helpers({
         }
     }
 });
+
+Template.scenarioList.events({
+    'click .newScenario': function(e) {
+        e.preventDefault();
+        Session.set('current_scenario_doc', null);
+
+        Router.go('scenarioForm');
+    },
+    'click .editScenario': function(e) {
+        e.preventDefault();
+        Session.set('current_scenario_doc', this);
+        console.log(this);
+
+        Router.go('scenarioForm');
+    },
+});
