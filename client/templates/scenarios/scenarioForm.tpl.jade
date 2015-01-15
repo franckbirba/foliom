@@ -34,7 +34,7 @@
                   if isCheckbox type
                     .row
                       //- .col-sm-2: input(type="checkbox" value="" checked="#{input}")
-                      .col-sm-2: input(type="checkbox" value="")($dyn = checkboxAttrs "#{input}")
+                      .col-sm-2: input(type="checkbox" value="")
                       .col-sm-10: .criterion-text.criterion-desc {{_ desc}}
                   else if isSelectorTechfield type
                     select#addTechfield.form-control(type="select")
