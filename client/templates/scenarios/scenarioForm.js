@@ -94,12 +94,12 @@ Template.scenarioForm.events({
           }
             scenario.planned_actions.push(
                 {
-                    'planned_actions.action_id' : action._id,
-                    'planned_actions.start' : new Date
+                    action_id : action._id,
+                    start : new Date()
                 }
             );
         });
-    };
+    }
 
     _.each(building_list, function(item) {
         planActionsForBuilding(item._id);
