@@ -20,8 +20,8 @@ Template.timeline.created = ->
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
   # @TODO fake : Fetch Scenario's data
-  scenarioId = "q6tuMFTuHpkrPu6XS"
-  TimelineVars.scenario = Scenarios.findOne _id: scenarioId
+  # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
+  TimelineVars.scenario = Scenarios.findOne()
   actionIds = _.pluck TimelineVars.scenario.planned_actions, 'action_id'
   TimelineVars.actions = (Actions.find \
     { _id: $in: actionIds },
