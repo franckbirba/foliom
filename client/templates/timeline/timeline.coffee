@@ -19,19 +19,18 @@ Template.timeline.created = ->
   TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
-  # @TODO fake : Get the currently created Scenario._id
+  # @TODO fake : Fetch Scenario's data
   scenarioId = "q6tuMFTuHpkrPu6XS"
   TimelineVars.scenario = Scenarios.findOne _id: scenarioId
-  console.log TimelineVars.scenario
   actionIds = _.pluck TimelineVars.scenario.planned_actions, 'action_id'
   TimelineVars.actions = (Actions.find _id: $in: actionIds).fetch()
-  console.log TimelineVars.actions
   buildingIds = _.pluck TimelineVars.actions, 'building_id'
   TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
-  console.log TimelineVars.buildings
+  # Set minimum date on the creation date and maximum date 31 years later
+  creationYear = (moment (Session.get 'current_config').creation_date).year()
+  TimelineVars.minDate = moment year: creationYear
+  TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
   # Iterate over current selected scenarios for preparing all calculations
-  TimelineVars.minDate = moment TimelineVars.actions?[0].start
-  TimelineVars.maxDate = TimelineVars.minDate.clone()
   for action in TimelineVars.actions
     # Total costs
     # @FIXME
@@ -39,6 +38,7 @@ Template.timeline.created = ->
     # Get begining of actions
     mStart = moment action.start
     TimelineVars.minDate = moment.min TimelineVars.minDate, moment action.start
+    console.log 'minDate', TimelineVars.minDate.toString()
     # Get end of actions
     TimelineVars.maxDate = moment.max TimelineVars.maxDate,\
       mStart.add action.duration, 'M'
