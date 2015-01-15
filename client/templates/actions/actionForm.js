@@ -22,7 +22,7 @@ AutoForm.hooks({
         onSuccess: function(operation, result, template) {
             if (Session.get('childActionToEdit')) {
                 // Session.set('childActionToEdit', null); // Always set "nul when template destroyed
-                Router.go('apply-actions');
+                Router.go('actions-apply');
             }
             else {
                 // Session.set('newActionType', null); // Always set "nul when template destroyed
@@ -251,14 +251,29 @@ Template.actionForm.rendered = function () {
                     }
 
                 }
-                console.log("all_yearly_savings");
-                console.log(all_yearly_savings);
+                //get these lines out of the .each
+                // console.log("all_yearly_savings");
+                // console.log(all_yearly_savings);
 
-                console.log("all_yearly_savings_simplyValues");
-                console.log(all_yearly_savings_simplyValues);
+                // console.log("all_yearly_savings_simplyValues");
+                // console.log(all_yearly_savings_simplyValues);
 
-                Session.set('YS_values', all_yearly_savings_simplyValues);
+                // Session.set('YS_values', all_yearly_savings_simplyValues);
             });
+            //in case a line is removed: make sure we don't keep outdated lines
+            fluids_nb = $("[name^='impact_assessment_fluids.'][name$='.opportunity']").length;
+            if ( all_yearly_savings.length > fluids_nb ) {
+                all_yearly_savings = all_yearly_savings.slice(0, fluids_nb);
+                all_yearly_savings_simplyValues = all_yearly_savings_simplyValues.slice(0, fluids_nb);
+            }
+
+            console.log("all_yearly_savings");
+            console.log(all_yearly_savings);
+
+            console.log("all_yearly_savings_simplyValues");
+            console.log(all_yearly_savings_simplyValues);
+
+            Session.set('YS_values', all_yearly_savings_simplyValues);
         });
 
 
@@ -509,6 +524,13 @@ Template.actionForm.rendered = function () {
             var TRA = _.indexOf(flux_accumulation, firstPositive); // if value is not found: returns -1
             console.log("TRA: " + TRA);
             if (TRA !== -1) { $("[name='actualised_roi']").val( TRA ) ; }
+
+
+            // LEC
+            // = coût d'investissement (ie. 'reduce' du tableau) / (durée vie * éco d'énergie en kWh pour chaque fluide)
+            var total_investment = _.reduce(ic_array_actualized, function(memo, num){ return memo + num; }, 0);
+            var LEC = total_investment / (action_lifetime * fluidImpact_in_kwhef);
+            $("[name='lec']").val( LEC.toFixed(2)*1 ) ;
 
 
         });
