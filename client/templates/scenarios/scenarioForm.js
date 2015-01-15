@@ -70,6 +70,11 @@ Template.scenarioForm.helpers({
     // sc_data: function(param){
     //     if(param =="name") return "Jelly";
     // },
+    displayActions: function() {
+        return _.map(Session.get('current_scenario_doc').planned_actions, function(action){
+            return Actions.findOne(action.action_id);
+        });
+    },
 });
 
 Template.scenarioForm.events({
