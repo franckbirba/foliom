@@ -1,78 +1,77 @@
-// .scenario_row
-//   margin-top: 20px
+.scenarioForm
+  // .scenario_row
+  //   margin-top: 20px
 
-.row-correct
-  margin-top: -5px //very ugly way to correct the vertical centering
+  &.row-correct
+    margin-top: -5px //very ugly way to correct the vertical centering
 
-#scenarioCriterionTitle
-  margin-bottom: 10px
+  &#scenarioCriterionTitle
+    margin-bottom: 10px
 
-#sortable
-  list-style-type: none
-  margin: 0
-  padding: 0
-  width: 80%
-  margin-left: auto
-  margin-right: auto
-#sortable li
-  margin-bottom: 3px
-  font-size: 1em
-  // min-height: 60px
-  height: 60px
-  line-height: 60px
-  border: 1px solid #d3d3d3
-  background-color #FAFAFA
+  &#sortable
+    list-style-type: none
+    margin: 0
+    padding: 0
+    width: 80%
+    margin-left: auto
+    margin-right: auto
+  &#sortable li
+    margin-bottom: 3px
+    font-size: 1em
+    // min-height: 60px
+    height: 60px
+    line-height: 60px
+    border: 1px solid #d3d3d3
+    background-color #FAFAFA
 
-.criterion-text
-  line-height: normal
-  vertical-align: middle
-  display: inline-block
+  &.criterion-text
+    line-height: normal
+    vertical-align: middle
+    display: inline-block
 
-.criterion-desc
-  font-size: 0.8em
-  font-style: italic
+  &.criterion-desc
+    font-size: 0.8em
+    font-style: italic
 
-#addCriterionLi
-  background-color: #BEDBC0 !important
+  &#addCriterionLi
+    background-color: #BEDBC0 !important
 
-#addCriterionSelect
-  width: 85%
+  &#addCriterionSelect
+    width: 85%
 
-.handlerIcon
-  margin-left: 15px
+  &.handlerIcon
+    margin-left: 15px
 
-.removeCriterion
-  margin-right: 15px
-  color: rgb(189, 0, 0)
-  // background #A9C700
-  // border-radius 2em
-  // width 2em
-  // height 2em
-  // margin-right 1em
-  // text-align center
-  // line-height 2em
-  // font-weight bold
-  // font-size 1.2em
+  &.removeCriterion
+    margin-right: 15px
+    color: rgb(189, 0, 0)
+    // background #A9C700
+    // border-radius 2em
+    // width 2em
+    // height 2em
+    // margin-right 1em
+    // text-align center
+    // line-height 2em
+    // font-weight bold
+    // font-size 1.2em
 
-#scenario-submit
-  margin-top: 20px
-  margin-left: auto
-  margin-right: auto
-  display: block
+  &#scenario-submit
+    margin-top: 20px
+    margin-left: auto
+    margin-right: auto
+    display: block
 
-.actionTable
-  width:100%
-  margin-top: 50px
-  font-size: 0.8em
+  &.actionTable
+    width:100%
+    margin-top: 50px
+    font-size: 0.8em
 
+  &.actionTable th
+    background-color: #A9C700
 
-//@PEM : pourquoi est-ce que ce CSS n'est pas "limité" à ma classe ?
-.actionTable th
-  background-color: #A9C700
-
-.actionTable table, th, td
+  &.actionTable table, th, td
     border: 1px solid black
     border-collapse: collapse
 
-.actionTable th,td
+  &.actionTable th,td
     padding: 7px
