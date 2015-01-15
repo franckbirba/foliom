@@ -23,7 +23,10 @@ Template.scenarioForm.rendered = function() {
 
     // If we're editing a Scenario
     if (Session.get('current_scenario_doc') !== null){
-
+        $('#scenario_name').val(Session.get('current_scenario_doc').name);
+        $('#duration').val(Session.get('current_scenario_doc').duration);
+        $('#total_expenditure').val(Session.get('current_scenario_doc').total_expenditure);
+        $('#roi_less_than').val(Session.get('current_scenario_doc').roi_less_than);
     }
 };
 
@@ -40,7 +43,9 @@ Template.scenarioForm.helpers({
         });
     },
     getCriterion: function(){
-        return [
+        if ( Session.get('current_scenario_doc') ) {
+            return Session.get('current_scenario_doc').criterion_list;
+        } else return [
             {"label": "yearly_expense_max", "unit": "u_euro_year"},
             {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent"},
             {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc"},
@@ -64,10 +69,10 @@ Template.scenarioForm.events({
       roi_less_than: $(e.target).find('#roi_less_than').val()*1,
     };
 
-    // $(".criterion .criterion-label")
-    // $(".criterion .criterion-label, .criterion :input")
-    // $(".criterion :input").prop( "checked" )
+    //Get all criterion
     var criterion_list = [];
+    criterion_list.length = 0; // make sure the array is emptied when the user saves
+
     $(".criterion .criterion-label").each(function( index ) {
         criterion_list.push( {label: $(this).attr("true_label")} );
     });
@@ -125,8 +130,12 @@ Template.scenarioForm.events({
 
     console.log(scenario);
 
-    // scenario._id = Scenarios.insert(scenario);
-    Scenarios.insert(scenario);
+    if ( Session.get('current_scenario_doc') ) { // UPDATE case
+        Scenarios.update(Session.get('current_scenario_doc')._id, {$set: scenario} );
+    } else { // INSERT
+        var newScenario_id = Scenarios.insert(scenario);
+    }
+    Session.set('current_scenario_doc', scenario );
 
 
     // Router.go('postPage', post);
