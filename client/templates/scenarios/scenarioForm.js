@@ -52,6 +52,27 @@ Template.scenarioForm.helpers({
             {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc"},
             {"label": "priority_to_techField", "type":"selector_techfield"}
             ];
+
+            // [{
+            //     "label": "yearly_expense_max",
+            //     "input": ""
+            //   },
+            //   {
+            //     "label": "energy_consum_atLeast_in_E_year",
+            //     "input": ""
+            //   },
+            //   {
+            //     "label": "wait_for_obsolescence",
+            //     "input": ""
+            //   },
+            //   {
+            //     "label": "priority_to_gobal_obsolescence",
+            //     "input": ""
+            //   },
+            //   {
+            //     "label": "priority_to_techField",
+            //     "input": ""
+            //   }]
     },
     sc_data: function(param){
         if(param =="name") return "Jelly";
@@ -74,7 +95,13 @@ Template.scenarioForm.events({
     criterion_list.length = 0; // make sure the array is emptied when the user saves
 
     $(".criterion .criterion-label").each(function( index ) {
-        criterion_list.push( {label: $(this).attr("true_label")} );
+        criterion_list.push( {
+            label: $(this).attr("true_label"),
+            unit: $(this).attr("unit"),
+            type: $(this).attr("type"),
+            desc: $(this).attr("desc"),
+            }
+        );
     });
     $(".criterion :input").each(function( index ) {
         //get all values, except for the last input (used to add a criterion)
@@ -86,9 +113,6 @@ Template.scenarioForm.events({
             else {
                 _.extend(criterion_list[index], {input: $(this).val()});
             }
-
-            console.log("criterion_list[index]");
-            console.log(criterion_list[index]);
         }
     });
 
@@ -131,7 +155,19 @@ Template.scenarioForm.events({
     console.log(scenario);
 
     if ( Session.get('current_scenario_doc') ) { // UPDATE case
-        Scenarios.update(Session.get('current_scenario_doc')._id, {$set: scenario} );
+        Scenarios.update(
+            Session.get('current_scenario_doc')._id,
+            {
+              $set: {
+                name: scenario.name,
+                duration: scenario.duration,
+                total_expenditure: scenario.total_expenditure,
+                roi_less_than: scenario.roi_less_than,
+                criterion_list: scenario.criterion_list,
+                planned_actions: scenario.planned_actions,
+              }
+            }
+        );
     } else { // INSERT
         var newScenario_id = Scenarios.insert(scenario);
     }

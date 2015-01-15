@@ -28,7 +28,7 @@
           li.criterion
             .row.row-correct
               .col-sm-1: span.glyphicon.glyphicon-move.handlerIcon(aria-hidden="true")
-              .col-sm-5: span.criterion-text.criterion-label(true_label=label) {{_ label}}
+              .col-sm-5: span.criterion-text.criterion-label(true_label=label unit="#{unit}" type="#{type}" desc="#{desc}") {{_ label}}
               .col-sm-5
                 .form-inline: .form-group: .input-group
                   if isCheckbox type
