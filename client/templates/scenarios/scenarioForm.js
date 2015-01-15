@@ -37,45 +37,37 @@ Template.scenarioForm.helpers({
     isSelectorTechfield: function(type){
         return (type == "selector_techfield") ? true : false;
     },
+    checkboxAttrs: function(param){
+        return param
+    },
     getTechnical_compliance_items: function() {
         return result = _.map(technical_compliance_items, function(item){
             return { label: item, value: item }
         });
     },
     getCriterion: function(){
+        var current_criterion_list ;
         if ( Session.get('current_scenario_doc') ) {
-            return Session.get('current_scenario_doc').criterion_list;
-        } else return [
+            current_criterion_list = Session.get('current_scenario_doc').criterion_list;
+        } else {
+            current_criterion_list = [
             {"label": "yearly_expense_max", "unit": "u_euro_year"},
             {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent"},
             {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc"},
             {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc"},
             {"label": "priority_to_techField", "type":"selector_techfield"}
             ];
+        }
+        console.log("current_criterion_list");
+        console.log(current_criterion_list);
 
-            // [{
-            //     "label": "yearly_expense_max",
-            //     "input": ""
-            //   },
-            //   {
-            //     "label": "energy_consum_atLeast_in_E_year",
-            //     "input": ""
-            //   },
-            //   {
-            //     "label": "wait_for_obsolescence",
-            //     "input": ""
-            //   },
-            //   {
-            //     "label": "priority_to_gobal_obsolescence",
-            //     "input": ""
-            //   },
-            //   {
-            //     "label": "priority_to_techField",
-            //     "input": ""
-            //   }]
+        return current_criterion_list;
     },
-    sc_data: function(param){
-        if(param =="name") return "Jelly";
+    // sc_data: function(param){
+    //     if(param =="name") return "Jelly";
+    // },
+    isSelected: function(input, value){
+        if(param == value) return "selected";
     },
 });
 
@@ -108,7 +100,8 @@ Template.scenarioForm.events({
         if (index < $(".criterion .criterion-label").length ){
             // if (type == "number") _.extend(criterion_list[index], {input: $(this).val()});
             if ($(this).attr("type") == "checkbox") {
-                _.extend(criterion_list[index], {input: $(this).prop( "checked" )});
+                var checked = ( $(this).prop( "checked" ) == true) ? "checked" : "";
+                _.extend(criterion_list[index], {input: checked});
             }
             else {
                 _.extend(criterion_list[index], {input: $(this).val()});

@@ -33,15 +33,17 @@
                 .form-inline: .form-group: .input-group
                   if isCheckbox type
                     .row
-                      .col-sm-2: input(type="checkbox" value="")
+                      //- .col-sm-2: input(type="checkbox" value="" checked="#{input}")
+                      .col-sm-2: input(type="checkbox" value="")($dyn = checkboxAttrs "#{input}")
                       .col-sm-10: .criterion-text.criterion-desc {{_ desc}}
                   else if isSelectorTechfield type
                     select#addTechfield.form-control(type="select")
                       option(value="" disabled selected) {{_ "select_techField"}}
                       each getTechnical_compliance_items
+                        //- option(value=value, {{isSelected "#{input}" "#{value}" }}) {{_ label}}
                         option(value=value) {{_ label}}
                   else
-                    input.form-control#criterionAmount(type="number" placeholder="Amount")
+                    input.form-control#criterionAmount(type="number" placeholder="Amount" value="#{input}")
                     .input-group-addon {{_ unit}}
               .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
         li#addCriterionLi.criterion
