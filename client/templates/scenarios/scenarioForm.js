@@ -71,7 +71,7 @@ Template.scenarioForm.events({
 
     scenario.criterion_list = criterion_list;
 
-    scenario.portfolio_id = "3tdkJMaCWcuHLotJw";
+    scenario.portfolio_id = Session.get('current_portfolio_doc')._id;
 
     console.log(scenario);
 
