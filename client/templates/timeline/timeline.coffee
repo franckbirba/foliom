@@ -1,6 +1,7 @@
 # Action bucket is hidden by default
 Session.set 'timeline_action_bucket_displayed', false
 
+# @TODO Isolate inner value using a namespace
 # @TODO Fake data
 buildings = [
   { _id: 1, building_name: 'Building 1' }
@@ -71,7 +72,7 @@ planningBudgetData =
     [0, .5, 1.2, 2.5, 3.5]
   ]
 nbActions = totalCost = 0
-minDate = maxDate = null
+minDate = maxDate = @consumptionChart = @planningBudgetChart = null
 timelineActions = []
 
 Template.timeline.created = ->
@@ -103,6 +104,7 @@ Template.timeline.created = ->
       yearContent.quarterContent.push
         value: quarter.quarter()
         actions: [dummy1, dummy2]
+        # @TODO PEM Carry on
 
 
 
@@ -139,7 +141,7 @@ Template.timeline.helpers
 
 Template.timeline.rendered = ->
   # Make actions draggable and droppable
-  ($ '[data-role=\'draggable-action\']').draggable
+  (@$ '[data-role=\'draggable-action\']').draggable
     cursor: '-webkit-grabbing'
     scrollSensitivity: 100
     scrollSpeed: 100
@@ -149,14 +151,14 @@ Template.timeline.rendered = ->
     # @TODO à vérfier avec BSE snap: 'td[data-role=\'dropable-container\']'
     # @TODO à vérfier avec BSE grid: [20, 44]
     stop: (e, t) -> console.log 'Drag stopped', @, e, t
-  ($ '[data-role=\'dropable-container\']').droppable
+  (@$ '[data-role=\'dropable-container\']').droppable
     hoverClass: 'dropable'
     drop: (e, t) -> console.log 'Drop received', @, e, t
   # Create SVG charts with Chartist and attach them to the DOM
-  new Chartist.Line '[data-role=\'consumption-chart\']', \
-    consumptionData, low: 0
-  new Chartist.Line '[data-role=\'budget-planning-chart\']', \
-    planningBudgetData, low: 0
+  window.consumptionChart = new Chartist.Line \
+    '[data-role=\'consumption-chart\']', consumptionData, low: 0
+  window.planningBudgetChart = new Chartist.Line \
+    '[data-role=\'budget-planning-chart\']', planningBudgetData, low: 0
 
 Template.timeline.events
   # Change filter on the timeline
@@ -168,20 +170,15 @@ Template.timeline.events
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
     # Change arrow orientation
-    $ '.action-bucket-arrow-icon'
+    t.$ '.action-bucket-arrow-icon'
     .toggleClass 'glyphicon-circle-arrow-up'
     .toggleClass 'glyphicon-circle-arrow-down'
-    # Reduce chart's sizes and its SVG content
-    $ '[data-role=\'consumption-chart\']'
+    # Reduce charts sizes and recalculate their SVG content
+    t.$ '[data-role=\'consumption-chart\']'
     .toggleClass 'ct-octave'
     .toggleClass 'ct-double-octave'
-    .html('')
-    $ '[data-role=\'budget-planning-chart\']'
+    consumptionChart.update()
+    t.$ '[data-role=\'budget-planning-chart\']'
     .toggleClass 'ct-octave'
     .toggleClass 'ct-double-octave'
-    .html('')
-    # Redraw charts with the new aspect ratio
-    new Chartist.Line '[data-role=\'consumption-chart\']', \
-      consumptionData, low: 0
-    new Chartist.Line '[data-role=\'budget-planning-chart\']', \
-      planningBudgetData, low: 0
+    planningBudgetChart.update()
