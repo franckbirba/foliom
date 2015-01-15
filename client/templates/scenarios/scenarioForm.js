@@ -92,7 +92,7 @@ Template.scenarioForm.events({
           if(!(scenario.planned_actions instanceof Array)) {
             scenario.planned_actions = [];
           }
-            scenario.planned_actions.push(
+            scenario.planned_actions.push( // Pour l'update: passer par un tableau intermédiaire
                 {
                     action_id : action._id,
                     start : new Date()
