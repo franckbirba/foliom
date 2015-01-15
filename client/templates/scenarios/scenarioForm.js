@@ -37,8 +37,12 @@ Template.scenarioForm.helpers({
     isSelectorTechfield: function(type){
         return (type == "selector_techfield") ? true : false;
     },
-    checkboxAttrs: function(param){
-        return param
+    isChecked: function(param){
+        return (param == "checked") ? true : false;
+    },
+    isSelected: function(input, value){
+        // console.log(input + " "+ value);
+        return (input == value) ? true : false;
     },
     getTechnical_compliance_items: function() {
         return result = _.map(technical_compliance_items, function(item){
@@ -66,9 +70,6 @@ Template.scenarioForm.helpers({
     // sc_data: function(param){
     //     if(param =="name") return "Jelly";
     // },
-    isSelected: function(input, value){
-        if(param == value) return "selected";
-    },
 });
 
 Template.scenarioForm.events({
