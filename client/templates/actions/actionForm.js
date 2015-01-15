@@ -380,7 +380,7 @@ Template.actionForm.rendered = function () {
             var operatingCost_array = buildArrayWithZeroes(action_lifetime+1);
             operatingCost_array[0]=operating_cost;
 
-            var raw_roi = investment_cost / (total_savings_array[0] + operating_cost); //@Blandine : année 0 des économies d'énergie
+            var raw_roi = investment_cost / (total_savings_array[0] + operating_cost); //@Blandine : année 0 des économies d'énergie - OK
 
             $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
             console.log("raw_roi");
@@ -436,6 +436,7 @@ Template.actionForm.rendered = function () {
             // Operating savings (économie de frais d'exploitation)
             var operatingSavings_array = buildArrayWithZeroes(action_lifetime+1);
                 //@Blandine: pour l'instant on met l'éco. en année 0
+                //@BSE: l'économie est à appliquer chaque année
             operatingSavings_array[0]=operating_savings;
 
             //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
