@@ -134,6 +134,11 @@ Template.scenarioForm.events({
                         ).fetch();
 
         _.each(action_list, function(action) {
+
+            console.log(action);
+
+            var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost).toFixed(2)*1;
+
           // Ensure 1st empty table
           if(!(scenario.planned_actions instanceof Array)) {
             scenario.planned_actions = [];
@@ -141,7 +146,8 @@ Template.scenarioForm.events({
             scenario.planned_actions.push( // Pour l'update: passer par un tableau intermédiaire
                 {
                     action_id : action._id,
-                    start : new Date()
+                    start : new Date(),
+                    efficiency_ratio: efficiency_ratio
                 }
             );
         });

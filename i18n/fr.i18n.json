@@ -400,6 +400,16 @@
     "priority_to_techField": "Priorité au lot technique :",
     "select_techField": "Lots techniques",
 
+    /* Sorted actions */
+    "planned_for": "Réalisation",
+    "action_type": "Type d'action",
+    "efficiency_in_percent": "Efficacité en %",
+    "efficiency_in_kWhEF": "Efficacité en kWhEF",
+    "tri_years": "TRI (années)",
+    "comfort_impact": "Impact confort",
+
+
+
     /* Units */
 
     "u_months": "mois",

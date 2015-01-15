@@ -65,9 +65,9 @@
 
 		"estate": "Estate",
 		"portfolio": "Portfolio",
-		"building": "Bâtiment",
-		"lease": "Bail",
-		"fluid": "Fluide",
+		"building": "Building",
+		"lease": "Lease",
+		"fluid": "Fluid",
 
     "estate_name": "Estate name",
     "u_euro": "€",
