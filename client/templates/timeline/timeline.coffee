@@ -1,6 +1,11 @@
 # Action bucket is hidden by default
 Session.set 'timeline_action_bucket_displayed', false
 
+# @TODO Réservoir d'action en surimpression de l'ensemble de l'écran
+# @TODO Légende chacheable
+# @TODO Tooltips en survol sur les charts
+# @TODO Regrouper les actions par leurs noms (c'est un type d'actions)
+
 # Isolate calculated value in a namespace
 @TimelineVars =
   scenario: null
@@ -23,40 +28,49 @@ Template.timeline.created = ->
   # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   TimelineVars.scenario = Scenarios.findOne()
   actionIds = _.pluck TimelineVars.scenario.planned_actions, 'action_id'
-  TimelineVars.actions = (Actions.find \
-    { _id: $in: actionIds },
-    { sort: start: -1 }
-  ).fetch()
+  TimelineVars.actions = (Actions.find  _id: $in: actionIds).fetch()
   buildingIds = _.pluck TimelineVars.actions, 'building_id'
   TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
   # Set minimum date on the creation date and maximum date 31 years later
   creationYear = (moment (Session.get 'current_config').creation_date).year()
   TimelineVars.minDate = moment year: creationYear
   TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
-  # Iterate over current selected scenarios for preparing all calculations
-  for action in TimelineVars.actions
-    # Total costs
-    # @FIXME
-    TimelineVars.totalCost += 1000000
+  # Index on the actions table
+  currentAction = 0
   # Build formatted data
   quarter = TimelineVars.minDate.clone()
+  nextQuarter = (quarter.clone()).add 1, 'Q'
   while quarter.isBefore TimelineVars.maxDate
+    # Parsing each year content
     currentYear = quarter.year()
     yearContent =
       yearValue: currentYear
       quarterContent: []
-    dummy1 = _.findWhere TimelineVars.actions, _id: 4
-    dummy2 = _.findWhere TimelineVars.actions, _id: 1
     while currentYear is quarter.year()
+      # Parsing each quarter content
+      # Get current action date (set in the Scenario)
+      date = moment TimelineVars.scenario.planned_actions.start[currentAction]
+      # Check if current action is container in the current quarter
+      nextQuarter = quarter.clone
+      #if date.is
+      #
+
+      # Total costs
+      # @FIXME
+      TimelineVars.totalCost += 1000000
+
+
+
       yearContent.quarterContent.push
         value: quarter.quarter()
-        actions: [dummy1, dummy2]
+        actions: []
         # @TODO PEM Carry on
 
 
 
       # Increment by 1 quarter
       quarter.add 1, 'Q'
+      nextQuarter.add 1, 'Q'
     TimelineVars.timelineActions.push yearContent
 
 Template.timeline.helpers
@@ -83,15 +97,12 @@ Template.timeline.helpers
 
 Template.timeline.rendered = ->
   # Make actions draggable and droppable
-  (@$ '[data-role=\'draggable-action\']').draggable
+  (this.$ '[data-role=\'draggable-action\']').draggable
     cursor: '-webkit-grabbing'
     scrollSensitivity: 100
     scrollSpeed: 100
-    # @TODO à vérfier avec BSE axis: 'y'
     containment: 'table.timeline.timeline-year-table'
     revert: 'invalid'
-    # @TODO à vérfier avec BSE snap: 'td[data-role=\'dropable-container\']'
-    # @TODO à vérfier avec BSE grid: [20, 44]
     stop: (e, t) -> console.log 'Drag stopped', @, e, t
   (@$ '[data-role=\'dropable-container\']').droppable
     hoverClass: 'dropable'
