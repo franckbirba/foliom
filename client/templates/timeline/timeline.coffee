@@ -1,29 +1,20 @@
 # Action bucket is hidden by default
 Session.set 'timeline_action_bucket_displayed', false
 
+# @TODO Isolate inner value using a namespace
 # @TODO Fake data
 buildings = [
-  {
-    _id: 1
-    building_name: 'Building 1'
-  }
-  {
-    _id: 2
-    building_name: 'Building 2'
-  }
-  {
-    _id: 3
-    building_name: 'Building 3'
-  }
+  { _id: 1, building_name: 'Building 1' }
+  { _id: 2, building_name: 'Building 2' }
+  { _id: 3, building_name: 'Building 3' }
 ]
-
 # Actions are sorted by start date
 actions = [
   {
     _id: 1
     logo: '&#58880;'
     name: 'Nouveaux compteurs'
-    start: moment(new Date).subtract(1, 'M').toDate()
+    start: moment().subtract(1, 'M').toDate()
     duration: 36
     costs: [150000]
     buildingIds: [1]
@@ -41,7 +32,7 @@ actions = [
     _id: 3
     logo: '&#58882;'
     name: 'Double vitrage'
-    start: moment(new Date).add(1, 'y').toDate()
+    start: moment().add(1, 'y').toDate()
     duration: 4
     costs: [300000]
     buildingIds: [1]
@@ -50,7 +41,7 @@ actions = [
     _id: 4
     logo: '&#58883;'
     name: 'Etanchéïté sol'
-    start: moment(new Date).add(1, 'y').toDate()
+    start: moment().add(1, 'y').toDate()
     duration: 12
     costs: [100000, 100000]
     buildingIds: [1, 2]
@@ -59,15 +50,29 @@ actions = [
     _id: 5
     logo: '&#58884;'
     name: 'Etanchéïté plafond'
-    start: moment(new Date).add(1, 'y').add(1, 'M').toDate()
-    duration: 8
+    start: moment().add(1, 'y').add(1, 'M').toDate()
+    duration: 168
     costs: [100000]
     buildingIds: [2]
   }
 ]
-
+timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
+consumptionData =
+  labels: timeline
+  series: [
+    [3, 4, 4.5, 4.7, 5]
+    [3, 3.5, 3.2, 3.1, 2]
+    [3, 3.5, 4, 4.2, 4.5]
+  ]
+planningBudgetData =
+  labels: timeline
+  series: [
+    [5, 5, 5, 5, 5]
+    [0, 1, 2, 4, 4.7]
+    [0, .5, 1.2, 2.5, 3.5]
+  ]
 nbActions = totalCost = 0
-minDate = maxDate = null
+minDate = maxDate = @consumptionChart = @planningBudgetChart = null
 timelineActions = []
 
 Template.timeline.created = ->
@@ -93,22 +98,19 @@ Template.timeline.created = ->
     yearContent =
       yearValue: currentYear
       quarterContent: []
+    dummy1 = _.findWhere actions, _id: 4
+    dummy2 = _.findWhere actions, _id: 1
     while currentYear is quarter.year()
       yearContent.quarterContent.push
         value: quarter.quarter()
+        actions: [dummy1, dummy2]
+        # @TODO PEM Carry on
 
 
 
       # Increment by 1 quarter
       quarter.add 1, 'Q'
     timelineActions.push yearContent
-  console.log timelineActions
-
-
-
-
-
-
 
 Template.timeline.helpers
   scenarioId: -> 1
@@ -125,69 +127,58 @@ Template.timeline.helpers
   energySaving: -> TAPi18n.__ 'calculating'
   # Legends are created as simple <table>
   consumptionLegend: -> [
-    {
-      round: "background-color: #{CHARTIST_COLORS[0]};"
-      style: "color: #{CHARTIST_COLORS[0]};"
-      name:  TAPi18n.__ 'consumption_noaction'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[1]};"
-      style: "color: #{CHARTIST_COLORS[1]};"
-      name:  TAPi18n.__ 'consumption_action_co2'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[2]};"
-      style: "color: #{CHARTIST_COLORS[2]};"
-      name:  TAPi18n.__ 'consumption_action_kwh'
-    }
+    { color: 'colorA', name:  TAPi18n.__ 'consumption_noaction' }
+    { color: 'colorB', name:  TAPi18n.__ 'consumption_action_co2' }
+    { color: 'colorC', name:  TAPi18n.__ 'consumption_action_kwh' }
   ]
   planningBudgetLegend: -> [
-    {
-      round: "background-color: #{CHARTIST_COLORS[0]};"
-      style: "color: #{CHARTIST_COLORS[0]};"
-      name:  TAPi18n.__ 'planning_budget_global'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[1]};"
-      style: "color: #{CHARTIST_COLORS[1]};"
-      name:  TAPi18n.__ 'planning_budget_investments'
-    }
-    {
-      round: "background-color: #{CHARTIST_COLORS[2]};"
-      style: "color: #{CHARTIST_COLORS[2]};"
-      name:  TAPi18n.__ 'planning_budget_subventions'
-    }
+    { color: 'colorA', name:  TAPi18n.__ 'planning_budget_global' }
+    { color: 'colorB', name:  TAPi18n.__ 'planning_budget_investments' }
+    { color: 'colorC', name:  TAPi18n.__ 'planning_budget_subventions' }
   ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
 
 Template.timeline.rendered = ->
-  timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
-  consumptionData =
-    labels: timeline
-    series: [
-      [3, 4, 4.5, 4.7, 5]
-      [3, 3.5, 3.2, 3.1, 2]
-      [3, 3.5, 4, 4.2, 4.5]
-    ]
-  planningBudgetData =
-    labels: timeline
-    series: [
-      [5, 5, 5, 5, 5]
-      [0, 1, 2, 4, 4.7]
-      [0, .5, 1.2, 2.5, 3.5]
-    ]
-  new Chartist.Line '#consumption.ct-chart', consumptionData
-  new Chartist.Line '#planning_budget.ct-chart', planningBudgetData
+  # Make actions draggable and droppable
+  (@$ '[data-role=\'draggable-action\']').draggable
+    cursor: '-webkit-grabbing'
+    scrollSensitivity: 100
+    scrollSpeed: 100
+    # @TODO à vérfier avec BSE axis: 'y'
+    containment: 'table.timeline.timeline-year-table'
+    revert: 'invalid'
+    # @TODO à vérfier avec BSE snap: 'td[data-role=\'dropable-container\']'
+    # @TODO à vérfier avec BSE grid: [20, 44]
+    stop: (e, t) -> console.log 'Drag stopped', @, e, t
+  (@$ '[data-role=\'dropable-container\']').droppable
+    hoverClass: 'dropable'
+    drop: (e, t) -> console.log 'Drop received', @, e, t
+  # Create SVG charts with Chartist and attach them to the DOM
+  window.consumptionChart = new Chartist.Line \
+    '[data-role=\'consumption-chart\']', consumptionData, low: 0
+  window.planningBudgetChart = new Chartist.Line \
+    '[data-role=\'budget-planning-chart\']', planningBudgetData, low: 0
 
 Template.timeline.events
+  # Change filter on the timeline
+  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
+    console.log 'Selected building', e.currentTarget.value
+  # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
     # Display content of the action bucket
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
     # Change arrow orientation
-    $ '.action-bucket-arrow-logo'
-    .toggleClass 'glyphlogo-circle-arrow-up'
-    .toggleClass 'glyphlogo-circle-arrow-down'
-  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
-    console.log 'Selected building', e.currentTarget.value
+    t.$ '.action-bucket-arrow-icon'
+    .toggleClass 'glyphicon-circle-arrow-up'
+    .toggleClass 'glyphicon-circle-arrow-down'
+    # Reduce charts sizes and recalculate their SVG content
+    t.$ '[data-role=\'consumption-chart\']'
+    .toggleClass 'ct-octave'
+    .toggleClass 'ct-double-octave'
+    consumptionChart.update()
+    t.$ '[data-role=\'budget-planning-chart\']'
+    .toggleClass 'ct-octave'
+    .toggleClass 'ct-double-octave'
+    planningBudgetChart.update()

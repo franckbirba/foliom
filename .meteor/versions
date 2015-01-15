@@ -7,6 +7,7 @@ aldeed:autoform@4.2.2
 aldeed:collection2@2.3.1
 aldeed:delete-button@1.0.0
 aldeed:simple-schema@1.1.0
+aldeed:tabular@0.2.3
 amplify@1.0.0
 application-configuration@1.0.4
 autoupdate@1.1.4
@@ -75,11 +76,12 @@ minimongo@1.0.6
 mizzao:build-fetcher@0.2.0
 mizzao:jquery-ui@1.11.2
 mobile-status-bar@1.0.2
-momentjs:moment@2.8.4
+momentjs:moment@2.9.0
 mongo@1.0.11
 mongo-livedata@1.0.7
 mpowaga:string-template@0.1.0
 mquandalle:jade@0.4.1
+mquandalle:stylus@1.0.9
 nemo64:bootstrap@3.3.1_1
 nemo64:bootstrap-data@3.3.1_1
 npm-bcrypt@0.7.7
@@ -100,7 +102,6 @@ spacebars@1.0.4
 spacebars-compiler@1.0.4
 srp@1.0.2
 standard-app-packages@1.0.4
-stylus@1.0.6
 tap:http-methods@0.0.23
 tap:i18n@1.2.1
 templating@1.0.10
