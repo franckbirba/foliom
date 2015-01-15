@@ -23,7 +23,10 @@ Template.timeline.created = ->
   scenarioId = "q6tuMFTuHpkrPu6XS"
   TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   actionIds = _.pluck TimelineVars.scenario.planned_actions, 'action_id'
-  TimelineVars.actions = (Actions.find _id: $in: actionIds).fetch()
+  TimelineVars.actions = (Actions.find \
+    { _id: $in: actionIds },
+    { sort: start: -1 }
+  ).fetch()
   buildingIds = _.pluck TimelineVars.actions, 'building_id'
   TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
   # Set minimum date on the creation date and maximum date 31 years later
@@ -35,17 +38,8 @@ Template.timeline.created = ->
     # Total costs
     # @FIXME
     TimelineVars.totalCost += 1000000
-    # Get begining of actions
-    mStart = moment action.start
-    TimelineVars.minDate = moment.min TimelineVars.minDate, moment action.start
-    console.log 'minDate', TimelineVars.minDate.toString()
-    # Get end of actions
-    TimelineVars.maxDate = moment.max TimelineVars.maxDate,\
-      mStart.add action.duration, 'M'
   # Build formatted data
-  quarter = moment
-    year: TimelineVars.minDate.year()
-    month: (TimelineVars.minDate.quarter() * 3) - 1
+  quarter = TimelineVars.minDate.clone()
   while quarter.isBefore TimelineVars.maxDate
     currentYear = quarter.year()
     yearContent =
