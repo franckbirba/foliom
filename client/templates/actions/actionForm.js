@@ -369,15 +369,15 @@ Template.actionForm.rendered = function () {
             var YS_array = Session.get('YS_values');
 
             // PREPARE INVESTMENT_COST_ARRRAY
-            // create an array for investment cost with as many 0 as the action_lifetime+1
-            // @Blandine: confirmer taille du tableau = (action_lifetime+1) ?
-            var ic_array = buildArrayWithZeroes((action_lifetime+1));
+            // create an array for investment cost with as many 0 as the action_lifetime
+            // @Blandine: array size is action_lifetime and not (action_lifetime+1) --> OK 2015-01-15
+            var ic_array = buildArrayWithZeroes(action_lifetime);
             ic_array[0]= investment_cost; //Set the first value to the investment_cost
 
             /* -------------------------- */
             /*     target raw_roi         */
             // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
-            var operatingCost_array = buildArrayWithZeroes(action_lifetime+1);
+            var operatingCost_array = buildArrayWithZeroes(action_lifetime);
             operatingCost_array[0]=operating_cost;
 
             var raw_roi = investment_cost / (total_savings_array[0] + operating_cost); //@Blandine : année 0 des économies d'énergie - OK
@@ -391,12 +391,7 @@ Template.actionForm.rendered = function () {
             /*    target value_analysis   */
             var value_analysis = 0;
             var fluidImpact_in_kwhef =0 ;
-            // Sum all in_kwhef vars
-            // _.each(allEndUseData, function(endUseItem, tmp_index) {
-            //     _.each(endUseItem, function(leaseItem, tmp_index2) {
-            //         fluidImpact_in_kwhef += leaseItem.in_kwhef_lease;
-            //     });
-            // });
+
             $("[name^='impact_assessment_fluids.'][name$='.or_kwhef']").each(function( index ) {
 
                 fluidImpact_in_kwhef += AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids." + index + ".or_kwhef")*1 ;
@@ -434,7 +429,7 @@ Template.actionForm.rendered = function () {
             console.log(all_yearly_savings_simplyValues_actualized);
 
             // Operating savings (économie de frais d'exploitation)
-            var operatingSavings_array = buildArrayWithZeroes(action_lifetime+1);
+            var operatingSavings_array = buildArrayWithZeroes(action_lifetime);
                 //@Blandine: pour l'instant on met l'éco. en année 0
                 //@BSE: l'économie est à appliquer chaque année
             operatingSavings_array[0]=operating_savings;
@@ -474,7 +469,7 @@ Template.actionForm.rendered = function () {
 
             var flux_accumulation = _.map(ic_array_actualized, function(num, tmp_index){
                 var sum = 0
-                for (var i = 0; i < tmp_index+1; i++) { //@BSE CHECK LE +1
+                for (var i = 0; i < tmp_index+1; i++) { // +1 is necessary as the tmp_index starts at 0
                     sum += - ic_array_actualized[i]
                         + operatingSavings_array_actualized[i] // Pas actualisé
                         + total_YS_val_actualized[i] ;
