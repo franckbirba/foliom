@@ -62,3 +62,30 @@
                 option 2
                 option 3
     input#scenario-submit.btn.btn-primary(type="submit" value="Save & See results")
+    //ActionTable
+    table.actionTable
+      tr
+        th Réalisation
+        th Type d'action
+        th Bâtiment
+        th €
+        th Efficacité en %
+        th Efficacité en kWh
+        th TRI (années)
+        th Impact confort
+      each displayActions
+        tr
+          td -
+          td {{name}}
+          td {{building_id}}
+          td {{subventions.residual_cost}}
+          td
+            each impact_assessment_fluids
+              {{_ opportunity}} : {{per_cent}}
+              br
+          td
+            each impact_assessment_fluids
+              {{_ opportunity}} : {{or_kwhef}}
+              br
+          td {{internal_return}}
+          td {{impact_assessment_general.comfort}}
