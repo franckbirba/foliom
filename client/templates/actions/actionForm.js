@@ -428,11 +428,11 @@ Template.actionForm.rendered = function () {
             console.log("all_yearly_savings_simplyValues_actualized");
             console.log(all_yearly_savings_simplyValues_actualized);
 
-            // Operating savings (économie de frais d'exploitation)
+            // Operating savings (économie de frais d'exploitation) - a appliquer chaque année
             var operatingSavings_array = buildArrayWithZeroes(action_lifetime);
-                //@Blandine: pour l'instant on met l'éco. en année 0
-                //@BSE: l'économie est à appliquer chaque année
-            operatingSavings_array[0]=operating_savings;
+            for (var i = 0; i < action_lifetime; i++) {
+                operatingSavings_array[i] = operating_savings ;
+            }
 
             //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
             var operatingSavings_array_actualized = _.map(operatingSavings_array, function(num, ic_index){
