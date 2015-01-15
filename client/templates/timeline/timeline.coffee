@@ -29,13 +29,21 @@ Template.timeline.created = ->
   TimelineVars.scenario = Scenarios.findOne()
   # @TODO check for unplanned actions
   # Sort planned actions
-  TimelineVars.scenario.planned_actions = _.sortBy \
-    TimelineVars.scenario.planned_actions, (item) ->
-      (moment item.start).valueOf()
-  actionIds = _.pluck TimelineVars.scenario.planned_actions, 'action_id'
+  pactions = TimelineVars.scenario.planned_actions
+  pactions = _.sortBy pactions, (item) -> (moment item.start).valueOf()
+  # Get actions that matches the Ids in the Scenario
+  actionIds = _.pluck pactions, 'action_id'
   TimelineVars.actions = (Actions.find  _id: $in: actionIds).fetch()
+  # Get each buildings for each actions
   buildingIds = _.pluck TimelineVars.actions, 'building_id'
   TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
+  # Get all leases for all building, this action is done in a single DB call
+  # for avoiding too much latency on the screen's creation
+  leases = (Leases.find building_id: $in: buildingIds).fetch()
+  # Now dernomalize leases and buildings, re-establishing document object
+  # for each building
+  for building in TimelineVars.buildings
+    building.leases = _.where leases, building_id: building._id
   # Set minimum date on the creation date and maximum date 31 years later
   creationYear = (moment (Session.get 'current_config').creation_date).year()
   TimelineVars.minDate = moment year: creationYear
@@ -55,7 +63,7 @@ Template.timeline.created = ->
     while currentYear is quarter.year()
       quarterContent =
         value: quarter.quarter()
-        actions: []
+        actionInQuarter: []
       # Parsing each quarter content
       # Get current action date (set in the Scenario)
       date = moment TimelineVars.scenario.planned_actions[currentAction].start
