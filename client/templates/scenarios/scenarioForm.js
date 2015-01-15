@@ -73,6 +73,34 @@ Template.scenarioForm.events({
 
     scenario.portfolio_id = Session.get('current_portfolio_doc')._id;
 
+    //Set action_id
+    var building_list = Buildings.find({portfolio_id: tmp_current_portfolio_doc._id },
+                            {sort: {name:1}}
+                            ).fetch();
+
+    // Method to get all Actions for Each building + build a children list for the Tree
+    function planActionsForBuilding(id_param) {
+        var action_list = Actions.find({
+                            "action_type":"child",
+                            "building_id": id_param
+                        },
+                        {sort: {name:1}}
+                        ).fetch();
+
+        _.each(action_list, function(action) {
+            scenario.planned_actions.push(
+                {
+                    'planned_actions.action_id' : action._id,
+                    'planned_actions.start' : new Date
+                }
+            );
+        });
+    };
+
+    _.each(building_list, function(item) {
+        planActionsForBuilding(item._id);
+    });
+
     console.log(scenario);
 
     // scenario._id = Scenarios.insert(scenario);
