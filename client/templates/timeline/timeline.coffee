@@ -39,7 +39,8 @@ Template.timeline.created = ->
   currentAction = 0
   # Build formatted data
   quarter = TimelineVars.minDate.clone()
-  nextQuarter = (quarter.clone()).add 1, 'Q'
+  nextQuarter = quarter.clone()
+  nextQuarter.add 1, 'Q'
   while quarter.isBefore TimelineVars.maxDate
     # Parsing each year content
     currentYear = quarter.year()
@@ -49,9 +50,8 @@ Template.timeline.created = ->
     while currentYear is quarter.year()
       # Parsing each quarter content
       # Get current action date (set in the Scenario)
-      date = moment TimelineVars.scenario.planned_actions.start[currentAction]
+      date = moment TimelineVars.scenario.planned_actions[currentAction].start
       # Check if current action is container in the current quarter
-      nextQuarter = quarter.clone
       #if date.is
       #
 
