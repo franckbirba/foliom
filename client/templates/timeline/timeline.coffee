@@ -2,7 +2,7 @@
 Session.set 'timeline_action_bucket_displayed', false
 
 # @TODO Réservoir d'action en surimpression de l'ensemble de l'écran
-# @TODO Légende chacheable
+# @TODO Légende cachable
 # @TODO Tooltips en survol sur les charts
 # @TODO Regrouper les actions par leurs noms (c'est un type d'actions)
 
@@ -27,6 +27,11 @@ Template.timeline.created = ->
   # @TODO fake : Fetch Scenario's data
   # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   TimelineVars.scenario = Scenarios.findOne()
+  # @TODO check for unplanned actions
+  # Sort planned actions
+  TimelineVars.scenario.planned_actions = _.sortBy \
+    TimelineVars.scenario.planned_actions, (item) ->
+      (moment item.start).valueOf()
   actionIds = _.pluck TimelineVars.scenario.planned_actions, 'action_id'
   TimelineVars.actions = (Actions.find  _id: $in: actionIds).fetch()
   buildingIds = _.pluck TimelineVars.actions, 'building_id'
@@ -48,26 +53,24 @@ Template.timeline.created = ->
       yearValue: currentYear
       quarterContent: []
     while currentYear is quarter.year()
+      quarterContent =
+        value: quarter.quarter()
+        actions: []
       # Parsing each quarter content
       # Get current action date (set in the Scenario)
       date = moment TimelineVars.scenario.planned_actions[currentAction].start
-      # Check if current action is container in the current quarter
-      #if date.is
-      #
-
-      # Total costs
-      # @FIXME
-      TimelineVars.totalCost += 1000000
+      # Check if current action is contained in the current quarter
+      if date.isBetween quarter, nextQuarter
 
 
 
-      yearContent.quarterContent.push
-        value: quarter.quarter()
-        actions: []
-        # @TODO PEM Carry on
+        # Total costs
+        # @FIXME
+        TimelineVars.totalCost += 1000000
 
 
 
+      yearContent.quarterContent.quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
