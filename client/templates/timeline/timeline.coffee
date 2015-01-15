@@ -63,7 +63,7 @@ Template.timeline.created = ->
     while currentYear is quarter.year()
       quarterContent =
         value: quarter.quarter()
-        actions: []
+        actionInQuarter: []
       # Parsing each quarter content
       # Get current action date (set in the Scenario)
       date = moment TimelineVars.scenario.planned_actions[currentAction].start
