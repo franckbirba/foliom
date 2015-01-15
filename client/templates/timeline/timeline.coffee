@@ -1,105 +1,58 @@
 # Action bucket is hidden by default
 Session.set 'timeline_action_bucket_displayed', false
 
-# @TODO Isolate inner value using a namespace
-# @TODO Fake data
-buildings = [
-  { _id: 1, building_name: 'Building 1' }
-  { _id: 2, building_name: 'Building 2' }
-  { _id: 3, building_name: 'Building 3' }
-]
-# Actions are sorted by start date
-actions = [
-  {
-    _id: 1
-    logo: '&#58880;'
-    name: 'Nouveaux compteurs'
-    start: moment().subtract(1, 'M').toDate()
-    duration: 36
-    costs: [150000]
-    buildingIds: [1]
-  }
-  {
-    _id: 2
-    logo: '&#58881;'
-    name: 'Etanchéïté'
-    start: new Date
-    duration: 30
-    costs: [200000, 200000]
-    buildingIds: [1, 2]
-  }
-  {
-    _id: 3
-    logo: '&#58882;'
-    name: 'Double vitrage'
-    start: moment().add(1, 'y').toDate()
-    duration: 4
-    costs: [300000]
-    buildingIds: [1]
-  }
-  {
-    _id: 4
-    logo: '&#58883;'
-    name: 'Etanchéïté sol'
-    start: moment().add(1, 'y').toDate()
-    duration: 12
-    costs: [100000, 100000]
-    buildingIds: [1, 2]
-  }
-  {
-    _id: 5
-    logo: '&#58884;'
-    name: 'Etanchéïté plafond'
-    start: moment().add(1, 'y').add(1, 'M').toDate()
-    duration: 168
-    costs: [100000]
-    buildingIds: [2]
-  }
-]
-timeline = ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
-consumptionData =
-  labels: timeline
-  series: [
-    [3, 4, 4.5, 4.7, 5]
-    [3, 3.5, 3.2, 3.1, 2]
-    [3, 3.5, 4, 4.2, 4.5]
-  ]
-planningBudgetData =
-  labels: timeline
-  series: [
-    [5, 5, 5, 5, 5]
-    [0, 1, 2, 4, 4.7]
-    [0, .5, 1.2, 2.5, 3.5]
-  ]
-nbActions = totalCost = 0
-minDate = maxDate = @consumptionChart = @planningBudgetChart = null
-timelineActions = []
+# Isolate calculated value in a namespace
+@TimelineVars =
+  scenario: null
+  actions: []
+  buildings: []
+  totalCost: 0
+  consumptionChart: null
+  planningBudgetChart: null
+  minDate: null
+  maxDate: null
+  timelineActions: []
+  timelineLabels: ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
 
 Template.timeline.created = ->
   # Reset former state
-  nbActions = totalCost = 0
-  minDate = maxDate = moment actions?[0].start
-  timelineActions = []
+  TimelineVar = window.TimelineVar
+  TimelineVars.totalCost = 0
+  TimelineVars.timelineActions = []
+  # @TODO fake : Get the currently created Scenario._id
+  scenarioId = "q6tuMFTuHpkrPu6XS"
+  TimelineVars.scenario = Scenarios.findOne _id: scenarioId
+  console.log TimelineVars.scenario
+  actionIds = _.pluck TimelineVars.scenario.planned_actions, 'action_id'
+  TimelineVars.actions = (Actions.find _id: $in: actionIds).fetch()
+  console.log TimelineVars.actions
+  buildingIds = _.pluck TimelineVars.actions, 'building_id'
+  TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
+  console.log TimelineVars.buildings
   # Iterate over current selected scenarios for preparing all calculations
-  for action in actions
-    # Number of actions as detailes in the appraisal
-    nbActions += action.buildingIds.length
+  TimelineVars.minDate = moment TimelineVars.actions?[0].start
+  TimelineVars.maxDate = TimelineVars.minDate.clone()
+  for action in TimelineVars.actions
     # Total costs
-    totalCost += cost for cost in action.costs
+    # @FIXME
+    TimelineVars.totalCost += 1000000
     # Get begining of actions
     mStart = moment action.start
-    minDate = moment.min minDate, moment action.start
+    TimelineVars.minDate = moment.min TimelineVars.minDate, moment action.start
     # Get end of actions
-    maxDate = moment.max maxDate, mStart.add action.duration, 'M'
+    TimelineVars.maxDate = moment.max TimelineVars.maxDate,\
+      mStart.add action.duration, 'M'
   # Build formatted data
-  quarter = moment year: minDate.year(), month: (minDate.quarter() * 3) - 1
-  while quarter.isBefore maxDate
+  quarter = moment
+    year: TimelineVars.minDate.year()
+    month: (TimelineVars.minDate.quarter() * 3) - 1
+  while quarter.isBefore TimelineVars.maxDate
     currentYear = quarter.year()
     yearContent =
       yearValue: currentYear
       quarterContent: []
-    dummy1 = _.findWhere actions, _id: 4
-    dummy2 = _.findWhere actions, _id: 1
+    dummy1 = _.findWhere TimelineVars.actions, _id: 4
+    dummy2 = _.findWhere TimelineVars.actions, _id: 1
     while currentYear is quarter.year()
       yearContent.quarterContent.push
         value: quarter.quarter()
@@ -110,19 +63,14 @@ Template.timeline.created = ->
 
       # Increment by 1 quarter
       quarter.add 1, 'Q'
-    timelineActions.push yearContent
+    TimelineVars.timelineActions.push yearContent
 
 Template.timeline.helpers
-  scenarioId: -> 1
-  availableBuildings: ->
-    buildingIdInActions = _.uniq (_.flatten (_.pluck actions, 'buildingIds'))
-    availableBuildings = []
-    for id in buildingIdInActions
-      availableBuildings.push _.findWhere buildings, _id: id
-    availableBuildings
-  nbActions: -> nbActions
-  timelineActions: -> timelineActions
-  totalCost: -> (numeral totalCost).format '0,0[.]00 $'
+  scenarioName: -> TimelineVars.scenario.name
+  availableBuildings: -> TimelineVars.buildings
+  nbActions: -> TimelineVars.actions.length
+  timelineActions: -> TimelineVars.timelineActions
+  totalCost: -> (numeral TimelineVars.totalCost).format '0,0[.]00 $'
   triGlobal: -> TAPi18n.__ 'calculating'
   energySaving: -> TAPi18n.__ 'calculating'
   # Legends are created as simple <table>
@@ -155,10 +103,25 @@ Template.timeline.rendered = ->
     hoverClass: 'dropable'
     drop: (e, t) -> console.log 'Drop received', @, e, t
   # Create SVG charts with Chartist and attach them to the DOM
-  window.consumptionChart = new Chartist.Line \
-    '[data-role=\'consumption-chart\']', consumptionData, low: 0
-  window.planningBudgetChart = new Chartist.Line \
-    '[data-role=\'budget-planning-chart\']', planningBudgetData, low: 0
+  TimelineVar = window.TimelineVars
+  TimelineVars.consumptionChart = new Chartist.Line \
+    '[data-role=\'consumption-chart\']',
+    labels: TimelineVars.timelineLabels
+    series: [
+      [3, 4, 4.5, 4.7, 5]
+      [3, 3.5, 3.2, 3.1, 2]
+      [3, 3.5, 4, 4.2, 4.5]
+    ]
+  , low: 0
+  TimelineVars.planningBudgetChart = new Chartist.Line \
+    '[data-role=\'budget-planning-chart\']',
+    labels: TimelineVars.timelineLabels
+    series: [
+      [5, 5, 5, 5, 5]
+      [0, 1, 2, 4, 4.7]
+      [0, .5, 1.2, 2.5, 3.5]
+    ]
+  , low: 0
 
 Template.timeline.events
   # Change filter on the timeline
@@ -177,8 +140,8 @@ Template.timeline.events
     t.$ '[data-role=\'consumption-chart\']'
     .toggleClass 'ct-octave'
     .toggleClass 'ct-double-octave'
-    consumptionChart.update()
+    TimelineVars.consumptionChart.update()
     t.$ '[data-role=\'budget-planning-chart\']'
     .toggleClass 'ct-octave'
     .toggleClass 'ct-double-octave'
-    planningBudgetChart.update()
+    TimelineVars.planningBudgetChart.update()
