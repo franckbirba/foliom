@@ -74,7 +74,7 @@ Template.scenarioForm.events({
     scenario.portfolio_id = Session.get('current_portfolio_doc')._id;
 
     //Set action_id
-    var building_list = Buildings.find({portfolio_id: tmp_current_portfolio_doc._id },
+    var building_list = Buildings.find({portfolio_id: scenario.portfolio_id },
                             {sort: {name:1}}
                             ).fetch();
 
@@ -88,6 +88,10 @@ Template.scenarioForm.events({
                         ).fetch();
 
         _.each(action_list, function(action) {
+          // Ensure 1st empty table
+          if(!(scenario.planned_actions instanceof Array)) {
+            scenario.planned_actions = [];
+          }
             scenario.planned_actions.push(
                 {
                     'planned_actions.action_id' : action._id,
