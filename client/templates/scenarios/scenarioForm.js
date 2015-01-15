@@ -64,9 +64,27 @@ Template.scenarioForm.events({
       roi_less_than: $(e.target).find('#roi_less_than').val()*1,
     };
 
+    // $(".criterion .criterion-label")
+    // $(".criterion .criterion-label, .criterion :input")
+    // $(".criterion :input").prop( "checked" )
     var criterion_list = [];
     $(".criterion .criterion-label").each(function( index ) {
         criterion_list.push( {label: $(this).attr("true_label")} );
+    });
+    $(".criterion :input").each(function( index ) {
+        //get all values, except for the last input (used to add a criterion)
+        if (index < $(".criterion .criterion-label").length ){
+            // if (type == "number") _.extend(criterion_list[index], {input: $(this).val()});
+            if ($(this).attr("type") == "checkbox") {
+                _.extend(criterion_list[index], {input: $(this).prop( "checked" )});
+            }
+            else {
+                _.extend(criterion_list[index], {input: $(this).val()});
+            }
+
+            console.log("criterion_list[index]");
+            console.log(criterion_list[index]);
+        }
     });
 
     scenario.criterion_list = criterion_list;
@@ -110,9 +128,7 @@ Template.scenarioForm.events({
     // scenario._id = Scenarios.insert(scenario);
     Scenarios.insert(scenario);
 
-    // $(".criterion .criterion-label")
-    // $(".criterion .criterion-label, .criterion :input")
-    // $(".criterion :input").prop( "checked" )
+
     // Router.go('postPage', post);
   }
 });
