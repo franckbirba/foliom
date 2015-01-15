@@ -11,6 +11,7 @@ Template.scenarioForm.helpers({
 });
 
 Template.scenarioForm.rendered = function() {
+    // Init sortable function
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
 
@@ -19,6 +20,11 @@ Template.scenarioForm.rendered = function() {
         // $(this).remove();
         console.log( $(this).parents( ".criterion" )[0].remove() );
     });
+
+    // If we're editing a Scenario
+    if (Session.get('current_scenario_doc') !== null){
+
+    }
 };
 
 Template.scenarioForm.helpers({
@@ -41,6 +47,9 @@ Template.scenarioForm.helpers({
             {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc"},
             {"label": "priority_to_techField", "type":"selector_techfield"}
             ];
+    },
+    sc_data: function(param){
+        if(param =="name") return "Jelly";
     },
 });
 

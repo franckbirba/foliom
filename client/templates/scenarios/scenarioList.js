@@ -44,7 +44,6 @@ Template.scenarioList.events({
     'click .editScenario': function(e) {
         e.preventDefault();
         Session.set('current_scenario_doc', this);
-        console.log(this);
 
         Router.go('scenarioForm');
     },
