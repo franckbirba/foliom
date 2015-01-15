@@ -20,10 +20,10 @@
                 tr(data-value=value).timeline.timeline-quarter
                   td: h4.panel-inner-title {{_ 'quarter_abbreviation'}}#{value}
                   td(data-role='dropable-container')
-                    each actions
+                    each tActions
                       .timeline.timeline-action-items(data-role='draggable-action')
-                        | !{logo}
-                        span(data-value=buildingIds.length)= buildingIds.length
+                          | !{logo}
+                          span(data-value=length)= length
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal

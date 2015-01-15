@@ -61,24 +61,36 @@ Template.timeline.created = ->
       yearValue: currentYear
       quarterContent: []
     while currentYear is quarter.year()
+      # Parsing each quarter content
       quarterContent =
         value: quarter.quarter()
-        actionInQuarter: []
-      # Parsing each quarter content
-      # Get current action date (set in the Scenario)
-      date = moment TimelineVars.scenario.planned_actions[currentAction].start
-      # Check if current action is contained in the current quarter
-      if date.isBetween quarter, nextQuarter
-
-
-
+        tActions: []
+      # Loop through actions utill they aren't in the current quarter
+      loop
+        # Get out of the loop if all actions have been checked
+        break unless TimelineVars.scenario.planned_actions[currentAction]?
+        # Get current action date (set in the Scenario)
+        date = moment TimelineVars.scenario.planned_actions[currentAction].start
+        # Check if current action is contained in the current quarter
+        break unless date.isBetween quarter, nextQuarter
+        # Denormalize date
+        TimelineVars.actions[currentAction].start = date
+        # Set the current action in the current quarter
+        quarterContent.tActions.push TimelineVars.actions[currentAction]
         # Total costs
         # @FIXME
-        TimelineVars.totalCost += 1000000
-
-
-
-      yearContent.quarterContent.quarterContent
+        TimelineVars.totalCost += 100000
+        # Check next action
+        currentAction++
+      # Group actions in quarter by name
+      group = _.groupBy quarterContent.tActions, 'logo'
+      quarterContent.tActions = []
+      for key, value of group
+        quarterContent.tActions.push
+          logo: key
+          length: value.length
+          action: value
+      yearContent.quarterContent.push quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
