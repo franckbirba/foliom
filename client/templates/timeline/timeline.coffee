@@ -90,7 +90,7 @@ Template.timeline.created = ->
           # @TODO Remove ugly hack once logo are ready logo: key
           logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
-          action: value
+          actions: value
       yearContent.quarterContent.push quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
