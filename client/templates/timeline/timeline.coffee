@@ -167,8 +167,7 @@ timelineCalctulate = (tv) ->
         # Set the current action in the current quarter
         quarterContent.tActions.push tv.actions[currentAction]
         # Total costs
-        # @FIXME
-        tv.totalCost += 100000
+        tv.totalCost += tv.actions[currentAction].investment.cost
         # Check next action
         currentAction++
       # Group actions in quarter by name
