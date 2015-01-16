@@ -71,9 +71,11 @@ Template.scenarioForm.helpers({
     //     if(param =="name") return "Jelly";
     // },
     displayActions: function() {
-        return _.map(Session.get('current_scenario_doc').planned_actions, function(action){
-            return Actions.findOne(action.action_id);
-        });
+        if ( Session.get('current_scenario_doc') && Session.get('current_scenario_doc').planned_actions ) {
+            return _.map(Session.get('current_scenario_doc').planned_actions, function(action){
+                return Actions.findOne(action.action_id);
+            });
+        }
     },
 });
 
@@ -152,15 +154,12 @@ Template.scenarioForm.events({
             );
         });
 
-        console.log("scenario.planned_actions");
-        console.log(scenario.planned_actions);
-
         //SORT ACTIONS
-        //_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
-        _.sortBy(scenario.planned_actions, function(num){ return efficiency_ratio; });
+        //Default sort
+        scenario.planned_actions = _.sortBy(scenario.planned_actions, function(item){
+            return -item.efficiency_ratio; //sortBy ranks in ascending order, thus the '-'
+        });
 
-        console.log("scenario.planned_actions");
-        console.log(scenario.planned_actions);
     }
 
     _.each(building_list, function(item) {
