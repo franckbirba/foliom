@@ -138,7 +138,13 @@ Template.scenarioForm.events({
         _.each(action_list, function(action) {
             // console.log(action);
 
-            var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost).toFixed(2)*1;
+            var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost*1).toFixed(2)*1;
+            // console.log('action.raw_roi');
+            // console.log(action.raw_roi);
+            // console.log('action.subventions.residual_cost');
+            // console.log(action.subventions.residual_cost*1);
+            // console.log('efficiency_ratio');
+            // console.log(efficiency_ratio);
 
           // Ensure 1st empty table
           if(!(scenario.planned_actions instanceof Array)) {
@@ -150,7 +156,7 @@ Template.scenarioForm.events({
                     action_id : action._id,
                     start : new Date(),
                     efficiency_ratio: efficiency_ratio,
-                    savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
+                    // savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
                 }
             );
         });
