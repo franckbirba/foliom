@@ -154,7 +154,7 @@ timelineCalctulate = (tv) ->
       # Parsing each quarter content
       quarterContent =
         value: quarter.quarter()
-        quarterValue: "{Q:#{quarter.quarter()},Y:#{currentYear}}"
+        quarterValue: JSON.stringify Q: quarter.quarter(), Y:currentYear
         tActions: []
       # Loop through actions utill they aren't in the current quarter
       loop
@@ -181,10 +181,10 @@ timelineCalctulate = (tv) ->
           # @TODO Remove ugly hack once logo are ready logo: key
           logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
-          buildingsToActions: '[' + (for action in value
-            "{building_id: '#{action.building_id}', \
-              action_id: '#{action._id}}'"
-            ).join(',') + ']'
+          buildingsToActions: JSON.stringify(for action in value
+            building_id: action.building_id
+            action_id: action._id
+          )
         quarterContent.tActions.push item
       # Budget line for chart
       tv.charts.budget.push tv.scenario.total_expenditure
@@ -207,20 +207,17 @@ actionItemDropped = (e) ->
   $quarter.append $newActions
   $actions.remove()
   # Modify action's start
-  quarterObj = $quarter.attr 'data-value'
-  actionsObj = $newActions.attr 'data-value'
+  quarterObj = JSON.parse $quarter.attr 'data-value'
+  actionsObj = JSON.parse $newActions.attr 'data-value'
   pactions = TimelineVars.scenario.planned_actions
-  console.table 'Before', pactions
-  console.log 'actionsObj', actionsObj
   for action in actionsObj
-    console.log 'action.actions_id', action.action_id
-    console.log "findWhere", _.findWhere pactions, {action_id: action.action_id}
     idx = _.indexOf pactions, (_.findWhere pactions, {action_id: action.action_id})
-    console.log "indexOf", idx
     pactions[idx].start = (moment
       month: (quarterObj.Q - 1) * 3
       year: quarterObj.Y).toDate()
-  console.table 'After', pactions
   # Recalculate
-  #timelineCalctulate TimelineVars
+  timelineCalctulate TimelineVars
+  # Update DB
+  Scenarios.update {_id: TimelineVars.scenario._id},
+    $set: planned_actions: pactions
   # @TODO
