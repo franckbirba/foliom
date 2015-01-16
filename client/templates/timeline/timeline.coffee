@@ -195,9 +195,9 @@ timelineCalctulate = (tv) ->
       nextQuarter.add 1, 'Q'
     tv.timelineActions.push yearContent
 
-actionItemDropped = (e) ->
-  $quarter = $ e.target
-  $actions = $ e.toElement
+actionItemDropped = (e, t, what) ->
+  $quarter = $ @
+  $actions = t.draggable
   # Adjust DOM
   $newActions = $actions.clone()
   $newActions.attr 'style', 'position: relative;'
