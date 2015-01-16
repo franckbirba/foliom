@@ -87,7 +87,8 @@ Template.timeline.created = ->
       quarterContent.tActions = []
       for key, value of group
         quarterContent.tActions.push
-          logo: key
+          # @TODO Remove ugly hack once logo are ready logo: key
+          logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
           action: value
       yearContent.quarterContent.push quarterContent
