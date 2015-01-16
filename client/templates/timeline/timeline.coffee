@@ -17,13 +17,17 @@ Session.set 'timeline_action_bucket_displayed', false
   minDate: null
   maxDate: null
   timelineActions: []
-  timelineLabels: ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
+  charts:
+    ticks: []
+    budget: []
 
 Template.timeline.created = ->
   # Reset former state
   TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
+  TimelineVars.charts.ticks = []
+  TimelineVars.charts.budget = []
   # @TODO fake : Fetch Scenario's data
   # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   TimelineVars.scenario = Scenarios.findOne()
@@ -91,6 +95,11 @@ Template.timeline.created = ->
           logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
           actions: value
+      # Budget line for chart
+      TimelineVars.charts.budget.push TimelineVars.scenario.total_expenditure
+      # Labels for charts
+      TimelineVars.charts.ticks.push \
+        "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
       yearContent.quarterContent.push quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
@@ -135,22 +144,28 @@ Template.timeline.rendered = ->
   TimelineVar = window.TimelineVars
   TimelineVars.consumptionChart = new Chartist.Line \
     '[data-role=\'consumption-chart\']',
-    labels: TimelineVars.timelineLabels
+    labels: TimelineVars.charts.ticks
     series: [
       [3, 4, 4.5, 4.7, 5]
       [3, 3.5, 3.2, 3.1, 2]
       [3, 3.5, 4, 4.2, 4.5]
     ]
-  , low: 0
+  ,
+    low: 0
+    showPoint: false
+    axisX: showLabel: false, showGrid: false
   TimelineVars.planningBudgetChart = new Chartist.Line \
     '[data-role=\'budget-planning-chart\']',
-    labels: TimelineVars.timelineLabels
+    labels: TimelineVars.charts.ticks
     series: [
-      [5, 5, 5, 5, 5]
+      TimelineVars.charts.budget
       [0, 1, 2, 4, 4.7]
       [0, .5, 1.2, 2.5, 3.5]
     ]
-  , low: 0
+  ,
+    low: 0
+    showPoint: false
+    axisX: showLabel: false, showGrid: false
 
 Template.timeline.events
   # Change filter on the timeline
