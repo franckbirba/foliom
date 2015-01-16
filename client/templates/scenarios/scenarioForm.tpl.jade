@@ -2,33 +2,33 @@
   .row: .col-md-12: h1.page-title {{_ 'create_scenario'}}
   //General form
   form
-    .row.scenario_row
+    .row
       .col-md-8
         .form-horizontal
           .form-group
             label.col-sm-4.control-label(for="scenario_name") {{_ 'name'}}
             //- .col-sm-8: input.form-control#scenario_name(type="text" placeholder=name_pl value=(sc_data "name"))
-            .col-sm-8: input.form-control#scenario_name(type="text" placeholder=name_pl)
+            .col-sm-8: input.form-control.scenarioForm#scenario_name(type="text" placeholder=name_pl)
           .form-group
             label.col-sm-4.control-label(for="duration") {{_ 'duration'}}
-            .col-sm-8: input.form-control#duration(type="number" placeholder=duration_pl)
+            .col-sm-8: input.form-control.scenarioForm#duration(type="number" placeholder=duration_pl)
           .form-group
             label.col-sm-4.control-label(for="total_expenditure") {{_ 'total_expenditure'}}
-            .col-sm-8: input.form-control#total_expenditure(type="number" placeholder=total_expenditure_pl)
+            .col-sm-8: input.form-control.scenarioForm#total_expenditure(type="number" placeholder=total_expenditure_pl)
           .form-group
             label.col-sm-4.control-label(for="roi_less_than") {{_ 'roi_less_than'}}
-            .col-sm-8: input.form-control#roi_less_than(type="number" placeholder=duration_pl)
+            .col-sm-8: input.form-control.scenarioForm#roi_less_than(type="number" placeholder=duration_pl)
       .col-md-4
         img.img-thumbnail(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" alt="...")
     //- Criterions
-    #scenarioCriterion
-      #scenarioCriterionTitle {{_ "scenario_criterion"}}
-      ul#sortable
+    .scenarioForm#scenarioCriterion
+      .scenarioForm#scenarioCriterionTitle {{_ "scenario_criterion"}}
+      ul.scenarioForm#sortable
         each getCriterion
-          li.criterion
-            .row.row-correct
-              .col-sm-1: span.glyphicon.glyphicon-move.handlerIcon(aria-hidden="true")
-              .col-sm-5: span.criterion-text.criterion-label(true_label=label unit=unit type=type desc=desc) {{_ label}}
+          li.scenarioForm.criterion
+            .row.scenarioForm.row-correct
+              .col-sm-1: span.glyphicon.glyphicon-move.scenarioForm.handlerIcon(aria-hidden="true")
+              .col-sm-5: span.scenarioForm.criterion-text.criterion-label(true_label=label unit=unit type=type desc=desc) {{_ label}}
               .col-sm-5
                 .form-inline: .form-group: .input-group
                   if isCheckbox type
@@ -39,9 +39,9 @@
                           input(type="checkbox" value="" checked)
                         else
                           input(type="checkbox" value="")
-                      .col-sm-10: .criterion-text.criterion-desc {{_ desc}}
+                      .col-sm-10: .scenarioForm.criterion-text.criterion-desc {{_ desc}}
                   else if isSelectorTechfield type
-                    select#addTechfield.form-control(type="select")
+                    select.scenarioForm#addTechfield.form-control(type="select")
                       option(value="" disabled selected) {{_ "select_techField"}}
                       each getTechnical_compliance_items
                         if isSelected input value
@@ -50,20 +50,20 @@
                         else
                           option(value=value) {{_ label}}
                   else
-                    input.form-control#criterionAmount(type="number" placeholder="Amount" value="#{input}")
+                    input.form-control.scenarioForm#criterionAmount(type="number" placeholder="Amount" value="#{input}")
                     .input-group-addon {{_ unit}}
-              .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
-        li#addCriterionLi.criterion
+              .col-sm-1: span.scenarioForm.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
+        li.scenarioForm#addCriterionLi.criterion
             .col-md-3 {{_ 'add_criterion'}}
             .col-md-9
-              select#addCriterionSelect.form-control.addCriterion
+              select.scenarioForm#addCriterionSelect.form-control.addCriterion
                 option(value="" disabled selected) {{_ "select_criterion"}}
                 option Consommation d’énergie en € / an : réduction sur le Bâtiment au moins égale à (en %)
                 option 2
                 option 3
-    input#scenario-submit.btn.btn-primary(type="submit" value="Save & See results")
+    input.scenarioForm#scenario-submit.btn.btn-primary(type="submit" value="Save & See results")
     //ActionTable
-    table.actionTable
+    table.scenarioForm.actionTable
       tr
         th {{_ 'planned_for'}}
         th {{_ 'action_type'}}
