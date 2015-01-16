@@ -4,7 +4,6 @@ Session.set 'timeline_action_bucket_displayed', false
 # @TODO Réservoir d'action en surimpression de l'ensemble de l'écran
 # @TODO Légende cachable
 # @TODO Tooltips en survol sur les charts
-# @TODO Regrouper les actions par leurs noms (c'est un type d'actions)
 
 # Isolate calculated value in a namespace
 @TimelineVars =
@@ -52,13 +51,17 @@ Template.timeline.created = ->
   creationYear = (moment (Session.get 'current_config').creation_date).year()
   TimelineVars.minDate = moment year: creationYear
   TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
+  # Perform calculations
+  timelineCalctulations TimelineVars
+
+timelineCalctulations = (tv) ->
   # Index on the actions table
   currentAction = 0
   # Build formatted data
-  quarter = TimelineVars.minDate.clone()
+  quarter = tv.minDate.clone()
   nextQuarter = quarter.clone()
   nextQuarter.add 1, 'Q'
-  while quarter.isBefore TimelineVars.maxDate
+  while quarter.isBefore tv.maxDate
     # Parsing each year content
     currentYear = quarter.year()
     yearContent =
@@ -72,18 +75,18 @@ Template.timeline.created = ->
       # Loop through actions utill they aren't in the current quarter
       loop
         # Get out of the loop if all actions have been checked
-        break unless TimelineVars.scenario.planned_actions[currentAction]?
+        break unless tv.scenario.planned_actions[currentAction]?
         # Get current action date (set in the Scenario)
-        date = moment TimelineVars.scenario.planned_actions[currentAction].start
+        date = moment tv.scenario.planned_actions[currentAction].start
         # Check if current action is contained in the current quarter
         break unless date.isBetween quarter, nextQuarter
         # Denormalize date
-        TimelineVars.actions[currentAction].start = date
+        tv.actions[currentAction].start = date
         # Set the current action in the current quarter
-        quarterContent.tActions.push TimelineVars.actions[currentAction]
+        quarterContent.tActions.push tv.actions[currentAction]
         # Total costs
         # @FIXME
-        TimelineVars.totalCost += 100000
+        tv.totalCost += 100000
         # Check next action
         currentAction++
       # Group actions in quarter by name
@@ -96,15 +99,15 @@ Template.timeline.created = ->
           length: value.length
           actions: value
       # Budget line for chart
-      TimelineVars.charts.budget.push TimelineVars.scenario.total_expenditure
+      tv.charts.budget.push tv.scenario.total_expenditure
       # Labels for charts
-      TimelineVars.charts.ticks.push \
+      tv.charts.ticks.push \
         "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
       yearContent.quarterContent.push quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
-    TimelineVars.timelineActions.push yearContent
+    tv.timelineActions.push yearContent
 
 Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
