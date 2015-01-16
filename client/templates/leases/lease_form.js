@@ -3,6 +3,9 @@ AutoForm.hooks({
         before: {
             insert: function(doc, template) {
 
+                console.log(doc);
+                debugger
+
                 /* ------------------------------------- */
                 /* --- Insert EndUse data in Estate --- */
                 /* ------------------------------------- */
