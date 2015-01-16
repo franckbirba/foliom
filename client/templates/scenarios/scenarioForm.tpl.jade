@@ -70,6 +70,7 @@
         th €
         th {{_ 'efficiency_in_percent'}}
         th {{_ 'efficiency_in_kWhEF'}}
+        th {{_ 'technical_field'}}
         th {{_ 'tri_years'}}
         th {{_ 'comfort_impact'}}
       each displayActions
@@ -86,5 +87,6 @@
             each impact_assessment_fluids
               {{_ opportunity}} : {{or_kwhef}}
               br
+          td {{_ technical_field}}
           td {{internal_return}}
           td {{impact_assessment_general.comfort}}

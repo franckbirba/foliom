@@ -16,11 +16,19 @@ Template.scenarioForm.rendered = function() {
     $( "#sortable" ).disableSelection();
 
     // If we're editing a Scenario
-    if (Session.get('current_scenario_doc') !== null){
-        $('#scenario_name').val(Session.get('current_scenario_doc').name);
-        $('#duration').val(Session.get('current_scenario_doc').duration);
-        $('#total_expenditure').val(Session.get('current_scenario_doc').total_expenditure);
-        $('#roi_less_than').val(Session.get('current_scenario_doc').roi_less_than);
+    var curr_scenario = Session.get('current_scenario_doc');
+    if ( curr_scenario !== null){
+        $('#scenario_name').val(curr_scenario.name);
+        $('#duration').val(curr_scenario.duration);
+        $('#total_expenditure').val(curr_scenario.total_expenditure);
+        $('#roi_less_than').val(curr_scenario.roi_less_than);
+
+        //Set techField if it exists >> @BSE: make it work for several techFields
+        _.each(curr_scenario.criterion_list, function(criterion) {
+            if (criterion.label == "priority_to_techField") {
+                $('#addTechfield').val(criterion.input);
+            }
+        });
     }
 
     //Remove item on click
@@ -174,8 +182,8 @@ Template.scenarioForm.events({
     });
     //For each Criterion
     _.each(scenario.criterion_list, function(criterion) {
-        if (criterion.label == "energy_consum_atLeast_in_E_year") {
-            //@BSE: FROM HERE
+        if (criterion.label == "priority_to_techField") {
+            console.log(criterion.input);
         }
     });
 
