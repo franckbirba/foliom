@@ -4,7 +4,13 @@ Session.set 'timeline_action_bucket_displayed', false
 # @TODO Réservoir d'action en surimpression de l'ensemble de l'écran
 # @TODO Légende cachable
 # @TODO Tooltips en survol sur les charts
-# @TODO Regrouper les actions par leurs noms (c'est un type d'actions)
+
+DRAGGABLE_PROPERTIES =
+  cursor: '-webkit-grabbing'
+  scrollSensitivity: 100
+  scrollSpeed: 100
+  containment: 'table.timeline.timeline-year-table'
+  revert: 'invalid'
 
 # Isolate calculated value in a namespace
 @TimelineVars =
@@ -17,13 +23,17 @@ Session.set 'timeline_action_bucket_displayed', false
   minDate: null
   maxDate: null
   timelineActions: []
-  timelineLabels: ['S1 2015', 'S2 2015', 'S1 2016', 'S2 2016', 'S1 2017']
+  charts:
+    ticks: []
+    budget: []
 
 Template.timeline.created = ->
   # Reset former state
   TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
+  TimelineVars.charts.ticks = []
+  TimelineVars.charts.budget = []
   # @TODO fake : Fetch Scenario's data
   # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   TimelineVars.scenario = Scenarios.findOne()
@@ -48,13 +58,17 @@ Template.timeline.created = ->
   creationYear = (moment (Session.get 'current_config').creation_date).year()
   TimelineVars.minDate = moment year: creationYear
   TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
+  # Perform calculations
+  timelineCalctulations TimelineVars
+
+timelineCalctulations = (tv) ->
   # Index on the actions table
   currentAction = 0
   # Build formatted data
-  quarter = TimelineVars.minDate.clone()
+  quarter = tv.minDate.clone()
   nextQuarter = quarter.clone()
   nextQuarter.add 1, 'Q'
-  while quarter.isBefore TimelineVars.maxDate
+  while quarter.isBefore tv.maxDate
     # Parsing each year content
     currentYear = quarter.year()
     yearContent =
@@ -64,38 +78,48 @@ Template.timeline.created = ->
       # Parsing each quarter content
       quarterContent =
         value: quarter.quarter()
+        quarterValue: "{Q:#{quarter.quarter()},Y:#{currentYear}}"
         tActions: []
       # Loop through actions utill they aren't in the current quarter
       loop
         # Get out of the loop if all actions have been checked
-        break unless TimelineVars.scenario.planned_actions[currentAction]?
+        break unless tv.scenario.planned_actions[currentAction]?
         # Get current action date (set in the Scenario)
-        date = moment TimelineVars.scenario.planned_actions[currentAction].start
+        date = moment tv.scenario.planned_actions[currentAction].start
         # Check if current action is contained in the current quarter
         break unless date.isBetween quarter, nextQuarter
         # Denormalize date
-        TimelineVars.actions[currentAction].start = date
+        tv.actions[currentAction].start = date
         # Set the current action in the current quarter
-        quarterContent.tActions.push TimelineVars.actions[currentAction]
+        quarterContent.tActions.push tv.actions[currentAction]
         # Total costs
         # @FIXME
-        TimelineVars.totalCost += 100000
+        tv.totalCost += 100000
         # Check next action
         currentAction++
       # Group actions in quarter by name
       group = _.groupBy quarterContent.tActions, 'logo'
       quarterContent.tActions = []
       for key, value of group
-        quarterContent.tActions.push
+        item =
           # @TODO Remove ugly hack once logo are ready logo: key
           logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
-          action: value
+          buildingsToActions: '[' + (for action in value
+            "{building_id: '#{action.building_id}', \
+              actions_id: '#{action._id}}'"
+            ).join(',') + ']'
+        quarterContent.tActions.push item
+      # Budget line for chart
+      tv.charts.budget.push tv.scenario.total_expenditure
+      # Labels for charts
+      tv.charts.ticks.push \
+        "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
       yearContent.quarterContent.push quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
-    TimelineVars.timelineActions.push yearContent
+    tv.timelineActions.push yearContent
 
 Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
@@ -121,36 +145,48 @@ Template.timeline.helpers
 
 Template.timeline.rendered = ->
   # Make actions draggable and droppable
-  (this.$ '[data-role=\'draggable-action\']').draggable
-    cursor: '-webkit-grabbing'
-    scrollSensitivity: 100
-    scrollSpeed: 100
-    containment: 'table.timeline.timeline-year-table'
-    revert: 'invalid'
-    stop: (e, t) -> console.log 'Drag stopped', @, e, t
+  (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
   (@$ '[data-role=\'dropable-container\']').droppable
     hoverClass: 'dropable'
-    drop: (e, t) -> console.log 'Drop received', @, e, t
+    drop: (e, t) ->
+      $quarter = $ e.target
+      $action = $ e.toElement
+      # Adjust DOM
+      console.log 'New position', $quarter.attr 'data-value'
+      console.log 'Dropped', $action.attr 'data-value'
+      $newAction = $action.clone()
+      $newAction.attr 'style', 'position: relative;'
+      $newAction.draggable DRAGGABLE_PROPERTIES
+      $quarter.append $newAction
+      $action.remove()
+      # Modify action's start
+      # @TODO
   # Create SVG charts with Chartist and attach them to the DOM
   TimelineVar = window.TimelineVars
   TimelineVars.consumptionChart = new Chartist.Line \
     '[data-role=\'consumption-chart\']',
-    labels: TimelineVars.timelineLabels
+    labels: TimelineVars.charts.ticks
     series: [
       [3, 4, 4.5, 4.7, 5]
       [3, 3.5, 3.2, 3.1, 2]
       [3, 3.5, 4, 4.2, 4.5]
     ]
-  , low: 0
+  ,
+    low: 0
+    showPoint: false
+    axisX: showLabel: false, showGrid: false
   TimelineVars.planningBudgetChart = new Chartist.Line \
     '[data-role=\'budget-planning-chart\']',
-    labels: TimelineVars.timelineLabels
+    labels: TimelineVars.charts.ticks
     series: [
-      [5, 5, 5, 5, 5]
+      TimelineVars.charts.budget
       [0, 1, 2, 4, 4.7]
       [0, .5, 1.2, 2.5, 3.5]
     ]
-  , low: 0
+  ,
+    low: 0
+    showPoint: false
+    axisX: showLabel: false, showGrid: false
 
 Template.timeline.events
   # Change filter on the timeline

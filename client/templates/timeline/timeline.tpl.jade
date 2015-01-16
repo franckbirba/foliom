@@ -19,9 +19,11 @@
               each quarterContent
                 tr(data-value=value).timeline.timeline-quarter
                   td: h4.panel-inner-title {{_ 'quarter_abbreviation'}}#{value}
-                  td(data-role='dropable-container')
+                  // Droppable container contained an object with their quarter and year as data-value
+                  td(data-role='dropable-container', data-value=quarterValue)
                     each tActions
-                      .timeline.timeline-action-items(data-role='draggable-action')
+                      // Draggable actions contained their indices in the planned_actions within the scenario as data-value
+                      .timeline.timeline-action-items(data-role='draggable-action', data-value=buildingsToActions)
                           | !{logo}
                           span(data-value=length)= length
     // Appraisal, charts and available actions
