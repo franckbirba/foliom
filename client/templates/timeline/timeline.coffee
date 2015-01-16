@@ -164,8 +164,6 @@ timelineCalctulate = (tv) ->
         date = moment tv.scenario.planned_actions[currentAction].start
         # Check if current action is contained in the current quarter
         break unless date.isBetween quarter, nextQuarter
-        # Denormalize date
-        tv.actions[currentAction].start = date
         # Set the current action in the current quarter
         quarterContent.tActions.push tv.actions[currentAction]
         # Total costs
@@ -211,8 +209,9 @@ actionItemDropped = (e) ->
   actionsObj = JSON.parse $newActions.attr 'data-value'
   pactions = TimelineVars.scenario.planned_actions
   for action in actionsObj
-    idx = _.indexOf pactions, (_.findWhere pactions, {action_id: action.action_id})
+    idx = _.indexOf pactions,(_.findWhere pactions,{action_id:action.action_id})
     pactions[idx].start = (moment
+      second: 1 # @NOTE: A second is added so that inBetween evaluation works
       month: (quarterObj.Q - 1) * 3
       year: quarterObj.Y).toDate()
   # Recalculate
