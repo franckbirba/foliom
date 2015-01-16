@@ -38,10 +38,8 @@ Template.timeline.created = ->
   # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   TimelineVars.scenario = Scenarios.findOne()
   # @TODO check for unplanned actions
-  # Sort planned actions
-  pactions = TimelineVars.scenario.planned_actions
-  pactions = _.sortBy pactions, (item) -> (moment item.start).valueOf()
   # Get actions that matches the Ids in the Scenario
+  pactions = TimelineVars.scenario.planned_actions
   actionIds = _.pluck pactions, 'action_id'
   TimelineVars.actions = (Actions.find  _id: $in: actionIds).fetch()
   # Get each buildings for each actions
@@ -59,9 +57,87 @@ Template.timeline.created = ->
   TimelineVars.minDate = moment year: creationYear
   TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
   # Perform calculations
-  timelineCalctulations TimelineVars
+  timelineCalctulate TimelineVars
 
-timelineCalctulations = (tv) ->
+Template.timeline.helpers
+  scenarioName: -> TimelineVars.scenario.name
+  availableBuildings: -> TimelineVars.buildings
+  nbActions: -> TimelineVars.actions.length
+  timelineActions: -> TimelineVars.timelineActions
+  totalCost: -> (numeral TimelineVars.totalCost).format '0,0[.]00 $'
+  triGlobal: -> TAPi18n.__ 'calculating'
+  energySaving: -> TAPi18n.__ 'calculating'
+  # Legends are created as simple <table>
+  consumptionLegend: -> [
+    { color: 'colorA', name:  TAPi18n.__ 'consumption_noaction' }
+    { color: 'colorB', name:  TAPi18n.__ 'consumption_action_co2' }
+    { color: 'colorC', name:  TAPi18n.__ 'consumption_action_kwh' }
+  ]
+  planningBudgetLegend: -> [
+    { color: 'colorA', name:  TAPi18n.__ 'planning_budget_global' }
+    { color: 'colorB', name:  TAPi18n.__ 'planning_budget_investments' }
+    { color: 'colorC', name:  TAPi18n.__ 'planning_budget_subventions' }
+  ]
+  # Action bucket trigger
+  isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
+
+Template.timeline.rendered = ->
+  # Make actions draggable and droppable
+  (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
+  (@$ '[data-role=\'dropable-container\']').droppable
+    hoverClass: 'dropable', drop: actionItemDropped
+  # Create SVG charts with Chartist and attach them to the DOM
+  tv = window.TimelineVars
+  chartistProperties =
+    low: 0
+    showPoint: false
+    axisX: showLabel: false, showGrid: false
+  tv.consumptionChart = new Chartist.Line \
+    '[data-role=\'consumption-chart\']',
+    labels: tv.charts.ticks
+    series: [
+      [3, 4, 4.5, 4.7, 5]
+      [3, 3.5, 3.2, 3.1, 2]
+      [3, 3.5, 4, 4.2, 4.5]
+    ]
+  , chartistProperties
+  tv.planningBudgetChart = new Chartist.Line \
+    '[data-role=\'budget-planning-chart\']',
+    labels: tv.charts.ticks
+    series: [
+      tv.charts.budget
+      [0, 1, 2, 4, 4.7]
+      [0, .5, 1.2, 2.5, 3.5]
+    ]
+  , chartistProperties
+
+Template.timeline.events
+  # Change filter on the timeline
+  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
+    console.log 'Selected building', e.currentTarget.value
+  # Click on the action bucket
+  'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
+    # Display content of the action bucket
+    Session.set 'timeline_action_bucket_displayed', \
+      (not Session.get 'timeline_action_bucket_displayed')
+    # Change arrow orientation
+    t.$ '.action-bucket-arrow-icon'
+    .toggleClass 'glyphicon-circle-arrow-up'
+    .toggleClass 'glyphicon-circle-arrow-down'
+    # Reduce charts sizes and recalculate their SVG content
+    t.$ '[data-role=\'consumption-chart\']'
+    .toggleClass 'ct-octave'
+    .toggleClass 'ct-double-octave'
+    TimelineVars.consumptionChart.update()
+    t.$ '[data-role=\'budget-planning-chart\']'
+    .toggleClass 'ct-octave'
+    .toggleClass 'ct-double-octave'
+    TimelineVars.planningBudgetChart.update()
+
+timelineCalctulate = (tv) ->
+  # Sort planned actions
+  tv.scenario.planned_actions = _.sortBy tv.scenario.planned_actions, (item) ->
+    (moment item.start).valueOf()
   # Index on the actions table
   currentAction = 0
   # Build formatted data
@@ -107,7 +183,7 @@ timelineCalctulations = (tv) ->
           length: value.length
           buildingsToActions: '[' + (for action in value
             "{building_id: '#{action.building_id}', \
-              actions_id: '#{action._id}}'"
+              action_id: '#{action._id}}'"
             ).join(',') + ']'
         quarterContent.tActions.push item
       # Budget line for chart
@@ -121,92 +197,30 @@ timelineCalctulations = (tv) ->
       nextQuarter.add 1, 'Q'
     tv.timelineActions.push yearContent
 
-Template.timeline.helpers
-  scenarioName: -> TimelineVars.scenario.name
-  availableBuildings: -> TimelineVars.buildings
-  nbActions: -> TimelineVars.actions.length
-  timelineActions: -> TimelineVars.timelineActions
-  totalCost: -> (numeral TimelineVars.totalCost).format '0,0[.]00 $'
-  triGlobal: -> TAPi18n.__ 'calculating'
-  energySaving: -> TAPi18n.__ 'calculating'
-  # Legends are created as simple <table>
-  consumptionLegend: -> [
-    { color: 'colorA', name:  TAPi18n.__ 'consumption_noaction' }
-    { color: 'colorB', name:  TAPi18n.__ 'consumption_action_co2' }
-    { color: 'colorC', name:  TAPi18n.__ 'consumption_action_kwh' }
-  ]
-  planningBudgetLegend: -> [
-    { color: 'colorA', name:  TAPi18n.__ 'planning_budget_global' }
-    { color: 'colorB', name:  TAPi18n.__ 'planning_budget_investments' }
-    { color: 'colorC', name:  TAPi18n.__ 'planning_budget_subventions' }
-  ]
-  # Action bucket trigger
-  isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
-
-Template.timeline.rendered = ->
-  # Make actions draggable and droppable
-  (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
-  (@$ '[data-role=\'dropable-container\']').droppable
-    hoverClass: 'dropable'
-    drop: (e, t) ->
-      $quarter = $ e.target
-      $action = $ e.toElement
-      # Adjust DOM
-      console.log 'New position', $quarter.attr 'data-value'
-      console.log 'Dropped', $action.attr 'data-value'
-      $newAction = $action.clone()
-      $newAction.attr 'style', 'position: relative;'
-      $newAction.draggable DRAGGABLE_PROPERTIES
-      $quarter.append $newAction
-      $action.remove()
-      # Modify action's start
-      # @TODO
-  # Create SVG charts with Chartist and attach them to the DOM
-  TimelineVar = window.TimelineVars
-  TimelineVars.consumptionChart = new Chartist.Line \
-    '[data-role=\'consumption-chart\']',
-    labels: TimelineVars.charts.ticks
-    series: [
-      [3, 4, 4.5, 4.7, 5]
-      [3, 3.5, 3.2, 3.1, 2]
-      [3, 3.5, 4, 4.2, 4.5]
-    ]
-  ,
-    low: 0
-    showPoint: false
-    axisX: showLabel: false, showGrid: false
-  TimelineVars.planningBudgetChart = new Chartist.Line \
-    '[data-role=\'budget-planning-chart\']',
-    labels: TimelineVars.charts.ticks
-    series: [
-      TimelineVars.charts.budget
-      [0, 1, 2, 4, 4.7]
-      [0, .5, 1.2, 2.5, 3.5]
-    ]
-  ,
-    low: 0
-    showPoint: false
-    axisX: showLabel: false, showGrid: false
-
-Template.timeline.events
-  # Change filter on the timeline
-  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
-    console.log 'Selected building', e.currentTarget.value
-  # Click on the action bucket
-  'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
-    # Display content of the action bucket
-    Session.set 'timeline_action_bucket_displayed', \
-      (not Session.get 'timeline_action_bucket_displayed')
-    # Change arrow orientation
-    t.$ '.action-bucket-arrow-icon'
-    .toggleClass 'glyphicon-circle-arrow-up'
-    .toggleClass 'glyphicon-circle-arrow-down'
-    # Reduce charts sizes and recalculate their SVG content
-    t.$ '[data-role=\'consumption-chart\']'
-    .toggleClass 'ct-octave'
-    .toggleClass 'ct-double-octave'
-    TimelineVars.consumptionChart.update()
-    t.$ '[data-role=\'budget-planning-chart\']'
-    .toggleClass 'ct-octave'
-    .toggleClass 'ct-double-octave'
-    TimelineVars.planningBudgetChart.update()
+actionItemDropped = (e) ->
+  $quarter = $ e.target
+  $actions = $ e.toElement
+  # Adjust DOM
+  $newActions = $actions.clone()
+  $newActions.attr 'style', 'position: relative;'
+  $newActions.draggable DRAGGABLE_PROPERTIES
+  $quarter.append $newActions
+  $actions.remove()
+  # Modify action's start
+  quarterObj = $quarter.attr 'data-value'
+  actionsObj = $newActions.attr 'data-value'
+  pactions = TimelineVars.scenario.planned_actions
+  console.table 'Before', pactions
+  console.log 'actionsObj', actionsObj
+  for action in actionsObj
+    console.log 'action.actions_id', action.action_id
+    console.log "findWhere", _.findWhere pactions, {action_id: action.action_id}
+    idx = _.indexOf pactions, (_.findWhere pactions, {action_id: action.action_id})
+    console.log "indexOf", idx
+    pactions[idx].start = (moment
+      month: (quarterObj.Q - 1) * 3
+      year: quarterObj.Y).toDate()
+  console.table 'After', pactions
+  # Recalculate
+  #timelineCalctulate TimelineVars
+  # @TODO
