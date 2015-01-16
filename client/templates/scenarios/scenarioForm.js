@@ -15,12 +15,6 @@ Template.scenarioForm.rendered = function() {
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
 
-    //Remove item on click
-    $(".removeCriterion").click(function() {
-        // $(this).remove();
-        console.log( $(this).parents( ".criterion" )[0].remove() );
-    });
-
     // If we're editing a Scenario
     if (Session.get('current_scenario_doc') !== null){
         $('#scenario_name').val(Session.get('current_scenario_doc').name);
@@ -28,6 +22,14 @@ Template.scenarioForm.rendered = function() {
         $('#total_expenditure').val(Session.get('current_scenario_doc').total_expenditure);
         $('#roi_less_than').val(Session.get('current_scenario_doc').roi_less_than);
     }
+
+    //Remove item on click
+    $(".removeCriterion").click(function() {
+        // $(this).remove();
+        console.log( $(this).parents( ".criterion" )[0].remove() );
+    });
+
+
 };
 
 Template.scenarioForm.helpers({
@@ -49,18 +51,22 @@ Template.scenarioForm.helpers({
             return { label: item, value: item }
         });
     },
-    getCriterion: function(){
+    getCriterion: function(toAdd){
         var current_criterion_list ;
-        if ( Session.get('current_scenario_doc') ) {
-            current_criterion_list = Session.get('current_scenario_doc').criterion_list;
-        } else {
-            current_criterion_list = [
+        var toAddCriterionList = [
             {"label": "yearly_expense_max", "unit": "u_euro_year"},
             {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent"},
             {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc"},
             {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc"},
             {"label": "priority_to_techField", "type":"selector_techfield"}
             ];
+
+        if (toAdd == 'toAdd') return toAddCriterionList;
+
+        if ( Session.get('current_scenario_doc') ) {
+            current_criterion_list = Session.get('current_scenario_doc').criterion_list;
+        } else {
+            current_criterion_list = toAddCriterionList;
         }
         console.log("current_criterion_list");
         console.log(current_criterion_list);
@@ -139,12 +145,6 @@ Template.scenarioForm.events({
             // console.log(action);
 
             var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost*1).toFixed(2)*1;
-            // console.log('action.raw_roi');
-            // console.log(action.raw_roi);
-            // console.log('action.subventions.residual_cost');
-            // console.log(action.subventions.residual_cost*1);
-            // console.log('efficiency_ratio');
-            // console.log(efficiency_ratio);
 
           // Ensure 1st empty table
           if(!(scenario.planned_actions instanceof Array)) {
