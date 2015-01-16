@@ -59,6 +59,9 @@ Template.scenarioForm.helpers({
             return { label: item, value: item }
         });
     },
+    getBuildingName: function(building_id) {
+        return Buildings.findOne(building_id).building_name;
+    },
     getCriterion: function(toAdd){
         var current_criterion_list ;
         var toAddCriterionList = [
