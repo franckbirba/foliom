@@ -36,11 +36,21 @@ Meteor.startup(function () {
                   );
             }
         },
-        // toEnglish: function(itemToTranslate){
-        //     console.log( TAPi18n.__("Faisabilité site occupé", null, { lng: 'en' } ) );
-        //     console.log( TAPi18n.__("lead_disconnector", null, 'fr' ) );
-        //     console.log( TAPi18n.__("Conformité technique", 'en' ) );
-        // },
+        toEnglish: function(itemToTranslate){
+            // var endUses = EndUse.find().fetch()
+            // var endUsesWithBothLang =  _.map(endUses, function(item){
+            //     return { en: item.end_use_name, fr: TAPi18n.__(item.end_use_name, null, 'fr' ) }
+            // });
+            // console.log(endUsesWithBothLang);
+
+            return TAPi18n.__(itemToTranslate, null, 'fr' );
+
+            //@BSE ICI
+
+            // console.log( TAPi18n.__("Faisabilité site occupé", null, { lng: 'en' } ) );
+            // console.log( TAPi18n.__("lead_disconnector", null, 'fr' ) );
+            // console.log( TAPi18n.__("Conformité technique", 'en' ) );
+        },
 
         myServerMethod: function(doc) {
           try {

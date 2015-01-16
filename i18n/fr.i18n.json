@@ -162,6 +162,14 @@
     "end_use_aux": "Auxiliaires",
     "end_use_ecs": "ECS",
     "end_use_specific": "Spécifique",
+    //Inverted list to be able to use i18n to go back to english
+    "Chauffage": "end_use_heating",
+    "Climatisation": "end_use_AC",
+    "Ventilation": "end_use_ventilation",
+    "Eclairage": "end_use_lighting",
+    "Auxiliaires": "end_use_aux",
+    "ECS": "end_use_ecs",
+    "Spécifique": "end_use_specific",
 
 // end_use_heating: {
 //      fr: "Chauffage",

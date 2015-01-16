@@ -58,9 +58,8 @@
             .col-md-9
               select.scenarioForm#addCriterionSelect.form-control.addCriterion
                 option(value="" disabled selected) {{_ "select_criterion"}}
-                option Consommation d’énergie en € / an : réduction sur le Bâtiment au moins égale à (en %)
-                option 2
-                option 3
+                each getCriterion 'toAdd'
+                  option(value=label) {{_ label}}
     input.scenarioForm#scenario-submit.btn.btn-primary(type="submit" value="Save & See results")
     //ActionTable
     table.scenarioForm.actionTable
