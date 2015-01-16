@@ -134,8 +134,7 @@ Template.scenarioForm.events({
                         ).fetch();
 
         _.each(action_list, function(action) {
-
-            console.log(action);
+            // console.log(action);
 
             var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost).toFixed(2)*1;
 
@@ -143,6 +142,7 @@ Template.scenarioForm.events({
           if(!(scenario.planned_actions instanceof Array)) {
             scenario.planned_actions = [];
           }
+
             scenario.planned_actions.push( // Pour l'update: passer par un tableau intermédiaire
                 {
                     action_id : action._id,
@@ -151,6 +151,16 @@ Template.scenarioForm.events({
                 }
             );
         });
+
+        console.log("scenario.planned_actions");
+        console.log(scenario.planned_actions);
+
+        //SORT ACTIONS
+        //_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
+        _.sortBy(scenario.planned_actions, function(num){ return efficiency_ratio; });
+
+        console.log("scenario.planned_actions");
+        console.log(scenario.planned_actions);
     }
 
     _.each(building_list, function(item) {
