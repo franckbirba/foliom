@@ -1278,7 +1278,7 @@ Meteor.startup(function () {
                     "impact_assessment_fluids": [
                         {
                           "opportunity": "end_use_heating",
-                          "per_cent": "5"
+                          "per_cent": 5
                         }
                     ],
                     "project_type": "NA",
@@ -1295,10 +1295,10 @@ Meteor.startup(function () {
                     "works_duration": 2,
                     "action_lifetime": 15,
                     "investment": {
-                        "ratio": "5"
+                        "ratio": 5
                     },
                     "operating": {
-                        "ratio": "0.5"
+                        "ratio": 0.5
                     },
                     "raw_roi": 0,
                     "actualised_roi": 0,
@@ -1313,7 +1313,7 @@ Meteor.startup(function () {
                     "impact_assessment_fluids": [
                         {
                           "opportunity": "end_use_heating",
-                          "per_cent": "1"
+                          "per_cent": 1
                         }
                     ],
                     "project_type": "cr",
@@ -1330,7 +1330,7 @@ Meteor.startup(function () {
                     "works_duration": 1,
                     "action_lifetime": 3,
                     "investment": {
-                        "cost":"3000"
+                        "ratio": 2
                     },
                     "raw_roi": 0,
                     "actualised_roi": 0,
