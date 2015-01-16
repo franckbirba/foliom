@@ -149,21 +149,28 @@ Template.scenarioForm.events({
                 {
                     action_id : action._id,
                     start : new Date(),
-                    efficiency_ratio: efficiency_ratio
+                    efficiency_ratio: efficiency_ratio,
+                    savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
                 }
             );
-        });
-
-        //SORT ACTIONS
-        //Default sort
-        scenario.planned_actions = _.sortBy(scenario.planned_actions, function(item){
-            return -item.efficiency_ratio; //sortBy ranks in ascending order, thus the '-'
         });
 
     }
 
     _.each(building_list, function(item) {
         planActionsForBuilding(item._id);
+    });
+
+    //SORT ACTIONS
+    //Default sort
+    scenario.planned_actions = _.sortBy(scenario.planned_actions, function(item){
+        return -item.efficiency_ratio; //sortBy ranks in ascending order, thus the '-'
+    });
+    //For each Criterion
+    _.each(scenario.criterion_list, function(criterion) {
+        if (criterion.label == "energy_consum_atLeast_in_E_year") {
+            //@BSE: FROM HERE
+        }
     });
 
     console.log(scenario);
