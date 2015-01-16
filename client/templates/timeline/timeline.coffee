@@ -5,6 +5,13 @@ Session.set 'timeline_action_bucket_displayed', false
 # @TODO Légende cachable
 # @TODO Tooltips en survol sur les charts
 
+DRAGGABLE_PROPERTIES =
+  cursor: '-webkit-grabbing'
+  scrollSensitivity: 100
+  scrollSpeed: 100
+  containment: 'table.timeline.timeline-year-table'
+  revert: 'invalid'
+
 # Isolate calculated value in a namespace
 @TimelineVars =
   scenario: null
@@ -71,6 +78,7 @@ timelineCalctulations = (tv) ->
       # Parsing each quarter content
       quarterContent =
         value: quarter.quarter()
+        quarterValue: "{Q:#{quarter.quarter()},Y:#{currentYear}}"
         tActions: []
       # Loop through actions utill they aren't in the current quarter
       loop
@@ -93,11 +101,15 @@ timelineCalctulations = (tv) ->
       group = _.groupBy quarterContent.tActions, 'logo'
       quarterContent.tActions = []
       for key, value of group
-        quarterContent.tActions.push
+        item =
           # @TODO Remove ugly hack once logo are ready logo: key
           logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
-          actions: value
+          buildingsToActions: '[' + (for action in value
+            "{building_id: '#{action.building_id}', \
+              actions_id: '#{action._id}}'"
+            ).join(',') + ']'
+        quarterContent.tActions.push item
       # Budget line for chart
       tv.charts.budget.push tv.scenario.total_expenditure
       # Labels for charts
@@ -133,16 +145,22 @@ Template.timeline.helpers
 
 Template.timeline.rendered = ->
   # Make actions draggable and droppable
-  (this.$ '[data-role=\'draggable-action\']').draggable
-    cursor: '-webkit-grabbing'
-    scrollSensitivity: 100
-    scrollSpeed: 100
-    containment: 'table.timeline.timeline-year-table'
-    revert: 'invalid'
-    stop: (e, t) -> console.log 'Drag stopped', @, e, t
+  (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
   (@$ '[data-role=\'dropable-container\']').droppable
     hoverClass: 'dropable'
-    drop: (e, t) -> console.log 'Drop received', @, e, t
+    drop: (e, t) ->
+      $quarter = $ e.target
+      $action = $ e.toElement
+      # Adjust DOM
+      console.log 'New position', $quarter.attr 'data-value'
+      console.log 'Dropped', $action.attr 'data-value'
+      $newAction = $action.clone()
+      $newAction.attr 'style', 'position: relative;'
+      $newAction.draggable DRAGGABLE_PROPERTIES
+      $quarter.append $newAction
+      $action.remove()
+      # Modify action's start
+      # @TODO
   # Create SVG charts with Chartist and attach them to the DOM
   TimelineVar = window.TimelineVars
   TimelineVars.consumptionChart = new Chartist.Line \
