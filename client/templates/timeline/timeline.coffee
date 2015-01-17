@@ -127,10 +127,12 @@ Template.timeline.events
   # Change filter on action bucket
   'click [data-role=\'filter-actions\']': (e, t) ->
     $btnGroup = t.$ '[data-role=\'filter-actions\']'
-    $btnGroup.children().removeClass 'active'
     $selected = $ e.target
-    $selected.addClass 'active'
-    Session.set 'timeline-filter-actions', $selected.attr 'data-value'
+    value = $selected.attr 'data-value'
+    unless value is undefined
+      $btnGroup.children().removeClass 'active'
+      $selected.addClass 'active'
+      Session.set 'timeline-filter-actions', $selected.attr 'data-value'
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
     # Toggle translation
