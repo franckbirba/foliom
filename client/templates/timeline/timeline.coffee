@@ -233,7 +233,15 @@ timelineCalctulate = (tv) ->
     tv.timelineActions.push yearContent
   # Generate suites for each action
   for action, idx in tv.actions
+    # Denormalize date
     action.start = moment tv.scenario.planned_actions[idx].start
+    action.quarter = \
+      "#{TAPi18n.__ 'quarter_abbreviation'}#{action.start.format 'Q YYYY'}"
+    # Denormalize building's name
+    action.buildingName = (_.findWhere(tv.buildings, \
+      {_id: action.building_id})).building_name
+    # Denormalize and format cost
+    action.formattedCost = (numeral action.investment.cost).format '0,0[.]00 $'
     # Prepare triggering dates
     action.endDesign = action.start.clone().add action.design_duration, 'M'
     action.endWork = action.endDesign.clone().add action.works_duration, 'M'

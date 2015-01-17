@@ -56,7 +56,7 @@
           // Hide/show legend
           .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='consumptionChart')
           // The chart
-          .col-md-8(data-role='chart'): .ct-chart.ct-octave(data-chart='consumptionChart')
+          .col-md-8(data-role='chart').chart-fixed-height: .ct-chart.ct-octave(data-chart='consumptionChart')
           // The legend
           .col-md-4(data-role='legend'): small
             each consumptionLegend
@@ -66,7 +66,7 @@
           // Hide/show legend
           .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='planningBudgetChart')
           // The chart
-          .col-md-8(data-role='chart'): .ct-chart.ct-octave(data-chart='planningBudgetChart')
+          .col-md-8(data-role='chart').chart-fixed-height: .ct-chart.ct-octave(data-chart='planningBudgetChart')
           // The legend
           .col-md-4(data-role='legend'): small
             each planningBudgetLegend
@@ -89,10 +89,10 @@
           tbody
             each actionBucketTableBody
               tr
-                td= start
+                td= quarter
                 td= name
-                td= building_id
-                td= investment.cost
+                td= buildingName
+                td= formattedCost
                 td {{_ 'calculating'}}
                 td {{_ 'calculating'}}
                 td {{_ 'calculating'}}
