@@ -93,22 +93,12 @@ Template.timeline.rendered = ->
     showPoint: false
     axisX: showLabel: false, showGrid: false
   tv.consumptionChart = new Chartist.Line \
-    '[data-role=\'consumption-chart\']',
-    labels: tv.charts.ticks
-    series: [
-      [3, 4, 4.5, 4.7, 5]
-      [3, 3.5, 3.2, 3.1, 2]
-      [3, 3.5, 4, 4.2, 4.5]
-    ]
+    '[data-role=\'consumption-chart\']'
+  , getConsumptionChartData()
   , chartistProperties
   tv.planningBudgetChart = new Chartist.Line \
-    '[data-role=\'budget-planning-chart\']',
-    labels: tv.charts.ticks
-    series: [
-      tv.charts.budget
-      [0, 1, 2, 4, 4.7]
-      [0, .5, 1.2, 2.5, 3.5]
-    ]
+    '[data-role=\'budget-planning-chart\']'
+  , getPlanningBudgetChartData()
   , chartistProperties
 
 Template.timeline.events
@@ -138,12 +128,13 @@ timelineCalctulate = (tv) ->
   # Sort planned actions
   tv.scenario.planned_actions = _.sortBy tv.scenario.planned_actions, (item) ->
     (moment item.start).valueOf()
+  tv.charts.ticks = []
+  tv.charts.budget = []
   # Index on the actions table
   currentAction = 0
   # Build formatted data
   quarter = tv.minDate.clone()
-  nextQuarter = quarter.clone()
-  nextQuarter.add 1, 'Q'
+  nextQuarter = quarter.clone().add 1, 'Q'
   while quarter.isBefore tv.maxDate
     # Parsing each year content
     currentYear = quarter.year()
@@ -176,7 +167,7 @@ timelineCalctulate = (tv) ->
       for key, value of group
         item =
           # @TODO Remove ugly hack once logo are ready logo: key
-          logo: "&#5888#{Random.choice [0...10]};"
+          # logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
           buildingsToActions: JSON.stringify(for action in value
             building_id: action.building_id
@@ -193,6 +184,39 @@ timelineCalctulate = (tv) ->
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
     tv.timelineActions.push yearContent
+  # Generate suites for each action
+  for action, idx in tv.actions
+    action.start = moment tv.scenario.planned_actions[idx].start
+    # Prepare triggering dates
+    action.endDesign = action.start.clone().add action.design_duration, 'M'
+    action.endWork = action.endDesign.clone().add action.works_duration, 'M'
+    action.end = action.endWork.clone().add action.action_lifetime, 'Y'
+    action.investmentSuite = []
+    action.investmentSubventionedSuite = []
+    # Iterate over the scenario duration
+    quarter = tv.minDate.clone()
+    nextQuarter = quarter.clone().add 1, 'Q'
+    investment = 0
+    investmentSubventioned = 0
+    while quarter.isBefore tv.maxDate
+      if action.start.isBetween quarter, nextQuarter
+        investment = action.investment.cost
+        investmentSubventioned = action.subventions.residual_cost
+      action.investmentSuite.push investment
+      action.investmentSubventionedSuite.push investmentSubventioned
+      # Increment by 1 quarter
+      quarter.add 1, 'Q'
+      nextQuarter.add 1, 'Q'
+
+createArrayFilledWithZero = (size) ->
+  (Array.apply null, new Array size).map Number.prototype.valueOf, 0
+
+sumSuite = (arr, key) ->
+  results = createArrayFilledWithZero arr[0][key].length
+  for idx in [0...results.length]
+    for item in arr
+      results[idx] += item[key][idx]
+  results
 
 actionItemDropped = (e, t, what) ->
   $quarter = $ @
@@ -218,4 +242,23 @@ actionItemDropped = (e, t, what) ->
   # Update DB
   Scenarios.update {_id: TimelineVars.scenario._id},
     $set: planned_actions: pactions
-  # @TODO
+  # Refresh charts
+  TimelineVars.consumptionChart.update getConsumptionChartData()
+  TimelineVars.planningBudgetChart.update getPlanningBudgetChartData()
+  # @TODO Refresh table
+
+getConsumptionChartData = ->
+  labels: TimelineVars.charts.ticks
+  series: [
+    [3, 4, 4.5, 4.7, 5]
+    [3, 3.5, 3.2, 3.1, 2]
+    [3, 3.5, 4, 4.2, 4.5]
+  ]
+
+getPlanningBudgetChartData = ->
+  labels: TimelineVars.charts.ticks
+  series: [
+    TimelineVars.charts.budget
+    sumSuite TimelineVars.actions, 'investmentSuite'
+    sumSuite TimelineVars.actions, 'investmentSubventionedSuite'
+  ]
