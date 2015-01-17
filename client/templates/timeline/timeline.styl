@@ -112,12 +112,20 @@ roundIconSize = 1.5 * rondFontSize
     font-weight lighter
     &.colorA
       color colorA
+      &:before
+        background-color colorA
     &.colorB
       color colorB
+      &:before
+        background-color colorB
     &.colorC
       color colorC
+      &:before
+        background-color colorC
     &.colorD
       color colorD
+      &:before
+        background-color colorD
     &:before
       content ''
       display inline-block
@@ -127,14 +135,6 @@ roundIconSize = 1.5 * rondFontSize
       text-align center
       margin-right .5em
       padding 0
-      .colorA&
-        background-color colorA
-      .colorB&
-        background-color colorB
-      .colorC&
-        background-color colorC
-      .colorD&
-        background-color colorD
   // Action bucket
   .action-bucket-heading
     height headingHeight
