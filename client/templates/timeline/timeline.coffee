@@ -94,6 +94,8 @@ Template.timeline.helpers
 Template.timeline.rendered = ->
   # Reset action bucket's display when entering screen
   Session.set 'timeline_action_bucket_displayed', false
+  # Reset action bucket filters
+  Session.set 'timeline-filter-actions', 'all'
   # Make actions draggable and droppable
   (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
   (@$ '[data-role=\'dropable-container\']').droppable
@@ -122,6 +124,13 @@ Template.timeline.events
   # Change filter on the timeline
   'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
     console.log 'Selected building', e.currentTarget.value
+  # Change filter on action bucket
+  'click [data-role=\'filter-actions\']': (e, t) ->
+    $btnGroup = t.$ '[data-role=\'filter-actions\']'
+    $btnGroup.children().removeClass 'active'
+    $selected = $ e.target
+    $selected.addClass 'active'
+    Session.set 'timeline-filter-actions', $selected.attr 'data-value'
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
     # Toggle translation
@@ -130,6 +139,16 @@ Template.timeline.events
     # Display content of the action bucket
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
+    # Set the appropriate filter button
+    # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
+    #  button's group must wait so that all elements are inserted.
+    Meteor.setTimeout ->
+      $btnGroup = t.$ '[data-role=\'filter-actions\']'
+      $btnGroup.children().removeClass 'active'
+      $selected = $btnGroup.find \
+        "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
+      $selected.addClass 'active'
+    , 0
     # Change arrow orientation
     t.$ '.action-bucket-arrow-icon'
     .toggleClass 'glyphicon-circle-arrow-up'
@@ -307,8 +326,7 @@ getPlanningBudgetChartData = ->
     }
   ]
 
-easeOutQuad = (x, t, b, c, d) ->
-  -c * (t /= d) * (t - 2) + b
+easeOutQuad = (x, t, b, c, d) -> -c * (t /= d) * (t - 2) + b
 
 addToolTip = (dataChart) ->
   $chart = $ "[data-chart='#{dataChart}']"
