@@ -68,14 +68,14 @@ Template.timeline.helpers
   energySaving: -> TAPi18n.__ 'calculating'
   # Legends are created as simple <table>
   consumptionLegend: -> [
-    { color: 'colorA', name:  TAPi18n.__ 'consumption_noaction' }
-    { color: 'colorB', name:  TAPi18n.__ 'consumption_action_co2' }
-    { color: 'colorC', name:  TAPi18n.__ 'consumption_action_kwh' }
+    { color: 'colorA', name: TAPi18n.__ 'consumption_noaction' }
+    { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
+    { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
   ]
   planningBudgetLegend: -> [
-    { color: 'colorA', name:  TAPi18n.__ 'planning_budget_global' }
-    { color: 'colorB', name:  TAPi18n.__ 'planning_budget_investments' }
-    { color: 'colorC', name:  TAPi18n.__ 'planning_budget_subventions' }
+    { color: 'colorA', name: TAPi18n.__ 'planning_budget_global' }
+    { color: 'colorB', name: TAPi18n.__ 'planning_budget_investments' }
+    { color: 'colorC', name: TAPi18n.__ 'planning_budget_subventions' }
   ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
@@ -89,7 +89,7 @@ Template.timeline.rendered = ->
   tv = window.TimelineVars
   chartistProperties =
     low: 0
-    showPoint: false
+    showPoint: true
     axisX: showLabel: false, showGrid: false
   tv.consumptionChart = new Chartist.Line \
     '[data-chart=\'consumptionChart\']'
@@ -255,15 +255,62 @@ actionItemDropped = (e, t, what) ->
 getConsumptionChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
-    [3, 4, 4.5, 4.7, 5]
-    [3, 3.5, 3.2, 3.1, 2]
-    [3, 3.5, 4, 4.2, 4.5]
+    {
+      name: TAPi18n.__ 'consumption_noaction'
+      data: [3, 4, 4.5, 4.7, 5]
+    }
+    {
+      name: TAPi18n.__ 'consumption_action_co2'
+      data: [3, 3.5, 3.2, 3.1, 2]
+    }
+    {
+      name: TAPi18n.__ 'consumption_action_kwh'
+      data: [3, 3.5, 4, 4.2, 4.5]
+    }
   ]
 
 getPlanningBudgetChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
-    TimelineVars.charts.budget
-    sumSuite TimelineVars.actions, 'investmentSuite'
-    sumSuite TimelineVars.actions, 'investmentSubventionedSuite'
+    {
+      name: TAPi18n.__ 'planning_budget_global'
+      data: TimelineVars.charts.budget
+    }
+    {
+      name: TAPi18n.__ 'planning_budget_investments'
+      data: sumSuite TimelineVars.actions, 'investmentSuite'
+    }
+    {
+      name: TAPi18n.__ 'planning_budget_subventions'
+      data: sumSuite TimelineVars.actions, 'investmentSubventionedSuite'
+    }
   ]
+
+easeOutQuad = (x, t, b, c, d) ->
+  -c * (t /= d) * (t - 2) + b
+
+###
+$toolTip = $chart.append("<div class=\"tooltip\"></div>").find(".tooltip").hide()
+$chart.on "mouseenter", ".ct-point", ->
+  $point = $(this)
+  value = $point.attr("ct:value")
+  seriesName = $point.parent().attr("ct:series-name")
+  $point.animate
+    "stroke-width": "50px"
+  , 300, easeOutQuad
+  $toolTip.html(seriesName + "<br>" + value).show()
+  return
+
+$chart.on "mouseleave", ".ct-point", ->
+  $point = $(this)
+  $point.animate
+    "stroke-width": "20px"
+  , 300, easeOutQuad
+  $toolTip.hide()
+
+$chart.on "mousemove", (event) ->
+  $toolTip.css
+    left: (event.offsetX or event.originalEvent.layerX) - $toolTip.width() / 2 - 10
+    top: (event.offsetY or event.originalEvent.layerY) - $toolTip.height() - 40
+
+###

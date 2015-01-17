@@ -1,29 +1,29 @@
-.page.plan: .container
+.page.plan: .timeline.container
   // Scenario being displayed
   .row: .col-md-12: h1.page-title #{scenarioName}
   .row
     // Timeline
     .col-md-4: .panel.panel-primary
-      .panel-heading.timeline.timeline-header.noselect: clearfix
+      .panel-heading.timeline-header.noselect: clearfix
         h3.pull-left.panel-title {{_ 'timeline'}}
-        .timeline.timeline-filter.pull-right
+        .timeline-filter.pull-right
           select(data-trigger='timeline-trigger-building-filter')
             option(value='all') {{_ 'all'}}
             each availableBuildings
               option(value=_id)= building_name
-      .panel-body.timeline.timeline-year-panel.noselect: table.timeline.timeline-year-table
+      .panel-body.timeline-year-panel.noselect: table.timeline-year-table
         each timelineActions
           tr(data-value=yearValue)
-            td.timeline.timeline-year= yearValue
-            td: table.timeline.timeline-quarter-table
+            td.timeline-year= yearValue
+            td: table.timeline-quarter-table
               each quarterContent
-                tr(data-value=value).timeline.timeline-quarter
+                tr(data-value=value).timeline-quarter
                   td: h4.panel-inner-title {{_ 'quarter_abbreviation'}}#{value}
                   // Droppable container contained an object with their quarter and year as data-value
                   td(data-role='dropable-container', data-value=quarterValue)
                     each tActions
                       // Draggable actions contained their indices in the planned_actions within the scenario as data-value
-                      .timeline.timeline-action-items(data-role='draggable-action', data-value=buildingsToActions)
+                      .timeline-action-items(data-role='draggable-action', data-value=buildingsToActions)
                           | !{logo}
                           span(data-value=length)= length
     // Appraisal, charts and available actions
@@ -34,48 +34,48 @@
         .panel-body
           .row
             // Number of actions
-            .col-xs-3.timeline.appraisal-sep
+            .col-xs-3.appraisal-sep
               h4.panel-inner-title {{_ 'nb_actions'}}
-              p.timeline.appraisal-value #{nbActions} {{_ 'actions'}}
+              p.appraisal-value #{nbActions} {{_ 'actions'}}
             // Total costs
-            .col-xs-3.timeline.appraisal-sep
+            .col-xs-3.appraisal-sep
               h4.panel-inner-title {{_ 'total_cost'}}
               p.timeline.appraisal-value #{totalCost}
             // Global TRI
-            .col-xs-3.timeline.appraisal-sep
+            .col-xs-3.appraisal-sep
               h4.panel-inner-title {{_ 'global_tri'}}
-              p.timeline.appraisal-value #{triGlobal}
+              p.appraisal-value #{triGlobal}
             // Total costs
             .col-xs-3
               h4.panel-inner-title {{_ 'energy_saving'}}
-              p.timeline.appraisal-value #{energySaving}
+              p.appraisal-value #{energySaving}
       // The charts
       .row: .col-md-12: .panel.panel-primary: .panel-body
         // The consumption chart
         .row(data-role='consumptionChart')
           // Hide/show legend
-          .clearfix.timeline.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='consumptionChart')
+          .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='consumptionChart')
           // The chart
           .col-md-8(data-role='chart'): .ct-chart.ct-octave(data-chart='consumptionChart')
           // The legend as a simple table
           .col-md-4(data-role='legend'): small
             each consumptionLegend
-              .timeline.div.chart-legend(class=color)= name
+              .chart-legend(class=color)= name
         // The Planning budget chart
         .row(data-role='planningBudgetChart')
           // Hide/show legend
-          .clearfix.timeline.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='planningBudgetChart')
+          .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='planningBudgetChart')
           // The chart
           .col-md-8(data-role='chart'): .ct-chart.ct-octave(data-chart='planningBudgetChart')
           // The legend as a simple table
           .col-md-4(data-role='legend'): small
             each planningBudgetLegend
-              .timeline.div.chart-legend(class=color)= name
+              .chart-legend(class=color)= name
   // Action bucket
   .row: .col-md-12: .panel.panel.panel-primary
-    .panel-heading.timeline.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
+    .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
       h3.panel-title.pull-left {{ _'action_bucket'}}
-      .timeline.action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
+      .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
     if isActionBucketDisplayed
-      .panel-body.timeline.action-bucket-table
+      .panel-body.action-bucket-table
         p: strong TODO Table of available actions
