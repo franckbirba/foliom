@@ -453,6 +453,9 @@
 		"calculating": "...",
 		"energy_saving": "Economie d'énergie",
 		"action_bucket": "Réservoir d'actions",
+		"quarter": "Trimestre",
+		"action_type": "Type d'action",
+		"efficiency_percent": "Efficacité",
 
 		"consumption_noaction": "Consommation courante",
 		"consumption_action_co2": "Consommation après actions CO2",

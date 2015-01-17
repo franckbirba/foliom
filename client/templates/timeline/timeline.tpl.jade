@@ -78,4 +78,17 @@
       .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
     if isActionBucketDisplayed
       .panel-body.action-bucket-table
-        p: strong TODO Table of available actions
+        table.table.table-stripped
+          thead: tr
+            each actionBucketTableHeadings
+              th= this
+          tbody
+            each actionBucketTableBody
+              tr
+                td= start
+                td= name
+                td= building_id
+                td= investment.cost
+                td {{_ 'calculating'}}
+                td {{_ 'calculating'}}
+                td {{_ 'calculating'}}

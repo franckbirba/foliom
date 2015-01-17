@@ -76,8 +76,21 @@ Template.timeline.helpers
   ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
+  # Action bucket's exports as table
+  actionBucketTableHeadings: -> [
+    TAPi18n.__ 'quarter'
+    TAPi18n.__ 'action_type'
+    TAPi18n.__ 'building'
+    '€'
+    "#{TAPi18n.__ 'efficiency'} (%)"
+    "#{TAPi18n.__ 'efficiency'} (kWh)"
+    'TRI'
+  ]
+  actionBucketTableBody: -> TimelineVars.actions
 
 Template.timeline.rendered = ->
+  # Reset action bucket's display when entering screen
+  Session.set 'timeline_action_bucket_displayed', false
   # Make actions draggable and droppable
   (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
   (@$ '[data-role=\'dropable-container\']').droppable

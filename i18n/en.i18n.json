@@ -98,6 +98,9 @@
 		"calculating": "...",
 		"energy_saving": "Energy saving",
 		"action_bucket": "Action bucket",
+		"quarter": "Quarter",
+		"action_type": "Action type",
+		"efficiency": "Efficiency",
 
 		"consumption_noaction": "Current consumption",
 		"consumption_action_co2": "Consommation after CO2 actions",
