@@ -89,7 +89,14 @@ Template.timeline.helpers
     "#{TAPi18n.__ 'efficiency'} (kWh)"
     'TRI'
   ]
-  actionBucketTableBody: -> TimelineVars.actions
+  actionBucketTableBody: ->
+    filter = Session.get 'timeline-filter-actions'
+    switch filter
+      when 'planned'
+        _.filter TimelineVars.actions, (action) -> action.start?
+      when 'unplanned'
+        _.filter TimelineVars.actions, (action) -> action.start is undefined
+      else TimelineVars.actions
 
 Template.timeline.rendered = ->
   # Reset action bucket's display when entering screen
