@@ -2,7 +2,6 @@
 Session.set 'timeline_action_bucket_displayed', false
 
 # @TODO Réservoir d'action en surimpression de l'ensemble de l'écran
-# @TODO Tooltips en survol sur les charts
 
 DRAGGABLE_PROPERTIES =
   cursor: '-webkit-grabbing'
@@ -89,6 +88,7 @@ Template.timeline.rendered = ->
   tv = window.TimelineVars
   chartistProperties =
     low: 0
+    lineSmooth: false
     showPoint: true
     axisX: showLabel: false, showGrid: false
   tv.consumptionChart = new Chartist.Line \
@@ -99,6 +99,10 @@ Template.timeline.rendered = ->
     '[data-chart=\'planningBudgetChart\']'
   , getPlanningBudgetChartData()
   , chartistProperties
+  # Add tooltips to the charts
+  tv.toolTips = {}
+  addToolTip 'consumptionChart'
+  addToolTip 'planningBudgetChart'
 
 Template.timeline.events
   # Change filter on the timeline
@@ -289,28 +293,24 @@ getPlanningBudgetChartData = ->
 easeOutQuad = (x, t, b, c, d) ->
   -c * (t /= d) * (t - 2) + b
 
-###
-$toolTip = $chart.append("<div class=\"tooltip\"></div>").find(".tooltip").hide()
-$chart.on "mouseenter", ".ct-point", ->
-  $point = $(this)
-  value = $point.attr("ct:value")
-  seriesName = $point.parent().attr("ct:series-name")
-  $point.animate
-    "stroke-width": "50px"
-  , 300, easeOutQuad
-  $toolTip.html(seriesName + "<br>" + value).show()
-  return
-
-$chart.on "mouseleave", ".ct-point", ->
-  $point = $(this)
-  $point.animate
-    "stroke-width": "20px"
-  , 300, easeOutQuad
-  $toolTip.hide()
-
-$chart.on "mousemove", (event) ->
-  $toolTip.css
-    left: (event.offsetX or event.originalEvent.layerX) - $toolTip.width() / 2 - 10
-    top: (event.offsetY or event.originalEvent.layerY) - $toolTip.height() - 40
-
-###
+addToolTip = (dataChart) ->
+  $chart = $ "[data-chart='#{dataChart}']"
+  TimelineVars.toolTips[dataChart] = $chart
+    .append '<div class="tooltip"></div>'
+    .find '.tooltip'
+    .hide()
+  $chart.on 'mouseenter', '.ct-point', ->
+    $point = $ @
+    value = $point.attr 'ct:value'
+    seriesName = $point.parent().attr 'ct:series-name'
+    $point.animate {'stroke-width': '20px'}, 100, easeOutQuad
+    (TimelineVars.toolTips[dataChart].html "#{seriesName}<br>#{value}").show()
+  $chart.on 'mouseleave', '.ct-point', ->
+    ($ @).animate {'stroke-width': '4px'}, 100, easeOutQuad
+    TimelineVars.toolTips[dataChart].hide()
+  $chart.on 'mousemove', (e) ->
+    TimelineVars.toolTips[dataChart].css
+      left: (e.offsetX or e.originalEvent.layerX) - \
+        TimelineVars.toolTips[dataChart].width() / 2 - 10
+      top: (e.offsetY or e.originalEvent.layerY) - \
+        TimelineVars.toolTips[dataChart].height() - 40
