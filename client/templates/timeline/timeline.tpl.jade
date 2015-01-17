@@ -78,6 +78,10 @@
       .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
     if isActionBucketDisplayed
       .panel-body.action-bucket-table
+        .btn-group.btn-group-xs.action-bucket-selector
+          button.btn.btn-default.active {{_ 'all_female_plural'}}
+          button.btn.btn-default {{_ 'planned'}}
+          button.btn.btn-default {{_ 'unplanned'}}
         table.table.table-stripped
           thead: tr
             each actionBucketTableHeadings

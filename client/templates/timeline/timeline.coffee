@@ -1,3 +1,6 @@
+# @TODO Planned action vs unplanned actions
+# @TODO Filters on buildings
+
 # Action bucket is hidden by default
 Session.set 'timeline_action_bucket_displayed', false
 
