@@ -92,11 +92,11 @@ Template.timeline.rendered = ->
     showPoint: false
     axisX: showLabel: false, showGrid: false
   tv.consumptionChart = new Chartist.Line \
-    '[data-role=\'consumption-chart\']'
+    '[data-chart=\'consumptionChart\']'
   , getConsumptionChartData()
   , chartistProperties
   tv.planningBudgetChart = new Chartist.Line \
-    '[data-role=\'budget-planning-chart\']'
+    '[data-chart=\'planningBudgetChart\']'
   , getPlanningBudgetChartData()
   , chartistProperties
 
@@ -116,7 +116,8 @@ Template.timeline.events
   # Click on a hide/show legend
   'click [data-trigger=\'hideshow-legend\']': (e, t) ->
     button = t.$ e.target
-    widget = t.$ "[data-role='#{button.attr 'data-value'}']"
+    chartValue = button.attr 'data-value'
+    widget = t.$ "[data-role='#{chartValue}']"
     chart = widget.find '[data-role=\'chart\']'
     legend = widget.find '[data-role=\'legend\']'
     if button.hasClass 'glyphicon-eye-close'
@@ -124,6 +125,8 @@ Template.timeline.events
     else
       legend.show()
     (chart.toggleClass 'col-md-8').toggleClass 'col-md-11'
+    (chart.children().toggleClass 'ct-octave').toggleClass 'ct-major-twelfth'
+    TimelineVars[chartValue].update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
 
 timelineCalctulate = (tv) ->
