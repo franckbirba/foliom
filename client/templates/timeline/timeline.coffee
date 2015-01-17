@@ -2,7 +2,6 @@
 Session.set 'timeline_action_bucket_displayed', false
 
 # @TODO Réservoir d'action en surimpression de l'ensemble de l'écran
-# @TODO Légende cachable
 # @TODO Tooltips en survol sur les charts
 
 DRAGGABLE_PROPERTIES =
@@ -114,15 +113,18 @@ Template.timeline.events
     t.$ '.action-bucket-arrow-icon'
     .toggleClass 'glyphicon-circle-arrow-up'
     .toggleClass 'glyphicon-circle-arrow-down'
-    # Reduce charts sizes and recalculate their SVG content
-    t.$ '[data-role=\'consumption-chart\']'
-    .toggleClass 'ct-octave'
-    .toggleClass 'ct-double-octave'
-    TimelineVars.consumptionChart.update()
-    t.$ '[data-role=\'budget-planning-chart\']'
-    .toggleClass 'ct-octave'
-    .toggleClass 'ct-double-octave'
-    TimelineVars.planningBudgetChart.update()
+  # Click on a hide/show legend
+  'click [data-trigger=\'hideshow-legend\']': (e, t) ->
+    button = t.$ e.target
+    widget = t.$ "[data-role='#{button.attr 'data-value'}']"
+    chart = widget.find '[data-role=\'chart\']'
+    legend = widget.find '[data-role=\'legend\']'
+    if button.hasClass 'glyphicon-eye-close'
+      legend.hide()
+    else
+      legend.show()
+    (chart.toggleClass 'col-md-8').toggleClass 'col-md-11'
+    (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
 
 timelineCalctulate = (tv) ->
   # Sort planned actions
