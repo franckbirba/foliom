@@ -57,7 +57,7 @@
           .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='consumptionChart')
           // The chart
           .col-md-8(data-role='chart'): .ct-chart.ct-octave(data-chart='consumptionChart')
-          // The legend as a simple table
+          // The legend
           .col-md-4(data-role='legend'): small
             each consumptionLegend
               .chart-legend(class=color)= name
@@ -67,12 +67,12 @@
           .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='planningBudgetChart')
           // The chart
           .col-md-8(data-role='chart'): .ct-chart.ct-octave(data-chart='planningBudgetChart')
-          // The legend as a simple table
+          // The legend
           .col-md-4(data-role='legend'): small
             each planningBudgetLegend
               .chart-legend(class=color)= name
   // Action bucket
-  .row: .col-md-12: .panel.panel.panel-primary
+  .row.action-bucket: .col-md-12: .panel.panel.panel-primary
     .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
       h3.panel-title.pull-left {{ _'action_bucket'}}
       .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up

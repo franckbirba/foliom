@@ -1,8 +1,6 @@
 # Action bucket is hidden by default
 Session.set 'timeline_action_bucket_displayed', false
 
-# @TODO Réservoir d'action en surimpression de l'ensemble de l'écran
-
 DRAGGABLE_PROPERTIES =
   cursor: '-webkit-grabbing'
   scrollSensitivity: 100
@@ -110,6 +108,9 @@ Template.timeline.events
     console.log 'Selected building', e.currentTarget.value
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
+    # Toggle translation
+    t.$ '.action-bucket'
+    .toggleClass 'action-bucket-displayed'
     # Display content of the action bucket
     Session.set 'timeline_action_bucket_displayed', \
       (not Session.get 'timeline_action_bucket_displayed')
