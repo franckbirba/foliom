@@ -10,7 +10,7 @@ Template.messageBox.helpers
     filter.building_id = currentBuilding._id if currentBuilding?
     (Messages.find filter, sort: time: 1).fetch()
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
-  hasLink: (link) -> true if link?
+  hasLink: (link) -> link?
 
 Template.messageBox.events =
   'keydown input#message': (e, t) ->
