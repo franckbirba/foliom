@@ -7,8 +7,8 @@ Template.messageBox.helpers
   messages: ->
     filter = {}
     # @TODO @BSE Is filter on portfolio required?
-    currentPortfolio = Session.get 'current_portfolio_doc'
-    filter.portfolio_id = currentPortfolio if currentPortfolio?
+    #currentPortfolio = Session.get 'current_portfolio_doc'
+    #filter.portfolio_id = currentPortfolio if currentPortfolio?
     currentBuilding = Session.get 'current_building_doc'
     filter.building_id = currentBuilding._id if currentBuilding?
     (Messages.find filter, sort: time: 1).fetch()
@@ -32,9 +32,11 @@ sendMessage = (t) ->
       'Anonymous'
   $message = t.find '#message'
   unless message.value is ''
-    Messages.insert
+    msgContent =
       name: name
       message: $message.value
       time: Date.now()
-      building_id: (Session.get 'current_building_doc')._id
+    currentBuilding = Session.get 'current_building_doc'
+    msgContent.building_id = currentBuilding._id if currentBuilding
+    Messages.insert msgContent
     $message.value = ''
