@@ -20,6 +20,9 @@
 		"connect": "Connect",
 		"e_portfolio_what_is_it": "E-portfolio, what is it?",
 
+		/* Navbar */
+		"search": "Search",
+
     /* Apply Actions */
     "actions_apply": "Apply actions on your portfolio",
     "select_portfolio": "Select your portfolio:",
@@ -65,9 +68,13 @@
 
 		"estate": "Estate",
 		"portfolio": "Portfolio",
+		"new_portfolio": "New portfolio",
 		"building": "Building",
+		"buildings": "Buildings",
+		"new_building": "New building",
 		"lease": "Lease",
 		"fluid": "Fluid",
+		"import": "Import",
 
     "estate_name": "Estate name",
     "u_euro": "€",
@@ -82,8 +89,17 @@
 		"low_emission_of_greenhouse_gases": "Low emission GHG",
 		"strong_emission_of_greenhouse_gases": "High emission GHG",
 
+		/* Action Form */
+		"actionList_title": "Parameter generic actions",
+
     /* Message Box */
     "messages": "Messages & Alerts",
+		"type_msg_here": "Type your message here...",
+		"send": "Send",
+
+		/* Scenarios */
+		"schemaDir_create": "Develop blueprint",
+		"create_scenario": "Create scenario",
 
 		/* Timeline screen */
 		"scenario": "Scenario",
@@ -98,6 +114,12 @@
 		"calculating": "...",
 		"energy_saving": "Energy saving",
 		"action_bucket": "Action bucket",
+		"all_female_plural": "All",
+		"planned": "Planned",
+		"unplanned": "Unplanned",
+		"quarter": "Quarter",
+		"action_type": "Action type",
+		"efficiency": "Efficiency",
 
 		"consumption_noaction": "Current consumption",
 		"consumption_action_co2": "Consommation after CO2 actions",

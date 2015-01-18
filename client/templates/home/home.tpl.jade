@@ -1,17 +1,17 @@
-.page.home
-  .container
-    .row: .col-md-12
-      h1.page-title {{_ "hello"}} {{username}}
-    .row
-      .col-md-8
-        .row
-          .col-md-6: .home.main-menu.sextan
-            a.btn.btn-default(href='/observatory') {{_ 'observe'}}
-          .col-md-6: .home.main-menu.compass
-            a.btn.btn-default(href='/actions-home') {{_ 'plan'}}
-        .row: .col-md-12
-          .home.followup-tools
-            p {{_ 'followup_tools'}}
-      .col-md-4
-        .home.messages
-          button.btn.btn-default(href='/actions-home') MsgBox
+.page.home: .container
+  // Page's title as a welcome message
+  .row: .col-md-12: h1.page-title {{_ "hello"}} {{username}}
+  // Main row
+  .row.all-except-title
+    .col-md-8
+      .row
+        // Access to Observe section
+        .col-md-6: .main-menu.sextan: a.btn.btn-default(href='/observatory') {{_ 'observe'}}
+        // Access to Plan section
+        .col-md-6: .main-menu.compass: a.btn.btn-default(href='/actions-home') {{_ 'plan'}}
+      // Fake chart
+      .row: .col-md-12: .panel.panel-primary.followup-tools: .panel-body
+        p {{_ 'followup_tools'}}
+    // Message box
+    .col-md-4: .messages
+      +messageBox

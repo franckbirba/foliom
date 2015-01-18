@@ -1,6 +1,6 @@
-.page.plan: .container: .row
-  .col-md-3: .text-center
-      p: img(src='/icon/actionIcons/iconmonstr-gear-10-icon-256.png', width='100')
+.page.plan.scenarioList: .container: .row
+  .col-md-3.text-center
+      div: span.fa.fa-gears.fa-5x
       h4 {{_ "schemaDir_create"}}
   .col-md-9
     #portfolioSelectZone
@@ -19,5 +19,7 @@
       .col-md-4
         #scenarioCreate.scenarioItem
           a.newScenario(href='')
-            img(src='/icon/actionIcons/iconmonstr-plus-5-icon-256.png', width='50')
+            div: span.fa-stack.fa-lg
+              i.fa.fa-circle-o.fa-stack-2x
+              i.fa.fa-plus
             div {{_ "create_scenario"}}

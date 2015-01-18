@@ -19,6 +19,9 @@
 		"your_password": "Votre mot de passe",
 		"connect": "Se connecter",
 		"e_portfolio_what_is_it": "E-portfolio, qu'est-ce que c'est ?",
+		
+		/* Navbar */
+		"search": "Rechercher",
 
 		/* Estate */
 		"new_estate": "Nouvel estate",
@@ -61,9 +64,13 @@
 
     "estate": "Estate",
     "portfolio": "Portfolio",
+		"new_portfolio": "Nouveau portfolio",
     "building": "Bâtiment",
+		"buildings": "Bâtiments",
+		"new_building": "Nouveau bâtiment",
     "lease": "Bail",
     "fluid": "Fluide",
+		"import": "Importer",
 
     "In": "En",
 
@@ -119,7 +126,7 @@
     /* Building detail */
     "summary": "Résumé",
     "assessment": "Bilan",
-		"actionRecap": "Récépitulatif des actions",
+		"actionRecap": "Récapitulatif des actions",
 		"efficient_housing": "Logement économe",
 		"high_energy_housing": "Logement énergivore",
 		"low_emission_of_greenhouse_gases": "Faible émission de GES",
@@ -382,7 +389,8 @@
 
     /* Message Box */
     "messages": "Messages & Alertes",
-
+		"type_msg_here": "Tapez votre message ici...",
+		"send": "Envoyer",
 
 
     /* Scenarios */
@@ -453,6 +461,12 @@
 		"calculating": "...",
 		"energy_saving": "Economie d'énergie",
 		"action_bucket": "Réservoir d'actions",
+		"all_female_plural": "Toutes",
+		"planned": "Planifiées",
+		"unplanned": "Non planifiées",
+		"quarter": "Trimestre",
+		"action_type": "Type d'action",
+		"efficiency_percent": "Efficacité",
 
 		"consumption_noaction": "Consommation courante",
 		"consumption_action_co2": "Consommation après actions CO2",

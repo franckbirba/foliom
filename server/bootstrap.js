@@ -862,7 +862,7 @@ Meteor.startup(function () {
         var data = [
             {
               "_id": "3tdkJMaCWcuHLotJw",
-              "name": "p1",
+              "name": "Porfolio 1",
               "address": {
                 "street": "1 rue des Pyrénées",
                 "zip": 75020,
@@ -879,7 +879,7 @@ Meteor.startup(function () {
         var data = [
             {
               "_id": "25bQcnwe2RZHdjsu5",
-              "building_name": "BâtimentTest",
+              "building_name": "Bâtiment Test",
               "address": {
                 "street": "1 rue des Prairies",
                 "zip": 75020,

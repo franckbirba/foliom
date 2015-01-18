@@ -1,0 +1,18 @@
+.panel.panel-primary.chat
+  .panel-heading: h3.panel-title
+    span.glyphicon.glyphicon-comment
+    | {{_ "messages"}}
+  #messages.panel-body.chat-panel
+    ul.chat
+      each messages
+        li.left.clearfix
+          .chat-body.clearfix
+            .header
+              strong.primary-font= name
+              small.pull-right.text-muted
+                span.glyphicon.glyphicon-time
+                | {{prettifyDate time}}
+            p= message
+  .panel-footer: .input-group
+    input#message.form-control.input-sm(type='text', placeholder="{{_ 'type_msg_here'}}")
+    span.input-group-btn: button#btn-chat.btn.btn-sm {{_ 'send'}}

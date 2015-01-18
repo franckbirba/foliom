@@ -1,6 +1,6 @@
-.page.plan: .container: .row
-  .col-md-3: .text-center
-      p: img(src='/icon/actionIcons/iconmonstr-gear-10-icon-256.png', width='100')
+.page.plan.actionList: .container: .row
+  .col-md-3.text-center
+      div: span.fa.fa-gears.fa-5x
       h4 {{_ "actionList_title"}}
       .newActionBtn: a.btn.btn-primary.newGenericActionBtn(role='button') {{_ "new_generic_action"}}
       .newActionBtn: a.btn.btn-primary(href='{{pathFor "actions-apply"}}', role='button') Appliquer les Actions
@@ -23,5 +23,7 @@
     .col-md-4
       .actionList.actionCreate
         a.newUserTempalteAction(href='')
-          img(src='/icon/actionIcons/iconmonstr-plus-5-icon-256.png', width='50')
+          div: span.fa-stack.fa-lg
+            i.fa.fa-circle-o.fa-stack-2x
+            i.fa.fa-plus          
           div {{_ "newUserTemplateAction"}}
