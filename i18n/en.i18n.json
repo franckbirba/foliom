@@ -94,6 +94,7 @@
 
 		/* Scenarios */
 		"schemaDir_create": "Develop blueprint",
+		"create_scenario": "Create scenario",
 
 		/* Timeline screen */
 		"scenario": "Scenario",
