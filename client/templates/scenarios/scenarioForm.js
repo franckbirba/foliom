@@ -1,3 +1,5 @@
+//https://github.com/oorabona/reactive-table
+
 Template.scenarioForm.helpers({
   name_pl: function() {
     return TAPi18n.__('name');
@@ -65,11 +67,11 @@ Template.scenarioForm.helpers({
     getCriterion: function(toAdd){
         var current_criterion_list ;
         var toAddCriterionList = [
-            {"label": "yearly_expense_max", "unit": "u_euro_year"},
-            {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent"},
-            {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc"},
-            {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc"},
-            {"label": "priority_to_techField", "type":"selector_techfield"}
+            {"label": "yearly_expense_max", "unit": "u_euro_year", "weight": 0},
+            {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent", "weight": 0},
+            {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc", "weight": 0},
+            {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc", "weight": 0},
+            {"label": "priority_to_techField", "type":"selector_techfield", "weight": 0}
             ];
 
         if (toAdd == 'toAdd') return toAddCriterionList;
