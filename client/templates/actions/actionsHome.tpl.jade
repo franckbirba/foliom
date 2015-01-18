@@ -1,4 +1,10 @@
-.page.plan: .container: .row
-  .col-md-4: a.btn.btn-primary(href='{{pathFor "actions-list"}}') {{_ "actionList_title"}}
-  .col-md-4: a.btn.btn-primary(href='{{pathFor "actions-apply"}}') {{_ "actions_apply"}}
-  .col-md-4: a.btn.btn-primary(href='{{pathFor "scenarioList"}}') {{_ "schemaDir_create"}}
+.page.plan.actionsHome: .container: .row
+  .col-md-4.text-center: a.btn.btn-primary(href='{{pathFor "actions-list"}}')
+    div: span.glyphicon.glyphicon-screenshot
+    div {{_ 'actionList_title'}}
+  .col-md-4.text-center: a.btn.btn-primary(href='{{pathFor "actions-apply"}}')
+    div: span.glyphicon.glyphicon-save
+    div {{_ 'actions_apply'}}
+  .col-md-4.text-center: a.btn.btn-primary(href='{{pathFor "scenarioList"}}')
+    div: span.glyphicon.glyphicon-road
+    div {{_ 'schemaDir_create'}}

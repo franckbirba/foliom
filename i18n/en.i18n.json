@@ -86,8 +86,14 @@
 		"low_emission_of_greenhouse_gases": "Low emission GHG",
 		"strong_emission_of_greenhouse_gases": "High emission GHG",
 
+		/* Action Form */
+		"actionList_title": "Parameter generic actions",
+
     /* Message Box */
     "messages": "Messages & Alerts",
+
+		/* Scenarios */
+		"schemaDir_create": "Develop blueprint",
 
 		/* Timeline screen */
 		"scenario": "Scenario",
