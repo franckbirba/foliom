@@ -12,7 +12,6 @@ Tracker.autorun(function () {
         var curr_config = Configurations.findOne( { "master": false }) ;
         if (curr_config) { Session.set('current_config', curr_config ) ; }
 
-
         //PORTFOLIOS
         Meteor.subscribe('portfolios',  estate_doc_id) ;
         Session.set('current_portfolio_doc', undefined ); // Empty the current Portfolio doc
@@ -43,7 +42,6 @@ Template.nav.events(
 	}
 );
 
-
 Template.nav.helpers({
 	currentEstate: function(){
 		var estate = Session.get('current_estate_doc');
@@ -55,8 +53,6 @@ Template.nav.helpers({
 	},
 	activPage: function(menuEntry){
 		var current = document.URL.split("/").pop();
-				// console.log(menuEntry, current);
-
 		if(current === menuEntry)
 			return 'active';
 		return "";
