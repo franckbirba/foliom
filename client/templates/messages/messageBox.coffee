@@ -13,6 +13,10 @@ Template.messageBox.helpers
 Template.messageBox.helpers
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
 
+Template.messageBox.helpers
+  hasLink: (link) -> true if link?
+
+
 Template.messageBox.events =
   'keydown input#message': (e, t) ->
     return unless e.which is 13

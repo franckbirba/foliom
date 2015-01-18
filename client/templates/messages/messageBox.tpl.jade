@@ -12,7 +12,10 @@
               small.pull-right.text-muted
                 span.glyphicon.glyphicon-time
                 | {{prettifyDate time}}
-            p= message
+            if hasLink link
+              p: a(href=link)= message
+            else
+              p= message
   .panel-footer: .input-group
     input#message.form-control.input-sm(type='text', placeholder="{{_ 'type_msg_here'}}")
     span.input-group-btn: button#btn-chat.btn.btn-sm {{_ 'send'}}
