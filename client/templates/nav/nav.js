@@ -33,11 +33,13 @@ Template.nav.events(
 			TAPi18n.setLanguage('en');
       moment.locale('en');
       numeral.language('en');
+      accountsUIBootstrap3.setLanguage('en');
 		},
 		'click .fr-lang': function() {
 			TAPi18n.setLanguage('fr');
       moment.locale('fr');
       numeral.language('fr');
+      accountsUIBootstrap3.setLanguage('fr');
 		},
 		'click .select_estate': function() { //??
 	    var est = Estates.findOne({_id : this._id});

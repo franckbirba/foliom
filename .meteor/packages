@@ -12,7 +12,6 @@ less
 accounts-password
 alanning:roles
 aldeed:delete-button
-accounts-ui
 forwarder:autoform-wizard
 nemo64:bootstrap
 d3js:d3
@@ -34,3 +33,4 @@ mquandalle:stylus
 tap:i18n
 fortawesome:fontawesome
 rzymek:moment-locale-fr
+ian:accounts-ui-bootstrap-3
