@@ -61,9 +61,13 @@
 
     "estate": "Estate",
     "portfolio": "Portfolio",
+		"new_portfolio": "Nouveau portfolio",
     "building": "Bâtiment",
+		"buildings": "Bâtiments",
+		"new_building": "Nouveau bâtiment",
     "lease": "Bail",
     "fluid": "Fluide",
+		"import": "Importer",
 
     "In": "En",
 
