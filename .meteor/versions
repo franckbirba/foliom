@@ -86,6 +86,7 @@ mquandalle:stylus@1.0.9
 nemo64:bootstrap@3.3.1_1
 nemo64:bootstrap-data@3.3.1_1
 npm-bcrypt@0.7.7
+numeral:numeral@1.5.3
 observe-sequence@1.0.4
 ordered-dict@1.0.2
 raix:eventemitter@0.1.1
@@ -112,7 +113,6 @@ ui@1.0.5
 underscore@1.0.2
 url@1.0.3
 vazco:maps@0.0.1
-vsivsi:numeral@1.5.3_1
 webapp@1.1.5
 webapp-hashing@1.0.2
 yogiben:autoform-file@0.1.7

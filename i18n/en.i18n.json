@@ -20,6 +20,9 @@
 		"connect": "Connect",
 		"e_portfolio_what_is_it": "E-portfolio, what is it?",
 
+		/* Navbar */
+		"search": "Search",
+
     /* Apply Actions */
     "actions_apply": "Apply actions on your portfolio",
     "select_portfolio": "Select your portfolio:",

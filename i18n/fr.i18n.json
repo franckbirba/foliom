@@ -19,6 +19,9 @@
 		"your_password": "Votre mot de passe",
 		"connect": "Se connecter",
 		"e_portfolio_what_is_it": "E-portfolio, qu'est-ce que c'est ?",
+		
+		/* Navbar */
+		"search": "Rechercher",
 
 		/* Estate */
 		"new_estate": "Nouvel estate",

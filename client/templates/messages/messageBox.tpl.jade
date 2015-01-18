@@ -14,5 +14,5 @@
                 | {{prettifyDate time}}
             p= message
   .panel-footer: .input-group
-    input#message.form-control.input-sm(type='text', placeholder=messagePlaceholder)
+    input#message.form-control.input-sm(type='text', placeholder="{{_ 'type_msg_here'}}")
     span.input-group-btn: button#btn-chat.btn.btn-sm {{_ 'send'}}

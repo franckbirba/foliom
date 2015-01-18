@@ -24,7 +24,6 @@ harrison:papa-parse
 harrison:babyparse
 mquandalle:jade
 coffeescript
-vsivsi:numeral
 mfpierre:chartist-js
 mizzao:jquery-ui
 momentjs:moment
@@ -35,3 +34,4 @@ tap:i18n@1.3.2
 ian:accounts-ui-bootstrap-3
 iron:router
 aldeed:simple-schema
+numeral:numeral

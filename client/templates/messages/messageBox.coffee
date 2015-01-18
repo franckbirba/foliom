@@ -14,7 +14,6 @@ Template.messageBox.helpers
     (Messages.find filter, sort: time: 1).fetch()
 
 Template.messageBox.helpers
-  messagePlaceholder: -> TAPi18n.__ 'type_msg_here'
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
 
 Template.messageBox.events =

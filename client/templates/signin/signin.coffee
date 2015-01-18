@@ -9,8 +9,6 @@ Template.signin.created = ->
 Template.signin.helpers
   errorMessages: -> _.values (Session.get 'signinErrors')
   errorClass: (key) -> (Session.get 'signinErrors')[key] and 'error'
-  emailPlaceholder: -> TAPi18n.__ 'your_email'
-  passwordPlaceholder: -> TAPi18n.__ 'your_password'
 
 Template.signin.events
   submit: (e, t) ->
