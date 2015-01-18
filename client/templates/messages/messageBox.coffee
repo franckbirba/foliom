@@ -6,9 +6,6 @@ Template.messageBox.rendered = ->
 Template.messageBox.helpers
   messages: ->
     filter = {}
-    # @TODO @BSE Is filter on portfolio required?
-    #currentPortfolio = Session.get 'current_portfolio_doc'
-    #filter.portfolio_id = currentPortfolio if currentPortfolio?
     currentBuilding = Session.get 'current_building_doc'
     filter.building_id = currentBuilding._id if currentBuilding?
     (Messages.find filter, sort: time: 1).fetch()
