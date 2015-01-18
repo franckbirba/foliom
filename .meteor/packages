@@ -33,3 +33,4 @@ momentjs:moment
 mquandalle:stylus
 tap:i18n
 fortawesome:fontawesome
+rzymek:moment-locale-fr

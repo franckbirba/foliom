@@ -1,23 +1,23 @@
 // Subscribe for the correct configurations
-    Tracker.autorun(function () {
-        if (Session.get('current_estate_doc') ) {
-            // console.log("Estate doc changed to: " + Session.get('current_estate_doc').estate_name);
-            var estate_doc_id = Session.get('current_estate_doc')._id ;
+Tracker.autorun(function () {
+    if (Session.get('current_estate_doc') ) {
+        // console.log("Estate doc changed to: " + Session.get('current_estate_doc').estate_name);
+        var estate_doc_id = Session.get('current_estate_doc')._id ;
 
-            // CONFIGURATIONS
-            //Subscribe to the Estate config
-            Meteor.subscribe('configurations',  estate_doc_id) ;
+        // CONFIGURATIONS
+        //Subscribe to the Estate config
+        Meteor.subscribe('configurations',  estate_doc_id) ;
 
-            //Also set a Session var
-            var curr_config = Configurations.findOne( { "master": false }) ;
-            if (curr_config) { Session.set('current_config', curr_config ) ; }
+        //Also set a Session var
+        var curr_config = Configurations.findOne( { "master": false }) ;
+        if (curr_config) { Session.set('current_config', curr_config ) ; }
 
 
-            //PORTFOLIOS
-            Meteor.subscribe('portfolios',  estate_doc_id) ;
-            Session.set('current_portfolio_doc', undefined ); // Empty the current Portfolio doc
-        }
-    });
+        //PORTFOLIOS
+        Meteor.subscribe('portfolios',  estate_doc_id) ;
+        Session.set('current_portfolio_doc', undefined ); // Empty the current Portfolio doc
+    }
+});
 
 Template.nav.events(
 	{
@@ -31,21 +31,18 @@ Template.nav.events(
 		},
 		'click .en-lang': function() {
 			TAPi18n.setLanguage('en');
+      moment.locale('en');
       numeral.language('en');
 		},
 		'click .fr-lang': function() {
 			TAPi18n.setLanguage('fr');
+      moment.locale('fr');
       numeral.language('fr');
 		},
 		'click .select_estate': function() { //??
-	        var est = Estates.findOne({_id : this._id});
-            // console.log("tmp var est is: ");
-            // console.log(est);
-
-            Session.set('current_estate_doc', est );
-	        Session.set('editingMasterCfg', false);
-
-	        // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
+	    var est = Estates.findOne({_id : this._id});
+      Session.set('current_estate_doc', est );
+	    Session.set('editingMasterCfg', false);
 		}
 	}
 );

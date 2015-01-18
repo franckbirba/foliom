@@ -91,6 +91,8 @@
 
     /* Message Box */
     "messages": "Messages & Alerts",
+		"type_msg_here": "Type your message here...",
+		"send": "Send",
 
 		/* Scenarios */
 		"schemaDir_create": "Develop blueprint",

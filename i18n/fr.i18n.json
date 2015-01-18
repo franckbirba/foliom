@@ -386,7 +386,8 @@
 
     /* Message Box */
     "messages": "Messages & Alertes",
-
+		"type_msg_here": "Tapez votre message ici...",
+		"send": "Envoyer",
 
 
     /* Scenarios */
