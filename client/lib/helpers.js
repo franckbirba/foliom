@@ -65,16 +65,6 @@ Template.registerHelper("current_portfolio_name_H",
     }
 );
 
-Template.registerHelper("getProfilePicture",
-    function(){
-        var profile = Meteor.user().profile;
-        if(profile.picture){
-            return "/cfs/files/images/"+ profile.picture;
-        }
-        return ""
-    }
-);
-
 Template.registerHelper("getActionsList",
     function(){
         // ToDo : en cas d'update, il faut retirer l'Action en cours d'update. Sinon, cette même action va apparaître dans la liste (risque de référence circulaire)
@@ -85,15 +75,3 @@ Template.registerHelper("getActionsList",
                     ).fetch();
     }
 );
-
-// Template.registerHelper("beforeRemove",
-//     function () {
-//       return function (collection, id) {
-//         var doc = collection.findOne(id);
-//         console.log(doc);
-//         if (confirm('Really delete "' + doc.name + '"?')) {
-//           this.remove();
-//         }
-//       };
-//     }
-// );
