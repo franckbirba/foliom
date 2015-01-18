@@ -13,7 +13,7 @@
                 span.glyphicon.glyphicon-time
                 | {{prettifyDate time}}
             if hasLink link
-              p: a(href=link)= message
+              p: a(href=link, target='_blank')= message
             else
               p= message
   .panel-footer: .input-group
