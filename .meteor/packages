@@ -6,7 +6,6 @@
 standard-app-packages
 insecure
 aldeed:autoform
-iron:router
 aldeed:collection2
 less
 accounts-password
@@ -30,7 +29,9 @@ mfpierre:chartist-js
 mizzao:jquery-ui
 momentjs:moment
 mquandalle:stylus
-tap:i18n
 fortawesome:fontawesome
 rzymek:moment-locale-fr
+tap:i18n@1.3.2
 ian:accounts-ui-bootstrap-3
+iron:router
+aldeed:simple-schema
