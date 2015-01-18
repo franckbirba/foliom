@@ -9,13 +9,8 @@ Template.messageBox.helpers
     currentBuilding = Session.get 'current_building_doc'
     filter.building_id = currentBuilding._id if currentBuilding?
     (Messages.find filter, sort: time: 1).fetch()
-
-Template.messageBox.helpers
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
-
-Template.messageBox.helpers
   hasLink: (link) -> true if link?
-
 
 Template.messageBox.events =
   'keydown input#message': (e, t) ->
