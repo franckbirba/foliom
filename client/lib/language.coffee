@@ -13,5 +13,9 @@ numeral.language 'fr',
   currency:
     symbol: '€'
 
-# Switch to french language by default
-numeral.language 'fr'
+# Global function for easing language settings
+@setLanguage = (lang) ->
+  TAPi18n.setLanguage lang
+  moment.locale lang
+  numeral.language lang
+  accountsUIBootstrap3.setLanguage lang
