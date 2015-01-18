@@ -1,7 +1,7 @@
 Template.messageBox.rendered = ->
-  @$('#messages').scrollTop $("#messages").prop('scrollHeight')
+  @$('#messages').scrollTop $("#messages").prop 'scrollHeight'
   Messages.find().observe added: (newDocument, oldDocument) ->
-    $('#messages').scrollTop $('#messages').prop('scrollHeight')
+    $('#messages').scrollTop $('#messages').prop 'scrollHeight'
 
 Template.messageBox.helpers
   messages: ->

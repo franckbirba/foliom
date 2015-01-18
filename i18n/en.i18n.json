@@ -90,7 +90,10 @@
 		"strong_emission_of_greenhouse_gases": "High emission GHG",
 
 		/* Action Form */
-		"actionList_title": "Parameter generic actions",
+		"actionList_title": "Set generic actions",
+    "new_generic_action": "New generic action",
+    "newUserTemplateAction": "New action (blank)",
+		"apply_actions": "Apply actions",
 
     /* Message Box */
     "messages": "Messages & Alerts",
