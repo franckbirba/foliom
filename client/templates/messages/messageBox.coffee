@@ -3,12 +3,15 @@ Template.messageBox.rendered = ->
   Messages.find().observe added: (newDocument, oldDocument) ->
     $('#messages').scrollTop $('#messages').prop('scrollHeight')
 
-Template.messageBox.helpers messages: ->
-  #{portfolio_id: Session.get('current_portfolio_doc')._id }
-  Messages.find(
-    building_id: Session.get('current_building_doc')._id
-  , sort: time: 1
-  ).fetch()
+Template.messageBox.helpers
+  messages: ->
+    filter = {}
+    # @TODO @BSE Is filter on portfolio required?
+    currentPortfolio = Session.get 'current_portfolio_doc'
+    filter.portfolio_id = currentPortfolio if currentPortfolio?
+    currentBuilding = Session.get 'current_building_doc'
+    filter.building_id = currentBuilding._id if currentBuilding?
+    (Messages.find filter, sort: time: 1).fetch()
 
 Template.messageBox.helpers
   messagePlaceholder: -> TAPi18n.__ 'type_msg_here'
