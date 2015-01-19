@@ -142,12 +142,21 @@ Template.timeline.events
       Session.set 'timeline-filter-actions', $selected.attr 'data-value'
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
-    # Toggle translation
-    t.$ '.action-bucket'
-    .toggleClass 'action-bucket-displayed'
     # Display content of the action bucket
-    Session.set 'timeline_action_bucket_displayed', \
-      (not Session.get 'timeline_action_bucket_displayed')
+    isDisplayed = Session.get 'timeline_action_bucket_displayed'
+    if isDisplayed
+      # Toggle translation and wait for its end for
+      # removing action's bucket content
+      t.$ '.action-bucket'
+      .removeClass 'action-bucket-displayed'
+      .on TRANSITION_END_EVENT, ->
+        Session.set 'timeline_action_bucket_displayed', false
+    else
+      # Add action's bucket content before toggling animation
+      Session.set 'timeline_action_bucket_displayed', true
+      t.$ '.action-bucket'
+      .off TRANSITION_END_EVENT
+      .addClass 'action-bucket-displayed'
     # Set the appropriate filter button
     # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
     #  button's group must wait so that all elements are inserted.
