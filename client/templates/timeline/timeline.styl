@@ -1,3 +1,4 @@
+@import 'nib'
 @import 'client/stylesheets/colors.import.styl'
 
 headingHeight = 42px
@@ -178,10 +179,9 @@ roundIconSize = 1.5 * rondFontSize
     margin-left -20px
   // Action bucket
   .action-bucket
-    position relative
+    transition transform .3s ease-in-out
   .action-bucket-displayed
-    top -300px
-    margin-bottom -300px
+    transform translateY(-300px)
   .action-bucket-heading
     height headingHeight
     cursor pointer
