@@ -4,7 +4,6 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-insecure
 aldeed:autoform
 aldeed:collection2
 less
@@ -36,3 +35,4 @@ iron:router
 aldeed:simple-schema
 numeral:numeral
 danielqiu:feed
+insecure
