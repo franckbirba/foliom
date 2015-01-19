@@ -8,7 +8,7 @@ Template.messageBox.helpers
     filter = {}
     currentBuilding = Session.get 'current_building_doc'
     filter.building_id = currentBuilding._id if currentBuilding?
-    (Messages.find filter, sort: time: 1).fetch()
+    Messages.find filter, sort: time: 1
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
   hasLink: (link) -> link?
 
