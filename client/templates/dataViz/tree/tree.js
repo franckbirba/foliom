@@ -19,7 +19,7 @@ Template.treeTplt.rendered = function () {
 
     // Tree
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
-    totalHeight = 1500,
+    totalHeight = 1800,
     totalWidth = 600,
     width = totalWidth - margin.right - margin.left,
     height = totalHeight - margin.top - margin.bottom;
