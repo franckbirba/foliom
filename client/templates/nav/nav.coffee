@@ -12,7 +12,7 @@ Tracker.autorun ->
     #PORTFOLIOS
     Meteor.subscribe 'portfolios', estate_doc_id
     # Empty the current Portfolio doc
-    Session.set 'current_portfolio_doc', undefined
+    #Session.set 'current_portfolio_doc', undefined
 
 Template.nav.events
   'click .js-logout': ->
