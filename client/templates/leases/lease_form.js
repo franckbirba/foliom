@@ -3,8 +3,8 @@ AutoForm.hooks({
         before: {
             insert: function(doc, template) {
 
-                 var testDoc = jQuery.extend(true, {}, doc);
-                console.log(testDoc);
+                //  var testDoc = jQuery.extend(true, {}, doc);
+                // console.log(testDoc);
 
                 //Hack for textfields that we always want in English
                 //If language is not English
@@ -16,8 +16,8 @@ AutoForm.hooks({
                     });
                 }
 
-                console.log(doc);
-                debugger
+                // console.log(doc);
+                // debugger
 
                 /* ------------------------------------- */
                 /* --- Insert EndUse data in Estate --- */
@@ -149,7 +149,8 @@ Template.leaseForm.rendered = function () {
                 // console.log( TAPi18n.__($(this).val(), null, 'en' ) );
             });
 
-            if (debugMode){
+            var lease_autovalues = false;
+            if (lease_autovalues){
 
                 $("[name^='fluid_consumption_meter.'][name$='.first_year_value']").each(function( index ) {
                     $(this).val( randomIntFromInterval(0,100) );
