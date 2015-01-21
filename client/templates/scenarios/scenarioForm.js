@@ -11,10 +11,10 @@ Template.scenarioForm.rendered = function() {
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
 
-    // If we're editing a Scenario
-    // var curr_scenario = Session.get('current_scenario_doc');
     var curr_scenario = this.data;
-    if ( curr_scenario !== null){
+
+    // If we're editing a Scenario (eg. this.data isn't false)
+    if ( curr_scenario ){
         $('#scenario_name').val(curr_scenario.name);
         $('#duration').val(curr_scenario.duration);
         $('#total_expenditure').val(curr_scenario.total_expenditure);
@@ -69,8 +69,13 @@ Template.scenarioForm.helpers({
 
         if (toAdd == 'toAdd') return toAddCriterionList;
 
-        if ( Session.get('current_scenario_doc') ) {
-            current_criterion_list = Session.get('current_scenario_doc').criterion_list;
+        var curr_scenario = this; // we're in a helper, so the current scenario (already defined in Template.rendered) is an implicit context
+
+        // console.log("curr_scenario from this in HELPER");
+        // console.log(curr_scenario);
+
+        if ( curr_scenario.hasOwnProperty('criterion_list') ) {
+            current_criterion_list = curr_scenario.criterion_list;
         } else {
             current_criterion_list = toAddCriterionList;
         }
@@ -83,8 +88,8 @@ Template.scenarioForm.helpers({
     //     if(param =="name") return "Jelly";
     // },
     displayActions: function() {
-        if ( Session.get('current_scenario_doc') && Session.get('current_scenario_doc').planned_actions ) {
-            return _.map(Session.get('current_scenario_doc').planned_actions, function(action){
+        if ( this.hasOwnProperty('planned_actions') ) {
+            return _.map(this.planned_actions, function(action){
                 return Actions.findOne(action.action_id);
             });
         }
@@ -92,7 +97,7 @@ Template.scenarioForm.helpers({
 });
 
 Template.scenarioForm.events({
-  'submit form': function(e) {
+  'submit form': function(e, scenarioForm_template) {
     e.preventDefault();
 
     var scenario = {
@@ -185,11 +190,16 @@ Template.scenarioForm.events({
         }
     });
 
+    console.log("scenario");
     console.log(scenario);
 
-    if ( Session.get('current_scenario_doc') ) { // UPDATE case
+    var curr_scenario = scenarioForm_template.data;
+    console.log("curr_scenario");
+    console.log(curr_scenario);
+    if ( curr_scenario ) { // UPDATE case
+        console.log("update!");
         Scenarios.update(
-            Session.get('current_scenario_doc')._id,
+            curr_scenario._id,
             {
               $set: {
                 name: scenario.name,
@@ -201,12 +211,14 @@ Template.scenarioForm.events({
               }
             }
         );
+        //Re-render template to make sure everything is in order
+        Router.go('scenario-form', {_id: curr_scenario._id});
     } else { // INSERT
         var newScenario_id = Scenarios.insert(scenario);
+        //Re-render template to go to EDIT mode
+        Router.go('scenario-form', {_id: newScenario_id});
     }
-    Session.set('current_scenario_doc', scenario );
+    // Session.set('current_scenario_doc', scenario );
 
-
-    // Router.go('postPage', post);
   }
 });
