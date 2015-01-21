@@ -64,6 +64,24 @@ Meteor.startup(function () {
         }
   });
 
+  moment.locale('fr', {
+    relativeTime : {
+        future: "en %s",
+        past:   "%s ago",
+        s:  "secondes",
+        m:  "une minute",
+        mm: "%d minutes",
+        h:  "une heure",
+        hh: "%d hours",
+        d:  "a day",
+        dd: "%d days",
+        M:  "a month",
+        MM: "%d months",
+        y:  "a year",
+        yy: "%d years"
+    }
+  });
+
 	if (Meteor.users.find().count() === 0) {
 		console.log("creating user test");
     var testUser = Accounts.createUser({

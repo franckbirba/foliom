@@ -11,6 +11,7 @@ Template.messageBox.helpers
     Messages.find filter, sort: time: 1
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
   hasLink: (link) -> link?
+  isBuildingDetailTplt: -> Router.current().route.getName() == 'building-detail'
 
 Template.messageBox.events =
   'keydown input#message': (e, t) ->
@@ -22,7 +23,7 @@ sendMessage = (t) ->
   user = Meteor.user()
   name =
     if user?
-      "#{user.profile.firstName} - #{user.profile.lastName}"
+      "#{user.profile.firstName} #{user.profile.lastName}"
     else
       'Anonymous'
   $message = t.find '#message'
@@ -31,7 +32,8 @@ sendMessage = (t) ->
       name: name
       message: $message.value
       time: Date.now()
-    currentBuilding = Session.get 'current_building_doc'
+    if Router.current().route.getName() == 'building-detail'
+      currentBuilding = Session.get 'current_building_doc'
     msgContent.building_id = currentBuilding._id if currentBuilding
     Messages.insert msgContent
     $message.value = ''

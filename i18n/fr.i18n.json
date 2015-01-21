@@ -127,8 +127,8 @@
     "summary": "Résumé",
     "assessment": "Bilan",
 		"actionRecap": "Récapitulatif des actions",
-		"efficient_housing": "Logement économe",
-		"high_energy_housing": "Logement énergivore",
+		"efficient_housing": "Econome",
+		"high_energy_housing": "Energivore",
 		"low_emission_of_greenhouse_gases": "Faible émission de GES",
 		"strong_emission_of_greenhouse_gases": "Forte émission de GES",
 
