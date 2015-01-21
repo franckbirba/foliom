@@ -36,7 +36,7 @@ Router.map ->
   # Routes that matches their template's name
   routes = [
     'join', 'signin', 'settings', 'portfolios', 'observatory'
-    'user', 'selectors', 'scenarioForm_old', 'scenario-form', 'scenarioList', 'timeline', 'leaseForm'
+    'user', 'selectors', 'scenarioForm_old', 'scenarioList', 'timeline', 'leaseForm'
     # Buildings
     'buildings', 'building-new', 'building-form'
     # Estates
@@ -66,3 +66,14 @@ Router.map ->
       Session.set 'current_portfolio_doc', curr_portfolio
       Session.set 'current_estate_doc', curr_estate
       curr_building
+
+  @route '/scenario-form/:_id?',
+    name: 'scenario-form'
+    data: ->
+      if @params._id isnt null
+        curr_scenario = Scenarios.findOne(@params._id)
+        # Apparently the router goes several times through the loop
+        # We have to catch this annoying behavior, and give it time to let
+        # the Data be ready
+        return false  unless curr_scenario
+        curr_scenario

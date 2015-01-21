@@ -13,12 +13,15 @@ Template.scenarioForm.helpers({
 });
 
 Template.scenarioForm.rendered = function() {
+    console.log(this);
+
     // Init sortable function
     $( "#sortable" ).sortable();
     $( "#sortable" ).disableSelection();
 
     // If we're editing a Scenario
-    var curr_scenario = Session.get('current_scenario_doc');
+    // var curr_scenario = Session.get('current_scenario_doc');
+    var curr_scenario = this.data;
     if ( curr_scenario !== null){
         $('#scenario_name').val(curr_scenario.name);
         $('#duration').val(curr_scenario.duration);
