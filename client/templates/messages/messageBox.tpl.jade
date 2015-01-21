@@ -16,6 +16,8 @@
               p: a(href=link, target='_blank')= message
             else
               p= message
+            small
+              | {{getBuildingName building_id}}
   .panel-footer: .input-group
     input#message.form-control.input-sm(type='text', placeholder="{{_ 'type_msg_here'}}")
     span.input-group-btn: button#btn-chat.btn.btn-sm {{_ 'send'}}

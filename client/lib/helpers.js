@@ -75,3 +75,11 @@ Template.registerHelper("getActionsList",
                     ).fetch();
     }
 );
+
+Template.registerHelper("getBuildingName",
+    function(building_id){
+        if (building_id !== undefined && building_id !== null ) {
+            return Buildings.findOne(building_id).building_name;
+        }
+    }
+);

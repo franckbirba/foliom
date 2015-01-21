@@ -50,19 +50,17 @@ Template.scenarioForm.helpers({
         return (type == "selector_techfield") ? true : false;
     },
     isChecked: function(param){
-        return (param == "checked") ? true : false;
+        // return (param === "checked");
+        return (param === "checked");
     },
     isSelected: function(input, value){
         // console.log(input + " "+ value);
-        return (input == value) ? true : false;
+        return (input === value);
     },
     getTechnical_compliance_items: function() {
         return result = _.map(technical_compliance_items, function(item){
             return { label: item, value: item }
         });
-    },
-    getBuildingName: function(building_id) {
-        return Buildings.findOne(building_id).building_name;
     },
     getCriterion: function(toAdd){
         var current_criterion_list ;
