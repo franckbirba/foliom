@@ -97,6 +97,10 @@ Template.scenarioForm.helpers({
 });
 
 Template.scenarioForm.events({
+  'change #addCriterionSelect': function(e, tplt){
+    console.log($(e.currentTarget).val());
+    console.log(tplt.this);
+  },
   'submit form': function(e, scenarioForm_template) {
     e.preventDefault();
 
@@ -218,7 +222,7 @@ Template.scenarioForm.events({
         //Re-render template to go to EDIT mode
         Router.go('scenario-form', {_id: newScenario_id});
     }
-    // Session.set('current_scenario_doc', scenario );
+    Session.set('current_scenario_doc', scenario );
 
   }
 });
