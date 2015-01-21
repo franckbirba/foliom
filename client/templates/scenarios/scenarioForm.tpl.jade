@@ -39,11 +39,6 @@
                     select.scenarioForm#addTechfield.form-control(type="select")
                       option(value="" disabled selected) {{_ "select_techField"}}
                       each getTechnical_compliance_items
-                        //- if isSelected input value
-                        //-   //@BSE @PEM: problème de scope: input n'est plus défini
-                        //-   option(value=value selected) {{_ label}}
-                        //- else
-                        //-   option(value=value) {{_ label}}
                         option(value=value selected="{{isSelected input value}}") {{_ label}}
                   else
                     input.form-control.scenarioForm#criterionAmount(type="number" placeholder="Amount" value="#{input}")

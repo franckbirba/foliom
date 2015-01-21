@@ -39,12 +39,12 @@ Template.scenarioList.events({
         e.preventDefault();
         Session.set('current_scenario_doc', null);
 
-        Router.go('scenarioForm');
+        Router.go('scenario-form');
     },
     'click .editScenario': function(e) {
         e.preventDefault();
-        Session.set('current_scenario_doc', this);
+        // Session.set('current_scenario_doc', this);
 
-        Router.go('scenarioForm');
+        Router.go('scenario-form', this);
     },
 });
