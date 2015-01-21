@@ -24,8 +24,8 @@ function feedReader() {
 feedReader();
 
 //Push feed_entries as messages
-FeedEntries.find().observe({
-  added: function (entry) {
+FeedEntries.find().observeChanges({
+  added: function (id, entry) {
     var msgContent = {
       name: 'EGIS-news',
       message: entry.title,
