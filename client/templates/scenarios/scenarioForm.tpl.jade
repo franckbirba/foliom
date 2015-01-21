@@ -8,16 +8,16 @@
           .form-group
             label.col-sm-4.control-label(for="scenario_name") {{_ 'name'}}
             //- .col-sm-8: input.form-control#scenario_name(type="text" placeholder=name_pl value=(sc_data "name"))
-            .col-sm-8: input.form-control.scenarioForm#scenario_name(type="text" placeholder=name_pl)
+            .col-sm-8: input.form-control.scenarioForm#scenario_name(type="text" placeholder="{{_ 'name'}}")
           .form-group
             label.col-sm-4.control-label(for="duration") {{_ 'duration'}}
-            .col-sm-8: input.form-control.scenarioForm#duration(type="number" placeholder=duration_pl)
+            .col-sm-8: input.form-control.scenarioForm#duration(type="number" placeholder="{{_ 'In'}} {{_ 'u_years'}}")
           .form-group
             label.col-sm-4.control-label(for="total_expenditure") {{_ 'total_expenditure'}}
-            .col-sm-8: input.form-control.scenarioForm#total_expenditure(type="number" placeholder=total_expenditure_pl)
+            .col-sm-8: input.form-control.scenarioForm#total_expenditure(type="number" placeholder="{{_ 'In'}} {{_ 'u_euro'}}")
           .form-group
             label.col-sm-4.control-label(for="roi_less_than") {{_ 'roi_less_than'}}
-            .col-sm-8: input.form-control.scenarioForm#roi_less_than(type="number" placeholder=duration_pl)
+            .col-sm-8: input.form-control.scenarioForm#roi_less_than(type="number" placeholder="{{_ 'In'}} {{_ 'u_years'}}")
       .col-md-4
         img.img-thumbnail(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjcwIiB5PSI3MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjE0MHgxNDA8L3RleHQ+PC9zdmc+" alt="...")
     //- Criterions
@@ -41,7 +41,7 @@
                       each getTechnical_compliance_items
                         option(value=value selected="{{isSelected input value}}") {{_ label}}
                   else
-                    input.form-control.scenarioForm#criterionAmount(type="number" placeholder="Amount" value="#{input}")
+                    input.form-control.scenarioForm#criterionAmount(type="number" value="#{input}")
                     .input-group-addon {{_ unit}}
               .col-sm-1: span.scenarioForm.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
         li.scenarioForm#addCriterionLi.criterion
