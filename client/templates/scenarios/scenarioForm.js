@@ -159,7 +159,7 @@ Template.scenarioForm.events({
         _.each(action_list, function(action) {
             // console.log(action);
 
-            var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost*1).toFixed(2)*1;
+            var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost*1).toFixed(2)*1; // Could be deleted
 
           // Ensure 1st empty table
           if(!(scenario.planned_actions instanceof Array)) {
@@ -171,6 +171,7 @@ Template.scenarioForm.events({
                     action_id : action._id,
                     start : new Date(),
                     efficiency_ratio: efficiency_ratio,
+                    actualised_roi: action.actualised_roi
                     // savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
                 }
             );
@@ -185,7 +186,7 @@ Template.scenarioForm.events({
     //SORT ACTIONS
     //Default sort
     scenario.planned_actions = _.sortBy(scenario.planned_actions, function(item){
-        return -item.efficiency_ratio; //sortBy ranks in ascending order, thus the '-'
+        return item.internal_return; //sortBy ranks in ascending order (use a - to change order)
     });
     //For each Criterion
     _.each(scenario.criterion_list, function(criterion) {
