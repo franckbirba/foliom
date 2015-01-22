@@ -167,8 +167,7 @@ Template.scenarioForm.events({
             scenario.planned_actions.push( // Pour l'update: passer par un tableau intermédiaire
                 {
                     action_id : action._id,
-                    start : new Date(),
-                    efficiency_ratio: efficiency_ratio
+                    start : new Date()
                     // savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
                 }
             );
