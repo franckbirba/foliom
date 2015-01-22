@@ -11,7 +11,7 @@ Template.messageBox.helpers
     Messages.find filter, sort: time: 1
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
   hasLink: (link) -> link?
-  isBuildingDetailTplt: -> Router.current().route.getName() == 'building-detail'
+  isBuildingDetailTplt: -> Router.current().route.getName() is 'building-detail'
 
 Template.messageBox.events =
   'keydown input#message': (e, t) ->
@@ -32,7 +32,7 @@ sendMessage = (t) ->
       name: name
       message: $message.value
       time: Date.now()
-    if Router.current().route.getName() == 'building-detail'
+    if Router.current().route.getName() is 'building-detail'
       currentBuilding = Session.get 'current_building_doc'
     msgContent.building_id = currentBuilding._id if currentBuilding
     Messages.insert msgContent

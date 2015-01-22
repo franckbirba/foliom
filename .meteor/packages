@@ -23,7 +23,6 @@ harrison:papa-parse
 harrison:babyparse
 mquandalle:jade
 coffeescript
-mfpierre:chartist-js
 mizzao:jquery-ui
 momentjs:moment
 mquandalle:stylus
@@ -37,3 +36,4 @@ numeral:numeral
 danielqiu:feed
 insecure
 natestrauser:animate-css
+mfpierre:chartist-js@=1.2.0
