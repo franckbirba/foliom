@@ -159,8 +159,6 @@ Template.scenarioForm.events({
         _.each(action_list, function(action) {
             // console.log(action);
 
-            var efficiency_ratio = (action.raw_roi / action.subventions.residual_cost*1).toFixed(2)*1; // Could be deleted
-
           // Ensure 1st empty table
           if(!(scenario.planned_actions instanceof Array)) {
             scenario.planned_actions = [];
@@ -170,8 +168,7 @@ Template.scenarioForm.events({
                 {
                     action_id : action._id,
                     start : new Date(),
-                    efficiency_ratio: efficiency_ratio,
-                    actualised_roi: action.actualised_roi
+                    efficiency_ratio: efficiency_ratio
                     // savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
                 }
             );
