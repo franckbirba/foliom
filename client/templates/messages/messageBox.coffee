@@ -1,14 +1,15 @@
 Template.messageBox.rendered = ->
   @$('#messages').scrollTop $("#messages").prop 'scrollHeight'
-  Messages.find().observe added: (newDocument, oldDocument) ->
-    $('#messages').scrollTop $('#messages').prop 'scrollHeight'
+  Messages.find().observe
+    added: (newDocument, oldDocument) ->
+      $('#messages').scrollTop $('#messages').prop 'scrollHeight'
 
 Template.messageBox.helpers
   messages: ->
     filter = {}
     currentBuilding = Session.get 'current_building_doc'
     filter.building_id = currentBuilding._id if currentBuilding?
-    Messages.find filter, sort: time: 1
+    (Messages.find filter, sort: time: 1).fetch()
   prettifyDate: (timestamp) -> (moment timestamp).fromNow()
   hasLink: (link) -> link?
   isBuildingDetailTplt: -> Router.current().route.getName() is 'building-detail'
