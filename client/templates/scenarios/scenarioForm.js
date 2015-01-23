@@ -38,6 +38,10 @@ Template.scenarioForm.rendered = function() {
 };
 
 Template.scenarioForm.helpers({
+    getActionLogo: function(){
+        var logoList = ["&#58880;", "&#58881;", "&#58882;"];
+        return logoList;
+    },
     isCheckbox: function(type){
         return (type == "checkbox") ? true : false;
     },
