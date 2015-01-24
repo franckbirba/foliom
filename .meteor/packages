@@ -29,11 +29,11 @@ mquandalle:stylus
 fortawesome:fontawesome
 rzymek:moment-locale-fr
 tap:i18n@1.3.2
-ian:accounts-ui-bootstrap-3
 iron:router
 aldeed:simple-schema
 numeral:numeral
 danielqiu:feed
 insecure
 natestrauser:animate-css
+ian:accounts-ui-bootstrap-3
 mfpierre:chartist-js@=1.2.0
