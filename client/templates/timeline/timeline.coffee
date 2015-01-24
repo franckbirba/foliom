@@ -142,35 +142,7 @@ Template.timeline.events
       Session.set 'timeline-filter-actions', $selected.attr 'data-value'
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
-    # Display content of the action bucket
-    isDisplayed = Session.get 'timeline_action_bucket_displayed'
-    if isDisplayed
-      # Toggle translation and wait for its end for
-      # removing action's bucket content
-      t.$ '.action-bucket'
-      .removeClass 'action-bucket-displayed'
-      .on TRANSITION_END_EVENT, ->
-        Session.set 'timeline_action_bucket_displayed', false
-    else
-      # Add action's bucket content before toggling animation
-      Session.set 'timeline_action_bucket_displayed', true
-      t.$ '.action-bucket'
-      .off TRANSITION_END_EVENT
-      .addClass 'action-bucket-displayed'
-    # Set the appropriate filter button
-    # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
-    #  button's group must wait so that all elements are inserted.
-    Meteor.setTimeout ->
-      $btnGroup = t.$ '[data-role=\'filter-actions\']'
-      $btnGroup.children().removeClass 'active'
-      $selected = $btnGroup.find \
-        "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
-      $selected.addClass 'active'
-    , 0
-    # Change arrow orientation
-    t.$ '.action-bucket-arrow-icon'
-    .toggleClass 'glyphicon-circle-arrow-up'
-    .toggleClass 'glyphicon-circle-arrow-down'
+    showHideActionBucket t
   # Click on a hide/show legend
   'click [data-trigger=\'hideshow-legend\']': (e, t) ->
     button = t.$ e.target
@@ -186,6 +158,39 @@ Template.timeline.events
     (chart.children().toggleClass 'ct-octave').toggleClass 'ct-major-twelfth'
     TimelineVars[chartValue].update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
+
+showHideActionBucket = (t) ->
+  # Display content of the action bucket
+  isDisplayed = Session.get 'timeline_action_bucket_displayed'
+  if isDisplayed
+    # Toggle translation and wait for its end for
+    # removing action's bucket content
+    t.$ '.action-bucket'
+    .removeClass 'action-bucket-displayed'
+    .on TRANSITION_END_EVENT, ->
+      Session.set 'timeline_action_bucket_displayed', false
+  else
+    # Add action's bucket content before toggling animation
+    Session.set 'timeline_action_bucket_displayed', true
+    t.$ '.action-bucket'
+    .off TRANSITION_END_EVENT
+    .addClass 'action-bucket-displayed'
+    # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
+    #  button's group must wait so that all elements are inserted. The same
+    #  goes for attaching the draggable properties to the action's rows.
+    Meteor.setTimeout ->
+      # Set the appropriate filter button
+      $btnGroup = t.$ '[data-role=\'filter-actions\']'
+      $btnGroup.children().removeClass 'active'
+      $selected = $btnGroup.find \
+        "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
+      $selected.addClass 'active'
+      # @TODO Set row as draggable
+    , 0
+  # Change arrow orientation
+  t.$ '.action-bucket-arrow-icon'
+  .toggleClass 'glyphicon-circle-arrow-up'
+  .toggleClass 'glyphicon-circle-arrow-down'
 
 timelineCalctulate = (tv) ->
   # Sort planned actions
