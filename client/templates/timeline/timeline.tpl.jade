@@ -7,7 +7,7 @@
       .panel-heading.timeline-header.noselect: clearfix
         h3.pull-left.panel-title {{_ 'timeline'}}
         .timeline-filter.pull-right
-          select(data-trigger='timeline-trigger-building-filter')
+          select(data-trigger='timeline-trigger-estate-building-filter')
             option(value='all') {{_ 'all'}}
             each availableBuildings
               option(value=_id)= building_name

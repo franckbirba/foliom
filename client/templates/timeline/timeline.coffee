@@ -110,6 +110,8 @@ Template.timeline.helpers
  * @return {undefined} N/A
 ###
 Template.timeline.rendered = ->
+  # Set estate and building filter as a select2
+  (@$ '[data-trigger=\'timeline-trigger-estate-building-filter\']').select2()
   # Make actions draggable and droppable
   (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
   (@$ '[data-role=\'dropable-container\']').droppable
@@ -139,7 +141,7 @@ Template.timeline.rendered = ->
 ###
 Template.timeline.events
   # Change filter on the timeline
-  'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
+  'change [data-trigger=\'timeline-trigger-estate-building-filter\']': (e, t) ->
     console.log 'Selected building', e.currentTarget.value
   # Change filter on action bucket
   'click [data-role=\'filter-actions\']': (e, t) ->
