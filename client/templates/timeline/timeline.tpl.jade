@@ -92,8 +92,17 @@
               th= this
           tbody
             each actionBucketTableBody
-              tr(data-role='draggable-action-bucket', data-value='{action_id:{{_id}}}')
-                td= quarter
+              tr.noselect(data-role='draggable-action-bucket', data-value='{action_id:{{_id}}}')                  
+                td.quarter-select
+                  .quarter-modifier
+                    form.form-inline
+                      input(type='text', placeholder='Quarter')
+                      input(type='text', placeholder='Year')  
+                      span.fa.fa-check.text-success
+                      span.fa.fa-close.text-danger
+                  .quarter-content
+                    i.fa.fa-calendar
+                    = quarter
                 td= name
                 td= buildingName
                 td= formattedCost

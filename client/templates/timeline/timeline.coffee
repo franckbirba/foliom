@@ -3,14 +3,6 @@
 
 # Action bucket is hidden by default
 Session.set 'timeline-action-bucket-displayed', false
-
-DRAGGABLE_PROPERTIES =
-  cursor: '-webkit-grabbing'
-  scrollSensitivity: 100
-  scrollSpeed: 100
-  containment: 'table.timeline.timeline-year-table'
-  revert: 'invalid'
-
 # Isolate calculated value in a namespace
 @TimelineVars =
   scenario: null
@@ -117,7 +109,12 @@ Template.timeline.rendered = ->
   # Set estate and building filter as a select2
   (@$ '[data-trigger=\'timeline-trigger-estate-building-filter\']').select2()
   # Make actions draggable and droppable
-  (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
+  (this.$ '[data-role=\'draggable-action\']').draggable
+      cursor: '-webkit-grabbing'
+      scrollSensitivity: 100
+      scrollSpeed: 100
+      containment: 'table.timeline.timeline-year-table'
+      revert: 'invalid'
   (@$ '[data-role=\'dropable-container\']').droppable
     hoverClass: 'dropable', drop: actionItemDropped
   # Create SVG charts with Chartist and attach them to the DOM
@@ -174,6 +171,10 @@ Template.timeline.events
     (chart.children().toggleClass 'ct-octave').toggleClass 'ct-major-twelfth'
     TimelineVars[chartValue].update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
+  # Click on action bucket items for quarter modification
+  'click .quarter-select': (e, t) ->
+    console.log 'Modify current selected quarter', e, t
+    (t.$ e.currentTarget).toggleClass 'quarter-selected'
 
 ###*
  * Show or hide the action bucket.
@@ -207,7 +208,11 @@ showHideActionBucket = ->
       $selected.addClass 'active'
       # @TODO Set row as draggable
       ($ '[data-role=\'draggable-action-bucket\']').draggable \
-        DRAGGABLE_PROPERTIES
+        cursor: '-webkit-grabbing'
+        scrollSensitivity: 100
+        scrollSpeed: 100
+        #containment: 'table.timeline.timeline-year-table'
+        revert: 'invalid'
     , 0
   # Change arrow orientation
   $actionBucket.find '.action-bucket-arrow-icon'

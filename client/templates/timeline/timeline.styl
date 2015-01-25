@@ -199,8 +199,51 @@ roundIconSize = 1.5 * rondFontSize
     padding 0
     tbody
       overflow auto
+      font-size .8em
       tr[data-role='draggable-action-bucket']
         cursor -webkit-grab
         cursor grab
       tr:nth-child(2n+1)
         background-color white
+      tr:nth-child(2n)
+        background-color colorD
+  .quarter-select
+    &:before
+      height 20px
+    width 100px
+    cursor pointer
+    .quarter-content
+      z-index 2
+      height 20px
+      background-color transparent
+      margin-top -1px
+      border none
+      padding 1px
+      font-size 14px
+      line-height 18px
+      text-align center
+      position relative
+    .quarter-modifier
+      display none
+      z-index 1
+      padding 3px
+      position relative
+      font-size 16px
+      width 190px
+      height 34px
+      border 1px colorD solid
+      background-color white
+      input
+        border none
+        width 60px
+        border-right 1px colorD solid
+  .quarter-select.quarter-selected
+    width 190px
+    .quarter-content
+      background-color white
+      border-top none
+      border-left 1px colorD solid
+      border-right 1px colorD solid
+      border-bottom 1px colorD solid
+    .quarter-modifier
+      display inherit
