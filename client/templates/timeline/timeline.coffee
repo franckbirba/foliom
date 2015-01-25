@@ -196,8 +196,10 @@ timelineCalctulate = (tv) ->
   # Sort planned actions
   tv.scenario.planned_actions = _.sortBy tv.scenario.planned_actions, (item) ->
     (moment item.start).valueOf()
+  # Reset charts that doesn't depends on actions
   tv.charts.ticks = []
   tv.charts.budget = []
+  tv.charts.consumption = []
   # Index on the actions table
   currentAction = 0
   # Build formatted data
@@ -247,6 +249,10 @@ timelineCalctulate = (tv) ->
       # Labels for charts
       tv.charts.ticks.push \
         "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
+      # Current consumption for charts
+      # @TODO Fake data
+      tv.charts.consumption.push 3.5
+      # Set year in the timeline
       yearContent.quarterContent.push quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
@@ -269,20 +275,32 @@ timelineCalctulate = (tv) ->
     action.end = action.endWork.clone().add action.action_lifetime, 'Y'
     action.investmentSuite = []
     action.investmentSubventionedSuite = []
+    action.consumptionCo2ModifierSuite = []
+    action.consumptionKwhModifierSuite = []
     # Iterate over the scenario duration
     quarter = tv.minDate.clone()
     nextQuarter = quarter.clone().add 1, 'Q'
     investment = 0
     investmentSubventioned = 0
+    consumptionCo2Modifier = 0
+    consumptionKwhModifier = 0
     while quarter.isBefore tv.maxDate
       if action.start.isBetween quarter, nextQuarter
         investment = action.investment.cost
         investmentSubventioned = action.subventions.residual_cost
+      if action.endWork.isBetween quarter, nextQuarter
+        # @TODO Fake modifiers
+        consumptionCo2Modifier = -.5
+        consumptionKwhModifier = -1
       action.investmentSuite.push investment
       action.investmentSubventionedSuite.push investmentSubventioned
+      action.consumptionCo2ModifierSuite.push consumptionCo2Modifier
+      action.consumptionKwhModifierSuite.push consumptionKwhModifier
       # Increment by 1 quarter
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
+
+
 
 createArrayFilledWithZero = (size) ->
   (Array.apply null, new Array size).map Number.prototype.valueOf, 0
@@ -328,7 +346,7 @@ getConsumptionChartData = ->
   series: [
     {
       name: TAPi18n.__ 'consumption_noaction'
-      data: [3, 4, 4.5, 4.7, 5]
+      data: TimelineVars.charts.consumption
     }
     {
       name: TAPi18n.__ 'consumption_action_co2'
