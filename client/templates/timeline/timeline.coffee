@@ -22,9 +22,7 @@ DRAGGABLE_PROPERTIES =
   minDate: null
   maxDate: null
   timelineActions: []
-  charts:
-    ticks: []
-    budget: []
+  charts: {}
 
 ###*
  * Prepare calculation at template creation.
@@ -39,8 +37,6 @@ Template.timeline.created = ->
   TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
-  TimelineVars.charts.ticks = []
-  TimelineVars.charts.budget = []
   # @TODO fake : Fetch Scenario's data
   # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   TimelineVars.scenario = Scenarios.findOne()
@@ -219,9 +215,7 @@ timelineCalctulate = (tv) ->
   tv.scenario.planned_actions = _.sortBy tv.scenario.planned_actions, (item) ->
     (moment item.start).valueOf()
   # Reset charts that doesn't depends on actions
-  tv.charts.ticks = []
-  tv.charts.budget = []
-  tv.charts.consumption = []
+  tv.charts = { ticks: [], budget: [], consumption: [] }
   # Index on the actions table
   currentAction = 0
   # Build formatted data
