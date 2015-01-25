@@ -206,6 +206,8 @@ showHideActionBucket = ->
         "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
       $selected.addClass 'active'
       # @TODO Set row as draggable
+      ($ '[data-role=\'draggable-action-bucket\']').draggable \
+        DRAGGABLE_PROPERTIES
     , 0
   # Change arrow orientation
   $actionBucket.find '.action-bucket-arrow-icon'
