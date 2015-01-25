@@ -46,8 +46,11 @@ Template.timeline.created = ->
   actionIds = _.pluck pactions, 'action_id'
   TimelineVars.actions = (Actions.find  _id: $in: actionIds).fetch()
   # Get each buildings for each actions
-  buildingIds = _.pluck TimelineVars.actions, 'building_id'
+  buildingIds = _.uniq _.pluck TimelineVars.actions, 'building_id'
   TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
+  # Get each estate for each actions
+  estateIds = _.uniq _.pluck TimelineVars.actions, 'estate_id'
+  TimelineVars.estates = (Estates.find _id: $in: estateIds).fetch()
   # Get all leases for all building, this action is done in a single DB call
   # for avoiding too much latency on the screen's creation
   leases = (Leases.find building_id: $in: buildingIds).fetch()
@@ -67,6 +70,7 @@ Template.timeline.created = ->
 ###
 Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
+  availableEstates: -> TimelineVars.estates
   availableBuildings: -> TimelineVars.buildings
   nbActions: -> TimelineVars.actions.length
   timelineActions: -> TimelineVars.timelineActions
