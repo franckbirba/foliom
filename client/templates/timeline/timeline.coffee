@@ -26,7 +26,15 @@ DRAGGABLE_PROPERTIES =
     ticks: []
     budget: []
 
+###*
+ * Prepare calculation at template creation.
+ * @return {undefined} N/A
+###
 Template.timeline.created = ->
+  # Reset action bucket's display when entering screen
+  Session.set 'timeline_action_bucket_displayed', false
+  # Reset action bucket filters
+  Session.set 'timeline-filter-actions', 'all'
   # Reset former state
   TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
@@ -58,6 +66,9 @@ Template.timeline.created = ->
   # Perform calculations
   timelineCalctulate TimelineVars
 
+###*
+ * Object containing helper keys for the template.
+###
 Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
   availableBuildings: -> TimelineVars.buildings
@@ -98,11 +109,11 @@ Template.timeline.helpers
         _.filter TimelineVars.actions, (action) -> action.start is undefined
       else TimelineVars.actions
 
+###*
+ * Ends rendering actions when template is rendered.
+ * @return {undefined} N/A
+###
 Template.timeline.rendered = ->
-  # Reset action bucket's display when entering screen
-  Session.set 'timeline_action_bucket_displayed', false
-  # Reset action bucket filters
-  Session.set 'timeline-filter-actions', 'all'
   # Make actions draggable and droppable
   (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
   (@$ '[data-role=\'dropable-container\']').droppable
@@ -127,6 +138,9 @@ Template.timeline.rendered = ->
   addToolTip 'consumptionChart'
   addToolTip 'planningBudgetChart'
 
+###*
+ * Object containing event actions for the template.
+###
 Template.timeline.events
   # Change filter on the timeline
   'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
@@ -159,6 +173,10 @@ Template.timeline.events
     TimelineVars[chartValue].update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
 
+###*
+ * Show or hide the action bucket.
+ * @param {Object} t Template's instance.
+###
 showHideActionBucket = (t) ->
   # Display content of the action bucket
   isDisplayed = Session.get 'timeline_action_bucket_displayed'
@@ -192,6 +210,10 @@ showHideActionBucket = (t) ->
   .toggleClass 'glyphicon-circle-arrow-up'
   .toggleClass 'glyphicon-circle-arrow-down'
 
+###*
+ * Perform all calculations and fill the global TimelineVars object.
+ * @param {Object} tv The global TimelineVars object.
+###
 timelineCalctulate = (tv) ->
   # Sort planned actions
   tv.scenario.planned_actions = _.sortBy tv.scenario.planned_actions, (item) ->
@@ -300,11 +322,21 @@ timelineCalctulate = (tv) ->
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
 
-
-
+###*
+ * Create an Array of the provided size filled with 0.
+ * @param {Number} size Size of the expected Array.
+ * @return {Array} The created Array.
+###
 createArrayFilledWithZero = (size) ->
   (Array.apply null, new Array size).map Number.prototype.valueOf, 0
 
+###*
+ * Sum suites from an Array of Object with suites reachable with the same
+ *  property key.
+ * @param {Array} arr The Array of Object.
+ * @param {String} key The property of the Object.
+ * @result {Array} The suite as a sum of all the Array of Object suite.
+###
 sumSuite = (arr, key) ->
   results = createArrayFilledWithZero arr[0][key].length
   for idx in [0...results.length]
@@ -312,6 +344,12 @@ sumSuite = (arr, key) ->
       results[idx] += item[key][idx]
   results
 
+###*
+ * Handle acion's dropped in the Timeline.
+ * @param {Object} e    jQuery event.
+ * @param {Object} t    Template's instance.
+ * @param {Object} what The dropped item.
+###
 actionItemDropped = (e, t, what) ->
   $quarter = $ @
   $actions = t.draggable
@@ -341,6 +379,9 @@ actionItemDropped = (e, t, what) ->
   TimelineVars.planningBudgetChart.update getPlanningBudgetChartData()
   # @TODO Refresh table
 
+###*
+ * Helpers for the Consumption chart.
+###
 getConsumptionChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
@@ -358,6 +399,9 @@ getConsumptionChartData = ->
     }
   ]
 
+###*
+ * Helpers for the Planning Budget chart.
+###
 getPlanningBudgetChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
@@ -375,8 +419,21 @@ getPlanningBudgetChartData = ->
     }
   ]
 
+###*
+ * Animation function for the tooltips as depicted in Chartist's docs:
+ * http://gionkunz.github.io/chartist-js/examples.html
+ * @param {Number} x X axis
+ * @param {Number} t Time
+ * @param {Number} b First order
+ * @param {Number} c Second order
+ * @param {Number} d Third order
+###
 easeOutQuad = (x, t, b, c, d) -> -c * (t /= d) * (t - 2) + b
 
+###*
+ * Add a tooltip for a given chart.
+ * @param {String} dataChart Value of the data-chart selector.
+###
 addToolTip = (dataChart) ->
   $chart = $ "[data-chart='#{dataChart}']"
   TimelineVars.toolTips[dataChart] = $chart
