@@ -337,11 +337,23 @@ createArrayFilledWithZero = (size) ->
  * @param {String} key The property of the Object.
  * @result {Array} The suite as a sum of all the Array of Object suite.
 ###
-sumSuite = (arr, key) ->
+sumSuiteFromArray = (arr, key) ->
   results = createArrayFilledWithZero arr[0][key].length
   for idx in [0...results.length]
     for item in arr
       results[idx] += item[key][idx]
+  results
+
+###*
+ * Sum 2 suites of exact same length.
+ * @param {Array} suite1 First suite. Its length is used as the reference.
+ * @param {Array} suite2 Second suite.
+ * @return {Array} The result of the sum.
+###
+sum2Suites = (suite1, suite2) ->
+  results = createArrayFilledWithZero suite1.length
+  for idx in [0...results.length]
+    results[idx] = suite1[idx] + suite2[idx]
   results
 
 ###*
@@ -391,11 +403,13 @@ getConsumptionChartData = ->
     }
     {
       name: TAPi18n.__ 'consumption_action_co2'
-      data: [3, 3.5, 3.2, 3.1, 2]
+      data: sum2Suites TimelineVars.charts.consumption, \
+        sumSuiteFromArray TimelineVars.actions, 'consumptionCo2ModifierSuite'
     }
     {
       name: TAPi18n.__ 'consumption_action_kwh'
-      data: [3, 3.5, 4, 4.2, 4.5]
+      data: sum2Suites TimelineVars.charts.consumption, \
+        sumSuiteFromArray TimelineVars.actions, 'consumptionKwhModifierSuite'
     }
   ]
 
@@ -411,11 +425,11 @@ getPlanningBudgetChartData = ->
     }
     {
       name: TAPi18n.__ 'planning_budget_investments'
-      data: sumSuite TimelineVars.actions, 'investmentSuite'
+      data: sumSuiteFromArray TimelineVars.actions, 'investmentSuite'
     }
     {
       name: TAPi18n.__ 'planning_budget_subventions'
-      data: sumSuite TimelineVars.actions, 'investmentSubventionedSuite'
+      data: sumSuiteFromArray TimelineVars.actions,'investmentSubventionedSuite'
     }
   ]
 
