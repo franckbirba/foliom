@@ -2,7 +2,7 @@
 # @TODO Filters on buildings
 
 # Action bucket is hidden by default
-Session.set 'timeline_action_bucket_displayed', false
+Session.set 'timeline-action-bucket-displayed', false
 
 DRAGGABLE_PROPERTIES =
   cursor: '-webkit-grabbing'
@@ -30,7 +30,7 @@ DRAGGABLE_PROPERTIES =
 ###
 Template.timeline.created = ->
   # Reset action bucket's display when entering screen
-  Session.set 'timeline_action_bucket_displayed', false
+  Session.set 'timeline-action-bucket-displayed', false
   # Reset action bucket filters
   Session.set 'timeline-filter-actions', 'all'
   # Reset former state
@@ -89,7 +89,7 @@ Template.timeline.helpers
     { color: 'colorC', name: TAPi18n.__ 'planning_budget_subventions' }
   ]
   # Action bucket trigger
-  isActionBucketDisplayed: -> Session.get 'timeline_action_bucket_displayed'
+  isActionBucketDisplayed: -> Session.get 'timeline-action-bucket-displayed'
   # Action bucket's exports as table
   actionBucketTableHeadings: -> [
     TAPi18n.__ 'quarter'
@@ -158,7 +158,7 @@ Template.timeline.events
       Session.set 'timeline-filter-actions', $selected.attr 'data-value'
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
-    showHideActionBucket t
+    showHideActionBucket()
   # Click on a hide/show legend
   'click [data-trigger=\'hideshow-legend\']': (e, t) ->
     button = t.$ e.target
@@ -177,22 +177,22 @@ Template.timeline.events
 
 ###*
  * Show or hide the action bucket.
- * @param {Object} t Template's instance.
 ###
-showHideActionBucket = (t) ->
+showHideActionBucket = ->
+  $actionBucket = $ '.action-bucket'
   # Display content of the action bucket
-  isDisplayed = Session.get 'timeline_action_bucket_displayed'
+  isDisplayed = Session.get 'timeline-action-bucket-displayed'
   if isDisplayed
     # Toggle translation and wait for its end for
     # removing action's bucket content
-    t.$ '.action-bucket'
+    $actionBucket
     .removeClass 'action-bucket-displayed'
     .on TRANSITION_END_EVENT, ->
-      Session.set 'timeline_action_bucket_displayed', false
+      Session.set 'timeline-action-bucket-displayed', false
   else
     # Add action's bucket content before toggling animation
-    Session.set 'timeline_action_bucket_displayed', true
-    t.$ '.action-bucket'
+    Session.set 'timeline-action-bucket-displayed', true
+    $actionBucket
     .off TRANSITION_END_EVENT
     .addClass 'action-bucket-displayed'
     # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
@@ -200,7 +200,7 @@ showHideActionBucket = (t) ->
     #  goes for attaching the draggable properties to the action's rows.
     Meteor.setTimeout ->
       # Set the appropriate filter button
-      $btnGroup = t.$ '[data-role=\'filter-actions\']'
+      $btnGroup = $actionBucket.find '[data-role=\'filter-actions\']'
       $btnGroup.children().removeClass 'active'
       $selected = $btnGroup.find \
         "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
@@ -208,7 +208,7 @@ showHideActionBucket = (t) ->
       # @TODO Set row as draggable
     , 0
   # Change arrow orientation
-  t.$ '.action-bucket-arrow-icon'
+  $actionBucket.find '.action-bucket-arrow-icon'
   .toggleClass 'glyphicon-circle-arrow-up'
   .toggleClass 'glyphicon-circle-arrow-down'
 
@@ -360,9 +360,8 @@ sum2Suites = (suite1, suite2) ->
  * Handle acion's dropped in the Timeline.
  * @param {Object} e    jQuery event.
  * @param {Object} t    Template's instance.
- * @param {Object} what The dropped item.
 ###
-actionItemDropped = (e, t, what) ->
+actionItemDropped = (e, t) ->
   $quarter = $ @
   $actions = t.draggable
   # Adjust DOM
@@ -389,7 +388,8 @@ actionItemDropped = (e, t, what) ->
   # Refresh charts
   TimelineVars.consumptionChart.update getConsumptionChartData()
   TimelineVars.planningBudgetChart.update getPlanningBudgetChartData()
-  # @TODO Refresh table
+  # Refresh table by hiding it if displayed
+  showHideActionBucket() if Session.get 'timeline-action-bucket-displayed', true
 
 ###*
  * Helpers for the Consumption chart.
