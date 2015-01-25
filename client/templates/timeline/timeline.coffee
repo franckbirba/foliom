@@ -22,17 +22,21 @@ DRAGGABLE_PROPERTIES =
   minDate: null
   maxDate: null
   timelineActions: []
-  charts:
-    ticks: []
-    budget: []
+  charts: {}
 
+###*
+ * Prepare calculation at template creation.
+ * @return {undefined} N/A
+###
 Template.timeline.created = ->
+  # Reset action bucket's display when entering screen
+  Session.set 'timeline_action_bucket_displayed', false
+  # Reset action bucket filters
+  Session.set 'timeline-filter-actions', 'all'
   # Reset former state
   TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
-  TimelineVars.charts.ticks = []
-  TimelineVars.charts.budget = []
   # @TODO fake : Fetch Scenario's data
   # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
   TimelineVars.scenario = Scenarios.findOne()
@@ -58,6 +62,9 @@ Template.timeline.created = ->
   # Perform calculations
   timelineCalctulate TimelineVars
 
+###*
+ * Object containing helper keys for the template.
+###
 Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
   availableBuildings: -> TimelineVars.buildings
@@ -98,11 +105,11 @@ Template.timeline.helpers
         _.filter TimelineVars.actions, (action) -> action.start is undefined
       else TimelineVars.actions
 
+###*
+ * Ends rendering actions when template is rendered.
+ * @return {undefined} N/A
+###
 Template.timeline.rendered = ->
-  # Reset action bucket's display when entering screen
-  Session.set 'timeline_action_bucket_displayed', false
-  # Reset action bucket filters
-  Session.set 'timeline-filter-actions', 'all'
   # Make actions draggable and droppable
   (this.$ '[data-role=\'draggable-action\']').draggable DRAGGABLE_PROPERTIES
   (@$ '[data-role=\'dropable-container\']').droppable
@@ -127,6 +134,9 @@ Template.timeline.rendered = ->
   addToolTip 'consumptionChart'
   addToolTip 'planningBudgetChart'
 
+###*
+ * Object containing event actions for the template.
+###
 Template.timeline.events
   # Change filter on the timeline
   'change [data-trigger=\'timeline-trigger-building-filter\']': (e, t) ->
@@ -142,35 +152,7 @@ Template.timeline.events
       Session.set 'timeline-filter-actions', $selected.attr 'data-value'
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
-    # Display content of the action bucket
-    isDisplayed = Session.get 'timeline_action_bucket_displayed'
-    if isDisplayed
-      # Toggle translation and wait for its end for
-      # removing action's bucket content
-      t.$ '.action-bucket'
-      .removeClass 'action-bucket-displayed'
-      .on TRANSITION_END_EVENT, ->
-        Session.set 'timeline_action_bucket_displayed', false
-    else
-      # Add action's bucket content before toggling animation
-      Session.set 'timeline_action_bucket_displayed', true
-      t.$ '.action-bucket'
-      .off TRANSITION_END_EVENT
-      .addClass 'action-bucket-displayed'
-    # Set the appropriate filter button
-    # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
-    #  button's group must wait so that all elements are inserted.
-    Meteor.setTimeout ->
-      $btnGroup = t.$ '[data-role=\'filter-actions\']'
-      $btnGroup.children().removeClass 'active'
-      $selected = $btnGroup.find \
-        "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
-      $selected.addClass 'active'
-    , 0
-    # Change arrow orientation
-    t.$ '.action-bucket-arrow-icon'
-    .toggleClass 'glyphicon-circle-arrow-up'
-    .toggleClass 'glyphicon-circle-arrow-down'
+    showHideActionBucket t
   # Click on a hide/show legend
   'click [data-trigger=\'hideshow-legend\']': (e, t) ->
     button = t.$ e.target
@@ -187,12 +169,53 @@ Template.timeline.events
     TimelineVars[chartValue].update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
 
+###*
+ * Show or hide the action bucket.
+ * @param {Object} t Template's instance.
+###
+showHideActionBucket = (t) ->
+  # Display content of the action bucket
+  isDisplayed = Session.get 'timeline_action_bucket_displayed'
+  if isDisplayed
+    # Toggle translation and wait for its end for
+    # removing action's bucket content
+    t.$ '.action-bucket'
+    .removeClass 'action-bucket-displayed'
+    .on TRANSITION_END_EVENT, ->
+      Session.set 'timeline_action_bucket_displayed', false
+  else
+    # Add action's bucket content before toggling animation
+    Session.set 'timeline_action_bucket_displayed', true
+    t.$ '.action-bucket'
+    .off TRANSITION_END_EVENT
+    .addClass 'action-bucket-displayed'
+    # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
+    #  button's group must wait so that all elements are inserted. The same
+    #  goes for attaching the draggable properties to the action's rows.
+    Meteor.setTimeout ->
+      # Set the appropriate filter button
+      $btnGroup = t.$ '[data-role=\'filter-actions\']'
+      $btnGroup.children().removeClass 'active'
+      $selected = $btnGroup.find \
+        "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
+      $selected.addClass 'active'
+      # @TODO Set row as draggable
+    , 0
+  # Change arrow orientation
+  t.$ '.action-bucket-arrow-icon'
+  .toggleClass 'glyphicon-circle-arrow-up'
+  .toggleClass 'glyphicon-circle-arrow-down'
+
+###*
+ * Perform all calculations and fill the global TimelineVars object.
+ * @param {Object} tv The global TimelineVars object.
+###
 timelineCalctulate = (tv) ->
   # Sort planned actions
   tv.scenario.planned_actions = _.sortBy tv.scenario.planned_actions, (item) ->
     (moment item.start).valueOf()
-  tv.charts.ticks = []
-  tv.charts.budget = []
+  # Reset charts that doesn't depends on actions
+  tv.charts = { ticks: [], budget: [], consumption: [] }
   # Index on the actions table
   currentAction = 0
   # Build formatted data
@@ -242,6 +265,10 @@ timelineCalctulate = (tv) ->
       # Labels for charts
       tv.charts.ticks.push \
         "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
+      # Current consumption for charts
+      # @TODO Fake data
+      tv.charts.consumption.push 3.5
+      # Set year in the timeline
       yearContent.quarterContent.push quarterContent
       # Increment by 1 quarter
       quarter.add 1, 'Q'
@@ -264,31 +291,71 @@ timelineCalctulate = (tv) ->
     action.end = action.endWork.clone().add action.action_lifetime, 'Y'
     action.investmentSuite = []
     action.investmentSubventionedSuite = []
+    action.consumptionCo2ModifierSuite = []
+    action.consumptionKwhModifierSuite = []
     # Iterate over the scenario duration
     quarter = tv.minDate.clone()
     nextQuarter = quarter.clone().add 1, 'Q'
     investment = 0
     investmentSubventioned = 0
+    consumptionCo2Modifier = 0
+    consumptionKwhModifier = 0
     while quarter.isBefore tv.maxDate
       if action.start.isBetween quarter, nextQuarter
         investment = action.investment.cost
         investmentSubventioned = action.subventions.residual_cost
+      if action.endWork.isBetween quarter, nextQuarter
+        # @TODO Fake modifiers
+        consumptionCo2Modifier = -.5
+        consumptionKwhModifier = -1
       action.investmentSuite.push investment
       action.investmentSubventionedSuite.push investmentSubventioned
+      action.consumptionCo2ModifierSuite.push consumptionCo2Modifier
+      action.consumptionKwhModifierSuite.push consumptionKwhModifier
       # Increment by 1 quarter
       quarter.add 1, 'Q'
       nextQuarter.add 1, 'Q'
 
+###*
+ * Create an Array of the provided size filled with 0.
+ * @param {Number} size Size of the expected Array.
+ * @return {Array} The created Array.
+###
 createArrayFilledWithZero = (size) ->
   (Array.apply null, new Array size).map Number.prototype.valueOf, 0
 
-sumSuite = (arr, key) ->
+###*
+ * Sum suites from an Array of Object with suites reachable with the same
+ *  property key.
+ * @param {Array} arr The Array of Object.
+ * @param {String} key The property of the Object.
+ * @result {Array} The suite as a sum of all the Array of Object suite.
+###
+sumSuiteFromArray = (arr, key) ->
   results = createArrayFilledWithZero arr[0][key].length
   for idx in [0...results.length]
     for item in arr
       results[idx] += item[key][idx]
   results
 
+###*
+ * Sum 2 suites of exact same length.
+ * @param {Array} suite1 First suite. Its length is used as the reference.
+ * @param {Array} suite2 Second suite.
+ * @return {Array} The result of the sum.
+###
+sum2Suites = (suite1, suite2) ->
+  results = createArrayFilledWithZero suite1.length
+  for idx in [0...results.length]
+    results[idx] = suite1[idx] + suite2[idx]
+  results
+
+###*
+ * Handle acion's dropped in the Timeline.
+ * @param {Object} e    jQuery event.
+ * @param {Object} t    Template's instance.
+ * @param {Object} what The dropped item.
+###
 actionItemDropped = (e, t, what) ->
   $quarter = $ @
   $actions = t.draggable
@@ -318,23 +385,31 @@ actionItemDropped = (e, t, what) ->
   TimelineVars.planningBudgetChart.update getPlanningBudgetChartData()
   # @TODO Refresh table
 
+###*
+ * Helpers for the Consumption chart.
+###
 getConsumptionChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
       name: TAPi18n.__ 'consumption_noaction'
-      data: [3, 4, 4.5, 4.7, 5]
+      data: TimelineVars.charts.consumption
     }
     {
       name: TAPi18n.__ 'consumption_action_co2'
-      data: [3, 3.5, 3.2, 3.1, 2]
+      data: sum2Suites TimelineVars.charts.consumption, \
+        sumSuiteFromArray TimelineVars.actions, 'consumptionCo2ModifierSuite'
     }
     {
       name: TAPi18n.__ 'consumption_action_kwh'
-      data: [3, 3.5, 4, 4.2, 4.5]
+      data: sum2Suites TimelineVars.charts.consumption, \
+        sumSuiteFromArray TimelineVars.actions, 'consumptionKwhModifierSuite'
     }
   ]
 
+###*
+ * Helpers for the Planning Budget chart.
+###
 getPlanningBudgetChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
@@ -344,16 +419,29 @@ getPlanningBudgetChartData = ->
     }
     {
       name: TAPi18n.__ 'planning_budget_investments'
-      data: sumSuite TimelineVars.actions, 'investmentSuite'
+      data: sumSuiteFromArray TimelineVars.actions, 'investmentSuite'
     }
     {
       name: TAPi18n.__ 'planning_budget_subventions'
-      data: sumSuite TimelineVars.actions, 'investmentSubventionedSuite'
+      data: sumSuiteFromArray TimelineVars.actions,'investmentSubventionedSuite'
     }
   ]
 
+###*
+ * Animation function for the tooltips as depicted in Chartist's docs:
+ * http://gionkunz.github.io/chartist-js/examples.html
+ * @param {Number} x X axis
+ * @param {Number} t Time
+ * @param {Number} b First order
+ * @param {Number} c Second order
+ * @param {Number} d Third order
+###
 easeOutQuad = (x, t, b, c, d) -> -c * (t /= d) * (t - 2) + b
 
+###*
+ * Add a tooltip for a given chart.
+ * @param {String} dataChart Value of the data-chart selector.
+###
 addToolTip = (dataChart) ->
   $chart = $ "[data-chart='#{dataChart}']"
   TimelineVars.toolTips[dataChart] = $chart

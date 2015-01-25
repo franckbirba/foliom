@@ -88,7 +88,7 @@
               th= this
           tbody
             each actionBucketTableBody
-              tr
+              tr(data-role='draggable-action-bucket', data-value='{action_id:{{_id}}}')
                 td= quarter
                 td= name
                 td= buildingName
