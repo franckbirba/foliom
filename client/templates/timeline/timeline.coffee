@@ -110,11 +110,11 @@ Template.timeline.rendered = ->
   (@$ '[data-trigger=\'timeline-trigger-estate-building-filter\']').select2()
   # Make actions draggable and droppable
   (this.$ '[data-role=\'draggable-action\']').draggable
-      cursor: '-webkit-grabbing'
-      scrollSensitivity: 100
-      scrollSpeed: 100
-      containment: 'table.timeline.timeline-year-table'
-      revert: 'invalid'
+    cursor: '-webkit-grabbing'
+    scrollSensitivity: 100
+    scrollSpeed: 100
+    containment: 'table.timeline.timeline-year-table'
+    revert: 'invalid'
   (@$ '[data-role=\'dropable-container\']').droppable
     hoverClass: 'dropable', drop: actionItemDropped
   # Create SVG charts with Chartist and attach them to the DOM
@@ -374,7 +374,12 @@ actionItemDropped = (e, t) ->
   # Adjust DOM
   $newActions = $actions.clone()
   $newActions.attr 'style', 'position: relative;'
-  $newActions.draggable DRAGGABLE_PROPERTIES
+  $newActions.draggable
+    cursor: '-webkit-grabbing'
+    scrollSensitivity: 100
+    scrollSpeed: 100
+    containment: 'table.timeline.timeline-year-table'
+    revert: 'invalid'
   $quarter.append $newActions
   $actions.remove()
   # Modify action's start
