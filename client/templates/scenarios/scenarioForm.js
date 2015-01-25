@@ -39,7 +39,7 @@ Template.scenarioForm.rendered = function() {
 
 Template.scenarioForm.helpers({
     getActionLogo: function(){
-        var logoList = ["&#58880;", "&#58881;", "&#58882;"];
+        var logoList = ["&#58880;", "&#58881;", "&#58882;", "&#58883;", "&#58884;", "&#58885;", "&#58886;", "&#58887;"];
         return logoList;
     },
     isCheckbox: function(type){
@@ -113,6 +113,7 @@ Template.scenarioForm.events({
       duration: $(e.target).find('#duration').val()*1,
       total_expenditure: $(e.target).find('#total_expenditure').val()*1,
       roi_less_than: $(e.target).find('#roi_less_than').val()*1,
+      logo: $(e.target).find('input:radio[name=logo]:checked').val(),
     };
 
     //Get all criterion
@@ -211,6 +212,7 @@ Template.scenarioForm.events({
                 duration: scenario.duration,
                 total_expenditure: scenario.total_expenditure,
                 roi_less_than: scenario.roi_less_than,
+                logo: scenario.logo,
                 criterion_list: scenario.criterion_list,
                 planned_actions: scenario.planned_actions,
               }
