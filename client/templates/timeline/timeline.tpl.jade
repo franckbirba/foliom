@@ -9,9 +9,9 @@
         .timeline-filter.pull-right
           select(data-trigger='timeline-trigger-estate-building-filter')
             option(value='all') {{_ 'all'}}
-            optgroup(label="{{_ 'estate'}}")
-              each availableEstates
-                option(value="{estate_id: {{_id}}}")= estate_name
+            optgroup(label="{{_ 'portfolio'}}")
+              each availablePortfolios
+                option(value="{estate_id: {{_id}}}")= name
             optgroup(label="{{_ 'building'}}")              
               each availableBuildings
                 option(value="{building_id: {{_id}}}")= building_name

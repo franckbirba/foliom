@@ -40,9 +40,9 @@ Template.timeline.created = ->
   # Get each buildings for each actions
   buildingIds = _.uniq _.pluck TimelineVars.actions, 'building_id'
   TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
-  # Get each estate for each actions
-  estateIds = _.uniq _.pluck TimelineVars.actions, 'estate_id'
-  TimelineVars.estates = (Estates.find _id: $in: estateIds).fetch()
+  # Get each portfolios for each buildings
+  portfolioIds = _.uniq _.pluck TimelineVars.buildings, 'portfolio_id'
+  TimelineVars.portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
   # Get all leases for all building, this action is done in a single DB call
   # for avoiding too much latency on the screen's creation
   leases = (Leases.find building_id: $in: buildingIds).fetch()
@@ -62,7 +62,7 @@ Template.timeline.created = ->
 ###
 Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
-  availableEstates: -> TimelineVars.estates
+  availablePortfolios: -> TimelineVars.portfolios
   availableBuildings: -> TimelineVars.buildings
   nbActions: -> TimelineVars.actions.length
   timelineActions: -> TimelineVars.timelineActions
@@ -265,9 +265,7 @@ timelineCalctulate = (tv) ->
       quarterContent.tActions = []
       for key, value of group
         item =
-          # @TODO Remove ugly hack once logo are ready
           logo: key
-          # logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
           buildingsToActions: JSON.stringify(for action in value
             building_id: action.building_id
@@ -294,9 +292,10 @@ timelineCalctulate = (tv) ->
     action.start = moment tv.scenario.planned_actions[idx].start
     action.quarter = \
       "#{TAPi18n.__ 'quarter_abbreviation'}#{action.start.format 'Q YYYY'}"
-    # Denormalize building's name
-    action.buildingName = (_.findWhere(tv.buildings, \
-      {_id: action.building_id})).building_name
+    # Denormalize building's name and portfolio's id
+    building = _.findWhere tv.buildings, _id: action.building_id
+    action.buildingName = building.building_name
+    action.portfolioId = building.portfolio_id
     # Denormalize and format cost
     action.formattedCost = (numeral action.investment.cost).format '0,0[.]00 $'
     # Prepare triggering dates
