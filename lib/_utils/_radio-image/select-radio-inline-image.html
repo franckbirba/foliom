@@ -1,9 +1,11 @@
 <template name="afRadioGroupInline_image">
   <div class="af-radio-group" {{dsk}}>
-  {{#each this.items}}
-    <input type="radio" value="{{this.value}}" id="{{this.value}}" {{atts}} class="radioImage logo-radio"/>
-    <label class="radioImage logo-label" for="{{this.value}}">{{{this.label}}}</label>
-  {{/each}}
+    <div class="radioImage logo-zone">
+      {{#each this.items}}
+        <input type="radio" value="{{this.value}}" id="{{this.value}}" {{atts}} class="radioImage logo-radio"/>
+        <label class="radioImage logo-label" for="{{this.value}}">{{{this.label}}}</label>
+      {{/each}}
+    </div>
   </div>
 </template>
 
