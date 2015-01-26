@@ -1,0 +1,24 @@
+<template name="afRadioGroupInline_image">
+  <div class="af-radio-group" {{dsk}}>
+  {{#each this.items}}
+    <input type="radio" value="{{this.value}}" id="{{this.value}}" {{atts}} class="radioImage logo-radio"/>
+    <label class="radioImage logo-label" for="{{this.value}}">{{{this.label}}}</label>
+  {{/each}}
+  </div>
+</template>
+
+
+<!--
+  input.scenarioForm.logo-radio(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isSelected this.valueOf ../logo}}")
+  label.scenarioForm.logo-label(for="!{this.valueOf}") !{this.valueOf}
+-->
+
+
+<!-- <template name="afRadioGroupInline_image">
+  <div class="af-radio-group" {{dsk}}>
+  {{#each this.items}}
+    <label><input type="radio" value="{{this.value}}" {{atts}} /> {{this.label}}</label>
+  {{/each}}
+  </div>
+</template>
+ -->
