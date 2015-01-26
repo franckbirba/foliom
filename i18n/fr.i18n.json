@@ -474,8 +474,8 @@
 		"consumption_noaction": "Consommation courante",
 		"consumption_action_co2": "Consommation après actions CO2",
 		"consumption_action_kwh": "Consommation après actions kWh",
-		"planning_budget_global": "Budget",
-		"planning_budget_investments": "Investissements",
-		"planning_budget_subventions": "Investissements - Subventions"
-
+		"expense_raw": "Dépenses",
+		"investment_budget": "Budget",
+		"investment_raw": "Investissements",
+		"investment_minus_subventions": "Investissements - Subventions"
 }

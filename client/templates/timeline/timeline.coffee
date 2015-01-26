@@ -10,7 +10,8 @@ Session.set 'timeline-action-bucket-displayed', false
   buildings: []
   totalCost: 0
   consumptionChart: null
-  planningBudgetChart: null
+  expenseChart: null
+  investmentChart: null
   minDate: null
   maxDate: null
   timelineActions: []
@@ -75,10 +76,13 @@ Template.timeline.helpers
     { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
     { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
   ]
-  planningBudgetLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'planning_budget_global' }
-    { color: 'colorB', name: TAPi18n.__ 'planning_budget_investments' }
-    { color: 'colorC', name: TAPi18n.__ 'planning_budget_subventions' }
+  expenseLegend: -> [
+    { color: 'colorA', name: TAPi18n.__ 'expense_raw' }
+  ]
+  investmentLegend: -> [
+    { color: 'colorA', name: TAPi18n.__ 'investment_budget' }
+    { color: 'colorB', name: TAPi18n.__ 'investment_raw' }
+    { color: 'colorC', name: TAPi18n.__ 'investment_minus_subventions' }
   ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline-action-bucket-displayed'
@@ -128,14 +132,19 @@ Template.timeline.rendered = ->
     '[data-chart=\'consumptionChart\']'
   , getConsumptionChartData()
   , chartistProperties
-  tv.planningBudgetChart = new Chartist.Line \
-    '[data-chart=\'planningBudgetChart\']'
-  , getPlanningBudgetChartData()
+  tv.expenseChart = new Chartist.Line \
+    '[data-chart=\'expenseChart\']'
+  , getExpenseChartData()
+  , chartistProperties
+  tv.investmentChart = new Chartist.Line \
+    '[data-chart=\'investmentChart\']'
+  , getInvestmentChartData()
   , chartistProperties
   # Add tooltips to the charts
   tv.toolTips = {}
   addToolTip 'consumptionChart'
-  addToolTip 'planningBudgetChart'
+  addToolTip 'expenseChart'
+  addToolTip 'investmentChart'
 
 ###*
  * Object containing event actions for the template.
@@ -168,7 +177,7 @@ Template.timeline.events
     else
       legend.show()
     (chart.toggleClass 'col-md-8').toggleClass 'col-md-11'
-    (chart.children().toggleClass 'ct-octave').toggleClass 'ct-major-twelfth'
+    (chart.children().toggleClass 'ct-octave').toggleClass 'ct-double-octave'
     TimelineVars[chartValue].update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
   # Click on action bucket items for quarter modification
@@ -399,7 +408,8 @@ actionItemDropped = (e, t) ->
     $set: planned_actions: pactions
   # Refresh charts
   TimelineVars.consumptionChart.update getConsumptionChartData()
-  TimelineVars.planningBudgetChart.update getPlanningBudgetChartData()
+  TimelineVars.expenseChart.update getExpenseChartData()
+  TimelineVars.investmentChart.update getInvestmentChartData()
   # Refresh table by hiding it if displayed
   showHideActionBucket() if Session.get 'timeline-action-bucket-displayed', true
 
@@ -426,9 +436,21 @@ getConsumptionChartData = ->
   ]
 
 ###*
- * Helpers for the Planning Budget chart.
+ * Helpers for the Expense chart.
 ###
-getPlanningBudgetChartData = ->
+getExpenseChartData = ->
+  labels: TimelineVars.charts.ticks
+  series: [
+    {
+      name: TAPi18n.__ 'consumption_noaction'
+      data: TimelineVars.charts.consumption
+    }
+  ]
+
+###*
+ * Helpers for the Investment chart.
+###
+getInvestmentChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
