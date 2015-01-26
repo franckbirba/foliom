@@ -442,7 +442,7 @@ getExpenseChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
-      name: TAPi18n.__ 'consumption_noaction'
+      name: TAPi18n.__ 'expense_raw'
       data: TimelineVars.charts.consumption
     }
   ]
@@ -454,15 +454,15 @@ getInvestmentChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
-      name: TAPi18n.__ 'planning_budget_global'
+      name: TAPi18n.__ 'investment_budget'
       data: TimelineVars.charts.budget
     }
     {
-      name: TAPi18n.__ 'planning_budget_investments'
+      name: TAPi18n.__ 'investment_raw'
       data: sumSuiteFromArray TimelineVars.actions, 'investmentSuite'
     }
     {
-      name: TAPi18n.__ 'planning_budget_subventions'
+      name: TAPi18n.__ 'investment_minus_subventions'
       data: sumSuiteFromArray TimelineVars.actions,'investmentSubventionedSuite'
     }
   ]
