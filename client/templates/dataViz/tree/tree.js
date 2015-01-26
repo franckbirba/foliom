@@ -18,95 +18,115 @@ Template.treeTplt.rendered = function () {
     };
 
     // Tree
-    var margin = {top: 20, right: 120, bottom: 20, left: 120},
-    totalHeight = 1800,
-    totalWidth = 600,
-    width = totalWidth - margin.right - margin.left,
-    height = totalHeight - margin.top - margin.bottom;
-
-    var clickedBuilding_d3ref = null ;
-
+    var i, margin, totalHeight, totalWidth, width, height, tree, diagonal, svg;
     var i = 0,
         duration = 750,
         root;
 
-    var tree = d3.layout.tree()
-        .size([height, width]);
-
-    var diagonal = d3.svg.diagonal()
-        .projection(function(d) { return [d.y, d.x]; });
-
-    var svg = d3.select("#treePlaceholder").append("svg")
-        .attr("width", width + margin.right + margin.left)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    //Set up an autorun that will be destroyed with the template is destroyed
+    // First autorun that set the tree SVG, and will be re-run if the Portfolio doc changes >> means that we have to redraw the tree
     this.autorun(function () {
         // but only start it when he Portfolio is defined
         if(Session.get('current_portfolio_doc')) {
 
-        // Create our own JSON-structured file
-        var foliom_data = new Object();
-        foliom_data = {
-            "name": "flare",
-             "children": []
-        };
+          //Set totalHeight dynamically
+          var building_nb = Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id }).fetch().length;
+          totalHeight = 30*building_nb + 100;
+          console.log(totalHeight);
 
-        foliom_data.name = Session.get('current_portfolio_doc').name ;
+          margin = {top: 20, right: 120, bottom: 20, left: 120};
+          // totalHeight = 1800,
+          totalWidth = 600;
+          width = totalWidth - margin.right - margin.left;
+          height = totalHeight - margin.top - margin.bottom;
 
-        var tmp_current_portfolio_doc = Portfolios.findOne(Session.get('current_portfolio_doc')._id);
 
-        var building_list = Buildings.find({portfolio_id: tmp_current_portfolio_doc._id },
-                            {sort: {name:1}}
-                            ).fetch();
 
-        // Method to get all Actions for Each building + build a children list for the Tree
-        function getActionsForBuilding(id_param) {
-            var action_list = Actions.find({
-                                "action_type":"child",
-                                "building_id": id_param
-                            },
-                            {sort: {name:1}}
-                            ).fetch();
+          clickedBuilding_d3ref = null ;
 
-            var tmp_list = [];
+          tree = d3.layout.tree()
+              .size([height, width]);
 
-            _.each(action_list, function(item) {
-                tmp_list.push(
-                        {
-                            "name": item.name,
-                        }
-                    );
-            });
-            // console.log(tmp_list);
-            return tmp_list;
-        };
+          diagonal = d3.svg.diagonal()
+              .projection(function(d) { return [d.y, d.x]; });
 
-        _.each(building_list, function(item) {
-                foliom_data.children.push(
-                        {
-                            "name": item.building_name,
-                            "children": getActionsForBuilding(item._id)
-                        }
-                    );
-            });
+          //Remove all previous trees
+          d3.select("svg")
+            .remove();
 
-          root = foliom_data;
-          root.x0 = height / 2;
-          root.y0 = 0;
+          svg = d3.select("#treePlaceholder").append("svg")
+              .attr("width", width + margin.right + margin.left)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-          function collapse(d) {
-            if (d.children) {
-              d._children = d.children;
-              d._children.forEach(collapse);
-              d.children = null;
+        }
+      });
+
+      //Second autorun that is in charge of drawing the nodes and tree (and redrawing on events)
+      this.autorun(function () {
+        // but only start it when he Portfolio is defined
+        if(Session.get('current_portfolio_doc')) {
+
+          // Create our own JSON-structured file
+          var foliom_data = new Object();
+          foliom_data = {
+              "name": "flare",
+               "children": []
+          };
+
+          foliom_data.name = Session.get('current_portfolio_doc').name ;
+
+          var tmp_current_portfolio_doc = Portfolios.findOne(Session.get('current_portfolio_doc')._id);
+
+          var building_list = Buildings.find({portfolio_id: tmp_current_portfolio_doc._id },
+                              {sort: {name:1}}
+                              ).fetch();
+
+          // Method to get all Actions for Each building + build a children list for the Tree
+          function getActionsForBuilding(id_param) {
+              var action_list = Actions.find({
+                                  "action_type":"child",
+                                  "building_id": id_param
+                              },
+                              {sort: {name:1}}
+                              ).fetch();
+
+              var tmp_list = [];
+
+              _.each(action_list, function(item) {
+                  tmp_list.push(
+                          {
+                              "name": item.name,
+                          }
+                      );
+              });
+              // console.log(tmp_list);
+              return tmp_list;
+          };
+
+          _.each(building_list, function(item) {
+                  foliom_data.children.push(
+                          {
+                              "name": item.building_name,
+                              "children": getActionsForBuilding(item._id)
+                          }
+                      );
+              });
+
+            root = foliom_data;
+            root.x0 = height / 2;
+            root.y0 = 0;
+
+            function collapse(d) {
+              if (d.children) {
+                d._children = d.children;
+                d._children.forEach(collapse);
+                d.children = null;
+              }
             }
-          }
 
-          root.children.forEach(collapse);
-          update(root);
+            root.children.forEach(collapse);
+            update(root);
         }
 
 
