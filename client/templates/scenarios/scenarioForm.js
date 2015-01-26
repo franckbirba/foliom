@@ -40,6 +40,9 @@ Template.scenarioForm.rendered = function() {
 Template.scenarioForm.helpers({
     getActionLogo: function(){
         var logoList = ["&#58880;", "&#58881;", "&#58882;", "&#58883;", "&#58884;", "&#58885;", "&#58886;", "&#58887;"];
+        //max-height: 175px;
+        //overflow-y: auto;
+        // return Selectors.findOne({name: 'action_logo'}, {reactive: false}).labels;
         return logoList;
     },
     isCheckbox: function(type){

@@ -64,6 +64,29 @@ Meteor.startup(function () {
         }
   });
 
+
+  // UTILITIES that have to be launched at startup
+  // get all pictos from 'foliom-picto' font
+  var foliomPictoSelection = Assets.getText('foliom-picto-selection.json');
+  var foliomPictoSelectionJson = EJSON.parse(foliomPictoSelection);
+
+  var actionLogo = _.map(foliomPictoSelectionJson.icons, function(item){
+    return "&#" + item.properties.code + ";" ;
+  });
+  // console.log("actionLogo is: ");
+  // console.log(actionLogo);
+
+  var actionLogoObject = {
+                    name: 'action_logo',
+                    labels: actionLogo
+                };
+  Selectors.upsert({name: 'action_logo'}, {$set: actionLogoObject});
+
+
+
+
+  // Fixtures : inserting some data at startup, if MongoDB is empty
+
 	if (Meteor.users.find().count() === 0) {
 		console.log("creating user test");
     var testUser = Accounts.createUser({
