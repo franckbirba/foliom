@@ -11,8 +11,8 @@
           .list-errors
             each errorMessages
               .list-item= this
-        input.form-control(type='email', name='email', placeholder="{{_ 'your_email'}}")
-        input.form-control(type='password', name='password', placeholder="{{_ 'your_password'}}")
+        input.form-control(type='email', required, name='email', placeholder="{{_ 'your_email'}}")
+        input.form-control(type='password', required, name='password', placeholder="{{_ 'your_password'}}")
         .clearfix
           button.btn.btn-primary.pull-right(type='submit') {{_ 'connect'}}
   .row
