@@ -70,20 +70,6 @@ Template.timeline.helpers
   totalCost: -> (numeral TimelineVars.totalCost).format '0,0[.]00 $'
   triGlobal: -> TAPi18n.__ 'calculating'
   energySaving: -> TAPi18n.__ 'calculating'
-  # Legends are created as simple <table>
-  consumptionChartLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'consumption_noaction' }
-    { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
-    { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
-  ]
-  expenseChartLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'expense_raw' }
-  ]
-  investmentChartLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'investment_budget' }
-    { color: 'colorB', name: TAPi18n.__ 'investment_raw' }
-    { color: 'colorC', name: TAPi18n.__ 'investment_minus_subventions' }
-  ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline-action-bucket-displayed'
   # Action bucket's exports as table

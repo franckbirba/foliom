@@ -4,6 +4,25 @@ CHARTIST_PROPERTIES =
   showPoint: true
   axisX: showLabel: false, showGrid: false
 
+# Legends are created as simple <table>
+Template.timelineChart.helpers
+  chartLegend: ->
+    legends =
+      consumptionChart: [
+        { color: 'colorA', name: TAPi18n.__ 'consumption_noaction' }
+        { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
+        { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
+      ]
+      expenseChart: [
+        { color: 'colorA', name: TAPi18n.__ 'expense_raw' }
+      ]
+      investmentChart: [
+        { color: 'colorA', name: TAPi18n.__ 'investment_budget' }
+        { color: 'colorB', name: TAPi18n.__ 'investment_raw' }
+        { color: 'colorC', name: TAPi18n.__ 'investment_minus_subventions' }
+      ]
+    legends[@chartName]
+
 ###*
  * Calculate and present data suite for the Consumption chart.
 ###
