@@ -1,34 +1,34 @@
-Template.estateForm.helpers(
-    {
-        users: function(){
-            var labelList2 = [] ;
+Template.estateForm.rendered = function () {
+    AutoForm.debug();
+};
 
-            Meteor.users.find().forEach(function(user) {
-                    // console.log(user.profile.username);
-                    var name = user.profile.firstName + " " + user.profile.lastName ;
-                    labelList2.push({label:name, value:name});
-            });
-            return labelList2;
-        },
-        getEstate: function(){
-            if (Session.get('update_estate_var')) {
-                return Session.get('update_estate_doc');
-            } else {
-                return "";
-            };
-        }
-    });
-Template.estateForm.helpers(
-    {
-        getFormType: function(){
-            if(Session.get('update_estate_var')) {
-                return "update";
-            } else {
-                return "insert";
-            }
+Template.estateForm.helpers({
+    users: function(){
+        var labelList2 = [] ;
+
+        Meteor.users.find().forEach(function(user) {
+                // console.log(user.profile.username);
+                var name = user.profile.firstName + " " + user.profile.lastName ;
+                labelList2.push({label:name, value:name});
+        });
+        return labelList2;
+    },
+    getEstate: function(){
+        if (Session.get('update_estate_var')) {
+            console.log( Session.get('update_estate_doc') );
+            return Session.get('update_estate_doc');
+        } else {
+            return "";
+        };
+    },
+    getFormType: function(){
+        if(Session.get('update_estate_var')) {
+            return "update";
+        } else {
+            return "insert";
         }
     }
-);
+});
 
 AutoForm.addHooks(null, {
     onError: function(){
