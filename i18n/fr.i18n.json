@@ -329,6 +329,12 @@
     "automatic_doors":"Portes automatiques",
     "chiller_system": "Groupe Froid",
 
+    "nf_hqe": "NF - démarche HQE",
+    "breeam": "BREEAM",
+    "us_leed": "USGBC - LEED",
+    "effinergie": "Effinergie",
+    "bepos2013": "BEPOS 2013",
+
 
     /* Action Form */
 
