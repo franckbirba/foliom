@@ -65,26 +65,6 @@ Meteor.startup(function () {
   });
 
 
-  // UTILITIES that have to be launched at startup
-  // get all pictos from 'foliom-picto' font
-  var foliomPictoSelection = Assets.getText('foliom-picto-selection.json');
-  var foliomPictoSelectionJson = EJSON.parse(foliomPictoSelection);
-
-  var actionLogo = _.map(foliomPictoSelectionJson.icons, function(item){
-    return "&#" + item.properties.code + ";" ;
-  });
-  // console.log("actionLogo is: ");
-  // console.log(actionLogo);
-
-  var actionLogoObject = {
-                    name: 'action_logo',
-                    labels: actionLogo
-                };
-  Selectors.upsert({name: 'action_logo'}, {$set: actionLogoObject});
-
-
-
-
   // Fixtures : inserting some data at startup, if MongoDB is empty
 
 	if (Meteor.users.find().count() === 0) {
@@ -819,6 +799,10 @@ Meteor.startup(function () {
                     labels: ["compliant", "not_compliant_minor", "not_compliant_major"],
                     portfolio_id: ""
                 },
+                {
+                    name: 'certifications',
+                    labels: ["nf_hqe", "breeam", "us_leed", "effinergie", "bepos2013"]
+                },
 
             ];
 
@@ -833,6 +817,24 @@ Meteor.startup(function () {
         console.log('created first Selector list - 2 items!');
 
     };
+
+    // get all pictos from 'foliom-picto' font
+    var foliomPictoSelection = Assets.getText('foliom-picto-selection.json');
+    var foliomPictoSelectionJson = EJSON.parse(foliomPictoSelection);
+
+    var actionLogo = _.map(foliomPictoSelectionJson.icons, function(item){
+      return "&#" + item.properties.code + ";" ;
+    });
+    // console.log("actionLogo is: ");
+    // console.log(actionLogo);
+
+    var actionLogoObject = {
+                      name: 'action_logo',
+                      labels: actionLogo
+                  };
+    Selectors.upsert({name: 'action_logo'}, {$set: actionLogoObject});
+
+
     if(EndUse.find().count() === 0) {
         var data = [
                 {
