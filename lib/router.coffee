@@ -40,7 +40,7 @@ Router.map ->
     # Buildings
     'buildings', 'building-new', 'building-form'
     # Estates
-    'estate-form'
+    'estatesList', 'estate-form'
     # Actions
     'action-form', 'actions-home', 'actions-apply', 'actions-list'
   ]

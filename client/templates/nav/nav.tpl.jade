@@ -13,9 +13,8 @@ nav.navbar.navbar-default(role='navigation'): .container: .col-sm-12
         ul.dropdown-menu(role='menu')
           li: a(href='/settings', class="{{activPage 'settings'}}") Settings
           li: a(href='/user') Users
+          li: a(href='{{pathFor "estatesList"}}') Estate list
           li: a(href='/selectors') Selectors
-          li: a(href='{{pathFor "actions-list"}}') ActionsList
-          li: a(href='/scenarioForm') ScenarioForm
           li: a(href='/timeline') timeline
       ul.nav.navbar-nav: li.dropdown
         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
