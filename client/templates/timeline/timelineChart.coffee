@@ -7,7 +7,7 @@ CHARTIST_PROPERTIES =
 ###*
  * Calculate and present data suite for the Consumption chart.
 ###
-TimelineVars.getConsumptionChartData = ->
+TimelineVars.consumptionChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
@@ -29,7 +29,7 @@ TimelineVars.getConsumptionChartData = ->
 ###*
  * Calculate and present data suite for the Expense chart.
 ###
-TimelineVars.getExpenseChartData = ->
+TimelineVars.expenseChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
@@ -41,7 +41,7 @@ TimelineVars.getExpenseChartData = ->
 ###*
  * Calculate and present data suite for the Investment chart.
 ###
-TimelineVars.getInvestmentChartData = ->
+TimelineVars.investmentChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
@@ -64,17 +64,9 @@ TimelineVars.getInvestmentChartData = ->
 Template.timelineChart.rendered = ->
   # Create SVG charts with Chartist and attach them to the DOM
   tv = window.TimelineVars
-  tv.consumptionChart = new Chartist.Line \
-    '[data-chart=\'consumptionChart\']'
-  , tv.getConsumptionChartData()
-  , CHARTIST_PROPERTIES
-  tv.expenseChart = new Chartist.Line \
-    '[data-chart=\'expenseChart\']'
-  , tv.getExpenseChartData()
-  , CHARTIST_PROPERTIES
-  tv.investmentChart = new Chartist.Line \
-    '[data-chart=\'investmentChart\']'
-  , tv.getInvestmentChartData()
+  tv[@data.chartName] = new Chartist.Line \
+    "[data-chart='#{@data.chartName}']"
+  , tv["#{@data.chartName}Data"]()
   , CHARTIST_PROPERTIES
   # Add tooltips to the charts
   addToolTip @data.chartName

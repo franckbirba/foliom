@@ -71,15 +71,15 @@ Template.timeline.helpers
   triGlobal: -> TAPi18n.__ 'calculating'
   energySaving: -> TAPi18n.__ 'calculating'
   # Legends are created as simple <table>
-  consumptionLegend: -> [
+  consumptionChartLegend: -> [
     { color: 'colorA', name: TAPi18n.__ 'consumption_noaction' }
     { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
     { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
   ]
-  expenseLegend: -> [
+  expenseChartLegend: -> [
     { color: 'colorA', name: TAPi18n.__ 'expense_raw' }
   ]
-  investmentLegend: -> [
+  investmentChartLegend: -> [
     { color: 'colorA', name: TAPi18n.__ 'investment_budget' }
     { color: 'colorB', name: TAPi18n.__ 'investment_raw' }
     { color: 'colorC', name: TAPi18n.__ 'investment_minus_subventions' }
@@ -333,8 +333,7 @@ actionItemDropped = (e, t) ->
   # Update DB
   Scenarios.update {_id: tv.scenario._id}, $set: planned_actions: pactions
   # Refresh charts
-  tv.consumptionChart.update tv.getConsumptionChartData()
-  tv.expenseChart.update tv.getExpenseChartData()
-  tv.investmentChart.update tv.getInvestmentChartData()
+  for chart in ['consumptionChart', 'expenseChart', 'investmentChart']
+    tv[chart].update tv["#{chart}Data"]()
   # Refresh table by hiding it if displayed
   showHideActionBucket() if Session.get 'timeline-action-bucket-displayed', true

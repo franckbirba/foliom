@@ -56,11 +56,11 @@
       // The charts
       .row: .col-md-12: .panel.panel-primary: .panel-body
         // The consumption chart
-        +timelineChart chartName='consumptionChart' chartLegendHelper=consumptionLegend
+        +timelineChart chartName='consumptionChart' chartLegendHelper=consumptionChartLegend
         // The Expense chart
-        +timelineChart chartName='expenseChart' chartLegendHelper=expenseLegend
+        +timelineChart chartName='expenseChart' chartLegendHelper=expenseChartLegend
         // The Investment chart
-        +timelineChart chartName='investmentChart' chartLegendHelper=investmentLegend
+        +timelineChart chartName='investmentChart' chartLegendHelper=investmentChartLegend
   // Action bucket
   .row.action-bucket: .col-md-12: .panel.panel.panel-primary
     .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
