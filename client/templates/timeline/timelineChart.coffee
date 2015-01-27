@@ -4,6 +4,9 @@ CHARTIST_PROPERTIES =
   showPoint: true
   axisX: showLabel: false, showGrid: false
 
+###*
+ * Calculate and present data suite for the Consumption chart.
+###
 TimelineVars.getConsumptionChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
@@ -23,6 +26,9 @@ TimelineVars.getConsumptionChartData = ->
     }
   ]
 
+###*
+ * Calculate and present data suite for the Expense chart.
+###
 TimelineVars.getExpenseChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
@@ -32,6 +38,9 @@ TimelineVars.getExpenseChartData = ->
     }
   ]
 
+###*
+ * Calculate and present data suite for the Investment chart.
+###
 TimelineVars.getInvestmentChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
