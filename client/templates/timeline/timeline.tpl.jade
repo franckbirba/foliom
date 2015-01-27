@@ -56,35 +56,11 @@
       // The charts
       .row: .col-md-12: .panel.panel-primary: .panel-body
         // The consumption chart
-        .row(data-role='consumptionChart')
-          // Hide/show legend
-          .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='consumptionChart')
-          // The chart
-          .col-md-8(data-role='chart').chart-fixed-height: .ct-chart.ct-major-tenth(data-chart='consumptionChart')
-          // The legend
-          .col-md-4(data-role='legend'): small
-            each consumptionLegend
-              .chart-legend(class=color)= name
+        +timelineChart chartName='consumptionChart' chartLegendHelper=consumptionLegend
         // The Expense chart
-        .row(data-role='expenseChart')
-          // Hide/show legend
-          .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='expenseChart')
-          // The chart
-          .col-md-8(data-role='chart').chart-fixed-height: .ct-chart.ct-major-tenth(data-chart='expenseChart')
-          // The legend
-          .col-md-4(data-role='legend'): small
-            each expenseLegend
-              .chart-legend(class=color)= name
+        +timelineChart chartName='expenseChart' chartLegendHelper=expenseLegend
         // The Investment chart
-        .row(data-role='investmentChart')
-          // Hide/show legend
-          .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='investmentChart')
-          // The chart
-          .col-md-8(data-role='chart').chart-fixed-height: .ct-chart.ct-major-tenth(data-chart='investmentChart')
-          // The legend
-          .col-md-4(data-role='legend'): small
-            each investmentLegend
-              .chart-legend(class=color)= name
+        +timelineChart chartName='investmentChart' chartLegendHelper=investmentLegend
   // Action bucket
   .row.action-bucket: .col-md-12: .panel.panel.panel-primary
     .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
