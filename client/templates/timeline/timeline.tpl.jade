@@ -9,9 +9,9 @@
         .timeline-filter.pull-right
           select(data-trigger='timeline-trigger-estate-building-filter')
             option(value='all') {{_ 'all'}}
-            optgroup(label="{{_ 'estate'}}")
-              each availableEstates
-                option(value="{estate_id: {{_id}}}")= estate_name
+            optgroup(label="{{_ 'portfolio'}}")
+              each availablePortfolios
+                option(value="{estate_id: {{_id}}}")= name
             optgroup(label="{{_ 'building'}}")              
               each availableBuildings
                 option(value="{building_id: {{_id}}}")= building_name
@@ -56,25 +56,11 @@
       // The charts
       .row: .col-md-12: .panel.panel-primary: .panel-body
         // The consumption chart
-        .row(data-role='consumptionChart')
-          // Hide/show legend
-          .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='consumptionChart')
-          // The chart
-          .col-md-8(data-role='chart').chart-fixed-height: .ct-chart.ct-octave(data-chart='consumptionChart')
-          // The legend
-          .col-md-4(data-role='legend'): small
-            each consumptionLegend
-              .chart-legend(class=color)= name
-        // The Planning budget chart
-        .row(data-role='planningBudgetChart')
-          // Hide/show legend
-          .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value='planningBudgetChart')
-          // The chart
-          .col-md-8(data-role='chart').chart-fixed-height: .ct-chart.ct-octave(data-chart='planningBudgetChart')
-          // The legend
-          .col-md-4(data-role='legend'): small
-            each planningBudgetLegend
-              .chart-legend(class=color)= name
+        +timelineChart chartName='consumptionChart' chartLegendHelper=consumptionLegend
+        // The Expense chart
+        +timelineChart chartName='expenseChart' chartLegendHelper=expenseLegend
+        // The Investment chart
+        +timelineChart chartName='investmentChart' chartLegendHelper=investmentLegend
   // Action bucket
   .row.action-bucket: .col-md-12: .panel.panel.panel-primary
     .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
@@ -94,12 +80,11 @@
             each actionBucketTableBody
               tr.noselect(data-role='draggable-action-bucket', data-value='{action_id:{{_id}}}')                  
                 td.quarter-select
-                  .quarter-modifier
-                    form.form-inline
-                      input(type='text', placeholder='Quarter')
-                      input(type='text', placeholder='Year')  
-                      span.fa.fa-check.text-success
-                      span.fa.fa-close.text-danger
+                  .quarter-modifier: form.form-inline
+                    input(type='number', min='1', max='4', placeholder='Quarter')
+                    input(type='number', min='2014', max='2046', placeholder='Year')  
+                    span.fa.fa-check.text-success
+                    span.fa.fa-close.text-danger
                   .quarter-content
                     i.fa.fa-calendar
                     = quarter

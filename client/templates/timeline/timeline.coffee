@@ -10,7 +10,8 @@ Session.set 'timeline-action-bucket-displayed', false
   buildings: []
   totalCost: 0
   consumptionChart: null
-  planningBudgetChart: null
+  expenseChart: null
+  investmentChart: null
   minDate: null
   maxDate: null
   timelineActions: []
@@ -40,9 +41,9 @@ Template.timeline.created = ->
   # Get each buildings for each actions
   buildingIds = _.uniq _.pluck TimelineVars.actions, 'building_id'
   TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
-  # Get each estate for each actions
-  estateIds = _.uniq _.pluck TimelineVars.actions, 'estate_id'
-  TimelineVars.estates = (Estates.find _id: $in: estateIds).fetch()
+  # Get each portfolios for each buildings
+  portfolioIds = _.uniq _.pluck TimelineVars.buildings, 'portfolio_id'
+  TimelineVars.portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
   # Get all leases for all building, this action is done in a single DB call
   # for avoiding too much latency on the screen's creation
   leases = (Leases.find building_id: $in: buildingIds).fetch()
@@ -62,7 +63,7 @@ Template.timeline.created = ->
 ###
 Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
-  availableEstates: -> TimelineVars.estates
+  availablePortfolios: -> TimelineVars.portfolios
   availableBuildings: -> TimelineVars.buildings
   nbActions: -> TimelineVars.actions.length
   timelineActions: -> TimelineVars.timelineActions
@@ -75,10 +76,13 @@ Template.timeline.helpers
     { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
     { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
   ]
-  planningBudgetLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'planning_budget_global' }
-    { color: 'colorB', name: TAPi18n.__ 'planning_budget_investments' }
-    { color: 'colorC', name: TAPi18n.__ 'planning_budget_subventions' }
+  expenseLegend: -> [
+    { color: 'colorA', name: TAPi18n.__ 'expense_raw' }
+  ]
+  investmentLegend: -> [
+    { color: 'colorA', name: TAPi18n.__ 'investment_budget' }
+    { color: 'colorB', name: TAPi18n.__ 'investment_raw' }
+    { color: 'colorC', name: TAPi18n.__ 'investment_minus_subventions' }
   ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline-action-bucket-displayed'
@@ -128,14 +132,19 @@ Template.timeline.rendered = ->
     '[data-chart=\'consumptionChart\']'
   , getConsumptionChartData()
   , chartistProperties
-  tv.planningBudgetChart = new Chartist.Line \
-    '[data-chart=\'planningBudgetChart\']'
-  , getPlanningBudgetChartData()
+  tv.expenseChart = new Chartist.Line \
+    '[data-chart=\'expenseChart\']'
+  , getExpenseChartData()
+  , chartistProperties
+  tv.investmentChart = new Chartist.Line \
+    '[data-chart=\'investmentChart\']'
+  , getInvestmentChartData()
   , chartistProperties
   # Add tooltips to the charts
   tv.toolTips = {}
   addToolTip 'consumptionChart'
-  addToolTip 'planningBudgetChart'
+  addToolTip 'expenseChart'
+  addToolTip 'investmentChart'
 
 ###*
  * Object containing event actions for the template.
@@ -168,7 +177,7 @@ Template.timeline.events
     else
       legend.show()
     (chart.toggleClass 'col-md-8').toggleClass 'col-md-11'
-    (chart.children().toggleClass 'ct-octave').toggleClass 'ct-major-twelfth'
+    (chart.children().toggleClass 'ct-octave').toggleClass 'ct-double-octave'
     TimelineVars[chartValue].update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
   # Click on action bucket items for quarter modification
@@ -265,9 +274,7 @@ timelineCalctulate = (tv) ->
       quarterContent.tActions = []
       for key, value of group
         item =
-          # @TODO Remove ugly hack once logo are ready
           logo: key
-          # logo: "&#5888#{Random.choice [0...10]};"
           length: value.length
           buildingsToActions: JSON.stringify(for action in value
             building_id: action.building_id
@@ -294,9 +301,10 @@ timelineCalctulate = (tv) ->
     action.start = moment tv.scenario.planned_actions[idx].start
     action.quarter = \
       "#{TAPi18n.__ 'quarter_abbreviation'}#{action.start.format 'Q YYYY'}"
-    # Denormalize building's name
-    action.buildingName = (_.findWhere(tv.buildings, \
-      {_id: action.building_id})).building_name
+    # Denormalize building's name and portfolio's id
+    building = _.findWhere tv.buildings, _id: action.building_id
+    action.buildingName = building.building_name
+    action.portfolioId = building.portfolio_id
     # Denormalize and format cost
     action.formattedCost = (numeral action.investment.cost).format '0,0[.]00 $'
     # Prepare triggering dates
@@ -400,7 +408,8 @@ actionItemDropped = (e, t) ->
     $set: planned_actions: pactions
   # Refresh charts
   TimelineVars.consumptionChart.update getConsumptionChartData()
-  TimelineVars.planningBudgetChart.update getPlanningBudgetChartData()
+  TimelineVars.expenseChart.update getExpenseChartData()
+  TimelineVars.investmentChart.update getInvestmentChartData()
   # Refresh table by hiding it if displayed
   showHideActionBucket() if Session.get 'timeline-action-bucket-displayed', true
 
@@ -427,21 +436,33 @@ getConsumptionChartData = ->
   ]
 
 ###*
- * Helpers for the Planning Budget chart.
+ * Helpers for the Expense chart.
 ###
-getPlanningBudgetChartData = ->
+getExpenseChartData = ->
   labels: TimelineVars.charts.ticks
   series: [
     {
-      name: TAPi18n.__ 'planning_budget_global'
+      name: TAPi18n.__ 'expense_raw'
+      data: TimelineVars.charts.consumption
+    }
+  ]
+
+###*
+ * Helpers for the Investment chart.
+###
+getInvestmentChartData = ->
+  labels: TimelineVars.charts.ticks
+  series: [
+    {
+      name: TAPi18n.__ 'investment_budget'
       data: TimelineVars.charts.budget
     }
     {
-      name: TAPi18n.__ 'planning_budget_investments'
+      name: TAPi18n.__ 'investment_raw'
       data: sumSuiteFromArray TimelineVars.actions, 'investmentSuite'
     }
     {
-      name: TAPi18n.__ 'planning_budget_subventions'
+      name: TAPi18n.__ 'investment_minus_subventions'
       data: sumSuiteFromArray TimelineVars.actions,'investmentSubventionedSuite'
     }
   ]
