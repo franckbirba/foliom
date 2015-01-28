@@ -31,27 +31,32 @@ Template.actionsApply.rendered = function () {
 
 };
 
-Template.actionsApply.helpers(
-    {
-        getUsableActions: function(){
-            return Actions.find({
-                $or: [
-                    { // generic actions
-                        "estate_id": { $exists: false },
-                        "action_type": "generic"
-                    },
-                    { // user_template actions
-                        "estate_id": Session.get('current_estate_doc')._id,
-                        "action_type": "user_template"
-                    }
-                ]
-            }).fetch();
-        },
-    currentBuildingName: function(){
-        if (Session.get('current_building_doc')) {
-            return Session.get('current_building_doc').building_name;
-        }
+Template.actionsApply.helpers({
+  getUsableActions: function(){
+    return Actions.find({
+        $or: [
+            { // generic actions
+                "estate_id": { $exists: false },
+                "action_type": "generic"
+            },
+            { // user_template actions
+                "estate_id": Session.get('current_estate_doc')._id,
+                "action_type": "user_template"
+            }
+        ]
+    }).fetch();
+  },
+  currentBuildingName: function(){
+    if (Session.get('current_building_doc')) {
+        return Session.get('current_building_doc').building_name;
     }
+  },
+  renderActionTemplate: function(){
+    if (Session.get('current_building_doc') && Session.get('childActionToEdit') ) {
+      console.log("Ok, rendering form");
+      return 'actionForm';
+    }
+  }
 });
 
 Template.actionsApply.events({
@@ -76,6 +81,9 @@ Template.actionsApply.events({
 
             var newActionID = Actions.insert(childActionToCreate);
 
+            //2015-01_-27 First test to trigger actionForm when checkbox is clicked
+            Session.set('childActionToEdit', childActionToCreate);
+
         } else {
             // In this case we want to remove the child action
             var childId = Actions.findOne({
@@ -84,6 +92,9 @@ Template.actionsApply.events({
                 "action_template_id": original_id
                 })._id;
             Actions.remove(childId);
+
+            //2015-01_-27 First test to trigger actionForm when checkbox is clicked
+            Session.set('childActionToEdit', null);
         }
 
         // To finish: click the correct node

@@ -30,12 +30,15 @@ AutoForm.hooks({
 
 Template.actionForm.destroyed = function () {
   Session.set('newActionType', null);
-  Session.set('childActionToEdit', null);
   Session.set('updateAction', null);
   Session.set('masterAction', null);
 
   Session.set('YS_values', null);
   Session.set("flux_notActualized", null);
+
+  if (Router.current().route.getName() !== "action-form"){
+    Session.set('childActionToEdit', null);
+  }
 };
 
 Template.actionForm.helpers({
@@ -69,28 +72,44 @@ Template.actionForm.helpers({
 });
 
 Template.actionForm.rendered = function () {
+  curr_route = Router.current().route.getName();
+
+  // Reprendre ici : ce qui est ci-dessous ne devrait se lancer que lorsque le buildingDoc est défini
+
 
   // Only apply formulas if we're editing a child action
-  if ( Session.get('childActionToEdit') ) {
+  //or if we're in the actions-apply screen
+  if ( Session.get('childActionToEdit') || curr_route === "actions-apply") {
+    var allLeases, allEndUseData, confFluids;
+    var all_yearly_savings = []; // Will contain all savings, for each EndUse
+    var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
+
     /* -------------- */
     /* EndUse formula */
     /* -------------- */
-    allLeases = Leases.find(
-            {building_id:Session.get('current_building_doc')._id},
-            {sort: {lease_name:1}}
-        ).fetch();
-    var allEndUseData = [];
-    var confFluids = Session.get('current_config').fluids ;
+    this.autorun(function () {
+      if (Session.get('current_building_doc') ) {
+        allLeases = Leases.find(
+                {building_id:Session.get('current_building_doc')._id},
+                {sort: {lease_name:1}}
+            ).fetch();
+        allEndUseData = [];
+        confFluids = Session.get('current_config').fluids ;
 
-    var all_yearly_savings = []; // Will contain all savings, for each EndUse
-    var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
-    // // Init this array
-    // for (var i = 0; i < 31; i++)
-    //     all_yearly_savings.push({
-    //         "year": 0,
-    //         "euro_savings": 0
-    //     });
-    // console.log(all_yearly_savings);
+        console.log("allLeases");
+        console.log(allLeases);
+
+        all_yearly_savings = []; // re-init
+        all_yearly_savings_simplyValues = []; //re-init
+        // // Init this array
+        // for (var i = 0; i < 31; i++)
+        //     all_yearly_savings.push({
+        //         "year": 0,
+        //         "euro_savings": 0
+        //     });
+        // console.log(all_yearly_savings);
+      }
+    });
 
     this.autorun(function () {
       // Have this loop monitor all opportunity Selectors
@@ -319,6 +338,11 @@ Template.actionForm.rendered = function () {
       }
     });
     $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
+    // this.autorun(function () { // Autorun to make sure it's triggered on Building change in actions-apply
+    //   if (Session.get('current_building_doc')) {
+    //     $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
+    //   };
+    // });
 
 
     // Subventions: residual cost
