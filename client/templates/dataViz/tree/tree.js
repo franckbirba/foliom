@@ -108,6 +108,7 @@ Template.treeTplt.rendered = function () {
                   foliom_data.children.push(
                           {
                               "name": item.building_name,
+                              "id": item._id,
                               "children": getActionsForBuilding(item._id)
                           }
                       );
@@ -161,7 +162,7 @@ Template.treeTplt.rendered = function () {
               .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
               .text(function(d) { return d.name; })
               .style("fill-opacity", 1e-6)
-              .attr("id", function(d) { return d.name; }); // Add an ID to be able to select
+              .attr("id", function(d) { return d.id; }); // Add an ID to be able to select
 
           // Transition nodes to their new position.
           var nodeUpdate = node.transition()

@@ -98,7 +98,7 @@ Template.actionsApply.events({
         }
 
         // To finish: click the correct node
-        var itemToClick = '#' + Session.get('current_building_doc').building_name;
+        var itemToClick = '#' + Session.get('current_building_doc')._id;
 
         // But first give the time to reload the graph
         setTimeout(function(){
