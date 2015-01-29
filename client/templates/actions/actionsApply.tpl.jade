@@ -16,7 +16,3 @@
           label
             input.ActionCheckbox(type='checkbox', value='{{_id}}')
             | {{name}}
-  .hidden-action-form
-    //- +actionForm
-    //- {{> Template.dynamic template=template [data=data] }}
-    +Template.dynamic(template=renderActionTemplate)
