@@ -12,6 +12,7 @@ Session.set 'timeline-action-bucket-displayed', false
   consumptionChart: null
   expenseChart: null
   investmentChart: null
+  toolTips: {}
   minDate: null
   maxDate: null
   timelineActions: []
@@ -19,7 +20,6 @@ Session.set 'timeline-action-bucket-displayed', false
 
 ###*
  * Prepare calculation at template creation.
- * @return {undefined} N/A
 ###
 Template.timeline.created = ->
   # Reset action bucket's display when entering screen
@@ -70,20 +70,6 @@ Template.timeline.helpers
   totalCost: -> (numeral TimelineVars.totalCost).format '0,0[.]00 $'
   triGlobal: -> TAPi18n.__ 'calculating'
   energySaving: -> TAPi18n.__ 'calculating'
-  # Legends are created as simple <table>
-  consumptionLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'consumption_noaction' }
-    { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
-    { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
-  ]
-  expenseLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'expense_raw' }
-  ]
-  investmentLegend: -> [
-    { color: 'colorA', name: TAPi18n.__ 'investment_budget' }
-    { color: 'colorB', name: TAPi18n.__ 'investment_raw' }
-    { color: 'colorC', name: TAPi18n.__ 'investment_minus_subventions' }
-  ]
   # Action bucket trigger
   isActionBucketDisplayed: -> Session.get 'timeline-action-bucket-displayed'
   # Action bucket's exports as table
@@ -107,7 +93,6 @@ Template.timeline.helpers
 
 ###*
  * Ends rendering actions when template is rendered.
- * @return {undefined} N/A
 ###
 Template.timeline.rendered = ->
   # Set estate and building filter as a select2
@@ -121,30 +106,6 @@ Template.timeline.rendered = ->
     revert: 'invalid'
   (@$ '[data-role=\'dropable-container\']').droppable
     hoverClass: 'dropable', drop: actionItemDropped
-  # Create SVG charts with Chartist and attach them to the DOM
-  tv = window.TimelineVars
-  chartistProperties =
-    low: 0
-    lineSmooth: false
-    showPoint: true
-    axisX: showLabel: false, showGrid: false
-  tv.consumptionChart = new Chartist.Line \
-    '[data-chart=\'consumptionChart\']'
-  , getConsumptionChartData()
-  , chartistProperties
-  tv.expenseChart = new Chartist.Line \
-    '[data-chart=\'expenseChart\']'
-  , getExpenseChartData()
-  , chartistProperties
-  tv.investmentChart = new Chartist.Line \
-    '[data-chart=\'investmentChart\']'
-  , getInvestmentChartData()
-  , chartistProperties
-  # Add tooltips to the charts
-  tv.toolTips = {}
-  addToolTip 'consumptionChart'
-  addToolTip 'expenseChart'
-  addToolTip 'investmentChart'
 
 ###*
  * Object containing event actions for the template.
@@ -165,21 +126,6 @@ Template.timeline.events
   # Click on the action bucket
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
     showHideActionBucket()
-  # Click on a hide/show legend
-  'click [data-trigger=\'hideshow-legend\']': (e, t) ->
-    button = t.$ e.target
-    chartValue = button.attr 'data-value'
-    widget = t.$ "[data-role='#{chartValue}']"
-    chart = widget.find '[data-role=\'chart\']'
-    legend = widget.find '[data-role=\'legend\']'
-    if button.hasClass 'glyphicon-eye-close'
-      legend.hide()
-    else
-      legend.show()
-    (chart.toggleClass 'col-md-8').toggleClass 'col-md-11'
-    (chart.children().toggleClass 'ct-octave').toggleClass 'ct-double-octave'
-    TimelineVars[chartValue].update()
-    (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
   # Click on action bucket items for quarter modification
   'click .quarter-select': (e, t) ->
     console.log 'Modify current selected quarter', e, t
@@ -339,45 +285,12 @@ timelineCalctulate = (tv) ->
       nextQuarter.add 1, 'Q'
 
 ###*
- * Create an Array of the provided size filled with 0.
- * @param {Number} size Size of the expected Array.
- * @return {Array} The created Array.
-###
-createArrayFilledWithZero = (size) ->
-  (Array.apply null, new Array size).map Number.prototype.valueOf, 0
-
-###*
- * Sum suites from an Array of Object with suites reachable with the same
- *  property key.
- * @param {Array} arr The Array of Object.
- * @param {String} key The property of the Object.
- * @result {Array} The suite as a sum of all the Array of Object suite.
-###
-sumSuiteFromArray = (arr, key) ->
-  results = createArrayFilledWithZero arr[0][key].length
-  for idx in [0...results.length]
-    for item in arr
-      results[idx] += item[key][idx]
-  results
-
-###*
- * Sum 2 suites of exact same length.
- * @param {Array} suite1 First suite. Its length is used as the reference.
- * @param {Array} suite2 Second suite.
- * @return {Array} The result of the sum.
-###
-sum2Suites = (suite1, suite2) ->
-  results = createArrayFilledWithZero suite1.length
-  for idx in [0...results.length]
-    results[idx] = suite1[idx] + suite2[idx]
-  results
-
-###*
  * Handle acion's dropped in the Timeline.
  * @param {Object} e    jQuery event.
  * @param {Object} t    Template's instance.
 ###
 actionItemDropped = (e, t) ->
+  tv = TimelineVars
   $quarter = $ @
   $actions = t.draggable
   # Adjust DOM
@@ -394,7 +307,7 @@ actionItemDropped = (e, t) ->
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
   actionsObj = JSON.parse $newActions.attr 'data-value'
-  pactions = TimelineVars.scenario.planned_actions
+  pactions = tv.scenario.planned_actions
   for action in actionsObj
     idx = _.indexOf pactions,(_.findWhere pactions,{action_id:action.action_id})
     pactions[idx].start = (moment
@@ -402,104 +315,11 @@ actionItemDropped = (e, t) ->
       month: (quarterObj.Q - 1) * 3
       year: quarterObj.Y).toDate()
   # Recalculate
-  timelineCalctulate TimelineVars
+  timelineCalctulate tv
   # Update DB
-  Scenarios.update {_id: TimelineVars.scenario._id},
-    $set: planned_actions: pactions
+  Scenarios.update {_id: tv.scenario._id}, $set: planned_actions: pactions
   # Refresh charts
-  TimelineVars.consumptionChart.update getConsumptionChartData()
-  TimelineVars.expenseChart.update getExpenseChartData()
-  TimelineVars.investmentChart.update getInvestmentChartData()
+  for chart in ['consumptionChart', 'expenseChart', 'investmentChart']
+    tv[chart].update tv["#{chart}Data"]()
   # Refresh table by hiding it if displayed
   showHideActionBucket() if Session.get 'timeline-action-bucket-displayed', true
-
-###*
- * Helpers for the Consumption chart.
-###
-getConsumptionChartData = ->
-  labels: TimelineVars.charts.ticks
-  series: [
-    {
-      name: TAPi18n.__ 'consumption_noaction'
-      data: TimelineVars.charts.consumption
-    }
-    {
-      name: TAPi18n.__ 'consumption_action_co2'
-      data: sum2Suites TimelineVars.charts.consumption, \
-        sumSuiteFromArray TimelineVars.actions, 'consumptionCo2ModifierSuite'
-    }
-    {
-      name: TAPi18n.__ 'consumption_action_kwh'
-      data: sum2Suites TimelineVars.charts.consumption, \
-        sumSuiteFromArray TimelineVars.actions, 'consumptionKwhModifierSuite'
-    }
-  ]
-
-###*
- * Helpers for the Expense chart.
-###
-getExpenseChartData = ->
-  labels: TimelineVars.charts.ticks
-  series: [
-    {
-      name: TAPi18n.__ 'expense_raw'
-      data: TimelineVars.charts.consumption
-    }
-  ]
-
-###*
- * Helpers for the Investment chart.
-###
-getInvestmentChartData = ->
-  labels: TimelineVars.charts.ticks
-  series: [
-    {
-      name: TAPi18n.__ 'investment_budget'
-      data: TimelineVars.charts.budget
-    }
-    {
-      name: TAPi18n.__ 'investment_raw'
-      data: sumSuiteFromArray TimelineVars.actions, 'investmentSuite'
-    }
-    {
-      name: TAPi18n.__ 'investment_minus_subventions'
-      data: sumSuiteFromArray TimelineVars.actions,'investmentSubventionedSuite'
-    }
-  ]
-
-###*
- * Animation function for the tooltips as depicted in Chartist's docs:
- * http://gionkunz.github.io/chartist-js/examples.html
- * @param {Number} x X axis
- * @param {Number} t Time
- * @param {Number} b First order
- * @param {Number} c Second order
- * @param {Number} d Third order
-###
-easeOutQuad = (x, t, b, c, d) -> -c * (t /= d) * (t - 2) + b
-
-###*
- * Add a tooltip for a given chart.
- * @param {String} dataChart Value of the data-chart selector.
-###
-addToolTip = (dataChart) ->
-  $chart = $ "[data-chart='#{dataChart}']"
-  TimelineVars.toolTips[dataChart] = $chart
-    .append '<div class="tooltip"></div>'
-    .find '.tooltip'
-    .hide()
-  $chart.on 'mouseenter', '.ct-point', ->
-    $point = $ @
-    value = $point.attr 'ct:value'
-    seriesName = $point.parent().attr 'ct:series-name'
-    $point.animate {'stroke-width': '20px'}, 100, easeOutQuad
-    (TimelineVars.toolTips[dataChart].html "#{seriesName}<br>#{value}").show()
-  $chart.on 'mouseleave', '.ct-point', ->
-    ($ @).animate {'stroke-width': '4px'}, 100, easeOutQuad
-    TimelineVars.toolTips[dataChart].hide()
-  $chart.on 'mousemove', (e) ->
-    TimelineVars.toolTips[dataChart].css
-      left: (e.offsetX or e.originalEvent.layerX) - \
-        TimelineVars.toolTips[dataChart].width() / 2 - 10
-      top: (e.offsetY or e.originalEvent.layerY) - \
-        TimelineVars.toolTips[dataChart].height() - 40

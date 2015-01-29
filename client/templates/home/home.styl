@@ -1,3 +1,5 @@
+@import 'nib'
+
 .home
   .main-menu
     background-repeat no-repeat
@@ -5,8 +7,10 @@
     height 293px
     padding 10px
     opacity 0.7
+    transition opacity .3s ease-in-out
     border-radius 2px
     &:hover
+      transition opacity .3s ease-in-out
       opacity 1.0
   .all-except-title
     min-height 600px

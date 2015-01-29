@@ -44,6 +44,7 @@ roundIconSize = 1.5 * rondFontSize
     >tr
       border-bottom 1px colorC solid
   td[data-role='dropable-container'].dropable
+    transition background-color .3s ease-in-out
     background-color colorD
   .timeline-quarter-table
     width 100%
@@ -105,78 +106,6 @@ roundIconSize = 1.5 * rondFontSize
     span
       height 18px
       cursor pointer
-  // Charts customization
-  .ct-chart .ct-point
-    stroke-width 5px
-  // Chart legend
-  .chart-legend
-    font-size .8em
-    font-weight lighter
-    &.colorA
-      color colorA
-      &:before
-        background-color colorA
-    &.colorB
-      color colorB
-      &:before
-        background-color colorB
-    &.colorC
-      color colorC
-      &:before
-        background-color colorC
-    &.colorD
-      color colorD
-      &:before
-        background-color colorD
-    &:before
-      content ''
-      display inline-block
-      width 1em
-      height 1em
-      border-radius 1em
-      text-align center
-      margin-right .5em
-      padding 0
-  .chart-fixed-height
-    height 158px
-    margin-top -1em
-    margin-bottom 1em
-  // Chart's tooltips
-  .tooltip
-    border 4px colorC solid
-    background-color colorD
-    border-radius 5px
-    color colorB
-    font-size 0.7em
-    font-weight bold
-    height auto
-    min-width 80px
-    max-width 250px
-    padding 4px
-    position relative
-    text-align center
-    width auto
-    pointer-events none
-    z-index 1
-  .tooltip:after, .tooltip:before
-    top 100%
-    left 50%
-    border solid transparent
-    content ' '
-    height 0
-    width 0
-    position absolute
-    pointer-events none
-  .tooltip:after
-    border-color transparent
-    border-top-color colorD
-    border-width 15px
-    margin-left -15px
-  .tooltip:before
-    border-color transparent
-    border-top-color colorC
-    border-width 20px
-    margin-left -20px
   // Action bucket
   .action-bucket
     transition transform .3s ease-in-out
