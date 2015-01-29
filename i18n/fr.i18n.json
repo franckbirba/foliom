@@ -354,9 +354,11 @@
     "action_lifetime": "Durée de vie de l'action",
     "action_link": "Lié à une autre action",
 
-    "impact_assessment_fluids": "Etude des impacts : Fluides",
+    "impact_assessment_fluids_kwhef": "Etude des impacts - Energie : Fluides",
+    "impact_assessment_fluids_water": "Etude des impacts - Energie : Eau",
     "per_cent": "En %",
-    "or_kwhEF": "    Ou : en kWh (énergie finale) / an",
+    "or_kwhEF": "Ou : en kWh (énergie finale) / an",
+    "or_m3": "Ou : en m³ / an",
     "yearly_savings": "En € / an",
 
     "investment": "Investissements",
