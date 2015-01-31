@@ -11,19 +11,19 @@
           if isAdmin
             button.btn.btn-default.btn-xs.editAction
               span.glyphicon.glyphicon-pencil(aria-hidden='true')
-          a: img(src=getActionLogo, width='50')
-          div= name
+          .logo !{logo}
+          .actionTitle= name
     each getUserTemplateActions
       .col-md-4
         .actionList.actionUserTemplate
           button.btn.btn-default.btn-xs.editAction
             span.glyphicon.glyphicon-pencil(aria-hidden='true')
-          img(src='{{getActionLogo}}', width='50')
-          div= name
+          .logo !{logo}
+          .actionTitle= name
     .col-md-4
       .actionList.actionCreate
         a.newUserTempalteAction(href='')
           div: span.fa-stack.fa-lg
             i.fa.fa-circle-o.fa-stack-2x
-            i.fa.fa-plus          
+            i.fa.fa-plus
           div {{_ "newUserTemplateAction"}}

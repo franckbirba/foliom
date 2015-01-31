@@ -1309,7 +1309,7 @@ Meteor.startup(function () {
         var data = [
                 {
                     "name": "Robinet thermostatique",
-                    "logo": "/icon/actionIcons/iconmonstr-volume-control-2-icon-256.png",
+                    "logo": "&#58972;",
                     "impact_assessment_fluids_kwhef": [
                         {
                           "opportunity": "end_use_heating",
@@ -1344,7 +1344,7 @@ Meteor.startup(function () {
                 },
                 {
                     "name": "Désembouage des réseaux",
-                    "logo":"/icon/actionIcons/iconmonstr-loading-14-icon-256.png",
+                    "logo":"&#58947;",
                     "impact_assessment_fluids_kwhef": [
                         {
                           "opportunity": "end_use_heating",
