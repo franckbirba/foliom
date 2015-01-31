@@ -25,12 +25,22 @@
     {{#each afFieldNames name=this.atts.name}}
       <!-- {{> afFormGroup template="verylight" name=this options="auto"}} -->
       <td class="col-sm-1 col-xs-1" style="vertical-align: middle;">
+        <!-- {{> afFormGroup name=this options="auto" template="eportfolio-horizontal"}} -->
         {{> afFormGroup name=this options="auto" template="verylightBSE"}}
+        <!-- {{> afFormGroup name=this options="auto" template="verylight"}} -->
       </td>
 
     {{/each}}
   </div>
 </template>
+
+<!-- Pour revenir à l'état initial : revenir à verylightBSE -->
+<!-- <template name="afFormGroup_verylightBSE">
+  <div style="" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+      {{> afFieldInput afFieldInputAtts}}
+      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+  </div>
+</template> -->
 
 <template name="afFormGroup_eportfolio-horizontal">
   <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
