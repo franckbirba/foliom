@@ -3,5 +3,6 @@ base:
     - latest
     - webserver
     - fail2ban
-    - mongoOfficial
+    # - mongo_ubuntu
+    - mongo_10gen
     - node

@@ -107,7 +107,7 @@ The VM uses the following characteristics:
   * fail2ban 0.8.11
 
 The added packages are as following:
-* MongoDB 2.4.9
+* MongoDB 2.4.12
 * NodeJS 0.10.33 & npm 1.4.28
 
 The complete configuration of the server is achieved and stored with
