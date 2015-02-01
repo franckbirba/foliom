@@ -88,7 +88,7 @@ git clone https://github.com/Benczyk/foliom.git
 ### As part of your OSX environment
 Hop in the source repository and launch [Meteor](https://www.meteor.com/):
 ```bash
-cd foliom
+cd foliom/app
 meteor
 open http://localhost:3000
 ```
