@@ -1,6 +1,6 @@
 base:
   '*':
-    #- latest
+    - latest
     - webserver
     - fail2ban
     - mongo
