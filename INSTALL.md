@@ -108,6 +108,24 @@ The VM uses the following characteristics:
 The complete configuration of the server is achieved and stored with
 the `Vagranfile` and the `vagrant` utility:
 ```bash
-vagrant destroy
 vagrant up
+```
+
+> Download of the VM starting image is only done the first time. In case, an
+> installation problem arise, you can destroy the currently configured VM and
+> recreate one using the following commands:
+> ```bash
+> vagrant destroy
+> vagrant up
+> ```
+
+Once downloaded and installed, you can check the VM installation by opening
+an SSH session into it:
+```bash
+vagrant ssh
+```
+
+Shutting down the VM is achieved via:
+```bash
+vagrant halt
 ```
