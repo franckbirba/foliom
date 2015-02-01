@@ -98,7 +98,8 @@ The VM uses the following characteristics:
 * Hardware (based on [OVH's VPS classic](https://www.ovh.com/us/vps/vps-classic.xml)):
   * Single core 64bits processor
   * 1GB memory
-  * 10GB HDD storage
+  * 10GB HDD storage (Note that no limit is set here in the VM. 10GB is far
+    more than what is required for this application to function properly).
 * Software:
   * Ubuntu Server AMD64 bits 14.04 LTS
   * Apache

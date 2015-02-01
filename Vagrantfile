@@ -39,18 +39,20 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "salt/srv/salt/", "/srv/salt/"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+  config.vm.provider "virtualbox" do |vb|
+    # Servers have no GUI
+    vb.gui = false
+    # VPS classic is a single core based processor
+    vb.cpus = 1
+    # VPS classic have 1GB
+    vb.memory = 1024
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -69,4 +71,12 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
+
+  # Use saltstack as provisionner
+  config.vm.provision :salt do |salt|
+    # Set the directory where is stored the minion
+    salt.minion_config = "salt/minion"
+    # Maintain states
+    salt.run_highstate = true
+  end
 end
