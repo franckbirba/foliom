@@ -95,7 +95,7 @@ open http://localhost:3000
 
 ### Launch the local virtualized server
 The VM uses the following characteristics:
-* Hardware:
+* Hardware (based on [OVH's VPS classic](https://www.ovh.com/us/vps/vps-classic.xml)):
   * Single core 64bits processor
   * 1GB memory
   * 10GB HDD storage
