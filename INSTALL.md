@@ -83,3 +83,14 @@ Now, fetching the source is easily achieved via:
 ```bash
 git clone https://github.com/Benczyk/foliom.git
 ```
+
+## Running the application
+### As part of your OSX environment
+Hop in the source repository and launch [Meteor](https://www.meteor.com/):
+```bash
+cd foliom
+meteor
+open http://localhost:3000
+```
+
+### Launch the local virtualized server
