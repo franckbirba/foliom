@@ -3,5 +3,5 @@ base:
     - latest
     - webserver
     - fail2ban
-    - mongo
+    - mongoOfficial
     - node

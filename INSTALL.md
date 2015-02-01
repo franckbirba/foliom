@@ -108,7 +108,7 @@ The VM uses the following characteristics:
 
 The added packages are as following:
 * MongoDB 2.4.9
-* NodeJS 0.10.25
+* NodeJS 0.10.33 & npm 1.4.28
 
 The complete configuration of the server is achieved and stored with
 the `Vagranfile` and the `vagrant` utility:
