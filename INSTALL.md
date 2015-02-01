@@ -136,3 +136,9 @@ it using the following command:
 ```bash
 vagrant provision
 ```
+
+> When installing a package on an Ubuntu server, you can check it using the
+> Debian query package command:
+> ```bash
+> dpkg -l | grep PACKAGE_NAME
+> ```
