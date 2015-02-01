@@ -102,9 +102,9 @@ The VM uses the following characteristics:
     more than what is required for this application to function properly).
 * Software:
   * Ubuntu Server AMD64 bits 14.04 LTS
-  * Apache
-  * OpenSSH
-  * fail2ban
+  * Apache 2.4.7
+  * OpenSSH 1:6.6p1
+  * fail2ban 0.8.11
 
 The complete configuration of the server is achieved and stored with
 the `Vagranfile` and the `vagrant` utility:
@@ -129,4 +129,10 @@ vagrant ssh
 Shutting down the VM is achieved via:
 ```bash
 vagrant halt
+```
+
+If you've already installed a VM and want to update it, you provision
+it using the following command:
+```bash
+vagrant provision
 ```
