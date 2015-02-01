@@ -94,3 +94,20 @@ open http://localhost:3000
 ```
 
 ### Launch the local virtualized server
+The VM uses the following characteristics:
+* Hardware:
+  * Single core 64bits processor
+  * 1GB memory
+  * 10GB HDD storage
+* Software:
+  * Ubuntu Server AMD64 bits 14.04 LTS
+  * Apache
+  * OpenSSH
+  * fail2ban
+
+The complete configuration of the server is achieved and stored with
+the `Vagranfile` and the `vagrant` utility:
+```bash
+vagrant destroy
+vagrant up
+```
