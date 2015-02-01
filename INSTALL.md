@@ -106,6 +106,10 @@ The VM uses the following characteristics:
   * OpenSSH 1:6.6p1
   * fail2ban 0.8.11
 
+The added packages are as following:
+* MongoDB 2.4.9
+* NodeJS 0.10.25
+
 The complete configuration of the server is achieved and stored with
 the `Vagranfile` and the `vagrant` utility:
 ```bash
