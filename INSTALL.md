@@ -56,6 +56,12 @@ written. It can even handle container based hosting solutions that relies on
 brew install saltstack
 ```
 
+In case multiple instances would be required, I strongly recommend increasing
+the default number of files that OSX can handle:
+```bash
+sudo launchctl limit maxfiles 4096 8192
+```
+
 > Why not Docker? Docker based deployment could be a great
   alternative to VirtualBox, Vagrant and SaltStack as far as
   the chosen hosting solution is able to handle Docker. OVH
