@@ -11,8 +11,9 @@ mongodb:
     - require:
       - file: /etc/apt/sources.list.d/10gen.list
   pkg:
-    # @NOTE: Use '- name: mongodb-org=2.6.7' for 2.6.X releases
-    - name: mongodb-10gen=2.4.12
+    # @NOTE: Use '- name: mongodb-org' for 2.6.X releases
+    - name: mongodb-10gen
+    - version: 2.4.12
     - installed
     - refresh: True
     - require:
