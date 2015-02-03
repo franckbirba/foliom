@@ -455,10 +455,11 @@ Actions.attachSchema(new SimpleSchema({
         label: transr("impact_assessment_general")
     },
     'impact_assessment_general.comfort': {
-        type: String,
+        type: [String],
         label: transr("comfort"),
         autoform: {
-            type: "select",
+            type: "select-checkbox-inline",
+            rows: 2,
             options: function() {
                 return buildOptions(["NA", "thermic", "visual", "acoustic"]);
             }
@@ -479,7 +480,7 @@ Actions.attachSchema(new SimpleSchema({
         autoform: {
             type: "select",
             options: function() {
-                return buildOptions(["NA", "yes", "no"]);
+                return buildOptions(["yes", "no"]);
             }
         }
     },
@@ -489,7 +490,7 @@ Actions.attachSchema(new SimpleSchema({
         autoform: {
             type: "select",
             options: function() {
-                return buildOptions(["NA", "yes", "no"]);
+                return buildOptions(["yes", "no"]);
             }
         }
     },

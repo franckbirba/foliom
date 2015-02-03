@@ -1323,7 +1323,7 @@ Meteor.startup(function () {
                     "impact_assessment_general": {
                         "comfort": "NA",
                         "technical_compliance_a": "NA",
-                        "regulatory_compliance": "NA",
+                        "regulatory_compliance": "no",
                         "residual_lifetime": "no"
                     },
                     "design_duration": 3,
@@ -1359,7 +1359,7 @@ Meteor.startup(function () {
                         "comfort": "NA",
                         "technical_compliance_a": "NA",
                         "regulatory_compliance": "no",
-                        "residual_lifetime": "NA"
+                        "residual_lifetime": "no"
                     },
                     "design_duration": 1,
                     "works_duration": 1,
