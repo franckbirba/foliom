@@ -1,2 +1,4 @@
 .DS_Store
 .vagrant
+app/.meteor/local
+.meteor/local

@@ -74,42 +74,23 @@ Template.actionForm.helpers({
 Template.actionForm.rendered = function () {
   curr_route = Router.current().route.getName();
 
-  // Reprendre ici : ce qui est ci-dessous ne devrait se lancer que lorsque le buildingDoc est défini
-
 
   // Only apply formulas if we're editing a child action
   //or if we're in the actions-apply screen
   if ( Session.get('childActionToEdit') || curr_route === "actions-apply") {
-    var allLeases, allEndUseData, confFluids;
-    var all_yearly_savings = []; // Will contain all savings, for each EndUse
-    var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
 
     /* -------------- */
     /* EndUse formula */
     /* -------------- */
-    this.autorun(function () {
-      if (Session.get('current_building_doc') ) {
-        allLeases = Leases.find(
+    var allLeases = Leases.find(
                 {building_id:Session.get('current_building_doc')._id},
                 {sort: {lease_name:1}}
             ).fetch();
-        allEndUseData = [];
-        confFluids = Session.get('current_config').fluids ;
+    var allEndUseData = [];
 
-        console.log("allLeases");
-        console.log(allLeases);
+    var all_yearly_savings = []; // Will contain all savings, for each EndUse
+    var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
 
-        all_yearly_savings = []; // re-init
-        all_yearly_savings_simplyValues = []; //re-init
-        // // Init this array
-        // for (var i = 0; i < 31; i++)
-        //     all_yearly_savings.push({
-        //         "year": 0,
-        //         "euro_savings": 0
-        //     });
-        // console.log(all_yearly_savings);
-      }
-    });
 
     this.autorun(function () {
       // Have this loop monitor all opportunity Selectors
@@ -119,64 +100,9 @@ Template.actionForm.rendered = function () {
         var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".opportunity") ;
 
         if (matchingEndUse !== "") { // We make sure that something is selected
-            var matchingEndUseInLease = []; // Array in which we'll store all relevant Data
+            var matchingEndUseInLease = getMatchingEndUseInLease(allLeases, matchingEndUse);
 
-            // We now have an opportinity. We go through all Leases: for each one we find the corresponding endUse in the Lease
-            // Note: could be better with a "break" when the EndUse is found
-            _.each(allLeases, function(lease, leaseIndex) {
-                _.each(lease.consumption_by_end_use, function(endUse) {
-                    if(endUse.end_use_name == matchingEndUse){
-                        endUse.lease_name = lease.lease_name ;
-                        endUse.consumption_by_end_use_total = lease.consumption_by_end_use_total;
-
-                        // For each EndUse found, we search for the corresponding Fluid in the conf
-                        _.each(confFluids, function(fluid) {
-                            completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type ;
-                            if (completeFluideName == endUse.fluid_id) {
-                                endUse.fluid = fluid ; // We store the Fluid in the array
-                            }
-                        });
-
-                        matchingEndUseInLease[leaseIndex] = endUse;
-                    }
-                });
-            });
-            /* matchingEndUseInLease looks like
-            [{
-                "end_use_name":"end_use_heating",
-                "fluid_id":"EDF - fluid_heat",
-                "lease_name":"Lease1Test",
-                "first_year_value":12,
-                "consumption_by_end_use_total":98,
-                "fluid":{
-                    "fluid_type":"fluid_heat",
-                    "fluid_provider":"EDF",
-                    "yearly_values":[
-                        {"year":2014,"cost":10,"evolution_index":0},
-                        {"year":2015,"cost":10,"evolution_index":0},
-                        {"year":2016,"cost":10.1,"evolution_index":1},
-                        ...
-                        {"year":2043,"cost":10.5,"evolution_index":0},
-                        {"year":2044,"cost":10.5,"evolution_index":0}
-                    ],
-                    "global_evolution_index":5
-                }
-            },
-            {
-                "end_use_name":"end_use_heating",
-                "fluid_id":"EDF - fluid_electricity",
-                "lease_name":"thisLease2",
-                "first_year_value":30,
-                "consumption_by_end_use_total":170,
-                "fluid":{
-                    "fluid_type":"fluid_electricity",
-                    "fluid_provider":"EDF",
-                    "yearly_values":[{...}]
-            */
-            console.log("matchingEndUseInLease "+"for index: "+index);
-            console.log(matchingEndUseInLease);
-
-            allEndUseData[index] = matchingEndUseInLease; // Remeber: index is the line number in the form
+            allEndUseData[index] = matchingEndUseInLease; // Remember: index is the line number in the form
             console.log("allEndUseData: ");
             console.log(allEndUseData);
 
