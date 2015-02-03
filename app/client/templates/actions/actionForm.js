@@ -190,14 +190,7 @@ Template.actionForm.rendered = function () {
             }
 
         }
-        //get these lines out of the .each
-        // console.log("all_yearly_savings");
-        // console.log(all_yearly_savings);
 
-        // console.log("all_yearly_savings_simplyValues");
-        // console.log(all_yearly_savings_simplyValues);
-
-        // Session.set('YS_values', all_yearly_savings_simplyValues);
       });
       //in case a line is removed: make sure we don't keep outdated lines
       fluids_nb = $("[name^='impact_assessment_fluids_kwhef.'][name$='.opportunity']").length;
@@ -264,11 +257,7 @@ Template.actionForm.rendered = function () {
       }
     });
     $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
-    // this.autorun(function () { // Autorun to make sure it's triggered on Building change in actions-apply
-    //   if (Session.get('current_building_doc')) {
-    //     $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
-    //   };
-    // });
+
 
 
     // Subventions: residual cost
@@ -350,7 +339,7 @@ Template.actionForm.rendered = function () {
 
       // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
       // create an array for investment cost with as many 0 as the action_lifetime
-      // @Blandine: array size is action_lifetime and not (action_lifetime+1) --> OK 2015-01-15
+      // Array size is action_lifetime and not (action_lifetime+1): OK by Blandine Melay 2015-01-15
       var ic_array = buildArrayWithZeroes(action_lifetime);
       ic_array[0]= residual_cost; //Set the first value to the residual_cost
 
