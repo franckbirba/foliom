@@ -1311,10 +1311,16 @@ Meteor.startup(function () {
                     "name": "Robinet thermostatique",
                     "logo": "&#58972;",
                     "gain_fluids_kwhef": [
-                        {
-                          "opportunity": "end_use_heating",
-                          "per_cent": 5
-                        }
+                      {
+                        "opportunity": "end_use_heating",
+                        "per_cent": 5
+                      }
+                    ],
+                    "gain_fluids_water" : [
+                      {
+                        "opportunity" : "fluid_water",
+                        "per_cent" : 0
+                      }
                     ],
                     "project_type": "NA",
                     "technical_field": "heat_production",
@@ -1346,10 +1352,16 @@ Meteor.startup(function () {
                     "name": "Désembouage des réseaux",
                     "logo":"&#58947;",
                     "gain_fluids_kwhef": [
-                        {
-                          "opportunity": "end_use_heating",
-                          "per_cent": 1
-                        }
+                      {
+                        "opportunity": "end_use_heating",
+                        "per_cent": 1
+                      }
+                    ],
+                    "gain_fluids_water" : [
+                      {
+                        "opportunity" : "fluid_water",
+                        "per_cent" : 0
+                      }
                     ],
                     "project_type": "cr",
                     "technical_field": "thermal_delivery",
