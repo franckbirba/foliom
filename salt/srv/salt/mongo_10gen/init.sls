@@ -18,3 +18,10 @@ mongodb:
     - refresh: True
     - require:
       - cmd: mongodb
+  /etc/mongodb.conf:
+    file.managed:
+      - source: salt://mongo_10gen/mongodb.conf
+      - skip_verify: True
+      - user: root
+      - group: root
+      - mode: 644
