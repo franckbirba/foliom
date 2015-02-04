@@ -283,26 +283,7 @@ Template.actionForm.rendered = function () {
     });
     $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change() ; // Execute once at form render
 
-    /* ----------------------- */
-    // Savings_first_year: Operating ratio and cost
-    $("[name='savings_first_year.operations.euro_persquare'], [name='savings_first_year.operations.or_euro_peryear']").change(function() {
-      var curr_field = $(this).val()*1;
-      var target, estimate;
-      var source = Session.get('current_building_doc').building_info.area_total*1 ;
 
-      if( $(this).attr("name") == "savings_first_year.operations.euro_persquare") {
-        estimate = (curr_field * source).toFixed(2) ;
-        target = $('[name="savings_first_year.operations.or_euro_peryear"]');
-      } else {
-        estimate = (curr_field / source).toFixed(2) ;
-        target = $('[name="savings_first_year.operations.euro_persquare"]');
-      }
-
-      if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
-        target.val(estimate).change() ;
-      }
-    });
-    $("[name='savings_first_year.operations.euro_persquare'], [name='savings_first_year.operations.or_euro_peryear']").change() ; // Execute once at form render
 
     // --------------------------------------
     // savings_first_year.fluids.euro_peryear
@@ -324,8 +305,7 @@ Template.actionForm.rendered = function () {
     this.autorun(function () {
       action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
       residual_cost = AutoForm.getFieldValue("insertActionForm", "subventions.residual_cost")*1 ;
-      operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
-      operating_savings = AutoForm.getFieldValue("insertActionForm", "savings_first_year.operations.or_euro_peryear")*1 ;
+      gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
       var YS_array = Session.get('YS_values');
 
       // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
@@ -339,9 +319,9 @@ Template.actionForm.rendered = function () {
       // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
       // Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
       var operatingCost_array = buildArrayWithZeroes(action_lifetime);
-      operatingCost_array[0]=operating_cost;
+      operatingCost_array[0]=gain_operating_cost;
 
-      var raw_roi = residual_cost / (total_savings_array[0] + operating_cost); //@Blandine : année 0 des économies d'énergie - OK
+      var raw_roi = residual_cost / (total_savings_array[0] + gain_operating_cost); //@Blandine : année 0 des économies d'énergie - OK
 
       $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
       console.log("raw_roi");
@@ -391,7 +371,7 @@ Template.actionForm.rendered = function () {
       // Operating savings (économie de frais d'exploitation) - a appliquer chaque année
       var operatingSavings_array = buildArrayWithZeroes(action_lifetime);
       for (var i = 0; i < action_lifetime; i++) {
-        operatingSavings_array[i] = operating_savings ;
+        operatingSavings_array[i] = gain_operating_cost ;
       }
 
       //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)

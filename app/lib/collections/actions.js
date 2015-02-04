@@ -686,54 +686,17 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    'savings_first_year.operations': {
-        type: Object,
-        label: transr("savings_first_year_operations"),
-        optional:true,
-    },
-    'savings_first_year.operations.euro_persquare': {
-        type: Number,
-        decimal: true,
-        label: transr("ratio"),
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_m2_year"),
-            }
-        }
-    },
-    'savings_first_year.operations.or_euro_peryear': {
-        type: Number,
-        decimal: true,
-        label: transr("or_euro_peryear"),
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_year"),
-            }
-        }
-    },
 
-    // CREATE SEPERATOR HERE "Calcul de l'efficacité"
-    // raw_roi: {
-    //     type: Number,
-    //     label: transr("raw_roi"),
-    //     defaultValue: 0,
-    //     autoform: {
-    //         afFieldInput: {
-    //             type: 'number_u',
-    //             unit: transr("u_years"),
-    //         }
-    //     }
-    // },
 
+    // Efficiency section
+    // the first object is a visual separator for the form, and won't be saved
     efficiency_calc: {
         type: Object,
         label: transr("efficiency_calc"),
         optional:true,
-        // autoform: {
-        //     class: 'form_chunk',
-        // }
+        autoform: {
+            template:'formSeparator',
+        }
     },
 
     raw_roi: {
