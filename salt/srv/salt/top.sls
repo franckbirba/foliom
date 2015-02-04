@@ -1,12 +1,13 @@
 base:
   '*':
-    - latest
+    #- latest
+    - unixusers
     - sockets
-    - webserver
-    - fail2ban
+    #- webserver
+    #- fail2ban
     # Ubutu's official Mongo (outdated): - mongo_ubuntu
-    - mongo_10gen
-    - node
+    #- mongo_10gen
+    #- node
     # @TODO: Users and Group: Add a server profile
     # @TODO: Set permissions on Apache's ePortfolio inner site
     # @TODO: Need a mongod restart upon configuration update
