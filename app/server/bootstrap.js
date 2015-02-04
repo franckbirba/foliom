@@ -1320,7 +1320,7 @@ Meteor.startup(function () {
                     "technical_field": "heat_production",
                     "feasable_while_occupied": "no",
                     "priority": "high",
-                    "impact_assessment_general": {
+                    "other_gains": {
                         "comfort": "NA",
                         "technical_compliance_a": "NA",
                         "regulatory_compliance": "no",
@@ -1355,7 +1355,7 @@ Meteor.startup(function () {
                     "technical_field": "thermal_delivery",
                     "feasable_while_occupied": "yes",
                     "priority": "high",
-                    "impact_assessment_general": {
+                    "other_gains": {
                         "comfort": "NA",
                         "technical_compliance_a": "NA",
                         "regulatory_compliance": "no",

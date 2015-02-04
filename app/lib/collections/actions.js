@@ -450,11 +450,73 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    impact_assessment_general: {
+    operating: {
         type: Object,
-        label: transr("impact_assessment_general")
+        label: transr("operating"),
+        optional:true,
     },
-    'impact_assessment_general.comfort': {
+    'operating.ratio': {
+        type: Number,
+        decimal: true,
+        label: transr("operating_ratio"),
+        optional:true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_m2_year"),
+            }
+        }
+    },
+    'operating.cost': {
+        type: Number,
+        decimal: true,
+        label: transr("operating_cost"),
+        optional:true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_year"),
+            }
+        }
+    },
+
+    operating_total_gain: {
+        type: Object,
+        label: transr("operating_total_gain"),
+        optional:true,
+    },
+    'operating_total_gain.cost': {
+        type: Number,
+        decimal: true,
+        label: transr("euro_peryear"),
+        optional:true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_year"),
+                readonly:"true",
+            }
+        }
+    },
+    'operating_total_gain.ratio': {
+        type: Number,
+        decimal: true,
+        label: transr("euro_per_m2_year"),
+        optional:true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_m2_year"),
+                readonly:"true",
+            }
+        }
+    },
+
+    other_gains: {
+        type: Object,
+        label: transr("other_gains")
+    },
+    'other_gains.comfort': {
         type: [String],
         label: transr("comfort"),
         autoform: {
@@ -465,7 +527,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_general.technical_compliance_a': {
+    'other_gains.technical_compliance_a': {
         type: String,
         label: transr("technical_compliance_a"),
         autoform: {
@@ -474,7 +536,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_general.regulatory_compliance': {
+    'other_gains.regulatory_compliance': {
         type: String,
         label: transr("regulatory_compliance"),
         autoform: {
@@ -484,7 +546,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_general.residual_lifetime': {
+    'other_gains.residual_lifetime': {
         type: String,
         label: transr("residual_lifetime"),
         autoform: {
@@ -494,6 +556,8 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
+
+
     investment: {
         type: Object,
         label: transr("investment"),
@@ -575,35 +639,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    operating: {
-        type: Object,
-        label: transr("operating"),
-        optional:true,
-    },
-    'operating.ratio': {
-        type: Number,
-        decimal: true,
-        label: transr("operating_ratio"),
-        optional:true,
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_m2_year"),
-            }
-        }
-    },
-    'operating.cost': {
-        type: Number,
-        decimal: true,
-        label: transr("operating_cost"),
-        optional:true,
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_year"),
-            }
-        }
-    },
+
     savings_first_year: {
         type: Object,
         label: transr("savings_first_year"),

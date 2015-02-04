@@ -343,12 +343,6 @@
     "technical_field": "Lot technique concerné",
     "feasable_while_occupied": "Faisabilité site occupé",
 
-    "impact_assessment_general": "Etude des impacts : généralités",
-    "comfort": "Confort",
-    "technical_compliance_a": "Conformité technique",
-    "regulatory_compliance": "Conformité réglementaire",
-    "residual_lifetime": "Durée de vie résiduelle",
-
     "design_duration": "Durée des études",
     "works_duration": "Durée des travaux",
     "action_lifetime": "Durée de vie de l'action",
@@ -361,6 +355,20 @@
     "or_m3": "Ou : en m³ / an",
     "yearly_savings": "En € / an",
 
+    "operating": "Fonctionnement (hors fluides)",
+    "operating_ratio": "Ratio de fonctionnement",
+    "operating_cost": "Coût de fonctionnement",
+
+    "operating_total_gain": "Gains totaux sur les charges d'exploitation",
+    "euro_per_m2_year": "En € / m² an",
+
+    "other_gains": "Etude des impacts : généralités",
+    "comfort": "Confort",
+    "technical_compliance_a": "Conformité technique",
+    "regulatory_compliance": "Conformité réglementaire",
+    "residual_lifetime": "Durée de vie résiduelle",
+
+
     "investment": "Investissements",
     "investment_ratio": "Ratio d'investissement",
     "investment_cost": "Coût d'investissement",
@@ -372,10 +380,6 @@
     "or_euro_peryear": "Ou : en € / an",
     "CEE_opportunity": "Certificat d'économie d'énergie",
     "residual_cost": "Coût résiduel",
-
-    "operating": "Fonctionnement (hors fluides)",
-    "operating_ratio": "Ratio de fonctionnement",
-    "operating_cost": "Coût de fonctionnement",
 
     "savings_first_year": "Economies de charge en € à l’année initiale",
     "savings_first_year_fluids": "Economies de fluides",
