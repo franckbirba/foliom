@@ -336,12 +336,14 @@ Actions.attachSchema(new SimpleSchema({
     },
 
 
-    operating_gains: {
+    // Operating & fluids section
+    // the first object is a visual separator for the form, and won't be saved
+    operating_gains_separator: {
         type: Object,
-        label: transr("operating_gains"),
+        label: transr("operating_gains_separator"),
         optional:true,
         autoform: {
-            // template:'eportfolio-horizontal',
+            template:'formSeparator',
         }
     },
 
@@ -563,6 +565,17 @@ Actions.attachSchema(new SimpleSchema({
             options: function() {
                 return buildOptions(["yes", "no"]);
             }
+        }
+    },
+
+    // Investment section
+    // the first object is a visual separator for the form, and won't be saved
+    investment_cost_separator: {
+        type: Object,
+        label: transr("investment_cost_separator"),
+        optional:true,
+        autoform: {
+            template:'formSeparator',
         }
     },
 
