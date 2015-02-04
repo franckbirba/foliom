@@ -348,8 +348,10 @@
     "action_lifetime": "Durée de vie de l'action",
     "action_link": "Lié à une autre action",
 
-    "impact_assessment_fluids_kwhef": "Etude des impacts - Energie : Fluides",
-    "impact_assessment_fluids_water": "Etude des impacts - Energie : Eau",
+    "operating_gains": "GAINS SUR LES CHARGES D’EXPLOITATION",
+    // "impact_assessment_fluids_kwhef": "Gains sur les consommations d’énergie et de fluides",
+    "gain_fluids_kwhef": "Gains sur les consommations d’énergie et de fluides en kWhEF",
+    "gain_fluids_water": "Gains sur les consommations d’Eau",
     "per_cent": "En %",
     "or_kwhEF": "Ou : en kWh (énergie finale) / an",
     "or_m3": "Ou : en m³ / an",

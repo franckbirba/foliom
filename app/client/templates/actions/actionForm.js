@@ -95,9 +95,9 @@ Template.actionForm.rendered = function () {
     this.autorun(function () {
       // Have this loop monitor all opportunity Selectors
       // Being in an autoRun, it's reactive
-      $("[name^='impact_assessment_fluids_kwhef.'][name$='.opportunity']").each(function( index ) {
+      $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").each(function( index ) {
 
-        var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".opportunity") ;
+        var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".opportunity") ;
 
         if (matchingEndUse !== "") { // We make sure that something is selected
             // For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
@@ -110,8 +110,8 @@ Template.actionForm.rendered = function () {
             // -------------------------------------------------------
             // If first EndUse and matchingPerCent fields are entered, then set the kWef
 
-            var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".per_cent")*1 ;
-            // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".or_kwhef")*1 ;
+            var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".per_cent")*1 ;
+            // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
 
             // if matchingPerCent has a value
             if (matchingPerCent !== 0){
@@ -128,7 +128,7 @@ Template.actionForm.rendered = function () {
                 });
 
                 // Now set the in_kwhef val
-                $("[name='impact_assessment_fluids_kwhef." + index + ".or_kwhef']").val( in_kwhef.toFixed(2) ).change();
+                $("[name='gain_fluids_kwhef." + index + ".or_kwhef']").val( in_kwhef.toFixed(2) ).change();
             }
 
             // -------------------------------------------------------
@@ -164,10 +164,10 @@ Template.actionForm.rendered = function () {
                         yearly_savings_complete[year_index] = yearly_total;
 
                     });
-                    endUse.impact_assessment_fluids_kwhef = impact_assessment_euro;
+                    endUse.gain_fluids_kwhef = impact_assessment_euro;
                 });
 
-                $("[name='impact_assessment_fluids_kwhef." + index + ".yearly_savings']").val(yearly_savings[0].euro_savings ).change();
+                $("[name='gain_fluids_kwhef." + index + ".yearly_savings']").val(yearly_savings[0].euro_savings ).change();
 
                 // console.log("yearly_savings " + index + " is:");
                 // console.log(yearly_savings);
@@ -184,7 +184,7 @@ Template.actionForm.rendered = function () {
 
       });
       //in case a line is removed: make sure we don't keep outdated lines
-      fluids_nb = $("[name^='impact_assessment_fluids_kwhef.'][name$='.opportunity']").length;
+      fluids_nb = $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").length;
       if ( all_yearly_savings.length > fluids_nb ) {
         all_yearly_savings = all_yearly_savings.slice(0, fluids_nb);
         all_yearly_savings_simplyValues = all_yearly_savings_simplyValues.slice(0, fluids_nb);
@@ -352,8 +352,8 @@ Template.actionForm.rendered = function () {
       var value_analysis = 0;
       var fluidImpact_in_kwhef =0 ;
 
-      $("[name^='impact_assessment_fluids_kwhef.'][name$='.or_kwhef']").each(function( index ) {
-        fluidImpact_in_kwhef += AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".or_kwhef")*1 ;
+      $("[name^='gain_fluids_kwhef.'][name$='.or_kwhef']").each(function( index ) {
+        fluidImpact_in_kwhef += AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
       });
       // console.log("fluidImpact_in_kwhef is: "+fluidImpact_in_kwhef);
       value_analysis = action_lifetime * fluidImpact_in_kwhef / residual_cost;

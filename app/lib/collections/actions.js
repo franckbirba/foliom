@@ -335,12 +335,22 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    impact_assessment_fluids_kwhef: {
+
+    operating_gains: {
+        type: Object,
+        label: transr("operating_gains"),
+        optional:true,
+        autoform: {
+            // template:'eportfolio-horizontal',
+        }
+    },
+
+    gain_fluids_kwhef: {
         type: [Object],
-        label: transr("impact_assessment_fluids_kwhef"),
+        label: transr("gain_fluids_kwhef"),
         optional:true,
     },
-    'impact_assessment_fluids_kwhef.$.opportunity': {
+    'gain_fluids_kwhef.$.opportunity': {
         type: String,
         label: transr("opportunity"),
         optional:true,
@@ -354,7 +364,7 @@ Actions.attachSchema(new SimpleSchema({
                 }
         }
     },
-    'impact_assessment_fluids_kwhef.$.per_cent': {
+    'gain_fluids_kwhef.$.per_cent': {
         type: Number,
         decimal: true,
         label: transr("per_cent"),
@@ -366,7 +376,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_kwhef.$.or_kwhef': {
+    'gain_fluids_kwhef.$.or_kwhef': {
         type: Number,
         decimal: true,
         label: transr("or_kwhef"),
@@ -378,7 +388,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_kwhef.$.yearly_savings': {
+    'gain_fluids_kwhef.$.yearly_savings': {
         type: Number,
         decimal: true,
         label: transr("yearly_savings"),
@@ -391,14 +401,14 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    impact_assessment_fluids_water: {
+    gain_fluids_water: {
         type: [Object],
-        label: transr("impact_assessment_fluids_water"),
+        label: transr("gain_fluids_water"),
         optional:true,
         minCount: 1,
         maxCount: 1,
     },
-    'impact_assessment_fluids_water.$.opportunity': {
+    'gain_fluids_water.$.opportunity': {
         type: String,
         label: transr("fluid_water"),
         defaultValue: transr("fluid_water"),
@@ -413,7 +423,7 @@ Actions.attachSchema(new SimpleSchema({
             // class: 'to_translate'
         }
     },
-    'impact_assessment_fluids_water.$.per_cent': {
+    'gain_fluids_water.$.per_cent': {
         type: Number,
         decimal: true,
         label: transr("per_cent"),
@@ -425,7 +435,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_water.$.or_m3': {
+    'gain_fluids_water.$.or_m3': {
         type: Number,
         decimal: true,
         label: transr("or_m3"),
@@ -437,7 +447,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_water.$.yearly_savings': {
+    'gain_fluids_water.$.yearly_savings': {
         type: Number,
         decimal: true,
         label: transr("yearly_savings"),
