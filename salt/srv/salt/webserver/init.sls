@@ -28,4 +28,5 @@ apache2:
     - user: root
     - group: root
     - mode: 644
-    - require: /var/www/eportfolio
+    - require:
+      - file: /var/www/eportfolio
