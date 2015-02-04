@@ -524,6 +524,28 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
+    savings_first_year: {
+        type: Object,
+        label: transr("savings_first_year"),
+        optional:true,
+    },
+    'savings_first_year.fluids': {
+        type: Object,
+        label: transr("savings_first_year_fluids"),
+        optional:true,
+    },
+    'savings_first_year.fluids.euro_peryear': {
+        type: Number,
+        decimal: true,
+        label: transr("euro_peryear"),
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_year"),
+            }
+        }
+    },
+
     other_gains: {
         type: Object,
         label: transr("other_gains")
@@ -660,28 +682,6 @@ Actions.attachSchema(new SimpleSchema({
                 type: 'number_u',
                 unit: transr("u_euro"),
                 readonly: true
-            }
-        }
-    },
-
-    savings_first_year: {
-        type: Object,
-        label: transr("savings_first_year"),
-        optional:true,
-    },
-    'savings_first_year.fluids': {
-        type: Object,
-        label: transr("savings_first_year_fluids"),
-        optional:true,
-    },
-    'savings_first_year.fluids.euro_peryear': {
-        type: Number,
-        decimal: true,
-        label: transr("euro_peryear"),
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_year"),
             }
         }
     },
