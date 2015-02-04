@@ -1,5 +1,9 @@
 <!-- A very simple object that we can use as a form separator -->
 <template name="afObjectField_formSeparator">
   <!-- Using triple handlebar to allow html characters -->
-  <div class="objectTitle_formSeparator">{{{afFieldLabelText name=this.atts.name}}}</div>
+  <div class="objectTitle_formSeparator">
+    <div>
+      {{afFieldLabelText name=this.atts.name}}
+    </div>
+  </div>
 </template>

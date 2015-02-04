@@ -348,7 +348,7 @@
     "action_lifetime": "Durée de vie de l'action",
     "action_link": "Lié à une autre action",
 
-    "operating_gains_separator": "&#8239; GAINS SUR LES CHARGES D’EXPLOITATION &#8239;",
+    "operating_gains_separator": "Gains sur les charges d'exploitation",
     // "impact_assessment_fluids_kwhef": "Gains sur les consommations d’énergie et de fluides",
     "gain_fluids_kwhef": "Gains sur les consommations d’énergie et de fluides en kWhEF",
     "gain_fluids_water": "Gains sur les consommations d’Eau",
@@ -371,7 +371,7 @@
     "residual_lifetime": "Durée de vie résiduelle",
 
 
-    "investment_cost_separator": "&#8239; COUT DES INVESTISSEMENTS &#8239;",
+    "investment_cost_separator": "Coût des investissements",
     "investment": "Investissements",
     "investment_ratio": "Ratio d'investissement",
     "investment_cost": "Coût d'investissement",
