@@ -658,6 +658,7 @@ Actions.attachSchema(new SimpleSchema({
             afFieldInput: {
                 type: 'number_u',
                 unit: transr("u_euro"),
+                readonly: true
             }
         }
     },
