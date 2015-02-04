@@ -1,6 +1,6 @@
 base:
   '*':
-    #- latest
+    - latest
     - sockets
     - webserver
     - fail2ban
