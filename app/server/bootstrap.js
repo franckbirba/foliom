@@ -1327,7 +1327,7 @@ Meteor.startup(function () {
                     "feasable_while_occupied": "no",
                     "priority": "high",
                     "other_gains": {
-                        "comfort": ["NA"],
+                        // "comfort": [],
                         "technical_compliance_a": "NA",
                         "regulatory_compliance": "no",
                         "residual_lifetime": "no"
@@ -1368,7 +1368,7 @@ Meteor.startup(function () {
                     "feasable_while_occupied": "yes",
                     "priority": "high",
                     "other_gains": {
-                        "comfort": ["NA"],
+                        // "comfort": [""],
                         "technical_compliance_a": "NA",
                         "regulatory_compliance": "no",
                         "residual_lifetime": "no"

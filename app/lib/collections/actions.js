@@ -531,10 +531,11 @@ Actions.attachSchema(new SimpleSchema({
     'other_gains.comfort': {
         type: [String],
         label: transr("comfort"),
+        optional:true,
         autoform: {
             type: "select-checkbox-inline",
             options: function() {
-                return buildOptions(["NA", "thermic", "visual", "acoustic"]);
+                return buildOptions(["thermic", "visual", "acoustic"]);
             }
         }
     },
