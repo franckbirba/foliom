@@ -458,7 +458,7 @@ Actions.attachSchema(new SimpleSchema({
     'operating.ratio': {
         type: Number,
         decimal: true,
-        label: transr("operating_ratio"),
+        label: transr("ratio"),
         optional:true,
         autoform: {
             afFieldInput: {
@@ -470,7 +470,7 @@ Actions.attachSchema(new SimpleSchema({
     'operating.cost': {
         type: Number,
         decimal: true,
-        label: transr("operating_cost"),
+        label: transr("euro_peryear"),
         optional:true,
         autoform: {
             afFieldInput: {
@@ -521,7 +521,6 @@ Actions.attachSchema(new SimpleSchema({
         label: transr("comfort"),
         autoform: {
             type: "select-checkbox-inline",
-            rows: 2,
             options: function() {
                 return buildOptions(["NA", "thermic", "visual", "acoustic"]);
             }

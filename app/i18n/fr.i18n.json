@@ -355,14 +355,14 @@
     "or_m3": "Ou : en m³ / an",
     "yearly_savings": "En € / an",
 
-    "operating": "Fonctionnement (hors fluides)",
+    "operating": "Gains sur les autres charges d’exploitations (hors énergie et fluides)",
     "operating_ratio": "Ratio de fonctionnement",
     "operating_cost": "Coût de fonctionnement",
 
     "operating_total_gain": "Gains totaux sur les charges d'exploitation",
     "euro_per_m2_year": "En € / m² an",
 
-    "other_gains": "Etude des impacts : généralités",
+    "other_gains": "Autres gains",
     "comfort": "Confort",
     "technical_compliance_a": "Conformité technique",
     "regulatory_compliance": "Conformité réglementaire",
