@@ -1338,7 +1338,7 @@ Meteor.startup(function () {
                     "investment": {
                         "ratio": 5
                     },
-                    "operating": {
+                    "gain_operating": {
                         "ratio": 0.5
                     },
                     "raw_roi": 0,

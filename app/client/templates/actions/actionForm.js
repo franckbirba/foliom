@@ -264,24 +264,24 @@ Template.actionForm.rendered = function () {
 
     /* ----------------------- */
     // Operating ratio and cost
-    $("[name='operating.ratio'], [name='operating.cost']").change(function() {
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change(function() {
       var curr_field = $(this).val()*1;
       var target, estimate;
       var source = Session.get('current_building_doc').building_info.area_total*1 ;
 
-      if( $(this).attr("name") == "operating.ratio") {
+      if( $(this).attr("name") == "gain_operating.ratio") {
         estimate = (curr_field * source).toFixed(2) ;
-        target = $('[name="operating.cost"]');
+        target = $('[name="gain_operating.cost"]');
       } else {
         estimate = (curr_field / source).toFixed(2) ;
-        target = $('[name="operating.ratio"]');
+        target = $('[name="gain_operating.ratio"]');
       }
 
       if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
         target.val(estimate).change() ;
       }
     });
-    $("[name='operating.ratio'], [name='operating.cost']").change() ; // Execute once at form render
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change() ; // Execute once at form render
 
     /* ----------------------- */
     // Savings_first_year: Operating ratio and cost
@@ -324,7 +324,7 @@ Template.actionForm.rendered = function () {
     this.autorun(function () {
       action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
       residual_cost = AutoForm.getFieldValue("insertActionForm", "subventions.residual_cost")*1 ;
-      operating_cost = AutoForm.getFieldValue("insertActionForm", "operating.cost")*1 ;
+      operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
       operating_savings = AutoForm.getFieldValue("insertActionForm", "savings_first_year.operations.or_euro_peryear")*1 ;
       var YS_array = Session.get('YS_values');
 
@@ -336,7 +336,8 @@ Template.actionForm.rendered = function () {
 
       /* -------------------------- */
       /*     target raw_roi         */
-      // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
+      // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
+      // Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
       var operatingCost_array = buildArrayWithZeroes(action_lifetime);
       operatingCost_array[0]=operating_cost;
 

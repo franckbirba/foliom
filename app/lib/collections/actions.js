@@ -462,12 +462,12 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    operating: {
+    gain_operating: {
         type: Object,
         label: transr("operating"),
         optional:true,
     },
-    'operating.ratio': {
+    'gain_operating.ratio': {
         type: Number,
         decimal: true,
         label: transr("ratio"),
@@ -479,7 +479,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'operating.cost': {
+    'gain_operating.cost': {
         type: Number,
         decimal: true,
         label: transr("euro_peryear"),
