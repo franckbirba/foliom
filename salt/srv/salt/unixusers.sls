@@ -1,17 +1,19 @@
-# Create an eportfolio group for restricting file access
-eportfolio_group:
+# Create a Meteor group for restricting file access
+meteor_group:
   group.present:
-    - name: eportfolio
+    - name: meteor
     - system: True
 
-# Create an eportfolio user for avoiding root execution of ePortfolio
-eportfolio_user:
+# Create a Meteor user for avoiding root execution of Meteor
+meteoro_user:
   user.present:
-    - name: eportfolio
+    - name: meteor
     - shell: /bin/bash
     - groups:
       - www-data
       - proxy
       - daemon
-      - eportfolio
+      - meteor
     - createhome: False
+    - require:
+        - group: meteor_group

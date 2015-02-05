@@ -2,8 +2,9 @@
 apache2:
   pkg:
     - installed
-  service:
-    - running
+  service.running:
+    - enable: True
+    - reload: True
     - require:
       - pkg: apache2
 

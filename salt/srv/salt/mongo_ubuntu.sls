@@ -1,7 +1,7 @@
+# Install Mongo package from Ubuntu's official repository
 mongodb:
   pkg:
     - installed
-  service:
-    - running
+  service.running:
     - require:
       - pkg: mongodb
