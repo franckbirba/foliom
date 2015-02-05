@@ -32,6 +32,7 @@ mongo_restart:
     - watch:
       - pkg: mongodb-10gen
       - file: /etc/mongodb.conf
+      #- mongodb_user: admin
 
 # Create a configuration file for Mongo
 /etc/mongodb.conf:
@@ -41,3 +42,13 @@ mongo_restart:
     - user: root
     - group: root
     - mode: 644
+
+# Create Mongo's admin user
+#mongo_user:
+  #mongodb_user.present:
+    # Create the user
+    #- name: admin
+    #- password: admin
+    # Connect as admin
+    #- user: admin
+    #- passwd: admin
