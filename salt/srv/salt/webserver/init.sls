@@ -11,8 +11,8 @@ apache2:
 /var/www/eportfolio:
   file.directory:
     - makedirs: True
-    - user: root
-    - group: root
+    - user: eportfolio
+    - group: eportfolio
     - mode: 755
 
 # Set a simple test page
@@ -20,8 +20,8 @@ apache2:
   file.managed:
     - source: salt://webserver/test.html
     - skip_verify: True
-    - user: root
-    - group: root
+    - user: eportfolio
+    - group: eportfolio
     - mode: 644
     - require:
       - file: /var/www/eportfolio
@@ -31,8 +31,6 @@ apache2:
   file.managed:
     - source: salt://webserver/010-eportfolio.conf
     - skip_verify: True
-    - user: root
-    - group: root
     - mode: 644
 
 # Enable ePortfolio's configuration
