@@ -95,34 +95,31 @@ Template.actionForm.rendered = function () {
     this.autorun(function () {
       // Have this loop monitor all opportunity Selectors
       // Being in an autoRun, it's reactive
-      $("[name^='impact_assessment_fluids_kwhef.'][name$='.opportunity']").each(function( index ) {
+      $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").each(function( index ) {
 
-        var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".opportunity") ;
+        var matchingEndUse = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".opportunity") ;
 
         if (matchingEndUse !== "") { // We make sure that something is selected
-            var matchingEndUseInLease = getMatchingEndUseInLease(allLeases, matchingEndUse);
-
-            allEndUseData[index] = matchingEndUseInLease; // Remember: index is the line number in the form
+            // For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
+            allEndUseData[index] = getMatchingEndUseInLease(allLeases, matchingEndUse); // Index is the line # in the form
             console.log("allEndUseData: ");
             console.log(allEndUseData);
-
             // We now have all EndUses for all Leases
-            // -------------------------------------------------------
 
 
             // -------------------------------------------------------
             // If first EndUse and matchingPerCent fields are entered, then set the kWef
 
-            var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".per_cent")*1 ;
-            // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".or_kwhef")*1 ;
+            var matchingPerCent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".per_cent")*1 ;
+            // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
 
             // if matchingPerCent has a value
             if (matchingPerCent !== 0){
                 var in_kwhef = 0 ;
 
-                // matchingEndUseInLease contains all that we need - we're still in the loop that applies to each line
+                // allEndUseData[index] contains all that we need - we're still in the loop that applies to each line
                 // We go through each endUse and sum the percent*EndUse_consumption
-                _.each(matchingEndUseInLease, function(endUse, tmp_index) {
+                _.each(allEndUseData[index], function(endUse, tmp_index) {
                     // console.log("endUse.first_year_value is: " + endUse.first_year_value) ;
                     result = (endUse.first_year_value * matchingPerCent/100) ;
                     endUse.in_kwhef_lease = result;
@@ -131,14 +128,13 @@ Template.actionForm.rendered = function () {
                 });
 
                 // Now set the in_kwhef val
-                $("[name='impact_assessment_fluids_kwhef." + index + ".or_kwhef']").val( in_kwhef.toFixed(2) ).change();
+                $("[name='gain_fluids_kwhef." + index + ".or_kwhef']").val( in_kwhef.toFixed(2) ).change();
             }
 
             // -------------------------------------------------------
             // If first matchingPerCent and in_kwhef are set, then set yearly_savings
             // AND: create all yearly values
             if (in_kwhef !== 0){
-
                 var yearly_savings = []; // In this array we'll store the total savings for this EndUse
                 var yearly_savings_complete = []; // In this array we'll store the total savings for this EndUse
                 // Init this array
@@ -148,21 +144,17 @@ Template.actionForm.rendered = function () {
                         "euro_savings": 0
                     });
 
-                _.each(matchingEndUseInLease, function(endUse, tmp_index) {
+                _.each(allEndUseData[index], function(endUse, tmp_index) {
                     // For this endUse, create yearly values for in_kwhef
-                    var impact_assessment = [];
+                    var impact_assessment_euro = [];
                     _.each(endUse.fluid.yearly_values, function(year, year_index) {
                         //For each year, calc the euro reduction : in_kwhef_lease * yearly fuild cost
-                        var euro_reduction = (endUse.in_kwhef_lease * year.cost).toFixed(2)*1;
-
-                        //Save the result in the EndUse
-                        impact_assessment[year_index] = {
-                            "year": year.year,
-                            "euro_savings": euro_reduction
-                        }
+                        // @BSE: This is a function that has to be updated for actualization & moving in Timeline
+                        impact_assessment_euro[year_index] = (endUse.in_kwhef_lease * year.cost).toFixed(2)*1;
 
                         //We also create the sum in the yearly_savings array
-                        var yearly_total = (yearly_savings[year_index].euro_savings + euro_reduction).toFixed(2)*1
+                        var yearly_total = (yearly_savings[year_index].euro_savings + impact_assessment_euro[year_index]).toFixed(2)*1;
+
                         yearly_savings[year_index] = {
                             "year": year.year,
                             "euro_savings": yearly_total
@@ -172,18 +164,17 @@ Template.actionForm.rendered = function () {
                         yearly_savings_complete[year_index] = yearly_total;
 
                     });
-                    endUse.impact_assessment_fluids_kwhef = impact_assessment;
-
+                    endUse.gain_fluids_kwhef = impact_assessment_euro;
                 });
 
-                $("[name='impact_assessment_fluids_kwhef." + index + ".yearly_savings']").val(yearly_savings[0].euro_savings ).change();
+                $("[name='gain_fluids_kwhef." + index + ".yearly_savings']").val(yearly_savings[0].euro_savings ).change();
 
                 // console.log("yearly_savings " + index + " is:");
                 // console.log(yearly_savings);
 
                 // Save the yearly savings in the array that stores all savings
                 all_yearly_savings[index] = {
-                    "opportunity": matchingEndUseInLease[0].end_use_name,
+                    "opportunity": allEndUseData[index][0].end_use_name,
                     "savings": yearly_savings
                 }
                 all_yearly_savings_simplyValues[index] = yearly_savings_complete;
@@ -193,7 +184,7 @@ Template.actionForm.rendered = function () {
 
       });
       //in case a line is removed: make sure we don't keep outdated lines
-      fluids_nb = $("[name^='impact_assessment_fluids_kwhef.'][name$='.opportunity']").length;
+      fluids_nb = $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").length;
       if ( all_yearly_savings.length > fluids_nb ) {
         all_yearly_savings = all_yearly_savings.slice(0, fluids_nb);
         all_yearly_savings_simplyValues = all_yearly_savings_simplyValues.slice(0, fluids_nb);
@@ -273,45 +264,26 @@ Template.actionForm.rendered = function () {
 
     /* ----------------------- */
     // Operating ratio and cost
-    $("[name='operating.ratio'], [name='operating.cost']").change(function() {
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change(function() {
       var curr_field = $(this).val()*1;
       var target, estimate;
       var source = Session.get('current_building_doc').building_info.area_total*1 ;
 
-      if( $(this).attr("name") == "operating.ratio") {
+      if( $(this).attr("name") == "gain_operating.ratio") {
         estimate = (curr_field * source).toFixed(2) ;
-        target = $('[name="operating.cost"]');
+        target = $('[name="gain_operating.cost"]');
       } else {
         estimate = (curr_field / source).toFixed(2) ;
-        target = $('[name="operating.ratio"]');
+        target = $('[name="gain_operating.ratio"]');
       }
 
       if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
         target.val(estimate).change() ;
       }
     });
-    $("[name='operating.ratio'], [name='operating.cost']").change() ; // Execute once at form render
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change() ; // Execute once at form render
 
-    /* ----------------------- */
-    // Savings_first_year: Operating ratio and cost
-    $("[name='savings_first_year.operations.euro_persquare'], [name='savings_first_year.operations.or_euro_peryear']").change(function() {
-      var curr_field = $(this).val()*1;
-      var target, estimate;
-      var source = Session.get('current_building_doc').building_info.area_total*1 ;
 
-      if( $(this).attr("name") == "savings_first_year.operations.euro_persquare") {
-        estimate = (curr_field * source).toFixed(2) ;
-        target = $('[name="savings_first_year.operations.or_euro_peryear"]');
-      } else {
-        estimate = (curr_field / source).toFixed(2) ;
-        target = $('[name="savings_first_year.operations.euro_persquare"]');
-      }
-
-      if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
-        target.val(estimate).change() ;
-      }
-    });
-    $("[name='savings_first_year.operations.euro_persquare'], [name='savings_first_year.operations.or_euro_peryear']").change() ; // Execute once at form render
 
     // --------------------------------------
     // savings_first_year.fluids.euro_peryear
@@ -333,8 +305,7 @@ Template.actionForm.rendered = function () {
     this.autorun(function () {
       action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
       residual_cost = AutoForm.getFieldValue("insertActionForm", "subventions.residual_cost")*1 ;
-      operating_cost = AutoForm.getFieldValue("insertActionForm", "operating.cost")*1 ;
-      operating_savings = AutoForm.getFieldValue("insertActionForm", "savings_first_year.operations.or_euro_peryear")*1 ;
+      gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
       var YS_array = Session.get('YS_values');
 
       // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
@@ -345,11 +316,12 @@ Template.actionForm.rendered = function () {
 
       /* -------------------------- */
       /*     target raw_roi         */
-      // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
+      // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
+      // Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
       var operatingCost_array = buildArrayWithZeroes(action_lifetime);
-      operatingCost_array[0]=operating_cost;
+      operatingCost_array[0]=gain_operating_cost;
 
-      var raw_roi = residual_cost / (total_savings_array[0] + operating_cost); //@Blandine : année 0 des économies d'énergie - OK
+      var raw_roi = residual_cost / (total_savings_array[0] + gain_operating_cost); //@Blandine : année 0 des économies d'énergie - OK
 
       $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
       console.log("raw_roi");
@@ -361,10 +333,10 @@ Template.actionForm.rendered = function () {
       var value_analysis = 0;
       var fluidImpact_in_kwhef =0 ;
 
-      $("[name^='impact_assessment_fluids_kwhef.'][name$='.or_kwhef']").each(function( index ) {
-        fluidImpact_in_kwhef += AutoForm.getFieldValue("insertActionForm", "impact_assessment_fluids_kwhef." + index + ".or_kwhef")*1 ;
+      $("[name^='gain_fluids_kwhef.'][name$='.or_kwhef']").each(function( index ) {
+        fluidImpact_in_kwhef += AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
       });
-      console.log("fluidImpact_in_kwhef is: "+fluidImpact_in_kwhef);
+      // console.log("fluidImpact_in_kwhef is: "+fluidImpact_in_kwhef);
       value_analysis = action_lifetime * fluidImpact_in_kwhef / residual_cost;
       $("[name='value_analysis']").val( value_analysis.toFixed(2)*1 );
 
@@ -399,7 +371,7 @@ Template.actionForm.rendered = function () {
       // Operating savings (économie de frais d'exploitation) - a appliquer chaque année
       var operatingSavings_array = buildArrayWithZeroes(action_lifetime);
       for (var i = 0; i < action_lifetime; i++) {
-        operatingSavings_array[i] = operating_savings ;
+        operatingSavings_array[i] = gain_operating_cost ;
       }
 
       //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)

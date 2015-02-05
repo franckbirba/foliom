@@ -335,12 +335,24 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    impact_assessment_fluids_kwhef: {
+
+    // Operating & fluids section
+    // the first object is a visual separator for the form, and won't be saved
+    operating_gains_separator: {
+        type: Object,
+        label: transr("operating_gains_separator"),
+        optional:true,
+        autoform: {
+            template:'formSeparator',
+        }
+    },
+
+    gain_fluids_kwhef: {
         type: [Object],
-        label: transr("impact_assessment_fluids_kwhef"),
+        label: transr("gain_fluids_kwhef"),
         optional:true,
     },
-    'impact_assessment_fluids_kwhef.$.opportunity': {
+    'gain_fluids_kwhef.$.opportunity': {
         type: String,
         label: transr("opportunity"),
         optional:true,
@@ -354,7 +366,7 @@ Actions.attachSchema(new SimpleSchema({
                 }
         }
     },
-    'impact_assessment_fluids_kwhef.$.per_cent': {
+    'gain_fluids_kwhef.$.per_cent': {
         type: Number,
         decimal: true,
         label: transr("per_cent"),
@@ -366,7 +378,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_kwhef.$.or_kwhef': {
+    'gain_fluids_kwhef.$.or_kwhef': {
         type: Number,
         decimal: true,
         label: transr("or_kwhef"),
@@ -378,7 +390,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_kwhef.$.yearly_savings': {
+    'gain_fluids_kwhef.$.yearly_savings': {
         type: Number,
         decimal: true,
         label: transr("yearly_savings"),
@@ -391,14 +403,14 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    impact_assessment_fluids_water: {
+    gain_fluids_water: {
         type: [Object],
-        label: transr("impact_assessment_fluids_water"),
+        label: transr("gain_fluids_water"),
         optional:true,
         minCount: 1,
         maxCount: 1,
     },
-    'impact_assessment_fluids_water.$.opportunity': {
+    'gain_fluids_water.$.opportunity': {
         type: String,
         label: transr("fluid_water"),
         defaultValue: transr("fluid_water"),
@@ -413,7 +425,7 @@ Actions.attachSchema(new SimpleSchema({
             // class: 'to_translate'
         }
     },
-    'impact_assessment_fluids_water.$.per_cent': {
+    'gain_fluids_water.$.per_cent': {
         type: Number,
         decimal: true,
         label: transr("per_cent"),
@@ -425,7 +437,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_water.$.or_m3': {
+    'gain_fluids_water.$.or_m3': {
         type: Number,
         decimal: true,
         label: transr("or_m3"),
@@ -437,7 +449,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_fluids_water.$.yearly_savings': {
+    'gain_fluids_water.$.yearly_savings': {
         type: Number,
         decimal: true,
         label: transr("yearly_savings"),
@@ -450,21 +462,106 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
 
-    impact_assessment_general: {
+    gain_operating: {
         type: Object,
-        label: transr("impact_assessment_general")
+        label: transr("operating"),
+        optional:true,
     },
-    'impact_assessment_general.comfort': {
-        type: String,
-        label: transr("comfort"),
+    'gain_operating.ratio': {
+        type: Number,
+        decimal: true,
+        label: transr("ratio"),
+        optional:true,
         autoform: {
-            type: "select",
-            options: function() {
-                return buildOptions(["NA", "thermic", "visual", "acoustic"]);
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_m2_year"),
             }
         }
     },
-    'impact_assessment_general.technical_compliance_a': {
+    'gain_operating.cost': {
+        type: Number,
+        decimal: true,
+        label: transr("euro_peryear"),
+        optional:true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_year"),
+            }
+        }
+    },
+
+    operating_total_gain: {
+        type: Object,
+        label: transr("operating_total_gain"),
+        optional:true,
+    },
+    'operating_total_gain.cost': {
+        type: Number,
+        decimal: true,
+        label: transr("euro_peryear"),
+        optional:true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_year"),
+                readonly:"true",
+            }
+        }
+    },
+    'operating_total_gain.ratio': {
+        type: Number,
+        decimal: true,
+        label: transr("euro_per_m2_year"),
+        optional:true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_m2_year"),
+                readonly:"true",
+            }
+        }
+    },
+
+    savings_first_year: {
+        type: Object,
+        label: transr("savings_first_year"),
+        optional:true,
+    },
+    'savings_first_year.fluids': {
+        type: Object,
+        label: transr("savings_first_year_fluids"),
+        optional:true,
+    },
+    'savings_first_year.fluids.euro_peryear': {
+        type: Number,
+        decimal: true,
+        label: transr("euro_peryear"),
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_euro_year"),
+            }
+        }
+    },
+
+    other_gains: {
+        type: Object,
+        label: transr("other_gains")
+    },
+    'other_gains.comfort': {
+        type: [String],
+        label: transr("comfort"),
+        optional:true,
+        autoform: {
+            type: "select-checkbox-inline",
+            options: function() {
+                return buildOptions(["thermic", "visual", "acoustic"]);
+            }
+        }
+    },
+    'other_gains.technical_compliance_a': {
         type: String,
         label: transr("technical_compliance_a"),
         autoform: {
@@ -473,26 +570,39 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    'impact_assessment_general.regulatory_compliance': {
+    'other_gains.regulatory_compliance': {
         type: String,
         label: transr("regulatory_compliance"),
         autoform: {
             type: "select",
             options: function() {
-                return buildOptions(["NA", "yes", "no"]);
+                return buildOptions(["yes", "no"]);
             }
         }
     },
-    'impact_assessment_general.residual_lifetime': {
+    'other_gains.residual_lifetime': {
         type: String,
         label: transr("residual_lifetime"),
         autoform: {
             type: "select",
             options: function() {
-                return buildOptions(["NA", "yes", "no"]);
+                return buildOptions(["yes", "no"]);
             }
         }
     },
+
+    // Investment section
+    // the first object is a visual separator for the form, and won't be saved
+    investment_cost_separator: {
+        type: Object,
+        label: transr("investment_cost_separator"),
+        optional:true,
+        autoform: {
+            template:'formSeparator',
+        }
+    },
+
+
     investment: {
         type: Object,
         label: transr("investment"),
@@ -571,108 +681,22 @@ Actions.attachSchema(new SimpleSchema({
             afFieldInput: {
                 type: 'number_u',
                 unit: transr("u_euro"),
-            }
-        }
-    },
-    operating: {
-        type: Object,
-        label: transr("operating"),
-        optional:true,
-    },
-    'operating.ratio': {
-        type: Number,
-        decimal: true,
-        label: transr("operating_ratio"),
-        optional:true,
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_m2_year"),
-            }
-        }
-    },
-    'operating.cost': {
-        type: Number,
-        decimal: true,
-        label: transr("operating_cost"),
-        optional:true,
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_year"),
-            }
-        }
-    },
-    savings_first_year: {
-        type: Object,
-        label: transr("savings_first_year"),
-        optional:true,
-    },
-    'savings_first_year.fluids': {
-        type: Object,
-        label: transr("savings_first_year_fluids"),
-        optional:true,
-    },
-    'savings_first_year.fluids.euro_peryear': {
-        type: Number,
-        decimal: true,
-        label: transr("euro_peryear"),
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_year"),
+                readonly: true
             }
         }
     },
 
-    'savings_first_year.operations': {
-        type: Object,
-        label: transr("savings_first_year_operations"),
-        optional:true,
-    },
-    'savings_first_year.operations.euro_persquare': {
-        type: Number,
-        decimal: true,
-        label: transr("ratio"),
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_m2_year"),
-            }
-        }
-    },
-    'savings_first_year.operations.or_euro_peryear': {
-        type: Number,
-        decimal: true,
-        label: transr("or_euro_peryear"),
-        autoform: {
-            afFieldInput: {
-                type: 'number_u',
-                unit: transr("u_euro_year"),
-            }
-        }
-    },
 
-    // CREATE SEPERATOR HERE "Calcul de l'efficacité"
-    // raw_roi: {
-    //     type: Number,
-    //     label: transr("raw_roi"),
-    //     defaultValue: 0,
-    //     autoform: {
-    //         afFieldInput: {
-    //             type: 'number_u',
-    //             unit: transr("u_years"),
-    //         }
-    //     }
-    // },
 
+    // Efficiency section
+    // the first object is a visual separator for the form, and won't be saved
     efficiency_calc: {
         type: Object,
         label: transr("efficiency_calc"),
         optional:true,
-        // autoform: {
-        //     class: 'form_chunk',
-        // }
+        autoform: {
+            template:'formSeparator',
+        }
     },
 
     raw_roi: {

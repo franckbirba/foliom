@@ -1310,20 +1310,26 @@ Meteor.startup(function () {
                 {
                     "name": "Robinet thermostatique",
                     "logo": "&#58972;",
-                    "impact_assessment_fluids_kwhef": [
-                        {
-                          "opportunity": "end_use_heating",
-                          "per_cent": 5
-                        }
+                    "gain_fluids_kwhef": [
+                      {
+                        "opportunity": "end_use_heating",
+                        "per_cent": 5
+                      }
+                    ],
+                    "gain_fluids_water" : [
+                      {
+                        "opportunity" : "fluid_water",
+                        "per_cent" : 0
+                      }
                     ],
                     "project_type": "NA",
                     "technical_field": "heat_production",
                     "feasable_while_occupied": "no",
                     "priority": "high",
-                    "impact_assessment_general": {
-                        "comfort": "NA",
+                    "other_gains": {
+                        // "comfort": [],
                         "technical_compliance_a": "NA",
-                        "regulatory_compliance": "NA",
+                        "regulatory_compliance": "no",
                         "residual_lifetime": "no"
                     },
                     "design_duration": 3,
@@ -1332,7 +1338,7 @@ Meteor.startup(function () {
                     "investment": {
                         "ratio": 5
                     },
-                    "operating": {
+                    "gain_operating": {
                         "ratio": 0.5
                     },
                     "raw_roi": 0,
@@ -1345,21 +1351,27 @@ Meteor.startup(function () {
                 {
                     "name": "Désembouage des réseaux",
                     "logo":"&#58947;",
-                    "impact_assessment_fluids_kwhef": [
-                        {
-                          "opportunity": "end_use_heating",
-                          "per_cent": 1
-                        }
+                    "gain_fluids_kwhef": [
+                      {
+                        "opportunity": "end_use_heating",
+                        "per_cent": 1
+                      }
+                    ],
+                    "gain_fluids_water" : [
+                      {
+                        "opportunity" : "fluid_water",
+                        "per_cent" : 0
+                      }
                     ],
                     "project_type": "cr",
                     "technical_field": "thermal_delivery",
                     "feasable_while_occupied": "yes",
                     "priority": "high",
-                    "impact_assessment_general": {
-                        "comfort": "NA",
+                    "other_gains": {
+                        // "comfort": [""],
                         "technical_compliance_a": "NA",
                         "regulatory_compliance": "no",
-                        "residual_lifetime": "NA"
+                        "residual_lifetime": "no"
                     },
                     "design_duration": 1,
                     "works_duration": 1,

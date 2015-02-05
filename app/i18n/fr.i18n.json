@@ -343,24 +343,35 @@
     "technical_field": "Lot technique concerné",
     "feasable_while_occupied": "Faisabilité site occupé",
 
-    "impact_assessment_general": "Etude des impacts : généralités",
-    "comfort": "Confort",
-    "technical_compliance_a": "Conformité technique",
-    "regulatory_compliance": "Conformité réglementaire",
-    "residual_lifetime": "Durée de vie résiduelle",
-
     "design_duration": "Durée des études",
     "works_duration": "Durée des travaux",
     "action_lifetime": "Durée de vie de l'action",
     "action_link": "Lié à une autre action",
 
-    "impact_assessment_fluids_kwhef": "Etude des impacts - Energie : Fluides",
-    "impact_assessment_fluids_water": "Etude des impacts - Energie : Eau",
+    "operating_gains_separator": "Gains sur les charges d'exploitation",
+    // "impact_assessment_fluids_kwhef": "Gains sur les consommations d’énergie et de fluides",
+    "gain_fluids_kwhef": "Gains sur les consommations d’énergie et de fluides en kWhEF",
+    "gain_fluids_water": "Gains sur les consommations d’Eau",
     "per_cent": "En %",
     "or_kwhEF": "Ou : en kWh (énergie finale) / an",
     "or_m3": "Ou : en m³ / an",
     "yearly_savings": "En € / an",
 
+    "operating": "Gains sur les autres charges d’exploitations (hors énergie et fluides)",
+    "operating_ratio": "Ratio de fonctionnement",
+    "operating_cost": "Coût de fonctionnement",
+
+    "operating_total_gain": "Gains totaux sur les charges d'exploitation",
+    "euro_per_m2_year": "En € / m² an",
+
+    "other_gains": "Autres gains",
+    "comfort": "Confort",
+    "technical_compliance_a": "Conformité technique",
+    "regulatory_compliance": "Conformité réglementaire",
+    "residual_lifetime": "Durée de vie résiduelle",
+
+
+    "investment_cost_separator": "Coût des investissements",
     "investment": "Investissements",
     "investment_ratio": "Ratio d'investissement",
     "investment_cost": "Coût d'investissement",
@@ -373,13 +384,9 @@
     "CEE_opportunity": "Certificat d'économie d'énergie",
     "residual_cost": "Coût résiduel",
 
-    "operating": "Fonctionnement (hors fluides)",
-    "operating_ratio": "Ratio de fonctionnement",
-    "operating_cost": "Coût de fonctionnement",
-
-    "savings_first_year": "Economies de charge en € à l’année initiale",
-    "savings_first_year_fluids": "Economies de fluides",
-    "savings_first_year_operations": "Economie de frais de fonctionnement",
+    // "savings_first_year": "Economies de charge en € à l’année initiale",
+    // "savings_first_year_fluids": "Economies de fluides",
+    // "savings_first_year_operations": "Economie de frais de fonctionnement",
 
     "efficiency_calc": "Calcul de l'efficacité",
     "raw_roi": "Temps de retour brut",
