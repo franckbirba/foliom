@@ -2,11 +2,19 @@
 apache2:
   pkg:
     - installed
+
+# Ensure service is started at beginning or restarted upon configuration changes
+apache2_restart:
   service.running:
+    - name: apache2
     - enable: True
     - reload: True
     - require:
       - pkg: apache2
+    - watch:
+      - pkg: apache2
+      - file: /etc/apache2/sites-available/010-meteor.conf
+      - file: /etc/apache2/sites-enabled/010-meteor.conf
 
 # Create a directory for Meteor static assets
 /var/www/meteor:
