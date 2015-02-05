@@ -13,6 +13,7 @@ meteoro_user:
       - www-data
       - proxy
       - daemon
+      - mongodb
       - meteor
     - createhome: False
     - require:

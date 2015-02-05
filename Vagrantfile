@@ -40,6 +40,8 @@ Vagrant.configure(2) do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
   config.vm.synced_folder "salt/srv/salt/", "/srv/salt/"
+  # Folder for debugging Saltstack
+  config.vm.synced_folder "~/tmp/", "/var/log/salt/"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
