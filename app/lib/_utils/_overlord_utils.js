@@ -196,7 +196,12 @@ buildArrayWithZeroes = function(arraySize) {
 
 addValuesForArrays = function(multipleArray) {
     // var multipleArray = [[1,2,3,4,5,6], [1,1,1,1,1,1], [2,2,2,2,2,2]];
-    return _.map(_.zip.apply(_, multipleArray), function(pieces) {
+    // Will return the sum, by index: [4, 5, 6, 7, 8, 9]
+    result = _.map(_.zip.apply(_, multipleArray), function(pieces) {
                  return _.reduce(pieces, function(m, p) {return m+p;}, 0);
             });
+    // We only keep 2 decimals
+    return _.map(result, function(num){
+            return num.toFixed(2)*1;
+        });
 }

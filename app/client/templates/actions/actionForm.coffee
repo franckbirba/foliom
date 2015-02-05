@@ -2,14 +2,15 @@
 
 exports = this
 
-exports.getMatchingEndUseInLease = (allLeases, matchingEndUse) ->
+exports.getMatchingEndUseInLease = (allLeases, endUseOpportunity) ->
   ## When we have an opportinity, we go through all Leases to find the corresponding endUse (in the Lease)
-  ## Note: could be better with a "break" when the EndUse is found
 
   matchingEndUseInLease = []
 
+  ## Go through all Leases
   for lease, leaseIndex in allLeases
-    for endUse in lease.consumption_by_end_use when endUse.end_use_name is matchingEndUse
+    ## Go through all end_uses of the lease, and match with the opportunity (ie. endUseOpportunity)
+    for endUse in lease.consumption_by_end_use when endUse.end_use_name is endUseOpportunity
       ## Save lease_name and consumption_by_end_use_total
       endUse.lease_name = lease.lease_name
       endUse.consumption_by_end_use_total = lease.consumption_by_end_use_total
@@ -59,3 +60,46 @@ exports.getMatchingEndUseInLease = (allLeases, matchingEndUse) ->
                     "yearly_values":[{...}]
             }
   ###
+
+
+exports.transform_EndUseGain_kwhef_inEuro = ( opportunity_EndUseData ) ->
+  ## Go through all endUses
+  for endUse in opportunity_EndUseData
+    ## For each endUse, calc. the yearly Euro savings in an Array (gain_kwhef_perLease * yearly fuild cost)
+    endUse.gain_euro_perLease = []
+    for year, year_index in endUse.fluid.yearly_values
+      endUse.gain_euro_perLease[year_index] = (endUse.gain_kwhef_perLease * year.cost).toFixed(2)*1;
+
+exports.sum_endUseGains_inEuro = ( opportunity_EndUseData ) ->
+  ## Get gain_euro_perLease for all endUses in an Array (that we'll sum just after)
+  gain_euro_perLease_array = _.map opportunity_EndUseData, (endUse, index) ->
+    return endUse.gain_euro_perLease
+  # Sum all yearly values to get the total euro Gain for this EndUse
+  # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
+  addValuesForArrays gain_euro_perLease_array
+
+###
+_.each(allEndUseData[index], function(endUse, tmp_index) {
+  // For this endUse, create yearly values for in_kwhef
+  var impact_assessment_euro = [];
+
+  _.each(endUse.fluid.yearly_values, function(year, year_index) {
+
+      //For each year, calc the euro reduction : gain_kwhef_perLease * yearly fuild cost
+      impact_assessment_euro[year_index] = (endUse.gain_kwhef_perLease * year.cost).toFixed(2)*1;
+
+      //We also create the sum in the yearly_savings array
+      var yearly_total = (yearly_savings[year_index].euro_savings + impact_assessment_euro[year_index]).toFixed(2)*1;
+
+      yearly_savings[year_index] = {
+          "year": year.year,
+          "euro_savings": yearly_total
+      };
+
+      //@BSE : test to have a simple array
+      yearly_savings_complete[year_index] = yearly_total;
+
+  });
+  endUse.gain_fluids_kwhef = impact_assessment_euro;
+});
+###
