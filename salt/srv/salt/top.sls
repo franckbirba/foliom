@@ -1,13 +1,13 @@
 base:
   '*':
-    - latest
-    - unixusers
-    - sockets
+    #- latest
+    #- unixusers
+    #- sockets
     - webserver
-    - fail2ban
+    #- fail2ban
     # Ubutu's official Mongo (outdated): - mongo_ubuntu
     #- mongo_10gen
-    - node
+    #- node
     # @TODO: Need a mongod restart upon configuration update
     # @TODO: Need a Apache2 restart upon configuration update and enabling site
     # @TODO: Users and Oplog tailing for Mongo + Securizing for localhost only
