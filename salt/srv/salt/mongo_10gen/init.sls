@@ -21,6 +21,18 @@ mongodb-10gen:
     - require:
       - cmd: createkey
 
+# Ensure service is started at beginning or restarted upon configuration changes
+mongo_restart:
+  service.running:
+    - name: mongodb
+    - enable: True
+    - reload: True
+    - require:
+      - pkg: mongodb-10gen
+    - watch:
+      - pkg: mongodb-10gen
+      - file: /etc/mongodb.conf
+
 # Create a configuration file for Mongo
 /etc/mongodb.conf:
   file.managed:
