@@ -196,6 +196,7 @@ buildArrayWithZeroes = function(arraySize) {
 
 addValuesForArrays = function(multipleArray) {
     // var multipleArray = [[1,2,3,4,5,6], [1,1,1,1,1,1], [2,2,2,2,2,2]];
+    // Will return the sum, by index: [4, 5, 6, 7, 8, 9]
     return _.map(_.zip.apply(_, multipleArray), function(pieces) {
                  return _.reduce(pieces, function(m, p) {return m+p;}, 0);
             });
