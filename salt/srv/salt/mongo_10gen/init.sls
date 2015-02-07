@@ -26,6 +26,7 @@ createAdmin:
   cmd.run:
     - name: |
         mongo --quiet --eval "db = db.getSiblingDB('admin'); db.addUser({user: '{{ pillar['mongo_users']['admin']['user'] }}', pwd: '{{ pillar['mongo_users']['admin']['pwd'] }}', roles: [ 'userAdminAnyDatabase', 'clusterAdmin' ] });"
+    - unless: cat /etc/mongodb.conf | grep ^auth\ =\ true
 
 # Ensure service is started at beginning or restarted upon configuration changes
 mongo_restart:
@@ -50,16 +51,5 @@ mongo_restart:
     - mode: 644
 
 
-
 # @TODO: With the updated configuration
 # mongo --authenticationDatabase admin -u admin -p admin eportfoliodb /srv/salt/mongo_10gen/createEportfolioDbAndUser.js
-
-# Create Mongo's admin user
-#mongo_user:
-  #mongodb_user.present:
-    # Create the user
-    #- name: admin
-    #- password: admin
-    # Connect as admin
-    #- user: admin
-    #- passwd: admin
