@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "salt/srv/salt/", "/srv/salt/"
+  config.vm.synced_folder "salt/srv/", "/srv/"
   # Folder for debugging Saltstack
   config.vm.synced_folder "~/tmp/", "/var/log/salt/"
 

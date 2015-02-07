@@ -43,6 +43,11 @@ mongo_restart:
     - group: root
     - mode: 644
 
+# @TODO: With the raw configuration
+# mongo --quiet /srv/salt/mongo_10gen/addAdminUser.js
+# @TODO: With the updated configuration
+# mongo --authenticationDatabase admin -u admin -p admin eportfoliodb /srv/salt/mongo_10gen/createEportfolioDbAndUser.js
+
 # Create Mongo's admin user
 #mongo_user:
   #mongodb_user.present:
