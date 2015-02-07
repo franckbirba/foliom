@@ -1,3 +1,3 @@
-#base:
-#  '*':
-#    - packages
+base:
+  '*':
+    - mongo_users

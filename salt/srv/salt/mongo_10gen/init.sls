@@ -21,6 +21,12 @@ mongodb-10gen:
     - require:
       - cmd: createkey
 
+# Create Mongo's admin user before setting authentification
+createAdmin:
+  cmd.run:
+    - name: |
+        mongo --quiet --eval "db = db.getSiblingDB('admin'); db.addUser({user: '{{ pillar['mongo_users']['admin']['user'] }}', pwd: '{{ pillar['mongo_users']['admin']['pwd'] }}', roles: [ 'userAdminAnyDatabase', 'clusterAdmin' ] });"
+
 # Ensure service is started at beginning or restarted upon configuration changes
 mongo_restart:
   service.running:
@@ -43,8 +49,8 @@ mongo_restart:
     - group: root
     - mode: 644
 
-# @TODO: With the raw configuration
-# mongo --quiet /srv/salt/mongo_10gen/addAdminUser.js
+
+
 # @TODO: With the updated configuration
 # mongo --authenticationDatabase admin -u admin -p admin eportfoliodb /srv/salt/mongo_10gen/createEportfolioDbAndUser.js
 
