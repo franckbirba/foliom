@@ -81,5 +81,11 @@ Vagrant.configure(2) do |config|
     salt.minion_config = "salt/minion"
     # Maintain states
     salt.run_highstate = true
+    # No over state
+    salt.run_overstate = false
+    # Colorize output
+    salt.colorize = true
+    # Info log level is sufficient
+    salt.log_level = "info"
   end
 end

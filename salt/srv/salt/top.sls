@@ -1,12 +1,12 @@
 base:
   '*':
     - latest
-    - unixusers
     - sockets
-    - webserver
     - fail2ban
     # Ubutu's official Mongo (outdated): - mongo_ubuntu
     - mongo_10gen
+    - unixusers
+    - webserver
     - node
     # @TODO: Users and Oplog tailing for Mongo + Securizing for localhost only
     # @TODO: Pillar for password and secrets
