@@ -168,6 +168,40 @@ Template.actionForm.rendered = function () {
     /* Other form formula */
     /* ------------------ */
 
+    // Operating ratio and cost
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change(function() {
+      var curr_field = $(this).val()*1;
+      var target, estimate;
+      var source = Session.get('current_building_doc').building_info.area_total*1 ;
+
+      if( $(this).attr("name") == "gain_operating.ratio") {
+        estimate = (curr_field * source).toFixed(2) ;
+        target = $('[name="gain_operating.cost"]');
+      } else {
+        estimate = (curr_field / source).toFixed(2) ;
+        target = $('[name="gain_operating.ratio"]');
+      }
+
+      if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
+        target.val(estimate).change() ;
+      }
+    });
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change() ; // Execute once at form render
+
+
+
+    // --------------------------------------
+    // savings_first_year.fluids.euro_peryear
+    var total_savings_array = [];
+    this.autorun(function () {
+      total_savings_array = addValuesForArrays( Session.get('YS_values') );
+
+      console.log("total_savings_array");
+      console.log(total_savings_array);
+
+      $("[name='savings_first_year.fluids.euro_peryear']").val( total_savings_array[0] ) ;
+    });
+
     // Investment ratio and cost
     $("[name='investment.ratio'], [name='investment.cost']").change(function() {
       var curr_field = $(this).val()*1;
@@ -224,41 +258,6 @@ Template.actionForm.rendered = function () {
       $("[name='subventions.residual_cost']").val(
         investment_cost - sub_euro - cee_opportunity
       ).change();
-    });
-
-    /* ----------------------- */
-    // Operating ratio and cost
-    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change(function() {
-      var curr_field = $(this).val()*1;
-      var target, estimate;
-      var source = Session.get('current_building_doc').building_info.area_total*1 ;
-
-      if( $(this).attr("name") == "gain_operating.ratio") {
-        estimate = (curr_field * source).toFixed(2) ;
-        target = $('[name="gain_operating.cost"]');
-      } else {
-        estimate = (curr_field / source).toFixed(2) ;
-        target = $('[name="gain_operating.ratio"]');
-      }
-
-      if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
-        target.val(estimate).change() ;
-      }
-    });
-    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change() ; // Execute once at form render
-
-
-
-    // --------------------------------------
-    // savings_first_year.fluids.euro_peryear
-    var total_savings_array = [];
-    this.autorun(function () {
-      total_savings_array = addValuesForArrays( Session.get('YS_values') );
-
-      console.log("total_savings_array");
-      console.log(total_savings_array);
-
-      $("[name='savings_first_year.fluids.euro_peryear']").val( total_savings_array[0] ) ;
     });
 
 
