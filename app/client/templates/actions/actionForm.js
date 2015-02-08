@@ -87,6 +87,7 @@ Template.actionForm.rendered = function () {
                 {sort: {lease_name:1}}
             ).fetch();
     var allEndUseData = [];
+    var d = {}; // Data object
 
     var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
 
@@ -115,8 +116,7 @@ Template.actionForm.rendered = function () {
             // if per_cent has a value
             if (per_cent !== 0){
                 var in_kwhef = 0 ;
-
-                // allEndUseData[index] contains all that we need - we're still in the loop that applies to each line
+                // allEndUseData[index] contains what we need - we're still in the loop that applies to each line
                 // We go through each endUse and sum the percent*EndUse_consumption
                 _.each(allEndUseData[index], function(endUse) {
                     // We also save the result (per Lease) in EndUse
@@ -163,6 +163,33 @@ Template.actionForm.rendered = function () {
       Session.set('YS_values', all_yearly_savings_simplyValues);
     });
 
+    /* -------------- */
+    /* Water formula */
+    /* -------------- */
+    this.autorun(function () {
+      var per_cent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_water.0.per_cent")*1 ;
+      d.waterData = getWaterDataFromLeases(allLeases);
+      console.log(d);
+      // waterGainFromPercent
+      if (per_cent !== 0){
+        var total_gain = waterGainFromPercent(d.waterData, per_cent);
+        $("[name='gain_fluids_water.0.or_m3']").val( total_gain ).change();
+      }
+
+      // if (per_cent !== 0){
+      //     var in_kwhef = 0 ;
+      //     // allEndUseData[index] contains what we need - we're still in the loop that applies to each line
+      //     // We go through each endUse and sum the percent*EndUse_consumption
+      //     _.each(allEndUseData[index], function(endUse) {
+      //         // We also save the result (per Lease) in EndUse
+      //         endUse.gain_kwhef_perLease = (endUse.first_year_value * per_cent/100) ;
+      //         in_kwhef += endUse.gain_kwhef_perLease;
+      //     });
+
+      //     // Now set the in_kwhef val
+      //     $("[name='gain_fluids_kwhef." + index + ".or_kwhef']").val( in_kwhef.toFixed(2)*1 ).change();
+      // }
+    });
 
     /* ------------------ */
     /* Other form formula */

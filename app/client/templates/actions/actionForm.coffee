@@ -1,10 +1,7 @@
-# initActionObject = () ->
-
 exports = this
 
 exports.getMatchingEndUseInLease = (allLeases, endUseOpportunity) ->
   ## When we have an opportinity, we go through all Leases to find the corresponding endUse (in the Lease)
-
   matchingEndUseInLease = []
 
   ## Go through all Leases
@@ -63,7 +60,7 @@ exports.getMatchingEndUseInLease = (allLeases, endUseOpportunity) ->
 
 
 exports.transform_EndUseGain_kwhef_inEuro = ( opportunity_EndUseData ) ->
-  ## Go through all endUses
+  # Go through all endUses
   for endUse in opportunity_EndUseData
     ## For each endUse, calc. the yearly Euro savings in an Array (gain_kwhef_perLease * yearly fuild cost)
     endUse.gain_euro_perLease = []
@@ -71,35 +68,40 @@ exports.transform_EndUseGain_kwhef_inEuro = ( opportunity_EndUseData ) ->
       endUse.gain_euro_perLease[year_index] = (endUse.gain_kwhef_perLease * year.cost).toFixed(2)*1;
 
 exports.sum_endUseGains_inEuro = ( opportunity_EndUseData ) ->
-  ## Get gain_euro_perLease for all endUses in an Array (that we'll sum just after)
+  # Get gain_euro_perLease for all endUses in an Array (that we'll sum just after)
   gain_euro_perLease_array = _.map opportunity_EndUseData, (endUse, index) ->
     return endUse.gain_euro_perLease
   # Sum all yearly values to get the total euro Gain for this EndUse
   # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
   addValuesForArrays gain_euro_perLease_array
 
-###
-_.each(allEndUseData[index], function(endUse, tmp_index) {
-  // For this endUse, create yearly values for in_kwhef
-  var impact_assessment_euro = [];
 
-  _.each(endUse.fluid.yearly_values, function(year, year_index) {
+exports.getWaterDataFromLeases = (allLeases) ->
+  ## When we have an opportinity, we go through all Leases to find the corresponding endUse (in the Lease)
+  waterData = []
 
-      //For each year, calc the euro reduction : gain_kwhef_perLease * yearly fuild cost
-      impact_assessment_euro[year_index] = (endUse.gain_kwhef_perLease * year.cost).toFixed(2)*1;
+  # Go through all Leases
+  for lease, leaseIndex in allLeases
+    # Go through all fluid_consumption_meter of the lease, find Water fluid
+    for lease_fluid in lease.fluid_consumption_meter when lease_fluid.fluid_id.indexOf("water") > -1
+      lease_fluid.lease_name = lease.lease_name
 
-      //We also create the sum in the yearly_savings array
-      var yearly_total = (yearly_savings[year_index].euro_savings + impact_assessment_euro[year_index]).toFixed(2)*1;
+      # For each Water consumption found, we search for the corresponding Fluid in the conf
+      confFluids = Session.get('current_config').fluids
+      for fluid in confFluids
+        completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type
+        if completeFluideName is lease_fluid.fluid_id
+          lease_fluid.fluid = fluid #We store the Fluid in the array
 
-      yearly_savings[year_index] = {
-          "year": year.year,
-          "euro_savings": yearly_total
-      };
+          waterData[leaseIndex] = lease_fluid
 
-      //@BSE : test to have a simple array
-      yearly_savings_complete[year_index] = yearly_total;
+  waterData ## return array
 
-  });
-  endUse.gain_fluids_kwhef = impact_assessment_euro;
-});
-###
+exports.waterGainFromPercent = (waterData, gain_percent) ->
+  # Transform percent value in actual m3 water gain
+  total = 0
+  for water_fluid in waterData
+    water_fluid.gain_water_perLease = (water_fluid.first_year_value * gain_percent/100).toFixed(2)*1 ;
+    total += water_fluid.gain_water_perLease
+  total
+

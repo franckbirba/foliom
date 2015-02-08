@@ -31,7 +31,7 @@ Template.treeTplt.rendered = function () {
           //Set totalHeight dynamically
           var building_nb = Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id }).fetch().length;
           totalHeight = 30*building_nb + 100;
-          console.log(totalHeight);
+          // console.log(totalHeight);
 
           margin = {top: 20, right: 120, bottom: 20, left: 120};
           // totalHeight = 1800,
@@ -240,7 +240,6 @@ Template.treeTplt.rendered = function () {
             }
 
             if (d.depth == 1) { // Depth==1 means it's a building
-                console.log("I'm a building!");
                 // console.log(d);
                 // console.log(d.name);
 
