@@ -225,6 +225,16 @@ Template.actionForm.rendered = function () {
       $("[name='savings_first_year.fluids.euro_peryear']").val( total_savings_array[0] ) ;
     });
 
+
+    // operating_total_gain.cost
+    this.autorun(function () {
+      var gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
+      var operating_total_gain = d.total_endUseGain_inEuro[0] + d.total_waterGain_inEuro[0] + gain_operating_cost;
+
+      $("[name='operating_total_gain.cost']").val( operating_total_gain ) ;
+      $("[name='operating_total_gain.ratio']").val( operating_total_gain / Session.get('current_building_doc').building_info.area_total ) ;
+    });
+
     // Investment ratio and cost
     $("[name='investment.ratio'], [name='investment.cost']").change(function() {
       var curr_field = $(this).val()*1;
