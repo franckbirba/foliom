@@ -35,7 +35,8 @@ Template.treeTplt.rendered = function () {
 
           margin = {top: 20, right: 120, bottom: 20, left: 120};
           // totalHeight = 1800,
-          totalWidth = 600;
+          // totalWidth = 600;
+          totalWidth = $("#treePlaceholder").width() - 10; // Set width dynamically to occupy almost all width
           width = totalWidth - margin.right - margin.left;
           height = totalHeight - margin.top - margin.bottom;
 
