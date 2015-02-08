@@ -185,7 +185,6 @@ Template.actionForm.rendered = function () {
         $("[name='gain_fluids_water.0.yearly_savings']").val( d.total_waterGain_inEuro[0] ).change();
       }
 
-
     });
 
     /* ------------------ */
