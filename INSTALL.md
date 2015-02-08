@@ -152,3 +152,11 @@ vagrant provision
 > ```bash
 > dpkg -l | grep PACKAGE_NAME
 > ```
+
+### Update the real server through SSH
+@TODO
+
+### Install ePortfolio
+@TODO demeteorize
+@TODO Mongo users through shell
+@TODO PM2

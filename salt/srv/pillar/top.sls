@@ -1,0 +1,3 @@
+base:
+  '*':
+    - mongo_users

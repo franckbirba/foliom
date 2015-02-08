@@ -21,6 +21,13 @@ mongodb-10gen:
     - require:
       - cmd: createkey
 
+# Create Mongo's admin user before setting authentification
+createAdmin:
+  cmd.run:
+    - name: |
+        mongo --quiet --eval "db = db.getSiblingDB('admin'); db.addUser({user: '{{ pillar['mongo_users']['admin']['user'] }}', pwd: '{{ pillar['mongo_users']['admin']['pwd'] }}', roles: [ 'userAdminAnyDatabase', 'clusterAdmin' ] });"
+    - unless: test -f /var/lib/mongodb/admin.0
+
 # Ensure service is started at beginning or restarted upon configuration changes
 mongo_restart:
   service.running:
@@ -32,7 +39,6 @@ mongo_restart:
     - watch:
       - pkg: mongodb-10gen
       - file: /etc/mongodb.conf
-      #- mongodb_user: admin
 
 # Create a configuration file for Mongo
 /etc/mongodb.conf:
@@ -43,12 +49,12 @@ mongo_restart:
     - group: root
     - mode: 644
 
-# Create Mongo's admin user
-#mongo_user:
-  #mongodb_user.present:
-    # Create the user
-    #- name: admin
-    #- password: admin
-    # Connect as admin
-    #- user: admin
-    #- passwd: admin
+# Create Oplog user and initiate ReplicaSet
+#createOplog:
+#  cmr.run:
+#    - name: |
+
+
+
+# @TODO: With the updated configuration
+# mongo --authenticationDatabase admin -u admin -p admin eportfoliodb /srv/salt/mongo_10gen/createEportfolioDbAndUser.js
