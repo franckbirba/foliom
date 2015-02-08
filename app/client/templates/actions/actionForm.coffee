@@ -76,6 +76,8 @@ exports.sum_endUseGains_inEuro = ( opportunity_EndUseData ) ->
   addValuesForArrays gain_euro_perLease_array
 
 
+
+
 exports.getWaterDataFromLeases = (allLeases) ->
   ## When we have an opportinity, we go through all Leases to find the corresponding endUse (in the Lease)
   waterData = []
@@ -97,6 +99,8 @@ exports.getWaterDataFromLeases = (allLeases) ->
 
   waterData ## return array
 
+
+# Apply the gain_percent to the Water consumption for all Leases, to get a value in m3
 exports.waterGainFromPercent = (waterData, gain_percent) ->
   # Transform percent value in actual m3 water gain
   total = 0
@@ -105,3 +109,19 @@ exports.waterGainFromPercent = (waterData, gain_percent) ->
     total += water_fluid.gain_water_perLease
   total
 
+# Apply the gain_percent to the Water consumption for all Leases, to get a value in m3
+exports.transform_WaterGain_inEuro = ( waterData ) ->
+  for water_fluid in waterData
+    ## For each water_fluid, calc. the yearly Euro savings in an Array (gain_water_perLease * yearly fuild cost)
+    water_fluid.gain_euro_perLease = []
+    for year, year_index in water_fluid.fluid.yearly_values
+      water_fluid.gain_euro_perLease[year_index] = (water_fluid.gain_water_perLease * year.cost).toFixed(2)*1;
+
+# Sum Euro gains for all Leases
+exports.sum_waterGains_inEuro = ( waterData ) ->
+  # Get gain_euro_perLease for all Leases in an Array (that we'll sum just after)
+  gain_euro_perLease_array = _.map waterData, (water_fluid, index) ->
+    return water_fluid.gain_euro_perLease
+  # Sum all yearly values to get the total euro Gain for this EndUse
+  # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
+  addValuesForArrays gain_euro_perLease_array
