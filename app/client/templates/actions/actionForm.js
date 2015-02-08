@@ -160,6 +160,7 @@ Template.actionForm.rendered = function () {
       console.log("all_yearly_savings_simplyValues");
       console.log(all_yearly_savings_simplyValues);
 
+      d.total_endUseGain_inEuro = addValuesForArrays(all_yearly_savings_simplyValues);
       Session.set('YS_values', all_yearly_savings_simplyValues);
     });
 
@@ -180,8 +181,8 @@ Template.actionForm.rendered = function () {
 
         // Calc the Gain in Euro and set the value
         transform_WaterGain_inEuro(d.waterData);
-        var total_waterGain_inEuro = sum_waterGains_inEuro(d.waterData);
-        $("[name='gain_fluids_water.0.yearly_savings']").val( total_waterGain_inEuro[0] ).change();
+        d.total_waterGain_inEuro = sum_waterGains_inEuro(d.waterData);
+        $("[name='gain_fluids_water.0.yearly_savings']").val( d.total_waterGain_inEuro[0] ).change();
       }
 
 
