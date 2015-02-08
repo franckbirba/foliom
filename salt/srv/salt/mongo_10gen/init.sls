@@ -26,7 +26,7 @@ createAdmin:
   cmd.run:
     - name: |
         mongo --quiet --eval "db = db.getSiblingDB('admin'); db.addUser({user: '{{ pillar['mongo_users']['admin']['user'] }}', pwd: '{{ pillar['mongo_users']['admin']['pwd'] }}', roles: [ 'userAdminAnyDatabase', 'clusterAdmin' ] });"
-    - unless: cat /etc/mongodb.conf | grep ^auth\ =\ true
+    - unless: test -f /var/lib/mongodb/admin.0
 
 # Ensure service is started at beginning or restarted upon configuration changes
 mongo_restart:
@@ -39,7 +39,6 @@ mongo_restart:
     - watch:
       - pkg: mongodb-10gen
       - file: /etc/mongodb.conf
-      #- mongodb_user: admin
 
 # Create a configuration file for Mongo
 /etc/mongodb.conf:
@@ -49,6 +48,12 @@ mongo_restart:
     - user: root
     - group: root
     - mode: 644
+
+# Create Oplog user and initiate ReplicaSet
+#createOplog:
+#  cmr.run:
+#    - name: |
+
 
 
 # @TODO: With the updated configuration
