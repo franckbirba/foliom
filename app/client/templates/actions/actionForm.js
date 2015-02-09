@@ -123,19 +123,15 @@ Template.actionForm.rendered = function () {
             // If first per_cent and kwhef_gain are set, then calc euro gain
             // AND: create all yearly values
             if (kwhef_gain !== 0){
-                // Transform the kwhef gain in an array of euro savings (by multiplying by yearly fluid cost)
-                ao.transform_EndUseGain_kwhef_inEuro(index);
+              // Transform the kwhef gain in an array of euro savings (by multiplying by yearly fluid cost)
+              ao.transform_EndUseGain_kwhef_inEuro(index);
 
-                // Calc total savings by adding the savings of each endUse
-                var total_endUseGain_inEuro = sum_endUseGains_inEuro ( allEndUseData[index] );
-                console.log("total_endUseGain_inEuro is :");
-                console.log(total_endUseGain_inEuro);
+              // Calc total savings by adding the savings of each endUse, then set the (first) value in Euro field
+              var total_endUseGain_inEuro = ao.sum_endUseGains_inEuro ( index );
+              $("[name='gain_fluids_kwhef." + index + ".yearly_savings']").val(total_endUseGain_inEuro[0] ).change();
 
-                // Set the first value in the Euro field
-                $("[name='gain_fluids_kwhef." + index + ".yearly_savings']").val(total_endUseGain_inEuro[0] ).change();
-
-                // Save the yearly savings in the array that stores all savings
-                all_yearly_savings_simplyValues[index] = total_endUseGain_inEuro;
+              // Save the yearly savings in the array that stores all savings
+              all_yearly_savings_simplyValues[index] = total_endUseGain_inEuro;
             }
 
         }

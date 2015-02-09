@@ -14,6 +14,7 @@ exports.ActionObject = class ActionObject
       endUse: []
       water: []
     @gain =
+      kwhef_euro: []
       water_euro: []
     @all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
@@ -89,6 +90,13 @@ exports.ActionObject = class ActionObject
         result = (endUse.gain_kwhef_perLease * year.cost).toFixed(2)*1
         endUse.gain_euro_perLease.push(result)
 
+  sum_endUseGains_inEuro : ( index ) ->
+    # Get gain_euro_perLease for all endUses in an Array (that we'll sum just after)
+    gain_euro_perLease_array = _.map @data.endUse[index], (endUse, index) ->
+      return endUse.gain_euro_perLease
+    # Sum all yearly values to get the total euro Gain for this EndUse
+    # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
+    @gain.kwhef_euro[index] = addValuesForArrays gain_euro_perLease_array
 
 
   # --- WATER ---
@@ -139,13 +147,6 @@ exports.ActionObject = class ActionObject
     @gain.water_euro = addValuesForArrays gain_euro_perLease_array
 
 
-exports.sum_endUseGains_inEuro = ( opportunity_EndUseData ) ->
-  # Get gain_euro_perLease for all endUses in an Array (that we'll sum just after)
-  gain_euro_perLease_array = _.map opportunity_EndUseData, (endUse, index) ->
-    return endUse.gain_euro_perLease
-  # Sum all yearly values to get the total euro Gain for this EndUse
-  # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
-  addValuesForArrays gain_euro_perLease_array
 
 
 # Utility function to sum all Gains
