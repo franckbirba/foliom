@@ -93,6 +93,8 @@ Template.actionForm.rendered = function () {
 
     var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
 
+    ao = new ActionObject();
+
     /* -------------- */
     /* EndUse formula */
     /* -------------- */
@@ -173,7 +175,7 @@ Template.actionForm.rendered = function () {
     /* Water formula */
     /* -------------- */
     // get the Water data from all Leases and the Configuration
-    d.waterData = getWaterDataFromLeases(allLeases);
+    d.waterData = ao.getWaterDataFromLeases();
     console.log(d);
 
     this.autorun(function () {
@@ -181,12 +183,12 @@ Template.actionForm.rendered = function () {
 
       if (per_cent !== 0){
         // Calc the Gain in m3 and set the value
-        var total_m3_gain = waterGainFromPercent(d.waterData, per_cent);
+        var total_m3_gain = ao.waterGainFromPercent(per_cent);
         $("[name='gain_fluids_water.0.or_m3']").val( total_m3_gain ).change();
 
         // Calc the Gain in Euro and set the value
-        transform_WaterGain_inEuro(d.waterData);
-        d.total_waterGain_inEuro = sum_waterGains_inEuro(d.waterData);
+        ao.transform_WaterGain_inEuro();
+        d.total_waterGain_inEuro = ao.sum_waterGains_inEuro();
         $("[name='gain_fluids_water.0.yearly_savings']").val( d.total_waterGain_inEuro[0] ).change();
       }
 
