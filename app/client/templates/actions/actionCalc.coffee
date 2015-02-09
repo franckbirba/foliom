@@ -32,7 +32,19 @@ exports.actionCalc = (actionId, firstYear) ->
     total_endUseGain_inEuro = ao.sum_endUseGains_inEuro ( index )
     opportunity.yearly_savings = total_endUseGain_inEuro[0]
 
-  # Do same calc for water
+  # Water calc
+    for opportunity, index in action.gain_fluids_water
+      #Calc the m3 gain from the % val.
+      if opportunity.per_cent?
+        # Calc the Gain in m3 and set the value
+        opportunity.or_m3 = ao.waterGainFromPercent(opportunity.per_cent)
+
+      if opportunity.per_cent? # OR opportunity.or_m3
+        # Calc the Gain in Euro and set the value
+        ao.transform_WaterGain_inEuro()
+        d.total_waterGain_inEuro = ao.sum_waterGains_inEuro()
+        opportunity.yearly_savings = d.total_waterGain_inEuro[0]
+
 
   console.log "action is"
   console.log action
