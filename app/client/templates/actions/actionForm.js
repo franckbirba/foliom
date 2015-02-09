@@ -80,7 +80,7 @@ Template.actionForm.rendered = function () {
   if ( Session.get('childActionToEdit') || curr_route === "actions-apply") {
 
     /* -------------- */
-    /* EndUse formula */
+    /*      Init      */
     /* -------------- */
     var allLeases = Leases.find(
                 {building_id:Session.get('current_building_doc')._id},
@@ -88,9 +88,14 @@ Template.actionForm.rendered = function () {
             ).fetch();
     var allEndUseData = [];
     d = {}; // Data object
+    //Calc first year (useful if for instance in the settings the price starts at 2014 and we're in 2015)
+    d.firstYear = moment().format('YYYY');
 
     var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
 
+    /* -------------- */
+    /* EndUse formula */
+    /* -------------- */
 
     this.autorun(function () {
       // Have this loop monitor all opportunity Selectors
@@ -229,7 +234,7 @@ Template.actionForm.rendered = function () {
     // operating_total_gain.cost
     this.autorun(function () {
       var gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
-      var operating_total_gain = d.total_endUseGain_inEuro[0] + d.total_waterGain_inEuro[0] + gain_operating_cost;
+      var operating_total_gain = sumAllGains(d, gain_operating_cost);
 
       $("[name='operating_total_gain.cost']").val( operating_total_gain ) ;
       $("[name='operating_total_gain.ratio']").val( operating_total_gain / Session.get('current_building_doc').building_info.area_total ) ;

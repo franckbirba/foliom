@@ -1,5 +1,21 @@
 exports = this
 
+exports.ActionObject = class ActionObject
+  constructor: (@firstYear = moment().format('YYYY') ) ->
+    #First year will be used to know when the action is applied
+    #By default, the first year is the current year (useful if in the settings the price starts at 2014 and we're in 2015
+    #In a Scenario, the firstYear is the year when the action is applied
+    @allLeases = Leases.find(
+                {building_id:Session.get('current_building_doc')._id},
+                {sort: {lease_name:1}}
+                ).fetch()
+    @allEndUseData = []
+    @d = {}; # Data object
+    @all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
+
+
+
+
 exports.getMatchingEndUseInLease = (allLeases, endUseOpportunity) ->
   ## When we have an opportinity, we go through all Leases to find the corresponding endUse (in the Lease)
   matchingEndUseInLease = []
@@ -114,7 +130,7 @@ exports.transform_WaterGain_inEuro = ( waterData ) ->
   for water_fluid in waterData
     ## For each water_fluid, calc. the yearly Euro savings in an Array (gain_water_perLease * yearly fuild cost)
     water_fluid.gain_euro_perLease = []
-    for year, year_index in water_fluid.fluid.yearly_values
+    for year, year_index in water_fluid.fluid.yearly_values when year.year >= d.firstYear
       water_fluid.gain_euro_perLease[year_index] = (water_fluid.gain_water_perLease * year.cost).toFixed(2)*1;
 
 # Sum Euro gains for all Leases
@@ -125,3 +141,15 @@ exports.sum_waterGains_inEuro = ( waterData ) ->
   # Sum all yearly values to get the total euro Gain for this EndUse
   # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
   addValuesForArrays gain_euro_perLease_array
+
+
+
+# Utility function to sum all Gains
+exports.sumAllGains = ( d, gain_operating_cost ) ->
+  result = 0
+  if d.total_endUseGain_inEuro? then result += d.total_endUseGain_inEuro[0]
+  if d.total_waterGain_inEuro? then result += d.total_waterGain_inEuro[0]
+  if gain_operating_cost? then result += gain_operating_cost
+  result
+
+
