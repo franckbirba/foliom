@@ -1,12 +1,12 @@
 exports = this
 
 exports.ActionObject = class ActionObject
-  constructor: (@firstYear = moment().format('YYYY') ) ->
+  constructor: (@firstYear = moment().format('YYYY'), @building_id = Session.get('current_building_doc')._id ) ->
     #First year will be used to know when the action is applied
     #By default, the first year is the current year (useful if in the settings the price starts at 2014 and we're in 2015
     #In a Scenario, the firstYear is the year when the action is applied
     @allLeases = Leases.find(
-                {building_id:Session.get('current_building_doc')._id},
+                {building_id: @building_id},
                 {sort: {lease_name:1}}
                 ).fetch()
     @waterData = []

@@ -80,6 +80,7 @@ Template.actionsApply.events({
             childActionToCreate.action_template_id = original_id;
 
             var newActionID = Actions.insert(childActionToCreate);
+            actionCalc(newActionID); // Apply all calculus to the new Actions
 
             //2015-01_-27 First test to trigger actionForm when checkbox is clicked
             Session.set('childActionToEdit', childActionToCreate);

@@ -8,6 +8,11 @@ exports = this
 
 exports.actionCalc = (actionId, firstYear) ->
   action = Actions.findOne(actionId)
+  # building = Builings.findOne(action.building_id, {})
+  building_area_search = Buildings.findOne(action.building_id, {fields: {'building_info.area_total':1}}) # Only get the building area, to optimize performance
+  building_area = building_area_search.building_info.area_total
+  console.log "building_area is #{building_area}"
+
 
   ao = new ActionObject(firstYear); # init phase with some vars
   d = {}; # Not sure this is still useful
@@ -44,6 +49,23 @@ exports.actionCalc = (actionId, firstYear) ->
         ao.transform_WaterGain_inEuro()
         d.total_waterGain_inEuro = ao.sum_waterGains_inEuro()
         opportunity.yearly_savings = d.total_waterGain_inEuro[0]
+
+
+  # Other form formula
+
+  # Operating ratio and cost
+  if action.gain_operating.ratio?
+    curr_field = action.gain_operating.ratio
+    source = building_area
+    estimate = (curr_field * source).toFixed(2) *1
+    action.gain_operating.cost = estimate
+    console.log "action.gain_operating.cost is #{action.gain_operating.cost}"
+  else if action.gain_operating.cost?
+    curr_field = action.gain_operating.cost
+    source = building_area
+    estimate = (curr_field * source).toFixed(2) *1
+    action.gain_operating.cost = estimate
+
 
 
   console.log "action is"
