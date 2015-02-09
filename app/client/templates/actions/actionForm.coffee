@@ -98,6 +98,11 @@ exports.ActionObject = class ActionObject
     # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
     @gain.kwhef_euro[index] = addValuesForArrays gain_euro_perLease_array
 
+  removeExtraEndUse: (fluids_nb) =>
+    console.log "I was called with a param of #{fluids_nb}"
+    @data.endUse = @data.endUse[0..fluids_nb-1]
+    @gain.kwhef_euro = @gain.kwhef_euro[0..fluids_nb-1]
+
 
   # --- WATER ---
 

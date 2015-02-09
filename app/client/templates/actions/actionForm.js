@@ -82,11 +82,6 @@ Template.actionForm.rendered = function () {
     /* -------------- */
     /*      Init      */
     /* -------------- */
-    var allLeases = Leases.find(
-                {building_id:Session.get('current_building_doc')._id},
-                {sort: {lease_name:1}}
-            ).fetch();
-    var allEndUseData = [];
     d = {}; // Data object
 
     var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
@@ -105,7 +100,7 @@ Template.actionForm.rendered = function () {
 
         if (endUseOpportunity !== "") { // We make sure that something is selected
             // For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
-            allEndUseData[index] = ao.getMatchingEndUseInLease(index, endUseOpportunity); // index is the line # in the form. Considering that we're inside a loop: we now have all EndUses for all Leases
+            ao.getMatchingEndUseInLease(index, endUseOpportunity); // index is the line # in the form. Considering that we're inside a loop: we now have all EndUses for all Leases
 
 
 
@@ -120,8 +115,7 @@ Template.actionForm.rendered = function () {
             }
 
             // -------------------------------------------------------
-            // If first per_cent and kwhef_gain are set, then calc euro gain
-            // AND: create all yearly values
+            // If first per_cent and kwhef_gain are set, then calc euro gain (for all years)
             if (kwhef_gain !== 0){
               // Transform the kwhef gain in an array of euro savings (by multiplying by yearly fluid cost)
               ao.transform_EndUseGain_kwhef_inEuro(index);
@@ -129,9 +123,6 @@ Template.actionForm.rendered = function () {
               // Calc total savings by adding the savings of each endUse, then set the (first) value in Euro field
               var total_endUseGain_inEuro = ao.sum_endUseGains_inEuro ( index );
               $("[name='gain_fluids_kwhef." + index + ".yearly_savings']").val(total_endUseGain_inEuro[0] ).change();
-
-              // Save the yearly savings in the array that stores all savings
-              all_yearly_savings_simplyValues[index] = total_endUseGain_inEuro;
             }
 
         }
@@ -139,15 +130,13 @@ Template.actionForm.rendered = function () {
       });
       //in case a line is removed: make sure we don't keep outdated lines
       fluids_nb = $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").length;
-      if ( all_yearly_savings_simplyValues.length > fluids_nb ) {
-        all_yearly_savings_simplyValues = all_yearly_savings_simplyValues.slice(0, fluids_nb);
+      if ( ao.gain.kwhef_euro.length > fluids_nb ) {
+        ao.removeExtraEndUse(fluids_nb);
+        //BUG: methode above only works when removing the last EndUse
       }
 
-      console.log("all_yearly_savings_simplyValues");
-      console.log(all_yearly_savings_simplyValues);
-
-      d.total_endUseGain_inEuro = addValuesForArrays(all_yearly_savings_simplyValues);
-      Session.set('YS_values', all_yearly_savings_simplyValues);
+      // d.total_endUseGain_inEuro = addValuesForArrays(all_yearly_savings_simplyValues);
+      Session.set('YS_values', ao.gain.kwhef_euro);
     });
 
     /* -------------- */
