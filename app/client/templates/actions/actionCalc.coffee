@@ -66,6 +66,12 @@ exports.actionCalc = (actionId, firstYear) ->
     estimate = (curr_field * source).toFixed(2) *1
     action.gain_operating.cost = estimate
 
+  # savings_first_year.fluids.euro_peryear
+  total_savings_array = addValuesForArrays(ao.gain.kwhef_euro)
+  action.savings_first_year =
+    fluids:
+      euro_peryear: total_savings_array[0]
+
 
 
   console.log "action is"
@@ -76,6 +82,7 @@ exports.actionCalc = (actionId, firstYear) ->
     "gain_fluids_kwhef": action.gain_fluids_kwhef
     "gain_fluids_water": action.gain_fluids_water
     "gain_operating": action.gain_operating
+    "savings_first_year": action.savings_first_year
     "investment": action.investment
 
 ###
