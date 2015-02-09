@@ -464,7 +464,7 @@ Actions.attachSchema(new SimpleSchema({
 
     gain_operating: {
         type: Object,
-        label: transr("operating"),
+        label: transr("gain_operating"),
         optional:true,
     },
     'gain_operating.ratio': {
