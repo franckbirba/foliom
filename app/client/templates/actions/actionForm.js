@@ -82,11 +82,8 @@ Template.actionForm.rendered = function () {
     /* -------------- */
     /*      Init      */
     /* -------------- */
-    d = {}; // Data object
-
-    var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
-
     ao = new ActionObject();
+    d = {}; // A data object in which we'll store temp results, to set values in the form.
 
     /* -------------- */
     /* EndUse formula */
