@@ -60,7 +60,7 @@ exports.ActionObject = class ActionObject
       return water_fluid.gain_euro_perLease
     # Sum all yearly values to get the total euro Gain for this EndUse
     # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
-    addValuesForArrays gain_euro_perLease_array
+    @total_waterGain_inEuro = addValuesForArrays gain_euro_perLease_array
 
 
 exports.getMatchingEndUseInLease = (allLeases, endUseOpportunity) ->
