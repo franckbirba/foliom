@@ -324,11 +324,11 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
     action_link: {
-        type: String,
+        type: [String],
         label: transr("action_link"),
         optional:true,
         autoform: {
-            type: "select",
+            type: "select-multiple",
             options: function() {
                 return getActions();
             }
@@ -464,7 +464,7 @@ Actions.attachSchema(new SimpleSchema({
 
     gain_operating: {
         type: Object,
-        label: transr("operating"),
+        label: transr("gain_operating"),
         optional:true,
     },
     'gain_operating.ratio': {
@@ -521,6 +521,14 @@ Actions.attachSchema(new SimpleSchema({
                 unit: transr("u_euro_m2_year"),
                 readonly:"true",
             }
+        }
+    },
+    'operating_total_gain.yearlyValues': {
+        type: [YearlyValues],
+        // defaultValue: 0,
+        optional:true,
+        autoform: {
+            omit: true,
         }
     },
 
@@ -712,14 +720,6 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    raw_roi_yearlyValues: {
-        type: [YearlyValues],
-        // defaultValue: 0,
-        optional:true,
-        autoform: {
-            omit: true,
-        }
-    },
 
     actualised_roi: {
         type: Number,
@@ -732,14 +732,6 @@ Actions.attachSchema(new SimpleSchema({
                 type: 'number_u',
                 unit: transr("u_years"),
             }
-        }
-    },
-    actualised_roi_yearlyValues: {
-        type: [YearlyValues],
-        optional:true,
-        // defaultValue: 0,
-        autoform: {
-            omit: true,
         }
     },
 
@@ -756,14 +748,7 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    value_analysis_yearlyValues: {
-        type: [YearlyValues],
-        // defaultValue: 0,
-        optional:true,
-        autoform: {
-            omit: true,
-        }
-    },
+
 
     lec: {
         type: Number,
@@ -776,14 +761,6 @@ Actions.attachSchema(new SimpleSchema({
                 type: 'number_u',
                 unit: transr("u_euro_kwhEF"),
             }
-        }
-    },
-    lec_yearlyValues: {
-        type: [YearlyValues],
-        // defaultValue: 0,
-        optional:true,
-        autoform: {
-            omit: true,
         }
     },
 
@@ -800,34 +777,6 @@ Actions.attachSchema(new SimpleSchema({
             }
         }
     },
-    internal_return_yearlyValues: {
-        type: [YearlyValues],
-        // defaultValue: 0,
-        optional:true,
-        autoform: {
-            omit: true,
-        }
-    },
 
-
-
-//      value_analysis : {
-//           value : Number,
-//           unit : String, default : 'kWh/€'
-//           yearly_values : [
-//               { year : Number,
-//               value : Number } ]  }
-//      lec : {
-//           value : Number,
-//           unit : String, default : '€/kWh'
-//           yearly_values : [
-//               { year : Number,
-//               value : Number } ]  }
-//      return : {
-//           value : Number,
-//           unit : String, default : '%'
-//           yearly_values : [
-//               { year : Number,
-//               value : Number } ]  }
 
 }));

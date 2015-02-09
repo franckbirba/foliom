@@ -80,72 +80,46 @@ Template.actionForm.rendered = function () {
   if ( Session.get('childActionToEdit') || curr_route === "actions-apply") {
 
     /* -------------- */
+    /*      Init      */
+    /* -------------- */
+    ao = new ActionObject();
+    d = {}; // A data object in which we'll store temp results, to set values in the form.
+
+    /* -------------- */
     /* EndUse formula */
     /* -------------- */
-    var allLeases = Leases.find(
-                {building_id:Session.get('current_building_doc')._id},
-                {sort: {lease_name:1}}
-            ).fetch();
-    var allEndUseData = [];
-
-    var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
-
 
     this.autorun(function () {
       // Have this loop monitor all opportunity Selectors
-      // Being in an autoRun, it's reactive
       $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").each(function( index ) {
 
         var endUseOpportunity = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".opportunity") ;
 
         if (endUseOpportunity !== "") { // We make sure that something is selected
             // For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
-            allEndUseData[index] = getMatchingEndUseInLease(allLeases, endUseOpportunity); // Index is the line # in the form
-            console.log("allEndUseData: ");
-            console.log(allEndUseData);
-            // We now have all EndUses for all Leases
+            ao.getMatchingEndUseInLease(index, endUseOpportunity); // index is the line # in the form. Considering that we're inside a loop: we now have all EndUses for all Leases
 
 
-            // -------------------------------------------------------
+
             // If first EndUse and per_cent fields are entered, then set the kWef per_cent
-
             var per_cent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".per_cent")*1 ;
             // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
 
-            // if per_cent has a value
             if (per_cent !== 0){
-                var in_kwhef = 0 ;
-
-                // allEndUseData[index] contains all that we need - we're still in the loop that applies to each line
-                // We go through each endUse and sum the percent*EndUse_consumption
-                _.each(allEndUseData[index], function(endUse) {
-                    // We also save the result (per Lease) in EndUse
-                    endUse.gain_kwhef_perLease = (endUse.first_year_value * per_cent/100) ;
-                    in_kwhef += endUse.gain_kwhef_perLease;
-                });
-
-                // Now set the in_kwhef val
-                $("[name='gain_fluids_kwhef." + index + ".or_kwhef']").val( in_kwhef.toFixed(2)*1 ).change();
+              // Calc the Gain in kWhef and set the value
+              var kwhef_gain = ao.kWhEFGainFromPercent(index, per_cent);
+              $("[name='gain_fluids_kwhef." + index + ".or_kwhef']").val( kwhef_gain ).change();
             }
 
             // -------------------------------------------------------
-            // If first per_cent and in_kwhef are set, then calc euro gain
-            // AND: create all yearly values
-            if (in_kwhef !== 0){
-                // Transform the kwhef gain in an array of euro savings (by multiplying by yearly fluid cost)
-                // @BSE : add an offset for when the Action is moved by N years (first y. is Y+N)
-                transform_EndUseGain_kwhef_inEuro( allEndUseData[index] );
+            // If first per_cent and kwhef_gain are set, then calc euro gain (for all years)
+            if (kwhef_gain !== 0){
+              // Transform the kwhef gain in an array of euro savings (by multiplying by yearly fluid cost)
+              ao.transform_EndUseGain_kwhef_inEuro(index);
 
-                // Calc total savings by adding the savings of each endUse
-                var total_endUseGain_inEuro = sum_endUseGains_inEuro ( allEndUseData[index] );
-                console.log("total_endUseGain_inEuro is :");
-                console.log(total_endUseGain_inEuro);
-
-                // Set the first value in the Euro field
-                $("[name='gain_fluids_kwhef." + index + ".yearly_savings']").val(total_endUseGain_inEuro[0] ).change();
-
-                // Save the yearly savings in the array that stores all savings
-                all_yearly_savings_simplyValues[index] = total_endUseGain_inEuro;
+              // Calc total savings by adding the savings of each endUse, then set the (first) value in Euro field
+              var total_endUseGain_inEuro = ao.sum_endUseGains_inEuro ( index );
+              $("[name='gain_fluids_kwhef." + index + ".yearly_savings']").val(total_endUseGain_inEuro[0] ).change();
             }
 
         }
@@ -153,20 +127,81 @@ Template.actionForm.rendered = function () {
       });
       //in case a line is removed: make sure we don't keep outdated lines
       fluids_nb = $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").length;
-      if ( all_yearly_savings_simplyValues.length > fluids_nb ) {
-        all_yearly_savings_simplyValues = all_yearly_savings_simplyValues.slice(0, fluids_nb);
+      if ( ao.gain.kwhef_euro.length > fluids_nb ) {
+        ao.removeExtraEndUse(fluids_nb);
+        //BUG: methode above only works when removing the last EndUse
       }
 
-      console.log("all_yearly_savings_simplyValues");
-      console.log(all_yearly_savings_simplyValues);
-
-      Session.set('YS_values', all_yearly_savings_simplyValues);
+      // d.total_endUseGain_inEuro = addValuesForArrays(all_yearly_savings_simplyValues);
+      Session.set('YS_values', ao.gain.kwhef_euro);
     });
 
+    /* -------------- */
+    /* Water formula  */
+    /* -------------- */
+    this.autorun(function () {
+      var per_cent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_water.0.per_cent")*1 ;
+
+      if (per_cent !== 0){
+        // Calc the Gain in m3 and set the value
+        var total_m3_gain = ao.waterGainFromPercent(per_cent);
+        $("[name='gain_fluids_water.0.or_m3']").val( total_m3_gain ).change();
+
+        // Calc the Gain in Euro and set the value
+        ao.transform_WaterGain_inEuro();
+        d.total_waterGain_inEuro = ao.sum_waterGains_inEuro();
+        $("[name='gain_fluids_water.0.yearly_savings']").val( d.total_waterGain_inEuro[0] ).change();
+      }
+
+    });
 
     /* ------------------ */
     /* Other form formula */
     /* ------------------ */
+
+    // Operating ratio and cost
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change(function() {
+      var curr_field = $(this).val()*1;
+      var target, estimate;
+      var source = Session.get('current_building_doc').building_info.area_total*1 ;
+
+      if( $(this).attr("name") == "gain_operating.ratio") {
+        estimate = (curr_field * source).toFixed(2) ;
+        target = $('[name="gain_operating.cost"]');
+      } else {
+        estimate = (curr_field / source).toFixed(2) ;
+        target = $('[name="gain_operating.ratio"]');
+      }
+
+      if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
+        target.val(estimate).change() ;
+      }
+    });
+    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change() ; // Execute once at form render
+
+
+
+    // --------------------------------------
+    // savings_first_year.fluids.euro_peryear
+    var total_savings_array = [];
+    this.autorun(function () {
+      total_savings_array = addValuesForArrays( Session.get('YS_values') );
+
+      console.log("total_savings_array");
+      console.log(total_savings_array);
+
+      $("[name='savings_first_year.fluids.euro_peryear']").val( total_savings_array[0] ) ;
+    });
+
+
+    // operating_total_gain.cost
+    this.autorun(function () {
+      var gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
+      var operating_total_gain = sumAllGains(d, gain_operating_cost);
+
+      $("[name='operating_total_gain.cost']").val( operating_total_gain ) ;
+      $("[name='operating_total_gain.ratio']").val( operating_total_gain / Session.get('current_building_doc').building_info.area_total ) ;
+    });
 
     // Investment ratio and cost
     $("[name='investment.ratio'], [name='investment.cost']").change(function() {
@@ -224,41 +259,6 @@ Template.actionForm.rendered = function () {
       $("[name='subventions.residual_cost']").val(
         investment_cost - sub_euro - cee_opportunity
       ).change();
-    });
-
-    /* ----------------------- */
-    // Operating ratio and cost
-    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change(function() {
-      var curr_field = $(this).val()*1;
-      var target, estimate;
-      var source = Session.get('current_building_doc').building_info.area_total*1 ;
-
-      if( $(this).attr("name") == "gain_operating.ratio") {
-        estimate = (curr_field * source).toFixed(2) ;
-        target = $('[name="gain_operating.cost"]');
-      } else {
-        estimate = (curr_field / source).toFixed(2) ;
-        target = $('[name="gain_operating.ratio"]');
-      }
-
-      if ( ( 1*target.val() ).toFixed(2) !== estimate ) {
-        target.val(estimate).change() ;
-      }
-    });
-    $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change() ; // Execute once at form render
-
-
-
-    // --------------------------------------
-    // savings_first_year.fluids.euro_peryear
-    var total_savings_array = [];
-    this.autorun(function () {
-      total_savings_array = addValuesForArrays( Session.get('YS_values') );
-
-      console.log("total_savings_array");
-      console.log(total_savings_array);
-
-      $("[name='savings_first_year.fluids.euro_peryear']").val( total_savings_array[0] ) ;
     });
 
 
