@@ -79,7 +79,19 @@ exports.ActionObject = class ActionObject
       total += endUse.gain_kwhef_perLease
     total.toFixed(2)*1
 
+  # Transform kwhef savings in Euro gain
+  transform_EndUseGain_kwhef_inEuro : ( index ) ->
+    # Go through all endUses
+    for endUse in @data.endUse[index]
+      ## For each endUse, calc. the yearly Euro savings in an Array (gain_kwhef_perLease * yearly fuild cost)
+      endUse.gain_euro_perLease = []
+      for year, year_index in endUse.fluid.yearly_values when year.year >= @firstYear
+        result = (endUse.gain_kwhef_perLease * year.cost).toFixed(2)*1
+        endUse.gain_euro_perLease.push(result)
 
+
+
+  # --- WATER ---
 
   getWaterDataFromLeases: () =>
     ## For each Lease, find the Water Data
@@ -107,7 +119,7 @@ exports.ActionObject = class ActionObject
       total += water_fluid.gain_water_perLease
     total
 
-  # Apply the gain_percent to the Water consumption for all Leases, to get a value in m3
+  # Transform m3 savings in Euro gain
   transform_WaterGain_inEuro : () =>
     for water_fluid in @waterData
       ## For each water_fluid, calc. the yearly Euro savings in an Array (gain_water_perLease * yearly fuild cost)
@@ -127,17 +139,6 @@ exports.ActionObject = class ActionObject
     @gain.water_euro = addValuesForArrays gain_euro_perLease_array
 
 
-
-
-
-exports.transform_EndUseGain_kwhef_inEuro = ( opportunity_EndUseData ) ->
-  # Go through all endUses
-  for endUse in opportunity_EndUseData
-    ## For each endUse, calc. the yearly Euro savings in an Array (gain_kwhef_perLease * yearly fuild cost)
-    endUse.gain_euro_perLease = []
-    for year, year_index in endUse.fluid.yearly_values
-      endUse.gain_euro_perLease[year_index] = (endUse.gain_kwhef_perLease * year.cost).toFixed(2)*1;
-
 exports.sum_endUseGains_inEuro = ( opportunity_EndUseData ) ->
   # Get gain_euro_perLease for all endUses in an Array (that we'll sum just after)
   gain_euro_perLease_array = _.map opportunity_EndUseData, (endUse, index) ->
@@ -145,13 +146,6 @@ exports.sum_endUseGains_inEuro = ( opportunity_EndUseData ) ->
   # Sum all yearly values to get the total euro Gain for this EndUse
   # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
   addValuesForArrays gain_euro_perLease_array
-
-
-
-
-
-
-
 
 
 # Utility function to sum all Gains

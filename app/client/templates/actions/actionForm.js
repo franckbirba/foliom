@@ -124,8 +124,7 @@ Template.actionForm.rendered = function () {
             // AND: create all yearly values
             if (kwhef_gain !== 0){
                 // Transform the kwhef gain in an array of euro savings (by multiplying by yearly fluid cost)
-                // @BSE : add an offset for when the Action is moved by N years (first y. is Y+N)
-                transform_EndUseGain_kwhef_inEuro( allEndUseData[index] );
+                ao.transform_EndUseGain_kwhef_inEuro(index);
 
                 // Calc total savings by adding the savings of each endUse
                 var total_endUseGain_inEuro = sum_endUseGains_inEuro ( allEndUseData[index] );
