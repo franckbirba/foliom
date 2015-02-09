@@ -324,11 +324,11 @@ Actions.attachSchema(new SimpleSchema({
         }
     },
     action_link: {
-        type: String,
+        type: [String],
         label: transr("action_link"),
         optional:true,
         autoform: {
-            type: "select",
+            type: "select-multiple",
             options: function() {
                 return getActions();
             }
