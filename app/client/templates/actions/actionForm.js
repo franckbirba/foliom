@@ -105,37 +105,24 @@ Template.actionForm.rendered = function () {
 
         if (endUseOpportunity !== "") { // We make sure that something is selected
             // For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
-            allEndUseData[index] = getMatchingEndUseInLease(allLeases, endUseOpportunity); // Index is the line # in the form
-            console.log("allEndUseData: ");
-            console.log(allEndUseData);
-            // We now have all EndUses for all Leases
+            allEndUseData[index] = ao.getMatchingEndUseInLease(index, endUseOpportunity); // index is the line # in the form. Considering that we're inside a loop: we now have all EndUses for all Leases
 
 
-            // -------------------------------------------------------
+
             // If first EndUse and per_cent fields are entered, then set the kWef per_cent
-
             var per_cent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".per_cent")*1 ;
             // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
 
-            // if per_cent has a value
             if (per_cent !== 0){
-                var in_kwhef = 0 ;
-                // allEndUseData[index] contains what we need - we're still in the loop that applies to each line
-                // We go through each endUse and sum the percent*EndUse_consumption
-                _.each(allEndUseData[index], function(endUse) {
-                    // We also save the result (per Lease) in EndUse
-                    endUse.gain_kwhef_perLease = (endUse.first_year_value * per_cent/100) ;
-                    in_kwhef += endUse.gain_kwhef_perLease;
-                });
-
-                // Now set the in_kwhef val
-                $("[name='gain_fluids_kwhef." + index + ".or_kwhef']").val( in_kwhef.toFixed(2)*1 ).change();
+              // Calc the Gain in kWhef and set the value
+              var kwhef_gain = ao.kWhEFGainFromPercent(index, per_cent);
+              $("[name='gain_fluids_kwhef." + index + ".or_kwhef']").val( kwhef_gain ).change();
             }
 
             // -------------------------------------------------------
-            // If first per_cent and in_kwhef are set, then calc euro gain
+            // If first per_cent and kwhef_gain are set, then calc euro gain
             // AND: create all yearly values
-            if (in_kwhef !== 0){
+            if (kwhef_gain !== 0){
                 // Transform the kwhef gain in an array of euro savings (by multiplying by yearly fluid cost)
                 // @BSE : add an offset for when the Action is moved by N years (first y. is Y+N)
                 transform_EndUseGain_kwhef_inEuro( allEndUseData[index] );
