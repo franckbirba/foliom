@@ -6,37 +6,33 @@ This function is designed to apply all calculus that an Action needs in the foll
 
 exports = this
 
-exports.actionCalc = (actionId) ->
+exports.actionCalc = (actionId, firstYear) ->
   action = Actions.findOne(actionId)
 
-  # init phase with some vars
-  allLeases = Leases.find(
-                {building_id:Session.get('current_building_doc')._id},
-                {sort: {lease_name:1}}
-            ).fetch();
-  allEndUseData = []
-  all_yearly_savings_simplyValues = []
+  ao = new ActionObject(firstYear); # init phase with some vars
+  d = {}; # Not sure this is still useful
 
   for opportunity, index in action.gain_fluids_kwhef
     #For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
-    allEndUseData[index] = getMatchingEndUseInLease(allLeases, opportunity.opportunity);
+    # allEndUseData[index] = getMatchingEndUseInLease(allLeases, opportunity.opportunity);
+    ao.getMatchingEndUseInLease(index, opportunity.opportunity);
 
     #Calc the kwhef gain from the % val.
-    #@BSE: update with the new calc
-
     if opportunity.per_cent?
-      in_kwhef = 0
-      # allEndUseData[index] contains all that we need - we're still in the loop that applies to each line
-      # We go through each endUse and sum the percent*EndUse_consumption
-      _.each allEndUseData[index], (endUse) ->
-          #We also save the result (per Lease) in EndUse
-          endUse.gain_kwhef_perLease = (endUse.first_year_value * opportunity.per_cent/100)
-          in_kwhef += endUse.gain_kwhef_perLease
+      #Calc the Gain in kWhef and set the value
+      kwhef_gain = ao.kWhEFGainFromPercent(index, opportunity.per_cent);
+      opportunity.or_kwhef = kwhef_gain.toFixed(2)*1
 
-      #Now set the in_kwhef val
-      opportunity.or_kwhef = in_kwhef.toFixed(2)*1
+    #if opportunity.or_kwhef?
+      #ToDo: add inverse calc.
 
-    # Do same calc for water
+    # Calc euro gain
+    ao.transform_EndUseGain_kwhef_inEuro(index)
+    # Calc total savings by adding the savings of each endUse, then set the (first) value in Euro field
+    total_endUseGain_inEuro = ao.sum_endUseGains_inEuro ( index )
+    opportunity.yearly_savings = total_endUseGain_inEuro[0]
+
+  # Do same calc for water
 
   console.log "action is"
   console.log action
