@@ -14,9 +14,11 @@ exports.ActionObject = class ActionObject
     @d = {}; # Data object
     @all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
+    @getWaterDataFromLeases() # Init water Data
+
 
   getWaterDataFromLeases: () =>
-    ## When we have an opportinity, we go through all Leases to find the Water Data (from each Lease)
+    ## For each Lease, find the Water Data
     for lease, leaseIndex in @allLeases
       # Go through all fluid_consumption_meter of the lease, find Water fluid
       for lease_fluid in lease.fluid_consumption_meter when lease_fluid.fluid_id.indexOf("water") > -1
@@ -30,7 +32,6 @@ exports.ActionObject = class ActionObject
             lease_fluid.fluid = fluid #We store the Fluid in the array
 
             @waterData[leaseIndex] = lease_fluid
-
     @waterData #ToDelete
 
   # Apply the gain_percent to the Water consumption for all Leases, to get a value in m3
@@ -47,7 +48,7 @@ exports.ActionObject = class ActionObject
     for water_fluid in @waterData
       ## For each water_fluid, calc. the yearly Euro savings in an Array (gain_water_perLease * yearly fuild cost)
       water_fluid.gain_euro_perLease = []
-      for year, year_index in water_fluid.fluid.yearly_values when year.year >= d.firstYear
+      for year, year_index in water_fluid.fluid.yearly_values when year.year >= @firstYear
         #We skip the values in the settings that are inferior to the firstYear
         result = (water_fluid.gain_water_perLease * year.cost).toFixed(2)*1
         water_fluid.gain_euro_perLease.push(result)

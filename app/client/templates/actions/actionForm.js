@@ -88,8 +88,6 @@ Template.actionForm.rendered = function () {
             ).fetch();
     var allEndUseData = [];
     d = {}; // Data object
-    //Calc first year (useful if for instance in the settings the price starts at 2014 and we're in 2015)
-    d.firstYear = moment().format('YYYY');
 
     var all_yearly_savings_simplyValues = []; // Will contain all savings, for each EndUse
 
@@ -101,7 +99,6 @@ Template.actionForm.rendered = function () {
 
     this.autorun(function () {
       // Have this loop monitor all opportunity Selectors
-      // Being in an autoRun, it's reactive
       $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").each(function( index ) {
 
         var endUseOpportunity = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".opportunity") ;
@@ -172,12 +169,8 @@ Template.actionForm.rendered = function () {
     });
 
     /* -------------- */
-    /* Water formula */
+    /* Water formula  */
     /* -------------- */
-    // get the Water data from all Leases and the Configuration
-    d.waterData = ao.getWaterDataFromLeases();
-    console.log(d);
-
     this.autorun(function () {
       var per_cent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_water.0.per_cent")*1 ;
 
