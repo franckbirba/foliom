@@ -293,8 +293,8 @@ Template.actionForm.rendered = function () {
       var raw_roi = residual_cost / (total_fluid_savings_a[0] + gain_operating_cost); //@Blandine : année 0 des économies d'énergie - OK
 
       $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
-      console.log("raw_roi");
-      console.log(raw_roi);
+      // console.log("raw_roi");
+      // console.log(raw_roi);
 
 
       /* -------------------------- */
@@ -319,8 +319,8 @@ Template.actionForm.rendered = function () {
         var result = num * Math.pow( 1+actualization_rate , -ic_index);
         return result.toFixed(2)*1;
       });
-      console.log("ic_array_actualized");
-      console.log(ic_array_actualized);
+      // console.log("ic_array_actualized");
+      // console.log(ic_array_actualized);
 
       // PREPARE ENERGY SAVINGS
       //@Blandine: l'économie de fluides est basée sur le coût du fluide (qui évolue) >> besoin d'actualiser (seulement inflater) ? >> 14/1: YES
@@ -334,8 +334,8 @@ Template.actionForm.rendered = function () {
             });
         all_yearly_savings_simplyValues_actualized.push(actualized_energy);
       });
-      console.log("all_yearly_savings_simplyValues_actualized");
-      console.log(all_yearly_savings_simplyValues_actualized);
+      // console.log("all_yearly_savings_simplyValues_actualized");
+      // console.log(all_yearly_savings_simplyValues_actualized);
 
       // Operating savings (économie de frais d'exploitation) - a appliquer chaque année
       var operatingSavings_array = buildArrayWithZeroes(action_lifetime);
@@ -355,8 +355,8 @@ Template.actionForm.rendered = function () {
                 + operatingSavings_array_actualized[tmp_index]
                 + total_fluid_savings_a[tmp_index] ; //check suite aux retours de @Blandine sur l'actualisation des fluides
       });
-      console.log("flux");
-      console.log(flux);
+      // console.log("flux");
+      // console.log(flux);
 
       // PREPARE FLUX NOT ACTUALIZED (savings - investments)
       var flux_notActualized = _.map(ic_array, function(num, tmp_index){
@@ -364,9 +364,9 @@ Template.actionForm.rendered = function () {
                 + operatingSavings_array[tmp_index] // Pas actualisé
                 + total_fluid_savings_a[tmp_index] ; // Pas actualisé : check suite aux retours de @Blandine sur l'actualisation des fluides
       });
-      console.log("flux_notActualized");
-      console.log(flux_notActualized);
-      Session.set("flux_notActualized", flux_notActualized);
+      // console.log("flux_notActualized");
+      // console.log(flux_notActualized);
+      // Session.set("flux_notActualized", flux_notActualized);
 
       // IRR (TRI)
       var irr = IRR( Session.get("flux_notActualized") );
@@ -385,8 +385,8 @@ Template.actionForm.rendered = function () {
             }
         return sum.toFixed(2)*1;
       });
-      console.log("flux_accumulation");
-      console.log(flux_accumulation);
+      // console.log("flux_accumulation");
+      // console.log(flux_accumulation);
 
 
       // TRA
@@ -395,7 +395,7 @@ Template.actionForm.rendered = function () {
         if (num >= 0) return num;
       });
       var TRA = _.indexOf(flux_accumulation, firstPositive); // if value is not found: returns -1
-      console.log("TRA: " + TRA);
+      // console.log("TRA: " + TRA);
       if (TRA !== -1) { $("[name='actualised_roi']").val( TRA ) ; }
 
 
