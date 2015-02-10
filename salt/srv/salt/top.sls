@@ -9,5 +9,5 @@ base:
     - webserver
     - node
     # @TODO: Apache with GZIP and sticky sessions
-    # @TODO: Meteor bundling, copying, recompiling node-futures, launching with secrets
+    - meteorApp
     # @TODO: Startup script using PM2

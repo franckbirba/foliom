@@ -13,38 +13,44 @@ apache2_restart:
       - pkg: apache2
     - watch:
       - pkg: apache2
-      - file: /etc/apache2/sites-available/010-meteor.conf
-      - file: /etc/apache2/sites-enabled/010-meteor.conf
+      - file: apacheVirtualHost
+      - file: apacheEnableLink
 
 # Create a directory for Meteor static assets
-/var/www/meteor:
+apacheDir:
   file.directory:
+    - name: /var/www/{{pillar['project']['name']}}
     - makedirs: True
-    - user: meteor
-    - group: meteor
+    - user: {{pillar['project']['name']}}
+    - group: {{pillar['project']['name']}}
     - mode: 755
 
 # Set a simple test page
-/var/www/meteor/test.html:
+apacheTestPage:
   file.managed:
-    - source: salt://webserver/test.html
+    - name: /var/www/{{pillar['project']['name']}}/test.html
+    - source: salt://webserver/test.jinja
+    - template: jinja
     - skip_verify: True
-    - user: meteor
-    - group: meteor
+    - user: {{pillar['project']['name']}}
+    - group: {{pillar['project']['name']}}
     - mode: 644
     - require:
-      - file: /var/www/meteor
+      - file: apacheDir
 
 # Create the Meteor's configuration for Apache
-/etc/apache2/sites-available/010-meteor.conf:
+apacheVirtualHost:
   file.managed:
-    - source: salt://webserver/010-meteor.conf
+    - name: /etc/apache2/sites-available/{{pillar['apache']['priority']}}-{{pillar['project']['name']}}.conf
+    - source: salt://webserver/virtualHost.jinja
+    - template: jinja
     - skip_verify: True
     - mode: 644
 
 # Enable Meteor's configuration
-/etc/apache2/sites-enabled/010-meteor.conf:
+apacheEnableLink:
   file.symlink:
-    - target: /etc/apache2/sites-available/010-meteor.conf
+    - name: /etc/apache2/sites-enabled/{{pillar['apache']['priority']}}-{{pillar['project']['name']}}.conf
+    - target: /etc/apache2/sites-available/{{pillar['apache']['priority']}}-{{pillar['project']['name']}}.conf
     - require:
-      - file: /etc/apache2/sites-available/010-meteor.conf
+      - file: apacheVirtualHost

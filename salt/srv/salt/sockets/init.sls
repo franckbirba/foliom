@@ -1,7 +1,9 @@
 # Increase maximum number of sockets and files opening for Meteor user
-/etc/security/limits.conf:
+limits:
   file.managed:
-    - source: salt://sockets/limits.conf
+    - name: /etc/security/limits.conf
+    - source: salt://sockets/limits.jinja
+    - template: jinja
     - skip_verify: True
     - user: root
     - group: root

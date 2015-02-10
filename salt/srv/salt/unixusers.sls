@@ -1,20 +1,20 @@
 # Create a Meteor group for restricting file access
-meteor_group:
+meteorGroup:
   group.present:
-    - name: meteor
+    - name: {{pillar['project']['name']}}
     - system: True
 
 # Create a Meteor user for avoiding root execution of Meteor
-meteoro_user:
+meteorUser:
   user.present:
-    - name: meteor
+    - name: {{pillar['project']['name']}}
     - shell: /bin/bash
     - groups:
       - www-data
       - proxy
       - daemon
       - mongodb
-      - meteor
+      - {{pillar['project']['name']}}
     - createhome: False
     - require:
-        - group: meteor_group
+        - group: meteorGroup
