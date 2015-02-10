@@ -1,35 +1,11 @@
 Template.scenarioList.rendered = function () {
 
-    // COULD BE REFACTORED WITH APPLY-ACTION
-    if (Session.get('current_portfolio_doc')) {
-        // If a Portfolio is alreay "selected", then use it
-        $("#portfolioSelect").val( Session.get('current_portfolio_doc')._id ).change();
-    } else {
-        // Else init by choosing a random Portfolio from the current Estate doc
-        var randomPortfolioId = Portfolios.findOne()._id ;
-        $("#portfolioSelect").val(randomPortfolioId);
-        // There's apparently a delay in the rendering, so delay the .change() for 300ms
-        setTimeout(function(){
-            $("#portfolioSelect").change();
-        }, 300);
-    }
-
-    // On Portfolio selector change: set the correct current Portfolio Doc
-    $("#portfolioSelect").change(function(){
-        Session.set('current_portfolio_doc',
-            Portfolios.findOne( $("#portfolioSelect").val() )
-        );
-    });
-    /* --------------------------------------------- */
-
 };
 
 Template.scenarioList.helpers({
     getScenarios: function(){
-        if (Session.get('current_portfolio_doc')) {
-            return Scenarios.find({
-               "portfolio_id": Session.get('current_portfolio_doc')._id
-            }).fetch();
+        if (Session.get('current_estate_doc')) {
+            return Scenarios.find().fetch();
         }
     }
 });

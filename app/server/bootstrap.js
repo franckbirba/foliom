@@ -96,13 +96,20 @@ Meteor.startup(function () {
         	creation_date: new Date(),
         	indexes: [],
         	project_type_static_index: {
-            	classic: 0,
-            	cpe: 0,
-            	cr: 0,
-            	crem: 0,
-            	ppp: 0,
-            	cpi: 0,
+            	classic: 1,
+            	cpe: 1,
+            	cr: 1,
+            	crem: 1,
+            	ppp: 1,
+            	cpi: 1,
         	},
+          kwhef_to_co2_coefficients: {
+              fluid_electricity: 0.084,
+              fluid_naturalGas: 0.234,
+              fluid_fuelOil_household: 0.300,
+              fluid_fuelOil_heavy: 0.322,
+              fluid_woodEnergy: 0.013,
+          },
         	fluids: [],
         	mailing_list: "admin@test.com"
 		};
@@ -284,7 +291,8 @@ Meteor.startup(function () {
                     "evolution_index": 0
                   }
                 ],
-                "global_evolution_index": 5
+                "global_evolution_index": 5,
+                "kwhef_to_co2_coefficient": "fluid_fuelOil_heavy"
               },
               {
                 "fluid_type": "fluid_water",
@@ -446,7 +454,8 @@ Meteor.startup(function () {
                     "evolution_index": 0
                   }
                 ],
-                "global_evolution_index": 1.5
+                "global_evolution_index": 1.5,
+                "kwhef_to_co2_coefficient": "NA"
               },
               {
                 "fluid_type": "fluid_electricity",
@@ -608,7 +617,8 @@ Meteor.startup(function () {
                     "evolution_index": 0
                   }
                 ],
-                "global_evolution_index": 3.333
+                "global_evolution_index": 3.333,
+                "kwhef_to_co2_coefficient": "fluid_electricity"
               },
               {
                 "fluid_type": "fluid_heat",
@@ -770,7 +780,8 @@ Meteor.startup(function () {
                     "evolution_index": 0
                   }
                 ],
-                "global_evolution_index": 1.667
+                "global_evolution_index": 1.667,
+                "kwhef_to_co2_coefficient": "fluid_fuelOil_household"
               }
             ];
         estateCfg.mailing_list = "test@test.com"
@@ -803,6 +814,10 @@ Meteor.startup(function () {
                     name: 'certifications',
                     labels: ["nf_hqe", "breeam", "us_leed", "effinergie", "bepos2013"]
                 },
+                {
+                    name: 'kwhef_to_co2_coefficients',
+                    labels: ["NA", "fluid_electricity", "fluid_naturalGas", "fluid_fuelOil_household", "fluid_fuelOil_heavy", "fluid_woodEnergy"]
+                },
 
             ];
 
@@ -819,20 +834,8 @@ Meteor.startup(function () {
     };
 
     // get all pictos from 'foliom-picto' font
-    var foliomPictoSelection = Assets.getText('foliom-picto-selection.json');
-    var foliomPictoSelectionJson = EJSON.parse(foliomPictoSelection);
+    fontImport ('foliom-picto-selection.json', 'action_logo');
 
-    var actionLogo = _.map(foliomPictoSelectionJson.icons, function(item){
-      return "&#" + item.properties.code + ";" ;
-    });
-    // console.log("actionLogo is: ");
-    // console.log(actionLogo);
-
-    var actionLogoObject = {
-                      name: 'action_logo',
-                      labels: actionLogo
-                  };
-    Selectors.upsert({name: 'action_logo'}, {$set: actionLogoObject});
 
 
     if(EndUse.find().count() === 0) {

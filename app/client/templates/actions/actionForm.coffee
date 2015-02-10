@@ -9,14 +9,14 @@ exports.ActionObject = class ActionObject
                 {building_id: @building_id},
                 {sort: {lease_name:1}}
                 ).fetch()
-    @waterData = []
     @data =
       endUse: []
       water: []
     @gain =
       kwhef_euro: []
       water_euro: []
-    @all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
+      merged_fluids_euro: []
+    #@all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
     @getWaterDataFromLeases() # Init water Data
 
@@ -99,7 +99,8 @@ exports.ActionObject = class ActionObject
     @gain.kwhef_euro[index] = addValuesForArrays gain_euro_perLease_array
 
   removeExtraEndUse: (fluids_nb) =>
-    console.log "I was called with a param of #{fluids_nb}"
+    # console.log "I was called with a param of #{fluids_nb}"
+    # http://stackoverflow.com/questions/8205710/remove-a-value-from-an-array-in-coffeescript
     @data.endUse = @data.endUse[0..fluids_nb-1]
     @gain.kwhef_euro = @gain.kwhef_euro[0..fluids_nb-1]
 
@@ -120,21 +121,21 @@ exports.ActionObject = class ActionObject
           if completeFluideName is lease_fluid.fluid_id
             lease_fluid.fluid = fluid #We store the Fluid in the array
 
-            @waterData[leaseIndex] = lease_fluid
+            @data.water[leaseIndex] = lease_fluid
     #@waterData #ToDelete
 
   # Apply the gain_percent to the Water consumption for all Leases, to get a value in m3
   waterGainFromPercent : (gain_percent) =>
     # Transform percent value in actual m3 water gain
     total = 0
-    for water_fluid in @waterData
+    for water_fluid in @data.water
       water_fluid.gain_water_perLease = (water_fluid.first_year_value * gain_percent/100).toFixed(2)*1 ;
       total += water_fluid.gain_water_perLease
     total
 
   # Transform m3 savings in Euro gain
   transform_WaterGain_inEuro : () =>
-    for water_fluid in @waterData
+    for water_fluid in @data.water
       ## For each water_fluid, calc. the yearly Euro savings in an Array (gain_water_perLease * yearly fuild cost)
       water_fluid.gain_euro_perLease = []
       for year, year_index in water_fluid.fluid.yearly_values when year.year >= @firstYear
@@ -145,21 +146,24 @@ exports.ActionObject = class ActionObject
   # Sum Euro gains for all Leases
   sum_waterGains_inEuro : () =>
     # Get gain_euro_perLease for all Leases in an Array (that we'll sum just after)
-    gain_euro_perLease_array = _.map @waterData, (water_fluid, index) ->
+    gain_euro_perLease_array = _.map @data.water, (water_fluid, index) ->
       return water_fluid.gain_euro_perLease
     # Sum all yearly values to get the total euro Gain for this EndUse
     # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
     @gain.water_euro = addValuesForArrays gain_euro_perLease_array
 
 
+  # --- UTILITIES ---
+  sum_all_fluids_inEuro : (kwhef_multiple_array, water_array) =>
+    all_fluids_euro = [];
+    all_fluids_euro.push( addValuesForArrays(kwhef_multiple_array) ) #push the merge of all EndUse euro gain
+    if water_array? then all_fluids_euro.push(water_array)
+    addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
 
 
-# Utility function to sum all Gains
-exports.sumAllGains = ( d, gain_operating_cost ) ->
-  result = 0
-  if d.total_endUseGain_inEuro? then result += d.total_endUseGain_inEuro[0]
-  if d.total_waterGain_inEuro? then result += d.total_waterGain_inEuro[0]
-  if gain_operating_cost? then result += gain_operating_cost
-  result
-
-
+  # --- efficiency_calc ---
+  calc_raw_roi : (residual_cost, total_fluid_savings_year_0, gain_operating_cost) =>
+    # "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
+    # Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
+    raw_roi = residual_cost / (total_fluid_savings_year_0 + gain_operating_cost); #Validé avec @Blandine : année 0 des économies d'énergie
+    raw_roi.toFixed(2)*1

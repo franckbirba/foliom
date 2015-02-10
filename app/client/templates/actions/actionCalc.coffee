@@ -7,16 +7,17 @@ This function is designed to apply all calculus that an Action needs in the foll
 exports = this
 
 exports.actionCalc = (actionId, firstYear) ->
+
+  # INIT
   action = Actions.findOne(actionId)
   # building = Builings.findOne(action.building_id, {})
   building_area_search = Buildings.findOne(action.building_id, {fields: {'building_info.area_total':1}}) # Only get the building area, to optimize performance
   building_area = building_area_search.building_info.area_total
-  console.log "building_area is #{building_area}"
-
 
   ao = new ActionObject(firstYear); # init phase with some vars
-  d = {}; # Not sure this is still useful
 
+
+  # KWHEF GAIN
   for opportunity, index in action.gain_fluids_kwhef
     #For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
     # allEndUseData[index] = getMatchingEndUseInLease(allLeases, opportunity.opportunity);
@@ -37,7 +38,8 @@ exports.actionCalc = (actionId, firstYear) ->
     total_endUseGain_inEuro = ao.sum_endUseGains_inEuro ( index )
     opportunity.yearly_savings = total_endUseGain_inEuro[0]
 
-  # Water calc
+
+  # WATER GAIN
     for opportunity, index in action.gain_fluids_water
       #Calc the m3 gain from the % val.
       if opportunity.per_cent?
@@ -47,31 +49,87 @@ exports.actionCalc = (actionId, firstYear) ->
       if opportunity.per_cent? # OR opportunity.or_m3
         # Calc the Gain in Euro and set the value
         ao.transform_WaterGain_inEuro()
-        d.total_waterGain_inEuro = ao.sum_waterGains_inEuro()
-        opportunity.yearly_savings = d.total_waterGain_inEuro[0]
+        total_waterGain_inEuro = ao.sum_waterGains_inEuro()
+        opportunity.yearly_savings = total_waterGain_inEuro[0]
 
 
-  # Other form formula
+  # Other GAIN formula
 
   # Operating ratio and cost
-  if action.gain_operating.ratio?
-    curr_field = action.gain_operating.ratio
-    source = building_area
-    estimate = (curr_field * source).toFixed(2) *1
-    action.gain_operating.cost = estimate
-    console.log "action.gain_operating.cost is #{action.gain_operating.cost}"
-  else if action.gain_operating.cost?
-    curr_field = action.gain_operating.cost
-    source = building_area
-    estimate = (curr_field * source).toFixed(2) *1
-    action.gain_operating.cost = estimate
+  if action.gain_operating
+    if action.gain_operating.ratio?
+      curr_field = action.gain_operating.ratio
+      source = building_area
+      estimate = (curr_field * source).toFixed(2) *1
+      action.gain_operating.cost = estimate
+      # console.log "action.gain_operating.cost is #{action.gain_operating.cost}"
+    else if action.gain_operating.cost?
+      curr_field = action.gain_operating.cost
+      source = building_area
+      estimate = (curr_field / source).toFixed(2) *1
+      action.gain_operating.ratio = estimate
+  else
+    action.gain_operating =
+      cost:0
+      ratio:0
+
 
   # savings_first_year.fluids.euro_peryear
-  total_savings_array = addValuesForArrays(ao.gain.kwhef_euro)
+  total_fluid_savings_a = ao.sum_all_fluids_inEuro(ao.gain.kwhef_euro, ao.gain.water_euro);
   action.savings_first_year =
     fluids:
-      euro_peryear: total_savings_array[0]
+      euro_peryear: total_fluid_savings_a[0]
 
+  # operating_total_gain
+  operating_total_gain_cost = action.gain_operating.cost + total_fluid_savings_a[0] #cost
+  operating_total_gain_ratio = (operating_total_gain_cost / building_area).toFixed(2)*1 #ratio
+  action.operating_total_gain =
+    cost: operating_total_gain_cost
+    ratio: operating_total_gain_ratio
+
+
+  # INVESTMENTS
+
+  # Investment ratio and cost
+  source = building_area
+  if action.investment.ratio?
+    curr_field = action.investment.ratio
+    estimate = (curr_field * source).toFixed(2) *1
+    action.investment.cost = estimate
+    console.log "action.investment.cost is #{action.investment.cost}"
+  else if action.investment.cost?
+    curr_field = action.investment.cost
+    estimate = (curr_field / source).toFixed(2) *1
+    action.investment.ratio = estimate
+
+  # Subventions: ratio and cost in Euro
+  source = action.investment.cost
+  if action.subventions
+    if action.subventions.ratio?
+      curr_field = action.subventions.ratio
+      estimate = (curr_field/100 * source).toFixed(2) *1
+      action.subventions.or_euro = estimate
+    else if action.subventions.or_euro?
+      curr_field = action.subventions.or_euro
+      estimate = (curr_field*100 / source).toFixed(2) *1
+      action.subventions.ratio = estimate
+
+    # Subventions: residual cost
+    if action.subventions.or_euro? then sub_euro = action.subventions.or_euro
+    else sub_euro = 0
+
+    if action.subventions.CEE_opportunity? then cee_opportunity = action.subventions.cee_opportunity
+    else cee_opportunity = 0
+
+    result = action.investment.cost - sub_euro - cee_opportunity
+    action.subventions.residual_cost = result
+  else # no subs >> residual cost is the investment
+    action.subventions =
+      residual_cost: action.investment.cost
+
+
+  # INVESTMENTS
+  action.raw_roi = ao.calc_raw_roi(action.subventions.residual_cost, total_fluid_savings_a[0], action.gain_operating.cost);
 
 
   console.log "action is"
@@ -83,7 +141,10 @@ exports.actionCalc = (actionId, firstYear) ->
     "gain_fluids_water": action.gain_fluids_water
     "gain_operating": action.gain_operating
     "savings_first_year": action.savings_first_year
+    "operating_total_gain": action.operating_total_gain
     "investment": action.investment
+    "subventions": action.subventions
+    "raw_roi": action.raw_roi
 
 ###
 {
