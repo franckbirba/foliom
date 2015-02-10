@@ -7,16 +7,17 @@ This function is designed to apply all calculus that an Action needs in the foll
 exports = this
 
 exports.actionCalc = (actionId, firstYear) ->
+
+  # INIT
   action = Actions.findOne(actionId)
   # building = Builings.findOne(action.building_id, {})
   building_area_search = Buildings.findOne(action.building_id, {fields: {'building_info.area_total':1}}) # Only get the building area, to optimize performance
   building_area = building_area_search.building_info.area_total
-  console.log "building_area is #{building_area}"
-
 
   ao = new ActionObject(firstYear); # init phase with some vars
-  d = {}; # Not sure this is still useful
 
+
+  # KWHEF GAIN
   for opportunity, index in action.gain_fluids_kwhef
     #For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
     # allEndUseData[index] = getMatchingEndUseInLease(allLeases, opportunity.opportunity);
@@ -37,7 +38,8 @@ exports.actionCalc = (actionId, firstYear) ->
     total_endUseGain_inEuro = ao.sum_endUseGains_inEuro ( index )
     opportunity.yearly_savings = total_endUseGain_inEuro[0]
 
-  # Water calc
+
+  # WATER GAIN
     for opportunity, index in action.gain_fluids_water
       #Calc the m3 gain from the % val.
       if opportunity.per_cent?
@@ -47,11 +49,11 @@ exports.actionCalc = (actionId, firstYear) ->
       if opportunity.per_cent? # OR opportunity.or_m3
         # Calc the Gain in Euro and set the value
         ao.transform_WaterGain_inEuro()
-        d.total_waterGain_inEuro = ao.sum_waterGains_inEuro()
-        opportunity.yearly_savings = d.total_waterGain_inEuro[0]
+        total_waterGain_inEuro = ao.sum_waterGains_inEuro()
+        opportunity.yearly_savings = total_waterGain_inEuro[0]
 
 
-  # Other form formula
+  # Other GAIN formula
 
   # Operating ratio and cost
   if action.gain_operating.ratio?
@@ -73,11 +75,15 @@ exports.actionCalc = (actionId, firstYear) ->
       euro_peryear: total_fluid_savings_a[0]
 
   # operating_total_gain
-  operating_total_gain_cost = action.gain_operating.cost + total_fluid_savings_a[0]
-  operating_total_gain_ratio = (operating_total_gain_cost / building_area).toFixed(2)*1
+  operating_total_gain_cost = action.gain_operating.cost + total_fluid_savings_a[0] #cost
+  operating_total_gain_ratio = (operating_total_gain_cost / building_area).toFixed(2)*1 #ratio
   action.operating_total_gain =
     cost: operating_total_gain_cost
     ratio: operating_total_gain_ratio
+
+
+
+
 
   console.log "action is"
   console.log action
