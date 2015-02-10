@@ -185,10 +185,11 @@ Template.actionForm.rendered = function () {
 
 
     // savings_first_year.fluids.euro_peryear & operating_total_gain
-    var total_fluid_savings_a = [];
+    // var total_fluid_savings_a = [];
     this.autorun(function () {
       // savings_first_year.fluids.euro_peryear
-      total_fluid_savings_a = ao.sum_all_fluids_inEuro(Session.get('gain_kwhef_euro'), Session.get('gain_water_euro'));
+      var total_fluid_savings_a = ao.sum_all_fluids_inEuro(Session.get('gain_kwhef_euro'), Session.get('gain_water_euro'));
+      Session.set("total_fluid_savings_a", total_fluid_savings_a);
       // console.log("total_fluid_savings_a");
       // console.log(total_fluid_savings_a);
       $("[name='savings_first_year.fluids.euro_peryear']").val( total_fluid_savings_a[0] ) ;
@@ -276,6 +277,7 @@ Template.actionForm.rendered = function () {
       residual_cost = AutoForm.getFieldValue("insertActionForm", "subventions.residual_cost")*1 ;
       gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
       var YS_array = Session.get('gain_kwhef_euro');
+      var total_fluid_savings_a = Session.get('total_fluid_savings_a');
 
       // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
       // create an array for investment cost with as many 0 as the action_lifetime
@@ -283,18 +285,11 @@ Template.actionForm.rendered = function () {
       var ic_array = buildArrayWithZeroes(action_lifetime);
       ic_array[0]= residual_cost; //Set the first value to the residual_cost
 
-      /* -------------------------- */
-      /*     target raw_roi         */
-      // = "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
-      // Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
-      var operatingCost_array = buildArrayWithZeroes(action_lifetime);
-      operatingCost_array[0]=gain_operating_cost;
 
-      var raw_roi = residual_cost / (total_fluid_savings_a[0] + gain_operating_cost); //@Blandine : année 0 des économies d'énergie - OK
+      // RAW_ROI
+      var raw_roi = ao.calc_raw_roi(residual_cost, total_fluid_savings_a[0], gain_operating_cost);
+      $("[name='raw_roi']").val( raw_roi );
 
-      $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
-      // console.log("raw_roi");
-      // console.log(raw_roi);
 
 
       /* -------------------------- */

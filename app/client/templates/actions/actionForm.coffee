@@ -161,3 +161,9 @@ exports.ActionObject = class ActionObject
     addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
 
 
+  # --- efficiency_calc ---
+  calc_raw_roi : (residual_cost, total_fluid_savings_year_0, gain_operating_cost) =>
+    # "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
+    # Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
+    raw_roi = residual_cost / (total_fluid_savings_year_0 + gain_operating_cost); #Validé avec @Blandine : année 0 des économies d'énergie
+    raw_roi.toFixed(2)*1
