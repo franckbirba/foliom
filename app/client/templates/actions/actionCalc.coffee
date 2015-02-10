@@ -56,17 +56,23 @@ exports.actionCalc = (actionId, firstYear) ->
   # Other GAIN formula
 
   # Operating ratio and cost
-  if action.gain_operating.ratio?
-    curr_field = action.gain_operating.ratio
-    source = building_area
-    estimate = (curr_field * source).toFixed(2) *1
-    action.gain_operating.cost = estimate
-    # console.log "action.gain_operating.cost is #{action.gain_operating.cost}"
-  else if action.gain_operating.cost?
-    curr_field = action.gain_operating.cost
-    source = building_area
-    estimate = (curr_field / source).toFixed(2) *1
-    action.gain_operating.ratio = estimate
+  if action.gain_operating
+    if action.gain_operating.ratio?
+      curr_field = action.gain_operating.ratio
+      source = building_area
+      estimate = (curr_field * source).toFixed(2) *1
+      action.gain_operating.cost = estimate
+      # console.log "action.gain_operating.cost is #{action.gain_operating.cost}"
+    else if action.gain_operating.cost?
+      curr_field = action.gain_operating.cost
+      source = building_area
+      estimate = (curr_field / source).toFixed(2) *1
+      action.gain_operating.ratio = estimate
+  else
+    action.gain_operating =
+      cost:0
+      ratio:0
+
 
   # savings_first_year.fluids.euro_peryear
   total_fluid_savings_a = ao.sum_all_fluids_inEuro(ao.gain.kwhef_euro, ao.gain.water_euro);
@@ -98,23 +104,28 @@ exports.actionCalc = (actionId, firstYear) ->
 
   # Subventions: ratio and cost in Euro
   source = action.investment.cost
-  if action.subventions.ratio?
-    curr_field = action.subventions.ratio
-    estimate = (curr_field/100 * source).toFixed(2) *1
-    action.subventions.or_euro = estimate
-  else if action.subventions.or_euro?
-    curr_field = action.subventions.or_euro
-    estimate = (curr_field*100 / source).toFixed(2) *1
-    action.subventions.ratio = estimate
+  if action.subventions
+    if action.subventions.ratio?
+      curr_field = action.subventions.ratio
+      estimate = (curr_field/100 * source).toFixed(2) *1
+      action.subventions.or_euro = estimate
+    else if action.subventions.or_euro?
+      curr_field = action.subventions.or_euro
+      estimate = (curr_field*100 / source).toFixed(2) *1
+      action.subventions.ratio = estimate
 
-  # Subventions: residual cost
-  if action.subventions.or_euro? then sub_euro = action.subventions.or_euro
-  else sub_euro = 0
+    # Subventions: residual cost
+    if action.subventions.or_euro? then sub_euro = action.subventions.or_euro
+    else sub_euro = 0
 
-  if action.subventions.CEE_opportunity? then cee_opportunity = action.subventions.cee_opportunity
-  else cee_opportunity = 0
+    if action.subventions.CEE_opportunity? then cee_opportunity = action.subventions.cee_opportunity
+    else cee_opportunity = 0
 
-  action.subventions.residual_cost = action.investment.cost - sub_euro - cee_opportunity
+    result = action.investment.cost - sub_euro - cee_opportunity
+    action.subventions.residual_cost = result
+  else # no subs >> residual cost is the investment
+    action.subventions =
+      residual_cost: action.investment.cost
 
 
 
