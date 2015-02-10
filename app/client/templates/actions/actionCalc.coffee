@@ -67,10 +67,10 @@ exports.actionCalc = (actionId, firstYear) ->
     action.gain_operating.cost = estimate
 
   # savings_first_year.fluids.euro_peryear
-  total_savings_array = addValuesForArrays(ao.gain.kwhef_euro)
+  total_fluid_savings_a = ao.sum_all_fluids_inEuro(ao.gain.kwhef_euro, ao.gain.water_euro);
   action.savings_first_year =
     fluids:
-      euro_peryear: total_savings_array[0]
+      euro_peryear: total_fluid_savings_a[0]
 
 
 

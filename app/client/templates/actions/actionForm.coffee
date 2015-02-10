@@ -15,7 +15,8 @@ exports.ActionObject = class ActionObject
     @gain =
       kwhef_euro: []
       water_euro: []
-    @all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
+      merged_fluids_euro: []
+    #@all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
     @getWaterDataFromLeases() # Init water Data
 
@@ -152,7 +153,12 @@ exports.ActionObject = class ActionObject
     @gain.water_euro = addValuesForArrays gain_euro_perLease_array
 
 
-
+  # --- UTILITIES ---
+  sum_all_fluids_inEuro : (kwhef_multiple_array, water_array) =>
+    all_fluids_euro = [];
+    all_fluids_euro.push( addValuesForArrays(kwhef_multiple_array) ) #push the merge of all EndUse euro gain
+    all_fluids_euro.push(water_array);
+    addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
 
 # Utility function to sum all Gains
 exports.sumAllGains = ( d, gain_operating_cost ) ->

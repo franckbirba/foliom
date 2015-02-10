@@ -134,7 +134,7 @@ Template.actionForm.rendered = function () {
 
       // d.total_endUseGain_inEuro = addValuesForArrays(all_yearly_savings_simplyValues);
       Session.set('gain_kwhef_euro', ao.gain.kwhef_euro); // Reactive var to trigger futur calc
-      Session.set('gain_kwhef_euro_merged', addValuesForArrays(ao.gain.kwhef_euro) );
+      // Session.set('gain_kwhef_euro_merged', addValuesForArrays(ao.gain.kwhef_euro) );
     });
 
     /* -------------- */
@@ -187,14 +187,10 @@ Template.actionForm.rendered = function () {
     // savings_first_year.fluids.euro_peryear
     var total_fluid_savings_a = [];
     this.autorun(function () {
-      var all_fluids_euro = [];
-      all_fluids_euro.push(Session.get('gain_kwhef_euro_merged'));
-      all_fluids_euro.push(Session.get('gain_water_euro'));
-      total_fluid_savings_a = addValuesForArrays( all_fluids_euro );
+      total_fluid_savings_a = ao.sum_all_fluids_inEuro(Session.get('gain_kwhef_euro'), Session.get('gain_water_euro'));
 
-      console.log("total_fluid_savings_a");
-      console.log(total_fluid_savings_a);
-
+      // console.log("total_fluid_savings_a");
+      // console.log(total_fluid_savings_a);
       $("[name='savings_first_year.fluids.euro_peryear']").val( total_fluid_savings_a[0] ) ;
     });
 
