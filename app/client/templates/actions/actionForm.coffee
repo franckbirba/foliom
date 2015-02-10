@@ -16,6 +16,7 @@ exports.ActionObject = class ActionObject
       kwhef_euro: []
       water_euro: []
       merged_fluids_euro: []
+      fluidImpact_in_kwhef: 0
     #@all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
     @getWaterDataFromLeases() # Init water Data
@@ -153,17 +154,32 @@ exports.ActionObject = class ActionObject
     @gain.water_euro = addValuesForArrays gain_euro_perLease_array
 
 
+
   # --- UTILITIES ---
+
   sum_all_fluids_inEuro : (kwhef_multiple_array, water_array) =>
     all_fluids_euro = [];
     all_fluids_euro.push( addValuesForArrays(kwhef_multiple_array) ) #push the merge of all EndUse euro gain
     if water_array? then all_fluids_euro.push(water_array)
     addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
 
+  sum_all_kwhef_fluids_in_kwhef: () =>
+    fluidImpact_in_kwhef =0 ;
+    for endUse in @data.endUse
+      for lease in endUse
+        fluidImpact_in_kwhef += lease.gain_kwhef_perLease
+    @gain.fluidImpact_in_kwhef = fluidImpact_in_kwhef
 
-  # --- efficiency_calc ---
+  # --- EFFICIENCY ---
+
   calc_raw_roi : (residual_cost, total_fluid_savings_year_0, gain_operating_cost) =>
     # "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
     # Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
     raw_roi = residual_cost / (total_fluid_savings_year_0 + gain_operating_cost); #Validé avec @Blandine : année 0 des économies d'énergie
     raw_roi.toFixed(2)*1
+
+  calc_value_analysis: (action_lifetime, residual_cost) =>
+    @sum_all_kwhef_fluids_in_kwhef()
+    value_analysis = action_lifetime * @gain.fluidImpact_in_kwhef / residual_cost
+    # value_analysis.toFixed(2)*1
+    value_analysis
