@@ -52,7 +52,7 @@
 #ftp             hard    nproc           0
 #ftp             -       chroot          /ftp
 #@student        -       maxlogins       4
-meteor           soft    nofile          150000
-meteor           hard    nofile          200000
+{{pillar['project']['name']}}       soft    nofile          150000
+{{pillar['project']['name']}}       hard    nofile          200000
 
 # End of file

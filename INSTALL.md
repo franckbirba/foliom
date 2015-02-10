@@ -157,6 +157,6 @@ vagrant provision
 @TODO
 
 ### Install ePortfolio
-@TODO demeteorize
-@TODO Mongo users through shell
+@TODO Need a reboot of the server owing to kernel and PAM configuration
+@TODO demeteorizer
 @TODO PM2
