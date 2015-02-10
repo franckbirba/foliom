@@ -90,6 +90,22 @@ Now, fetching the source is easily achieved via:
 git clone https://github.com/Benczyk/foliom.git
 ```
 
+### Installing NodeJS and demeteorizer
+We use NodeJS as an utility belt launcher:
+```bash
+brew install nodejs
+```
+
+The utility we need is **demeteorizer**:
+```bash
+npm -g install demeteorizer
+```
+
+> We could use the command `meteor build`. Unfortunately, this command relies
+  on Meteor's build infrastructure in the cloud. `demeteorizer` embeds all
+  utilities on you local development platform, speeding up the provisionning
+  workflow.
+
 ## Running the application
 ### As part of your OSX environment
 Hop in the source repository and launch [Meteor](https://www.meteor.com/):
@@ -97,6 +113,12 @@ Hop in the source repository and launch [Meteor](https://www.meteor.com/):
 cd foliom/app
 meteor
 open http://localhost:3000
+```
+
+### Build the application for the servers
+A handy `build.sh` script is setup to build the application:
+```bash
+./build.sh
 ```
 
 ### Launch the local virtualized server
