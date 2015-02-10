@@ -25,7 +25,7 @@
 Scenarios = new Mongo.Collection("scenarios");
 
 Scenarios.attachSchema(new SimpleSchema({
-    portfolio_id: {
+    estate_id: {
         type: String,
         autoform: {
             omit:true

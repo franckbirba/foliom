@@ -148,12 +148,19 @@ Template.scenarioForm.events({
 
     scenario.criterion_list = criterion_list;
 
-    scenario.portfolio_id = Session.get('current_portfolio_doc')._id;
+    // scenario.estate_id = Session.get('current_portfolio_doc')._id;
+    scenario.estate_id = Session.get('current_estate_doc')._id;
 
     //Set action_id
-    var building_list = Buildings.find({portfolio_id: scenario.portfolio_id },
+    var building_list = _.map(Session.get('current_estate_doc').portfolio_collection , function(portfolio_id) {
+        return Buildings.find({portfolio_id: portfolio_id },
                             {sort: {name:1}}
                             ).fetch();
+    });
+    building_list = _.flatten(building_list);
+    console.log("building_list");
+    console.log(building_list);
+
 
     // Method to get all Actions for Each building + build a children list for the Tree
     function planActionsForBuilding(id_param) {

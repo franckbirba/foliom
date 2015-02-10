@@ -3,12 +3,6 @@
       div: span.fa.fa-gears.fa-5x
       h4 {{_ "schemaDir_create"}}
   .col-md-9
-    #portfolioSelectZone
-      | {{_ "select_portfolio"}}
-      select#portfolioSelect.form-control
-        option(value='', disabled='', selected='') Select your Portfolio
-        each getPortfolioList
-          option(value=_id)= name
     .row
       each getScenarios
         .col-md-4

@@ -11,6 +11,8 @@ Tracker.autorun ->
     Session.set 'current_config', curr_config  if curr_config
     #PORTFOLIOS
     Meteor.subscribe 'portfolios', estate_doc_id
+    #SCENARIOS
+    Meteor.subscribe 'scenarios', estate_doc_id
     # Empty the current Portfolio doc
     #Session.set 'current_portfolio_doc', undefined
 
