@@ -96,6 +96,18 @@ exports.actionCalc = (actionId, firstYear) ->
     estimate = (curr_field / source).toFixed(2) *1
     action.investment.ratio = estimate
 
+  # Subventions: ratio and cost in Euro
+  source = action.investment.cost
+  if action.subventions.ratio?
+    curr_field = action.subventions.ratio
+    estimate = (curr_field/100 * source).toFixed(2) *1
+    action.subventions.or_euro = estimate
+  else if action.subventions.or_euro?
+    curr_field = action.subventions.or_euro
+    estimate = (curr_field*100 / source).toFixed(2) *1
+    action.subventions.ratio = estimate
+
+
 
 
   console.log "action is"
