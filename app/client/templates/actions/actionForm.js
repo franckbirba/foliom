@@ -291,18 +291,9 @@ Template.actionForm.rendered = function () {
       $("[name='raw_roi']").val( raw_roi );
 
 
-
-      /* -------------------------- */
-      /*    target value_analysis   */
-      var value_analysis = 0;
-      var fluidImpact_in_kwhef =0 ;
-
-      $("[name^='gain_fluids_kwhef.'][name$='.or_kwhef']").each(function( index ) {
-        fluidImpact_in_kwhef += AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
-      });
-      // console.log("fluidImpact_in_kwhef is: "+fluidImpact_in_kwhef);
-      value_analysis = action_lifetime * fluidImpact_in_kwhef / residual_cost;
-      $("[name='value_analysis']").val( value_analysis.toFixed(2)*1 );
+      // VALUE_ANALYSIS
+      var value_analysis = ao.calc_value_analysis(action_lifetime, residual_cost);
+      $("[name='value_analysis']").val( value_analysis );
 
 
       /* -------------------------- */
@@ -361,7 +352,7 @@ Template.actionForm.rendered = function () {
       });
       // console.log("flux_notActualized");
       // console.log(flux_notActualized);
-      // Session.set("flux_notActualized", flux_notActualized);
+      Session.set("flux_notActualized", flux_notActualized);
 
       // IRR (TRI)
       var irr = IRR( Session.get("flux_notActualized") );
@@ -397,7 +388,7 @@ Template.actionForm.rendered = function () {
       // LEC
       // = coût d'investissement (ie. 'reduce' du tableau) / (durée vie * éco d'énergie en kWh pour chaque fluide)
       var total_investment = _.reduce(ic_array_actualized, function(memo, num){ return memo + num; }, 0);
-      var LEC = total_investment / (action_lifetime * fluidImpact_in_kwhef);
+      var LEC = total_investment / (action_lifetime * ao.gain.fluidImpact_in_kwhef);
       $("[name='lec']").val( LEC.toFixed(2)*1 ) ;
 
     });

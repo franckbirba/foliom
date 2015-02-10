@@ -131,6 +131,8 @@ exports.actionCalc = (actionId, firstYear) ->
   # INVESTMENTS
   action.raw_roi = ao.calc_raw_roi(action.subventions.residual_cost, total_fluid_savings_a[0], action.gain_operating.cost);
 
+  value_analysis = ao.calc_value_analysis(action.action_lifetime, action.subventions.residual_cost);
+
 
   console.log "action is"
   console.log action
@@ -145,6 +147,7 @@ exports.actionCalc = (actionId, firstYear) ->
     "investment": action.investment
     "subventions": action.subventions
     "raw_roi": action.raw_roi
+    "value_analysis": action.value_analysis
 
 ###
 {
