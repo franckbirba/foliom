@@ -819,20 +819,8 @@ Meteor.startup(function () {
     };
 
     // get all pictos from 'foliom-picto' font
-    var foliomPictoSelection = Assets.getText('foliom-picto-selection.json');
-    var foliomPictoSelectionJson = EJSON.parse(foliomPictoSelection);
+    fontImport ('foliom-picto-selection.json', 'action_logo');
 
-    var actionLogo = _.map(foliomPictoSelectionJson.icons, function(item){
-      return "&#" + item.properties.code + ";" ;
-    });
-    // console.log("actionLogo is: ");
-    // console.log(actionLogo);
-
-    var actionLogoObject = {
-                      name: 'action_logo',
-                      labels: actionLogo
-                  };
-    Selectors.upsert({name: 'action_logo'}, {$set: actionLogoObject});
 
 
     if(EndUse.find().count() === 0) {
