@@ -9,7 +9,6 @@ exports.ActionObject = class ActionObject
                 {building_id: @building_id},
                 {sort: {lease_name:1}}
                 ).fetch()
-    @waterData = []
     @data =
       endUse: []
       water: []
@@ -121,21 +120,21 @@ exports.ActionObject = class ActionObject
           if completeFluideName is lease_fluid.fluid_id
             lease_fluid.fluid = fluid #We store the Fluid in the array
 
-            @waterData[leaseIndex] = lease_fluid
+            @data.water[leaseIndex] = lease_fluid
     #@waterData #ToDelete
 
   # Apply the gain_percent to the Water consumption for all Leases, to get a value in m3
   waterGainFromPercent : (gain_percent) =>
     # Transform percent value in actual m3 water gain
     total = 0
-    for water_fluid in @waterData
+    for water_fluid in @data.water
       water_fluid.gain_water_perLease = (water_fluid.first_year_value * gain_percent/100).toFixed(2)*1 ;
       total += water_fluid.gain_water_perLease
     total
 
   # Transform m3 savings in Euro gain
   transform_WaterGain_inEuro : () =>
-    for water_fluid in @waterData
+    for water_fluid in @data.water
       ## For each water_fluid, calc. the yearly Euro savings in an Array (gain_water_perLease * yearly fuild cost)
       water_fluid.gain_euro_perLease = []
       for year, year_index in water_fluid.fluid.yearly_values when year.year >= @firstYear
@@ -146,7 +145,7 @@ exports.ActionObject = class ActionObject
   # Sum Euro gains for all Leases
   sum_waterGains_inEuro : () =>
     # Get gain_euro_perLease for all Leases in an Array (that we'll sum just after)
-    gain_euro_perLease_array = _.map @waterData, (water_fluid, index) ->
+    gain_euro_perLease_array = _.map @data.water, (water_fluid, index) ->
       return water_fluid.gain_euro_perLease
     # Sum all yearly values to get the total euro Gain for this EndUse
     # In other words: we have the total euro gain, for all Leases concerned, ie. for the Building, for this endUse
