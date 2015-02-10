@@ -147,11 +147,10 @@ Template.scenarioForm.events({
     });
 
     scenario.criterion_list = criterion_list;
-
-    // scenario.estate_id = Session.get('current_portfolio_doc')._id;
     scenario.estate_id = Session.get('current_estate_doc')._id;
 
-    //Set action_id
+
+    // CREATE BUILDING LIST AND ACTION LIST (for the Estate)
     var building_list = _.map(Session.get('current_estate_doc').portfolio_collection , function(portfolio_id) {
         return Buildings.find({portfolio_id: portfolio_id },
                             {sort: {name:1}}
