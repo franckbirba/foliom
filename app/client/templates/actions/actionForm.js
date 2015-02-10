@@ -33,7 +33,7 @@ Template.actionForm.destroyed = function () {
   Session.set('updateAction', null);
   Session.set('masterAction', null);
 
-  Session.set('YS_values', null);
+  Session.set('gain_kwhef_euro', null);
   Session.set("flux_notActualized", null);
 
   if (Router.current().route.getName() !== "action-form"){
@@ -133,7 +133,8 @@ Template.actionForm.rendered = function () {
       }
 
       // d.total_endUseGain_inEuro = addValuesForArrays(all_yearly_savings_simplyValues);
-      Session.set('YS_values', ao.gain.kwhef_euro);
+      Session.set('gain_kwhef_euro', ao.gain.kwhef_euro); // Reactive var to trigger futur calc
+      Session.set('gain_kwhef_euro_merged', addValuesForArrays(ao.gain.kwhef_euro) );
     });
 
     /* -------------- */
@@ -151,6 +152,7 @@ Template.actionForm.rendered = function () {
         ao.transform_WaterGain_inEuro();
         d.total_waterGain_inEuro = ao.sum_waterGains_inEuro();
         $("[name='gain_fluids_water.0.yearly_savings']").val( d.total_waterGain_inEuro[0] ).change();
+        Session.set('gain_water_euro', d.total_waterGain_inEuro); // Reactive var to trigger futur calc
       }
 
     });
@@ -159,7 +161,7 @@ Template.actionForm.rendered = function () {
     /* Other form formula */
     /* ------------------ */
 
-    // Operating ratio and cost
+    // gain_operating: ratio and cost
     $("[name='gain_operating.ratio'], [name='gain_operating.cost']").change(function() {
       var curr_field = $(this).val()*1;
       var target, estimate;
@@ -183,14 +185,17 @@ Template.actionForm.rendered = function () {
 
     // --------------------------------------
     // savings_first_year.fluids.euro_peryear
-    var total_savings_array = [];
+    var total_fluid_savings_a = [];
     this.autorun(function () {
-      total_savings_array = addValuesForArrays( Session.get('YS_values') );
+      var all_fluids_euro = [];
+      all_fluids_euro.push(Session.get('gain_kwhef_euro_merged'));
+      all_fluids_euro.push(Session.get('gain_water_euro'));
+      total_fluid_savings_a = addValuesForArrays( all_fluids_euro );
 
-      console.log("total_savings_array");
-      console.log(total_savings_array);
+      console.log("total_fluid_savings_a");
+      console.log(total_fluid_savings_a);
 
-      $("[name='savings_first_year.fluids.euro_peryear']").val( total_savings_array[0] ) ;
+      $("[name='savings_first_year.fluids.euro_peryear']").val( total_fluid_savings_a[0] ) ;
     });
 
 
@@ -270,7 +275,7 @@ Template.actionForm.rendered = function () {
       action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
       residual_cost = AutoForm.getFieldValue("insertActionForm", "subventions.residual_cost")*1 ;
       gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
-      var YS_array = Session.get('YS_values');
+      var YS_array = Session.get('gain_kwhef_euro');
 
       // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
       // create an array for investment cost with as many 0 as the action_lifetime
@@ -285,7 +290,7 @@ Template.actionForm.rendered = function () {
       var operatingCost_array = buildArrayWithZeroes(action_lifetime);
       operatingCost_array[0]=gain_operating_cost;
 
-      var raw_roi = residual_cost / (total_savings_array[0] + gain_operating_cost); //@Blandine : année 0 des économies d'énergie - OK
+      var raw_roi = residual_cost / (total_fluid_savings_a[0] + gain_operating_cost); //@Blandine : année 0 des économies d'énergie - OK
 
       $("[name='raw_roi']").val( raw_roi.toFixed(2)*1 );
       console.log("raw_roi");
@@ -348,7 +353,7 @@ Template.actionForm.rendered = function () {
       var flux = _.map(ic_array_actualized, function(num, tmp_index){
         return - ic_array_actualized[tmp_index]
                 + operatingSavings_array_actualized[tmp_index]
-                + total_savings_array[tmp_index] ; //check suite aux retours de @Blandine sur l'actualisation des fluides
+                + total_fluid_savings_a[tmp_index] ; //check suite aux retours de @Blandine sur l'actualisation des fluides
       });
       console.log("flux");
       console.log(flux);
@@ -357,7 +362,7 @@ Template.actionForm.rendered = function () {
       var flux_notActualized = _.map(ic_array, function(num, tmp_index){
         return - ic_array[tmp_index] // Pas actualisé
                 + operatingSavings_array[tmp_index] // Pas actualisé
-                + total_savings_array[tmp_index] ; // Pas actualisé : check suite aux retours de @Blandine sur l'actualisation des fluides
+                + total_fluid_savings_a[tmp_index] ; // Pas actualisé : check suite aux retours de @Blandine sur l'actualisation des fluides
       });
       console.log("flux_notActualized");
       console.log(flux_notActualized);

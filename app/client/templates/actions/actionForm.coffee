@@ -99,7 +99,8 @@ exports.ActionObject = class ActionObject
     @gain.kwhef_euro[index] = addValuesForArrays gain_euro_perLease_array
 
   removeExtraEndUse: (fluids_nb) =>
-    console.log "I was called with a param of #{fluids_nb}"
+    # console.log "I was called with a param of #{fluids_nb}"
+    # http://stackoverflow.com/questions/8205710/remove-a-value-from-an-array-in-coffeescript
     @data.endUse = @data.endUse[0..fluids_nb-1]
     @gain.kwhef_euro = @gain.kwhef_euro[0..fluids_nb-1]
 
