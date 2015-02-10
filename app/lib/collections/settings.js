@@ -54,27 +54,92 @@ Configurations.attachSchema(new SimpleSchema({
     },
     'project_type_static_index.classic': {
         type: Number,
-        label: transr("classic")
+        label: transr("classic"),
+        decimal: true,
     },
     'project_type_static_index.cpe': {
         type: Number,
-        label: transr("cpe")
+        label: transr("cpe"),
+        decimal: true,
     },
     'project_type_static_index.cr': {
         type: Number,
-        label: transr("cr")
+        label: transr("cr"),
+        decimal: true,
     },
     'project_type_static_index.crem': {
         type: Number,
-        label: transr("crem")
+        label: transr("crem"),
+        decimal: true,
     },
     'project_type_static_index.ppp': {
         type: Number,
-        label: transr("ppp")
+        label: transr("ppp"),
+        decimal: true,
     },
     'project_type_static_index.cpi': {
         type: Number,
-        label: transr("cpi")
+        label: transr("cpi"),
+        decimal: true,
+    },
+    kwhef_to_co2_coefficients: {
+        type: Object,
+        label: transr("kwhef_to_co2_coefficients")
+    },
+    'kwhef_to_co2_coefficients.fluid_electricity': {
+        type: Number,
+        label: transr("fluid_electricity"),
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
+    'kwhef_to_co2_coefficients.fluid_naturalGas': {
+        type: Number,
+        label: transr("fluid_naturalGas"),
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
+    'kwhef_to_co2_coefficients.fluid_fuelOil_household': {
+        type: Number,
+        label: transr("fluid_fuelOil_household"),
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
+    'kwhef_to_co2_coefficients.fluid_fuelOil_heavy': {
+        type: Number,
+        label: transr("fluid_fuelOil_heavy"),
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
+    'kwhef_to_co2_coefficients.fluid_woodEnergy': {
+        type: Number,
+        label: transr("fluid_woodEnergy"),
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
     },
     fluids: {
 		optional: true,

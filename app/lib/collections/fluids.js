@@ -75,6 +75,15 @@ Schema.Fluids = new SimpleSchema({
     global_evolution_index: {
         type: Number,
         decimal: true,
+    },
+    kwhef_to_co2_coefficient:{
+        type: String,
+        autoform: {
+            type: "select",
+            options: function () {
+                return getSelectors('kwhef_to_co2_coefficients');
+            }
+        }
     }
 });
 
