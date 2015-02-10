@@ -107,6 +107,14 @@ exports.actionCalc = (actionId, firstYear) ->
     estimate = (curr_field*100 / source).toFixed(2) *1
     action.subventions.ratio = estimate
 
+  # Subventions: residual cost
+  if action.subventions.or_euro? then sub_euro = action.subventions.or_euro
+  else sub_euro = 0
+
+  if action.subventions.CEE_opportunity? then cee_opportunity = action.subventions.cee_opportunity
+  else cee_opportunity = 0
+
+  action.subventions.residual_cost = action.investment.cost - sub_euro - cee_opportunity
 
 
 
@@ -121,6 +129,7 @@ exports.actionCalc = (actionId, firstYear) ->
     "savings_first_year": action.savings_first_year
     "operating_total_gain": action.operating_total_gain
     "investment": action.investment
+    "subventions": action.subventions
 
 ###
 {
