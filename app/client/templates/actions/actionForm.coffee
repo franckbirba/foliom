@@ -160,12 +160,4 @@ exports.ActionObject = class ActionObject
     if water_array? then all_fluids_euro.push(water_array)
     addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
 
-# Utility function to sum all Gains
-exports.sumAllGains = ( d, gain_operating_cost ) ->
-  result = 0
-  if d.total_endUseGain_inEuro? then result += d.total_endUseGain_inEuro[0]
-  if d.total_waterGain_inEuro? then result += d.total_waterGain_inEuro[0]
-  if gain_operating_cost? then result += gain_operating_cost
-  result
-
 
