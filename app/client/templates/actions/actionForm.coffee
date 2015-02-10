@@ -157,7 +157,7 @@ exports.ActionObject = class ActionObject
   sum_all_fluids_inEuro : (kwhef_multiple_array, water_array) =>
     all_fluids_euro = [];
     all_fluids_euro.push( addValuesForArrays(kwhef_multiple_array) ) #push the merge of all EndUse euro gain
-    all_fluids_euro.push(water_array);
+    if water_array? then all_fluids_euro.push(water_array)
     addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
 
 # Utility function to sum all Gains

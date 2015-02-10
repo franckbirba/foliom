@@ -34,6 +34,7 @@ Template.actionForm.destroyed = function () {
   Session.set('masterAction', null);
 
   Session.set('gain_kwhef_euro', null);
+  Session.set('gain_water_euro', null);
   Session.set("flux_notActualized", null);
 
   if (Router.current().route.getName() !== "action-form"){
@@ -188,7 +189,6 @@ Template.actionForm.rendered = function () {
     var total_fluid_savings_a = [];
     this.autorun(function () {
       total_fluid_savings_a = ao.sum_all_fluids_inEuro(Session.get('gain_kwhef_euro'), Session.get('gain_water_euro'));
-
       // console.log("total_fluid_savings_a");
       // console.log(total_fluid_savings_a);
       $("[name='savings_first_year.fluids.euro_peryear']").val( total_fluid_savings_a[0] ) ;
