@@ -63,8 +63,8 @@ exports.actionCalc = (actionId, firstYear) ->
   else if action.gain_operating.cost?
     curr_field = action.gain_operating.cost
     source = building_area
-    estimate = (curr_field * source).toFixed(2) *1
-    action.gain_operating.cost = estimate
+    estimate = (curr_field / source).toFixed(2) *1
+    action.gain_operating.ratio = estimate
 
   # savings_first_year.fluids.euro_peryear
   total_fluid_savings_a = ao.sum_all_fluids_inEuro(ao.gain.kwhef_euro, ao.gain.water_euro);
@@ -72,7 +72,12 @@ exports.actionCalc = (actionId, firstYear) ->
     fluids:
       euro_peryear: total_fluid_savings_a[0]
 
-
+  # operating_total_gain
+  operating_total_gain_cost = action.gain_operating.cost + total_fluid_savings_a[0]
+  operating_total_gain_ratio = (operating_total_gain_cost / building_area).toFixed(2)*1
+  action.operating_total_gain =
+    cost: operating_total_gain_cost
+    ratio: operating_total_gain_ratio
 
   console.log "action is"
   console.log action
@@ -83,6 +88,7 @@ exports.actionCalc = (actionId, firstYear) ->
     "gain_fluids_water": action.gain_fluids_water
     "gain_operating": action.gain_operating
     "savings_first_year": action.savings_first_year
+    "operating_total_gain": action.operating_total_gain
     "investment": action.investment
 
 ###

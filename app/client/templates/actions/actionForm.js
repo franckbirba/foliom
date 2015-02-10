@@ -159,7 +159,7 @@ Template.actionForm.rendered = function () {
     });
 
     /* ------------------ */
-    /* Other form formula */
+    /* Other gain formula */
     /* ------------------ */
 
     // gain_operating: ratio and cost
@@ -184,25 +184,29 @@ Template.actionForm.rendered = function () {
 
 
 
-    // --------------------------------------
-    // savings_first_year.fluids.euro_peryear
+    // savings_first_year.fluids.euro_peryear & operating_total_gain
     var total_fluid_savings_a = [];
     this.autorun(function () {
+      // savings_first_year.fluids.euro_peryear
       total_fluid_savings_a = ao.sum_all_fluids_inEuro(Session.get('gain_kwhef_euro'), Session.get('gain_water_euro'));
       // console.log("total_fluid_savings_a");
       // console.log(total_fluid_savings_a);
       $("[name='savings_first_year.fluids.euro_peryear']").val( total_fluid_savings_a[0] ) ;
-    });
 
-
-    // operating_total_gain.cost
-    this.autorun(function () {
+      // operating_total_gain
       var gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
-      var operating_total_gain = sumAllGains(d, gain_operating_cost);
+      var operating_total_gain = gain_operating_cost + total_fluid_savings_a[0];
 
       $("[name='operating_total_gain.cost']").val( operating_total_gain ) ;
-      $("[name='operating_total_gain.ratio']").val( operating_total_gain / Session.get('current_building_doc').building_info.area_total ) ;
+      var ratio = (operating_total_gain / Session.get('current_building_doc').building_info.area_total).toFixed(2)*1;
+      $("[name='operating_total_gain.ratio']").val( ratio ) ;
     });
+
+
+
+    /* ------------------ */
+    /*    INVESTMENTS     */
+    /* ------------------ */
 
     // Investment ratio and cost
     $("[name='investment.ratio'], [name='investment.cost']").change(function() {
