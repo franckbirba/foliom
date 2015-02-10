@@ -158,8 +158,6 @@ Template.scenarioForm.events({
                             ).fetch();
     });
     building_list = _.flatten(building_list);
-    console.log("building_list");
-    console.log(building_list);
 
 
     // Method to get all Actions for Each building + build a children list for the Tree
