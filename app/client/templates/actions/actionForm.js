@@ -215,7 +215,7 @@ Template.actionForm.rendered = function () {
       var source = Session.get('current_building_doc').building_info.area_total ;
 
       if( $(this).attr("name") == "investment.ratio") {
-        estimate = (curr_field * source).toFixed(2) ; //We're dealing with % and € so it's OK to only keep 2 decimals
+        estimate = (curr_field * source).toFixed(2) ;
         target = $('[name="investment.cost"]');
       } else {
         estimate = (curr_field / source).toFixed(2) ;

@@ -61,7 +61,7 @@ exports.actionCalc = (actionId, firstYear) ->
     source = building_area
     estimate = (curr_field * source).toFixed(2) *1
     action.gain_operating.cost = estimate
-    console.log "action.gain_operating.cost is #{action.gain_operating.cost}"
+    # console.log "action.gain_operating.cost is #{action.gain_operating.cost}"
   else if action.gain_operating.cost?
     curr_field = action.gain_operating.cost
     source = building_area
@@ -82,6 +82,19 @@ exports.actionCalc = (actionId, firstYear) ->
     ratio: operating_total_gain_ratio
 
 
+  # INVESTMENTS
+
+  # Investment ratio and cost
+  source = building_area
+  if action.investment.ratio?
+    curr_field = action.investment.ratio
+    estimate = (curr_field * source).toFixed(2) *1
+    action.investment.cost = estimate
+    console.log "action.investment.cost is #{action.investment.cost}"
+  else if action.investment.cost?
+    curr_field = action.investment.cost
+    estimate = (curr_field / source).toFixed(2) *1
+    action.investment.ratio = estimate
 
 
 
