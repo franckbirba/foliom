@@ -49,7 +49,11 @@ Template.nav.helpers
     ''
 
 Template.nav.rendered = ->
-  # FBI: commented annoying behavior
-  $('#SelectEstateForm').modal 'show' \
-    if Meteor.user().roles.indexOf('admin') >= 0 and \
-      not Session.get('current_estate_doc')?
+  if Meteor.user().roles.indexOf('admin') >= 0 and \
+    not Session.get('current_estate_doc')?
+      # If there is only one Estate: select it
+      if Estates.find().fetch().length is 1
+        Session.set 'current_estate_doc', Estates.findOne()
+      else
+        $('#SelectEstateForm').modal 'show'
+
