@@ -382,8 +382,8 @@
     "CEE_opportunity": "Certificat d'économie d'énergie",
     "residual_cost": "Coût résiduel",
 
-    // "savings_first_year": "Economies de charge en € à l’année initiale",
-    // "savings_first_year_fluids": "Economies de fluides",
+    "savings_first_year": "Economies de charge en € à l’année initiale",
+    "savings_first_year_fluids": "Economies de fluides",
     // "savings_first_year_operations": "Economie de frais de fonctionnement",
 
     "efficiency_calc": "Calcul de l'efficacité",
