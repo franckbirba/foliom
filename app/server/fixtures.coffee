@@ -405,3 +405,77 @@ exports.createBuildings = (nb_buildings) ->
       leaseToCreate.building_id = newBuilding_id
 
       Leases.insert leaseToCreate
+
+
+exports.createActions = (nb_actions) ->
+  action_1 =
+    "name": "Robinet thermostatique"
+    "logo": "&#58972;"
+    "gain_fluids_kwhef": [
+      {
+        "opportunity": "end_use_heating",
+        "per_cent": 5
+      }
+    ]
+    "gain_fluids_water" : [
+      {
+        "opportunity" : "fluid_water"
+        "per_cent" : 0
+      }
+    ]
+    "project_type": "NA"
+    "technical_field": "heat_production"
+    "feasable_while_occupied": "no"
+    "priority": "high"
+    "other_gains":
+        "technical_compliance_a": "NA"
+        "regulatory_compliance": "no"
+        "residual_lifetime": "no"
+    "design_duration": 3
+    "works_duration": 2
+    "action_lifetime": 15
+    "investment":
+        "ratio": 5
+    "gain_operating":
+        "ratio": 0.5
+    "raw_roi": 0
+    "actualised_roi": 0
+    "value_analysis": 0
+    "lec": 0
+    "internal_return": 0
+    "action_type": "generic"
+
+  actionNames = [
+    "Isolation de la toiture"
+    "Eclairage LED"
+    "Détection de présente sur l'éclairage"
+    "Bruleur modulant"
+    "Mise en place de double vitrage"
+    "Triple vitrage"
+    "Survitrage"
+    "Mise en place d'une missions d'energy management"
+    "Mise en place d'une GTB"
+    "Mise à niveau d'une GTB existante"
+    "Remplacement du fluide frigorigène"
+    "Ventilation à débit variable"
+    "Ventilation double flux avec récupération"
+    "Isolation par l'intérieur"
+    "Isolation par l'extérieur + enduit"
+    "Reprise de l'étanchéité des chassis"
+    "Isolation toiture terrasse"
+    "Isolation vide sanitaire"
+    "Sensibilisation des usagers"
+    "Calorifuge des réseaux thermiques"
+  ]
+
+  for i in [1..nb_actions]
+    actionToCreate = clone action_1
+    delete actionToCreate._id
+    actionToCreate.name = actionNames[i]
+    randomLogo = 58880 + 99*Math.random()|0
+    actionToCreate.logo = "&##{randomLogo};"
+
+    Actions.insert actionToCreate
+
+
+

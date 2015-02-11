@@ -908,92 +908,93 @@ Meteor.startup(function () {
     }
 
     if(Actions.find().count() === 0) {
-        var data = [
-                {
-                    "name": "Robinet thermostatique",
-                    "logo": "&#58972;",
-                    "gain_fluids_kwhef": [
-                      {
-                        "opportunity": "end_use_heating",
-                        "per_cent": 5
-                      }
-                    ],
-                    "gain_fluids_water" : [
-                      {
-                        "opportunity" : "fluid_water",
-                        "per_cent" : 0
-                      }
-                    ],
-                    "project_type": "NA",
-                    "technical_field": "heat_production",
-                    "feasable_while_occupied": "no",
-                    "priority": "high",
-                    "other_gains": {
-                        // "comfort": [],
-                        "technical_compliance_a": "NA",
-                        "regulatory_compliance": "no",
-                        "residual_lifetime": "no"
-                    },
-                    "design_duration": 3,
-                    "works_duration": 2,
-                    "action_lifetime": 15,
-                    "investment": {
-                        "ratio": 5
-                    },
-                    "gain_operating": {
-                        "ratio": 0.5
-                    },
-                    "raw_roi": 0,
-                    "actualised_roi": 0,
-                    "value_analysis": 0,
-                    "lec": 0,
-                    "internal_return": 0,
-                    "action_type": "generic"
-                },
-                {
-                    "name": "Désembouage des réseaux",
-                    "logo":"&#58947;",
-                    "gain_fluids_kwhef": [
-                      {
-                        "opportunity": "end_use_heating",
-                        "per_cent": 1
-                      }
-                    ],
-                    "gain_fluids_water" : [
-                      {
-                        "opportunity" : "fluid_water",
-                        "per_cent" : 0
-                      }
-                    ],
-                    "project_type": "cr",
-                    "technical_field": "thermal_delivery",
-                    "feasable_while_occupied": "yes",
-                    "priority": "high",
-                    "other_gains": {
-                        // "comfort": [""],
-                        "technical_compliance_a": "NA",
-                        "regulatory_compliance": "no",
-                        "residual_lifetime": "no"
-                    },
-                    "design_duration": 1,
-                    "works_duration": 1,
-                    "action_lifetime": 3,
-                    "investment": {
-                        "ratio": 2
-                    },
-                    "raw_roi": 0,
-                    "actualised_roi": 0,
-                    "value_analysis": 0,
-                    "lec": 0,
-                    "internal_return": 0,
-                    "action_type": "generic"
-                },
+        // var data = [
+        //         {
+        //             "name": "Robinet thermostatique",
+        //             "logo": "&#58972;",
+        //             "gain_fluids_kwhef": [
+        //               {
+        //                 "opportunity": "end_use_heating",
+        //                 "per_cent": 5
+        //               }
+        //             ],
+        //             "gain_fluids_water" : [
+        //               {
+        //                 "opportunity" : "fluid_water",
+        //                 "per_cent" : 0
+        //               }
+        //             ],
+        //             "project_type": "NA",
+        //             "technical_field": "heat_production",
+        //             "feasable_while_occupied": "no",
+        //             "priority": "high",
+        //             "other_gains": {
+        //                 // "comfort": [],
+        //                 "technical_compliance_a": "NA",
+        //                 "regulatory_compliance": "no",
+        //                 "residual_lifetime": "no"
+        //             },
+        //             "design_duration": 3,
+        //             "works_duration": 2,
+        //             "action_lifetime": 15,
+        //             "investment": {
+        //                 "ratio": 5
+        //             },
+        //             "gain_operating": {
+        //                 "ratio": 0.5
+        //             },
+        //             "raw_roi": 0,
+        //             "actualised_roi": 0,
+        //             "value_analysis": 0,
+        //             "lec": 0,
+        //             "internal_return": 0,
+        //             "action_type": "generic"
+        //         },
+        //         {
+        //             "name": "Désembouage des réseaux",
+        //             "logo":"&#58947;",
+        //             "gain_fluids_kwhef": [
+        //               {
+        //                 "opportunity": "end_use_heating",
+        //                 "per_cent": 1
+        //               }
+        //             ],
+        //             "gain_fluids_water" : [
+        //               {
+        //                 "opportunity" : "fluid_water",
+        //                 "per_cent" : 0
+        //               }
+        //             ],
+        //             "project_type": "cr",
+        //             "technical_field": "thermal_delivery",
+        //             "feasable_while_occupied": "yes",
+        //             "priority": "high",
+        //             "other_gains": {
+        //                 // "comfort": [""],
+        //                 "technical_compliance_a": "NA",
+        //                 "regulatory_compliance": "no",
+        //                 "residual_lifetime": "no"
+        //             },
+        //             "design_duration": 1,
+        //             "works_duration": 1,
+        //             "action_lifetime": 3,
+        //             "investment": {
+        //                 "ratio": 2
+        //             },
+        //             "raw_roi": 0,
+        //             "actualised_roi": 0,
+        //             "value_analysis": 0,
+        //             "lec": 0,
+        //             "internal_return": 0,
+        //             "action_type": "generic"
+        //         },
 
-            ];
+        //     ];
 
-        _.each(data, function(item) {
-            Actions.insert( item );
-        });
+        // _.each(data, function(item) {
+        //     Actions.insert( item );
+        // });
+      createActions(10);
 
     }
 });
