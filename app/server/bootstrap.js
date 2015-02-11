@@ -904,7 +904,7 @@ Meteor.startup(function () {
         });
     }
     if(Buildings.find().count() === 0) {
-      createBuildings(10);
+      createBuildings(9);
     }
 
     if(Actions.find().count() === 0) {
