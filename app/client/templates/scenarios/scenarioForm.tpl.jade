@@ -48,8 +48,9 @@
                     .input-group-addon {{_ unit}}
               .col-sm-1: span.scenarioForm.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
         li.scenarioForm#addCriterionLi.criterion
-            .col-md-3 {{_ 'add_criterion'}}
-            .col-md-9
+          .row.scenarioForm.row-correct
+            .col-md-2.col-md-offset-1 {{_ 'add_criterion'}}
+            .col-md-8
               select.scenarioForm#addCriterionSelect.form-control.addCriterion
                 option(value="" disabled selected) {{_ "select_criterion"}}
                 each getCriterion 'toAdd'
