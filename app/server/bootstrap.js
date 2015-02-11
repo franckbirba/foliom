@@ -933,7 +933,7 @@ Meteor.startup(function () {
         //     Buildings.insert( item );
         // });
 
-      createBuildings(5);
+      createBuildings(10);
     }
     // if(Leases.find().count() === 0) {
     //     var data = [

@@ -391,7 +391,7 @@ exports.createBuildings = (nb_buildings) ->
     }
   ]
 
-  for i in [0..nb_buildings]
+  for i in [1..nb_buildings]
     buildingToCreate = clone building_1
     delete buildingToCreate._id
     buildingToCreate.building_name = "#{building_1.building_name}-#{i}"
