@@ -30,7 +30,7 @@ Template.treeTplt.rendered = function () {
 
           //Set totalHeight dynamically
           var building_nb = Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id }).fetch().length;
-          totalHeight = 30*building_nb + 100;
+          totalHeight = 35*building_nb + 100;
           // console.log(totalHeight);
 
           margin = {top: 20, right: 120, bottom: 20, left: 120};
