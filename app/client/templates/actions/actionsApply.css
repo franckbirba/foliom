@@ -12,6 +12,14 @@
   font-family: comfortaa;
 }
 
+.panel-actions {
+  min-height: 400px;
+}
+
 #actionListFiller {
   text-align: center;
+}
+
+#scenarioLink {
+  margin-top: 20px
 }
