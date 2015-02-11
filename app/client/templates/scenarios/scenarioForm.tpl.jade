@@ -49,13 +49,13 @@
               .col-sm-1: span.scenarioForm.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
         li.scenarioForm#addCriterionLi.criterion
           .row.scenarioForm.row-correct
-            .col-md-2.col-md-offset-1 {{_ 'add_criterion'}}
-            .col-md-8
+            .col-md-3.col-md-offset-1 {{_ 'add_criterion'}}
+            .col-md-7
               select.scenarioForm#addCriterionSelect.form-control.addCriterion
                 option(value="" disabled selected) {{_ "select_criterion"}}
                 each getCriterion 'toAdd'
                   option(value=label) {{_ label}}
-    input.scenarioForm#scenario-submit.btn.btn-primary(type="submit" value="Save & See results")
+    input.scenarioForm#scenario-submit.btn.btn-primary(type="submit" value="{{_ 'scenario_validate'}}")
     //ActionTable
     table.scenarioForm.actionTable
       tr
@@ -87,3 +87,8 @@
           td {{internal_return}}
           td {{actualised_roi}}
           td {{other_gains.comfort}}
+    // Timeline link
+    .scenarioForm#timelineLink
+      a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}
+    //- button.btn.btn-primary.scenarioForm#timelineLink(type="button")
+    //-   a(href='{{pathFor "timeline"}}')

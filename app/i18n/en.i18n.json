@@ -104,6 +104,8 @@
 		"schemaDir_create": "Develop blueprint",
 		"create_scenario": "Create scenario",
 
+		"scenario_validate": "Save & See results",
+
 		/* Timeline screen */
 		"scenario": "Scenario",
 		"timeline": "Timeline",

@@ -432,6 +432,9 @@
     "priority_to_techField": "Priorité au lot technique :",
     "select_techField": "Lots techniques",
 
+    "scenario_validate": "Enregistrer & voir les résultats",
+    "go_to_timeline": "Aller à la Timeline",
+
     /* Sorted actions */
     "planned_for": "Réalisation",
     "action_type": "Type d'action",
