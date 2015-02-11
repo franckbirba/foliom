@@ -1,7 +1,17 @@
 #portfolioSelectZone {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 #portfolioSelect {
   width: 200px;
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+#actionsApplyTitle {
+  font-family: comfortaa;
+}
+
+#actionListFiller {
+  text-align: center;
 }

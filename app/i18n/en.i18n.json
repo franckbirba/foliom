@@ -25,7 +25,7 @@
 
     /* Apply Actions */
     "actions_apply": "Apply actions on your portfolio",
-    "select_portfolio": "Select your portfolio:",
+    "select_portfolio": "Select your portfolio",
 
 		/* Estate */
 		"new_estate": "New estate",
@@ -105,6 +105,7 @@
 		"create_scenario": "Create scenario",
 
 		"scenario_validate": "Save & See results",
+		"click_building_to_choose_actions": "Click a Building to apply Actions",
 
 		/* Timeline screen */
 		"scenario": "Scenario",

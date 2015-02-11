@@ -1,18 +1,21 @@
 .page.plan: .container
+  #portfolioSelectZone
+    h3.pull-left#actionsApplyTitle {{_ "select_portfolio"}}
+    select#portfolioSelect.form-control
+      option(value='', disabled='', selected='') {{_ "select_portfolio"}}
+      each getPortfolioList
+        option(value=_id)= name
   .row
-    #portfolioSelectZone
-      | {{_ "select_portfolio"}}
-      select#portfolioSelect.form-control
-        option(value='', disabled='', selected='') {{_ "select_portfolio"}}
-        each getPortfolioList
-          option(value=_id)= name
-  .row
+    .col-md-3: .panel.panel-primary
+      .panel-heading: h3.panel-title.text-center Actions {{currentBuildingName}}
+      .panel-body
+        if session 'current_building_doc'
+          each getUsableActions
+            .checkbox
+              label
+                input.ActionCheckbox(type='checkbox', value='{{_id}}')
+                | {{name}}
+        else
+          #actionListFiller {{_ "click_building_to_choose_actions"}}
     .col-md-9.treeViz
       +treeTplt
-    .col-md-3
-      | Actions {{currentBuildingName}}
-      each getUsableActions
-        .checkbox
-          label
-            input.ActionCheckbox(type='checkbox', value='{{_id}}')
-            | {{name}}
