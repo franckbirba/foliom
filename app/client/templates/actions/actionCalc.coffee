@@ -134,20 +134,19 @@ exports.actionCalc = (actionId, firstYear) ->
   value_analysis = ao.calc_value_analysis(action.action_lifetime, action.subventions.residual_cost);
 
 
-  console.log "action is"
-  console.log action
+  console.log 'action is', action
 
   # Update Action in DB
   Actions.update {_id: action._id}, $set:
-    "gain_fluids_kwhef": action.gain_fluids_kwhef
-    "gain_fluids_water": action.gain_fluids_water
-    "gain_operating": action.gain_operating
-    "savings_first_year": action.savings_first_year
-    "operating_total_gain": action.operating_total_gain
-    "investment": action.investment
-    "subventions": action.subventions
-    "raw_roi": action.raw_roi
-    "value_analysis": action.value_analysis
+    gain_fluids_kwhef: action.gain_fluids_kwhef
+    gain_fluids_water: action.gain_fluids_water
+    gain_operating: action.gain_operating
+    savings_first_year: action.savings_first_year
+    operating_total_gain: action.operating_total_gain
+    investment: action.investment
+    subventions: action.subventions
+    raw_roi: action.raw_roi
+    value_analysis: action.value_analysis
 
 ###
 {
