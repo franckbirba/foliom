@@ -161,12 +161,13 @@ showHideActionBucket = ->
       $selected = $btnGroup.find \
         "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
       $selected.addClass 'active'
-      # @TODO Set row as draggable
-      ($ '[data-role=\'draggable-action-bucket\']').draggable \
+      # Set row as draggable
+      ($ '[data-role=\'draggable-action-bucket\']').draggable
+        helper: 'clone'
         cursor: '-webkit-grabbing'
         scrollSensitivity: 100
         scrollSpeed: 100
-        #containment: 'table.timeline.timeline-year-table'
+        containment: 'table.timeline.timeline-year-table'
         revert: 'invalid'
     , 0
   # Change arrow orientation
@@ -293,17 +294,26 @@ actionItemDropped = (e, t) ->
   tv = TimelineVars
   $quarter = $ @
   $actions = t.draggable
-  # Adjust DOM
-  $newActions = $actions.clone()
-  $newActions.attr 'style', 'position: relative;'
-  $newActions.draggable
-    cursor: '-webkit-grabbing'
-    scrollSensitivity: 100
-    scrollSpeed: 100
-    containment: 'table.timeline.timeline-year-table'
-    revert: 'invalid'
-  $quarter.append $newActions
-  $actions.remove()
+  firstAction = $actions.first()
+  # Check if action is from the timeline or from the action bucket
+  if (firstAction.attr 'data-role') is 'draggable-action-bucket'
+    # Action is from the action bucket
+    console.log 'action is from bucket', firstAction
+    return
+
+  else
+    # Action is from the timeline
+    # Adjust DOM
+    $newActions = $actions.clone()
+    $newActions.attr 'style', 'position: relative;'
+    $newActions.draggable
+      cursor: '-webkit-grabbing'
+      scrollSensitivity: 100
+      scrollSpeed: 100
+      containment: 'table.timeline.timeline-year-table'
+      revert: 'invalid'
+    $quarter.append $newActions
+    $actions.remove()
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
   actionsObj = JSON.parse $newActions.attr 'data-value'
