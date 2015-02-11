@@ -62,35 +62,37 @@
         // The Investment chart
         +timelineChart chartName='investmentChart'
   // Action bucket
-  .row.action-bucket: .col-md-12: .panel.panel.panel-primary
-    .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
-      h3.panel-title.pull-left {{ _'action_bucket'}}
-      .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
-    if isActionBucketDisplayed
-      .panel-body.action-bucket-table
-        .btn-group.btn-group-xs.action-bucket-selector(data-role='filter-actions')
-          button.btn.btn-default(data-value='all') {{_ 'all_female_plural'}}
-          button.btn.btn-default(data-value='planned') {{_ 'planned'}}
-          button.btn.btn-default(data-value='unplanned') {{_ 'unplanned'}}
-        table.table
-          thead: tr
-            each actionBucketTableHeadings
-              th= this
-          tbody
-            each actionBucketTableBody
-              tr.noselect(data-role='draggable-action-bucket', data-value='{action_id:{{_id}}}')
-                td.quarter-select
-                  .quarter-modifier: form.form-inline
-                    input(type='number', min='1', max='4', placeholder='Quarter')
-                    input(type='number', min='2014', max='2046', placeholder='Year')  
-                    span.fa.fa-check.text-success
-                    span.fa.fa-close.text-danger
-                  .quarter-content
-                    i.fa.fa-calendar
-                    = quarter
-                td= name
-                td= buildingName
-                td= formattedCost
-                td {{_ 'calculating'}}
-                td {{_ 'calculating'}}
-                td {{_ 'calculating'}}
+  .row: .col-md-12
+    .action-bucket.panel.panel.panel-primary
+      .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
+        h3.panel-title.pull-left {{ _'action_bucket'}}
+        .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
+      if isActionBucketDisplayed
+        .panel-body.action-bucket-content
+          .btn-group.btn-group-xs.action-bucket-selector(data-role='filter-actions')
+            button.btn.btn-default(data-value='all') {{_ 'all_female_plural'}}
+            button.btn.btn-default(data-value='planned') {{_ 'planned'}}
+            button.btn.btn-default(data-value='unplanned') {{_ 'unplanned'}}
+          .action-bucket-table: table.table
+            thead: tr
+              each actionBucketTableHeadings
+                th= this
+            tbody
+              each actionBucketTableBody
+                tr.noselect(data-role='draggable-action-bucket', data-value='{"action_id": "{{_id}}", "building_id": "{{building_id}}"}')
+                  td.quarter-select
+                    .quarter-modifier: form.form-inline
+                      input(type='number', min='1', max='4', placeholder='Quarter')
+                      input(type='number', min='2014', max='2046', placeholder='Year')  
+                      span.fa.fa-check.text-success
+                      span.fa.fa-close.text-danger
+                    .quarter-content
+                      i.fa.fa-calendar
+                      = quarter
+                  td= name
+                  td= buildingName
+                  td= formattedCost
+                  td {{_ 'calculating'}}
+                  td {{_ 'calculating'}}
+                  td {{_ 'calculating'}}
+    .action-bucket-footer

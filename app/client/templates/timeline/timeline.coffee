@@ -22,12 +22,14 @@ Session.set 'timeline-action-bucket-displayed', false
  * Prepare calculation at template creation.
 ###
 Template.timeline.created = ->
+  # Create reactive vars
+  @actions = new ReactiveVar
+  window.actions = @actions
   # Reset action bucket's display when entering screen
   Session.set 'timeline-action-bucket-displayed', false
   # Reset action bucket filters
   Session.set 'timeline-filter-actions', 'all'
   # Reset former state
-  TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
   # @TODO fake : Fetch Scenario's data
@@ -57,6 +59,7 @@ Template.timeline.created = ->
   TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
   # Perform calculations
   timelineCalctulate TimelineVars
+  @actions.set TimelineVars.actions
 
 ###*
  * Object containing helper keys for the template.
@@ -65,7 +68,7 @@ Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
   availablePortfolios: -> TimelineVars.portfolios
   availableBuildings: -> TimelineVars.buildings
-  nbActions: -> TimelineVars.actions.length
+  nbActions: -> Template.instance().actions.get().length
   timelineActions: -> TimelineVars.timelineActions
   totalCost: -> (numeral TimelineVars.totalCost).format '0,0[.]00 $'
   triGlobal: -> TAPi18n.__ 'calculating'
@@ -86,10 +89,12 @@ Template.timeline.helpers
     filter = Session.get 'timeline-filter-actions'
     switch filter
       when 'planned'
-        _.filter TimelineVars.actions, (action) -> action.start?
+        _.filter Template.instance().actions.get(), (action) ->
+          action.start?
       when 'unplanned'
-        _.filter TimelineVars.actions, (action) -> action.start is undefined
-      else TimelineVars.actions
+        _.filter Template.instance().actions.get(), (action) ->
+          action.start is undefined
+      else Template.instance().actions.get()
 
 ###*
  * Ends rendering actions when template is rendered.
@@ -136,6 +141,7 @@ Template.timeline.events
 ###
 showHideActionBucket = ->
   $actionBucket = $ '.action-bucket'
+  $actionBucketFooter = $ '.action-bucket-footer'
   # Display content of the action bucket
   isDisplayed = Session.get 'timeline-action-bucket-displayed'
   if isDisplayed
@@ -145,12 +151,14 @@ showHideActionBucket = ->
     .removeClass 'action-bucket-displayed'
     .on TRANSITION_END_EVENT, ->
       Session.set 'timeline-action-bucket-displayed', false
+    $actionBucketFooter.removeClass 'action-bucket-footer-displayed'
   else
     # Add action's bucket content before toggling animation
     Session.set 'timeline-action-bucket-displayed', true
     $actionBucket
     .off TRANSITION_END_EVENT
     .addClass 'action-bucket-displayed'
+    $actionBucketFooter.addClass 'action-bucket-footer-displayed'
     # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
     #  button's group must wait so that all elements are inserted. The same
     #  goes for attaching the draggable properties to the action's rows.
@@ -294,12 +302,12 @@ actionItemDropped = (e, t) ->
   tv = TimelineVars
   $quarter = $ @
   $actions = t.draggable
-  firstAction = $actions.first()
+  $firstAction = $actions.first()
   # Check if action is from the timeline or from the action bucket
-  if (firstAction.attr 'data-role') is 'draggable-action-bucket'
+  if ($firstAction.attr 'data-role') is 'draggable-action-bucket'
     # Action is from the action bucket
-    console.log 'action is from bucket', firstAction
-    return
+    console.log 'action is from bucket', $firstAction
+    actionsObj = [JSON.parse $firstAction.attr 'data-value']
 
   else
     # Action is from the timeline
@@ -314,9 +322,10 @@ actionItemDropped = (e, t) ->
       revert: 'invalid'
     $quarter.append $newActions
     $actions.remove()
+    actionsObj = JSON.parse $newActions.attr 'data-value'
+  console.log 'Modyfying actions', actionsObj
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
-  actionsObj = JSON.parse $newActions.attr 'data-value'
   pactions = tv.scenario.planned_actions
   for action in actionsObj
     idx = _.indexOf pactions,(_.findWhere pactions,{action_id:action.action_id})

@@ -110,7 +110,13 @@ roundIconSize = 1.5 * rondFontSize
   .action-bucket
     transition transform .3s ease-in-out
   .action-bucket-displayed
+    width 939px
+    @media (min-width: 1200px)
+      width 1139px
+    position absolute
     transform translateY(-300px)
+    height 300px
+    max-height 300px
   .action-bucket-heading
     height headingHeight
     cursor pointer
@@ -125,19 +131,24 @@ roundIconSize = 1.5 * rondFontSize
     background-color colorC
   .action-bucket-selector
     padding .5em
-  .action-bucket-table
-    height 300px
+  .action-bucket-content
     padding 0
-    tbody
-      overflow auto
-      font-size .8em
-      tr[data-role='draggable-action-bucket']
-        cursor -webkit-grab
-        cursor grab
-      tr:nth-child(2n+1)
-        background-color white
-      tr:nth-child(2n)
-        background-color colorD
+    .action-bucket-table
+      height 249px
+      max-height 249px
+      overflow-x hidden
+      overflow-y auto
+      tbody
+        font-size .8em
+        tr[data-role='draggable-action-bucket']
+          cursor -webkit-grab
+          cursor grab
+        tr:nth-child(2n+1)
+          background-color white
+        tr:nth-child(2n)
+          background-color colorD
+  .action-bucket-footer-displayed
+    height 60px
   .quarter-select
     &:before
       height 20px
