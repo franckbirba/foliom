@@ -48,7 +48,7 @@ Template.actionsApply.helpers({
   },
   currentBuildingName: function(){
     if (Session.get('current_building_doc')) {
-        return Session.get('current_building_doc').building_name;
+        return " - " + Session.get('current_building_doc').building_name;
     }
   },
   renderActionTemplate: function(){

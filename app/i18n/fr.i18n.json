@@ -396,11 +396,11 @@
     "actionList_title": "Paramétrer les actions génériques",
     "new_generic_action": "Nouvelle action générique",
     "newUserTemplateAction": "Nouvelle action (vierge)",
-		"apply_actions": "Appliquer les actions",
+	"apply_actions": "Appliquer les actions",
 
     /* Apply Actions */
     "actions_apply": "Appliquer les actions au Patrimoine",
-    "select_portfolio": "Sélectionnez votre patrimoine :",
+    "select_portfolio": "Sélectionnez votre patrimoine",
 
 
     /* Message Box */

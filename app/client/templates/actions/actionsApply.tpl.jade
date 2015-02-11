@@ -3,14 +3,14 @@
     #portfolioSelectZone
       | {{_ "select_portfolio"}}
       select#portfolioSelect.form-control
-        option(value='', disabled='', selected='') Select your Portfolio
+        option(value='', disabled='', selected='') {{_ "select_portfolio"}}
         each getPortfolioList
           option(value=_id)= name
   .row
     .col-md-9.treeViz
       +treeTplt
     .col-md-3
-      | ActionList: {{currentBuildingName}}
+      | Actions {{currentBuildingName}}
       each getUsableActions
         .checkbox
           label
