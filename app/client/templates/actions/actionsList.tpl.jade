@@ -6,7 +6,7 @@
       .newActionBtn: a.btn.btn-primary(href='{{pathFor "actions-apply"}}', role='button') {{_ 'apply_actions'}}
   .col-md-9: .actionGrid: .row
     each getGenericActions
-      .col-md-4
+      .col-md-3
         .actionList.newActionFromMaster
           if isAdmin
             button.btn.btn-default.btn-xs.editAction
@@ -14,16 +14,16 @@
           .logo !{logo}
           .actionTitle= name
     each getUserTemplateActions
-      .col-md-4
+      .col-md-3
         .actionList.actionUserTemplate
           button.btn.btn-default.btn-xs.editAction
             span.glyphicon.glyphicon-pencil(aria-hidden='true')
           .logo !{logo}
           .actionTitle= name
-    .col-md-4
+    .col-md-3
       .actionList.actionCreate
         a.newUserTempalteAction(href='')
-          div: span.fa-stack.fa-lg
+          .addUTactionLogo: span.fa-stack.fa-lg
             i.fa.fa-circle-o.fa-stack-2x
             i.fa.fa-plus
-          div {{_ "newUserTemplateAction"}}
+          .blackLink.actionTitle{{_ "newUserTemplateAction"}}
