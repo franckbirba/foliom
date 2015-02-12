@@ -17,6 +17,39 @@
 
 //      mailing_list: String
 
+evolution_index = new SimpleSchema({
+    year: {
+        type: Number,
+        defaultValue: function(){
+            return Number(new Date().getFullYear()) + Number(this.name.split('.')[1]);
+        },
+        autoform: {
+            afFieldInput: {
+                readonly:"true",
+            }
+        }
+    },
+    cost: {
+        type: Number,
+        decimal: true,
+        defaultValue: 0,
+        autoform: {
+            template:'afInputNumber_u'
+        }
+    },
+    evolution_index: {
+        type: Number,
+        decimal: true,
+        defaultValue: 0,
+        autoform: {
+            afFieldInput: {
+                readonly:"true",
+            }
+        }
+    }
+});
+
+
 Configurations = new Mongo.Collection("configurations");
 
 SimpleSchema.debug = true;
@@ -41,13 +74,68 @@ Configurations.attachSchema(new SimpleSchema({
             omit:true
         }
     },
-    indexes: {
-			optional: true,
-        type: [String],
+
+    icc: {
+		optional: true,
+        type: Object,
+        label: transr("icc")
+    },
+    'icc.name': {
+        optional: true,
+        type: String,
+        label: transr("icc_name"),
+    },
+    'icc.evolution_index': {
+        optional: true,
+        type: [evolution_index],
+        label: transr("icc_evolution_index"),
         autoform: {
-            omit:true
+            omit:true,
+            minCount: 31,
+            maxCount: 31,
         }
     },
+    ipc: {
+        optional: true,
+        type: Object,
+        label: transr("ipc")
+    },
+    'ipc.name': {
+        optional: true,
+        type: String,
+        label: transr("ipc_name"),
+    },
+    'ipc.evolution_index': {
+        optional: true,
+        type: [evolution_index],
+        label: transr("ipc_evolution_index"),
+        autoform: {
+            omit:true,
+            minCount: 31,
+            maxCount: 31,
+        }
+    },
+    // ipc: {
+    //     optional: true,
+    //     type: [evolution_index],
+    //     label: transr("icc")
+    //     autoform: {
+    //         omit:true,
+    //         minCount: 31,
+    //         maxCount: 31,
+    //     }
+    // },
+    actualization_rate: {
+        type: Number,
+        label: transr("actualization_rate"),
+        decimal: true,
+    },
+    consumption_degradation: {
+        type: Number,
+        label: transr("consumption_degradation"),
+        decimal: true,
+    },
+
     project_type_static_index: {
         type: Object,
         label: transr("project_type_static_index")
