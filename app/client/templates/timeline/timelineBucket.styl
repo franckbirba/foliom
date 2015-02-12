@@ -1,0 +1,86 @@
+@import 'client/templates/timeline/timeline.import.styl'
+
+.timeline
+  // Action bucket
+  .action-bucket
+    transition transform .3s ease-in-out
+  .action-bucket-displayed
+    width 939px
+    @media (min-width: 1200px)
+      width 1139px
+    position absolute
+    transform translateY(-300px)
+    height 300px
+    max-height 300px
+  .action-bucket-heading
+    height headingHeight
+    cursor pointer
+  .action-bucket-arrow
+    width 72px
+    height headingHeight
+    line-height headingHeight
+    text-align center
+    margin-top -10px
+    margin-right -15px
+    color white
+    background-color colorC
+  .action-bucket-selector
+    padding .5em
+  .action-bucket-content
+    padding 0
+    .action-bucket-table
+      height 249px
+      max-height 249px
+      overflow-x hidden
+      overflow-y auto
+      tbody
+        font-size .8em
+        tr[data-role='draggable-action-bucket']
+          cursor -webkit-grab
+          cursor grab
+        tr:nth-child(2n+1)
+          background-color white
+        tr:nth-child(2n)
+          background-color colorD
+  .action-bucket-footer-displayed
+    height 60px
+  .quarter-select
+    &:before
+      height 20px
+    width 100px
+    cursor pointer
+    .quarter-content
+      z-index 2
+      height 20px
+      background-color transparent
+      margin-top -1px
+      border none
+      padding 1px
+      font-size 14px
+      line-height 18px
+      text-align center
+      position relative
+    .quarter-modifier
+      display none
+      z-index 1
+      padding 3px
+      position relative
+      font-size 16px
+      width 190px
+      height 34px
+      border 1px colorD solid
+      background-color white
+      input
+        border none
+        width 60px
+        border-right 1px colorD solid
+  .quarter-select.quarter-selected
+    width 190px
+    .quarter-content
+      background-color white
+      border-top none
+      border-left 1px colorD solid
+      border-right 1px colorD solid
+      border-bottom 1px colorD solid
+    .quarter-modifier
+      display inherit

@@ -2,57 +2,14 @@
   // Scenario being displayed
   .row: .col-md-12: h1.page-title #{scenarioName}
   .row
-    // Timeline
-    .col-md-4: .panel.panel-primary
-      .panel-heading.timeline-header.noselect: clearfix
-        h3.pull-left.panel-title {{_ 'timeline'}}
-        .timeline-filter.pull-right
-          select(data-trigger='timeline-trigger-estate-building-filter')
-            option(value='all') {{_ 'all'}}
-            optgroup(label="{{_ 'portfolio'}}")
-              each availablePortfolios
-                option(value="{estate_id: {{_id}}}")= name
-            optgroup(label="{{_ 'building'}}")              
-              each availableBuildings
-                option(value="{building_id: {{_id}}}")= building_name
-      .panel-body.timeline-year-panel.noselect: table.timeline-year-table
-        each timelineActions
-          tr(data-value=yearValue)
-            td.timeline-year= yearValue
-            td: table.timeline-quarter-table
-              each quarterContent
-                tr(data-value=value).timeline-quarter
-                  td: h4.panel-inner-title {{_ 'quarter_abbreviation'}}#{value}
-                  // Droppable container contained an object with their quarter and year as data-value
-                  td(data-role='dropable-container', data-value=quarterValue)
-                    each tActions
-                      // Draggable actions contained their indices in the planned_actions within the scenario as data-value
-                      .timeline-action-items(data-role='draggable-action', data-value=buildingsToActions)
-                          | !{logo}
-                          span(data-value=length)= length
+    // Timeline table
+    .col-md-4
+      +timelineTable
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal
       .row: .col-md-12: .panel.panel-primary
-        .panel-heading: h3.panel-title {{_ 'appraisal'}}
-        .panel-body
-          .row
-            // Number of actions
-            .col-xs-3.appraisal-sep
-              h4.panel-inner-title {{_ 'nb_actions'}}
-              p.appraisal-value #{nbActions} {{_ 'actions'}}
-            // Total costs
-            .col-xs-3.appraisal-sep
-              h4.panel-inner-title {{_ 'total_cost'}}
-              p.appraisal-value #{totalCost}
-            // Global TRI
-            .col-xs-3.appraisal-sep
-              h4.panel-inner-title {{_ 'global_tri'}}
-              p.appraisal-value #{triGlobal}
-            // Total costs
-            .col-xs-3
-              h4.panel-inner-title {{_ 'energy_saving'}}
-              p.appraisal-value #{energySaving}
+        +timelineAppraisal
       // The charts
       .row: .col-md-12: .panel.panel-primary: .panel-body
         // The consumption chart
@@ -63,36 +20,4 @@
         +timelineChart chartName='investmentChart'
   // Action bucket
   .row: .col-md-12
-    .action-bucket.panel.panel.panel-primary
-      .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
-        h3.panel-title.pull-left {{ _'action_bucket'}}
-        .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
-      if isActionBucketDisplayed
-        .panel-body.action-bucket-content
-          .btn-group.btn-group-xs.action-bucket-selector(data-role='filter-actions')
-            button.btn.btn-default(data-value='all') {{_ 'all_female_plural'}}
-            button.btn.btn-default(data-value='planned') {{_ 'planned'}}
-            button.btn.btn-default(data-value='unplanned') {{_ 'unplanned'}}
-          .action-bucket-table: table.table
-            thead: tr
-              each actionBucketTableHeadings
-                th= this
-            tbody
-              each actionBucketTableBody
-                tr.noselect(data-role='draggable-action-bucket', data-value='{"action_id": "{{_id}}", "building_id": "{{building_id}}"}')
-                  td.quarter-select
-                    .quarter-modifier: form.form-inline
-                      input(type='number', min='1', max='4', placeholder='Quarter')
-                      input(type='number', min='2014', max='2046', placeholder='Year')  
-                      span.fa.fa-check.text-success
-                      span.fa.fa-close.text-danger
-                    .quarter-content
-                      i.fa.fa-calendar
-                      = quarter
-                  td= name
-                  td= buildingName
-                  td= formattedCost
-                  td {{_ 'calculating'}}
-                  td {{_ 'calculating'}}
-                  td {{_ 'calculating'}}
-    .action-bucket-footer
+    +timelineBucket

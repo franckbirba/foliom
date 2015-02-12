@@ -1,0 +1,19 @@
+.panel-heading: h3.panel-title {{_ 'appraisal'}}
+.panel-body
+  .row
+    // Number of actions
+    .col-xs-3.appraisal-sep
+      h4.panel-inner-title {{_ 'nb_actions'}}
+      p.appraisal-value #{nbActions} {{_ 'actions'}}
+    // Total costs
+    .col-xs-3.appraisal-sep
+      h4.panel-inner-title {{_ 'total_cost'}}
+      p.appraisal-value #{totalCost}
+    // Global TRI
+    .col-xs-3.appraisal-sep
+      h4.panel-inner-title {{_ 'global_tri'}}
+      p.appraisal-value #{triGlobal}
+    // Total costs
+    .col-xs-3
+      h4.panel-inner-title {{_ 'energy_saving'}}
+      p.appraisal-value #{energySaving}
