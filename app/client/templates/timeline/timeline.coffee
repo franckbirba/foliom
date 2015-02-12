@@ -22,12 +22,14 @@ Session.set 'timeline-action-bucket-displayed', false
  * Prepare calculation at template creation.
 ###
 Template.timeline.created = ->
+  # Create reactive vars
+  @actions = new ReactiveVar
+  window.actions = @actions
   # Reset action bucket's display when entering screen
   Session.set 'timeline-action-bucket-displayed', false
   # Reset action bucket filters
   Session.set 'timeline-filter-actions', 'all'
   # Reset former state
-  TimelineVar = window.TimelineVar
   TimelineVars.totalCost = 0
   TimelineVars.timelineActions = []
   # @TODO fake : Fetch Scenario's data
@@ -57,6 +59,7 @@ Template.timeline.created = ->
   TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
   # Perform calculations
   timelineCalctulate TimelineVars
+  @actions.set TimelineVars.actions
 
 ###*
  * Object containing helper keys for the template.
@@ -65,7 +68,7 @@ Template.timeline.helpers
   scenarioName: -> TimelineVars.scenario.name
   availablePortfolios: -> TimelineVars.portfolios
   availableBuildings: -> TimelineVars.buildings
-  nbActions: -> TimelineVars.actions.length
+  nbActions: -> Template.instance().actions.get().length
   timelineActions: -> TimelineVars.timelineActions
   totalCost: -> (numeral TimelineVars.totalCost).format '0,0[.]00 $'
   triGlobal: -> TAPi18n.__ 'calculating'
@@ -86,10 +89,12 @@ Template.timeline.helpers
     filter = Session.get 'timeline-filter-actions'
     switch filter
       when 'planned'
-        _.filter TimelineVars.actions, (action) -> action.start?
+        _.filter Template.instance().actions.get(), (action) ->
+          action.start?
       when 'unplanned'
-        _.filter TimelineVars.actions, (action) -> action.start is undefined
-      else TimelineVars.actions
+        _.filter Template.instance().actions.get(), (action) ->
+          action.start is undefined
+      else Template.instance().actions.get()
 
 ###*
  * Ends rendering actions when template is rendered.
@@ -105,12 +110,14 @@ Template.timeline.rendered = ->
     containment: 'table.timeline.timeline-year-table'
     revert: 'invalid'
   (@$ '[data-role=\'dropable-container\']').droppable
-    hoverClass: 'dropable', drop: actionItemDropped
+    hoverClass: 'dropable'
 
 ###*
  * Object containing event actions for the template.
 ###
 Template.timeline.events
+  # Drop actions in the timeline
+  'drop [data-role=\'dropable-container\']': (e, t) -> actionItemDropped e, t
   # Change filter on the timeline
   'change [data-trigger=\'timeline-trigger-estate-building-filter\']': (e, t) ->
     console.log 'Selected building', e.currentTarget.value
@@ -136,6 +143,7 @@ Template.timeline.events
 ###
 showHideActionBucket = ->
   $actionBucket = $ '.action-bucket'
+  $actionBucketFooter = $ '.action-bucket-footer'
   # Display content of the action bucket
   isDisplayed = Session.get 'timeline-action-bucket-displayed'
   if isDisplayed
@@ -145,12 +153,14 @@ showHideActionBucket = ->
     .removeClass 'action-bucket-displayed'
     .on TRANSITION_END_EVENT, ->
       Session.set 'timeline-action-bucket-displayed', false
+    $actionBucketFooter.removeClass 'action-bucket-footer-displayed'
   else
     # Add action's bucket content before toggling animation
     Session.set 'timeline-action-bucket-displayed', true
     $actionBucket
     .off TRANSITION_END_EVENT
     .addClass 'action-bucket-displayed'
+    $actionBucketFooter.addClass 'action-bucket-footer-displayed'
     # @NOTE Reactivity triggers DOM insertion, thus setting the state of the
     #  button's group must wait so that all elements are inserted. The same
     #  goes for attaching the draggable properties to the action's rows.
@@ -161,12 +171,13 @@ showHideActionBucket = ->
       $selected = $btnGroup.find \
         "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
       $selected.addClass 'active'
-      # @TODO Set row as draggable
-      ($ '[data-role=\'draggable-action-bucket\']').draggable \
+      # Set row as draggable
+      ($ '[data-role=\'draggable-action-bucket\']').draggable
+        helper: 'clone'
         cursor: '-webkit-grabbing'
         scrollSensitivity: 100
         scrollSpeed: 100
-        #containment: 'table.timeline.timeline-year-table'
+        containment: 'table.timeline.timeline-year-table'
         revert: 'invalid'
     , 0
   # Change arrow orientation
@@ -291,22 +302,30 @@ timelineCalctulate = (tv) ->
 ###
 actionItemDropped = (e, t) ->
   tv = TimelineVars
-  $quarter = $ @
-  $actions = t.draggable
-  # Adjust DOM
-  $newActions = $actions.clone()
-  $newActions.attr 'style', 'position: relative;'
-  $newActions.draggable
-    cursor: '-webkit-grabbing'
-    scrollSensitivity: 100
-    scrollSpeed: 100
-    containment: 'table.timeline.timeline-year-table'
-    revert: 'invalid'
-  $quarter.append $newActions
-  $actions.remove()
+  $quarter = $ e.target
+  $actions = $ e.toElement
+  # Check if action is from the timeline or from the action bucket
+  if ($actions.attr 'data-role') is 'draggable-action-bucket'
+    # Action is from the action bucket
+    console.log 'action is from bucket', $actions
+    actionsObj = [JSON.parse $actions.attr 'data-value']
+  else
+    # Action is from the timeline
+    # Adjust DOM
+    $newActions = $actions.clone()
+    $newActions.attr 'style', 'position: relative;'
+    $newActions.draggable
+      cursor: '-webkit-grabbing'
+      scrollSensitivity: 100
+      scrollSpeed: 100
+      containment: 'table.timeline.timeline-year-table'
+      revert: 'invalid'
+    $quarter.append $newActions
+    $actions.remove()
+    actionsObj = JSON.parse $newActions.attr 'data-value'
+  console.log 'Modyfying actions', actionsObj
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
-  actionsObj = JSON.parse $newActions.attr 'data-value'
   pactions = tv.scenario.planned_actions
   for action in actionsObj
     idx = _.indexOf pactions,(_.findWhere pactions,{action_id:action.action_id})
@@ -321,5 +340,5 @@ actionItemDropped = (e, t) ->
   # Refresh charts
   for chart in ['consumptionChart', 'expenseChart', 'investmentChart']
     tv[chart].update tv["#{chart}Data"]()
-  # Refresh table by hiding it if displayed
-  showHideActionBucket() if Session.get 'timeline-action-bucket-displayed', true
+  # Refresh display based on actions
+  t.actions.set tv.actions
