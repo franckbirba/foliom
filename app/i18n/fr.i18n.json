@@ -105,7 +105,7 @@
     "create_estate": "Nouvel Estate",
 
     /* Portfolios */
-    "portfolio_name": "Surface utile",
+
 
     /* Buildings */
     "building_name": "Nom du Bâtiment",
@@ -179,45 +179,6 @@
     "Auxiliaires": "end_use_aux",
     "ECS": "end_use_ecs",
     "Spécifique": "end_use_specific",
-
-// end_use_heating: {
-//      fr: "Chauffage",
-//      en: "Heating",
-//      unit: 'u_kWhEF'
-// },
-// end_use_AC: {
-//      fr: "Climatisation",
-//      en: "Air conditioning",
-//      unit: "u_kWhEF"
-// },
-// end_use_ventilation: {
-//      fr: "Ventilation",
-//      en: "Air conditioning",
-//      unit: "u_kWhEF"
-// },
-// end_use_lighting: {
-//      fr: "Eclairage",
-//      en: "Lighting",
-//      unit: "u_kWhEF"
-// },
-// end_use_aux: {
-//      fr: "Auxiliaires",
-//      en: "Ancillaries",
-//      unit: "u_kWhEF"
-// },
-// end_use_ecs: {
-//      fr: "ECS",
-//      en: "Hot water",
-//      unit: "u_kWhEF",
-//      tooltip_FR: "Eau Chaude Sanitaires"
-// },
-// end_use_specific: {
-//      fr: "Spécifique",
-//      en: "", //Demander à EGIS
-//      unit: "u_kWhEF"
-//      tooltip_FR: "Consommation des ordinateurs, etc."
-//      tooltip_EN: "Computer usage, etc."
-// },
 
 
     "certifications": "Certifications",

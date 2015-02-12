@@ -94,7 +94,328 @@ Meteor.startup(function () {
 		var tmpMasterConfig = {
         	master: true,
         	creation_date: new Date(),
-        	indexes: [],
+          icc: {
+            "name": "ICC",
+            "evolution_index": [
+              {
+                "year": 2014,
+                "cost": 10,
+                "evolution_index": 0
+              },
+              {
+                "year": 2015,
+                "cost": 10,
+                "evolution_index": 0
+              },
+              {
+                "year": 2016,
+                "cost": 10.1,
+                "evolution_index": 1
+              },
+              {
+                "year": 2017,
+                "cost": 10.1,
+                "evolution_index": 0
+              },
+              {
+                "year": 2018,
+                "cost": 10.1,
+                "evolution_index": 0
+              },
+              {
+                "year": 2019,
+                "cost": 10.1,
+                "evolution_index": 0
+              },
+              {
+                "year": 2020,
+                "cost": 10.2,
+                "evolution_index": 0.99
+              },
+              {
+                "year": 2021,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2022,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2023,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2024,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2025,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2026,
+                "cost": 10.3,
+                "evolution_index": 0.98
+              },
+              {
+                "year": 2027,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2028,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2029,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2030,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2031,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2032,
+                "cost": 10.4,
+                "evolution_index": 0.971
+              },
+              {
+                "year": 2033,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2034,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2035,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2036,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2037,
+                "cost": 10.5,
+                "evolution_index": 0.962
+              },
+              {
+                "year": 2038,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2039,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2040,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2041,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2042,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2043,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2044,
+                "cost": 10.5,
+                "evolution_index": 0
+              }
+            ],
+          },
+          ipc: {
+            "name": "IPC",
+            "evolution_index": [
+              {
+                "year": 2014,
+                "cost": 10,
+                "evolution_index": 0
+              },
+              {
+                "year": 2015,
+                "cost": 10,
+                "evolution_index": 0
+              },
+              {
+                "year": 2016,
+                "cost": 10.1,
+                "evolution_index": 1
+              },
+              {
+                "year": 2017,
+                "cost": 10.1,
+                "evolution_index": 0
+              },
+              {
+                "year": 2018,
+                "cost": 10.1,
+                "evolution_index": 0
+              },
+              {
+                "year": 2019,
+                "cost": 10.1,
+                "evolution_index": 0
+              },
+              {
+                "year": 2020,
+                "cost": 10.2,
+                "evolution_index": 0.99
+              },
+              {
+                "year": 2021,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2022,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2023,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2024,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2025,
+                "cost": 10.2,
+                "evolution_index": 0
+              },
+              {
+                "year": 2026,
+                "cost": 10.3,
+                "evolution_index": 0.98
+              },
+              {
+                "year": 2027,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2028,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2029,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2030,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2031,
+                "cost": 10.3,
+                "evolution_index": 0
+              },
+              {
+                "year": 2032,
+                "cost": 10.4,
+                "evolution_index": 0.971
+              },
+              {
+                "year": 2033,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2034,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2035,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2036,
+                "cost": 10.4,
+                "evolution_index": 0
+              },
+              {
+                "year": 2037,
+                "cost": 10.5,
+                "evolution_index": 0.962
+              },
+              {
+                "year": 2038,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2039,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2040,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2041,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2042,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2043,
+                "cost": 10.5,
+                "evolution_index": 0
+              },
+              {
+                "year": 2044,
+                "cost": 10.5,
+                "evolution_index": 0
+              }
+            ],
+          },
+          actualization_rate: 0.02,
+          consumption_degradation: 0.05,
         	project_type_static_index: {
             	classic: 1,
             	cpe: 1,
