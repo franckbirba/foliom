@@ -110,12 +110,14 @@ Template.timeline.rendered = ->
     containment: 'table.timeline.timeline-year-table'
     revert: 'invalid'
   (@$ '[data-role=\'dropable-container\']').droppable
-    hoverClass: 'dropable', drop: actionItemDropped
+    hoverClass: 'dropable'
 
 ###*
  * Object containing event actions for the template.
 ###
 Template.timeline.events
+  # Drop actions in the timeline
+  'drop [data-role=\'dropable-container\']': (e, t) -> actionItemDropped e, t
   # Change filter on the timeline
   'change [data-trigger=\'timeline-trigger-estate-building-filter\']': (e, t) ->
     console.log 'Selected building', e.currentTarget.value
@@ -300,15 +302,13 @@ timelineCalctulate = (tv) ->
 ###
 actionItemDropped = (e, t) ->
   tv = TimelineVars
-  $quarter = $ @
-  $actions = t.draggable
-  $firstAction = $actions.first()
+  $quarter = $ e.target
+  $actions = $ e.toElement
   # Check if action is from the timeline or from the action bucket
-  if ($firstAction.attr 'data-role') is 'draggable-action-bucket'
+  if ($actions.attr 'data-role') is 'draggable-action-bucket'
     # Action is from the action bucket
-    console.log 'action is from bucket', $firstAction
-    actionsObj = [JSON.parse $firstAction.attr 'data-value']
-
+    console.log 'action is from bucket', $actions
+    actionsObj = [JSON.parse $actions.attr 'data-value']
   else
     # Action is from the timeline
     # Adjust DOM
@@ -340,5 +340,5 @@ actionItemDropped = (e, t) ->
   # Refresh charts
   for chart in ['consumptionChart', 'expenseChart', 'investmentChart']
     tv[chart].update tv["#{chart}Data"]()
-  # Refresh table by hiding it if displayed
-  showHideActionBucket() if Session.get 'timeline-action-bucket-displayed', true
+  # Refresh display based on actions
+  t.actions.set tv.actions
