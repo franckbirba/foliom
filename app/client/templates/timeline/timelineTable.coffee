@@ -1,10 +1,13 @@
+# Local alias on the namespaced variables for the Timeline
+TV = TimelineVars
+
 ###*
  * Object containing helper keys for the template.
 ###
 Template.timelineTable.helpers
-  availablePortfolios: -> TimelineVars.portfolios
-  availableBuildings: -> TimelineVars.buildings
-  timelineActions: -> TimelineVars.timelineActions
+  availablePortfolios: -> TV.portfolios
+  availableBuildings: -> TV.buildings
+  timelineActions: -> TV.timelineActions
 
 ###*
  * Object containing event actions for the template.
@@ -34,7 +37,6 @@ Template.timelineTable.rendered = ->
  * @param {Object} t    Template's instance.
 ###
 actionItemDropped = (e, t) ->
-  tv = TimelineVars
   console.log e
   $quarter = $ e.target
   $actions = $ e.toElement
@@ -62,7 +64,7 @@ actionItemDropped = (e, t) ->
   console.log 'Modyfying actions', actionsObj
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
-  pactions = tv.scenario.planned_actions
+  pactions = TV.scenario.planned_actions
   for action in actionsObj
     idx = _.indexOf pactions,(_.findWhere pactions,{action_id:action.action_id})
     pactions[idx].start = (moment
@@ -70,12 +72,12 @@ actionItemDropped = (e, t) ->
       month: (quarterObj.Q - 1) * 3
       year: quarterObj.Y).toDate()
   # Recalculate
-  tv.calculate()
+  TV.calculate()
   # Update DB
-  Scenarios.update {_id: tv.scenario._id}, $set: planned_actions: pactions
+  Scenarios.update {_id: TV.scenario._id}, $set: planned_actions: pactions
   # Refresh charts
   for chart in ['consumptionChart', 'expenseChart', 'investmentChart']
-    tv[chart].update tv["#{chart}Data"]()
+    TV[chart].update TV["#{chart}Data"]()
   # Refresh display based on actions
-  tv.rxActions.set tv.actions
-  tv.rxTimelineActions.set tv.timelineActions
+  TV.rxActions.set TV.actions
+  TV.rxTimelineActions.set TV.timelineActions

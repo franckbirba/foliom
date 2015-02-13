@@ -82,7 +82,7 @@ TimelineVars.investmentChartData = ->
 ###
 Template.timelineChart.rendered = ->
   # Create SVG charts with Chartist and attach them to the DOM
-  tv = window.TimelineVars
+  tv = TimelineVars
   tv[@data.chartName] = new Chartist.Line \
     "[data-chart='#{@data.chartName}']"
   , tv["#{@data.chartName}Data"]()

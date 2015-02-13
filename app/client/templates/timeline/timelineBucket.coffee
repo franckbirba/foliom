@@ -1,3 +1,6 @@
+# Local alias on the namespaced variables for the Timeline
+TV = TimelineVars
+
 # Action bucket is hidden by default
 Session.set 'timeline-action-bucket-displayed', false
 
@@ -24,14 +27,16 @@ Template.timelineBucket.helpers
     'TRI'
   ]
   actionBucketTableBody: ->
-    console.log 'TimelineVars', TimelineVars
+    console.log 'TimelineVars', TV
     filter = Session.get 'timeline-filter-actions'
+    # @FIXME rxActions = TV.rxActions.get()
+    rxActions = TV.actions
     switch filter
       when 'planned'
-        _.filter TimelineVars.actions, (action) -> action.start?
+        _.filter rxActions, (action) -> action.start?
       when 'unplanned'
-        _.filter TimelineVars.actions, (action) -> action.start is undefined
-      else TimelineVars.actions
+        _.filter rxActions, (action) -> action.start is undefined
+      else rxActions
 
 ###*
  * Object containing event actions for the template.

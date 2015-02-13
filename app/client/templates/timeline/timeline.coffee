@@ -127,45 +127,48 @@
   rxActions: new ReactiveVar
   rxTimelineActions: new ReactiveVar
 
+# Local alias on the namespaced variables for the Timeline
+TV = TimelineVars
+
 ###*
  * Prepare calculation at template creation.
 ###
 Template.timeline.created = ->
   # Reset former state
-  TimelineVars.totalCost = 0
-  TimelineVars.timelineActions = []
+  TV.totalCost = 0
+  TV.timelineActions = []
   # @TODO fake : Fetch Scenario's data
-  # TimelineVars.scenario = Scenarios.findOne _id: scenarioId
-  TimelineVars.scenario = Scenarios.findOne()
+  # TV.scenario = Scenarios.findOne _id: scenarioId
+  TV.scenario = Scenarios.findOne()
   # @TODO check for unplanned actions
   # Get actions that matches the Ids in the Scenario
-  pactions = TimelineVars.scenario.planned_actions
+  pactions = TV.scenario.planned_actions
   actionIds = _.pluck pactions, 'action_id'
-  TimelineVars.actions = (Actions.find  _id: $in: actionIds).fetch()
+  TV.actions = (Actions.find  _id: $in: actionIds).fetch()
   # Get each buildings for each actions
-  buildingIds = _.uniq _.pluck TimelineVars.actions, 'building_id'
-  TimelineVars.buildings = (Buildings.find _id: $in: buildingIds).fetch()
+  buildingIds = _.uniq _.pluck TV.actions, 'building_id'
+  TV.buildings = (Buildings.find _id: $in: buildingIds).fetch()
   # Get each portfolios for each buildings
-  portfolioIds = _.uniq _.pluck TimelineVars.buildings, 'portfolio_id'
-  TimelineVars.portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
+  portfolioIds = _.uniq _.pluck TV.buildings, 'portfolio_id'
+  TV.portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
   # Get all leases for all building, this action is done in a single DB call
   # for avoiding too much latency on the screen's creation
   leases = (Leases.find building_id: $in: buildingIds).fetch()
   # Now dernomalize leases and buildings, re-establishing document object
   # for each building
-  for building in TimelineVars.buildings
+  for building in TV.buildings
     building.leases = _.where leases, building_id: building._id
   # Set minimum date on the creation date and maximum date 31 years later
   creationYear = (moment (Session.get 'current_config').creation_date).year()
-  TimelineVars.minDate = moment year: creationYear
-  TimelineVars.maxDate = moment day: 30, month: 11, year: creationYear + 31
+  TV.minDate = moment year: creationYear
+  TV.maxDate = moment day: 30, month: 11, year: creationYear + 31
   # Perform calculations
-  TimelineVars.calculate()
+  TV.calculate()
   # Assign reactive vars
-  TimelineVars.rxActions.set TimelineVars.actions
-  TimelineVars.rxTimelineActions.set TimelineVars.timelineActions
+  #TV.rxActions.set TV.actions
+  #TV.rxTimelineActions.set TV.timelineActions
 
 ###*
  * Object containing helper keys for the template.
 ###
-Template.timeline.helpers scenarioName: -> 'Toto'
+Template.timeline.helpers scenarioName: -> TV.scenario.name
