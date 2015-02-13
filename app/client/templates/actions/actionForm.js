@@ -279,12 +279,6 @@ Template.actionForm.rendered = function () {
       var YS_array = Session.get('gain_kwhef_euro');
       var total_fluid_savings_a = Session.get('total_fluid_savings_a');
 
-      // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
-      // create an array for investment cost with as many 0 as the action_lifetime
-      // Array size is action_lifetime and not (action_lifetime+1): OK by Blandine Melay 2015-01-15
-      var ic_array = buildArrayWithZeroes(action_lifetime);
-      ic_array[0]= residual_cost; //Set the first value to the residual_cost
-
 
       // RAW_ROI
       var raw_roi = ao.calc_raw_roi(residual_cost, total_fluid_savings_a[0], gain_operating_cost);
@@ -299,20 +293,16 @@ Template.actionForm.rendered = function () {
       /* -------------------------- */
       /*          TRA / TRI         */
 
+      // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
       // ACTUALIZE INVESTMENT_COST_ARRRAY (for residual_cost)
-      //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
-      var ic_array_actualized = _.map(ic_array, function(num, ic_index){
-        var result = num * Math.pow( 1+actualization_rate , -ic_index);
-        return result.toFixed(2)*1;
-      });
-      // console.log("ic_array_actualized");
-      // console.log(ic_array_actualized);
+      ao.prepare_investment_arrays(action_lifetime, residual_cost);
+      var ic_array = ao.investment.values;
+      var ic_array_actualized = ao.investment.values_act;
+
 
       // PREPARE ENERGY SAVINGS
       //@Blandine: l'économie de fluides est basée sur le coût du fluide (qui évolue) >> besoin d'actualiser (seulement inflater) ? >> 14/1: YES
-      // check all_yearly_savings_simplyValues
       var all_yearly_savings_simplyValues_actualized = [];
-      // debugger
       _.each(YS_array, function(allYSavings, tmp_index) {
         actualized_energy = _.map(allYSavings, function(num, allYSavings_index){
                 var result = num * Math.pow( 1+actualization_rate , -allYSavings_index);

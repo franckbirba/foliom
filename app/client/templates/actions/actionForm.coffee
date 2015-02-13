@@ -19,6 +19,10 @@ exports.ActionObject = class ActionObject
       fluidImpact_in_kwhef: 0
     #@all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
+    @investment =
+      values:[]
+      values_act:[] #Actualized values
+
     @getWaterDataFromLeases() # Init water Data
 
 
@@ -183,3 +187,16 @@ exports.ActionObject = class ActionObject
     value_analysis = action_lifetime * @gain.fluidImpact_in_kwhef / residual_cost
     # value_analysis.toFixed(2)*1
     value_analysis
+
+  prepare_investment_arrays: (action_lifetime, residual_cost) =>
+    # PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
+    # create an array for investment cost with as many 0 as the action_lifetime
+    # Array size is action_lifetime and not (action_lifetime+1): OK by Blandine Melay 2015-01-15
+    @investment.values = buildArrayWithZeroes action_lifetime
+    @investment.values[0]= residual_cost #Set the first value to the residual_cost
+
+    # ACTUALIZE INVESTMENT_COST_ARRRAY (for residual_cost)
+    # Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
+    @investment.values_act = _.map @investment.values, (num, ic_index) ->
+      result = num * Math.pow( 1+actualization_rate , -ic_index)
+      return result.toFixed(2)*1
