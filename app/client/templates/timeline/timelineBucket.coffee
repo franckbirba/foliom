@@ -27,10 +27,8 @@ Template.timelineBucket.helpers
     'TRI'
   ]
   actionBucketTableBody: ->
-    console.log 'TimelineVars', TV
     filter = Session.get 'timeline-filter-actions'
-    # @FIXME rxActions = TV.rxActions.get()
-    rxActions = TV.actions
+    rxActions = TV.rxActions.get()
     switch filter
       when 'planned'
         _.filter rxActions, (action) -> action.start?

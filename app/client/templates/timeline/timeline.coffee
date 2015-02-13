@@ -7,14 +7,11 @@
   actions: []
   buildings: []
   totalCost: 0
-  consumptionChart: null
-  expenseChart: null
-  investmentChart: null
-  toolTips: {}
   minDate: null
   maxDate: null
   timelineActions: []
-  charts: {}
+  rxActions: new ReactiveVar
+  rxTimelineActions: new ReactiveVar
   ###*
    * Perform all calculations and fill the global TimelineVars object.
   ###
@@ -124,8 +121,9 @@
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
-  rxActions: new ReactiveVar
-  rxTimelineActions: new ReactiveVar
+    # Assign reactive vars
+    TV.rxActions.set TV.actions
+    TV.rxTimelineActions.set TV.timelineActions
 
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
@@ -164,9 +162,6 @@ Template.timeline.created = ->
   TV.maxDate = moment day: 30, month: 11, year: creationYear + 31
   # Perform calculations
   TV.calculate()
-  # Assign reactive vars
-  #TV.rxActions.set TV.actions
-  #TV.rxTimelineActions.set TV.timelineActions
 
 ###*
  * Object containing helper keys for the template.

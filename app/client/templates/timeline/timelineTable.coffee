@@ -37,7 +37,6 @@ Template.timelineTable.rendered = ->
  * @param {Object} t    Template's instance.
 ###
 actionItemDropped = (e, t) ->
-  console.log e
   $quarter = $ e.target
   $actions = $ e.toElement
   # Check if action is from the timeline or from the action bucket
@@ -75,9 +74,3 @@ actionItemDropped = (e, t) ->
   TV.calculate()
   # Update DB
   Scenarios.update {_id: TV.scenario._id}, $set: planned_actions: pactions
-  # Refresh charts
-  for chart in ['consumptionChart', 'expenseChart', 'investmentChart']
-    TV[chart].update TV["#{chart}Data"]()
-  # Refresh display based on actions
-  TV.rxActions.set TV.actions
-  TV.rxTimelineActions.set TV.timelineActions
