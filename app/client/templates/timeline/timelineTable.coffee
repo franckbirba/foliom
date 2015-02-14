@@ -46,6 +46,8 @@ Template.timelineTable.rendered = ->
   (@$ '[data-role=\'dropable-container\']').droppable hoverClass: 'dropable'
   # Apply draggable each time the reactive actions are changed
   @autorun ->
+    # Get reactive var that may require to update dragging
+    TimelineVars.rxTimelineActions.dep.depend()
     # Make actions draggable once rendered
     Meteor.setTimeout ->
       ($ '[data-role=\'draggable-action\']').draggable
@@ -54,7 +56,7 @@ Template.timelineTable.rendered = ->
         scrollSpeed: 100
         containment: 'table.timeline.timeline-year-table'
         revert: 'invalid'
-    , 100
+    , 0
 
 ###*
  * Handle acion's dropped in the Timeline.
