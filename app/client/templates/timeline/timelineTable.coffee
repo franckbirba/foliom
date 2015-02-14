@@ -7,7 +7,7 @@ TV = TimelineVars
 Template.timelineTable.helpers
   availablePortfolios: -> TV.portfolios
   availableBuildings: -> TV.buildings
-  timelineActions: -> TV.timelineActions
+  timelineActions: -> TV.rxTimelineActions.get()
 
 ###*
  * Object containing event actions for the template.
@@ -22,14 +22,19 @@ Template.timelineTable.events
 Template.timelineTable.rendered = ->
   # Set estate and building filter as a select2
   (@$ '[data-trigger=\'timeline-trigger-estate-building-filter\']').select2()
-  # Make actions draggable and droppable
-  (this.$ '[data-role=\'draggable-action\']').draggable
-    cursor: '-webkit-grabbing'
-    scrollSensitivity: 100
-    scrollSpeed: 100
-    containment: 'table.timeline.timeline-year-table'
-    revert: 'invalid'
+  # Make actions containers droppable
   (@$ '[data-role=\'dropable-container\']').droppable hoverClass: 'dropable'
+  # Apply draggable each time the reactive actions are changed
+  @autorun ->
+    # Make actions draggable once rendered
+    Meteor.setTimeout ->
+      ($ '[data-role=\'draggable-action\']').draggable
+        cursor: '-webkit-grabbing'
+        scrollSensitivity: 100
+        scrollSpeed: 100
+        containment: 'table.timeline.timeline-year-table'
+        revert: 'invalid'
+    , 100
 
 ###*
  * Handle acion's dropped in the Timeline.
@@ -44,23 +49,12 @@ actionItemDropped = (e, t) ->
     # From bucket we only receive the TD instead of the TR
     $actions = $actions.closest 'tr'
     # Action is from the action bucket
-    console.log 'action is from bucket', $actions
     actionsObj = [JSON.parse $actions.attr 'data-value']
   else
     # Action is from the timeline
-    # Adjust DOM
-    #$newActions = $actions.clone()
-    #$newActions.attr 'style', 'position: relative;'
-    #$newActions.draggable
-    #  cursor: '-webkit-grabbing'
-    #  scrollSensitivity: 100
-    #  scrollSpeed: 100
-    #  containment: 'table.timeline.timeline-year-table'
-    #  revert: 'invalid'
-    #$quarter.append $newActions
-    #$actions.remove()
     actionsObj = JSON.parse $actions.attr 'data-value'
-  console.log 'Modyfying actions', actionsObj
+    # Remove the actions from the DOM as they will get reactively re-rendered
+    $actions.remove()
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
   pactions = TV.scenario.planned_actions

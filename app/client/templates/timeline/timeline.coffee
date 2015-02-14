@@ -16,7 +16,8 @@
    * Perform all calculations and fill the global TimelineVars object.
   ###
   calculate: ->
-    console.log 'calculate', @
+    # Reset the timelineAction
+    @timelineActions = []
     # Sort planned actions
     @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) ->
       (moment item.start).valueOf()
@@ -134,7 +135,6 @@ TV = TimelineVars
 Template.timeline.created = ->
   # Reset former state
   TV.totalCost = 0
-  TV.timelineActions = []
   # @TODO fake : Fetch Scenario's data
   # TV.scenario = Scenarios.findOne _id: scenarioId
   TV.scenario = Scenarios.findOne()
