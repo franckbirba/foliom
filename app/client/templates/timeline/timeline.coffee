@@ -17,7 +17,7 @@
   calculate: ->
     # Handle the portfolio and building filtering
     buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
-    console.log 'Recalculating', buildingFilter
+    buildingFilter = _.pluck TV.buildings, '_id' if buildingFilter is undefined
     # Reset the timelineAction
     @timelineActions = []
     # Sort planned actions
