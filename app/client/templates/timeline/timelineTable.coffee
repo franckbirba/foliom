@@ -1,6 +1,11 @@
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
 
+Template.timelineBucket.created = ->
+  # Reset filtering on portfolio or building: take all the buildings
+  Session.set 'timeline-filter-portfolio-or-building', \
+    _.pluck TV.buildings, '_id'
+
 ###*
  * Object containing helper keys for the template.
 ###
@@ -17,7 +22,22 @@ Template.timelineTable.events
   'drop [data-role=\'dropable-container\']': (e, t) -> actionItemDropped e, t
   # Change filter on the timeline
   'change [data-trigger=\'timeline-trigger-estate-building-filter\']': (e, t) ->
-    console.log 'Selected building', e.currentTarget.value
+    # Check selected filtering
+    if e.currentTarget.value is 'all'
+      # No filtering, get all buildings used for the current scenario
+      buildingFilter = _.pluck TV.buildings, '_id'
+    else
+      # Filtering can be on portfolio or on building
+      filterObj = JSON.parse e.currentTarget.value
+      if filterObj.building_id?
+        # Filter is on a single building
+        buildingFilter = [filterObj.building_id]
+      else
+        # Filter is on a portfolio, get all buildings that match it
+        buildingFilter = _.pluck (
+          _.where TV.buildings, { portfolio_id: filterObj.portfolio_id }
+        ), '_id'
+    Session.set 'timeline-filter-portfolio-or-building', buildingFilter
 
 Template.timelineTable.rendered = ->
   # Set estate and building filter as a select2

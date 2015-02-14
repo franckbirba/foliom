@@ -1,5 +1,4 @@
 # @TODO Planned action vs unplanned actions
-# @TODO Filters on buildings
 
 # Isolate calculated value in a namespace
 @TimelineVars =
@@ -16,6 +15,9 @@
    * Perform all calculations and fill the global TimelineVars object.
   ###
   calculate: ->
+    # Handle the portfolio and building filtering
+    buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
+    console.log 'Recalculating', buildingFilter
     # Reset the timelineAction
     @timelineActions = []
     # Sort planned actions
@@ -44,14 +46,16 @@
         loop
           # Get out of the loop if all actions have been checked
           break unless @scenario.planned_actions[currentAction]?
-          # Get current action date (set in the Scenario)
-          date = moment @scenario.planned_actions[currentAction].start
-          # Check if current action is contained in the current quarter
-          break unless date.isBetween quarter, nextQuarter
-          # Set the current action in the current quarter
-          quarterContent.tActions.push @actions[currentAction]
-          # Total costs
-          @totalCost += @actions[currentAction].investment.cost
+          # Check if current action is contained in the current filter
+          if @actions[currentAction].building_id in buildingFilter
+            # Get current action date (set in the Scenario)
+            date = moment @scenario.planned_actions[currentAction].start
+            # Check if current action is contained in the current quarter
+            break unless date.isBetween quarter, nextQuarter
+            # Set the current action in the current quarter
+            quarterContent.tActions.push @actions[currentAction]
+            # Total costs
+            @totalCost += @actions[currentAction].investment.cost
           # Check next action
           currentAction++
         # Group actions in quarter by name
@@ -91,7 +95,8 @@
       action.buildingName = building.building_name
       action.portfolioId = building.portfolio_id
       # Denormalize and format cost
-      action.formattedCost = (numeral action.investment.cost).format '0,0[.]00 $'
+      action.formattedCost = (numeral \
+        action.investment.cost).format '0,0[.]00 $'
       # Prepare triggering dates
       action.endDesign = action.start.clone().add action.design_duration, 'M'
       action.endWork = action.endDesign.clone().add action.works_duration, 'M'
@@ -160,8 +165,9 @@ Template.timeline.created = ->
   creationYear = (moment (Session.get 'current_config').creation_date).year()
   TV.minDate = moment year: creationYear
   TV.maxDate = moment day: 30, month: 11, year: creationYear + 31
-  # Perform calculations
-  TV.calculate()
+  # Reactively perform calculations based on filter changes
+  @autorun ->
+    TV.calculate()
 
 ###*
  * Object containing helper keys for the template.

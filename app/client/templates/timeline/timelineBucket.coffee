@@ -1,9 +1,6 @@
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
 
-# Action bucket is hidden by default
-Session.set 'timeline-action-bucket-displayed', false
-
 Template.timelineBucket.created = ->
   # Reset action bucket's display when entering screen
   Session.set 'timeline-action-bucket-displayed', false
