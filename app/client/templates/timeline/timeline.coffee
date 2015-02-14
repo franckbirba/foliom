@@ -3,13 +3,11 @@
 # Isolate calculated value in a namespace
 @TimelineVars =
   scenario: null
-  actions: []
   buildings: []
   totalCost: 0
   minDate: null
   maxDate: null
-  timelineActions: []
-  rxActions: new ReactiveVar
+  rxPlannedActions: new ReactiveVar
   rxTimelineActions: new ReactiveVar
   ###*
    * Perform all calculations and fill the global TimelineVars object.
@@ -19,7 +17,7 @@
     buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
     buildingFilter = _.pluck TV.buildings, '_id' if buildingFilter is undefined
     # Reset the timelineAction
-    @timelineActions = []
+    timelineActions = []
     # Sort planned actions
     @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) ->
       (moment item.start).valueOf()
@@ -46,16 +44,15 @@
         loop
           # Get out of the loop if all actions have been checked
           break unless @scenario.planned_actions[currentAction]?
+          paction = @scenario.planned_actions[currentAction]
           # Check if current action is contained in the current filter
-          if @actions[currentAction].building_id in buildingFilter
-            # Get current action date (set in the Scenario)
-            date = moment @scenario.planned_actions[currentAction].start
+          if paction.action.building_id in buildingFilter
             # Check if current action is contained in the current quarter
-            break unless date.isBetween quarter, nextQuarter
+            break unless paction.start.isBetween quarter, nextQuarter
             # Set the current action in the current quarter
-            quarterContent.tActions.push @actions[currentAction]
+            quarterContent.tActions.push paction.action
             # Total costs
-            @totalCost += @actions[currentAction].investment.cost
+            @totalCost += paction.action.investment.cost
           # Check next action
           currentAction++
         # Group actions in quarter by name
@@ -83,28 +80,30 @@
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
-      @timelineActions.push yearContent
+      timelineActions.push yearContent
     # Generate suites for each action
-    for action, idx in @actions
+    for paction, idx in @scenario.planned_actions
       # Denormalize date
-      action.start = moment @scenario.planned_actions[idx].start
-      action.quarter = \
-        "#{TAPi18n.__ 'quarter_abbreviation'}#{action.start.format 'Q YYYY'}"
+      paction.quarter = \
+        "#{TAPi18n.__ 'quarter_abbreviation'}#{paction.start.format 'Q YYYY'}"
       # Denormalize building's name and portfolio's id
-      building = _.findWhere @buildings, _id: action.building_id
-      action.buildingName = building.building_name
-      action.portfolioId = building.portfolio_id
+      building = _.findWhere @buildings, _id: paction.action.building_id
+      paction.buildingName = building.building_name
+      paction.portfolioId = building.portfolio_id
       # Denormalize and format cost
-      action.formattedCost = (numeral \
-        action.investment.cost).format '0,0[.]00 $'
+      paction.formattedCost = (numeral \
+        paction.action.investment.cost).format '0,0[.]00 $'
       # Prepare triggering dates
-      action.endDesign = action.start.clone().add action.design_duration, 'M'
-      action.endWork = action.endDesign.clone().add action.works_duration, 'M'
-      action.end = action.endWork.clone().add action.action_lifetime, 'Y'
-      action.investmentSuite = []
-      action.investmentSubventionedSuite = []
-      action.consumptionCo2ModifierSuite = []
-      action.consumptionKwhModifierSuite = []
+      paction.endDesign = paction.start.clone().add \
+        paction.action.design_duration, 'M'
+      paction.endWork = paction.endDesign.clone().add \
+        paction.action.works_duration, 'M'
+      paction.end = paction.endWork.clone().add \
+        paction.action.action_lifetime, 'Y'
+      paction.investmentSuite = []
+      paction.investmentSubventionedSuite = []
+      paction.consumptionCo2ModifierSuite = []
+      paction.consumptionKwhModifierSuite = []
       # Iterate over the scenario duration
       quarter = @minDate.clone()
       nextQuarter = quarter.clone().add 1, 'Q'
@@ -113,23 +112,26 @@
       consumptionCo2Modifier = 0
       consumptionKwhModifier = 0
       while quarter.isBefore @maxDate
-        if action.start.isBetween quarter, nextQuarter
-          investment = action.investment.cost
-          investmentSubventioned = action.subventions.residual_cost
-        if action.endWork.isBetween quarter, nextQuarter
+        if paction.start.isBetween quarter, nextQuarter
+          investment = paction.action.investment.cost
+          investmentSubventioned = paction.action.subventions.residual_cost
+        if paction.endWork.isBetween quarter, nextQuarter
           # @TODO Fake modifiers
           consumptionCo2Modifier = -.5
           consumptionKwhModifier = -1
-        action.investmentSuite.push investment
-        action.investmentSubventionedSuite.push investmentSubventioned
-        action.consumptionCo2ModifierSuite.push consumptionCo2Modifier
-        action.consumptionKwhModifierSuite.push consumptionKwhModifier
+        paction.investmentSuite.push investment
+        paction.investmentSubventionedSuite.push investmentSubventioned
+        paction.consumptionCo2ModifierSuite.push consumptionCo2Modifier
+        paction.consumptionKwhModifierSuite.push consumptionKwhModifier
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
     # Assign reactive vars
-    TV.rxActions.set TV.actions
-    TV.rxTimelineActions.set TV.timelineActions
+    TV.rxPlannedActions.set @scenario.planned_actions
+    TV.rxTimelineActions.set timelineActions
+    #console.table _.map TV.scenario.planned_actions, (paction) ->
+    #  id: paction.action_id
+    #  start: (moment paction.start).format 'Q YYYY'
 
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
@@ -147,9 +149,13 @@ Template.timeline.created = ->
   # Get actions that matches the Ids in the Scenario
   pactions = TV.scenario.planned_actions
   actionIds = _.pluck pactions, 'action_id'
-  TV.actions = (Actions.find  _id: $in: actionIds).fetch()
+  actions = (Actions.find  _id: $in: actionIds).fetch()
+  # Denormalize actions in the scenario and transform the start date as moment
+  for paction in pactions
+    paction.action = _.findWhere actions, _id: paction.action_id
+    paction.start = moment paction.start
   # Get each buildings for each actions
-  buildingIds = _.uniq _.pluck TV.actions, 'building_id'
+  buildingIds = _.uniq _.pluck actions, 'building_id'
   TV.buildings = (Buildings.find _id: $in: buildingIds).fetch()
   # Get each portfolios for each buildings
   portfolioIds = _.uniq _.pluck TV.buildings, 'portfolio_id'

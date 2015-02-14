@@ -80,13 +80,18 @@ actionItemDropped = (e, t) ->
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
   pactions = TV.scenario.planned_actions
-  for action in actionsObj
+  for action, idx in actionsObj
     idx = _.indexOf pactions,(_.findWhere pactions,{action_id:action.action_id})
-    pactions[idx].start = (moment
+    pactions[idx].start = moment
       second: 1 # @NOTE: A second is added so that inBetween evaluation works
       month: (quarterObj.Q - 1) * 3
-      year: quarterObj.Y).toDate()
+      year: quarterObj.Y
   # Recalculate
   TV.calculate()
   # Update DB
-  Scenarios.update {_id: TV.scenario._id}, $set: planned_actions: pactions
+  formattedActions = _.map pactions, (paction) ->
+    action_id: paction.action_id
+    start: paction.start.toDate()
+    efficiency_ratio: paction.efficiency_ratio
+  # console.table formattedActions
+  Scenarios.update {_id: TV.scenario._id}, $set:planned_actions:formattedActions

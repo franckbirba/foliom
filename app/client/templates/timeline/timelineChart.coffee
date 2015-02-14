@@ -35,7 +35,7 @@ ChartFct =
    * Calculate and present data suite for the Consumption chart.
   ###
   consumptionChart: ->
-    rxActions = TV.rxActions.get()
+    rxPlannedActions = TV.rxPlannedActions.get()
     labels: TV.charts.ticks
     series: [
       {
@@ -45,12 +45,12 @@ ChartFct =
       {
         name: TAPi18n.__ 'consumption_action_co2'
         data: sum2Suites TV.charts.consumption, \
-          sumSuiteFromArray rxActions, 'consumptionCo2ModifierSuite'
+          sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
       }
       {
         name: TAPi18n.__ 'consumption_action_kwh'
         data: sum2Suites TV.charts.consumption, \
-          sumSuiteFromArray rxActions, 'consumptionKwhModifierSuite'
+          sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
       }
     ]
 
@@ -67,7 +67,7 @@ ChartFct =
    * Calculate and present data suite for the Investment chart.
   ###
   investmentChart: ->
-    rxActions = TV.rxActions.get()
+    rxPlannedActions = TV.rxPlannedActions.get()
     labels: TV.charts.ticks
     series: [
       {
@@ -76,11 +76,11 @@ ChartFct =
       }
       {
         name: TAPi18n.__ 'investment_raw'
-        data: sumSuiteFromArray rxActions, 'investmentSuite'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSuite'
       }
       {
         name: TAPi18n.__ 'investment_minus_subventions'
-        data: sumSuiteFromArray rxActions, 'investmentSubventionedSuite'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSubventionedSuite'
       }
     ]
 
@@ -100,7 +100,7 @@ Template.timelineChart.rendered = ->
   addToolTip @data.chartName
   # Update chart when reactive variables change
   @autorun =>
-    rxActions = TV.rxActions.get()
+    rxPlannedActions = TV.rxPlannedActions.get()
     @chart.update chartFct()
 
 ###*

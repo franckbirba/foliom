@@ -25,13 +25,13 @@ Template.timelineBucket.helpers
   ]
   actionBucketTableBody: ->
     filter = Session.get 'timeline-filter-actions'
-    rxActions = TV.rxActions.get()
+    rxPlannedActions = TV.rxPlannedActions.get()
     switch filter
       when 'planned'
-        _.filter rxActions, (action) -> action.start?
+        _.filter rxPlannedActions, (action) -> action.start?
       when 'unplanned'
-        _.filter rxActions, (action) -> action.start is undefined
-      else rxActions
+        _.filter rxPlannedActions, (action) -> action.start is undefined
+      else rxPlannedActions
 
 ###*
  * Object containing event actions for the template.
