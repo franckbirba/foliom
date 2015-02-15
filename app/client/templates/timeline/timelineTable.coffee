@@ -41,7 +41,9 @@ Template.timelineTable.events
 
 Template.timelineTable.rendered = ->
   # Set estate and building filter as a select2
-  (@$ '[data-trigger=\'timeline-trigger-estate-building-filter\']').select2()
+  Meteor.setTimeout ->
+    (@$ '[data-trigger=\'timeline-trigger-estate-building-filter\']').select2()
+  , 0
   # Make actions containers droppable
   (@$ '[data-role=\'dropable-container\']').droppable hoverClass: 'dropable'
   # Apply draggable each time the reactive actions are changed
