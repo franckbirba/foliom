@@ -6,6 +6,9 @@ Template.signin.created = ->
   language = 'en' unless language is 'fr'
   setLanguage language
 
+Template.signin.rendered = ->
+  new WOW().init()
+
 Template.signin.helpers
   errorMessages: -> _.values (Session.get 'signinErrors')
   errorClass: (key) -> (Session.get 'signinErrors')[key] and 'error'

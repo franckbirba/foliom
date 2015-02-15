@@ -179,3 +179,6 @@ Template.timeline.created = ->
  * Object containing helper keys for the template.
 ###
 Template.timeline.helpers scenarioName: -> TV.scenario.name
+
+Template.timeline.rendered = ->
+  new WOW().init()
