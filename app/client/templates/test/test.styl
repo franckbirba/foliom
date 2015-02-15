@@ -2,29 +2,32 @@
 
 .timeline
   .date-selection
+    bottom 20px
+    left 10px
+    position absolute
     user-select none
     box-sizing border-box
-    border 3px solid colorC
+    border 2px solid colorC
     border-radius 5px
     background-color colorD
     display flex
-    width 350px
-    padding 3px
+    width 360px
+    padding 5px
     margin 0
+    z-index 1
     p
       font-weight bold
       color colorB
+      cursor default
     // Hide standard radio button
     [type="radio"]:not(:checked), [type="radio"]:checked
       position absolute
       left -9999px
-
     [type="radio"]:not(:checked) + label, [type="radio"]:checked + label
       position relative
       cursor pointer
       text-align center
       width 50px
-
     [type="radio"]:checked + label
       border-radius 3px
       background-color colorA
@@ -32,7 +35,6 @@
       border-bottom none
       font-weight bold
       transition all .3s ease-in-out
-
     [type="radio"]:not(:checked) + label
       border-radius 3px
       background-color colorD
@@ -40,16 +42,36 @@
       border-bottom none
       font-weight normal
       transition all .3s ease-in-out
-
     .quarter-selection
       width 90px
       margin 0 5px
       border-right 1px solid colorC
       form
+        margin-left 10px
         display flex
         flex-direction column
         justify-content center
-
     .year-selection
-      width 260px
+      width 270px
       margin-left 3px
+  .date-selection:after, .date-selection:before
+    top 100%
+    left 90px
+    border solid transparent
+    content ' '
+    height 0
+    width 0
+    position absolute
+    pointer-events none
+  .date-selection:after
+    border-color transparent
+    border-top-color colorD
+    margin-top -1px
+    border-width 19px
+    margin-left -20px
+  .date-selection:before
+    border-color transparent
+    border-top-color colorC
+    margin-top -1px
+    margin-left -21px
+    border-width 20px

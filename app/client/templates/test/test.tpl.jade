@@ -5,14 +5,16 @@
     br
     br
     br
+    br
+    br
+    br
+    br
+    br
+    br
+    br
+    br
+    br
     p
-      .quarter-content
-        i.fa.fa-calendar
-        | Q3 2014
-    br
-    br
-    br
-    br
     .date-selection
       .quarter-selection
         p {{_ 'quarter'}}
@@ -26,3 +28,6 @@
           each years
             input(type='radio', name='year', id='{{this}}')
             label(for='{{this}}')= this
+    .quarter-content
+      i.fa.fa-calendar
+      | Q3 2014
