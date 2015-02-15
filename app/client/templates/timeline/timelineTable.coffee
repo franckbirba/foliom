@@ -104,4 +104,4 @@ actionItemDropped = (e, t) ->
     start: paction.start.toDate()
     efficiency_ratio: paction.efficiency_ratio
   # console.table formattedActions
-  #Scenarios.update {_id: TV.scenario._id}, $set:planned_actions:formattedActions
+  Scenarios.update {_id: TV.scenario._id}, $set:planned_actions:formattedActions
