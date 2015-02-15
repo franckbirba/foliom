@@ -56,17 +56,15 @@
           # Check next action
           currentAction++
         # Group actions in quarter by name
-        group = _.groupBy quarterContent.tActions, 'logo'
-        quarterContent.tActions = []
-        for key, value of group
-          item =
-            logo: key
-            length: value.length
-            buildingsToActions: JSON.stringify(for action in value
-              building_id: action.building_id
-              action_id: action._id
-            )
-          quarterContent.tActions.push item
+        if quarterContent.tActions.length > 0
+          group = _.groupBy quarterContent.tActions, 'logo'
+          quarterContent.tActions = []
+          for key, value of group
+            item =
+              logo: key
+              length: value.length
+              actionIds: (_.pluck value, '_id').join ';'
+            quarterContent.tActions.push item
         # Budget line for chart
         @charts.budget.push @scenario.total_expenditure
         # Labels for charts

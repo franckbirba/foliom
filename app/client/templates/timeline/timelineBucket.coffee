@@ -93,3 +93,6 @@ Template.timelineBucket.events
     $actionBucket.find '.action-bucket-arrow-icon'
     .toggleClass 'glyphicon-circle-arrow-up'
     .toggleClass 'glyphicon-circle-arrow-down'
+  'dragstart [data-role=\'draggable-action-bucket\']': (e, t) ->
+    e.stopPropagation()
+    TV.dragged = t.$ e.target

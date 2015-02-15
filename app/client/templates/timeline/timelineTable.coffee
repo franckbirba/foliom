@@ -18,6 +18,7 @@ Template.timelineTable.helpers
  * Object containing event actions for the template.
 ###
 Template.timelineTable.events
+  'dragstart [data-role=\'draggable-action\']': (e, t) -> actionDragged e, t
   # Drop actions in the timeline
   'drop [data-role=\'dropable-container\']': (e, t) -> actionItemDropped e, t
   # Change filter on the timeline
@@ -62,31 +63,35 @@ Template.timelineTable.rendered = ->
     , 0
 
 ###*
- * Handle acion's dropped in the Timeline.
+ * Save dragged object for retrieval once dropped.
+ * @param {Object} e    jQuery event.
+ * @param {Object} t    Template's instance.
+###
+actionDragged = (e, t) ->
+  e.stopPropagation()
+  TV.dragged = t.$ e.target
+
+###*
+ * Handle acion's dropped in the Timeline table.
  * @param {Object} e    jQuery event.
  * @param {Object} t    Template's instance.
 ###
 actionItemDropped = (e, t) ->
-  $quarter = $ e.target
-  $actions = $ e.toElement
+  e.stopPropagation()
+  $quarter = t.$ e.target
+  $actions = TV.dragged
   # Check if action is from the timeline or from the action bucket
   unless ($actions.attr 'data-role') is 'draggable-action'
-    # From bucket we only receive the TD instead of the TR
-    $actions = $actions.closest 'tr'
     # Action is from the action bucket
-    actionsObj = [JSON.parse $actions.attr 'data-value']
+    actionIds = [$actions.attr 'data-value']
   else
-    # Action is from the timeline
-    actionsObj = JSON.parse $actions.attr 'data-value'
-    # Remove the actions from the DOM as they will get reactively re-rendered
-    Meteor.setTimeout ->
-      $actions.remove()
-    , 0
+    # Action is from the timeline table
+    actionIds = ($actions.attr 'data-value').split(';')
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
   pactions = TV.scenario.planned_actions
-  for action, idx in actionsObj
-    idx = _.indexOf pactions,(_.findWhere pactions,{action_id:action.action_id})
+  for actionId in actionIds
+    idx = _.indexOf pactions,(_.findWhere pactions,{action_id:actionId})
     pactions[idx].start = moment
       second: 1 # @NOTE: A second is added so that inBetween evaluation works
       month: (quarterObj.Q - 1) * 3
@@ -99,4 +104,4 @@ actionItemDropped = (e, t) ->
     start: paction.start.toDate()
     efficiency_ratio: paction.efficiency_ratio
   # console.table formattedActions
-  Scenarios.update {_id: TV.scenario._id}, $set:planned_actions:formattedActions
+  #Scenarios.update {_id: TV.scenario._id}, $set:planned_actions:formattedActions
