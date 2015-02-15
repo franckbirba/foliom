@@ -51,6 +51,7 @@ Template.timelineTable.rendered = ->
     # Make actions draggable once rendered
     Meteor.setTimeout ->
       ($ '[data-role=\'draggable-action\']').draggable
+        helper: 'clone'
         cursor: '-webkit-grabbing'
         scrollSensitivity: 100
         scrollSpeed: 100
@@ -76,7 +77,9 @@ actionItemDropped = (e, t) ->
     # Action is from the timeline
     actionsObj = JSON.parse $actions.attr 'data-value'
     # Remove the actions from the DOM as they will get reactively re-rendered
-    $actions.remove()
+    Meteor.setTimeout ->
+      $actions.remove()
+    , 0
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
   pactions = TV.scenario.planned_actions
