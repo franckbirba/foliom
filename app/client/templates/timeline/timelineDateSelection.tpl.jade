@@ -1,0 +1,20 @@
+if isDateSelectionDisplayed
+  form.date-selection.animated.fadeInDown(data-value=dataValue)
+    .quarter-years
+      .quarter-selection
+        p {{_ 'quarter'}}
+        .quarters
+          each quarters
+            input(type='radio', name='quarter', value='{{value}}', checked=checked)
+            label(for='{{value}}')= name
+      .year-selection
+        p {{_ 'year'}}
+        each years
+          input(type='radio', name='year', value='{{value}}', checked=checked)
+          label(for='{{value}}')= name
+    .buttons
+      span.validate.fa.fa-check.text-success
+      span.cancel.fa.fa-close.text-danger
+.quarter-content
+  i.fa.fa-calendar
+  = action.quarter
