@@ -2,19 +2,39 @@
 
 .timeline
   .date-selection
-    bottom 20px
-    left 10px
+    opacity 0
+    bottom 46px
+    left -36px
+    height initial
     position absolute
     user-select none
     box-sizing border-box
     border 2px solid colorC
     border-radius 5px
     background-color colorD
-    display flex
     width 360px
     padding 5px
     margin 0
     z-index 1
+    .quarter-years
+      display flex
+      .quarter-selection
+        width 90px
+        margin 0 5px
+        border-right 1px solid colorC
+        .quarters
+          margin-left 10px
+          display flex
+          flex-direction column
+          justify-content center
+      .year-selection
+        width 270px
+        margin-left 3px
+    .buttons
+      margin 5px 0 5px 25px
+      span
+        margin-right 5px
+        cursor pointer
     p
       font-weight bold
       color colorB
@@ -42,18 +62,7 @@
       border-bottom none
       font-weight normal
       transition all .3s ease-in-out
-    .quarter-selection
-      width 90px
-      margin 0 5px
-      border-right 1px solid colorC
-      form
-        margin-left 10px
-        display flex
-        flex-direction column
-        justify-content center
-    .year-selection
-      width 270px
-      margin-left 3px
+  // Little arrow triangle
   .date-selection:after, .date-selection:before
     top 100%
     left 90px

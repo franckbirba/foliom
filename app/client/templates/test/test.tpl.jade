@@ -15,19 +15,22 @@
     br
     br
     p
-    .date-selection
-      .quarter-selection
-        p {{_ 'quarter'}}
-        form(action='')
-          each quarters
-            input(type='radio', name='quarter', id='{{this}}')
-            label(for='{{this}}')= this
-      .year-selection
-        p {{_ 'year'}}
-        form(action='')
-          each years
-            input(type='radio', name='year', id='{{this}}')
-            label(for='{{this}}')= this
-    .quarter-content
-      i.fa.fa-calendar
-      | Q3 2014
+      form.date-selection.animated(action='')
+        .quarter-years
+          .quarter-selection
+            p {{_ 'quarter'}}
+            .quarters
+              each quarters
+                input(type='radio', name='quarter', id='{{this}}')
+                label(for='{{this}}')= this
+          .year-selection
+            p {{_ 'year'}}
+            each years
+              input(type='radio', name='year', id='{{this}}')
+              label(for='{{this}}')= this
+        .buttons
+          span.validate.fa.fa-check.text-success
+          span.cancel.fa.fa-close.text-danger
+      .quarter-content
+        i.fa.fa-calendar
+        | Q3 2014
