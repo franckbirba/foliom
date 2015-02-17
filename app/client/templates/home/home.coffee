@@ -12,7 +12,6 @@ Template.home.created = ->
 # On Template rendered: Display Modal to choose Estate if Session Var is empty
 # and User is linked to multiple Estates
 Template.home.rendered = ->
-  new WOW().init()
   # Create fake chart as the followup tool
   maxVal = Math.round 10*Math.PI
   xValue = [0...maxVal]

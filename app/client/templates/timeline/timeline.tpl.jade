@@ -1,20 +1,20 @@
 .page.plan: .timeline.container
   // Scenario being displayed
-  .row: .col-md-12: h1.page-title.wow.fadeInDown #{scenarioName}
+  .row: .col-md-12: h1.page-title.animated.fadeInDown #{scenarioName}
   .row
     // Timeline table
     .col-md-4
-      .wow.fadeInLeft
+      .animated.fadeInLeft
         +timelineTable
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal
       .row: .col-md-12
-        .panel.panel-primary.wow.fadeInRight
+        .panel.panel-primary.animated.fadeInRight
           +timelineAppraisal
       // The charts
       .row: .col-md-12: .panel.panel-primary
-        .panel-body.wow.fadeInRight
+        .panel-body.animated.fadeInRight
           // The consumption chart
           +timelineChart chartName='consumptionChart'
           // The Expense chart
@@ -23,5 +23,5 @@
           +timelineChart chartName='investmentChart'
   // Action bucket
   .row: .col-md-12
-    .wow.fadeInUp
+    .animated.fadeInUp
       +timelineBucket
