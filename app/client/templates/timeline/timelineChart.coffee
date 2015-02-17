@@ -1,3 +1,7 @@
+# Local alias on the namespaced variables for the Timeline
+TV = TimelineVars
+
+# Properties shared among each chart
 CHARTIST_PROPERTIES =
   low: 0
   lineSmooth: false
@@ -24,71 +28,80 @@ Template.timelineChart.helpers
     legends[@chartName]
 
 ###*
- * Calculate and present data suite for the Consumption chart.
+ * Chart's functions
 ###
-TimelineVars.consumptionChartData = ->
-  labels: TimelineVars.charts.ticks
-  series: [
-    {
-      name: TAPi18n.__ 'consumption_noaction'
-      data: TimelineVars.charts.consumption
-    }
-    {
-      name: TAPi18n.__ 'consumption_action_co2'
-      data: sum2Suites TimelineVars.charts.consumption, \
-        sumSuiteFromArray TimelineVars.actions, 'consumptionCo2ModifierSuite'
-    }
-    {
-      name: TAPi18n.__ 'consumption_action_kwh'
-      data: sum2Suites TimelineVars.charts.consumption, \
-        sumSuiteFromArray TimelineVars.actions, 'consumptionKwhModifierSuite'
-    }
-  ]
+ChartFct =
+  ###*
+   * Calculate and present data suite for the Consumption chart.
+  ###
+  consumptionChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    labels: TV.charts.ticks
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_noaction'
+        data: TV.charts.consumption
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_co2'
+        data: sum2Suites TV.charts.consumption, \
+          sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_kwh'
+        data: sum2Suites TV.charts.consumption, \
+          sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
+      }
+    ]
 
-###*
- * Calculate and present data suite for the Expense chart.
-###
-TimelineVars.expenseChartData = ->
-  labels: TimelineVars.charts.ticks
-  series: [
-    {
-      name: TAPi18n.__ 'expense_raw'
-      data: TimelineVars.charts.consumption
-    }
-  ]
+  ###*
+   * Calculate and present data suite for the Expense chart.
+  ###
+  expenseChart: ->
+    labels: TV.charts.ticks
+    series: [
+      { name: (TAPi18n.__ 'expense_raw'), data: TV.charts.consumption }
+    ]
 
-###*
- * Calculate and present data suite for the Investment chart.
-###
-TimelineVars.investmentChartData = ->
-  labels: TimelineVars.charts.ticks
-  series: [
-    {
-      name: TAPi18n.__ 'investment_budget'
-      data: TimelineVars.charts.budget
-    }
-    {
-      name: TAPi18n.__ 'investment_raw'
-      data: sumSuiteFromArray TimelineVars.actions, 'investmentSuite'
-    }
-    {
-      name: TAPi18n.__ 'investment_minus_subventions'
-      data: sumSuiteFromArray TimelineVars.actions,'investmentSubventionedSuite'
-    }
-  ]
+  ###*
+   * Calculate and present data suite for the Investment chart.
+  ###
+  investmentChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    labels: TV.charts.ticks
+    series: [
+      {
+        name: TAPi18n.__ 'investment_budget'
+        data: TV.charts.budget
+      }
+      {
+        name: TAPi18n.__ 'investment_raw'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSuite'
+      }
+      {
+        name: TAPi18n.__ 'investment_minus_subventions'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSubventionedSuite'
+      }
+    ]
+
+Tooltips = {}
 
 ###*
  * Ends rendering actions when template is rendered.
 ###
 Template.timelineChart.rendered = ->
   # Create SVG charts with Chartist and attach them to the DOM
-  tv = window.TimelineVars
-  tv[@data.chartName] = new Chartist.Line \
+  chartFct = ChartFct[@data.chartName]
+  @chart = new Chartist.Line \
     "[data-chart='#{@data.chartName}']"
-  , tv["#{@data.chartName}Data"]()
+  , chartFct()
   , CHARTIST_PROPERTIES
   # Add tooltips to the charts
   addToolTip @data.chartName
+  # Update chart when reactive variables change
+  @autorun =>
+    rxPlannedActions = TV.rxPlannedActions.get()
+    @chart.update chartFct()
 
 ###*
  * Object containing event actions for the template.
@@ -107,7 +120,7 @@ Template.timelineChart.events
       legend.show()
     (chart.toggleClass 'col-md-8').toggleClass 'col-md-11'
     (chart.children().toggleClass 'ct-octave').toggleClass 'ct-double-octave'
-    TimelineVars[chartValue].update()
+    t.chart.update()
     (button.toggleClass 'glyphicon-eye-close').toggleClass 'glyphicon-eye-open'
 
 ###*
@@ -161,7 +174,7 @@ easeOutQuad = (x, t, b, c, d) -> -c * (t /= d) * (t - 2) + b
 ###
 addToolTip = (dataChart) ->
   $chart = $ "[data-chart='#{dataChart}']"
-  TimelineVars.toolTips[dataChart] = $chart
+  Tooltips[dataChart] = $chart
     .append '<div class="tooltip"></div>'
     .find '.tooltip'
     .hide()
@@ -170,13 +183,13 @@ addToolTip = (dataChart) ->
     value = $point.attr 'ct:value'
     seriesName = $point.parent().attr 'ct:series-name'
     $point.animate {'stroke-width': '20px'}, 100, easeOutQuad
-    (TimelineVars.toolTips[dataChart].html "#{seriesName}<br>#{value}").show()
+    (Tooltips[dataChart].html "#{seriesName}<br>#{value}").show()
   $chart.on 'mouseleave', '.ct-point', ->
     ($ @).animate {'stroke-width': '4px'}, 100, easeOutQuad
-    TimelineVars.toolTips[dataChart].hide()
+    Tooltips[dataChart].hide()
   $chart.on 'mousemove', (e) ->
-    TimelineVars.toolTips[dataChart].css
+    Tooltips[dataChart].css
       left: (e.offsetX or e.originalEvent.layerX) - \
-        TimelineVars.toolTips[dataChart].width() / 2 - 10
+        Tooltips[dataChart].width() / 2 - 10
       top: (e.offsetY or e.originalEvent.layerY) - \
-        TimelineVars.toolTips[dataChart].height() - 40
+        Tooltips[dataChart].height() - 40

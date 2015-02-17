@@ -1,5 +1,5 @@
-# Action bucket is hidden by default
-Session.set 'timeline-action-bucket-displayed', false
+# Local alias on the namespaced variables for the Timeline
+TV = TimelineVars
 
 Template.timelineBucket.created = ->
   # Reset action bucket's display when entering screen
@@ -24,14 +24,14 @@ Template.timelineBucket.helpers
     'TRI'
   ]
   actionBucketTableBody: ->
-    console.log 'TimelineVars', TimelineVars
     filter = Session.get 'timeline-filter-actions'
+    rxPlannedActions = TV.rxPlannedActions.get()
     switch filter
       when 'planned'
-        _.filter TimelineVars.actions, (action) -> action.start?
+        _.filter rxPlannedActions, (action) -> action.start?
       when 'unplanned'
-        _.filter TimelineVars.actions, (action) -> action.start is undefined
-      else TimelineVars.actions
+        _.filter rxPlannedActions, (action) -> action.start is undefined
+      else rxPlannedActions
 
 ###*
  * Object containing event actions for the template.
@@ -93,3 +93,6 @@ Template.timelineBucket.events
     $actionBucket.find '.action-bucket-arrow-icon'
     .toggleClass 'glyphicon-circle-arrow-up'
     .toggleClass 'glyphicon-circle-arrow-down'
+  'dragstart [data-role=\'draggable-action-bucket\']': (e, t) ->
+    e.stopPropagation()
+    TV.dragged = t.$ e.target

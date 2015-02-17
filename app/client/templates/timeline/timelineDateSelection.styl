@@ -1,0 +1,106 @@
+@import 'client/templates/timeline/timeline.import.styl'
+
+.timeline
+  .quarter-content
+    cursor pointer
+    &:hover
+      color black
+      transition color .3s ease-in-out
+  .date-selection
+    cursor auto
+    bottom 46px
+    left -36px
+    height initial
+    position absolute
+    user-select none
+    box-sizing border-box
+    border 2px solid colorC
+    border-radius 5px
+    background-color colorD
+    width 360px
+    padding 5px
+    margin 0
+    z-index 1
+    .quarter-years
+      display flex
+      .quarter-selection
+        width 90px
+        margin 0 5px
+        border-right 1px solid colorC
+        .quarters
+          margin-left 10px
+          display flex
+          flex-direction column
+          justify-content center
+      .year-selection
+        width 270px
+        margin-left 3px
+    .buttons
+      margin 10px 0 5px 25px
+      span
+        margin-right 5px
+        cursor pointer
+        border-radius 1.2em
+        width 4em
+        height 1.2em
+        line-height 1.4em
+        text-align center
+        transition all .3s ease-in-out
+        &:hover
+          background-color white
+          transform scale(1.2)
+          transition all .3s ease-in-out
+    p
+      font-weight bold
+      color colorB
+      cursor default
+    // Hide standard radio button
+    [type="radio"]:not(:checked), [type="radio"]:checked
+      position absolute
+      left -9999px
+    [type="radio"]:not(:checked) + label, [type="radio"]:checked + label
+      position relative
+      cursor pointer
+      text-align center
+      width 50px
+    [type="radio"]:checked + label
+      cursor default
+      border-radius 3px
+      background-color colorA
+      color white
+      border-bottom none
+      font-weight bold
+      transition all .3s ease-in-out
+    [type="radio"]:not(:checked) + label
+      border-radius 3px
+      background-color colorD
+      color colorB
+      border-bottom none
+      font-weight normal
+      transition all .3s ease-in-out
+      &:hover
+        color black
+        background-color colorC
+        transition all .3s ease-in-out
+  // Little arrow triangle
+  .date-selection:after, .date-selection:before
+    top 100%
+    left 90px
+    border solid transparent
+    content ' '
+    height 0
+    width 0
+    position absolute
+    pointer-events none
+  .date-selection:after
+    border-color transparent
+    border-top-color colorD
+    margin-top -1px
+    border-width 19px
+    margin-left -20px
+  .date-selection:before
+    border-color transparent
+    border-top-color colorC
+    margin-top -1px
+    margin-left -21px
+    border-width 20px

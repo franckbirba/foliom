@@ -6,10 +6,10 @@
         option(value='all') {{_ 'all'}}
         optgroup(label="{{_ 'portfolio'}}")
           each availablePortfolios
-            option(value="{estate_id: {{_id}}}")= name
+            option(value='{"portfolio_id": "{{_id}}"}')= name
         optgroup(label="{{_ 'building'}}")              
           each availableBuildings
-            option(value="{building_id: {{_id}}}")= building_name
+            option(value='{"building_id": "{{_id}}"}')= building_name
   .panel-body.timeline-year-panel.noselect: table.timeline-year-table
     each timelineActions
       tr(data-value=yearValue)
@@ -23,6 +23,6 @@
                 each tActions
                   // Draggable actions contained their indices in the planned_actions
                   //  within the scenario as data-value
-                  .timeline-action-items(data-role='draggable-action', data-value=buildingsToActions)
+                  .timeline-action-items(data-role='draggable-action', data-value=actionIds)
                       | !{logo}
                       span(data-value=length)= length

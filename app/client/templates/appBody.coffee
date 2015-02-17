@@ -23,9 +23,7 @@ Template.appBody.helpers
 
 Template.appBody.events
   'click .js-menu': -> Session.set MENU_KEY, not Session.get(MENU_KEY)
-
   'click #menu a': -> Session.set MENU_KEY, false
-
   'click .js-logout': ->
     Meteor.logout()
     Router.go 'signin'

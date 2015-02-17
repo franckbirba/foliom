@@ -43,6 +43,7 @@ Router.map ->
     'estatesList', 'estate-form'
     # Actions
     'action-form', 'actions-home', 'actions-apply', 'actions-list'
+    'test'
   ]
   @route route for route in routes
 
