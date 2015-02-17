@@ -1,8 +1,13 @@
 @import 'client/templates/timeline/timeline.import.styl'
 
 .timeline
+  .quarter-content
+    cursor pointer
+    &:hover
+      color black
+      transition color .3s ease-in-out
   .date-selection
-    //opacity 0
+    cursor auto
     bottom 46px
     left -36px
     height initial
@@ -31,10 +36,20 @@
         width 270px
         margin-left 3px
     .buttons
-      margin 5px 0 5px 25px
+      margin 10px 0 5px 25px
       span
         margin-right 5px
         cursor pointer
+        border-radius 1.2em
+        width 4em
+        height 1.2em
+        line-height 1.4em
+        text-align center
+        transition all .3s ease-in-out
+        &:hover
+          background-color white
+          transform scale(1.2)
+          transition all .3s ease-in-out
     p
       font-weight bold
       color colorB
@@ -49,6 +64,7 @@
       text-align center
       width 50px
     [type="radio"]:checked + label
+      cursor default
       border-radius 3px
       background-color colorA
       color white
@@ -62,6 +78,10 @@
       border-bottom none
       font-weight normal
       transition all .3s ease-in-out
+      &:hover
+        color black
+        background-color colorC
+        transition all .3s ease-in-out
   // Little arrow triangle
   .date-selection:after, .date-selection:before
     top 100%
