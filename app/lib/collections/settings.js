@@ -84,6 +84,9 @@ Configurations.attachSchema(new SimpleSchema({
         optional: true,
         type: String,
         label: transr("icc_name"),
+        autoform: {
+            omit:true
+        }
     },
     'icc.evolution_index': {
         optional: true,
@@ -104,6 +107,9 @@ Configurations.attachSchema(new SimpleSchema({
         optional: true,
         type: String,
         label: transr("ipc_name"),
+        autoform: {
+            omit:true
+        }
     },
     'ipc.evolution_index': {
         optional: true,
