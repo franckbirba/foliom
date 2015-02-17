@@ -17,7 +17,7 @@
 
 //      mailing_list: String
 
-evolution_index = new SimpleSchema({
+YearlyValues = new SimpleSchema({
     year: {
         type: Number,
         defaultValue: function(){
@@ -85,17 +85,18 @@ Configurations.attachSchema(new SimpleSchema({
         type: String,
         label: transr("icc_name"),
         autoform: {
-            omit:true
+            omit:true,
         }
     },
     'icc.evolution_index': {
         optional: true,
-        type: [evolution_index],
+        type: [YearlyValues],
         label: transr("icc_evolution_index"),
         autoform: {
-            omit:true,
+            // omit:true,
             minCount: 31,
             maxCount: 31,
+            template: "inline"
         }
     },
     ipc: {
@@ -113,7 +114,7 @@ Configurations.attachSchema(new SimpleSchema({
     },
     'ipc.evolution_index': {
         optional: true,
-        type: [evolution_index],
+        type: [YearlyValues],
         label: transr("ipc_evolution_index"),
         autoform: {
             omit:true,
