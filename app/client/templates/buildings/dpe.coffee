@@ -8,34 +8,17 @@ Template.dpe.rendered = ->
   barHeight = 31
   barVerticalSpacing = 2
 
-  # data = [
-  #   {name: "A",    value:  10},
-  #   {name: "B",    value:  15},
-  #   {name: "C",    value:  20},
-  #   {name: "D",    value:  25},
-  #   {name: "E",    value:  30},
-  #   {name: "F",    value:  35},
-  #   {name: "G",    value:  40},
-  # ]
-
-  #Triangle
-  # d3.select("#ges-path-C").append('path')
-  #     .attr('d', function(d) {
-  #       var x = 100, y = 100;
-  #       return 'M ' + x +' '+ y + ' l 4 4 l -8 0 z';
-  #     });
-
   #Text Data Set
   dpeData = [
-    { "label": "≤ 50", "letter": "A", "color" : "#555753", "value": 20 },
-    { "label": "51 - 90", "letter": "B", "color" : "#888a85", "value": 30 },
-    { "label": "91 - 150", "letter": "C", "color" : "#babdb6", "value": 40 },
-    { "label": "151 - 230", "letter": "D", "color" : "#d3d7cf", "value": 50 },
-    { "label": "231 - 330", "letter": "E", "color" : "#babdb6", "value": 60 },
-    { "label": "331 - 450", "letter": "F", "color" : "#888a85", "value": 70 },
-    { "label": "≥ 451", "letter": "G", "color" : "#555753", "value": 80 },
-    { "label": "≥ 451", "letter": "H", "color" : "#4d4d4d", "value": 100 },
-    { "label": "≥ 451", "letter": "I", "color" : "#333", "value": 120 },
+    { "label": "≤ 50", "letter": "A", "color" : "#555753", "textColor":"white", "value": 30 },
+    { "label": "51 - 90", "letter": "B", "color" : "#888a85", "textColor":"black", "value": 40 },
+    { "label": "91 - 150", "letter": "C", "color" : "#babdb6", "textColor":"black", "value": 50 },
+    { "label": "151 - 230", "letter": "D", "color" : "#d3d7cf", "textColor":"black", "value": 60 },
+    { "label": "231 - 330", "letter": "E", "color" : "#babdb6", "textColor":"black", "value": 70 },
+    { "label": "331 - 450", "letter": "F", "color" : "#888a85", "textColor":"black", "value": 80 },
+    { "label": "≥ 451", "letter": "G", "color" : "#555753", "textColor":"white", "value": 90 },
+    { "label": "≥ 451", "letter": "H", "color" : "#4d4d4d", "textColor":"white", "value": 100 },
+    { "label": "≥ 451", "letter": "I", "color" : "#333", "textColor":"white", "value": 110 },
   ]
 
   chart = d3.select("#dpe-svg")
@@ -68,7 +51,7 @@ Template.dpe.rendered = ->
   #triangles
   bar.append('path')
       .attr("d", (d,i) ->
-          x_val = x(d.value) #- 0.5
+          x_val = x(d.value) - 0.5 #ugly way of preventing a very small gap
           y_val = 0
           middle = (y(barHeight) - barVerticalSpacing)/2
           "M #{x_val} #{y_val} l #{middle} #{middle} l -#{middle} #{middle} z"
@@ -77,12 +60,22 @@ Template.dpe.rendered = ->
       .attr("class", (d)-> "dpe-path-#{d.letter}" )
 
   bar.append("text")
-      .attr("x", (d) -> return x(d.value) - 14 )
-      .attr("y", barHeight / 2 +1)
-      .attr("dy", ".3em")
+      .attr("x", (d) -> return x(d.value) - 15 )
+      .attr("y", y(barHeight)/2 )
+      .attr("dy", ".35em")
       .text( (d) -> return d.letter )
       .style("font-weight", "bold")
-      .style("font-size", "1.4em")
+      .style("font-size", (d)-> if d.length is 7 then "1.4em" else "1.1em" )
+      .attr "fill", (d)-> d.textColor
+
+  bar.append("text")
+      .attr("x", 5 )
+      .attr("y", y(barHeight)/2 )
+      .attr("dy", ".35em")
+      .text( (d) -> return d.label )
+      .style("font-weight", "bold")
+      .style("font-size", (d)-> if d.length is 7 then "1.1em" else "0.7em" )
+      .attr "fill", (d)-> d.textColor
 
 
  # Simple text test
