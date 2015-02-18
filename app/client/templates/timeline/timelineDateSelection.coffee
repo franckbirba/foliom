@@ -32,7 +32,23 @@ Template.timelineDateSelection.events
     quarter = Number (t.$ 'input[name=\'date-selection-quarter\']\
       :checked').val()
     year = Number (t.$ 'input[name=\'date-selection-year\']:checked').val()
-    console.log quarter, year
+    actionId = t.data.action.action_id
+    pactions = TV.scenario.planned_actions
+    idx = _.indexOf pactions, (_.findWhere pactions, {action_id: actionId})
+    pactions[idx].start = moment
+      second: 1 # @NOTE: A second is added so that inBetween evaluation works
+      month: (quarter - 1) * 3
+      year: year
+    # Recalculate
+    TV.calculate()
+    # Update DB
+    formattedActions = _.map pactions, (paction) ->
+      action_id: paction.action_id
+      start: paction.start.toDate()
+      efficiency_ratio: paction.efficiency_ratio
+    # console.table formattedActions
+    Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions
+    # Remove date selection once validation and update is finished
     removeDateSelection e, t
   'click .cancel': (e, t) -> removeDateSelection e, t
 
