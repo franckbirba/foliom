@@ -99,6 +99,15 @@ Configurations.attachSchema(new SimpleSchema({
             template: "arraySettings"
         }
     },
+    'icc.global_evolution_index': {
+        type: Number,
+        decimal: true,
+        label: transr("icc_global_evolution_index"),
+        autoform: {
+            readonly:true,
+        }
+    },
+
     ipc: {
         optional: true,
         type: Object,

@@ -41,13 +41,13 @@
 <template name="afArrayField_arraySettings">
   <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
 
-  <fieldset class="yearly_values_flexBox">
+  <div class="yearly_values_flexItem pull-left">
+    <div class="yearly_values_title">Year</div>
+    <div class="yearly_values_title">Cost</div>
+    <div class="yearly_values_title">Evolution</div>
+  </div>
 
-    <div class="yearly_values_flexItem">
-      <div class="yearly_values_title">Year</div>
-      <div class="yearly_values_title">Cost</div>
-      <div class="yearly_values_title">Evolution</div>
-    </div>
+  <fieldset class="yearly_values_flexBox">
 
     {{#if afFieldIsInvalid name=this.atts.name}}
       <div class="autoform-array-field-error">{{{afFieldMessage name=this.atts.name}}}</div>
