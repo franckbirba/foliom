@@ -64,6 +64,15 @@ Schema.Fluids = new SimpleSchema({
             }
         }
     },
+    fluid_unit: {
+        type: String,
+        autoform: {
+            type: "select",
+            options: function () {
+                return getSelectors('fluid_unit');
+            }
+        }
+    },
     yearly_values: {
         type: [YearlyValues],
         autoform: {

@@ -96,7 +96,7 @@ Configurations.attachSchema(new SimpleSchema({
             // omit:true,
             minCount: 31,
             maxCount: 31,
-            template: "inline"
+            template: "arraySettings"
         }
     },
     ipc: {
