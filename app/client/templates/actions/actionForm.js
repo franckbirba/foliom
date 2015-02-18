@@ -301,7 +301,7 @@ Template.actionForm.rendered = function () {
 
 
       // PREPARE ENERGY SAVINGS
-      //@Blandine: l'économie de fluides est basée sur le coût du fluide (qui évolue) >> besoin d'actualiser (seulement inflater) ? >> 14/1: YES
+      //L'éco. de fluides est calc. avec le coût du fluide (qui évolue) : only Actualiser (pas inflater) - confirmé le 14/1
       var all_yearly_savings_simplyValues_actualized = [];
       _.each(YS_array, function(allYSavings, tmp_index) {
         actualized_energy = _.map(allYSavings, function(num, allYSavings_index){

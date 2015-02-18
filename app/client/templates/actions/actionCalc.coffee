@@ -4,9 +4,7 @@ This function is designed to apply all calculus that an Action needs in the foll
 - ToDo: Moving an Action in the Timeline
 ###
 
-exports = this
-
-exports.actionCalc = (actionId, firstYear, building_id, scenario_year) ->
+@actionCalc = (actionId, firstYear, building_id, scenario_year) ->
 
   # INIT
   action = Actions.findOne(actionId)

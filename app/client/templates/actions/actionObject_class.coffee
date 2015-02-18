@@ -1,7 +1,7 @@
 exports = this
 
 exports.ActionObject = class ActionObject
-  constructor: (@firstYear = moment().format('YYYY') * 1, @building_id = Session.get('current_building_doc')._id, @scenario_year ) ->
+  constructor: (@firstYear = moment().year(), @building_id = Session.get('current_building_doc')._id, @scenario_year) ->
     #First year will be used to know when the action is applied
     #By default, the first year is the current year (useful if in the settings the price starts at 2014 and we're in 2015
     #In a Scenario, the firstYear is the year when the action is applied
@@ -10,8 +10,9 @@ exports.ActionObject = class ActionObject
                 {sort: {lease_name:1}}
                 ).fetch()
 
-    # @offset = @first_year - @scenario_year if @scenario_year?
-    @offset = 0
+    if @scenario_year?
+      @offset = @firstYear - @scenario_year
+    else @offset = 0
 
     @data =
       endUse: []
