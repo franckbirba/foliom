@@ -1,0 +1,75 @@
+<template name="quickForm_arraySettings">
+  {{#autoForm this.qfAutoFormContext}}
+    {{> afQuickFields id-prefix=idPrefix}}
+    {{#if qfShouldRenderButton}}
+    <div>
+      <button type="submit" {{submitButtonAtts}}>
+      {{#with ../atts.buttonContent}}
+      {{this}}
+      {{else}}
+      Submit
+      {{/with}}
+      </button>
+    </div>
+    {{/if}}
+  {{/autoForm}}
+</template>
+
+<template name="afFormGroup_arraySettings">
+  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+    <!-- {{#unless this.skipLabel}}
+    <label {{this.afFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.atts.name}}{{/if}}</label>
+    {{/unless}} -->
+    {{> afFieldInput this.afFieldInputAtts}}
+    <span>{{{afFieldMessage name=this.atts.name}}}</span>
+  </div>
+</template>
+
+<template name="afObjectField_arraySettings">
+  <!-- Removing fieldset tag -->
+  <!-- <fieldset> -->
+    {{#with afFieldLabelText name=this.atts.name}}
+    <!-- <legend>{{this}}</legend> -->
+    {{/with}}
+    <!-- {{> afQuickFields name=this.atts.name}} -->
+    <!-- ORIGINAL above: why do we have to specify template??? -->
+
+    {{> afQuickFields name=this.atts.name template="arraySettings"}}
+  <!-- </fieldset> -->
+</template>
+
+<template name="afArrayField_arraySettings">
+  <!-- <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div> -->
+  <!-- Not necessary for ICC and IPC -->
+
+  <div class="yearly_values_titleBlock yearly_values_flexItem">
+    <div class="yearly_values_title">{{_ "year"}}</div>
+    <div class="yearly_values_title">{{_ "yearly_cost"}}</div>
+    <div class="yearly_values_title">{{_ "evolution"}}</div>
+  </div>
+
+  <fieldset class="yearly_values_flexBox">
+
+    {{#if afFieldIsInvalid name=this.atts.name}}
+      <div class="autoform-array-field-error">{{{afFieldMessage name=this.atts.name}}}</div>
+    {{/if}}
+
+
+    {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <!-- Testing display settings at the ArrayField level -->
+      <div class="yearly_values_flexItem">
+        {{> afQuickField name=this.name label=false}}
+
+        {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+        <button type="button" class="autoform-remove-item">Remove</button>
+        {{/if}}
+      </div>
+    {{/afEachArrayItem}}
+
+    {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+    <div style="margin-top: 20px;">
+      <button type="button" class="autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}">Add</button>
+    </div>
+    {{/if}}
+  </fieldset>
+</template>

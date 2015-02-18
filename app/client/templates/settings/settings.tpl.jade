@@ -16,9 +16,11 @@
       h4.modal-title {{getFormTitle}}
     .modal-body
       +autoForm schema=fluidSchema doc=getFluid id="fluidAutoForm"
-        +afQuickField name='fluid_type'
-        +afQuickField name='fluid_provider'
-        +afQuickField name='yearly_values' template="inline"
-        +afQuickField name='global_evolution_index'
-        +afQuickField name='kwhef_to_co2_coefficient'
-      button.btn.btn-primary.submitFluid(type='submit') Ok
+        fieldset
+          +afQuickField name='fluid_type'
+          +afQuickField name='fluid_provider'
+          +afQuickField name='fluid_unit'
+          +afQuickField name='yearly_values' template="inline"
+          +afQuickField name='global_evolution_index'
+          +afQuickField name='kwhef_to_co2_coefficient'
+        button.btn.btn-primary.submitFluid(type='submit') Ok

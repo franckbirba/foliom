@@ -455,6 +455,7 @@ Meteor.startup(function () {
               {
                 "fluid_type": "fluid_heat",
                 "fluid_provider": "EDF",
+                "fluid_unit": "u_euro_kwhEF",
                 "yearly_values": [
                   {
                     "year": 2014,
@@ -618,6 +619,7 @@ Meteor.startup(function () {
               {
                 "fluid_type": "fluid_water",
                 "fluid_provider": "Lyonnaise des Eaux",
+                "fluid_unit": "u_euro_m3",
                 "yearly_values": [
                   {
                     "year": 2014,
@@ -781,6 +783,7 @@ Meteor.startup(function () {
               {
                 "fluid_type": "fluid_electricity",
                 "fluid_provider": "EDF",
+                "fluid_unit": "u_euro_kwhEF",
                 "yearly_values": [
                   {
                     "year": 2014,
@@ -944,6 +947,7 @@ Meteor.startup(function () {
               {
                 "fluid_type": "fluid_heat",
                 "fluid_provider": "Poweo",
+                "fluid_unit": "u_euro_kwhEF",
                 "yearly_values": [
                   {
                     "year": 2014,
@@ -1119,6 +1123,11 @@ Meteor.startup(function () {
                 {
                     name: 'fluid_provider',
                     labels: ["EDF", "Poweo", "Lyonnaise des Eaux"],
+                    portfolio_id: ""
+                },
+                {
+                    name: 'fluid_unit',
+                    labels: ["u_euro_kwhEF", "u_euro_m3", "u_euro_m2"],
                     portfolio_id: ""
                 },
                 {

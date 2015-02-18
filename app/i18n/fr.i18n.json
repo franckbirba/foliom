@@ -75,11 +75,14 @@
     "In": "En",
 
     "custom_visual": "Visuel",
+    "evolution": "Evolution",
 
 
     /* Configuration Compass */
 
     "icc": "Indice du coût de la construction (ICC)",
+    "ipc": "Indice des Prix de la Consommation (IPC)",
+    "global_evolution_index": "Indice global d'évolution",
 
     "project_type_static_index": "Coefficients « fixes » de montage",
     "classic": "Classique",
@@ -88,6 +91,10 @@
     "crem": "CREM",
     "ppp": "PPP",
     "cpi": "CPI",
+
+    "other_indexes": "Autres index",
+    "actualization_rate": "Taux d'actualisation",
+    "consumption_degradation": "Dégradation de la consommation (taux annuel)",
 
     "mailing_list": "Envoi d’une alerte chaque année, pour actualisation des données",
 

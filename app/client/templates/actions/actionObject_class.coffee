@@ -1,7 +1,7 @@
 exports = this
 
 exports.ActionObject = class ActionObject
-  constructor: (@firstYear = moment().format('YYYY'), @building_id = Session.get('current_building_doc')._id ) ->
+  constructor: (@firstYear = moment().format('YYYY') * 1, @building_id = Session.get('current_building_doc')._id, @scenario_year ) ->
     #First year will be used to know when the action is applied
     #By default, the first year is the current year (useful if in the settings the price starts at 2014 and we're in 2015
     #In a Scenario, the firstYear is the year when the action is applied
@@ -9,6 +9,10 @@ exports.ActionObject = class ActionObject
                 {building_id: @building_id},
                 {sort: {lease_name:1}}
                 ).fetch()
+
+    # @offset = @first_year - @scenario_year if @scenario_year?
+    @offset = 0
+
     @data =
       endUse: []
       water: []
@@ -193,10 +197,17 @@ exports.ActionObject = class ActionObject
     # create an array for investment cost with as many 0 as the action_lifetime
     # Array size is action_lifetime and not (action_lifetime+1): OK by Blandine Melay 2015-01-15
     @investment.values = buildArrayWithZeroes action_lifetime
-    @investment.values[0]= residual_cost #Set the first value to the residual_cost
+    @investment.values[@offset]= residual_cost #The residual_cost is either in 0 or in the OFFSET pos.
 
     # ACTUALIZE INVESTMENT_COST_ARRRAY (for residual_cost)
     # Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
     @investment.values_act = _.map @investment.values, (num, ic_index) ->
       result = num * Math.pow( 1+actualization_rate , -ic_index)
       return result.toFixed(2)*1
+
+    # console.log "@investment.values is #{@investment.values}"
+    # console.log "@investment.values_act is #{@investment.values_act}"
+    # @Blandine, BSE, PEM : Actualisation fait diminuer l'investissement ?
+
+
+

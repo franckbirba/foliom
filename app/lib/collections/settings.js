@@ -17,7 +17,7 @@
 
 //      mailing_list: String
 
-evolution_index = new SimpleSchema({
+YearlyValues = new SimpleSchema({
     year: {
         type: Number,
         defaultValue: function(){
@@ -84,17 +84,31 @@ Configurations.attachSchema(new SimpleSchema({
         optional: true,
         type: String,
         label: transr("icc_name"),
+        autoform: {
+            omit:true,
+        }
     },
     'icc.evolution_index': {
         optional: true,
-        type: [evolution_index],
+        type: [YearlyValues],
         label: transr("icc_evolution_index"),
         autoform: {
-            omit:true,
+            // omit:true,
             minCount: 31,
             maxCount: 31,
+            template: "arraySettings"
         }
     },
+    'icc.global_evolution_index': {
+        optional: true,
+        type: Number,
+        decimal: true,
+        label: transr("global_evolution_index"),
+        autoform: {
+            readonly:true,
+        }
+    },
+
     ipc: {
         optional: true,
         type: Object,
@@ -104,36 +118,29 @@ Configurations.attachSchema(new SimpleSchema({
         optional: true,
         type: String,
         label: transr("ipc_name"),
+        autoform: {
+            omit:true
+        }
     },
     'ipc.evolution_index': {
         optional: true,
-        type: [evolution_index],
+        type: [YearlyValues],
         label: transr("ipc_evolution_index"),
         autoform: {
-            omit:true,
+            // omit:true,
             minCount: 31,
             maxCount: 31,
+            template: "arraySettings"
         }
     },
-    // ipc: {
-    //     optional: true,
-    //     type: [evolution_index],
-    //     label: transr("icc")
-    //     autoform: {
-    //         omit:true,
-    //         minCount: 31,
-    //         maxCount: 31,
-    //     }
-    // },
-    actualization_rate: {
+    'ipc.global_evolution_index': {
+        optional: true,
         type: Number,
-        label: transr("actualization_rate"),
         decimal: true,
-    },
-    consumption_degradation: {
-        type: Number,
-        label: transr("consumption_degradation"),
-        decimal: true,
+        label: transr("global_evolution_index"),
+        autoform: {
+            readonly:true,
+        }
     },
 
     project_type_static_index: {
@@ -170,6 +177,7 @@ Configurations.attachSchema(new SimpleSchema({
         label: transr("cpi"),
         decimal: true,
     },
+
     kwhef_to_co2_coefficients: {
         type: Object,
         label: transr("kwhef_to_co2_coefficients")
@@ -229,6 +237,22 @@ Configurations.attachSchema(new SimpleSchema({
             }
         }
     },
+
+    other_indexes: {
+        type: Object,
+        label: transr("other_indexes")
+    },
+    'other_indexes.actualization_rate': {
+        type: Number,
+        label: transr("actualization_rate"),
+        decimal: true,
+    },
+    'other_indexes.consumption_degradation': {
+        type: Number,
+        label: transr("consumption_degradation"),
+        decimal: true,
+    },
+
     fluids: {
 		optional: true,
         type: [Schema.Fluids],

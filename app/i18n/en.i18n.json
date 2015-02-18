@@ -79,10 +79,13 @@
 		"In": "in",
 
 		"custom_visual": "Visuel",
+        "evolution": "Evolution",
 
     /* Configuration Compass */
 
     "icc": "Construction Cost Index",
+    "ipc": "Consumption Price Index",
+    "global_evolution_index": "Global evolution index",
 
     "project_type_static_index": "Project type - static indexes",
     "classic": "Classic",
@@ -91,6 +94,10 @@
     "crem": "CREM",
     "ppp": "PPP",
     "cpi": "CPI",
+
+    "other_indexes": "Other indexes",
+    "actualization_rate": "Actualization rate",
+    "consumption_degradation": "Yearly consumption degradation",
 
     "mailing_list": "A notification will be sent each year to keep updated data",
 
