@@ -1,0 +1,31 @@
+@import 'client/templates/timeline/timeline.import.styl'
+
+.timeline
+  path
+  	stroke-width 1
+  	fill none
+  .data1
+  	stroke colorA
+  .data2
+  	stroke colorB
+  .axis
+    shape-rendering crispEdges
+    .x
+      line
+        stroke lightgrey
+      .minor
+        stroke-opacity .5
+      path
+        display none
+      text
+        font-size 14
+    .y
+      line, path
+        fill none
+        stroke colorB
+      text
+  	    font-size 14
+      .axisRight text
+  	    fill colorA
+      .axisLeft text
+  	    fill colorB
