@@ -59,7 +59,7 @@ AutoForm.hooks({
     	}
     	this.done();
     	return false;
-    	
+
 
       /*if(Session.get('update_fluid')){
         Fluids.update(currentDoc._id,updateDoc);
@@ -73,38 +73,4 @@ AutoForm.hooks({
 
 
 
-Template.settings.rendered = function () {
 
-    var calcEvolutionIndex = function (currentVal, previousVal) {
-        var total_in_percent = ( (currentVal / previousVal)-1 ) * 100;
-        return total_in_percent.toFixed(3) *1 ;
-    };
-
-    // FORMULA for evolution index
-    //Looking for yearly_values.1.cost
-    $("[name^='yearly_values.'][name$='.cost']").keyup(function() {
-        position = $(this).attr("name").split(".");
-        // console.log(position);
-
-        if (position[1] >0) {
-            var current_cost = $(this).val() *1 ;
-            var previous_cost = $("[name='yearly_values." + (position[1]-1) + ".cost']").val() *1;
-
-            // Set evolution_index
-            $("[name='yearly_values." + position[1] + ".evolution_index']").val(
-                calcEvolutionIndex(current_cost, previous_cost)
-            );
-        }
-    });
-
-    // FORMULA for GLOBAL evolution index
-    Tracker.autorun(function () {
-        var lastCost = AutoForm.getFieldValue("fluidAutoForm", "yearly_values.30.cost") ;
-        var firstCost = AutoForm.getFieldValue("fluidAutoForm", "yearly_values.0.cost") ;
-        console.log(firstCost + " - " + lastCost);
-        $("[name='global_evolution_index']").val(
-            calcEvolutionIndex(lastCost, firstCost)
-        );
-    });
-
-};
