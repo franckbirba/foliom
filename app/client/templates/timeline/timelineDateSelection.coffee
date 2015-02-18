@@ -25,8 +25,8 @@ Template.timelineDateSelection.events
     t.rxIsDateSelectionDisplayed.set true
     Meteor.setTimeout ->
       $form = t.$ 'form.date-selection'
-      docHeight = ($ document).height()
-      $form.css 'bottom', docHeight + 20 - e.pageY
+      containerHeight = ($ '.timeline.container').height()
+      $form.css 'bottom', containerHeight + 20 - e.pageY
     , 0
   'click .validate': (e, t) -> removeDateSelection e, t
   'click .cancel': (e, t) -> removeDateSelection e, t
