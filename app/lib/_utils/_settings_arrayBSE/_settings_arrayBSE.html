@@ -39,12 +39,13 @@
 </template>
 
 <template name="afArrayField_arraySettings">
-  <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+  <!-- <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div> -->
+  <!-- Not necessary for ICC and IPC -->
 
-  <div class="yearly_values_flexItem pull-left">
-    <div class="yearly_values_title">Year</div>
-    <div class="yearly_values_title">Cost</div>
-    <div class="yearly_values_title">Evolution</div>
+  <div class="yearly_values_titleBlock yearly_values_flexItem">
+    <div class="yearly_values_title">{{_ "year"}}</div>
+    <div class="yearly_values_title">{{_ "yearly_cost"}}</div>
+    <div class="yearly_values_title">{{_ "evolution"}}</div>
   </div>
 
   <fieldset class="yearly_values_flexBox">
