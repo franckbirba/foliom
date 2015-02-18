@@ -414,8 +414,6 @@ Meteor.startup(function () {
               }
             ],
           },
-          actualization_rate: 0.02,
-          consumption_degradation: 0.05,
         	project_type_static_index: {
             	classic: 1,
             	cpe: 1,
@@ -430,6 +428,10 @@ Meteor.startup(function () {
               fluid_fuelOil_household: 0.300,
               fluid_fuelOil_heavy: 0.322,
               fluid_woodEnergy: 0.013,
+          },
+          other_indexes: {
+            "actualization_rate": 0.02,
+            "consumption_degradation": 0.05,
           },
         	fluids: [],
         	mailing_list: "admin@test.com"
