@@ -1,18 +1,21 @@
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
 
+# Set reactive vars when template is created
 Template.timelineBucket.created = ->
   # Reset action bucket's display when entering screen
-  Session.set 'timeline-action-bucket-displayed', false
+  @rxIsBucketDisplayed = new ReactiveVar
+  @rxIsBucketDisplayed.set false
   # Reset action bucket filters
-  Session.set 'timeline-filter-actions', 'all'
+  @rxFilterAction = new ReactiveVar
+  @rxFilterAction.set 'all'
 
 ###*
  * Object containing helper keys for the template.
 ###
 Template.timelineBucket.helpers
   # Action bucket trigger
-  isActionBucketDisplayed: -> Session.get 'timeline-action-bucket-displayed'
+  isActionBucketDisplayed: -> Template.instance().rxIsBucketDisplayed.get()
   # Action bucket's exports as table
   actionBucketTableHeadings: -> [
     TAPi18n.__ 'quarter'
@@ -24,7 +27,7 @@ Template.timelineBucket.helpers
     'TRI'
   ]
   actionBucketTableBody: ->
-    filter = Session.get 'timeline-filter-actions'
+    filter = Template.instance().rxFilterAction.get()
     rxPlannedActions = TV.rxPlannedActions.get()
     switch filter
       when 'planned'
@@ -45,27 +48,22 @@ Template.timelineBucket.events
     unless value is undefined
       $btnGroup.children().removeClass 'active'
       $selected.addClass 'active'
-      Session.set 'timeline-filter-actions', $selected.attr 'data-value'
-  # Click on action bucket items for quarter modification
-  'click .quarter-select': (e, t) ->
-    console.log 'Modify current selected quarter', e, t
-    (t.$ e.currentTarget).toggleClass 'quarter-selected'
+      t.rxFilterAction.set $selected.attr 'data-value'
   'click [data-trigger=\'timeline-action-bucket-toggle\']': (e, t) ->
     $actionBucket = $ '.action-bucket'
     $actionBucketFooter = $ '.action-bucket-footer'
     # Display content of the action bucket
-    isDisplayed = Session.get 'timeline-action-bucket-displayed'
-    if isDisplayed
+    if t.rxIsBucketDisplayed.get()
       # Toggle translation and wait for its end for
       # removing action's bucket content
       $actionBucket
       .removeClass 'action-bucket-displayed'
       .on TRANSITION_END_EVENT, ->
-        Session.set 'timeline-action-bucket-displayed', false
+        t.rxIsBucketDisplayed.set false
       $actionBucketFooter.removeClass 'action-bucket-footer-displayed'
     else
       # Add action's bucket content before toggling animation
-      Session.set 'timeline-action-bucket-displayed', true
+      t.rxIsBucketDisplayed.set true
       $actionBucket
       .off TRANSITION_END_EVENT
       .addClass 'action-bucket-displayed'
@@ -77,8 +75,7 @@ Template.timelineBucket.events
         # Set the appropriate filter button
         $btnGroup = $actionBucket.find '[data-role=\'filter-actions\']'
         $btnGroup.children().removeClass 'active'
-        $selected = $btnGroup.find \
-          "[data-value=\'#{Session.get 'timeline-filter-actions'}\']"
+        $selected = $btnGroup.find "[data-value=\'#{t.rxFilterAction.get()}\']"
         $selected.addClass 'active'
         # Set row as draggable
         ($ '[data-role=\'draggable-action-bucket\']').draggable
