@@ -28,7 +28,12 @@ Template.timelineDateSelection.events
       containerHeight = ($ '.timeline.container').height()
       $form.css 'bottom', containerHeight + 20 - e.pageY
     , 0
-  'click .validate': (e, t) -> removeDateSelection e, t
+  'click .validate': (e, t) ->
+    quarter = Number (t.$ 'input[name=\'date-selection-quarter\']\
+      :checked').val()
+    year = Number (t.$ 'input[name=\'date-selection-year\']:checked').val()
+    console.log quarter, year
+    removeDateSelection e, t
   'click .cancel': (e, t) -> removeDateSelection e, t
 
 removeDateSelection = (e, t) -> t.rxIsDateSelectionDisplayed.set false
