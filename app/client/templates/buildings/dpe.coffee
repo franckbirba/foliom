@@ -17,13 +17,14 @@ Template.dpe.rendered = ->
     { "label": "231 - 330", "letter": "E", "color" : "#babdb6", "textColor":"black", "value": 70 },
     { "label": "331 - 450", "letter": "F", "color" : "#888a85", "textColor":"black", "value": 80 },
     { "label": "≥ 451", "letter": "G", "color" : "#555753", "textColor":"white", "value": 90 },
-    { "label": "≥ 451", "letter": "H", "color" : "#4d4d4d", "textColor":"white", "value": 100 },
-    { "label": "≥ 451", "letter": "I", "color" : "#333", "textColor":"white", "value": 110 },
+    # { "label": "≥ 451", "letter": "H", "color" : "#4d4d4d", "textColor":"white", "value": 100 },
+    # { "label": "≥ 451", "letter": "I", "color" : "#333", "textColor":"white", "value": 110 },
   ]
 
   chart = d3.select("#dpe-svg")
-      .attr("width", width)
-      .attr("height", height)
+        .attr "viewBox", "0 0 #{width} #{height}"
+      # .attr("width", width)
+      # .attr("height", height)
 
   width_withTriangle = width - 20 # ugly way of adjusting
   x = d3.scale.linear()
