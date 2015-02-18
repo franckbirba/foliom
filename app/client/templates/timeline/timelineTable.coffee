@@ -1,7 +1,7 @@
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
 
-Template.timelineBucket.created = ->
+Template.timelineTable.created = ->
   # Reset filtering on portfolio or building: take all the buildings
   Session.set 'timeline-filter-portfolio-or-building', \
     _.pluck TV.buildings, '_id'
