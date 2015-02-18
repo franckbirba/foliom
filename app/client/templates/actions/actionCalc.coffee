@@ -6,7 +6,7 @@ This function is designed to apply all calculus that an Action needs in the foll
 
 exports = this
 
-exports.actionCalc = (actionId, firstYear) ->
+exports.actionCalc = (actionId, firstYear, building_id, scenario_year) ->
 
   # INIT
   action = Actions.findOne(actionId)
@@ -15,6 +15,7 @@ exports.actionCalc = (actionId, firstYear) ->
   building_area = building_area_search.building_info.area_total
 
   ao = new ActionObject(firstYear); # init phase with some vars
+  # ao = new ActionObject(firstYear, Session.get('current_building_doc')._id, 2014);
 
 
   # KWHEF GAIN
@@ -135,6 +136,7 @@ exports.actionCalc = (actionId, firstYear) ->
 
 
   console.log 'action is', action
+  console.log ao
 
   # Update Action in DB
   Actions.update {_id: action._id}, $set:
