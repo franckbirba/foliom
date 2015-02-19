@@ -36,7 +36,7 @@ Router.map ->
   # Routes that matches their template's name
   routes = [
     'join', 'signin', 'settings', 'portfolios', 'observatory'
-    'user', 'selectors', 'scenarioForm_old', 'scenarioList', 'timeline', 'leaseForm'
+    'user', 'selectors', 'scenarioForm_old', 'scenarioList', 'leaseForm'
     # Buildings
     'buildings', 'building-new', 'building-form'
     # Estates
@@ -78,3 +78,7 @@ Router.map ->
         # the Data be ready
         return false  unless curr_scenario
         curr_scenario
+
+  @route '/timeline/:_id',
+    name: 'timeline'
+    data: -> Scenarios.findOne _id: @params._id
