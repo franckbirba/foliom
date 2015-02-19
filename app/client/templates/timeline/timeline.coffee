@@ -28,6 +28,49 @@
     # Build formatted data
     quarter = @minDate.clone()
     nextQuarter = quarter.clone().add 1, 'Q'
+
+    # Graph 1
+    # -------
+    # PEM To expand on all buildings
+    # For each leases: fluid_consumption_meter
+    #     @allLeases = Leases.find(
+    # {building_id: @building_id},
+    # {sort: {lease_name:1}}
+    # ).fetch()
+
+    # PEM to get the unit of a fluid
+    # confFluids = Session.get('current_config').fluids
+    #for fluid in confFluids
+    #  completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type
+    #  if completeFluideName is endUse.fluid_id
+    #    endUse.fluid = fluid #We store the Fluid in the array
+    #    matchingEndUseInLease[leaseIndex] = endUse
+
+
+    # PEM Get the appropriate coefficient for each type of unit
+    # Session.get('current_config').kwhef_to_co2_coefficients
+
+    # This provide 3 scalings
+    # Before action
+    # After actions
+    # -> 6 graphs
+    # /!\ Apply setting.other_indexes.consumption_degradation : indepedent of the fluid
+
+    # Graph 2
+    # -------
+    # Chart with action and without actions
+    # Cold fluid is not available.
+    # Invoice is done for each fluid: subscription(time) + price(year) * consumption(year)
+    # consumption(year): calculated in graph 1
+    # @allLeases.fluid_consumption_meter[ fluid_type ].yearly_subscription
+    # Create an array for subscription(time): num * Math.pow( 1+actualization_rate , -ic_index)
+    # subscription(year) = subscription(0) * (1 + (inflation_rate))^year * (1+actualisation_rate)^year
+    # actualisation_rate = setting.other_indexes.actualization_rate
+    # inflation_rate(year) = setting.ipc.evolution_index[ year ].cost
+    # price(year) = setting.fluids( for each fluid ).yearly_values[ year ]*(1+actualisation_rate)^year
+    # /!\ yearly_values starts at 2014 but the start of the scenario may be in 2017
+
+
     while quarter.isBefore @maxDate
       # Parsing each year content
       currentYear = quarter.year()
@@ -138,11 +181,10 @@ TV = TimelineVars
  * Prepare calculation at template creation.
 ###
 Template.timeline.created = ->
+  # Get Scenario's data from router
+  TV.scenario = @data
   # Reset former state
   TV.totalCost = 0
-  # @TODO fake : Fetch Scenario's data
-  # TV.scenario = Scenarios.findOne _id: scenarioId
-  TV.scenario = Scenarios.findOne()
   # @TODO check for unplanned actions
   # Get actions that matches the Ids in the Scenario
   pactions = TV.scenario.planned_actions
