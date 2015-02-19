@@ -26,6 +26,7 @@ YearlyValues = new SimpleSchema({
         autoform: {
             afFieldInput: {
                 readonly:"true",
+                class: 'AF_array_title'
             }
         }
     },
@@ -34,7 +35,8 @@ YearlyValues = new SimpleSchema({
         decimal: true,
         defaultValue: 0,
         autoform: {
-            template:'afInputNumber_u'
+            template:'afInputNumber_u',
+            class: 'AF_array_mainCell'
         }
     },
     evolution_index: {
@@ -44,6 +46,7 @@ YearlyValues = new SimpleSchema({
         autoform: {
             afFieldInput: {
                 readonly:"true",
+                class: 'AF_array_subCell'
             }
         }
     }

@@ -1,5 +1,7 @@
+@import 'client/stylesheets/colors.import.styl'
+
 .yearly_values_flexBox
-  width: 1000px
+  max-width: 1100px
   overflow-x: scroll
   white-space: nowrap //http://stackoverflow.com/questions/24132943/overflow-x-not-working
   margin-left: 85px
@@ -8,7 +10,7 @@
 
 .yearly_values_flexItem
   // flex-basis: 70px
-  width: 70px
+  width: 60px
   display: inline-flex
   flex-direction: column
 
@@ -21,3 +23,16 @@
   padding-top:8px
   font-weight: bold
   font-size: 0.7em
+
+.AF_array_title
+  background-color: colorA !important
+  color: white !important
+  text-align: center
+
+.AF_array_mainCell
+  text-align: center
+
+.AF_array_subCell
+  text-align: center
+  font-size: 0.8em !important
+  font-weight: bold !important
