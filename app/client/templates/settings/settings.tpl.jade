@@ -7,20 +7,20 @@
   .row
     +quickForm collection="Configurations" id="configAutoForm" doc=getCfg template="eportfolio-horizontal" type=getType
 
-#fluidformmodal.modal.fade
-  .modal-content
-    .modal-header
-      button.close(type='button', data-dismiss='modal')
-        span(aria-hidden='true') ×
-        span.sr-only Close
-      h4.modal-title {{getFormTitle}}
-    .modal-body
-      +autoForm schema=fluidSchema doc=getFluid id="fluidAutoForm"
-        fieldset
-          +afQuickField name='fluid_type'
-          +afQuickField name='fluid_provider'
-          +afQuickField name='fluid_unit'
-          +afQuickField name='yearly_values' template="inline"
-          +afQuickField name='global_evolution_index'
-          +afQuickField name='kwhef_to_co2_coefficient'
-        button.btn.btn-primary.submitFluid(type='submit') Ok
+//- #fluidformmodal.modal.fade
+//-   .modal-content
+//-     .modal-header
+//-       button.close(type='button', data-dismiss='modal')
+//-         span(aria-hidden='true') ×
+//-         span.sr-only Close
+//-       h4.modal-title {{getFormTitle}}
+//-     .modal-body
+//-       +autoForm schema=fluidSchema doc=getFluid id="fluidAutoForm"
+//-         fieldset
+//-           +afQuickField name='fluid_type'
+//-           +afQuickField name='fluid_provider'
+//-           +afQuickField name='fluid_unit'
+//-           +afQuickField name='yearly_values' template="inline"
+//-           +afQuickField name='global_evolution_index'
+//-           +afQuickField name='kwhef_to_co2_coefficient'
+//-         button.btn.btn-primary.submitFluid(type='submit') Ok

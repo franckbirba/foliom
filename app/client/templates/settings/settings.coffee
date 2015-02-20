@@ -1,4 +1,5 @@
 Template.settings.rendered = () ->
+  AutoForm.debug();
 
   # Function to calc the difference between Last & First val
   calcEvolutionIndex = (currentVal, previousVal) ->

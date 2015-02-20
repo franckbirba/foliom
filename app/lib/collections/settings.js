@@ -21,11 +21,15 @@ YearlyValues = new SimpleSchema({
     year: {
         type: Number,
         defaultValue: function(){
+            // var1 = new Date().getFullYear();
+            // var2 = Number(new Date().getFullYear());
+            // console.log(var1, var2, this.name);
             return Number(new Date().getFullYear()) + Number(this.name.split('.')[1]);
         },
         autoform: {
             afFieldInput: {
                 readonly:"true",
+                // template: 'afInputNumber',
                 class: 'AF_array_title'
             }
         }
@@ -35,7 +39,7 @@ YearlyValues = new SimpleSchema({
         decimal: true,
         defaultValue: 0,
         autoform: {
-            template:'afInputNumber_u',
+            // template:'afInputNumber_u',
             class: 'AF_array_mainCell'
         }
     },
@@ -47,6 +51,58 @@ YearlyValues = new SimpleSchema({
             afFieldInput: {
                 readonly:"true",
                 class: 'AF_array_subCell'
+            }
+        }
+    }
+});
+
+Fluids2 = new SimpleSchema({
+    fluid_type: {
+        type: String,
+        autoform: {
+            type: "select",
+            options: function () {
+                return getSelectors('fluid_type');
+            }
+        }
+    },
+    fluid_provider: {
+        type: String,
+        autoform: {
+            type: "select",
+            options: function () {
+                return getSelectors('fluid_provider');
+            }
+        }
+    },
+    fluid_unit: {
+        type: String,
+        autoform: {
+            type: "select",
+            options: function () {
+                return getSelectors('fluid_unit');
+            }
+        }
+    },
+    yearly_values: {
+        type: [YearlyValues],
+        autoform: {
+            //template: 'inline',
+            template: "arraySettings",
+            minCount: 31,
+            maxCount: 31,
+        }
+    },
+    global_evolution_index: {
+        type: Number,
+        decimal: true,
+    },
+    kwhef_to_co2_coefficient:{
+        type: String,
+        autoform: {
+            type: "select",
+            options: function () {
+                return getSelectors('kwhef_to_co2_coefficients');
             }
         }
     }
@@ -258,9 +314,10 @@ Configurations.attachSchema(new SimpleSchema({
 
     fluids: {
 		optional: true,
-        type: [Schema.Fluids],
+        type: [Fluids2],
         autoform: {
             template:'eportfolio-settings'
+            // template:'bootstrap3'
             //omit:true
         }
     },
