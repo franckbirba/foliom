@@ -15,7 +15,8 @@ Template.timelineD3Chart.rendered = ->
   x = d3.scale.linear()
   .domain [0, data1.length]
   .range [0, w]
-  # Y scale will fit values from 0-10 within pixels h-0 (Note the inverted domain for the y-scale: bigger is up!)
+  # Y scale will fit values from 0-10 within pixels h-0
+  #  (Note the inverted domain for the y-scale: bigger is up!)
   y1 = d3.scale.linear()
   .domain [0, 10]
   .range [h, 0]
@@ -44,43 +45,46 @@ Template.timelineD3Chart.rendered = ->
     y2 d
   # Add an SVG element with the desired dimensions and margin.
   graph = d3.select "[data-chart='#{@data.chartName}']"
-  .append('svg:svg')
-  .attr('width', w + m[1] + m[3])
-  .attr('height', h + m[0] + m[2])
-  .append('svg:g')
-  .attr('transform', 'translate(' + m[3] + ',' + m[0] + ')')
+  .append 'svg:svg'
+  .attr 'width', w + m[1] + m[3]
+  .attr 'height', h + m[0] + m[2]
+  .append 'svg:g'
+  .attr 'transform', "translate(#{m[3]}, #{m[0]})"
   # create yAxis
-  xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true)
+  xAxis = d3.svg.axis()
+  .scale x
+  .tickSize -h
+  .tickSubdivide true
   # Add the x-axis.
-  graph.append('svg:g')
-  .attr('class', 'x axis')
-  .attr('transform', 'translate(0,' + h + ')')
+  graph.append 'svg:g'
+  .attr 'class', 'x axis'
+  .attr 'transform', "translate(0, #{h})"
   .call xAxis
   # create left yAxis
   yAxisLeft = d3.svg.axis()
-  .scale(y1)
-  .ticks(4)
-  .orient('left')
+  .scale y1
+  .ticks 4
+  .orient 'left'
   # Add the y-axis to the left
-  graph.append('svg:g')
-  .attr('class', 'y axis axisLeft')
-  .attr('transform', 'translate(-15,0)')
+  graph.append 'svg:g'
+  .attr 'class', 'y axis axisLeft'
+  .attr 'transform', 'translate(-15,0)'
   .call yAxisLeft
   # create right yAxis
   yAxisRight = d3.svg.axis()
-  .scale(y2)
-  .ticks(6)
-  .orient('right')
+  .scale y2
+  .ticks 6
+  .orient 'right'
   # Add the y-axis to the right
-  graph.append('svg:g')
-  .attr('class', 'y axis axisRight')
-  .attr('transform', 'translate(' + w + 15 + ',0)')
+  graph.append 'svg:g'
+  .attr 'class', 'y axis axisRight'
+  .attr 'transform', "translate(#{w + 15})"
   .call yAxisRight
   # Add lines
   # do this AFTER the axes above so that the line is above the tick-lines
-  graph.append('svg:path')
-  .attr('d', line1(data1))
+  graph.append 'svg:path'
+  .attr 'd', line1(data1)
   .attr 'class', 'data1'
-  graph.append('svg:path')
-  .attr('d', line2(data2))
+  graph.append 'svg:path'
+  .attr 'd', line2(data2)
   .attr 'class', 'data2'
