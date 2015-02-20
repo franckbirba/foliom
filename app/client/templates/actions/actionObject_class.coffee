@@ -209,6 +209,3 @@ exports.ActionObject = class ActionObject
     # console.log "@investment.values is #{@investment.values}"
     # console.log "@investment.values_act is #{@investment.values_act}"
     # @Blandine, BSE, PEM : Actualisation fait diminuer l'investissement ?
-
-
-

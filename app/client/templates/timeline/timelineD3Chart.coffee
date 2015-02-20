@@ -1,12 +1,12 @@
 Template.timelineD3Chart.rendered = ->
   # http://bl.ocks.org/benjchristensen/2579619
-  # Define dimensions of graph
+  # Define graph dimensions
   # Margins
-  m = [80, 80, 80, 80]
+  m = [20, 40, 60, 60]
   # Width
-  w = 900 - m[1] - m[3]
+  w = 490 - m[1] - m[3]
   # Height
-  h = 400 - m[0] - m[2]
+  h = 195 - m[0] - m[2]
   # Create a simple data array that we'll plot with a line (this array
   #  represents only the Y values, X will just be the index location)
   data1 = [3, 6, 2, 7, 5]
@@ -43,9 +43,10 @@ Template.timelineD3Chart.rendered = ->
     # return the Y coordinate where we want to plot this datapoint
     y2 d
   # Add an SVG element with the desired dimensions and margin.
-  graph = d3.select('#graph')
+  graph = d3.select "[data-chart='#{@data.chartName}']"
   .append('svg:svg')
-  .attr('width', w + m[1] + m[3]).attr('height', h + m[0] + m[2])
+  .attr('width', w + m[1] + m[3])
+  .attr('height', h + m[0] + m[2])
   .append('svg:g')
   .attr('transform', 'translate(' + m[3] + ',' + m[0] + ')')
   # create yAxis

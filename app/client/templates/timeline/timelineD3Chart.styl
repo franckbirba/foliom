@@ -9,22 +9,17 @@
   .data2
   	stroke colorB
   .axis
+    text
+      font-size 8px
+      fill colorC
     shape-rendering crispEdges
     .x
-      line
-        stroke lightgrey
-      .minor
-        stroke-opacity .5
-      path
-        display none
-      text
-        font-size 14
+      line, .minor, path
+        stroke colorC
     .y
       line, path
         fill none
-        stroke colorB
-      text
-  	    font-size 14
+        stroke colorC
       .axisRight text
   	    fill colorA
       .axisLeft text
