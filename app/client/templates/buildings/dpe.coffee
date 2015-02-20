@@ -22,9 +22,10 @@ Template.dpe.rendered = ->
   ]
 
   chart = d3.select("#dpe-svg")
+        # Make SVG responsive
+        .attr 'preserveAspectRatio', 'xMinYMin meet'
         .attr "viewBox", "0 0 #{width} #{height}"
-        .attr("width", width)
-        .attr("height", height)
+
 
   width_withTriangle = width - 20 # ugly way of adjusting
   x = d3.scale.linear()
@@ -36,7 +37,6 @@ Template.dpe.rendered = ->
       .range([0, height])
 
 
-  chart.attr("height", barHeight * dpeData.length)
 
   bar = chart.selectAll("g")
           .data(dpeData)
