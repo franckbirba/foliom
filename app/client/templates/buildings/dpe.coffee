@@ -43,24 +43,22 @@ Template.dpe.rendered = ->
         .enter().append("g")
           .attr("transform", (d, i) -> return "translate(0," + y(i * barHeight) + ")" )
 
-  bar.append("rect")
-      .attr("width", (d) -> return x(d.value) )
-      .attr("height", y(barHeight) - barVerticalSpacing)
-      .attr("fill", (d)-> d.color)
-      .attr("class", (d)-> "dpe-path-#{d.letter}" )
+  # bar.append("rect")
+  #     .attr("width", (d) -> return x(d.value) )
+  #     .attr("height", y(barHeight) - barVerticalSpacing)
+  #     .attr("fill", (d)-> d.color)
+  #     .attr("class", (d)-> "dpe-path-#{d.letter}" )
 
-  #triangles
+
+  # Draw bar with pointy end
   bar.append('path')
       .attr("d", (d,i) ->
-          x_val = x(d.value) - 0.5 #ugly way of preventing a very small gap
-          y_val = 0
+          bar_width = x(d.value)
           middle = (y(barHeight) - barVerticalSpacing)/2
-          "M #{x_val} #{y_val} l #{middle} #{middle} l -#{middle} #{middle} z"
+          "M 0 0 l #{bar_width} 0 l #{middle} #{middle} l -#{middle} #{middle} l -#{bar_width} 0 z"
         )
       .attr "fill", (d)-> d.color
       .attr("class", (d)-> "dpe-path-#{d.letter}" )
-
-
 
   # Text: Letter
   bar.append("text")
