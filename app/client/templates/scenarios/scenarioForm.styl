@@ -36,7 +36,9 @@ input[type="radio"]:checked + label {
 
   // &.input[type="radio"]:checked + &.label {
   //     border: 5px solid orange;
-  // }
+  // }flex-grow: 2
+
+
 
   // Criterion
   .row-correct
@@ -51,7 +53,7 @@ input[type="radio"]:checked + label {
     list-style-type: none
     margin: 0
     padding: 0
-    width: 90%
+    width: 80%
     margin-left: auto
     margin-right: auto
   #sortable li
@@ -63,10 +65,36 @@ input[type="radio"]:checked + label {
     border: 1px solid #d3d3d3
     background-color #FAFAFA
 
-  .criterion-text
-    line-height: normal
-    vertical-align: middle
-    display: inline-block
+  // Criterion Flex
+  .criterionContainer
+    display flex
+    justify-content space-around
+    align-items center
+    height 55px
+
+  .item2
+    width 35%
+
+  .critDetail
+    text-align: right
+    // padding-right: 15px
+
+  .formStyling
+    width: 300px !important
+
+
+  // .handlerPicto
+  //   margin-left 15px
+  //   margin-right 25px
+
+  // .deleteCriterion
+  //   margin-left 25px
+  //   margin-right 25px
+
+  // .criterion-text
+  //   line-height: normal
+  //   vertical-align: middle
+  //   display: inline-block
 
   .criterion-desc
     font-size: 0.8em
