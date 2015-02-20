@@ -48,12 +48,11 @@
     <div class="yearly_values_title">{{_ "evolution"}}</div>
   </div>
 
-  <fieldset class="yearly_values_flexBox">
+  <div class="yearly_values_flexBox">
 
     {{#if afFieldIsInvalid name=this.atts.name}}
       <div class="autoform-array-field-error">{{{afFieldMessage name=this.atts.name}}}</div>
     {{/if}}
-
 
     {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
       <!-- Testing display settings at the ArrayField level -->
@@ -71,5 +70,6 @@
       <button type="button" class="autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}">Add</button>
     </div>
     {{/if}}
-  </fieldset>
+
+  </div>
 </template>
