@@ -1,6 +1,20 @@
 @import 'client/templates/timeline/timeline.import.styl'
 
 .timeline
+  // Make SVG responsive
+  .d3-svg-container
+    display inline-block
+    position relative
+    width 100%
+    padding-bottom 100%
+    vertical-align middle
+    overflow hidden
+  .d3-svg-content
+    display inline-block
+    position absolute
+    top 0
+    left 0
+  // Style SVG charts
   path
   	stroke-width 1
   	fill none
