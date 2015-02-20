@@ -1,6 +1,6 @@
 @import 'client/stylesheets/colors.import.styl'
 
-.yearly_values_flexBox
+.yearly_values_container
   max-width: 1100px
   overflow-x: scroll
   white-space: nowrap //http://stackoverflow.com/questions/24132943/overflow-x-not-working
@@ -8,7 +8,7 @@
   margin-bottom: 15px
   margin-top: 5px
 
-.yearly_values_flexItem
+.yearly_values_item
   // flex-basis: 70px
   width: 60px
   display: inline-flex
@@ -24,6 +24,7 @@
   font-weight: bold
   font-size: 0.7em
 
+// These properties are directly in the Model
 .AF_array_title
   background-color: colorA !important
   color: white !important
