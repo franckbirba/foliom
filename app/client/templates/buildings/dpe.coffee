@@ -60,6 +60,9 @@ Template.dpe.rendered = ->
       .attr "fill", (d)-> d.color
       .attr("class", (d)-> "dpe-path-#{d.letter}" )
 
+
+
+  # Text: Letter
   bar.append("text")
       .attr("x", (d) -> return x(d.value) - 15 )
       .attr("y", y(barHeight)/2 )
@@ -69,6 +72,7 @@ Template.dpe.rendered = ->
       .style("font-size", (d)-> if d.length is 7 then "1.4em" else "1.1em" )
       .attr "fill", (d)-> d.textColor
 
+  # Text: Label
   bar.append("text")
       .attr("x", 5 )
       .attr("y", y(barHeight)/2 )
@@ -77,44 +81,6 @@ Template.dpe.rendered = ->
       .style("font-weight", "bold")
       .style("font-size", (d)-> if d.length is 7 then "1.1em" else "0.7em" )
       .attr "fill", (d)-> d.textColor
-
-
- # Simple text test
-
-  # xPadding = 1.5
-  # initialLine = 9
-  # lineInterval = 14.5
-
-  # dpeSvg = d3.select("#dpe-svg")
-
-  # text = dpeSvg.selectAll("text")
-  #               .data(dpeData)
-  #               .enter()
-  #               .append("text")
-
-  # textLabels = text
-  #                 .attr("x", xPadding)
-  #                 .attr("y", (d,i)-> initialLine + lineInterval*i )
-  #                 .text( (d)-> d.label )
-  #                 .attr("font-family", "sans-serif")
-  #                 .attr("font-size", "6px")
-  #                 .attr("fill", (d)-> d.color)
-  #                 .style("font-weight", "bold")
-
-  # text2 = dpeSvg.selectAll("text2")
-  #               .data(dpeData)
-  #               .enter()
-  #               .append("text")
-
-  # letterLabels = text2
-  #                 .attr("x", (d,i)-> 14.5 + 10*i )
-  #                 .attr("y", (d,i)-> initialLine + lineInterval*i )
-  #                 .text( (d)-> d.letter )
-  #                 .attr("font-family", "sans-serif")
-  #                 .attr("font-size", "8px")
-  #                 .attr("fill", (d)-> d.color)
-  #                 .style("font-weight", "bold")
-
 
 
   # Fake value
