@@ -34,7 +34,7 @@
             .item2.criterion-label: span(true_label=label unit=unit type=type desc=desc) {{_ label}}
 
             .item2.critDetail
-              .form-inline: .form-group: .input-group.formStyling
+              .form-inline: .form-group
                 if isCheckbox type
                   .row
                     .col-sm-2: input(type="checkbox" value="" checked="{{isChecked input}}")
@@ -45,8 +45,9 @@
                     each getTechnical_compliance_items
                       option(value=value selected="{{isSelected input value}}") {{_ label}}
                 else
-                  input.form-control#criterionAmount(type="number" value="#{input}")
-                  .input-group-addon {{_ unit}}
+                  .formStyling.input-group
+                    input.form-control#criterionAmount(type="number" value="#{input}")
+                    .input-group-addon.critAddon {{_ unit}}
             .critCell: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
         li#addCriterionLi.criterion
           .row.row-correct
@@ -56,42 +57,9 @@
                 option(value="" disabled selected) {{_ "select_criterion"}}
                 each getCriterion 'toAdd'
                   option(value=label) {{_ label}}
-    br
-    br
-
-    //- Criterions
-    #scenarioCriterion
-      #scenarioCriterionTitle {{_ "scenario_criterion"}}
-      ul#sortable
-        each getCriterion
-          li.criterion
-            .row.row-correct
-              .col-sm-1: span.glyphicon.glyphicon-resize-vertical.handlerIcon(aria-hidden="true")
-              .col-sm-5: span.criterion-text.criterion-label(true_label=label unit=unit type=type desc=desc) {{_ label}}
-              .col-sm-5
-                .form-inline: .form-group: .input-group
-                  if isCheckbox type
-                    .row
-                      .col-sm-2: input(type="checkbox" value="" checked="{{isChecked input}}")
-                      .col-sm-10: .criterion-text.criterion-desc {{_ desc}}
-                  else if isSelectorTechfield type
-                    select#addTechfield.form-control(type="select")
-                      option(value="" disabled selected) {{_ "select_techField"}}
-                      each getTechnical_compliance_items
-                        option(value=value selected="{{isSelected input value}}") {{_ label}}
-                  else
-                    input.form-control#criterionAmount(type="number" value="#{input}")
-                    .input-group-addon {{_ unit}}
-              .col-sm-1: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
-        li#addCriterionLi.criterion
-          .row.row-correct
-            .col-md-3.col-md-offset-1 {{_ 'add_criterion'}}
-            .col-md-7
-              select#addCriterionSelect.form-control.addCriterion
-                option(value="" disabled selected) {{_ "select_criterion"}}
-                each getCriterion 'toAdd'
-                  option(value=label) {{_ label}}
+    //- Validate form
     input#scenario-submit.btn.btn-primary(type="submit" value="{{_ 'scenario_validate'}}")
+
     //ActionTable
     table.actionTable
       tr
