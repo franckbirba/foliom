@@ -31,14 +31,14 @@
         each getCriterion
           li: .criterionContainer
             .handlerPicto: span.glyphicon.glyphicon-resize-vertical(aria-hidden="true")
-            .item2.criterion-label: span(true_label=label unit=unit type=type desc=desc) {{_ label}}
+            .item2: span.criterion-label(true_label=label unit=unit type=type desc=desc) {{_ label}}
 
             .item2.critDetail
               .form-inline: .form-group
                 if isCheckbox type
                   .row
                     .col-sm-2: input(type="checkbox" value="" checked="{{isChecked input}}")
-                    .col-sm-10: .criterion-text.criterion-desc {{_ desc}}
+                    .col-sm-10: .criterion-desc {{_ desc}}
                 else if isSelectorTechfield type
                   select#addTechfield.form-control(type="select")
                     option(value="" disabled selected) {{_ "select_techField"}}
