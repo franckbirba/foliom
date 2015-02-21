@@ -13,7 +13,7 @@ Template.timelineChart.helpers
   chartLegend: ->
     legends =
       consumptionChart: [
-        { color: 'colorA', name: TAPi18n.__ 'consumption_noaction' }
+        { color: '#ff0000', name: TAPi18n.__ 'consumption_noaction' }
         { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
         { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
       ]

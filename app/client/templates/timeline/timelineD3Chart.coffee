@@ -1,8 +1,42 @@
+###*
+ * Responsive D3 charts for lines
+###
+class D3LineChart
+  ###*
+   * C-tor
+   * @param  {String} @svgContainer DOM container with a .d3-svg-container
+   * @param  {Array}  @margins      Margins as an Array of Number
+   *                                with [top, right, bottom, left],
+   *                                default to [10, 30, 20, 30]
+   * @param  {Number} @svgWidth     Width of the SVG, default to 490
+   * @param  {Number} @svgHeight    Heigh of the SVG, default to 195
+  ###
+  constructor: (
+    @svgContainer, @margins=[10, 30, 20, 30], @svgWidth=490, @svgHeight=195
+  ) ->
+    # Graph's width
+    @graphWidth = @svgWidth - @margins[1] - @margins[1]
+    # Graph's height
+    @graphHeight = @svgHeight - @margins[0] - @margins[2]
+    @data = {}
+  ###*
+   * Set data for each lines.
+   * @param {Object} dataObj An object with an id as a Number and a value as an
+   *                         Arrray of Number.
+  ###
+  setData: (dataObj) ->
+    @data[dataObj.id] = dataObj.value
+
+
+
 Template.timelineD3Chart.rendered = ->
-  # http://bl.ocks.org/benjchristensen/2579619
+  chart = new  D3LineChart "[data-chart='#{@data.chartName}']"
+  chart.setData id: 0, value: [3, 6, 2, 7, 5]
+  chart.setData id: 1, value: [543, 367, 215, 56, 65]
+
   # Define graph dimensions
   # Margins
-  m = [20, 40, 60, 60]
+  m = [10, 30, 20, 30]
   # Width
   w = 490 - m[1] - m[3]
   # Height

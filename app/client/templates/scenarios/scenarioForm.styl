@@ -1,8 +1,7 @@
-@import 'client/stylesheets/colors.import.styl'
+@import 'client/stylesheets/*.import'
 
-input[type="radio"]:checked + label {
-      border-bottom: 4px solid colorA;
-  }
+input[type="radio"]:checked + label
+  border-bottom 4px solid colorA
 
 .scenarioForm
 
@@ -114,7 +113,7 @@ input[type="radio"]:checked + label {
     font-size: 0.8em
 
   .actionTable th
-    background-color: #A9C700
+    background-color: colorA
     text-align: center
 
   .actionTable table, th, td
