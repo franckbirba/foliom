@@ -1,4 +1,10 @@
 Meteor.startup ->
+  Session.set 'Mongol',
+    collections: ['Scenarios', 'Buildings', 'Actions']
+    display: true
+    opacity_normal: '.7'
+    opacity_expand: '.9'
+
   ###
   @TODO Not ready for prime time: too much implication, need a revamp on href
   _enterAnimation = 'fadeIn animated'
