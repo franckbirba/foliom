@@ -123,7 +123,7 @@ Template.scenarioForm.events({
     var criterion_list = [];
     criterion_list.length = 0; // make sure the array is emptied when the user saves
 
-    $(".criterion .criterion-label").each(function( index ) {
+    $(".criterionContainer .criterion-label").each(function( index ) {
         criterion_list.push( {
             label: $(this).attr("true_label"),
             unit: $(this).attr("unit"),
@@ -132,9 +132,12 @@ Template.scenarioForm.events({
             }
         );
     });
-    $(".criterion :input").each(function( index ) {
+    console.log("criterion_list is", criterion_list);
+    debugger
+
+    $(".criterionContainer :input").each(function( index ) {
         //get all values, except for the last input (used to add a criterion)
-        if (index < $(".criterion .criterion-label").length ){
+        if (index < $(".criterionContainer .criterion-label").length ){
             // if (type == "number") _.extend(criterion_list[index], {input: $(this).val()});
             if ($(this).attr("type") == "checkbox") {
                 var checked = ( $(this).prop( "checked" ) == true) ? "checked" : "";

@@ -7,7 +7,7 @@ input[type="radio"]:checked + label {
 .scenarioForm
 
   // General form
-  &.logo
+  .logo
     font-family 'foliom-picto'
     font-size 35px
     float left
@@ -15,11 +15,11 @@ input[type="radio"]:checked + label {
 
   //http://stackoverflow.com/questions/4178516/highlight-selected-image-in-form-with-jquery
   // other option (not used at the moment): http://rvera.github.io/image-picker/
-  &.logo-radio
+  .logo-radio
     opacity: 0;
     position: absolute;
 
-  &.logo-label {
+  .logo-label
       // background: url(http://i.imgur.com/mW6xr2I.png);
       // text-indent: -999em;
       // border: 2px solid white;
@@ -33,28 +33,30 @@ input[type="radio"]:checked + label {
       // padding-left 5px
       cursor pointer
       text-align center
-  }
+
   // &.input[type="radio"]:checked + &.label {
   //     border: 5px solid orange;
-  // }
+  // }flex-grow: 2
+
+
 
   // Criterion
-  &.row-correct
+  .row-correct
     margin-top: -5px //very ugly way to correct the vertical centering
     // height: 60px
     line-height: 60px
 
-  &#scenarioCriterionTitle
+  #scenarioCriterionTitle
     margin-bottom: 10px
 
-  &#sortable
+  #sortable
     list-style-type: none
     margin: 0
     padding: 0
-    width: 90%
+    width: 80%
     margin-left: auto
     margin-right: auto
-  &#sortable li
+  #sortable li
     margin-bottom: 3px
     font-size: 1em
     // min-height: 60px
@@ -63,61 +65,66 @@ input[type="radio"]:checked + label {
     border: 1px solid #d3d3d3
     background-color #FAFAFA
 
-  &.criterion-text
-    line-height: normal
-    vertical-align: middle
-    display: inline-block
+  // Criterion Flex
+  .criterionContainer
+    display flex
+    justify-content space-around
+    align-items center
+    height 55px
 
-  &.criterion-desc
+  .item2
+    width 36%
+
+  .critDetail
+    text-align: right
+    // padding-right: 15px
+
+  .formStyling
+    width: 320px !important
+
+  .critAddon
+    min-width: 70px
+
+
+  .criterion-desc
     font-size: 0.8em
     font-style: italic
 
-  &#addCriterionLi
+  #addCriterionLi
     background-color: #BEDBC0 !important
 
-  &#addCriterionSelect
+  #addCriterionSelect
     width: 85%
 
-  &.handlerIcon
-    margin-left: 15px
-    margin-top: 25px
-
-  &.removeCriterion
-    margin-right: 15px
+  .removeCriterion
     color: rgb(189, 0, 0)
-    // background #A9C700
-    // border-radius 2em
-    // width 2em
-    // height 2em
-    // margin-right 1em
-    // text-align center
-    // line-height 2em
-    // font-weight bold
-    // font-size 1.2em
+    margin-left: 10px
 
-  &#scenario-submit
+
+  #scenario-submit
     margin-top: 20px
     margin-left: auto
     margin-right: auto
     display: block
 
-  &.actionTable
+
+  .actionTable
     width:100%
     margin-top: 50px
     font-size: 0.8em
 
-  &.actionTable th
+  .actionTable th
     background-color: #A9C700
     text-align: center
 
-  &.actionTable table, th, td
+  .actionTable table, th, td
     border: 1px solid black
     border-collapse: collapse
 
-  &.actionTable th,td
+  .actionTable th,td
     padding: 7px
 
-  &#timelineLink
+  #timelineLink
     margin-top: 20px
     margin-bottom: 40px
     margin-left: auto

@@ -42,22 +42,21 @@
   <!-- <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div> -->
   <!-- Not necessary for ICC and IPC -->
 
-  <div class="yearly_values_titleBlock yearly_values_flexItem">
+  <div class="yearly_values_titleBlock yearly_values_item">
     <div class="yearly_values_title">{{_ "year"}}</div>
     <div class="yearly_values_title">%</div>
     <div class="yearly_values_title">{{_ "evolution"}}</div>
   </div>
 
-  <fieldset class="yearly_values_flexBox">
+  <div class="yearly_values_container">
 
     {{#if afFieldIsInvalid name=this.atts.name}}
       <div class="autoform-array-field-error">{{{afFieldMessage name=this.atts.name}}}</div>
     {{/if}}
 
-
     {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
       <!-- Testing display settings at the ArrayField level -->
-      <div class="yearly_values_flexItem">
+      <div class="yearly_values_item">
         {{> afQuickField name=this.name label=false}}
 
         {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
@@ -71,5 +70,6 @@
       <button type="button" class="autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}">Add</button>
     </div>
     {{/if}}
-  </fieldset>
+
+  </div>
 </template>
