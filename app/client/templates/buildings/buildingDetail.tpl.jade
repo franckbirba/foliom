@@ -1,6 +1,6 @@
 .page.observe.buildingDetail: .container
   // Dynamic page title
-  .row: .col-md-12
+  .row: .animated.fadeInDown: .col-md-12
     h1.page-title
       | {{current_portfolio_name_H}} -
       span.text-primary= building_name
@@ -10,7 +10,7 @@
         each getLeases
           option(value='{{_id}}')= lease_name
   // First row: Summary & Assesment
-  .row
+  .row: .animated.fadeInDown
     // Summary
     .col-md-4: .panel.panel-primary
       .panel-heading: h3.panel-title.text-center {{_ "summary"}}
@@ -42,7 +42,7 @@
             .dpe-gpe-chart: +ges
             p.dpe-gpe-legend {{_ 'strong_emission_of_greenhouse_gases'}}
   // Second row: Messages & alerts, Pie chart, Water consumption
-  .row
+  .row: .animated.fadeInUp
     // Message box
     .col-md-4: +messageBox
     // Pie chart for energy consumption by usage
@@ -79,7 +79,7 @@
               br
               .water2u €/m³
   // Last row: Actions summary, Indices
-  .row
+  .row: .animated.fadeInUp
     // Actions summary
     .col-md-4: .panel.panel-primary
       .panel-heading: h3.panel-title.text-center {{_ 'actionRecap'}}

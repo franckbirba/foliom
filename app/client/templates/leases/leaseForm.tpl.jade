@@ -1,0 +1,7 @@
+.page.observe: .container
+  unless session "leaseToEdit"
+    h2 {{_ "create_new_lease"}}
+    h4 {{_ "leasesToCreate"}} {{ session 'nbLeases_2create' }}
+  br
+  div
+  +quickForm collection="Leases" id="insertLeaseForm" template="eportfolio-horizontal" doc=getLeaseToEdit type=getType
