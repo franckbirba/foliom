@@ -8,12 +8,9 @@
       transition color .3s ease-in-out
   .date-selection
     cursor auto
-    bottom 46px
-    left -36px
     height initial
-    position absolute
+    absolute bottom 48px 0 left -36px
     user-select none
-    box-sizing border-box
     border 2px solid colorC
     border-radius 5px
     background-color colorD
@@ -43,7 +40,7 @@
         border-radius 1.2em
         width 4em
         height 1.2em
-        line-height 1.4em
+        line-height 1.2em
         text-align center
         transition all .3s ease-in-out
         &:hover
@@ -56,10 +53,9 @@
       cursor default
     // Hide standard radio button
     [type="radio"]:not(:checked), [type="radio"]:checked
-      position absolute
-      left -9999px
+      absolute top 0 left -9999px
     [type="radio"]:not(:checked) + label, [type="radio"]:checked + label
-      position relative
+      relative
       cursor pointer
       text-align center
       width 50px
@@ -84,23 +80,21 @@
         transition all .3s ease-in-out
   // Little arrow triangle
   .date-selection:after, .date-selection:before
-    top 100%
-    left 90px
     border solid transparent
     content ' '
     height 0
     width 0
-    position absolute
+    absolute top 100% left 90px
     pointer-events none
   .date-selection:after
     border-color transparent
     border-top-color colorD
-    margin-top -1px
+    //margin-top -1px
     border-width 19px
     margin-left -20px
   .date-selection:before
     border-color transparent
     border-top-color colorC
-    margin-top -1px
+    //margin-top -1px
     margin-left -21px
     border-width 20px

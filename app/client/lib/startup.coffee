@@ -1,6 +1,6 @@
 Meteor.startup ->
   Session.set 'Mongol',
-    collections: ['Scenarios', 'Buildings', 'Actions']
+    collections: ['Scenarios', 'Buildings', 'Actions', 'Messages']
     display: true
     opacity_normal: '.7'
     opacity_expand: '.9'

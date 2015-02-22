@@ -1,8 +1,17 @@
+scroll = ->
+  $msgs = $ '#messages'
+  $msgs.scrollTop 20 + ($msgs.prop 'scrollHeight')
+  $msgs.children().children().last().toggleClass 'animated lightSpeedIn'
+
+# Debounce scroll by one frame
+debouncedScroll = _.debounce scroll, 16, false
+
 Template.messageBox.rendered = ->
-  @$('#messages').scrollTop $("#messages").prop 'scrollHeight'
-  Messages.find().observe
+  $msgs = @$('#messages')
+  $msgs.scrollTop ($msgs.prop 'scrollHeight')
+  Messages.find().observeChanges
     added: (newDocument, oldDocument) ->
-      $('#messages').scrollTop $('#messages').prop 'scrollHeight'
+      debouncedScroll()
 
 Template.messageBox.helpers
   messages: ->
