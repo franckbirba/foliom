@@ -1,9 +1,9 @@
 .page.plan.scenarioList: .container: .row
-  .col-md-3.text-center
+  .col-md-3.text-center: .animated.fadeInLeft
       div: span.fa.fa-gears.fa-5x
       h4 {{_ "schemaDir_create"}}
   .col-md-9
-    .row
+    .row: .animated.fadeInDown
       each getScenarios
         .col-md-4
           .scenarioItem
