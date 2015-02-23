@@ -1,9 +1,3 @@
 .row(data-role=chartName)
-  // Hide/show legend
-  .clearfix.floating-eye: .pull-right: span.glyphicon.glyphicon-eye-close(data-trigger='hideshow-legend', data-value=chartName)
-  // The chart
-  .col-md-8(data-role='chart').chart-fixed-height: .d3-svg-container(data-chart=chartName)
-  // The legend
-  .col-md-4(data-role='legend'): small
-    each chartLegend
-      .chart-legend(class=color)= name
+  .col-md-12: .d3-chart-fixed-height
+    .d3-svg-container(data-chart=chartName)
