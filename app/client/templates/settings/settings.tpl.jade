@@ -5,7 +5,8 @@
     .col-md-2
       span.btn.btn-small.glyphicon.glyphicon-globe.edit-master(class=isEditingMasterCfg) edit master
   .row
-    +quickForm collection="Configurations" id="configAutoForm" doc=getCfg template="eportfolio-horizontal" type=getType
+    //- +quickForm collection="Configurations" id="configAutoForm" doc=getCfg template="eportfolio-horizontal" type=getType
+    +quickForm collection="Configurations" id="configAutoForm" doc=getCfg type=getType
 
 //- #fluidformmodal.modal.fade
 //-   .modal-content

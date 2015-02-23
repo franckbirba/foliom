@@ -316,7 +316,7 @@ Configurations.attachSchema(new SimpleSchema({
 		optional: true,
         type: [Fluids2],
         autoform: {
-            template:'eportfolio-settings'
+            // template:'eportfolio-settings'
             // template:'bootstrap3'
             //omit:true
         }
