@@ -1,6 +1,8 @@
 @import 'client/templates/timeline/timeline.import'
 
 .timeline
+  .d3-chart-fixed-height
+    height 195px
   // Make SVG responsive
   .d3-svg-container
     display inline-block
@@ -16,25 +18,20 @@
     left 0
   // Style SVG charts
   path
-  	stroke-width 1
+  	stroke-width 2px
   	fill none
-  .data1
-  	stroke colorA
-  .data2
-  	stroke colorB
-  .axis
+  .x.axis, .y.axis
     text
       font-size 8px
       fill colorC
-    shape-rendering crispEdges
-    .x
-      line, .minor, path
-        stroke colorC
-    .y
-      line, path
-        fill none
-        stroke colorC
-      .axisRight text
-  	    fill colorA
-      .axisLeft text
-  	    fill colorB
+    line, .minor, path
+      shape-rendering crispEdges
+      stroke colorD
+  .y.axis
+    line
+      stroke-dasharray 2px 2px
+  .data0
+  	stroke colorA
+  .data1
+    stroke colorB
+    stroke-dasharray 5px 2px

@@ -1,3 +1,6 @@
+# Local alias on the namespaced variables for the Timeline
+TV = TimelineVars
+
 ###*
  * Responsive D3 charts for lines
 ###
@@ -5,123 +8,183 @@ class D3LineChart
   ###*
    * C-tor
    * @param  {String} @svgContainer DOM container with a .d3-svg-container
-   * @param  {Array}  @margins      Margins as an Array of Number
-   *                                with [top, right, bottom, left],
-   *                                default to [10, 30, 20, 30]
+   * @param  {Object} @margin       Margins as an Object of Number
+   *                                with top, right, bottom, left keys,
+   *                                default to { top: 10, right: 30,
+   *                                bottom: 20, left: 30 }
    * @param  {Number} @svgWidth     Width of the SVG, default to 490
    * @param  {Number} @svgHeight    Heigh of the SVG, default to 195
   ###
   constructor: (
-    @svgContainer, @margins=[10, 30, 20, 30], @svgWidth=490, @svgHeight=195
+    @svgContainer,
+    @margin = { top: 10, right: 5, bottom: 20, left: 30 },
+    @svgWidth = 750,
+    @svgHeight = 195
   ) ->
     # Graph's width
-    @graphWidth = @svgWidth - @margins[1] - @margins[1]
+    @graphWidth = @svgWidth - @margin.left - @margin.right
     # Graph's height
-    @graphHeight = @svgHeight - @margins[0] - @margins[2]
-    @data = {}
+    @graphHeight = @svgHeight - @margin.top - @margin.bottom
+    # Abscissa and Ordonna
+    @x = @y = {}
+    # Add an SVG element with the desired dimensions and margin.
+    @graph = d3.select @svgContainer
+      .append 'svg:svg'
+      # Make SVG responsive
+      .attr 'preserveAspectRatio', 'xMinYMin meet'
+      .attr 'viewBox', "0 0 #{@svgWidth} #{@svgHeight}"
+      .attr 'class', 'd3-svg-content'
+      # Group chart's components
+      .append 'svg:g'
+      .attr 'transform',
+        "translate(#{@margin.left}, #{@margin.top})"
+  ###*
+   * Set the abscissa for each lines.
+   * @param {Array} arr An array of Number.
+  ###
+  setAbscissa: (arr) ->
+    @xScalingFct = d3.scale.linear()
+      .domain [0, arr.length]
+      .range [0, @graphWidth]
+    # Create xAxis
+    xAxis = d3.svg.axis()
+      .scale @xScalingFct
+      .tickFormat (d, i) -> arr[d]
+      .tickSize -@graphHeight
+    # Add the xAxis
+    @graph.append 'svg:g'
+      .attr 'class', 'x axis'
+      .attr 'transform', "translate(0, #{@graphHeight})"
+      .call xAxis
   ###*
    * Set data for each lines.
-   * @param {Object} dataObj An object with an id as a Number and a value as an
-   *                         Arrray of Number.
+   * @param {Object} obj An Object describing each chart.
   ###
-  setData: (dataObj) ->
-    @data[dataObj.id] = dataObj.value
+  setData: (obj) ->
+    @setAbscissa obj.labels
+    for dataObj, idx in obj.series
+      # Only display yAxis on the first data set
+      if idx is 0
+        @yScalingFct = d3.scale.linear()
+          .domain [(d3.max dataObj.data), 0]
+          .range [0, @graphHeight]
+        # Create yAxis
+        yAxis = d3.svg.axis()
+          .scale @yScalingFct
+          .tickSize 4
+          .orient 'left'
+        # Add the yAxis
+        @graph.append 'svg:g'
+          .attr 'class', 'y axis'
+          .call yAxis
+      # Set the line properties
+      line = d3.svg.line()
+        .x (d, i) =>
+          # Return the X coordinate where we want to plot this datapoint
+          @xScalingFct i
+        .y (d) =>
+          # Return the Y coordinate where we want to plot this datapoint
+          @yScalingFct d
+      # Add lines after axis and tick lines have been drawn
+      @graph.append 'svg:path'
+        .attr 'd', line dataObj.data
+        .attr 'class', "data#{idx}"
 
+###*
+ * Chart's functions
+###
+ChartFct =
+  ###*
+   * Calculate and present data suite for the Consumption chart.
+  ###
+  consumptionChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    labels: TV.charts.ticks
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_noaction'
+        data: TV.charts.consumption
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_co2'
+        data: sum2Suites TV.charts.consumption, \
+          sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_kwh'
+        data: sum2Suites TV.charts.consumption, \
+          sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
+      }
+    ]
 
+  ###*
+   * Calculate and present data suite for the Expense chart.
+  ###
+  expenseChart: ->
+    labels: TV.charts.ticks
+    series: [
+      { name: (TAPi18n.__ 'expense_raw'), data: TV.charts.consumption }
+    ]
 
+  ###*
+   * Calculate and present data suite for the Investment chart.
+  ###
+  investmentChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    labels: TV.charts.ticks
+    series: [
+      {
+        name: TAPi18n.__ 'investment_budget'
+        data: TV.charts.budget
+      }
+      {
+        name: TAPi18n.__ 'investment_raw'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSuite'
+      }
+      {
+        name: TAPi18n.__ 'investment_minus_subventions'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSubventionedSuite'
+      }
+    ]
+
+###*
+ * Set the template rendered callback.
+###
 Template.timelineD3Chart.rendered = ->
-  chart = new  D3LineChart "[data-chart='#{@data.chartName}']"
-  chart.setData id: 0, value: [3, 6, 2, 7, 5]
-  chart.setData id: 1, value: [543, 367, 215, 56, 65]
+  chartFct = ChartFct[@data.chartName]
+  chart = new D3LineChart "[data-chart='#{@data.chartName}']"
+  chart.setData chartFct()
 
-  # Define graph dimensions
-  # Margins
-  m = [10, 30, 20, 30]
-  # Width
-  w = 490 - m[1] - m[3]
-  # Height
-  h = 195 - m[0] - m[2]
-  # Create a simple data array that we'll plot with a line (this array
-  #  represents only the Y values, X will just be the index location)
-  data1 = [3, 6, 2, 7, 5]
-  data2 = [543, 367, 215, 56, 65]
-  # X scale will fit all values from data[] within pixels 0-w
-  x = d3.scale.linear()
-    .domain [0, data1.length]
-    .range [0, w]
-  # Y scale will fit values from 0-10 within pixels h-0
-  #  (Note the inverted domain for the y-scale: bigger is up!)
-  y1 = d3.scale.linear()
-    .domain [0, d3.max data1]
-    .range [h, 0]
-  # in real world the domain would be dynamically calculated from the data
-  y2 = d3.scale.linear()
-    .domain [0, d3.max data2]
-    .range [h, 0]
-  # in real world the domain would be dynamically calculated from the data
-  # automatically determining max range can work something like this
-  # var y = d3.scale.linear().domain([0, d3.max(data)]).range([h, 0]);
-  # create a line function that can convert data[] into x and y points
-  line1 = d3.svg.line()
-    .x (d, i) ->
-      # return the X coordinate where we want to plot this datapoint
-      x i
-    .y (d) ->
-      # return the Y coordinate where we want to plot this datapoint
-      y1 d
-  # create a line function that can convert data[] into x and y points
-  line2 = d3.svg.line()
-    .x (d, i) ->
-      # return the X coordinate where we want to plot this datapoint
-      x i
-    .y (d) ->
-      # return the Y coordinate where we want to plot this datapoint
-      y2 d
-  # Add an SVG element with the desired dimensions and margin.
-  graph = d3.select "[data-chart='#{@data.chartName}']"
-    .append 'svg:svg'
-    # Make SVG responsive
-    .attr 'preserveAspectRatio', 'xMinYMin meet'
-    .attr 'viewBox', "0 0 #{w + m[1] + m[3]} #{h + m[0] + m[2]}"
-    .attr 'class', 'd3-svg-content'
-    # Group chart's components
-    .append 'svg:g'
-    .attr 'transform', "translate(#{m[3]}, #{m[0]})"
-  # create yAxis
-  xAxis = d3.svg.axis()
-    .scale x
-    .tickSize -h
-    .tickSubdivide true
-  # Add the x-axis.
-  graph.append 'svg:g'
-    .attr 'class', 'x axis'
-    .attr 'transform', "translate(0, #{h})"
-    .call xAxis
-  # create left yAxis
-  yAxisLeft = d3.svg.axis()
-    .scale y1
-    .ticks 4
-    .orient 'left'
-  # Add the y-axis to the left
-  graph.append 'svg:g'
-    .attr 'class', 'y axis axisLeft'
-    .attr 'transform', 'translate(-15,0)'
-    .call yAxisLeft
-  # create right yAxis
-  yAxisRight = d3.svg.axis()
-    .scale y2
-    .ticks 6
-    .orient 'right'
-  # Add the y-axis to the right
-  graph.append 'svg:g'
-    .attr 'class', 'y axis axisRight'
-    .attr 'transform', "translate(#{w + 15})"
-    .call yAxisRight
-  # Add lines
-  # do this AFTER the axes above so that the line is above the tick-lines
-  graph.append 'svg:path'
-    .attr 'd', line1 data1
-    .attr 'class', 'data1'
-  graph.append 'svg:path'
-    .attr 'd', line2 data2
-    .attr 'class', 'data2'
+###*
+ * Create an Array of the provided size filled with 0.
+ * @param {Number} size Size of the expected Array.
+ * @return {Array} The created Array.
+###
+createArrayFilledWithZero = (size) ->
+  (Array.apply null, new Array size).map Number.prototype.valueOf, 0
+
+###*
+ * Sum suites from an Array of Object with suites reachable with the same
+ *  property key.
+ * @param {Array} arr The Array of Object.
+ * @param {String} key The property of the Object.
+ * @result {Array} The suite as a sum of all the Array of Object suite.
+###
+sumSuiteFromArray = (arr, key) ->
+  results = createArrayFilledWithZero arr[0][key].length
+  for idx in [0...results.length]
+    for item in arr
+      results[idx] += item[key][idx]
+  results
+
+###*
+ * Sum 2 suites of exact same length.
+ * @param {Array} suite1 First suite. Its length is used as the reference.
+ * @param {Array} suite2 Second suite.
+ * @return {Array} The result of the sum.
+###
+sum2Suites = (suite1, suite2) ->
+  results = createArrayFilledWithZero suite1.length
+  for idx in [0...results.length]
+    results[idx] = suite1[idx] + suite2[idx]
+  results
