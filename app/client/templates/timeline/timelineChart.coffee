@@ -13,17 +13,17 @@ Template.timelineChart.helpers
   chartLegend: ->
     legends =
       consumptionChart: [
-        { color: 'colorA', name: TAPi18n.__ 'consumption_noaction' }
-        { color: 'colorB', name: TAPi18n.__ 'consumption_action_co2' }
-        { color: 'colorC', name: TAPi18n.__ 'consumption_action_kwh' }
+        { color: 'color0', name: TAPi18n.__ 'consumption_noaction' }
+        { color: 'color1', name: TAPi18n.__ 'consumption_action_co2' }
+        { color: 'color2', name: TAPi18n.__ 'consumption_action_kwh' }
       ]
       expenseChart: [
-        { color: 'colorA', name: TAPi18n.__ 'expense_raw' }
+        { color: 'color0', name: TAPi18n.__ 'expense_raw' }
       ]
       investmentChart: [
-        { color: 'colorA', name: TAPi18n.__ 'investment_budget' }
-        { color: 'colorB', name: TAPi18n.__ 'investment_raw' }
-        { color: 'colorC', name: TAPi18n.__ 'investment_minus_subventions' }
+        { color: 'color0', name: TAPi18n.__ 'investment_budget' }
+        { color: 'color1', name: TAPi18n.__ 'investment_raw' }
+        { color: 'color2', name: TAPi18n.__ 'investment_minus_subventions' }
       ]
     legends[@chartName]
 

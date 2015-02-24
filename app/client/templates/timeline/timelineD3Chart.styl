@@ -18,35 +18,24 @@
     left 0
   // Style SVG charts
   path
-  	stroke-width 2px
-  	fill none
+    stroke-width 1px
+    fill none
   .x.axis, .y.axis
     text
       font-size 8px
-      fill colorC
+      fill color2
     line, .minor, path
       shape-rendering crispEdges
-      stroke colorD
+      stroke color3
   .y.axis
     line
       stroke-dasharray 2px 2px
-  .data0
-    stroke colorA
-    circle
-      stroke colorA
-      fill colorA
-  .data1
-    stroke colorB
-    circle
-      stroke colorB
-      fill colorB
-  .data2
-    stroke colorC
-    circle
-      stroke colorC
-      fill colorC
-  .data3
-    stroke colorD
-    circle
-      stroke colorD
-      fill colorD
+
+// Styles for lines and circles
+for idx in 0..4
+  .timeline
+    .data{idx}
+      stroke color + idx
+      circle
+        stroke color + idx
+        fill color + idx

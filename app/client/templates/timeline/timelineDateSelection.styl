@@ -11,9 +11,9 @@
     height initial
     absolute bottom 48px 0 left -36px
     user-select none
-    border 2px solid colorC
+    border 2px solid color2
     border-radius 5px
-    background-color colorD
+    background-color color3
     width 360px
     padding 5px
     margin 0
@@ -23,7 +23,7 @@
       .quarter-selection
         width 90px
         margin 0 5px
-        border-right 1px solid colorC
+        border-right 1px solid color2
         .quarters
           margin-left 10px
           display flex
@@ -49,7 +49,7 @@
           transition all .3s ease-in-out
     p
       font-weight bold
-      color colorB
+      color color1
       cursor default
     // Hide standard radio button
     [type="radio"]:not(:checked), [type="radio"]:checked
@@ -62,21 +62,21 @@
     [type="radio"]:checked + label
       cursor default
       border-radius 3px
-      background-color colorA
+      background-color color0
       color white
       border-bottom none
       font-weight bold
       transition all .3s ease-in-out
     [type="radio"]:not(:checked) + label
       border-radius 3px
-      background-color colorD
-      color colorB
+      background-color color3
+      color color1
       border-bottom none
       font-weight normal
       transition all .3s ease-in-out
       &:hover
         color black
-        background-color colorC
+        background-color color2
         transition all .3s ease-in-out
   // Little arrow triangle
   .date-selection:after, .date-selection:before
@@ -88,13 +88,13 @@
     pointer-events none
   .date-selection:after
     border-color transparent
-    border-top-color colorD
+    border-top-color color3
     //margin-top -1px
     border-width 19px
     margin-left -20px
   .date-selection:before
     border-color transparent
-    border-top-color colorC
+    border-top-color color2
     //margin-top -1px
     margin-left -21px
     border-width 20px
