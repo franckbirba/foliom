@@ -43,6 +43,7 @@ exports.createBuildings = (nb_buildings) ->
       'igh': 'no'
       'erp_status': 'erp_L'
       'erp_category': 'erp_1'
+      'headcount': '1600'
       'dpe_energy_consuption':
         'grade': 'dpe_A'
         'value': 42
@@ -222,6 +223,7 @@ exports.createBuildings = (nb_buildings) ->
       'igh': 'no'
       'erp_status': 'erp_L'
       'erp_category': 'erp_1'
+      'headcount': '2600'
       'dpe_energy_consuption':
         'grade': 'dpe_B'
         'value': 70
