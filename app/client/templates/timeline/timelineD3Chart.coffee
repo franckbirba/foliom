@@ -17,7 +17,7 @@ class D3LineChart
   ###
   constructor: (
     @svgContainer,
-    @margin = { top: 10, right: 5, bottom: 20, left: 30 },
+    @margin = { top: 10, right: 15, bottom: 20, left: 25 },
     @svgWidth = 750,
     @svgHeight = 195
   ) ->
@@ -51,6 +51,7 @@ class D3LineChart
       .scale @xScalingFct
       .tickFormat (d, i) -> arr[d]
       .tickSize -@graphHeight
+      .tickPadding 6
     # Add the xAxis
     @graph.append 'svg:g'
       .attr 'class', 'x axis'
@@ -72,7 +73,8 @@ class D3LineChart
         yAxis = d3.svg.axis()
           .scale @yScalingFct
           .tickFormat (d, i) -> numeral(d).format()
-          .tickSize 4
+          .tickSize -@graphWidth
+          .tickPadding 6
           .orient 'left'
         # Add the yAxis
         @graph.append 'svg:g'
