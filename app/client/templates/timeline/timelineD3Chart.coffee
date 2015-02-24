@@ -71,6 +71,7 @@ class D3LineChart
         # Create yAxis
         yAxis = d3.svg.axis()
           .scale @yScalingFct
+          .tickFormat (d, i) -> numeral(d).format()
           .tickSize 4
           .orient 'left'
         # Add the yAxis
@@ -86,9 +87,20 @@ class D3LineChart
           # Return the Y coordinate where we want to plot this datapoint
           @yScalingFct d
       # Add lines after axis and tick lines have been drawn
-      @graph.append 'svg:path'
-        .attr 'd', line dataObj.data
+      lineGroup = @graph.append 'svg:g'
         .attr 'class', "data#{idx}"
+      lineGroup.append 'svg:path'
+          .attr 'class', "data#{idx}"
+          .datum dataObj.data
+          .attr 'd', line
+      lineGroup.selectAll 'circle'
+        .data dataObj.data
+        .enter()
+        .append 'circle'
+          .attr 'class', "data#{idx}"
+          .attr 'r', 2
+          .attr 'cx', (d, i) => @xScalingFct i
+          .attr 'cy', (d) => @yScalingFct d
 
 ###*
  * Chart's functions
