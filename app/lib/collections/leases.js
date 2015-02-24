@@ -471,6 +471,10 @@ Leases.attachSchema(new SimpleSchema({
             }
         }
     },
+    headcount:{
+        type: Number,
+        label: transr("headcount"),
+    },
     dpe_energy_consuption: {
         type: Object,
         optional: function () {
