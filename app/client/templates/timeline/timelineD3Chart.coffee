@@ -1,3 +1,6 @@
+# Local alias on the namespaced variables for the Timeline
+TV = TimelineVars
+
 ###*
  * Responsive D3 charts for lines
 ###
@@ -46,6 +49,7 @@ class D3LineChart
     # Create xAxis
     xAxis = d3.svg.axis()
       .scale @xScalingFct
+      .tickFormat (d, i) -> arr[d]
       .tickSize -@graphHeight
     # Add the xAxis
     @graph.append 'svg:g'
@@ -54,42 +58,133 @@ class D3LineChart
       .call xAxis
   ###*
    * Set data for each lines.
-   * @param {Object} dataObj [description]
+   * @param {Object} obj An Object describing each chart.
   ###
-  setData: (dataObj) ->
-    # Only display yAxis on the first data set
-    if dataObj.id is 0
-      @yScalingFct = d3.scale.linear()
-        .domain [(d3.max dataObj.value), 0]
-        .range [0, @graphHeight]
-      # Create yAxis
-      yAxis = d3.svg.axis()
-        .scale @yScalingFct
-        .tickSize 4
-        .orient 'left'
-      # Add the yAxis
-      @graph.append 'svg:g'
-        .attr 'class', 'y axis'
-        .call yAxis
-    # Set the line properties
-    @y[dataObj.id] =
-      value: dataObj.value
-      line: d3.svg.line()
+  setData: (obj) ->
+    @setAbscissa obj.labels
+    for dataObj, idx in obj.series
+      # Only display yAxis on the first data set
+      if idx is 0
+        @yScalingFct = d3.scale.linear()
+          .domain [(d3.max dataObj.data), 0]
+          .range [0, @graphHeight]
+        # Create yAxis
+        yAxis = d3.svg.axis()
+          .scale @yScalingFct
+          .tickSize 4
+          .orient 'left'
+        # Add the yAxis
+        @graph.append 'svg:g'
+          .attr 'class', 'y axis'
+          .call yAxis
+      # Set the line properties
+      line = d3.svg.line()
         .x (d, i) =>
           # Return the X coordinate where we want to plot this datapoint
           @xScalingFct i
         .y (d) =>
           # Return the Y coordinate where we want to plot this datapoint
           @yScalingFct d
-    # Add lines after axis and tick lines have been drawn
-    @graph.append 'svg:path'
-      .attr 'd', @y[dataObj.id].line @y[dataObj.id].value
-      .attr 'class', "data#{dataObj.id}"
+      # Add lines after axis and tick lines have been drawn
+      @graph.append 'svg:path'
+        .attr 'd', line dataObj.data
+        .attr 'class', "data#{idx}"
 
+###*
+ * Chart's functions
+###
+ChartFct =
+  ###*
+   * Calculate and present data suite for the Consumption chart.
+  ###
+  consumptionChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    labels: TV.charts.ticks
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_noaction'
+        data: TV.charts.consumption
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_co2'
+        data: sum2Suites TV.charts.consumption, \
+          sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_kwh'
+        data: sum2Suites TV.charts.consumption, \
+          sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
+      }
+    ]
+
+  ###*
+   * Calculate and present data suite for the Expense chart.
+  ###
+  expenseChart: ->
+    labels: TV.charts.ticks
+    series: [
+      { name: (TAPi18n.__ 'expense_raw'), data: TV.charts.consumption }
+    ]
+
+  ###*
+   * Calculate and present data suite for the Investment chart.
+  ###
+  investmentChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    labels: TV.charts.ticks
+    series: [
+      {
+        name: TAPi18n.__ 'investment_budget'
+        data: TV.charts.budget
+      }
+      {
+        name: TAPi18n.__ 'investment_raw'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSuite'
+      }
+      {
+        name: TAPi18n.__ 'investment_minus_subventions'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSubventionedSuite'
+      }
+    ]
+
+###*
+ * Set the template rendered callback.
+###
 Template.timelineD3Chart.rendered = ->
-  data0 = [3, 6, 2, 7, 5]
-  data1 = [3, 4, 2, 2, 1]
+  chartFct = ChartFct[@data.chartName]
   chart = new D3LineChart "[data-chart='#{@data.chartName}']"
-  chart.setAbscissa data0
-  chart.setData id: 0, value: data0
-  chart.setData id: 1, value: data1
+  chart.setData chartFct()
+
+###*
+ * Create an Array of the provided size filled with 0.
+ * @param {Number} size Size of the expected Array.
+ * @return {Array} The created Array.
+###
+createArrayFilledWithZero = (size) ->
+  (Array.apply null, new Array size).map Number.prototype.valueOf, 0
+
+###*
+ * Sum suites from an Array of Object with suites reachable with the same
+ *  property key.
+ * @param {Array} arr The Array of Object.
+ * @param {String} key The property of the Object.
+ * @result {Array} The suite as a sum of all the Array of Object suite.
+###
+sumSuiteFromArray = (arr, key) ->
+  results = createArrayFilledWithZero arr[0][key].length
+  for idx in [0...results.length]
+    for item in arr
+      results[idx] += item[key][idx]
+  results
+
+###*
+ * Sum 2 suites of exact same length.
+ * @param {Array} suite1 First suite. Its length is used as the reference.
+ * @param {Array} suite2 Second suite.
+ * @return {Array} The result of the sum.
+###
+sum2Suites = (suite1, suite2) ->
+  results = createArrayFilledWithZero suite1.length
+  for idx in [0...results.length]
+    results[idx] = suite1[idx] + suite2[idx]
+  results
