@@ -17,7 +17,7 @@ class D3LineChart
   ###
   constructor: (
     @svgContainer,
-    @margin = { top: 10, right: 15, bottom: 20, left: 25 },
+    @margin = { top: 10, right: 15, bottom: 20, left: 35 },
     @svgWidth = 750,
     @svgHeight = 195
   ) ->
@@ -64,45 +64,57 @@ class D3LineChart
   setData: (obj) ->
     @setAbscissa obj.labels
     for dataObj, idx in obj.series
-      # Only display yAxis on the first data set
-      if idx is 0
-        @yScalingFct = d3.scale.linear()
-          .domain [(d3.max dataObj.data), 0]
-          .range [0, @graphHeight]
-        # Create yAxis
-        yAxis = d3.svg.axis()
-          .scale @yScalingFct
-          .tickFormat (d, i) -> numeral(d).format()
-          .tickSize -@graphWidth
-          .tickPadding 6
-          .orient 'left'
-        # Add the yAxis
-        @graph.append 'svg:g'
-          .attr 'class', 'y axis'
-          .call yAxis
-      # Set the line properties
-      line = d3.svg.line()
-        .x (d, i) =>
-          # Return the X coordinate where we want to plot this datapoint
-          @xScalingFct i
-        .y (d) =>
-          # Return the Y coordinate where we want to plot this datapoint
-          @yScalingFct d
-      # Add lines after axis and tick lines have been drawn
-      lineGroup = @graph.append 'svg:g'
-        .attr 'class', "data#{idx}"
-      lineGroup.append 'svg:path'
+      # Prevent hoisting by performing immediate actions
+      do (name = dataObj.name, data = dataObj.data, idx = idx) =>
+        # Only display yAxis on the first data set
+        if idx is 0
+          @yScalingFct = d3.scale.linear()
+            .domain [(d3.max dataObj.data), 0]
+            .range [0, @graphHeight]
+          # Create yAxis
+          yAxis = d3.svg.axis()
+            .scale @yScalingFct
+            .tickFormat (d, i) -> numeral(d).format('0.0a')
+            .tickSize -@graphWidth
+            .tickPadding 6
+            .orient 'left'
+          # Add the yAxis
+          @graph.append 'svg:g'
+            .attr 'class', 'y axis'
+            .call yAxis
+        # Set the line properties
+        line = d3.svg.line()
+          .x (d, i) =>
+            # Return the X coordinate where we want to plot this datapoint
+            @xScalingFct i
+          .y (d) =>
+            # Return the Y coordinate where we want to plot this datapoint
+            @yScalingFct d
+        # Add lines after axis and tick lines have been drawn
+        lineGroup = @graph.append 'svg:g'
           .attr 'class', "data#{idx}"
-          .datum dataObj.data
-          .attr 'd', line
-      lineGroup.selectAll 'circle'
-        .data dataObj.data
-        .enter()
-        .append 'circle'
-          .attr 'class', "data#{idx}"
-          .attr 'r', 2
-          .attr 'cx', (d, i) => @xScalingFct i
-          .attr 'cy', (d) => @yScalingFct d
+        lineGroup.append 'svg:path'
+            .attr 'class', "data#{idx}"
+            .datum dataObj.data
+            .attr 'd', line
+        # Add circles and tips
+        tip = d3.tip()
+          .attr 'class', 'd3-tip'
+          .offset [-2, 0]
+          .html (d, i) =>
+            "<strong>#{name}</strong><br>\
+            <span>#{d}</span>"
+        @graph.call tip
+        lineGroup.selectAll 'circle'
+          .data dataObj.data
+          .enter()
+          .append 'circle'
+            .attr 'class', "data#{idx}"
+            .attr 'r', 2
+            .attr 'cx', (d, i) => @xScalingFct i
+            .attr 'cy', (d) => @yScalingFct d
+            .on 'mouseover', tip.show
+            #.on 'mouseout', tip.hide
 
 ###*
  * Chart's functions
@@ -137,7 +149,10 @@ ChartFct =
   expenseChart: ->
     labels: TV.charts.ticks
     series: [
-      { name: (TAPi18n.__ 'expense_raw'), data: TV.charts.consumption }
+      {
+        name: (TAPi18n.__ 'expense_raw')
+        data: TV.charts.consumption
+      }
     ]
 
   ###*
