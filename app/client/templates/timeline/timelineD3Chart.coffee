@@ -43,13 +43,14 @@ class D3LineChart
    * @param {Array} arr An array of Number.
   ###
   setAbscissa: (arr) ->
+    @abscissa = arr
     @xScalingFct = d3.scale.linear()
       .domain [0, arr.length]
       .range [0, @graphWidth]
     # Create xAxis
     xAxis = d3.svg.axis()
       .scale @xScalingFct
-      .tickFormat (d, i) -> arr[d]
+      .tickFormat (d, i) -> arr[i]
       .tickSize -@graphHeight
       .tickPadding 6
     # Add the xAxis
@@ -65,11 +66,11 @@ class D3LineChart
     @setAbscissa obj.labels
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
-      do (name = dataObj.name, data = dataObj.data, idx = idx) =>
-        # Only display yAxis on the first data set
+      do (name=dataObj.name, data=dataObj.data, unit=obj.unit, idx=idx) =>
+        # Only display xAxis and yAxis on the first data set
         if idx is 0
           @yScalingFct = d3.scale.linear()
-            .domain [(d3.max dataObj.data), 0]
+            .domain [(d3.max data), 0]
             .range [0, @graphHeight]
           # Create yAxis
           yAxis = d3.svg.axis()
@@ -95,18 +96,19 @@ class D3LineChart
           .attr 'class', "data#{idx}"
         lineGroup.append 'svg:path'
             .attr 'class', "data#{idx}"
-            .datum dataObj.data
+            .datum data
             .attr 'd', line
         # Add circles and tips
         tip = d3.tip()
           .attr 'class', 'd3-tip'
-          .offset [-2, 0]
+          .offset [-12, 0]
           .html (d, i) =>
             "<strong>#{name}</strong><br>\
-            <span>#{d}</span>"
+            <span>#{d} #{unit}</span><br>\
+            <span>#{@abscissa[i]}</span>"
         @graph.call tip
         lineGroup.selectAll 'circle'
-          .data dataObj.data
+          .data data
           .enter()
           .append 'circle'
             .attr 'class', "data#{idx}"
@@ -114,7 +116,7 @@ class D3LineChart
             .attr 'cx', (d, i) => @xScalingFct i
             .attr 'cy', (d) => @yScalingFct d
             .on 'mouseover', tip.show
-            #.on 'mouseout', tip.hide
+            .on 'mouseout', tip.hide
 
 ###*
  * Chart's functions
@@ -126,6 +128,7 @@ ChartFct =
   consumptionChart: ->
     rxPlannedActions = TV.rxPlannedActions.get()
     labels: TV.charts.ticks
+    unit: TAPi18n.__ 'u_kwhEF'
     series: [
       {
         name: TAPi18n.__ 'consumption_noaction'
@@ -148,6 +151,7 @@ ChartFct =
   ###
   expenseChart: ->
     labels: TV.charts.ticks
+    unit: TAPi18n.__ 'u_euro'
     series: [
       {
         name: (TAPi18n.__ 'expense_raw')
@@ -161,6 +165,7 @@ ChartFct =
   investmentChart: ->
     rxPlannedActions = TV.rxPlannedActions.get()
     labels: TV.charts.ticks
+    unit: TAPi18n.__ 'u_euro'
     series: [
       {
         name: TAPi18n.__ 'investment_budget'
