@@ -47,12 +47,12 @@
     .col-md-4: +messageBox
     // Pie chart for energy consumption by usage
     .col-md-5: .panel.panel-primary: .panel-body
-      h4.panel-inner-title Consommations énergétiques par usage
+      h4.panel-inner-title {{_ 'energy_cons_by_endUse'}}
       +pie
     // Water consumption
     .col-md-3
       .panel.panel-primary.water_block: .panel-body
-        h4.panel-inner-title Water consumption
+        h4.panel-inner-title {{_ 'water_consumption'}}
         table#waterTblBig.waterTable
           tr
             td(colspan='2')
