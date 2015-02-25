@@ -48,8 +48,8 @@ Template.barchart.rendered = function () {
         return x.name;
     }), true);
 
-    console.log("portfolioIDs: ");
-    console.log(portfolioIDs);
+    // console.log("portfolioIDs: ");
+    // console.log(portfolioIDs);
 
     _.each(portfolioIDs, function(entry, i) {
         var count = Buildings.find({portfolio_id: entry }).count();
@@ -62,7 +62,7 @@ Template.barchart.rendered = function () {
         );
     });
 
-    console.log(data);
+    // console.log(data);
 
     // Buildings.find(query).forEach(function(building) {
     //     // if ( building.address.gps_lat !== undefined ) {

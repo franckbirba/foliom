@@ -92,10 +92,6 @@ Template.observatory.events({
     'click .select_building': function(e) {
         e.preventDefault();
         Session.set('current_building_doc', this); // "this" is passed by Meteor - it's the current item
-
-        console.log("current Building is: ");
-        console.log(this);
-
         Router.go('building-detail', this);
     },
 
