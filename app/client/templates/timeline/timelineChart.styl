@@ -8,22 +8,22 @@
   .chart-legend
     font-size .8em
     font-weight lighter
-    &.colorA
-      color colorA
+    &.color0
+      color color0
       &:before
-        background-color colorA
-    &.colorB
-      color colorB
+        background-color color0
+    &.color1
+      color color1
       &:before
-        background-color colorB
-    &.colorC
-      color colorC
+        background-color color1
+    &.color2
+      color color2
       &:before
-        background-color colorC
-    &.colorD
-      color colorD
+        background-color color2
+    &.color3
+      color color3
       &:before
-        background-color colorD
+        background-color color3
     &:before
       content ''
       display inline-block
@@ -39,10 +39,10 @@
     margin-bottom 1em
   // Chart's tooltips
   .tooltip
-    border 3px colorC solid
-    background-color colorD
+    border 3px color2 solid
+    background-color color3
     border-radius 5px
-    color colorB
+    color color1
     font-size 0.7em
     font-weight bold
     height auto
@@ -65,11 +65,11 @@
     pointer-events none
   .tooltip:after
     border-color transparent
-    border-top-color colorD
+    border-top-color color3
     border-width 15px
     margin-left -15px
   .tooltip:before
     border-color transparent
-    border-top-color colorC
+    border-top-color color2
     border-width 20px
     margin-left -20px

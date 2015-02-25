@@ -2,7 +2,7 @@
 
 .timeline
   .d3-chart-fixed-height
-    height 195px
+    height 190px
   // Make SVG responsive
   .d3-svg-container
     display inline-block
@@ -18,20 +18,23 @@
     left 0
   // Style SVG charts
   path
-  	stroke-width 2px
-  	fill none
+    stroke-width 1px
+    fill none
   .x.axis, .y.axis
     text
       font-size 8px
-      fill colorC
+      fill color2
     line, .minor, path
       shape-rendering crispEdges
-      stroke colorD
-  .y.axis
+      stroke color3
     line
-      stroke-dasharray 2px 2px
-  .data0
-  	stroke colorA
-  .data1
-    stroke colorB
-    stroke-dasharray 5px 2px
+      stroke-dasharray 2 3
+
+// Styles for lines and circles
+for idx in 0..4
+  .timeline
+    .data{idx}
+      stroke color + idx
+      circle
+        stroke color + idx
+        fill color + idx
