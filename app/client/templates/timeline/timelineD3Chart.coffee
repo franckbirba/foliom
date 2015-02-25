@@ -40,9 +40,10 @@ class D3LineChart
         "translate(#{@margin.left}, #{@margin.top})"
   ###*
    * Set the abscissa for each lines.
+   * @param {String} chartName Chart's name as set on the xAxis.
    * @param {Array} arr An array of Number.
   ###
-  setAbscissa: (arr) ->
+  setAbscissa: (chartName, arr) ->
     @abscissa = arr
     @xScalingFct = d3.scale.linear()
       .domain [0, arr.length]
@@ -50,7 +51,7 @@ class D3LineChart
     # Create xAxis
     xAxis = d3.svg.axis()
       .scale @xScalingFct
-      .tickFormat (d, i) -> arr[i]
+      .tickFormat (d, i) -> arr[d]
       .tickSize -@graphHeight
       .tickPadding 6
     # Add the xAxis
@@ -58,12 +59,18 @@ class D3LineChart
       .attr 'class', 'x axis'
       .attr 'transform', "translate(0, #{@graphHeight})"
       .call xAxis
+    .append 'text'
+      .attr 'class', 'label'
+      .attr 'x', @graphWidth
+      .attr 'y', -6
+      .style 'text-anchor', 'end'
+      .text chartName
   ###*
    * Set data for each lines.
    * @param {Object} obj An Object describing each chart.
   ###
   setData: (obj) ->
-    @setAbscissa obj.labels
+    @setAbscissa obj.chartName, obj.labels
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
       do (name=dataObj.name, data=dataObj.data, unit=obj.unit, idx=idx) =>
@@ -85,10 +92,10 @@ class D3LineChart
             .call yAxis
           .append 'text'
             .attr 'transform', 'rotate(-90)'
-              .attr 'y', -35
-              .attr 'dy', '.71em'
-              .style 'text-anchor', 'end'
-              .text unit
+            .attr 'y', -35
+            .attr 'dy', '.71em'
+            .style 'text-anchor', 'end'
+            .text unit
         # Set the line properties
         line = d3.svg.line()
           .x (d, i) =>
@@ -135,6 +142,7 @@ ChartFct =
     rxPlannedActions = TV.rxPlannedActions.get()
     labels: TV.charts.ticks
     unit: TAPi18n.__ 'u_kwhEF'
+    chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
         name: TAPi18n.__ 'consumption_noaction'
@@ -158,6 +166,7 @@ ChartFct =
   expenseChart: ->
     labels: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
+    chartName: TAPi18n.__ 'expense_label'
     series: [
       {
         name: (TAPi18n.__ 'expense_raw')
@@ -172,6 +181,7 @@ ChartFct =
     rxPlannedActions = TV.rxPlannedActions.get()
     labels: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
+    chartName: TAPi18n.__ 'investment_label'
     series: [
       {
         name: TAPi18n.__ 'investment_budget'
