@@ -133,7 +133,6 @@ Template.scenarioForm.events({
         );
     });
     console.log("criterion_list is", criterion_list);
-    debugger
 
     $(".criterionContainer :input").each(function( index ) {
         //get all values, except for the last input (used to add a criterion)
