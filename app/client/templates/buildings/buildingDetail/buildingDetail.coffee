@@ -62,6 +62,8 @@ Template.buildingDetail.rendered = ->
         entry.lease_id = lease._id
         waterFluids.push entry
 
+  # debugger
+
   console.log waterFluids
   Template.instance().waterFluids.set(waterFluids)
 
