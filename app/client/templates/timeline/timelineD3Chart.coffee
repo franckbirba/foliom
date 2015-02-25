@@ -17,7 +17,7 @@ class D3LineChart
   ###
   constructor: (
     @svgContainer,
-    @margin = { top: 10, right: 15, bottom: 20, left: 35 },
+    @margin = { top: 10, right: 15, bottom: 20, left: 45 },
     @svgWidth = 750,
     @svgHeight = 195
   ) ->
@@ -83,6 +83,12 @@ class D3LineChart
           @graph.append 'svg:g'
             .attr 'class', 'y axis'
             .call yAxis
+          .append 'text'
+            .attr 'transform', 'rotate(-90)'
+              .attr 'y', -35
+              .attr 'dy', '.71em'
+              .style 'text-anchor', 'end'
+              .text unit
         # Set the line properties
         line = d3.svg.line()
           .x (d, i) =>
