@@ -38,6 +38,7 @@ coffeescript@1.0.5
 d3js:d3@3.5.5
 danielqiu:feed@0.0.5
 dbeath:feedparser@0.16.6
+dburles:mongo-collection-instances@0.3.1
 ddp@1.0.14
 deps@1.0.6
 ejson@1.0.5
@@ -86,7 +87,7 @@ mpowaga:string-template@0.1.0
 mquandalle:jade@0.4.1
 mquandalle:stylus@1.0.10
 mrt:twit@0.2.0
-msavin:mongol@0.3.5
+msavin:mongol@0.4.0
 natestrauser:animate-css@3.1.2
 natestrauser:select2@3.5.1
 nemo64:bootstrap@3.3.1_1
