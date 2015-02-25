@@ -1,29 +1,33 @@
 Template.graygreenBar.rendered = ->
   bar = d3.select("#bar_global_lifetime").select("svg")
 
-  height=20
-
+  height=15
 
   x_val = 0
-  y_val = 13
-  half_height = height/2
+  y_val = 20
+
+  value = "35 %"
+  triangle_color = "#7F7F7F"
+
+  #text
+  bar.append("text")
+    .attr("x", x_val )
+    .attr("y", y_val - 8 )
+    .attr("dy", ".35em")
+    .text( value )
+    # .style("font-weight", "bold")
+    .style("font-size", "0.9em" )
+    .attr "fill", triangle_color
 
   #triangles
   bar.append('path')
     .attr("d", () ->
         # middle = (y(barHeight) - barVerticalSpacing)/2
-        "M #{x_val} #{y_val} l #{height} 0 l -#{half_height} #{half_height} z"
+        "M #{x_val} #{y_val} l #{height} 0 l -#{height/2} #{height} z"
       )
-    .attr "fill", "#7F7F7F"
+    .attr "fill", triangle_color
 
-  # bar.append("text")
-  #   .attr("x", x_val )
-  #   .attr("y", y(barHeight)/2 )
-  #   .attr("dy", ".35em")
-  #   .text( (d) -> return d.letter )
-  #   .style("font-weight", "bold")
-  #   .style("font-size", (d)-> if d.length is 7 then "1.4em" else "1.1em" )
-  #   .attr "fill", (d)-> d.textColor
+
 
   # #triangles
   # bar.append('path')
