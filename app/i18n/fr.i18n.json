@@ -141,6 +141,9 @@
 		"low_emission_of_greenhouse_gases": "Faible émission de GES",
 		"strong_emission_of_greenhouse_gases": "Forte émission de GES",
 
+    "energy_cons_by_endUse":"Consommations énergétiques par usage",
+    "water_consumption": "Consommation d'eau",
+
     /* Leases */
     "create_new_lease": "Nouveau Bail",
     "leasesToCreate": "Baux à créer :",
