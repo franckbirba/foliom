@@ -36,5 +36,50 @@ for idx in 0..4
     .data{idx}
       stroke color + idx
       circle
+        stroke-width 1px
         stroke color + idx
         fill color + idx
+        transition all .3s ease-in-out
+        &:hover
+          stroke-width 4px
+          stroke color + idx
+          fill color + idx
+
+// Tooltips
+.d3-tip
+  text-align center
+  font-size 10px
+  padding 5px
+  background color3
+  border 2px color2 solid
+  color color1
+  border-radius 2px
+  height auto
+  min-width 80px
+  max-width 250px
+  padding 4px
+  position relative
+  text-align center
+  width auto
+  pointer-events none
+  z-index 1
+  // Creates a small triangle extender for the tooltip
+  &:after, &:before
+    top 100%
+    left 50%
+    border solid transparent
+    content ' '
+    height 0
+    width 0
+    position absolute
+    pointer-events none
+  &:after
+    border-color transparent
+    border-top-color @background
+    border-width 10px
+    margin-left -10px
+  &:before
+    border-color transparent
+    border-top-color color2
+    border-width 13px
+    margin-left -13px

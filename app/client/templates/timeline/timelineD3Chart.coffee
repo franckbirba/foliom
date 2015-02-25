@@ -66,7 +66,7 @@ class D3LineChart
     @setAbscissa obj.labels
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
-      do (name = dataObj.name, data = dataObj.data, idx = idx) =>
+      do (name=dataObj.name, data=dataObj.data, unit=obj.unit, idx=idx) =>
         # Only display xAxis and yAxis on the first data set
         if idx is 0
           @yScalingFct = d3.scale.linear()
@@ -101,10 +101,10 @@ class D3LineChart
         # Add circles and tips
         tip = d3.tip()
           .attr 'class', 'd3-tip'
-          .offset [-2, 0]
+          .offset [-12, 0]
           .html (d, i) =>
             "<strong>#{name}</strong><br>\
-            <span>#{d}</span><br>\
+            <span>#{d} #{unit}</span><br>\
             <span>#{@abscissa[i]}</span>"
         @graph.call tip
         lineGroup.selectAll 'circle'
@@ -116,7 +116,7 @@ class D3LineChart
             .attr 'cx', (d, i) => @xScalingFct i
             .attr 'cy', (d) => @yScalingFct d
             .on 'mouseover', tip.show
-            #.on 'mouseout', tip.hide
+            .on 'mouseout', tip.hide
 
 ###*
  * Chart's functions
