@@ -461,7 +461,7 @@
 		"action_type": "Type d'action",
 		"efficiency_percent": "Efficacité",
 
-		"cunsumption_label": "Consomation dans le temps",
+		"consumption_label": "Consommation dans le temps",
 		"consumption_noaction": "Consommation courante",
 		"consumption_action_co2": "Consommation après actions CO2",
 		"consumption_action_kwh": "Consommation après actions kWh",
