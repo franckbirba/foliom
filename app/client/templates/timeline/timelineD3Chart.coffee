@@ -25,8 +25,8 @@ class D3LineChart
     @graphWidth = @svgWidth - @margin.left - @margin.right
     # Graph's height
     @graphHeight = @svgHeight - @margin.top - @margin.bottom
-    # Abscissa and Ordonna
-    @x = @y = {}
+    # Chart's display functions
+    @lines = []
     # Add an SVG element with the desired dimensions and margin.
     @graph = d3.select @svgContainer
       .append 'svg:svg'
@@ -36,14 +36,15 @@ class D3LineChart
       .attr 'class', 'd3-svg-content'
       # Group chart's components
       .append 'svg:g'
-      .attr 'transform',
-        "translate(#{@margin.left}, #{@margin.top})"
+      .attr 'transform', "translate(#{@margin.left}, #{@margin.top})"
   ###*
-   * Set the abscissa for each lines.
+   * Set the abscissa for each lines, calulate the xScalingFct, hold the
+   * abscissa as a member reused for displaying date values within tooltips,
+   * and display the chart's name.
    * @param {String} chartName Chart's name as set on the xAxis.
    * @param {Array} arr An array of Number.
   ###
-  setAbscissa: (chartName, arr) ->
+  _setXAxis: (chartName, arr) ->
     @abscissa = arr
     @xScalingFct = d3.scale.linear()
       .domain [0, arr.length]
@@ -66,70 +67,93 @@ class D3LineChart
       .style 'text-anchor', 'end'
       .text chartName
   ###*
+   * Set yAxis, calculate yScalingFctn and display units.
+   * @param {String} unit Unit for the yAxis.
+   * @param {Array} arr  Array of Number used for drawing the first chart.
+  ###
+  _setYAxis: (@unit, arr) ->
+    @yScalingFct = d3.scale.linear()
+      .domain [(d3.max arr), 0]
+      .range [0, @graphHeight]
+    # Create yAxis
+    yAxis = d3.svg.axis()
+      .scale @yScalingFct
+      .tickFormat (d, i) -> numeral(d).format('0.0a')
+      .tickSize -@graphWidth
+      .tickPadding 6
+      .orient 'left'
+    # Add the yAxis
+    @graph.append 'svg:g'
+      .attr 'class', 'y axis'
+      .call yAxis
+    .append 'text'
+      .attr 'transform', 'rotate(-90)'
+      .attr 'y', -35
+      .attr 'dy', '.71em'
+      .style 'text-anchor', 'end'
+      .text unit
+  ###*
+   * Set the chart line and store the line function as a line member.
+   * @param {Array} arr Array of Number.
+  ###
+  _setChartLine: (arr) ->
+    # Set the line properties
+    line = d3.svg.line()
+      .x (d, i) =>
+        # Return the X coordinate where we want to plot this datapoint
+        @xScalingFct i
+      .y (d) =>
+        # Return the Y coordinate where we want to plot this datapoint
+        @yScalingFct d
+    # Add lines after axis and tick lines have been drawn
+    lineGroup = @graph.append 'svg:g'
+      .attr 'class', "data#{@lines.length}"
+    lineGroup.append 'svg:path'
+        .attr 'class', "data#{@lines.length}"
+        .datum arr
+        .attr 'd', line
+    line['group'] = lineGroup
+    @lines.push line
+  ###*
+   * Set circles on a graph line and create tooltip shown when circles hovered.
+   * @param {String} name Chart's name.
+   * @param {Array} arr Array of Number used for drawing a chart.
+  ###
+  _setCirclesTooltip: (name, arr) ->
+    # Add circles and tips
+    tip = d3.tip()
+      .attr 'class', 'd3-tip'
+      .offset [-12, 0]
+      .html (d, i) =>
+        "<strong>#{name}</strong><br>\
+        <span>#{d} #{@unit}</span><br>\
+        <span>#{@abscissa[i]}</span>"
+    @graph.call tip
+    line = _.last @lines
+    line.group.selectAll 'circle'
+      .data arr
+      .enter()
+      .append 'circle'
+        .attr 'r', 2
+        .attr 'cx', (d, i) => @xScalingFct i
+        .attr 'cy', (d) => @yScalingFct d
+        .on 'mouseover', tip.show
+        .on 'mouseout', tip.hide
+  ###*
    * Set data for each lines.
    * @param {Object} obj An Object describing each chart.
   ###
   setData: (obj) ->
-    @setAbscissa obj.chartName, obj.labels
+    @_setXAxis obj.chartName, obj.quarters
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
       do (name=dataObj.name, data=dataObj.data, unit=obj.unit, idx=idx) =>
         # Only display xAxis and yAxis on the first data set
-        if idx is 0
-          @yScalingFct = d3.scale.linear()
-            .domain [(d3.max data), 0]
-            .range [0, @graphHeight]
-          # Create yAxis
-          yAxis = d3.svg.axis()
-            .scale @yScalingFct
-            .tickFormat (d, i) -> numeral(d).format('0.0a')
-            .tickSize -@graphWidth
-            .tickPadding 6
-            .orient 'left'
-          # Add the yAxis
-          @graph.append 'svg:g'
-            .attr 'class', 'y axis'
-            .call yAxis
-          .append 'text'
-            .attr 'transform', 'rotate(-90)'
-            .attr 'y', -35
-            .attr 'dy', '.71em'
-            .style 'text-anchor', 'end'
-            .text unit
-        # Set the line properties
-        line = d3.svg.line()
-          .x (d, i) =>
-            # Return the X coordinate where we want to plot this datapoint
-            @xScalingFct i
-          .y (d) =>
-            # Return the Y coordinate where we want to plot this datapoint
-            @yScalingFct d
-        # Add lines after axis and tick lines have been drawn
-        lineGroup = @graph.append 'svg:g'
-          .attr 'class', "data#{idx}"
-        lineGroup.append 'svg:path'
-            .attr 'class', "data#{idx}"
-            .datum data
-            .attr 'd', line
-        # Add circles and tips
-        tip = d3.tip()
-          .attr 'class', 'd3-tip'
-          .offset [-12, 0]
-          .html (d, i) =>
-            "<strong>#{name}</strong><br>\
-            <span>#{d} #{unit}</span><br>\
-            <span>#{@abscissa[i]}</span>"
-        @graph.call tip
-        lineGroup.selectAll 'circle'
-          .data data
-          .enter()
-          .append 'circle'
-            .attr 'class', "data#{idx}"
-            .attr 'r', 2
-            .attr 'cx', (d, i) => @xScalingFct i
-            .attr 'cy', (d) => @yScalingFct d
-            .on 'mouseover', tip.show
-            .on 'mouseout', tip.hide
+        @_setYAxis unit, data if idx is 0
+        # Display chart
+        @_setChartLine data
+        # Display circles and tooltips
+        @_setCirclesTooltip name, data
 
 ###*
  * Chart's functions
@@ -140,7 +164,7 @@ ChartFct =
   ###
   consumptionChart: ->
     rxPlannedActions = TV.rxPlannedActions.get()
-    labels: TV.charts.ticks
+    quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kwhEF'
     chartName: TAPi18n.__ 'consumption_label'
     series: [
@@ -164,7 +188,7 @@ ChartFct =
    * Calculate and present data suite for the Expense chart.
   ###
   expenseChart: ->
-    labels: TV.charts.ticks
+    quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
     chartName: TAPi18n.__ 'expense_label'
     series: [
@@ -179,7 +203,7 @@ ChartFct =
   ###
   investmentChart: ->
     rxPlannedActions = TV.rxPlannedActions.get()
-    labels: TV.charts.ticks
+    quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
     chartName: TAPi18n.__ 'investment_label'
     series: [
