@@ -100,32 +100,32 @@ Template.observatory.events({
 function getGeocoding(address, callback){
   var tmpl = this;
   VazcoMaps.init({}, function() {
-      var _geocoding = {gps_lat:0,gps_long:0};
-                    tmpl.mapEngine = VazcoMaps.gMaps();
+    var _geocoding = {gps_lat:0,gps_long:0};
+    tmpl.mapEngine = VazcoMaps.gMaps();
+    var tmp_address = address.street + " " + address.city + " " + address.country;
+    // console.log(tmp_address);
 
-                    var tmp_address = address.street + " " + address.city + " " + address.country;
-    console.log(tmp_address);
+    tmpl.mapEngine.geocode({
+      address: tmp_address,
+      callback: function(results, status) {
+        if (status == 'OK') {
+          var latlng = results[0].geometry.location;
+          console.log(latlng);
 
-                    tmpl.mapEngine.geocode({
-                      address: tmp_address,
-                      callback: function(results, status) {
-                        if (status == 'OK') {
-                          var latlng = results[0].geometry.location;
-                          console.log(latlng);
-
-                          _geocoding.gps_lat = latlng.lat();
-                          // console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
-                          _geocoding.gps_long = latlng.lng();
-                          // console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);
-
+          _geocoding.gps_lat = latlng.lat();
+          // console.log("building_doc.address.gps_lat is: " + building_doc.address.gps_lat);
+          _geocoding.gps_long = latlng.lng();
+          // console.log("building_doc.address.gps_long is: " + building_doc.address.gps_long);
 
 
-                            console.log("building_doc.address.gps_lat is: " + _geocoding.gps_lat);
-                            console.log("building_doc.address.gps_long is: " + _geocoding.gps_long);
-                            callback(_geocoding);
 
-                        }
-                      }
-                    });
-                });
+            console.log("building_doc.address.gps_lat is: " + _geocoding.gps_lat);
+            console.log("building_doc.address.gps_long is: " + _geocoding.gps_long);
+            callback(_geocoding);
+
+        }
+      }
+    });
+
+  });
 }
