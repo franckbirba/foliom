@@ -109,9 +109,7 @@ class D3LineChart
     lineGroup = @graph.append 'svg:g'
       .attr 'class', "data#{@lines.length}"
     lineGroup.append 'svg:path'
-        .attr 'class', "data#{@lines.length}"
-        .datum arr
-        .attr 'd', line
+      .attr 'd', line arr
     line['group'] = lineGroup
     @lines.push line
   ###*
@@ -134,11 +132,11 @@ class D3LineChart
       .data arr
       .enter()
       .append 'circle'
-        .attr 'r', 2
-        .attr 'cx', (d, i) => @xScalingFct i
-        .attr 'cy', (d) => @yScalingFct d
-        .on 'mouseover', tip.show
-        .on 'mouseout', tip.hide
+      .attr 'r', 2
+      .attr 'cx', (d, i) => @xScalingFct i
+      .attr 'cy', (d) => @yScalingFct d
+      .on 'mouseover', tip.show
+      .on 'mouseout', tip.hide
   ###*
    * Set data for each lines.
    * @param {Object} obj An Object describing each chart.
@@ -154,6 +152,22 @@ class D3LineChart
         @_setChartLine data
         # Display circles and tooltips
         @_setCirclesTooltip name, data
+  ###*
+   * Update lines and circles.
+   * @param {Object} obj An Object describing each chart.
+  ###
+  updateData: (obj) ->
+    for dataObj, idx in obj.series
+      do (data=dataObj.data, idx=idx) =>
+        line = @lines[idx]
+        line.group.selectAll 'circle'
+          .data data
+          .transition()
+          .attr 'cx', (d, i) => @xScalingFct i
+          .attr 'cy', (d) => @yScalingFct d
+        stuff = line.group.selectAll 'path'
+          .transition()
+          .attr 'd', line data
 
 ###*
  * Chart's functions
@@ -225,9 +239,17 @@ ChartFct =
  * Set the template rendered callback.
 ###
 Template.timelineD3Chart.rendered = ->
+  # @TODO Check if 'this' enforcement is required
   chartFct = ChartFct[@data.chartName]
   chart = new D3LineChart "[data-chart='#{@data.chartName}']"
   chart.setData chartFct()
+  # Update chart when reactive variables change
+  # NOTE: We use the computation on the Template.Tracker for avoiding
+  # the first call to the chart's update.
+  @autorun (computation) ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    unless computation.firstRun
+      chart.updateData chartFct()
 
 ###*
  * Create an Array of the provided size filled with 0.
