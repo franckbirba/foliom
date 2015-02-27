@@ -211,7 +211,7 @@ Template.timeline.created = ->
   # Set minimum date on the creation date and maximum date 31 years later
   creationYear = (moment (Session.get 'current_config').creation_date).year()
   TV.minDate = moment year: creationYear
-  TV.maxDate = moment day: 30, month: 11, year: creationYear + 31
+  TV.maxDate = moment day:30, month:11, year:creationYear+TV.scenario.duration
   # Reactively perform calculations based on filter changes
   @autorun ->
     TV.calculate()
