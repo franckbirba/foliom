@@ -13,7 +13,7 @@ D3LineChart(page, h)
       display inline-block
       position relative
       width 100%
-      padding-bottom 100%
+      padding-bottom 23%
       vertical-align middle
       overflow hidden
     .d3-svg-content
@@ -51,10 +51,11 @@ D3LineChart(page, h)
             fill @fill
       circle.legend.data{idx}
         fill color + idx
-        fill color + idx
       text.legend.data{idx}
         font-size 10px
         font-weight normal
+        stroke none
+        fill color + idx
 
   // Tooltips
   .d3-tip
