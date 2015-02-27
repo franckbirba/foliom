@@ -1,6 +1,13 @@
-// Function for isolating chart's tyles within a page
-D3LineChart(page)
+/**
+ * Function for isolating chart's tyles within a page.
+ * @param {String} page Class name of the page.
+ * @param {Numer} h Number in pixels.
+ */
+D3LineChart(page, h)
   .{page}
+    // Set chart's size
+    .d3-chart-fixed-height
+      height h
     // Make SVG responsive
     .d3-svg-container
       display inline-block
