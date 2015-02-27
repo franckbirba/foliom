@@ -26,6 +26,11 @@ Template.observatory.events({
     // Excel files need to be saved as .txt UTF16 (see http://stackoverflow.com/questions/4221176/excel-to-csv-with-utf8-encoding)
     $("#importPortfolio").parse({
         config: {
+          delimiter: "  ",
+          dynamicTyping: true,
+          header: true,
+          encoding: "UTF-16",
+          // newline: "\r",
           complete: function(results, file) {
             console.log("results.data are");
             console.log(results.data);
@@ -59,33 +64,33 @@ Template.observatory.events({
                 //   },
                 //   "portfolio_id": Session.get('current_portfolio_doc')._id
                 // };
-                var tmpBuilding = {
-                  "building_name": element[1],
-                  "address": {
-                    "street": element[5],
-                    "zip": element[4],
-                    "city": element[3],
-                    "area": element[6],
-                    "country": element[2],
-                    "gps_lat": geo.gps_lat,
-                    "gps_long": geo.gps_long
-                  },
-                  "building_info": {
-                    "construction_year": element[14],
-                    "building_control": "control_full",
-                    "building_user": "own_use",
-                    "area_total": element[7],
-                    "area_useful": element[8],
-                    "building_nb_floors": element[9],
-                    "carpark_spaces": element[10],
-                    "carpark_area": element[11]
-                  },
-                  "portfolio_id": Session.get('current_portfolio_doc')._id
-                };
-                 console.log("tmpBuilding is");
-                 console.log(tmpBuilding);
-              var newId = Buildings.insert(tmpBuilding);
-              console.log('New building %s: %s created', tmpBuilding.building_name, newId);
+                // var tmpBuilding = {
+                //   "building_name": element[1],
+                //   "address": {
+                //     "street": element[5],
+                //     "zip": element[4],
+                //     "city": element[3],
+                //     "area": element[6],
+                //     "country": element[2],
+                //     "gps_lat": geo.gps_lat,
+                //     "gps_long": geo.gps_long
+                //   },
+                //   "building_info": {
+                //     "construction_year": element[14],
+                //     "building_control": "control_full",
+                //     "building_user": "own_use",
+                //     "area_total": element[7],
+                //     "area_useful": element[8],
+                //     "building_nb_floors": element[9],
+                //     "carpark_spaces": element[10],
+                //     "carpark_area": element[11]
+                //   },
+                //   "portfolio_id": Session.get('current_portfolio_doc')._id
+                // };
+              //    console.log("tmpBuilding is");
+              //    console.log(tmpBuilding);
+              // var newId = Buildings.insert(tmpBuilding);
+              // console.log('New building %s: %s created', tmpBuilding.building_name, newId);
               });
 
             });
