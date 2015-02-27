@@ -23,6 +23,7 @@ Template.observatory.helpers({
 
 Template.observatory.events({
   'click .importPortfolio': function(){
+    // Excel files need to be saved as .txt UTF16 (see http://stackoverflow.com/questions/4221176/excel-to-csv-with-utf8-encoding)
     $("#importPortfolio").parse({
         config: {
           complete: function(results, file) {
