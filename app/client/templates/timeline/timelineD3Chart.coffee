@@ -123,9 +123,12 @@ class D3LineChart
       .attr 'class', 'd3-tip'
       .offset [-12, 0]
       .html (d, i) =>
-        "<strong>#{name}</strong><br>\
+        "<div class='animated fadeInUp'>
+        <div class='d3-tip-content'>
+        <strong>#{name}</strong><br>\
         <span>#{d} #{@unit}</span><br>\
-        <span>#{@abscissa[i]}</span>"
+        <span>#{@abscissa[i]}</span>
+        </div></div>"
     @graph.call tip
     line = _.last @lines
     line.group.selectAll 'circle'
