@@ -461,10 +461,13 @@
 		"action_type": "Type d'action",
 		"efficiency_percent": "Efficacité",
 
+		"consumption_label": "Consommation dans le temps",
 		"consumption_noaction": "Consommation courante",
 		"consumption_action_co2": "Consommation après actions CO2",
 		"consumption_action_kwh": "Consommation après actions kWh",
+		"expense_label": "Dépense dans le temps",
 		"expense_raw": "Dépenses",
+		"investment_label": "Investissement dans le temps",
 		"investment_budget": "Budget",
 		"investment_raw": "Investissements",
 		"investment_minus_subventions": "Investissements - Subventions"
