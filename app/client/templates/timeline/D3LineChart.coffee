@@ -150,7 +150,7 @@ class @D3LineChart
       .data arr
       .enter()
       .append 'circle'
-      .attr 'r', 2
+      .attr 'r', 4
       .attr 'cx', (d, i) => @xScalingFct i
       .attr 'cy', (d) => @yScalingFct d
       .on 'mouseover', tip.show
