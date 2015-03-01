@@ -29,7 +29,6 @@
     quarter = @minDate.clone()
     nextQuarter = quarter.clone().add 1, 'Q'
 
-
     # Graph 1
     # -------
     # PEM To expand on all buildings
