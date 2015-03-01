@@ -9,6 +9,10 @@
   maxDate: null
   rxPlannedActions: new ReactiveVar
   rxTimelineActions: new ReactiveVar
+  charts:
+    ticks: []
+    budget: []
+    consumption: []
   ###*
    * Perform all calculations and fill the global TimelineVars object.
   ###
@@ -22,7 +26,8 @@
     @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) ->
       (moment item.start).valueOf()
     # Reset charts that doesn't depends on actions
-    @charts = { ticks: [], budget: [], consumption: [] }
+    @charts.budget = []
+    @charts.consumption = []
     # Index on the actions table
     currentAction = 0
     # Build formatted data
@@ -45,7 +50,6 @@
     #  if completeFluideName is endUse.fluid_id
     #    endUse.fluid = fluid #We store the Fluid in the array
     #    matchingEndUseInLease[leaseIndex] = endUse
-
 
     # PEM Get the appropriate coefficient for each type of unit
     # Session.get('current_config').kwhef_to_co2_coefficients
@@ -77,7 +81,6 @@
     #  ).yearly_values[year]*(1+actualisation_rate)^year
     # /!\ yearly_values starts at 2014
     #  but the start of the scenario may be in 2017
-
 
     while quarter.isBefore @maxDate
       # Parsing each year content
@@ -118,9 +121,6 @@
             quarterContent.tActions.push item
         # Budget line for chart
         @charts.budget.push @scenario.total_expenditure
-        # Labels for charts
-        @charts.ticks.push \
-          "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
         # Current consumption for charts
         # @TODO Fake data
         @charts.consumption.push 3.5
@@ -182,6 +182,19 @@
     #  id: paction.action_id
     #  start: (moment paction.start).format 'Q YYYY'
 
+  ###*
+   * Create ticks (labels used in the chart's xAxis).
+  ###
+  createTicks: ->
+    # Build formatted data
+    quarter = @minDate.clone()
+    while quarter.isBefore @maxDate
+      # Labels for charts
+      @charts.ticks.push \
+        "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
+        # Increment by 1 quarter
+        quarter.add 1, 'Q'
+
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
 
@@ -219,9 +232,10 @@ Template.timeline.created = ->
   creationYear = (moment (Session.get 'current_config').creation_date).year()
   TV.minDate = moment year: creationYear
   TV.maxDate = moment day:30, month:11, year:creationYear+TV.scenario.duration
+  # Create ticks for the charts
+  TV.createTicks()
   # Reactively perform calculations based on filter changes
-  @autorun ->
-    TV.calculate()
+  @autorun -> TV.calculate()
 
 ###*
  * Object containing helper keys for the template.
