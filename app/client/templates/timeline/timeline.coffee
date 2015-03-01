@@ -55,21 +55,29 @@
     # Before action
     # After actions
     # -> 6 graphs
-    # /!\ Apply setting.other_indexes.consumption_degradation : indepedent of the fluid
+    # /!\ Apply setting.other_indexes.consumption_degradation :
+    # indepedent of the fluid
 
     # Graph 2
     # -------
     # Chart with action and without actions
     # Cold fluid is not available.
-    # Invoice is done for each fluid: subscription(time) + price(year) * consumption(year)
+    # Invoice is done for each fluid:
+    #  subscription(time) + price(year) * consumption(year)
     # consumption(year): calculated in graph 1
     # @allLeases.fluid_consumption_meter[ fluid_type ].yearly_subscription
-    # Create an array for subscription(time): num * Math.pow( 1+actualization_rate , -ic_index)
-    # subscription(year) = subscription(0) * (1 + (inflation_rate))^year * (1+actualisation_rate)^year
+    # Create an array for subscription(time):
+    #  num * Math.pow( 1+actualization_rate , -ic_index)
+    # subscription(year) =
+    #  subscription(0) * (1+(inflation_rate))^year * (1+actualisation_rate)^year
     # actualisation_rate = setting.other_indexes.actualization_rate
     # inflation_rate(year) = setting.ipc.evolution_index[ year ].cost
-    # price(year) = setting.fluids( for each fluid ).yearly_values[ year ]*(1+actualisation_rate)^year
-    # /!\ yearly_values starts at 2014 but the start of the scenario may be in 2017
+    # price(year) =
+    #  setting.fluids(
+    #   for each fluid
+    #  ).yearly_values[year]*(1+actualisation_rate)^year
+    # /!\ yearly_values starts at 2014
+    #  but the start of the scenario may be in 2017
 
 
     while quarter.isBefore @maxDate

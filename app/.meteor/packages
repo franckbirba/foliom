@@ -14,9 +14,6 @@ forwarder:autoform-wizard
 nemo64:bootstrap
 d3js:d3
 yogiben:autoform-file
-cfs:standard-packages
-cfs:filesystem
-cfs:gridfs
 vazco:maps
 yogiben:autoform-modals
 harrison:papa-parse
@@ -40,3 +37,5 @@ mfpierre:chartist-js
 reactive-var
 ian:accounts-ui-bootstrap-3
 msavin:mongol
+cfs:gridfs@=0.0.27
+cfs:standard-packages
