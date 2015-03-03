@@ -193,6 +193,8 @@
 
 
     "certifications": "Certifications",
+    "custom_certifications": "Certificats non standards",
+    "cert_id": "Certificat",
     "cert_comments": "Commentaires (version, détails...) :",
 
     "comfort_qualitative_assessment": "Appréciation qualitative du Confort",

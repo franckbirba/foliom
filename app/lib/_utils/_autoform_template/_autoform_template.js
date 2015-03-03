@@ -1,4 +1,4 @@
-if(Meteor.isClient){  
+if(Meteor.isClient){
   function findAtts() {
     var c, n = 0;
     do {
@@ -126,8 +126,14 @@ Template["afArrayField_eportfolio-horizontal"].helpers({
     }
     var result = 12/labels.length;
     var bootstrapClass = "";
-    if(result >= 4 && result <= 6) {
+
+    // console.log("calculating bootstrap class for" + schemaLbl);
+    // console.log("result is" + result);
+
+    if(result >= 4 && result < 6) {
       bootstrapClass= 'col-sm-4';
+    } else if(result == 6) {
+      bootstrapClass= 'col-sm-6';
     } else if(result >= 3  && result <= 4) {
       bootstrapClass= 'col-sm-3';
     } else if(result >= 2  && result <= 3) {

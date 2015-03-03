@@ -186,8 +186,30 @@ certificationsSchema = new SimpleSchema({
             }
         }
     },
-    custom_cert: {
+    cert_comments: {
         type: String,
+        label: transr("cert_comments"),
+        // defaultValue: "Version, détails :",
+        autoform: {
+            rows: 3
+        }
+    },
+});
+
+Schema.certifications = certificationsSchema;
+
+
+customCertificationsSchema = new SimpleSchema({
+    cert_name: {
+        type: String,
+        label: transr("name"),
+        autoform: {
+            type: "text",
+        }
+    },
+    visual: {
+        type: String,
+        label: transr("custom_visual"),
         autoform: {
             afFieldInput: {
                 type: 'fileUpload',
@@ -201,12 +223,12 @@ certificationsSchema = new SimpleSchema({
         label: transr("cert_comments"),
         // defaultValue: "Version, détails :",
         autoform: {
-            rows: 2
+            rows: 3
         }
     },
 });
 
-Schema.certifications = certificationsSchema;
+Schema.customCertifications = customCertificationsSchema;
 
 
 technical_compliance_categorySchema = new SimpleSchema({
@@ -602,6 +624,14 @@ Leases.attachSchema(new SimpleSchema({
     certifications: {
         type: [certificationsSchema],
         label: transr("certifications"),
+        autoform: {
+            // template:"consumptionByEndUse"
+        },
+        optional: true,
+    },
+    customCertifications: {
+        type: [customCertificationsSchema],
+        label: transr("custom_certifications"),
         autoform: {
             // template:"consumptionByEndUse"
         },

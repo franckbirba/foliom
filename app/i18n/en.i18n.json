@@ -195,6 +195,8 @@
     // "Specific": "end_use_specific",
 
     "certifications": "Certifications",
+    "custom_certifications": "Custom certifications",
+    "cert_id": "Certificate",
     "cert_comments": "Remarks (version, details...):",
 
     "comfort_qualitative_assessment": "Comfort qualitative assessment",
