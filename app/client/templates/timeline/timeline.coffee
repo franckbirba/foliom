@@ -84,15 +84,13 @@
     # Expand ICC on quarters, remove what doesn't fit between minDate / maxDate
     @coefs['icc'] = []
     for icc in settings.icc.evolution_index
-      continue if icc.year < minYear
-      break if icc.year > maxYear
-      @coefs['icc'].push icc.cost for quarter in [1..4]
+      if minYear <= icc.year <= maxYear
+        @coefs['icc'].push icc.cost for quarter in [1..4]
     # Expand IPC on quarters, remove what doesn't fit between minDate / maxDate
     @coefs['ipc'] = []
     for ipc in settings.ipc.evolution_index
-      continue if ipc.year < minYear
-      break if ipc.year > maxYear
-      @coefs['ipc'].push ipc.cost for quarter in [1..4]
+      if minYear <= ipc.year <= maxYear
+        @coefs['ipc'].push ipc.cost for quarter in [1..4]
     # @TODO Get only the fluids used in the selected buildings
     # @TODO Expand the fluid's yearly value on all quarters
     for fluid in settings.fluids
@@ -102,7 +100,7 @@
           unit: fluid.fluid_unit
 
     @fluids = settings.fluids
-    console.table @fluids
+    #console.table @fluids
   charts: ticks: [], budget: [], consumption: []
   ###*
    * Create ticks (labels used in the chart's xAxis).
