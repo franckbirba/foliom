@@ -14,7 +14,6 @@ binary-heap@1.0.2
 blaze@2.0.4
 blaze-tools@1.0.2
 boilerplate-generator@1.0.2
-bse:papa-parse@1.0.10
 callback-hook@1.0.2
 cfs:access-point@0.1.43
 cfs:base-package@0.0.27
@@ -87,7 +86,7 @@ mpowaga:string-template@0.1.0
 mquandalle:jade@0.4.1
 mquandalle:stylus@1.0.10
 mrt:twit@0.2.0
-msavin:mongol@0.5.4
+msavin:mongol@0.5.2
 natestrauser:animate-css@3.1.2
 natestrauser:select2@3.5.1
 nemo64:bootstrap@3.3.1_1
@@ -113,7 +112,7 @@ spacebars-compiler@1.0.4
 srp@1.0.2
 standard-app-packages@1.0.4
 stylus@1.0.6
-tap:i18n@1.4.1
+tap:i18n@1.4.0
 templating@1.0.11
 tracker@1.0.5
 ui@1.0.5
