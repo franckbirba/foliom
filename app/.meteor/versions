@@ -22,7 +22,6 @@ cfs:collection@0.5.3
 cfs:collection-filters@0.2.3
 cfs:data-man@0.0.4
 cfs:file@0.1.15
-cfs:filesystem@0.1.1
 cfs:gridfs@0.0.27
 cfs:http-methods@0.0.27
 cfs:http-publish@0.0.13
@@ -88,7 +87,7 @@ mpowaga:string-template@0.1.0
 mquandalle:jade@0.4.1
 mquandalle:stylus@1.0.10
 mrt:twit@0.2.0
-msavin:mongol@0.5.2
+msavin:mongol@0.5.4
 natestrauser:animate-css@3.1.2
 natestrauser:select2@3.5.1
 nemo64:bootstrap@3.3.1_1
@@ -114,7 +113,7 @@ spacebars-compiler@1.0.4
 srp@1.0.2
 standard-app-packages@1.0.4
 stylus@1.0.6
-tap:i18n@1.4.0
+tap:i18n@1.4.1
 templating@1.0.11
 tracker@1.0.5
 ui@1.0.5

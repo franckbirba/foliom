@@ -1,0 +1,98 @@
+/**
+ * Function for isolating chart's tyles within a page.
+ * @param {String} page Class name of the page.
+ * @param {Numer} h Number in pixels.
+ */
+D3LineChart(page, h)
+  .{page}
+    // Set chart's size
+    .d3-chart-fixed-height
+      height h
+    // Make SVG responsive
+    .d3-svg-container
+      display inline-block
+      position relative
+      width 100%
+      padding-bottom 23%
+      vertical-align middle
+      overflow hidden
+    .d3-svg-content
+      display inline-block
+      position absolute
+      top 0
+      left 0
+    // Style SVG charts
+    path
+      stroke-width 1px
+      fill none
+    .x.axis, .y.axis
+      text
+        font-size 8px
+        fill color2
+      line, .minor, path
+        shape-rendering crispEdges
+        stroke color3
+      line
+        stroke-dasharray 2 3
+
+  // Styles for lines, circles, legends
+  for idx in 0..4
+    .{page}
+      .data{idx}
+        stroke color + idx
+        circle
+          stroke-width 0px
+          stroke color + idx
+          fill color + idx
+          transition all .3s ease-in-out
+          &:hover
+            stroke-width 4px
+            stroke @stroke
+            fill @fill
+      circle.legend.data{idx}
+        fill color + idx
+      text.legend.data{idx}
+        font-size 10px
+        font-weight normal
+        stroke none
+        fill color + idx
+
+  // Tooltips
+  .d3-tip
+    .d3-tip-content
+      text-align center
+      font-size 10px
+      padding 5px
+      background color3
+      border 2px color2 solid
+      color color1
+      border-radius 2px
+      height auto
+      min-width 80px
+      max-width 250px
+      padding 4px
+      position relative
+      text-align center
+      width auto
+      pointer-events none
+      z-index 1
+      // Creates a small triangle extender for the tooltip
+      &:after, &:before
+        top 100%
+        left 50%
+        border solid transparent
+        content ' '
+        height 0
+        width 0
+        position absolute
+        pointer-events none
+      &:after
+        border-color transparent
+        border-top-color @background
+        border-width 10px
+        margin-left -@border-width
+      &:before
+        border-color transparent
+        border-top-color color2
+        border-width 13px
+        margin-left -@border-width
