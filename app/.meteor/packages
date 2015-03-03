@@ -16,7 +16,6 @@ d3js:d3
 yogiben:autoform-file
 vazco:maps
 yogiben:autoform-modals
-harrison:papa-parse
 harrison:babyparse
 mquandalle:jade
 coffeescript
@@ -39,3 +38,4 @@ ian:accounts-ui-bootstrap-3
 msavin:mongol
 cfs:standard-packages
 cfs:gridfs@=0.0.27
+harrison:papa-parse
