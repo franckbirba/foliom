@@ -19,7 +19,6 @@ cfs:filesystem
 cfs:gridfs
 vazco:maps
 yogiben:autoform-modals
-harrison:papa-parse
 harrison:babyparse
 mquandalle:jade
 coffeescript
@@ -40,3 +39,5 @@ mfpierre:chartist-js
 reactive-var
 msavin:mongol
 ian:accounts-ui-bootstrap-3
+bse:papa-parse
+harrison:papa-parse
