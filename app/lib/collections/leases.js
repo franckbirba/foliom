@@ -335,7 +335,14 @@ conformity_infoSchema = new SimpleSchema({
         optional:true,
     },
     files: {
-        type: String,
+        type: [String],
+        label: "Test",
+        optional:true,
+        autoform: {
+            // template: 'eportfolio-horizontal',
+        }
+    },
+    "files.$": {
         autoform: {
             afFieldInput: {
                 type: 'fileUpload',
