@@ -262,9 +262,9 @@ conformity_infoSchema = new SimpleSchema({
     },
     eligibility: {
         type: Boolean,
-        label: transr("eligibility"),
+        label: transr("is_eligibile"),
         autoform: {
-            template:'eportfolio-horizontal',
+            // template:'eportfolio-horizontal',
             /*type: "select-checkbox",
             options: function () {
                 return buildOptions(["yes"]);
@@ -276,10 +276,15 @@ conformity_infoSchema = new SimpleSchema({
         type: String,
         label: transr("periodicity"),
         autoform: {
-            type: "select",
-            options: function () {
-                return buildOptions(["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]);
-            }
+            afFieldInput: {
+                type: "select",
+                options: function () {
+                    return buildOptions(["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]);
+                },
+            },
+            // afFormGroup:{
+            //     style: "display: inline-block; width: 45%;"
+            // }
         },
         optional: true,
     },
@@ -287,7 +292,12 @@ conformity_infoSchema = new SimpleSchema({
         type: Date,
         label: transr("due_date"),
         autoform: {
-            type: "date",
+            afFieldInput: {
+                type: "date",
+            },
+            // afFormGroup:{
+            //     style: "display: inline-block; width: 45%; float: right;"
+            // }
         },
         optional: true,
     },
@@ -314,7 +324,7 @@ conformity_infoSchema = new SimpleSchema({
     diagnostic_alert: {
         type: Boolean,
         autoform: {
-            template: 'eportfolio-horizontal',
+            // template: 'eportfolio-horizontal',
             omit:true
         },
         optional:true,
@@ -715,7 +725,15 @@ Leases.attachSchema(new SimpleSchema({
         minCount: 14,
         maxCount: 14,
         autoform: {
-            // template:"bootstrap3"
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+            // afFormGroup:{
+            //     template:"conformity_infoSchema"
+            // },
+            afArrayField:{
+                template:"conformity_infoSchema"
+            },
         },
         optional: function () {
             return debugMode;

@@ -231,6 +231,7 @@
 
     "conformity_information": "Regulatory compliance/Audits/Diagnostics",
     "eligibility": "Eligibility",
+    "is_eligibile": "Eligible",
     "due_date": "Due date",
     "last_diagnostic": "Date of the last diagnostic",
 
