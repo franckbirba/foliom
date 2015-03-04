@@ -192,7 +192,8 @@ certificationsSchema = new SimpleSchema({
         // defaultValue: "Version, détails :",
         autoform: {
             rows: 3
-        }
+        },
+        optional:true,
     },
 });
 
@@ -216,7 +217,6 @@ customCertificationsSchema = new SimpleSchema({
                 collection: 'Images'
             }
         },
-        optional:true,
     },
     cert_comments: {
         type: String,
@@ -224,7 +224,8 @@ customCertificationsSchema = new SimpleSchema({
         // defaultValue: "Version, détails :",
         autoform: {
             rows: 3
-        }
+        },
+        optional:true,
     },
 });
 

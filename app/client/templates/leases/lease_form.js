@@ -7,13 +7,13 @@ AutoForm.hooks({
 
         //Hack for textfields that we always want in English
         //If language is not English
-        if ( TAPi18n.getLanguage() !== 'en') {
-            _.each(doc.consumption_by_end_use, function(end_use, i) {
-                 // var endUseinEN = Meteor.call("toEnglish", end_use.end_use_name);
-                 var endUseinEN = TAPi18n.__(end_use.end_use_name, null, 'fr' );
-                 doc.consumption_by_end_use[i].end_use_name = endUseinEN;
-            });
-        }
+            // if ( TAPi18n.getLanguage() !== 'en') {
+            //     _.each(doc.consumption_by_end_use, function(end_use, i) {
+            //          // var endUseinEN = Meteor.call("toEnglish", end_use.end_use_name);
+            //          var endUseinEN = TAPi18n.__(end_use.end_use_name, null, 'fr' );
+            //          doc.consumption_by_end_use[i].end_use_name = endUseinEN;
+            //     });
+            // }
         // console.log(doc);
         // debugger
 
@@ -100,6 +100,23 @@ Template.leaseForm.rendered = function () {
   //Apply End-Use to correct field
   var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
+  // Set textfields that have to be auto-filled and make them readonly
+  if( !Session.get('leaseToEdit') ){
+    // end_use_name
+    $(".end_use_name").each(function( index ) {
+        $(this).val( transr(endUses[index].end_use_name) );
+        $(this).prop("readonly","readonly") ;
+    });
+
+    // conformity_information
+    $("[name^='conformity_information.'][name$='.name']").each(function( index ) {
+        $(this).val( transr( conformity_information_items[index]) );
+        $(this).prop("readonly","readonly") ;
+        // i18n.t($(this).val(), { lng: 'en' });
+        // console.log( TAPi18n.__($(this).val(), null, 'en' ) );
+    });
+  }
+
   Tracker.autorun(function () {
 
     // Set values on change
@@ -116,29 +133,16 @@ Template.leaseForm.rendered = function () {
     });
 
     if( !Session.get('leaseToEdit') ){
-      $(".end_use_name").each(function( index ) {
-          $(this).val( transr(endUses[index].end_use_name) );
-          $(this).prop("readonly","readonly") ;
-          // $(this).val( index );
-      });
+      // $(".end_use_name").each(function( index ) {
+      //     $(this).val( transr(endUses[index].end_use_name) );
+      //     $(this).prop("readonly","readonly") ;
+      //     // $(this).val( index );
+      // });
 
       $(".technical_compliance_name").each(function( index ) {
           $(this).val( transr( technical_compliance_items[index]) );
           $(this).prop("readonly","readonly") ;
           // $(this).val( index );
-      });
-
-
-      /* ------------------------------------------------------------------------ */
-      /* conformity_information (Conformité réglementaire / audits / diagnostics) */
-      /* ------------------------------------------------------------------------ */
-
-      // Set the Names
-      $("[name^='conformity_information.'][name$='.name']").each(function( index ) {
-          $(this).val( transr( conformity_information_items[index]) );
-          $(this).prop("readonly","readonly") ;
-          // i18n.t($(this).val(), { lng: 'en' });
-          // console.log( TAPi18n.__($(this).val(), null, 'en' ) );
       });
 
 
