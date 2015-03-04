@@ -1,7 +1,12 @@
 Template.dpe.rendered = ->
   # Current selected building is set as 'this'
   buildingId = @data._id
+
   # @TODO Perform some calculations
+  dpe_type = "tertiary_building_private"
+  dpeData = dpe_scale[dpe_type].dpe
+
+  console.log Template.parentData 1
 
   width = 220
   height = 220
@@ -9,17 +14,17 @@ Template.dpe.rendered = ->
   barVerticalSpacing = 2
 
   #Text Data Set
-  dpeData = [
-    { "label": "≤ 50", "letter": "A", "color" : "#555753", "textColor":"white", "value": 30 },
-    { "label": "51 - 90", "letter": "B", "color" : "#888a85", "textColor":"black", "value": 40 },
-    { "label": "91 - 150", "letter": "C", "color" : "#babdb6", "textColor":"black", "value": 50 },
-    { "label": "151 - 230", "letter": "D", "color" : "#d3d7cf", "textColor":"black", "value": 60 },
-    { "label": "231 - 330", "letter": "E", "color" : "#babdb6", "textColor":"black", "value": 70 },
-    { "label": "331 - 450", "letter": "F", "color" : "#888a85", "textColor":"black", "value": 80 },
-    { "label": "≥ 451", "letter": "G", "color" : "#555753", "textColor":"white", "value": 90 },
-    { "label": "≥ 451", "letter": "H", "color" : "#4d4d4d", "textColor":"white", "value": 100 },
-    { "label": "≥ 451", "letter": "I", "color" : "#333", "textColor":"white", "value": 110 },
-  ]
+  # dpeData = [
+  #   { "label": "≤ 50", "letter": "A", "color" : "#555753", "textColor":"white", "value": 30 },
+  #   { "label": "51 - 90", "letter": "B", "color" : "#888a85", "textColor":"black", "value": 40 },
+  #   { "label": "91 - 150", "letter": "C", "color" : "#babdb6", "textColor":"black", "value": 50 },
+  #   { "label": "151 - 230", "letter": "D", "color" : "#d3d7cf", "textColor":"black", "value": 60 },
+  #   { "label": "231 - 330", "letter": "E", "color" : "#babdb6", "textColor":"black", "value": 70 },
+  #   { "label": "331 - 450", "letter": "F", "color" : "#888a85", "textColor":"black", "value": 80 },
+  #   { "label": "≥ 451", "letter": "G", "color" : "#555753", "textColor":"white", "value": 90 },
+  #   { "label": "≥ 451", "letter": "H", "color" : "#4d4d4d", "textColor":"white", "value": 100 },
+  #   { "label": "≥ 451", "letter": "I", "color" : "#333", "textColor":"white", "value": 110 },
+  # ]
 
   chart = d3.select("#dpe-svg")
         # Make SVG responsive

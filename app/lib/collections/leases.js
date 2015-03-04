@@ -511,8 +511,18 @@ Leases.attachSchema(new SimpleSchema({
         }
     },
     headcount:{
-        type: Number,
+        type: String,
         label: transr("headcount"),
+    },
+    dpe_type:{
+        type: Number,
+        label: transr("dpe_type"),
+        autoform: {
+            type: "select",
+            options: function() {
+                return buildOptions(["housing", "tertiary_building_private", "tertiary_building_public_std", "tertiary_building_public_continuously_occ", "tertiary_building_public_other_types"])
+            }
+        }
     },
     dpe_energy_consuption: {
         type: Object,

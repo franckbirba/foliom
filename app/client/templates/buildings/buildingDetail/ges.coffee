@@ -3,7 +3,7 @@ Template.ges.rendered = ->
   buildingId = @data._id
   # @TODO Perform some calculations
   # Fake value
-  gesValue = 15
+  gesValue = 1
   # Get the indices
   gesIndice = switch
     when gesValue <= 5  then 'A'
