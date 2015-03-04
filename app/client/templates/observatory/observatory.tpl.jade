@@ -17,7 +17,6 @@
               each getPortfolioList
                 a.list-group-item.select_portfolio(href='#')= name
             button.btn.btn-primary.insert_portfolio(type='button', data-toggle='modal', data-target='#portfolioForm') {{_ 'new_portfolio'}}
-            +insertPortfolioForm
     .col-md-3
       .panel.panel-default
         .panel-heading
@@ -38,3 +37,4 @@
         .panel-body
           p
             +barchart
+  +insertPortfolioForm

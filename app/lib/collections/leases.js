@@ -186,8 +186,30 @@ certificationsSchema = new SimpleSchema({
             }
         }
     },
-    custom_cert: {
+    cert_comments: {
         type: String,
+        label: transr("cert_comments"),
+        // defaultValue: "Version, détails :",
+        autoform: {
+            rows: 3
+        }
+    },
+});
+
+Schema.certifications = certificationsSchema;
+
+
+customCertificationsSchema = new SimpleSchema({
+    cert_name: {
+        type: String,
+        label: transr("name"),
+        autoform: {
+            type: "text",
+        }
+    },
+    visual: {
+        type: String,
+        label: transr("custom_visual"),
         autoform: {
             afFieldInput: {
                 type: 'fileUpload',
@@ -201,12 +223,12 @@ certificationsSchema = new SimpleSchema({
         label: transr("cert_comments"),
         // defaultValue: "Version, détails :",
         autoform: {
-            rows: 2
+            rows: 3
         }
     },
 });
 
-Schema.certifications = certificationsSchema;
+Schema.customCertifications = customCertificationsSchema;
 
 
 technical_compliance_categorySchema = new SimpleSchema({
@@ -262,9 +284,9 @@ conformity_infoSchema = new SimpleSchema({
     },
     eligibility: {
         type: Boolean,
-        label: transr("eligibility"),
+        label: transr("is_eligibile"),
         autoform: {
-            template:'eportfolio-horizontal',
+            // template:'eportfolio-horizontal',
             /*type: "select-checkbox",
             options: function () {
                 return buildOptions(["yes"]);
@@ -276,10 +298,15 @@ conformity_infoSchema = new SimpleSchema({
         type: String,
         label: transr("periodicity"),
         autoform: {
-            type: "select",
-            options: function () {
-                return buildOptions(["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]);
-            }
+            afFieldInput: {
+                type: "select",
+                options: function () {
+                    return buildOptions(["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]);
+                },
+            },
+            // afFormGroup:{
+            //     style: "display: inline-block; width: 45%;"
+            // }
         },
         optional: true,
     },
@@ -287,7 +314,12 @@ conformity_infoSchema = new SimpleSchema({
         type: Date,
         label: transr("due_date"),
         autoform: {
-            type: "date",
+            afFieldInput: {
+                type: "date",
+            },
+            // afFormGroup:{
+            //     style: "display: inline-block; width: 45%; float: right;"
+            // }
         },
         optional: true,
     },
@@ -314,7 +346,7 @@ conformity_infoSchema = new SimpleSchema({
     diagnostic_alert: {
         type: Boolean,
         autoform: {
-            template: 'eportfolio-horizontal',
+            // template: 'eportfolio-horizontal',
             omit:true
         },
         optional:true,
@@ -325,7 +357,14 @@ conformity_infoSchema = new SimpleSchema({
         optional:true,
     },
     files: {
-        type: String,
+        type: [String],
+        label: "Test",
+        optional:true,
+        autoform: {
+            // template: 'eportfolio-horizontal',
+        }
+    },
+    "files.$": {
         autoform: {
             afFieldInput: {
                 type: 'fileUpload',
@@ -590,6 +629,14 @@ Leases.attachSchema(new SimpleSchema({
         },
         optional: true,
     },
+    customCertifications: {
+        type: [customCertificationsSchema],
+        label: transr("custom_certifications"),
+        autoform: {
+            // template:"consumptionByEndUse"
+        },
+        optional: true,
+    },
 
     comfort_qualitative_assessment: {
         type: Object,
@@ -715,7 +762,15 @@ Leases.attachSchema(new SimpleSchema({
         minCount: 14,
         maxCount: 14,
         autoform: {
-            // template:"bootstrap3"
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+            // afFormGroup:{
+            //     template:"conformity_infoSchema"
+            // },
+            afArrayField:{
+                template:"conformity_infoSchema"
+            },
         },
         optional: function () {
             return debugMode;

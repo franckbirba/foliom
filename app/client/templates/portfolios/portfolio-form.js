@@ -3,10 +3,8 @@ AutoForm.hooks({
         onSuccess: function(operation, result, template) {
             // console.log("Success : operation is " + operation);
             if (operation == "insert") {
-                // $('#estateForm').modal('hide');
 
-                 var currentEstateId = Session.get('current_estate_doc')._id;
-                // console.log("portfolio_id should be: " + result);
+                var currentEstateId = Session.get('current_estate_doc')._id;
 
                 Estates.update(currentEstateId, { $push: { portfolio_collection: result } }, function(error) {
                   if (error) {
@@ -15,7 +13,7 @@ AutoForm.hooks({
                   }
                 });
 
-
+                $('#portfolioForm').modal('hide');
 
             } else if (operation == "update") {
                 // $('#estateForm').modal('hide');

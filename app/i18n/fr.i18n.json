@@ -193,6 +193,8 @@
 
 
     "certifications": "Certifications",
+    "custom_certifications": "Certificats non standards",
+    "cert_id": "Certificat",
     "cert_comments": "Commentaires (version, détails...) :",
 
     "comfort_qualitative_assessment": "Appréciation qualitative du Confort",
@@ -229,6 +231,7 @@
 
     "conformity_information": "Conformité réglementaire / audits / diagnostics",
     "eligibility": "Eligibilité",
+    "is_eligibile": "Eligible",
     "due_date": "Echéance",
     "last_diagnostic": "Date du dernier diagnostic",
 
