@@ -44,14 +44,14 @@
     buildingIds = _.uniq _.pluck actions, 'building_id'
     @buildings = (Buildings.find _id: $in: buildingIds).fetch()
     # Get each portfolios for each buildings
-    portfolioIds = _.uniq _.pluck TV.buildings, 'portfolio_id'
+    portfolioIds = _.uniq _.pluck @buildings, 'portfolio_id'
     @portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
     # Get all leases for all building, this action is done in a single DB call
     # for avoiding too much latency on the screen's creation
     leases = (Leases.find building_id: $in: buildingIds).fetch()
     # Now dernomalize leases and buildings, re-establishing document object
     # for each building
-    for building in TV.buildings
+    for building in @buildings
       building.leases = _.where leases, building_id: building._id
   minDate: null
   maxDate: null
@@ -91,16 +91,28 @@
     for ipc in settings.ipc.evolution_index
       if minYear <= ipc.year <= maxYear
         @coefs['ipc'].push ipc.cost for quarter in [1..4]
-    # @TODO Get only the fluids used in the selected buildings
-    # @TODO Expand the fluid's yearly value on all quarters
+    # Expand the fluid's yearly value on all quarters, remove what
+    #  doesn't fit between minDate / maxDate
+    fluidInSettings = {}
     for fluid in settings.fluids
       year = fluid.yearly_values.year
-      unless year < minYear and year > maxYear
-        @fluids.push
-          unit: fluid.fluid_unit
+      fluidOverQuarter = []
+      for fluidOverYear in fluid.yearly_values
+        if minYear <= fluidOverYear.year <= maxYear
+          fluidOverQuarter.push fluidOverYear for quarter in [1..4]
+      fluid['fluidOverQuarter'] = fluidOverQuarter
+      fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
+    console.log 'Fluid in settings', fluidInSettings
+    # @TODO Get only the fluid providers used in the selected buildings
+    @fluids = []
+    b = TimelineVars.buildings[0]
+    console.log 'Building', b
+    l = b.leases[0]
+    console.log 'Lease', l
+    fluids = l.fluid_consumption_meter
+    console.table fluids
+    console.log settings.fluids
 
-    @fluids = settings.fluids
-    #console.table @fluids
   charts: ticks: [], budget: [], consumption: []
   ###*
    * Create ticks (labels used in the chart's xAxis).
