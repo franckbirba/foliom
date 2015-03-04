@@ -511,11 +511,11 @@ Leases.attachSchema(new SimpleSchema({
         }
     },
     headcount:{
-        type: String,
+        type: Number,
         label: transr("headcount"),
     },
     dpe_type:{
-        type: Number,
+        type: String,
         label: transr("dpe_type"),
         autoform: {
             type: "select",
