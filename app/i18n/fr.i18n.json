@@ -264,6 +264,13 @@
     "erp_4": "4 - Inférieur à 301 personnes (sauf établissements de cat. 5)",
     "erp_5": "5 - Etablissements accueillant un nombre de personnes inférieur au seuil dépendant du type d’établissement",
 
+    "dpe_type": "Echelle DPE",
+    "housing": "Logements",
+    "tertiary_building_private": "Bâtiment tertiaire privé : bureaux, commerces, etc.",
+    "tertiary_building_public_std": "Bâtiment tertiaire public : bat. administratif, enseignement, etc.",
+    "tertiary_building_public_continuously_occ": "Bâtiment tertiaire public à occupation continue: hôpitaux, prisons, etc.",
+    "tertiary_building_public_other_types": "Autres Bâtiments tertiaires publics : gymnases, musées, salles de spectacle, etc.",
+
     "dpe_A": "A",
     "dpe_B": "B",
     "dpe_C": "C",

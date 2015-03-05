@@ -1,6 +1,7 @@
 Template.buildingDetail.created = ->
   instance = this
   instance.waterFluids = new ReactiveVar([])
+  instance.dpe_ges_data = new ReactiveVar([])
 
   Session.set("current_lease_id", null) #Reset the var session associated to the Selector
 
@@ -10,6 +11,13 @@ Template.buildingDetail.helpers
   getLeases: ->
     result = Leases.find({ building_id: Session.get('current_building_doc')._id }, sort: lease_name: 1).fetch()
     result
+  dpe_ges_dataH: ->
+    dpe_ges_data = Template.instance().dpe_ges_data.get() #get all DPE_GES DATA
+    if Session.get('current_lease_id')?
+      correctData = _.where(dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
+    else dpe_ges_data[0]
+
+
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
     console.log waterFluids
@@ -122,13 +130,26 @@ Template.buildingDetail.rendered = ->
   Session.set 'pieData', dataHolder
   Session.set 'averagedPieData', averagedData
 
-  ### ------------------------------ ###
-
-  #Create data for the DPE barchart
 
   ### ------------------------------ ###
+  #  Create data for the DPE barchart
+  ### ------------------------------ ###
 
-  #TODO
+  dpe_ges_data = Template.instance().dpe_ges_data.get()
+
+  for lease in allLeases
+    dpe_ges_data.push
+      lease_name: lease.lease_name
+      lease_id: lease._id
+      surface: lease.area_by_usage
+      dpe_type: lease.dpe_type
+      dpe_energy_consuption: lease.dpe_energy_consuption
+      dpe_co2_emission: lease.dpe_co2_emission
+
+  console.log "dpe_ges_data is"
+  console.log dpe_ges_data
+  Template.instance().dpe_ges_data.set(dpe_ges_data)
+
   return
 
 

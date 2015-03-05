@@ -266,6 +266,13 @@
     "erp_4": "4- Less than 301 people (except facilities of cat. 5)",
     "erp_5": "5- Facilities accomodating a number of people inferior to the threshold linked to the facility type",
 
+    "dpe_type": "DPE scale",
+    "housing": "Housing",
+    "tertiary_building_private": "Private tertiary building: offices, businesses, etc.",
+    "tertiary_building_public_std": "Public tertiary building: administrative or teaching building, etc.",
+    "tertiary_building_public_continuously_occ": "Public tertiary building with continuous occupation: hospitals, prisons, etc.",
+    "tertiary_building_public_other_types": "Other public tertiary buildings: gymnasiums, museums, auditoriums, etc.",
+
     "dpe_A": "A",
     "dpe_B": "B",
     "dpe_C": "C",

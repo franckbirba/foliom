@@ -192,7 +192,8 @@ certificationsSchema = new SimpleSchema({
         // defaultValue: "Version, détails :",
         autoform: {
             rows: 3
-        }
+        },
+        optional:true,
     },
 });
 
@@ -216,7 +217,6 @@ customCertificationsSchema = new SimpleSchema({
                 collection: 'Images'
             }
         },
-        optional:true,
     },
     cert_comments: {
         type: String,
@@ -224,7 +224,8 @@ customCertificationsSchema = new SimpleSchema({
         // defaultValue: "Version, détails :",
         autoform: {
             rows: 3
-        }
+        },
+        optional:true,
     },
 });
 
@@ -513,6 +514,16 @@ Leases.attachSchema(new SimpleSchema({
     headcount:{
         type: Number,
         label: transr("headcount"),
+    },
+    dpe_type:{
+        type: String,
+        label: transr("dpe_type"),
+        autoform: {
+            type: "select",
+            options: function() {
+                return buildOptions(["housing", "tertiary_building_private", "tertiary_building_public_std", "tertiary_building_public_continuously_occ", "tertiary_building_public_other_types"])
+            }
+        }
     },
     dpe_energy_consuption: {
         type: Object,
