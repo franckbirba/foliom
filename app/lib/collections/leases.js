@@ -279,10 +279,6 @@ technical_compliance_categorySchema = new SimpleSchema({
 Schema.categories = technical_compliance_categorySchema;
 
 conformity_infoSchema = new SimpleSchema({
-    name: {
-        type: String,
-        optional: true,
-    },
     eligibility: {
         type: Boolean,
         label: transr("is_eligibile"),
@@ -767,28 +763,153 @@ Leases.attachSchema(new SimpleSchema({
         optional: true,
     },
 
+
+
     conformity_information: {
-        type: [conformity_infoSchema],
+        type: Object,
         label: transr("conformity_information"),
-        minCount: 14,
-        maxCount: 14,
+        // minCount: 14,
+        // maxCount: 14,
         autoform: {
             afObjectField:{
-                template:"conformity_infoSchema"
+                template:"conformity_infoBlock"
             },
             // afFormGroup:{
             //     template:"conformity_infoSchema"
             // },
-            afArrayField:{
+            // afArrayField:{
+            //     template:"conformity_infoSchema"
+            // },
+        },
+    },
+    'conformity_information.accessibility': {
+        type: conformity_infoSchema,
+        label: transr("accessibility"),
+        autoform: {
+            afObjectField:{
                 template:"conformity_infoSchema"
             },
         },
-        optional: function () {
-            return debugMode;
+    },
+    'conformity_information.elevators': {
+        type: conformity_infoSchema,
+        label: transr("elevators"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
         },
-        // optional: true,
+    },
+    'conformity_information.ssi': {
+        type: conformity_infoSchema,
+        label: transr("ssi"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.asbestos': {
+        type: conformity_infoSchema,
+        label: transr("asbestos"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.lead': {
+        type: conformity_infoSchema,
+        label: transr("lead"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.legionella': {
+        type: conformity_infoSchema,
+        label: transr("legionella"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.electrical_installation': {
+        type: conformity_infoSchema,
+        label: transr("electrical_installation"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.dpe': {
+        type: conformity_infoSchema,
+        label: transr("dpe"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.indoor_air_quality': {
+        type: conformity_infoSchema,
+        label: transr("indoor_air_quality"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.radon': {
+        type: conformity_infoSchema,
+        label: transr("radon"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.chiller_terminal': {
+        type: conformity_infoSchema,
+        label: transr("chiller_terminal"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.lead_disconnector': {
+        type: conformity_infoSchema,
+        label: transr("lead_disconnector"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.automatic_doors': {
+        type: conformity_infoSchema,
+        label: transr("automatic_doors"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
+    },
+    'conformity_information.chiller_system': {
+        type: conformity_infoSchema,
+        label: transr("chiller_system"),
+        autoform: {
+            afObjectField:{
+                template:"conformity_infoSchema"
+            },
+        },
     },
 
+// conformity_information_items = ["accessibility", "elevators", "ssi", "asbestos", "lead", "legionella", "electrical_installation", "DPE", "indoor_air_quality", "radon", "chiller_terminal", "lead_disconnector", "automatic_doors", "chiller_system"];
 
 // conformity_info: [{
 //      name: String
