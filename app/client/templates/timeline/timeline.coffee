@@ -102,102 +102,64 @@
           fluidOverQuarter.push fluidOverYear for quarter in [1..4]
       fluid['fluidOverQuarter'] = fluidOverQuarter
       fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
-    console.log 'Fluid in settings', fluidInSettings
-    # @TODO Get only the fluid providers used in the selected buildings
-    @fluids = []
-    b = TimelineVars.buildings[0]
-    console.log 'Building', b
-    l = b.leases[0]
-    console.log 'Lease', l
-    fluids = l.fluid_consumption_meter
-    console.table fluids
-    console.log settings.fluids
-
   charts: ticks: [], budget: [], consumption: []
   ###*
-   * Create ticks (labels used in the chart's xAxis).
+   * Iterator function that creates ticks (labels used in the chart's xAxis)
+   * for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
   ###
-  createTicks: ->
-    # Build formatted data
+  itFctTicks: (quarter) ->
+    # Labels for charts
+    @charts.ticks.push \
+      "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
+  ###*
+   * Iterator function that calculates budget for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctBudget: (quarter) ->
+    # Budget line for chart
+    @charts.budget.push @scenario.total_expenditure
+  ###*
+   * Iterator functino that calculates consumption for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctConsumption: (quarter) ->
+    # Current consumption for charts
+    # @TODO Fake data
+    @charts.consumption.push 3.5
+  ###*
+   * Iterates over quarters for calculating ticks, budget and consumption.
+  ###
+  calculateStaticCharts: ->
     quarter = @minDate.clone()
     while quarter.isBefore @maxDate
-      # Labels for charts
-      @charts.ticks.push \
-        "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
-        # Increment by 1 quarter
-        quarter.add 1, 'Q'
-
-  rxPlannedActions: new ReactiveVar
+      # Ticks
+      @itFctTicks quarter
+      # Budget
+      @itFctBudget quarter
+      # Consumption
+      @itFctConsumption quarter
+      # Increment by 1 quarter
+      quarter.add 1, 'Q'
   rxTimelineActions: new ReactiveVar
   ###*
-   * Perform all calculations and fill the global TimelineVars object.
+   * Calculate values used under the TimelineTable.
+   * @param {Array} buildingFilter Array of building's ID.
   ###
-  calculate: ->
-    # Handle the portfolio and building filtering
-    buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
+  calculateTimelineTable: (buildingFilter) ->
+    # Handle the portfolio and building filtering when nothing has been
+    #  selected before
     buildingFilter = _.pluck TV.buildings, '_id' if buildingFilter is undefined
     # Reset the timelineAction
     timelineActions = []
     # Sort planned actions
     @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) ->
       (moment item.start).valueOf()
-    # Reset charts that doesn't depends on actions
-    @charts.budget = []
-    @charts.consumption = []
     # Index on the actions table
     currentAction = 0
     # Build formatted data
     quarter = @minDate.clone()
     nextQuarter = quarter.clone().add 1, 'Q'
-
-    # Graph 1
-    # -------
-    # PEM To expand on all buildings
-    # For each leases: fluid_consumption_meter
-    #     @allLeases = Leases.find(
-    # {building_id: @building_id},
-    # {sort: {lease_name:1}}
-    # ).fetch()
-
-    # PEM to get the unit of a fluid
-    # confFluids = Session.get('current_config').fluids
-    #for fluid in confFluids
-    #  completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type
-    #  if completeFluideName is endUse.fluid_id
-    #    endUse.fluid = fluid #We store the Fluid in the array
-    #    matchingEndUseInLease[leaseIndex] = endUse
-
-    # PEM Get the appropriate coefficient for each type of unit
-    # Session.get('current_config').kwhef_to_co2_coefficients
-
-    # This provide 3 scalings
-    # Before action
-    # After actions
-    # -> 6 graphs
-    # /!\ Apply setting.other_indexes.consumption_degradation :
-    # indepedent of the fluid
-
-    # Graph 2
-    # -------
-    # Chart with action and without actions
-    # Cold fluid is not available.
-    # Invoice is done for each fluid:
-    #  subscription(time) + price(year) * consumption(year)
-    # consumption(year): calculated in graph 1
-    # @allLeases.fluid_consumption_meter[ fluid_type ].yearly_subscription
-    # Create an array for subscription(time):
-    #  num * Math.pow( 1+actualization_rate , -ic_index)
-    # subscription(year) =
-    #  subscription(0) * (1+(inflation_rate))^year * (1+actualisation_rate)^year
-    # actualisation_rate = setting.other_indexes.actualization_rate
-    # inflation_rate(year) = setting.ipc.evolution_index[ year ].cost
-    # price(year) =
-    #  setting.fluids(
-    #   for each fluid
-    #  ).yearly_values[year]*(1+actualisation_rate)^year
-    # /!\ yearly_values starts at 2014
-    #  but the start of the scenario may be in 2017
-
     while quarter.isBefore @maxDate
       # Parsing each year content
       currentYear = quarter.year()
@@ -235,17 +197,82 @@
               length: value.length
               actionIds: (_.pluck value, '_id').join ';'
             quarterContent.tActions.push item
-        # Budget line for chart
-        @charts.budget.push @scenario.total_expenditure
-        # Current consumption for charts
-        # @TODO Fake data
-        @charts.consumption.push 3.5
         # Set year in the timeline
         yearContent.quarterContent.push quarterContent
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
       timelineActions.push yearContent
+    # Assign reactive vars
+    TV.rxTimelineActions.set timelineActions
+  rxPlannedActions: new ReactiveVar
+  ###*
+   * Perform all calculations and fill the global TimelineVars object.
+  ###
+  calculate: ->
+    # Listen to reactive value that affects calculations
+    buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
+    # Calculate values used in the TimelineTable
+    @calculateTimelineTable buildingFilter
+    # Graph 1
+    # -------
+    # PEM To expand on all buildings
+    # For each leases: fluid_consumption_meter
+    #     @allLeases = Leases.find(
+    # {building_id: @building_id},
+    # {sort: {lease_name:1}}
+    # ).fetch()
+
+    # PEM to get the unit of a fluid
+    # confFluids = Session.get('current_config').fluids
+    #for fluid in confFluids
+    #  completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type
+    #  if completeFluideName is endUse.fluid_id
+    #    endUse.fluid = fluid #We store the Fluid in the array
+    #    matchingEndUseInLease[leaseIndex] = endUse
+
+    # PEM Get the appropriate coefficient for each type of unit
+    # Session.get('current_config').kwhef_to_co2_coefficients
+    #
+    ###
+    fluids = []
+    b = TimelineVars.buildings[0]
+    console.log 'Building', b
+    l = b.leases[0]
+    console.log 'Lease', l
+    fluids = l.fluid_consumption_meter
+    console.table fluids
+    console.log settings.fluids
+    ###
+
+    # This provide 3 scalings
+    # Before action
+    # After actions
+    # -> 6 graphs
+    # /!\ Apply setting.other_indexes.consumption_degradation :
+    # indepedent of the fluid
+
+    # Graph 2
+    # -------
+    # Chart with action and without actions
+    # Cold fluid is not available.
+    # Invoice is done for each fluid:
+    #  subscription(time) + price(year) * consumption(year)
+    # consumption(year): calculated in graph 1
+    # @allLeases.fluid_consumption_meter[ fluid_type ].yearly_subscription
+    # Create an array for subscription(time):
+    #  num * Math.pow( 1+actualization_rate , -ic_index)
+    # subscription(year) =
+    #  subscription(0) * (1+(inflation_rate))^year * (1+actualisation_rate)^year
+    # actualisation_rate = setting.other_indexes.actualization_rate
+    # inflation_rate(year) = setting.ipc.evolution_index[ year ].cost
+    # price(year) =
+    #  setting.fluids(
+    #   for each fluid
+    #  ).yearly_values[year]*(1+actualisation_rate)^year
+    # /!\ yearly_values starts at 2014
+    #  but the start of the scenario may be in 2017
+
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
       # Denormalize date
@@ -293,7 +320,6 @@
         nextQuarter.add 1, 'Q'
     # Assign reactive vars
     TV.rxPlannedActions.set @scenario.planned_actions
-    TV.rxTimelineActions.set timelineActions
     #console.table _.map TV.scenario.planned_actions, (paction) ->
     #  id: paction.action_id
     #  start: (moment paction.start).format 'Q YYYY'
@@ -316,8 +342,8 @@ Template.timeline.created = ->
   TV.setMinMaxDate()
   # Get fluids and coefficients
   TV.getFluidsAndCoefs()
-  # Create ticks for the charts
-  TV.createTicks()
+  # Create ticks, consumption and budget charts
+  TV.calculateStaticCharts()
   # Reactively perform calculations based on filter changes
   @autorun -> TV.calculate()
 
