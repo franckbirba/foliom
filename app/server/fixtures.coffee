@@ -115,6 +115,15 @@ exports.createBuildings = (nb_buildings) ->
         }
       ]
       'consumption_by_end_use_total': 98
+      'certifications': [
+        {
+          "cert_id" : "nf_hqe"
+          "cert_comments" : "ceci est un commentaire"
+        }
+        {
+          "cert_id" : "breeam"
+        }
+      ]
       'comfort_qualitative_assessment':
         'acoustic': 'good'
         'visual': 'average'
@@ -296,6 +305,17 @@ exports.createBuildings = (nb_buildings) ->
         }
       ]
       'consumption_by_end_use_total': 170
+      'certifications': [
+        {
+          "cert_id" : "us_leed"
+        }
+        {
+          "cert_id" : "effinergie"
+        }
+        {
+          "cert_id" : "bepos2013"
+        }
+      ]
       'comfort_qualitative_assessment':
         'acoustic': 'good'
         'visual': 'average'
