@@ -17,10 +17,25 @@ Template.buildingDetail.helpers
       correctData = _.where(dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
     else dpe_ges_data[0]
 
+  getCertificates: ->
+    if Session.get('current_lease_id')?
+      result = Leases.find({ _id: Session.get('current_lease_id') }, {fields: {certifications: 1}}).fetch()[0]
+    else
+      result = Leases.find({ building_id: Session.get('current_building_doc')._id }, {fields: {certifications: 1}}).fetch()
+      allCerts = []
+      for lease in result
+        allCerts = _.union allCerts, lease.certifications
+      result.certifications = allCerts
+
+    if result.certifications
+      for cert in result.certifications
+        cert.cert_url = "/icon/certificates/#{cert.cert_id}.png" #Construct the URL
+      console.log result.certifications
+      result.certifications
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
-    console.log waterFluids
+    # console.log waterFluids
 
     if waterFluids? #wait until the waterFluids array has been generated
 

@@ -31,11 +31,8 @@
           .col-md-4
             h4.panel-inner-title Certifications
             .certZone
-              img(src="/icon/certificates/bepos2013.png" alt="bepos2013")
-              img(src="/icon/certificates/nf_hqe.png" alt="nf_hqe")
-              img(src="/icon/certificates/breeam.png" alt="breeam")
-              img(src="/icon/certificates/us_leed.png" alt="us_leed")
-              img(src="/icon/certificates/effinergie.png" alt="effinergie")
+              each getCertificates
+                img(src=cert_url alt=cert_id)
           // DPE
           .col-md-4
             p.dpe-gpe-legend {{_ 'efficient_housing'}}
