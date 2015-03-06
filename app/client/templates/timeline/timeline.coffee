@@ -2,7 +2,6 @@
 
 # Isolate calculated value in a namespace
 @TimelineVars =
-  totalCost: 0
   ###*
    * Reset current object to its default values.
   ###
@@ -103,6 +102,14 @@
           fluidOverQuarter.push fluidOverYear for quarter in [1..4]
       fluid['fluidOverQuarter'] = fluidOverQuarter
       fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
+  totalCost: 0
+  ###*
+   * Iterate over each action for getting their cost.
+  ###
+  calculateTotalCost: ->
+    for paction in @scenario.planned_actions
+      # Total costs
+      @totalCost += paction.action.investment.cost
   charts: ticks: [], budget: [], consumption: []
   ###*
    * Iterator function that creates ticks (labels used in the chart's xAxis)
@@ -189,8 +196,6 @@
             break unless paction.start.isBetween quarter, nextQuarter
             # Set the current action in the current quarter
             quarterContent.tActions.push paction.action
-            # Total costs
-            @totalCost += paction.action.investment.cost
           # Check next action
           currentAction++
         # Group actions in quarter by name
@@ -344,6 +349,8 @@ Template.timeline.created = ->
   TV.setMinMaxDate()
   # Get fluids and coefficients
   TV.getFluidsAndCoefs()
+  # Get scenario total cost
+  TV.calculateTotalCost()
   # Create ticks, consumption and budget charts
   TV.calculateStaticCharts()
   # Reactively perform TimelineTable refresh based on filter changes
