@@ -466,8 +466,8 @@
 
 		"consumption_label": "Consumption over time",
     "consumption_noaction": "Current consumption",
-    "consumption_action_co2": "Consommation after CO2 actions",
-    "consumption_action_kwh": "Consommation after kWh actions",
+    "consumption_action_co2": "Consumption after CO2 actions",
+    "consumption_action_kwh": "Consumption after kWh actions",
 		"expense_label": "Expense over time",
     "expense_raw": "Expense",
 		"investment_label": "Investment over time",
