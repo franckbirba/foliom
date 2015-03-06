@@ -109,12 +109,17 @@ Template.leaseForm.rendered = function () {
     });
 
     // conformity_information
-    $("[name^='conformity_information.'][name$='.name']").each(function( index ) {
-        $(this).val( transr( conformity_information_items[index]) );
-        $(this).prop("readonly","readonly") ;
-        // i18n.t($(this).val(), { lng: 'en' });
-        // console.log( TAPi18n.__($(this).val(), null, 'en' ) );
-    });
+    // $("[name^='conformity_information.'][name$='.name']").each(function( index ) {
+    //     $(this).val( transr( conformity_information_items[index]) );
+    //     $(this).prop("readonly","readonly") ;
+    //     // i18n.t($(this).val(), { lng: 'en' });
+    //     // console.log( TAPi18n.__($(this).val(), null, 'en' ) );
+    // });
+
+    $(".technical_compliance_name").each(function( index ) {
+          $(this).val( transr( technical_compliance_items[index]) );
+          // $(this).prop("readonly","readonly") ;
+      });
   }
 
   Tracker.autorun(function () {
@@ -138,12 +143,6 @@ Template.leaseForm.rendered = function () {
       //     $(this).prop("readonly","readonly") ;
       //     // $(this).val( index );
       // });
-
-      $(".technical_compliance_name").each(function( index ) {
-          $(this).val( transr( technical_compliance_items[index]) );
-          $(this).prop("readonly","readonly") ;
-          // $(this).val( index );
-      });
 
 
       /* ------------------------------------------------------------------- */
