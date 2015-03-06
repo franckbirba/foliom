@@ -30,7 +30,9 @@
           // Certifications
           .col-md-4
             h4.panel-inner-title Certifications
-            p: strong TODO Add certification vignettes
+            .certZone
+              each getCertificates
+                img(src=cert_url alt=cert_id)
           // DPE
           .col-md-4
             p.dpe-gpe-legend {{_ 'efficient_housing'}}

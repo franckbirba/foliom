@@ -25,13 +25,22 @@
   </div>
 </template>
 
+<template name="afObjectField_conformity_infoBlock">
+  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
+    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+    <div class="CiS_block">
+      {{> afQuickFields name=this.atts.name }}
+    </div>
+  </div>
+</template>
+
 <template name="afObjectField_conformity_infoSchema">
-  <div class="panel panel-default">
-    <!-- {{#with afFieldLabelText name=this.atts.name}}
+  <div class="panel panel-default CiS_item">
+    {{#with afFieldLabelText name=this.atts.name}}
     <div class="panel-heading">
       <h3 class="panel-title">{{this}}</h3>
     </div>
-    {{/with}} -->
+    {{/with}}
     <div class="panel-body">
       {{#if afFieldIsInvalid name=this.atts.name}}
       <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
@@ -89,7 +98,7 @@
     {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
       <!-- Testing display settings at the ArrayField level -->
       <!-- <div class="yearly_values_item"> -->
-      <div class="testCiS">
+      <div class="CiS_item">
         {{> afQuickField name=this.name label=false}}
 
         {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}

@@ -62,8 +62,8 @@ Template.pie.rendered = function () {
                 curr_item = averagedPieData;
             }
 
-            console.log("curr_item is:");
-            console.log(curr_item);
+            // console.log("curr_item is:");
+            // console.log(curr_item);
 
             txt_domain = curr_item.text_domain ;
             data = curr_item.data ;
@@ -71,21 +71,10 @@ Template.pie.rendered = function () {
             // console.log("txt_domain is:" + txt_domain);
             // console.log("data is:" + data);
 
-
-
-            // Original text domain: ["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"]
-
             color = d3.scale.ordinal()
                 .domain(txt_domain)
-                .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+                .range(["#A9C700", "#4D4D4D", "#808080", "#CCCCCC", "#333", "#666", "#999"]);
 
-            console.log("after color");
-            // function randomData (){
-            //     var labels = color.domain();
-            //     return labels.map(function(label){
-            //         return { label: label, value: Math.random() }
-            //     });
-            // }
 
             // change(randomData());
             change(data);
