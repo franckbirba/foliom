@@ -30,7 +30,7 @@ Template.observatory.events({
           dynamicTyping: true,
           header: true,
           skipEmptyLines: true,
-          encoding: "UTF-16",
+          encoding: "iso-8859-1",
           // newline: "\r",
           complete: function(results, file) {
             // console.log("results.data are");
