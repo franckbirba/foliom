@@ -45,10 +45,6 @@ D3LineChart(page, h)
           stroke color + idx
           fill color + idx
           transition all .3s ease-in-out
-          &:hover
-            stroke-width 4px
-            stroke @stroke
-            fill @fill
       circle.legend.data{idx}
         fill color + idx
       text.legend.data{idx}
@@ -56,6 +52,15 @@ D3LineChart(page, h)
         font-weight normal
         stroke none
         fill color + idx
+  .{page}
+    g.point
+      rect
+        stroke none
+        fill white
+        fill-opacity 0
+      &:hover
+        circle
+          stroke-width 6px
 
   // Tooltips
   .d3-tip
