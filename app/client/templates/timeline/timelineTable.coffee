@@ -96,8 +96,6 @@ actionItemDropped = (e, t) ->
       second: 1 # @NOTE: A second is added so that inBetween evaluation works
       month: (quarterObj.Q - 1) * 3
       year: quarterObj.Y
-  # Recalculate
-  TV.calculate()
   # Update DB
   formattedActions = _.map pactions, (paction) ->
     action_id: paction.action_id

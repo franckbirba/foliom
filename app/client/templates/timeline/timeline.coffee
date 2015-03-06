@@ -18,6 +18,7 @@
     @actualization_rate = 0
     @consumption_degradation = 0
     @charts = ticks: [], budget: [], consumption: []
+    @currentFilter = null
   scenario: null
   ###*
    * Get the current scenario.
@@ -142,14 +143,19 @@
       # Increment by 1 quarter
       quarter.add 1, 'Q'
   rxTimelineActions: new ReactiveVar
+  currentFilter: null
   ###*
    * Calculate values used under the TimelineTable.
    * @param {Array} buildingFilter Array of building's ID.
   ###
   calculateTimelineTable: (buildingFilter) ->
-    # Handle the portfolio and building filtering when nothing has been
-    #  selected before
-    buildingFilter = _.pluck TV.buildings, '_id' if buildingFilter is undefined
+    # Get current filter value if calculation are called without filter
+    if buildingFilter is undefined
+      if @currentFilter is null
+        @currentFilter = _.pluck TV.buildings,'_id'
+      buildingFilter = @currentFilter
+    else
+      @currentFilter = buildingFilter
     # Reset the timelineAction
     timelineActions = []
     # Sort planned actions
@@ -209,11 +215,7 @@
   ###*
    * Perform all calculations and fill the global TimelineVars object.
   ###
-  calculate: ->
-    # Listen to reactive value that affects calculations
-    buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
-    # Calculate values used in the TimelineTable
-    @calculateTimelineTable buildingFilter
+  calculateDynamicChart: ->
     # Graph 1
     # -------
     # PEM To expand on all buildings
@@ -344,8 +346,16 @@ Template.timeline.created = ->
   TV.getFluidsAndCoefs()
   # Create ticks, consumption and budget charts
   TV.calculateStaticCharts()
-  # Reactively perform calculations based on filter changes
-  @autorun -> TV.calculate()
+  # Reactively perform TimelineTable refresh based on filter changes
+  @autorun ->
+    buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
+    # Calculate values used in the TimelineTable
+    TV.calculateTimelineTable buildingFilter
+  # Reactively perform TimelineTable and chart refresh on Scenario change
+  @autorun (computation) ->
+    scenario = Scenarios.findOne TV.scenario._id
+    TV.calculateTimelineTable() unless computation.firstRun
+    TV.calculateDynamicChart()
 
 ###*
  * Object containing helper keys for the template.

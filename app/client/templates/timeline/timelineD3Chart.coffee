@@ -80,8 +80,7 @@ Template.timelineD3Chart.rendered = ->
   # the first call to the chart's update.
   @autorun (computation) ->
     rxPlannedActions = TV.rxPlannedActions.get()
-    unless computation.firstRun
-      chart.updateData chartFct()
+    chart.updateData chartFct() unless computation.firstRun
 
 ###*
  * Create an Array of the provided size filled with 0.
