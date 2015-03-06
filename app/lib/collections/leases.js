@@ -356,7 +356,7 @@ conformity_infoSchema = new SimpleSchema({
     },
     files: {
         type: [String],
-        label: "Test",
+        label: transr("Files"),
         optional:true,
         autoform: {
             // template: 'eportfolio-horizontal',
