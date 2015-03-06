@@ -237,6 +237,7 @@ technical_compliance_categorySchema = new SimpleSchema({
         type: String,
         autoform: {
             afFieldInput: {
+                    readonly:"true",
                     class:"technical_compliance_name" // makes it easier to select
                 }
         }
@@ -355,7 +356,7 @@ conformity_infoSchema = new SimpleSchema({
     },
     files: {
         type: [String],
-        label: "Test",
+        label: transr("Files"),
         optional:true,
         autoform: {
             // template: 'eportfolio-horizontal',

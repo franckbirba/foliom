@@ -34,15 +34,15 @@ Template.user.helpers({
   getUser: function(){
     return Session.get('update_user') ? Session.get('update_user') : null;
   },
-  beforeRemove: function () {
-      return function (collection, id) {
-        var doc = collection.findOne(id);
-        console.log(doc);
-        if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
-          this.remove();
-        }
-      };
-    },
+  // beforeRemove: function () {
+  //     return function (collection, id) {
+  //       var doc = collection.findOne(id);
+  //       console.log(doc);
+  //       if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
+  //         this.remove();
+  //       }
+  //     };
+  //   },
     getFormTitle: function(){
       var tmpUser = Session.get('update_user');
       if(tmpUser){

@@ -1,85 +1,87 @@
 {
-		/* Global keywords */
-	  "hello": "Welcome to e-portfolio",
+	/* Global keywords */
+	"hello": "Welcome to e-portfolio",
 
-		/* Home */
-		"observe": "Observe",
-		"plan": "Plan",
-		"followup_tools": "Follow-up tools",
-		"view_all_message": "View all messages",
+	/* Home */
+	"observe": "Observe",
+	"plan": "Plan",
+	"followup_tools": "Follow-up tools",
+	"view_all_message": "View all messages",
 
-		/* Signin */
-		"hangs": "Design, monitor and evaluate your estate master plans",
-		"my_account": "My account",
-		"email": "Email",
-		"your_email": "Your email",
-		"email_required": "Your email is required.",
-		"password": "Password",
-		"your_password": "Your password",
-		"password_required": "Your password is required.",
-		"connect": "Connect",
-		"e_portfolio_what_is_it": "E-portfolio, what is it?",
+	/* Signin */
+	"hangs": "Design, monitor and evaluate your estate master plans",
+	"my_account": "My account",
+	"email": "Email",
+	"your_email": "Your email",
+	"email_required": "Your email is required.",
+	"password": "Password",
+	"your_password": "Your password",
+	"password_required": "Your password is required.",
+	"connect": "Connect",
+	"e_portfolio_what_is_it": "E-portfolio, what is it?",
 
-		/* Navbar */
-		"search": "Search",
+	/* Navbar */
+	"search": "Search",
 
     /* Apply Actions */
     "actions_apply": "Apply actions on your portfolio",
     "select_portfolio": "Select your portfolio",
 
-		/* Estate */
-		"new_estate": "New estate",
+	/* Estate */
+	"new_estate": "New estate",
 
-		/* Settings */
-		"settings": "Settings",
+	/* Settings */
+	"settings": "Settings",
 
-		/* Observatory */
-		"manage_portfolios": "Manage your portfolios",
+	/* Observatory */
+	"manage_portfolios": "Manage your portfolios",
 
-		"description": "Description",
-		"logo": "Logo",
-		"address": "Address",
-		"images": "Photos",
-		"name": "Name",
+	"description": "Description",
+	"logo": "Logo",
+	"address": "Address",
+	"images": "Photos",
+	"name": "Name",
 
-		"street": "Street",
-		"zip": "Zip code",
-		"city": "City",
-		"area": "Aera",
-		"country": "Country",
+	"street": "Street",
+	"zip": "Zip code",
+	"city": "City",
+	"area": "Aera",
+	"country": "Country",
 
-		"yes": "Yes",
-		"no": "No",
-		"total": "Total",
-		"comments": "Comments",
-		"comments_small": "Small comments",
-		"NA": "NA",
+	"yes": "Yes",
+	"no": "No",
+	"total": "Total",
+	"comments": "Comments",
+	"comments_small": "Small comments",
+	"NA": "NA",
 
-		"priority": "Priority",
-		"ratio": "Ratio",
+	"priority": "Priority",
+	"ratio": "Ratio",
 
-		"good": "Good",
-		"average": "Average",
-		"bad": "Bad",
+	"good": "Good",
+	"average": "Average",
+	"bad": "Bad",
 
-		"normal": "Normal",
-		"high": "High",
-		"low": "Low",
+	"normal": "Normal",
+	"high": "High",
+	"low": "Low",
 
-		"estate": "Estate",
-		"portfolio": "Portfolio",
-			"new_portfolio": "New portfolio",
-		"building": "Building",
-			"buildings": "Buildings",
-			"new_building": "New building",
-		"lease": "Lease",
-		"fluid": "Fluid",
-		"import": "Import",
+	"estate": "Estate",
+	"portfolio": "Portfolio",
+		"new_portfolio": "New portfolio",
+	"building": "Building",
+		"buildings": "Buildings",
+		"new_building": "New building",
+	"lease": "Lease",
+	"fluid": "Fluid",
+	"import": "Import",
 
-		"In": "in",
+	"In": "in",
 
-		"custom_visual": "Visuel",
-        "evolution": "Evolution",
+	"custom_visual": "Visuel",
+    "evolution": "Evolution",
+
+    "files": "Fichiers",
 
     /* Configuration Compass */
 

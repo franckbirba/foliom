@@ -83,3 +83,26 @@ Template.registerHelper("getBuildingName",
         }
     }
 );
+
+Template.registerHelper("beforeRemove",
+    function(){
+        return function (collection, id) {
+            var doc = collection.findOne(id);
+            console.log(doc);
+            if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
+              this.remove();
+            }
+          };
+    }
+);
+
+
+// beforeRemove: function () {
+//       return function (collection, id) {
+//         var doc = collection.findOne(id);
+//         console.log(doc);
+//         if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
+//           this.remove();
+//         }
+//       };
+//     },
