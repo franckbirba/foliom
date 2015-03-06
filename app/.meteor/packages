@@ -20,7 +20,6 @@ mquandalle:jade
 coffeescript
 mizzao:jquery-ui
 momentjs:moment
-mquandalle:stylus
 fortawesome:fontawesome
 rzymek:moment-locale-fr
 tap:i18n
@@ -33,9 +32,10 @@ natestrauser:animate-css
 natestrauser:select2
 mfpierre:chartist-js
 reactive-var
-ian:accounts-ui-bootstrap-3
 cfs:standard-packages
-cfs:gridfs@=0.0.27
 harrison:papa-parse
-msavin:mongol
 forwarder:autoform-wizard
+msavin:mongol
+ian:accounts-ui-bootstrap-3
+mquandalle:stylus
+cfs:gridfs@=0.0.30

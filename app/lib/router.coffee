@@ -55,13 +55,13 @@ Router.map ->
   @route '/buildings/:_id',
     name: 'building-detail'
     data: ->
-      curr_building = Buildings.findOne(@params._id)
+      curr_building = Buildings.findOne @params._id
       # Apparently the router goes several times through the loop
       # We have to catch this annoying behavior, and give it time to let
       # the Data be ready
       return false  unless curr_building
-      curr_portfolio = Portfolios.findOne(_id: curr_building.portfolio_id)
-      curr_estate = Estates.findOne(portfolio_collection: curr_portfolio._id)
+      curr_portfolio = Portfolios.findOne curr_building.portfolio_id
+      curr_estate = Estates.findOne portfolio_collection: curr_portfolio._id
       # Set Session var for Estate & Building
       Session.set 'current_building_doc', curr_building
       Session.set 'current_portfolio_doc', curr_portfolio
@@ -72,7 +72,7 @@ Router.map ->
     name: 'scenario-form'
     data: ->
       if @params._id isnt null
-        curr_scenario = Scenarios.findOne(@params._id)
+        curr_scenario = Scenarios.findOne @params._id
         # Apparently the router goes several times through the loop
         # We have to catch this annoying behavior, and give it time to let
         # the Data be ready
@@ -81,4 +81,4 @@ Router.map ->
 
   @route '/timeline/:_id',
     name: 'timeline'
-    data: -> Scenarios.findOne _id: @params._id
+    data: -> Scenarios.findOne @params._id
