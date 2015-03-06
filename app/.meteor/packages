@@ -32,10 +32,10 @@ natestrauser:animate-css
 natestrauser:select2
 mfpierre:chartist-js
 reactive-var
-cfs:standard-packages
 harrison:papa-parse
 forwarder:autoform-wizard
-msavin:mongol
 ian:accounts-ui-bootstrap-3
 mquandalle:stylus
-cfs:gridfs@=0.0.30
+cfs:gridfs
+msavin:mongol
+cfs:standard-packages
