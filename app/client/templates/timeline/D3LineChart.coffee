@@ -77,7 +77,7 @@ class @D3LineChart
     # Create yAxis
     yAxis = d3.svg.axis()
       .scale @yScalingFct
-      .tickFormat (d, i) -> numeral(d).format('0.0a')
+      .tickFormat (d, i) -> (numeral d).format '0.0a'
       .tickSize -@graphWidth
       .tickPadding 6
       .orient 'left'
@@ -136,7 +136,7 @@ class @D3LineChart
     # Add circles and tips
     tip = d3.tip()
       .attr 'class', 'd3-tip'
-      .offset [-12, 0]
+      .offset [3, 0]
       .html (d, i) =>
         "<div class='animated fadeInUp'>
         <div class='d3-tip-content'>
@@ -146,15 +146,24 @@ class @D3LineChart
         </div></div>"
     @graph.call tip
     line = _.last @lines
-    line.group.selectAll 'circle'
+    group = line.group.selectAll 'g'
       .data arr
       .enter()
+      .append 'svg:g'
+        .attr 'class', 'point'
+        .on 'mouseover', tip.show
+        .on 'mouseout', tip.hide
+    line.group.selectAll 'g.point'
       .append 'circle'
-      .attr 'r', 4
-      .attr 'cx', (d, i) => @xScalingFct i
-      .attr 'cy', (d) => @yScalingFct d
-      .on 'mouseover', tip.show
-      .on 'mouseout', tip.hide
+        .attr 'r', 3
+        .attr 'cx', (d, i) => @xScalingFct i
+        .attr 'cy', (d) => @yScalingFct d
+    line.group.selectAll 'g.point'
+      .append 'rect'
+        .attr 'x', (d, i) => -10 + @xScalingFct i
+        .attr 'y', (d) => -20 + @yScalingFct d
+        .attr 'width', 20
+        .attr 'height', 40
   ###*
    * Set data for each lines.
    * @param {Object} obj An Object describing each chart.
@@ -185,6 +194,11 @@ class @D3LineChart
           .transition()
           .attr 'cx', (d, i) => @xScalingFct i
           .attr 'cy', (d) => @yScalingFct d
+        line.group.selectAll 'rect'
+          .data data
+          .transition()
+          .attr 'x', (d, i) => -10 + @xScalingFct i
+          .attr 'y', (d) => -20 + @yScalingFct d
         stuff = line.group.selectAll 'path'
           .transition()
           .attr 'd', line data
