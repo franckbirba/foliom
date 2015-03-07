@@ -55,6 +55,14 @@ Estates.attachSchema(new SimpleSchema({
     autoform: {
          omit: true
       }
+  },
+  'estate_properties.technical_compliance_categoriesList': {
+    type: [String],
+    defaultValue: [],
+    optional: true,
+    autoform: {
+         omit: true
+      }
   }
 
 }));

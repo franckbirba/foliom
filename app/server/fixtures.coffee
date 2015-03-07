@@ -219,6 +219,63 @@ exports.createBuildings = (nb_buildings) ->
         ]
         'global_lifetime': 0
         'global_conformity': 0
+      'conformity_information':
+        'accessibility':
+          'eligibility': true
+          'periodicity': 'monthly'
+          'conformity': 'compliant'
+        'elevators':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'ssi':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'asbestos':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'lead':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'legionella':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'electrical_installation':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'dpe':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'indoor_air_quality':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'radon':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'chiller_terminal':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'lead_disconnector':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'automatic_doors':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'chiller_system':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
       'building_id': '25bQcnwe2RZHdjsu5'
     }
     {
@@ -411,6 +468,63 @@ exports.createBuildings = (nb_buildings) ->
         ]
         'global_lifetime': 0
         'global_conformity': 0
+      'conformity_information':
+        'accessibility':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'elevators':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'ssi':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'asbestos':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'lead':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'legionella':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'electrical_installation':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'dpe':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'indoor_air_quality':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'radon':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'chiller_terminal':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'lead_disconnector':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'automatic_doors':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
+        'chiller_system':
+          'eligibility': true
+          'periodicity': "monthly"
+          'conformity': 'compliant'
       'building_id': '25bQcnwe2RZHdjsu5'
     }
   ]
