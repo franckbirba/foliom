@@ -21,7 +21,8 @@
         .panel-heading
           h3.panel-title
             | {{_ 'buildings'}}
-            span.glyphicon.glyphicon-cog.pull-right(aria-hidden='true')
+            if isBuilding
+              span.glyphicon.glyphicon-cog.pull-right(aria-hidden='true')
         .panel-body.observatory#building_panel
           // Buildings for current Portfolio
           #building_list(style='display: none;')
