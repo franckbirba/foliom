@@ -1,10 +1,31 @@
 .actionsHome
-  a.btn.btn-primary
-    margin-top 1em
-    padding-top 1em
-    padding-bottom 1em
-    text-align center
-    width 100%
-    span
-      font-size 2.5em
-      padding-bottom .2em
+
+  .flex_nav
+    display flex
+    justify-content space-around
+
+  .main-menu
+    display inline-block
+    background-repeat no-repeat
+    background-size contain
+    height 293px
+    width 293px
+    padding 10px
+    margin 15px
+    transition all .3s ease-in-out
+    border-radius 2px
+    &:hover
+      transition all .3s ease-in-out
+      filter brightness(0.7) contrast(0.7)
+
+  .action_conf
+    background-image url(/icon/action_conf.svg)
+    cursor pointer
+
+  .action_apply
+    background-image url(/icon/action_apply.svg)
+    cursor pointer
+
+  .action_blueprint
+    background-image url(/icon/action_blueprint.svg)
+    cursor pointer

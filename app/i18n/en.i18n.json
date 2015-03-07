@@ -130,6 +130,8 @@
     "carpark_spaces": "Carpark spaces",
     "carpark_area": "Carpark area",
 
+    "import_building_lease": "Import Buildings and Leases",
+
     /* Building Selectors */
     "control_full": "Full",
     "control_shared": "Shared",

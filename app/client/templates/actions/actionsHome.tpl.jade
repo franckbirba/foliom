@@ -1,10 +1,4 @@
-.page.plan.actionsHome: .container: .row: .animated.fadeInDown
-  .col-md-4.text-center: a.btn.btn-primary(href='{{pathFor "actions-list"}}')
-    div: span.glyphicon.glyphicon-screenshot
-    div {{_ 'actionList_title'}}
-  .col-md-4.text-center: a.btn.btn-primary(href='{{pathFor "actions-apply"}}')
-    div: span.glyphicon.glyphicon-save
-    div {{_ 'actions_apply'}}
-  .col-md-4.text-center: a.btn.btn-primary(href='{{pathFor "scenarioList"}}')
-    div: span.glyphicon.glyphicon-road
-    div {{_ 'schemaDir_create'}}
+.page.plan.actionsHome: .container: .flex_nav: .animated.fadeInDown
+  .main-menu.action_conf.animated.fadeInLeft: a.btn.btn-default(href='{{pathFor "actions-list"}}') {{_ 'actionList_title'}}
+  .main-menu.action_apply.animated.fadeInLeft: a.btn.btn-default(href='{{pathFor "actions-apply"}}') {{_ 'actions_apply'}}
+  .main-menu.action_blueprint.animated.fadeInLeft: a.btn.btn-default(href='{{pathFor "scenarioList"}}') {{_ 'schemaDir_create'}}
