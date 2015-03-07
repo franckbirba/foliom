@@ -47,6 +47,16 @@ Template.registerHelper("getPortfolioList",
     }
 );
 
+Template.registerHelper("getBuildingList",
+    function(){
+        if ( Session.get('current_portfolio_doc') !== undefined ) {
+            return Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
+                        {sort: {building_name:1}}
+                        ).fetch();
+        }
+    }
+);
+
 // Return current estate_name
 Template.registerHelper("current_estate_name_H",
     function(){

@@ -6,13 +6,6 @@ Template.observatory.rendered = function () {
 
 // Get list of all Portfolios for current Estate, sorted by alpha (on name)
 Template.observatory.helpers({
-    getBuildingList: function(){
-        if ( Session.get('current_portfolio_doc') !== undefined ) {
-            return Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
-                        {sort: {building_name:1}}
-                        ).fetch();
-        }
-    },
     isBuilding: function(){
         if ( Session.get('current_portfolio_doc') !== undefined ) {
             return true ;
