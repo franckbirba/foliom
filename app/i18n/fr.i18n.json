@@ -1,36 +1,36 @@
 {
-		/* Global keywords */
+	/* Global keywords */
     "hello": "Bienvenue sur e-portfolio",
 
-		/* Home */
-		"observe": "Observer",
-		"plan": "Planifier",
-		"followup_tools": "Outils de suivi",
-		"view_all_message": "Voir tous les messages",
+	/* Home */
+	"observe": "Observer",
+	"plan": "Planifier",
+	"followup_tools": "Outils de suivi",
+	"view_all_message": "Voir tous les messages",
 
-		/* Signin */
-		"hangs": "Concevoir, suivre et évaluer ses schémas directeurs immobiliers",
-		"my_account": "Mon compte",
-		"email": "Email",
-		"email_required": "Votre email est requis.",
-		"your_email": "Votre email",
-		"password": "Mot de passe",
-		"password_required": "Votre mot de passe est requis.",
-		"your_password": "Votre mot de passe",
-		"connect": "Se connecter",
-		"e_portfolio_what_is_it": "E-portfolio, qu'est-ce que c'est ?",
+	/* Signin */
+	"hangs": "Concevoir, suivre et évaluer ses schémas directeurs immobiliers",
+	"my_account": "Mon compte",
+	"email": "Email",
+	"email_required": "Votre email est requis.",
+	"your_email": "Votre email",
+	"password": "Mot de passe",
+	"password_required": "Votre mot de passe est requis.",
+	"your_password": "Votre mot de passe",
+	"connect": "Se connecter",
+	"e_portfolio_what_is_it": "E-portfolio, qu'est-ce que c'est ?",
 
-		/* Navbar */
-		"search": "Rechercher",
+	/* Navbar */
+	"search": "Rechercher",
 
-		/* Estate */
-		"new_estate": "Nouvel estate",
+	/* Estate */
+	"new_estate": "Nouvel estate",
 
-		/* Settings */
-		"settings": "Réglages",
+	/* Settings */
+	"settings": "Réglages",
 
-		/* Ovservatory */
-		"manage_portfolios": "Gérer ses portefeuilles",
+	/* Ovservatory */
+	"manage_portfolios": "Gérer ses portefeuilles",
 
     "description": "Description",
     "logo": "Logo",
@@ -127,6 +127,8 @@
     "building_nb_floors": "Nombre de niveaux (y compris RDC)",
     "carpark_spaces": "Nombre de places de parking",
     "carpark_area": "Surface de parking",
+
+    "import_building_lease": "Importer des Bâtiments et Baux",
 
     /* Building Selectors */
     "control_full": "Pleine propriété",

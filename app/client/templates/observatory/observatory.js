@@ -91,7 +91,9 @@ Template.observatory.events({
   },
   'click .glyphicon-globe': function() {
       Session.set('current_portfolio_doc', undefined);
-
+  },
+  'click .glyphicon-cog': function() {
+      $("#buildingAndLeaseImport").modal('show');
   },
   'click .select_building': function(e) {
       e.preventDefault();
