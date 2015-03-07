@@ -6,4 +6,5 @@
         span.sr-only Close
       h4.modal-title {{_ 'import_building_lease'}}
     .modal-body
-      | Content
+      input#importPortfolio(type='file', style='float:left')
+      a.importPortfolio.btn.btn-primary(href='', role='button') {{_ 'import'}}

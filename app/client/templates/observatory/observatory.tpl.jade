@@ -31,9 +31,6 @@
                 each getBuildingList
                   a.list-group-item.select_building(href='#')= building_name
               a.btn.btn-primary(href="{{pathFor 'building-new'}}", role='button') {{_ 'new_building'}}
-              .observatory#import-zone
-                input#importPortfolio(type='file', style='float:left')
-                a.importPortfolio.btn.btn-primary(href='', role='button') {{_ 'import'}}
     .col-md-6
       .panel.panel-primary
         .panel-body
