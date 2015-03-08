@@ -79,12 +79,12 @@ Configurations.attachSchema(new SimpleSchema({
   icc: {
     optional: true,
     type: Object,
-    label: transr("icc")
+    label: transr('icc')
   },
   'icc.name': {
     optional: true,
     type: String,
-    label: transr("icc_name"),
+    label: transr('icc_name'),
     autoform: {
       omit: true
     }
@@ -137,7 +137,7 @@ Configurations.attachSchema(new SimpleSchema({
     optional: true,
     type: Number,
     decimal: true,
-    label: transr("global_evolution_index"),
+    label: transr('global_evolution_index'),
     autoform: {
       readonly: true
     }
