@@ -232,56 +232,8 @@ customCertificationsSchema = new SimpleSchema({
 Schema.customCertifications = customCertificationsSchema;
 
 
+
 technical_compliance_categorySchema = new SimpleSchema({
-    name: {
-        type: String,
-        autoform: {
-            afFieldInput: {
-                    readonly:"true",
-                    class:"technical_compliance_name" // makes it easier to select
-                }
-        }
-    },
-    lifetime: {
-        type: String,
-        label: transr("lifetime"),
-        autoform: {
-            afFieldInput: {
-                type: "select",
-                options: function () {
-                    return buildOptions(["new_dvr", "good_dvr", "average_dvr", "bad_dvr"]);
-                },
-                class:"tcc_lifetime" // makes it easier to select
-            }
-        }
-    },
-    conformity: {
-        type: String,
-        label: transr("conformity"),
-        autoform: {
-            type: "select",
-            options: function () {
-                return getSelectors('conformity_options');
-            },
-            class:"tcc_conformity" // makes it easier to select
-        }
-    },
-    description: {
-        type: String,
-        label: transr("description"),
-        // defaultValue: "Version, détails :",
-        optional: true,
-        autoform: {
-
-        }
-    },
-});
-
-Schema.categories = technical_compliance_categorySchema;
-
-
-
-technical_compliance_categorySchema2 = new SimpleSchema({
     lifetime: {
         type: String,
         label: transr("lifetime"),
@@ -326,7 +278,7 @@ technical_compliance_categorySchema2 = new SimpleSchema({
         }
     },
 });
-Schema.categories2 = technical_compliance_categorySchema2;
+Schema.categories2 = technical_compliance_categorySchema;
 
 
 conformity_infoSchema = new SimpleSchema({
@@ -775,16 +727,6 @@ Leases.attachSchema(new SimpleSchema({
             return debugMode;
         },
     },
-    // 'technical_compliance.categories': {
-    //     type: [technical_compliance_categorySchema],
-    //     // label: transr("technical_compliance"),
-    //     minCount: 17,
-    //     maxCount: 17,
-    //     autoform: {
-    //         template: 'eportfolio-horizontal'
-    //         // template:"consumptionByEndUse"
-    //     }
-    // },
     'technical_compliance.categories': {
         type: Object,
         // label: transr("technical_compliance"),
@@ -799,14 +741,14 @@ Leases.attachSchema(new SimpleSchema({
         },
     },
     'technical_compliance.categories.core_and_shell': {
-        type: technical_compliance_categorySchema2,
+        type: technical_compliance_categorySchema,
         label: transr("core_and_shell"),
         autoform: {
             template: 'technical_compliance_category'
         }
     },
     'technical_compliance.categories.facade': {
-        type: technical_compliance_categorySchema2,
+        type: technical_compliance_categorySchema,
         label: transr("facade"),
         autoform: {
             template: 'technical_compliance_category'
