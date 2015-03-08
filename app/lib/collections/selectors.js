@@ -1,20 +1,19 @@
-Selectors = new Mongo.Collection("selectors");
+Selectors = new Mongo.Collection('selectors');
 
 
 Selectors.attachSchema(new SimpleSchema({
-    name: {
-        type: String
-    },
-    labels: {
-        type: [String]
-    },
-    portfolio_id: {
-        type: String,
-        optional: true
-    },
-    estate_id: {
-        type: String,
-        optional: true
-    }
-
+  name: {
+    type: String
+  },
+  labels: {
+    type: [String]
+  },
+  portfolio_id: {
+    type: String,
+    optional: true
+  },
+  estate_id: {
+    type: String,
+    optional: true
+  }
 }));

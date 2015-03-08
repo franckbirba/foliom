@@ -1,4 +1,4 @@
-EndUse = new Mongo.Collection("endUse");
+EndUse = new Mongo.Collection('endUse');
 
 //End_use
 // [ {
@@ -12,8 +12,8 @@ EndUse.attachSchema(new SimpleSchema({
     type: String,
     optional: true,
     autoform: {
-         omit: true
-      }
+      omit: true
+    }
   },
   end_use_name: {
     type: String,
@@ -23,7 +23,7 @@ EndUse.attachSchema(new SimpleSchema({
     type: String,
     optional: true,
     autoform: {
-         omit: true
-      }
+      omit: true
+    }
   }
 }));
