@@ -9,9 +9,9 @@ Template.buildingAndLeaseImport.helpers({
 });
 
 Template.buildingAndLeaseImport.events({
-  'click .importPortfolio': function(){
+  'click .importBuildings': function(){
     // Excel files need to be saved as Windows CSV
-    $("#importPortfolio").parse({
+    $("#importBuildings").parse({
         config: {
           delimiter: ";",
           dynamicTyping: true,
