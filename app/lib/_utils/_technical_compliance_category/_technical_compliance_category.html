@@ -26,12 +26,12 @@
 </template>
 
 <template name="afObjectField_technical_compliance_category_Block">
-  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
-    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle" style="border: 1px solid #ddd; padding:15px">
+    <!-- <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div> -->
 
     <!-- COLUMN TITLES -->
     <div class="TCC_item">
-      <div></div>
+      <div class="TCC_label"></div>
       <div class="TCC_columnTitle">{{_ 'lifetime'}}</div>
       <div class="TCC_columnTitle">{{_ 'conformity'}}</div>
       <div class="TCC_columnTitle">{{_ 'description'}}</div>

@@ -775,14 +775,41 @@ Leases.attachSchema(new SimpleSchema({
             return debugMode;
         },
     },
+    // 'technical_compliance.categories': {
+    //     type: [technical_compliance_categorySchema],
+    //     // label: transr("technical_compliance"),
+    //     minCount: 17,
+    //     maxCount: 17,
+    //     autoform: {
+    //         template: 'eportfolio-horizontal'
+    //         // template:"consumptionByEndUse"
+    //     }
+    // },
     'technical_compliance.categories': {
-        type: [technical_compliance_categorySchema],
+        type: Object,
         // label: transr("technical_compliance"),
-        minCount: 17,
-        maxCount: 17,
         autoform: {
-            template: 'eportfolio-horizontal'
-            // template:"consumptionByEndUse"
+            template:"technical_compliance_category_Block",
+            afFormGroup: {
+                label:false
+            },
+        },
+        optional: function () {
+            return debugMode;
+        },
+    },
+    'technical_compliance.categories.core_and_shell': {
+        type: technical_compliance_categorySchema2,
+        label: transr("core_and_shell"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.facade': {
+        type: technical_compliance_categorySchema2,
+        label: transr("facade"),
+        autoform: {
+            template: 'technical_compliance_category'
         }
     },
     'technical_compliance.global_lifetime': {
@@ -815,30 +842,7 @@ Leases.attachSchema(new SimpleSchema({
     },
 
 
-    technical_compliance2: {
-        type: Object,
-        label: transr("technical_compliance"),
-        autoform: {
-            template:"technical_compliance_category_Block"
-        },
-        optional: function () {
-            return debugMode;
-        },
-    },
-    'technical_compliance2.core_and_shell': {
-        type: technical_compliance_categorySchema2,
-        label: transr("core_and_shell"),
-        autoform: {
-            template: 'technical_compliance_category'
-        }
-    },
-    'technical_compliance2.facade': {
-        type: technical_compliance_categorySchema2,
-        label: transr("facade"),
-        autoform: {
-            template: 'technical_compliance_category'
-        }
-    },
+
 
 
 
