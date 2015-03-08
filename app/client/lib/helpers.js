@@ -99,8 +99,20 @@ Template.registerHelper("beforeRemove",
         return function (collection, id) {
             var doc = collection.findOne(id);
             console.log(doc);
-            if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
-              this.remove();
+            if( doc.hasOwnProperty('profile.firstName') ){
+                if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
+                  this.remove();
+                }
+            }
+            else if( doc.hasOwnProperty('building_name') ){
+                if (confirm('Really delete "' + doc.building_name + '"?')) {
+                  this.remove();
+                }
+            }
+            else if( doc.hasOwnProperty('lease_name') ){
+                if (confirm('Really delete "' + doc.lease_name + '"?')) {
+                  this.remove();
+                }
             }
           };
     }

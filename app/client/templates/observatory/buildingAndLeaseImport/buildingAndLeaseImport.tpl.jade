@@ -10,7 +10,7 @@
         each getBuildingList
           li.list-group-item
             | {{building_name}} - {{_id}}
-            +quickRemoveButton collection="Buildings" _id=this._id  style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
+            +quickRemoveButton collection="Buildings" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
               span.glyphicon.glyphicon-trash
 
       input#importPortfolio(type='file', style='float:left')
