@@ -98,7 +98,7 @@ Template.registerHelper("beforeRemove",
     function(){
         return function (collection, id) {
             var doc = collection.findOne(id);
-            console.log(doc);
+            // console.log(doc);
             if( doc.hasOwnProperty('profile.firstName') ){
                 if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
                   this.remove();
