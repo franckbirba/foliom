@@ -130,93 +130,58 @@ exports.createBuildings = (nb_buildings) ->
         'thermic': 'bad'
         'global_comfort_index': 0.22
       'technical_compliance':
-        'categories': [
-          {
-            'name': 'Structure'
+        'categories':
+          'core_and_shell':
             'lifetime': 'good_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'Facade'
+          'facade':
             'lifetime': 'average_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'Toiture / étanchéité'
+          'roof_terrasse':
             'lifetime': 'average_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'Production Chaud'
+          'heat_production':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': 'Production Froid'
+          'chiller':
             'lifetime': 'average_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'TGBT'
+          'power_supply':
             'lifetime': 'bad_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'Distribution électrique'
+          'electrical_delivery':
             'lifetime': 'bad_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'Distribution thermique'
+          'thermal_delivery':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': 'Terminaux chauffage'
+          'heating_terminal':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': 'Terminaux climatisation'
+          'chiller_terminal':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': "Terminaux d'éclairage"
+          'lighting_terminal':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': "GTC/GTB"
+          'GTC_GTB':
             'lifetime': 'average_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': "Centrales d'air"
+          'air_system':
             'lifetime': 'good_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': "Réseaux ventilation"
+          'ventilation_system':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': "Production ECS"
+          'hot_water_production':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': "Distribution ECS"
+          'hot_water_delivery':
             'lifetime': 'good_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': "Sécurité incendie"
+          'fire_security':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-        ]
         'global_lifetime': 0
         'global_conformity': 0
       'conformity_information':
@@ -379,93 +344,58 @@ exports.createBuildings = (nb_buildings) ->
         'thermic': 'bad'
         'global_comfort_index': 0.22
       'technical_compliance':
-        'categories': [
-          {
-            'name': 'core_and_shell'
+        'categories':
+          'core_and_shell':
             'lifetime': 'good_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'facade'
+          'facade':
             'lifetime': 'average_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'roof_terrasse'
+          'roof_terrasse':
             'lifetime': 'average_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'heat_production'
+          'heat_production':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': 'chiller'
+          'chiller':
             'lifetime': 'average_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'power_supply'
+          'power_supply':
             'lifetime': 'bad_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'electrical_delivery'
+          'electrical_delivery':
             'lifetime': 'bad_dvr'
             'conformity': 'compliant'
-          }
-          {
-            'name': 'thermal_delivery'
+          'thermal_delivery':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': 'heating_terminal'
+          'heating_terminal':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': 'chiller_terminal'
+          'chiller_terminal':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': 'lighting_terminal'
+          'lighting_terminal':
             'lifetime': 'new_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': 'GTC/GTB'
+          'GTC_GTB':
             'lifetime': 'average_dvr'
             'conformity': 'not_compliant_minor'
-          }
-          {
-            'name': 'air_system'
+          'air_system':
             'lifetime': 'good_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': 'ventilation_system'
+          'ventilation_system':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': 'hot_water_production'
+          'hot_water_production':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': 'hot_water_delivery'
+          'hot_water_delivery':
             'lifetime': 'good_dvr'
             'conformity': 'not_compliant_major'
-          }
-          {
-            'name': 'fire_security'
+          'fire_security':
             'lifetime': 'bad_dvr'
             'conformity': 'not_compliant_major'
-          }
-        ]
         'global_lifetime': 0
         'global_conformity': 0
       'conformity_information':
