@@ -79,40 +79,41 @@ Template.buildingAndLeaseImport.events({
             console.log("results.data are");
             console.log(results.data);
 
-            // _.each(results.data, function(element, index, list){
-            //   // console.log("[%d] - Portfolio: %s - Building: %s", index, element[0], element[1]);
+            _.each(results.data, function(element, index, list){
 
-            //   getGeocoding({street: element.address1, city: element.city, country: element.country},function(geo){
-            //     var tmpBuilding = {
-            //       "building_name": element.building_name,
-            //       "address": {
-            //         "street": element.address1,
-            //         "zip": element.zip_code,
-            //         "city": element.city,
-            //         "area": element.area,
-            //         "country": element.country,
-            //         "gps_lat": geo.gps_lat,
-            //         "gps_long": geo.gps_long
-            //       },
-            //       "building_info": {
-            //         "construction_year": element.construction_year,
-            //         "building_control": element.building_control,
-            //         "building_user": element.building_user,
-            //         "area_total": element.area_total,
-            //         "area_useful": element.area_useful,
-            //         "building_nb_floors": element.building_nb_floors,
-            //         "carpark_spaces": element.carpark_spaces,
-            //         "carpark_area": element.carpark_area
-            //       },
-            //       "portfolio_id": Session.get('current_portfolio_doc')._id
-            //     };
-            //      // console.log("tmpBuilding is");
-            //      // console.log(tmpBuilding);
-            //   var newId = Buildings.insert(tmpBuilding);
-            //   // console.log('New building %s: %s created', tmpBuilding.building_name, newId);
-            //   });
+              var tmpLease = {
+                "building_id": element.building_id,
+                "lease_name" : element.lease_name,
+                "rental_status" : element.rental_status,
+                "rent" : element.rent,
+                "last_significant_renovation" : element.last_significant_renovation,
+                "lease_usage" : element.lease_usage,
+                "area_by_usage" : element.area_by_usage,
+                "lease_nb_floors" : element.lease_nb_floors,
+                "igh" : element.igh,
+                "erp_status" : element.erp_status,
+                "erp_category" : element.erp_category,
+                "headcount" : element.headcount,
+                "dpe_type" : element.dpe_type,
+                "dpe_energy_consuption" : {
+                  "grade" : element['dpe_energy_consuption.grade'],
+                  "value" : element['dpe_energy_consuption.value']
+                },
+                "dpe_co2_emission" : {
+                  "grade" : element['dpe_co2_emission.grade'],
+                  "value" : element['dpe_co2_emission.value']
+                },
 
-            // });
+
+              };
+              console.log("tmpLease is");
+              console.log(tmpLease);
+
+              // var newId = Leases.insert(tmpLease);
+
+
+
+            });
 
           }
         },
