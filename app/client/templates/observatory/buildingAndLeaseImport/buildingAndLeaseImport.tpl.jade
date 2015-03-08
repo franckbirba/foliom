@@ -6,12 +6,21 @@
         span.sr-only Close
       h4.modal-title {{_ 'import_building_lease'}}
     .modal-body
+      p {{_ 'buildings'}}
       ul.list-group(style='width:400px;position:relative;')
         each getBuildingList
+          //- Building
           li.list-group-item
             | {{building_name}} - {{_id}}
             +quickRemoveButton collection="Buildings" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
               span.glyphicon.glyphicon-trash
+          //- Leases
+          each getLeases _id
+            li.list-group-item
+              span.glyphicon.glyphicon-list-alt(aria-hidden='true')
+              | {{lease_name}}
+              +quickRemoveButton collection="Leases" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
+                span.glyphicon.glyphicon-trash
 
       input#importPortfolio(type='file', style='float:left')
       a.importPortfolio.btn.btn-primary(href='', role='button') {{_ 'import'}}

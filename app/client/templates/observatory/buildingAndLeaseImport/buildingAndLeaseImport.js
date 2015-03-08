@@ -1,3 +1,13 @@
+Template.buildingAndLeaseImport.helpers({
+    getLeases: function(building_id_param){
+        return Leases.find(
+            { building_id: building_id_param },
+            {sort: {lease_name: 1}},
+            {fields: {'lease_name':1}}
+          ).fetch();
+    }
+});
+
 Template.buildingAndLeaseImport.events({
   'click .importPortfolio': function(){
     // Excel files need to be saved as Windows CSV
