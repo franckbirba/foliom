@@ -891,11 +891,6 @@ Leases.attachSchema(new SimpleSchema({
     },
 
 
-
-
-
-
-
     conformity_information: {
         type: Object,
         label: transr("conformity_information"),
