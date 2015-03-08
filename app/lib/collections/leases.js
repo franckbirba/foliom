@@ -754,6 +754,113 @@ Leases.attachSchema(new SimpleSchema({
             template: 'technical_compliance_category'
         }
     },
+    'technical_compliance.categories.roof_terrasse': {
+        type: technical_compliance_categorySchema,
+        label: transr("roof_terrasse"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.heat_production': {
+        type: technical_compliance_categorySchema,
+        label: transr("heat_production"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.chiller': {
+        type: technical_compliance_categorySchema,
+        label: transr("chiller"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.power_supply': {
+        type: technical_compliance_categorySchema,
+        label: transr("power_supply"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.electrical_delivery': {
+        type: technical_compliance_categorySchema,
+        label: transr("electrical_delivery"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.thermal_delivery': {
+        type: technical_compliance_categorySchema,
+        label: transr("thermal_delivery"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.heating_terminal': {
+        type: technical_compliance_categorySchema,
+        label: transr("heating_terminal"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.chiller_terminal': {
+        type: technical_compliance_categorySchema,
+        label: transr("chiller_terminal"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.lighting_terminal': {
+        type: technical_compliance_categorySchema,
+        label: transr("lighting_terminal"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.GTC_GTB': {
+        type: technical_compliance_categorySchema,
+        label: transr("GTC_GTB"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+
+    'technical_compliance.categories.air_system': {
+        type: technical_compliance_categorySchema,
+        label: transr("air_system"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.ventilation_system': {
+        type: technical_compliance_categorySchema,
+        label: transr("ventilation_system"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.hot_water_production': {
+        type: technical_compliance_categorySchema,
+        label: transr("hot_water_production"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.hot_water_delivery': {
+        type: technical_compliance_categorySchema,
+        label: transr("hot_water_delivery"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance.categories.fire_security': {
+        type: technical_compliance_categorySchema,
+        label: transr("fire_security"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+
     'technical_compliance.global_lifetime': {
         type: Number,
         decimal: true,

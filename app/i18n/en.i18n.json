@@ -228,7 +228,7 @@
     "heating_terminal": "Heating terminals",
     "chiller_terminal": "Chiller terminals",
     "lighting_terminal": "Lighting terminals",
-    "GTC/GTB": "GTC/GTB",
+    "GTC_GTB": "GTC/GTB",
     "air_system": "Air system",
     "ventilation_system": "Ventilation system",
     "hot_water_production": "Hot water production",

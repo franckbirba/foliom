@@ -226,7 +226,7 @@
     "heating_terminal": "Terminaux chauffage",
     "chiller_terminal": "Terminaux climatisation",
     "lighting_terminal": "Terminaux d'éclairage",
-    "GTC/GTB": "GTC/GTB",
+    "GTC_GTB": "GTC/GTB",
     "air_system": "Centrales d'air",
     "ventilation_system": "Réseaux ventilation",
     "hot_water_production": "Production ECS",

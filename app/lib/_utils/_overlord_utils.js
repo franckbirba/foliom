@@ -8,7 +8,7 @@ debugMode = true ;
 
 actualization_rate = 0.02;
 
-technical_compliance_items = ["core_and_shell", "facade", "roof_terrasse", "heat_production", "chiller", "power_supply", "electrical_delivery", "thermal_delivery", "heating_terminal", "chiller_terminal", "lighting_terminal", "GTC/GTB", "air_system", "ventilation_system", "hot_water_production", "hot_water_delivery", "fire_security"];
+technical_compliance_items = ["core_and_shell", "facade", "roof_terrasse", "heat_production", "chiller", "power_supply", "electrical_delivery", "thermal_delivery", "heating_terminal", "chiller_terminal", "lighting_terminal", "GTC_GTB", "air_system", "ventilation_system", "hot_water_production", "hot_water_delivery", "fire_security"];
 
 conformity_information_items = ["accessibility", "elevators", "ssi", "asbestos", "lead", "legionella", "electrical_installation", "DPE", "indoor_air_quality", "radon", "chiller_terminal", "lead_disconnector", "automatic_doors", "chiller_system"];
 
