@@ -279,6 +279,56 @@ technical_compliance_categorySchema = new SimpleSchema({
 
 Schema.categories = technical_compliance_categorySchema;
 
+
+
+technical_compliance_categorySchema2 = new SimpleSchema({
+    lifetime: {
+        type: String,
+        label: transr("lifetime"),
+        autoform: {
+            afFieldInput: {
+                type: "select",
+                options: function () {
+                    return buildOptions(["new_dvr", "good_dvr", "average_dvr", "bad_dvr"]);
+                },
+                class:"tcc_lifetime", // makes it easier to select
+            },
+            afFormGroup: {
+                label:false
+            }
+        }
+    },
+    conformity: {
+        type: String,
+        label: transr("conformity"),
+        autoform: {
+            afFieldInput: {
+                type: "select",
+                options: function () {
+                    return getSelectors('conformity_options');
+                },
+                class:"tcc_conformity" // makes it easier to select
+            },
+            afFormGroup: {
+                label:false
+            }
+        }
+    },
+    description: {
+        type: String,
+        label: transr("description"),
+        // defaultValue: "Version, détails :",
+        optional: true,
+        autoform: {
+            afFormGroup: {
+                label:false
+            }
+        }
+    },
+});
+Schema.categories2 = technical_compliance_categorySchema2;
+
+
 conformity_infoSchema = new SimpleSchema({
     eligibility: {
         type: Boolean,
@@ -763,6 +813,33 @@ Leases.attachSchema(new SimpleSchema({
         },
         optional: true,
     },
+
+
+    technical_compliance2: {
+        type: Object,
+        label: transr("technical_compliance"),
+        autoform: {
+            template:"technical_compliance_category_Block"
+        },
+        optional: function () {
+            return debugMode;
+        },
+    },
+    'technical_compliance2.core_and_shell': {
+        type: technical_compliance_categorySchema2,
+        label: transr("core_and_shell"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+    'technical_compliance2.facade': {
+        type: technical_compliance_categorySchema2,
+        label: transr("facade"),
+        autoform: {
+            template: 'technical_compliance_category'
+        }
+    },
+
 
 
 

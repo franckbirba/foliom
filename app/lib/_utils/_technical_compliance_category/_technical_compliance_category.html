@@ -1,0 +1,143 @@
+<template name="quickForm_technical_compliance_category">
+  {{#autoForm this.qfAutoFormContext}}
+    {{> afQuickFields id-prefix=idPrefix}}
+    {{#if qfShouldRenderButton}}
+    <div class="form-group">
+      <button type="submit" {{submitButtonAtts}}>
+      {{#with ../atts.buttonContent}}
+      {{this}}
+      {{else}}
+      Submit
+      {{/with}}
+      </button>
+    </div>
+    {{/if}}
+  {{/autoForm}}
+</template>
+
+<template name="afFormGroup_technical_compliance_category">
+  <div class="form-group{{#if afFieldIsInvalid name=this.atts.name}} has-error{{/if}}">
+    {{#unless skipLabel}}
+    <label {{bsFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.atts.name}}{{/if}}</label>
+    {{/unless}}
+    {{> afFieldInput this.afFieldInputAtts}}
+    <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+  </div>
+</template>
+
+<template name="afObjectField_technical_compliance_category_Block">
+  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
+    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+
+    <!-- COLUMN TITLES -->
+    <div class="TCC_item">
+      <div></div>
+      <div class="TCC_columnTitle">{{_ 'lifetime'}}</div>
+      <div class="TCC_columnTitle">{{_ 'conformity'}}</div>
+      <div class="TCC_columnTitle">{{_ 'description'}}</div>
+    </div>
+
+    <div class="TCC_block">
+      {{> afQuickFields name=this.atts.name }}
+    </div>
+  </div>
+</template>
+
+<template name="afObjectField_technical_compliance_category">
+  <div class="TCC_item">
+    {{#with afFieldLabelText name=this.atts.name}}
+      <div class="TCC_label">{{this}}</div>
+    {{/with}}
+    <!-- <div class="TCC_fields"> -->
+      {{#if afFieldIsInvalid name=this.atts.name}}
+      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+      {{/if}}
+      {{> afQuickFields name=this.atts.name}}
+    <!-- </div> -->
+  </div>
+</template>
+
+<!-- <template name="afArrayField_conformity_infoSchema">
+  <div class="panel panel-default">
+    <div class="panel-heading">{{afFieldLabelText name=this.atts.name}}</div>
+    {{#if afFieldIsInvalid name=this.atts.name}}
+    <div class="panel-body has-error">
+      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+    </div>
+    {{/if}}
+    <ul class="list-group">
+      {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <li class="list-group-item autoform-array-item">
+        <div class="media">
+          {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+          <button type="button" class="btn btn-primary autoform-remove-item pull-left"><span class="glyphicon glyphicon-minus"></span></button>
+          {{/if}}
+          <div class="media-body">
+            {{> afQuickField name=this.name label=false options="auto"}}
+          </div>
+        </div>
+      </li>
+      {{/afEachArrayItem}}
+      {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <li class="list-group-item">
+        <button type="button" class="btn btn-primary autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+      </li>
+      {{/if}}
+    </ul>
+  </div>
+</template> -->
+
+<template name="afArrayField_technical_compliance_category">
+  <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+
+  <!-- <div class="yearly_values_titleBlock yearly_values_item">
+    <div class="yearly_values_title">{{_ "year"}}</div>
+    <div class="yearly_values_title">%</div>
+    <div class="yearly_values_title">{{_ "evolution"}}</div>
+  </div> -->
+
+  <div class="TCC_block">
+
+    {{#if afFieldIsInvalid name=this.atts.name}}
+      <div class="autoform-array-field-error">{{{afFieldMessage name=this.atts.name}}}</div>
+    {{/if}}
+
+    {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <!-- Testing display settings at the ArrayField level -->
+      <!-- <div class="yearly_values_item"> -->
+      <div class="TCC_item">
+        {{> afQuickField name=this.name label=false}}
+
+        {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+        <button type="button" class="autoform-remove-item">Remove</button>
+        {{/if}}
+      </div>
+    {{/afEachArrayItem}}
+
+    {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+    <div style="margin-top: 20px;">
+      <button type="button" class="autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}">Add</button>
+    </div>
+    {{/if}}
+
+  </div>
+</template>
+
+
+
+<template name="afSelect_technical_compliance_category">
+  <select {{atts}}>
+    {{#each this.items}}
+      {{#if this.optgroup}}
+        <optgroup label="{{this.optgroup}}">
+        {{#each this.items}}
+        <option {{optionAtts}}>{{this.label}}</option>
+        {{/each}}
+        </optgroup>
+      {{else}}
+        <option {{optionAtts}}>{{this.label}}</option>
+      {{/if}}
+    {{/each}}
+  </select>
+</template>
+
