@@ -110,7 +110,7 @@ Template.leaseForm.rendered = function () {
 
   }
 
-  Tracker.autorun(function () {
+  this.autorun(function () {
 
     // Set values on change
     $(".tcc_lifetime").change(function(){
@@ -226,7 +226,7 @@ Template.leaseForm.rendered = function () {
 
   var endUseVal_array = [];
 
-  Tracker.autorun(function () {
+  this.autorun(function () {
     $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
 
       if (index != 6) { // Exclude 6 as it's the specific field
