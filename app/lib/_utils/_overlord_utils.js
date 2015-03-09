@@ -170,7 +170,7 @@ calc_qualitative_value = function(param){
 
 calc_qualitative_assessment = function(param1, param2, param3) {
     var total = calc_qualitative_value(param1) * calc_qualitative_value(param2) * calc_qualitative_value(param3) ;
-    return (total/27).toFixed(2);
+    return (total/27).toFixed(2)*1;
 };
 
 calc_qualitative_assessment_class = function(classParam) {
@@ -181,7 +181,7 @@ calc_qualitative_assessment_class = function(classParam) {
 
     var nbValues = $( classParam ).length;
 
-    return ( total/Math.pow(3,nbValues) ).toFixed(2);
+    return ( total/Math.pow(3,nbValues) ).toFixed(2)*1;
 };
 
 randomIntFromInterval = function (min,max) {

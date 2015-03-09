@@ -105,7 +105,14 @@ Template.buildingAndLeaseImport.events({
                 },
                 "fluid_consumption_meter" : [],
                 "consumption_by_end_use" : [],
-                "certifications" : []
+                "certifications" : [],
+                "comfort_qualitative_assessment" : {
+                  "acoustic" : element["comfort_qualitative_assessment.acoustic"],
+                  "visual" : element["comfort_qualitative_assessment.visual"],
+                  "thermic" : element["comfort_qualitative_assessment.thermic"],
+                  "global_comfort_index" : 0,
+                  "comments": element["comfort_qualitative_assessment.comments"]
+                }
 
 
               };
@@ -195,6 +202,11 @@ Template.buildingAndLeaseImport.events({
                 }
 
               }
+
+              // comfort_qualitative_assessment
+              tmpLease.comfort_qualitative_assessment.global_comfort_index = calc_qualitative_assessment(element["comfort_qualitative_assessment.acoustic"], element["comfort_qualitative_assessment.visual"], element["comfort_qualitative_assessment.thermic"]);
+
+
 
               console.log("tmpLease is");
               console.log(tmpLease);
