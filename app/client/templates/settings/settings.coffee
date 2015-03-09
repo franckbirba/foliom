@@ -1,4 +1,4 @@
-Template.settings.rendered = () ->
+Template.settings.rendered = ->
 
   # Function to calc the difference between Last & First val
   calcEvolutionIndex = (currentVal, previousVal) ->
@@ -19,7 +19,7 @@ Template.settings.rendered = () ->
         result = calcEvolutionIndex(current_cost, previous_cost)
         $("[name='icc.evolution_index.#{position[position_number]}.evolution_index']").val(result)
 
-  this.autorun ()->
+  @autorun ->
     lastCost = AutoForm.getFieldValue("configAutoForm", "icc.evolution_index.30.cost")
     firstCost = AutoForm.getFieldValue("configAutoForm", "icc.evolution_index.0.cost")
     result = calcEvolutionIndex(lastCost, firstCost)
