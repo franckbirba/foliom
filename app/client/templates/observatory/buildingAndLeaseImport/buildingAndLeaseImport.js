@@ -103,9 +103,33 @@ Template.buildingAndLeaseImport.events({
                   "grade" : element['dpe_co2_emission.grade'],
                   "value" : element['dpe_co2_emission.value']
                 },
+                "fluid_consumption_meter" : []
 
 
               };
+
+              var fluid_consumption_meter_cellsNb = 6
+              for (i = 0; i < fluid_consumption_meter_cellsNb; i++) {
+                var fluid_id = 'fluid_consumption_meter.' + i + '.fluid_id';
+                var yearly_subscription = 'fluid_consumption_meter.' + i + '.yearly_subscription';
+                var first_year_value = 'fluid_consumption_meter.' + i + '.first_year_value';
+
+                if (element[fluid_id] !== "") {
+                  console.log(element[fluid_id]);
+
+                  // CALC YEARLY COST
+
+                  tmpLease.fluid_consumption_meter.push(
+                    {
+                      "fluid_id" : element[fluid_id],
+                      "yearly_subscription" : element[yearly_subscription],
+                      "first_year_value" : element[first_year_value],
+                      // "yearly_cost" : 441
+                    }
+                    );
+                }
+              };
+
               console.log("tmpLease is");
               console.log(tmpLease);
 
