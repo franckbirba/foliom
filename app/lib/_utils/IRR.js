@@ -1,5 +1,5 @@
 // function IRR(values, guess) {
-IRR = function (values, guess) {
+IRR = function(values, guess) {
   // Credits: algorithm inspired by Apache OpenOffice
 
   // Calculates the resulting amount
@@ -10,7 +10,7 @@ IRR = function (values, guess) {
       result += values[i] / Math.pow(r, (dates[i] - dates[0]) / 365);
     }
     return result;
-  }
+  };
 
   // Calculates the first derivation
   var irrResultDeriv = function(values, dates, rate) {
@@ -21,7 +21,7 @@ IRR = function (values, guess) {
       result -= frac * values[i] / Math.pow(r, frac + 1);
     }
     return result;
-  }
+  };
 
   // Initialize dates and check that values contains at least one positive value and one negative value
   var dates = [];
@@ -56,10 +56,10 @@ IRR = function (values, guess) {
     epsRate = Math.abs(newRate - resultRate);
     resultRate = newRate;
     contLoop = (epsRate > epsMax) && (Math.abs(resultValue) > epsMax);
-  } while(contLoop && (++iteration < iterMax));
+  } while (contLoop && (++iteration < iterMax));
 
-  if(contLoop) return '#NUM!';
+  if (contLoop) return '#NUM!';
 
   // Return internal rate of return
   return resultRate;
-}
+};

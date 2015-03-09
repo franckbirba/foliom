@@ -1,6 +1,4 @@
-Estates = new Mongo.Collection("estates");
-
-
+Estates = new Mongo.Collection('estates');
 
 Estates.attachSchema(new SimpleSchema({
   estate_name: {
@@ -11,58 +9,58 @@ Estates.attachSchema(new SimpleSchema({
     type: String,
     optional: true,
     autoform: {
-         rows: 5
-      }
+      rows: 5
+    }
   },
   images: { // ToDo : gérer le multi-images
-        type: String,
-        label: transr("images"),
-        optional: true,
-        autoform: {
-            afFieldInput: {
-                type: 'fileUpload',
-                collection: 'Images'
-            }
-        }
-    },
+    type: String,
+    label: transr("images"),
+    optional: true,
+    autoform: {
+      afFieldInput: {
+        type: 'fileUpload',
+        collection: 'Images'
+      }
+    }
+  },
   users: {
     type: [String],
     optional: true,
     autoform: {
-        type: "select-checkbox",
-        // options: function () {
-        //         return users();
-        //     }
+      type: 'select-checkbox',
+      // options: function () {
+      //         return users();
+      //     }
     }
   },
   portfolio_collection: {
     type: [String],
     optional: true,
     autoform: {
-         omit: true
-      }
+      omit: true
+    }
   },
   estate_properties: {
     type: Object,
     optional: true,
     autoform: {
-         omit: true
-      }
+      omit: true
+    }
   },
   'estate_properties.endUseList': {
     type: [String],
     optional: true,
     autoform: {
-         omit: true
-      }
+      omit: true
+    }
   },
   'estate_properties.technical_compliance_categoriesList': {
     type: [String],
     defaultValue: [],
     optional: true,
     autoform: {
-         omit: true
-      }
+      omit: true
+    }
   }
 
 }));
