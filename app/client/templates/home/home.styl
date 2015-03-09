@@ -1,26 +1,11 @@
-@import 'nib'
-@import 'client/stylesheets/*.import'
+@import 'client/stylesheets/menuBig.import'
+
+menuBig(home, sextan compass, png)
 
 .home
-  .main-menu
-    background-repeat no-repeat
-    background-size contain
-    height 293px
-    padding 10px
-    transition all .3s ease-in-out
-    border-radius 2px
-    &:hover
-      transition all .3s ease-in-out
-      filter brightness(0.7) contrast(0.7)
   .all-except-title
     min-height 600px
     margin-bottom 1em
-  .sextan
-    background-image url(/icon/sextan.png)
-    cursor pointer
-  .compass
-    background-image url(/icon/compass.png)
-    cursor pointer
   .followup-tools
     margin 1em 0
   .messages

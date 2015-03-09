@@ -1,0 +1,26 @@
+/**
+ * Create a navigation menu with big icons.
+ * {String} page The name of the page.
+ * {Array}  bigButtons Array of String as the icon's name.
+ * {String} extension Extensions of icons.
+ */
+menuBig(page, bigButtons, extension)
+  .{page}
+    nav
+      display flex
+      flex-direction row
+      justify-content space-between
+      a
+        display inline-block
+        background-repeat no-repeat
+        background-size contain
+        size 293px
+        padding 10px
+        transition filter .3s ease-in-out
+        border-radius 2px
+        &:hover
+          transition filter .3s ease-in-out
+          filter brightness(0.7) contrast(0.7)
+      for bigButton in bigButtons
+        .{bigButton}
+          background-image url(/icon/bigButton.extension)

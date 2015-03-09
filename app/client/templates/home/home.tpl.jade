@@ -4,11 +4,13 @@
   // Main row
   .row.all-except-title
     .col-md-8
-      .row
+      nav
         // Access to Observe section
-        .col-md-6: .main-menu.sextan.animated.fadeInLeft: a.btn.btn-default(href='/observatory') {{_ 'observe'}}
+        a.sextan.animated.fadeInLeft(href='/observatory')
+          .btn.btn-default {{_ 'observe'}}
         // Access to Plan section
-        .col-md-6: .main-menu.compass.animated.fadeInDown: a.btn.btn-default(href='/actions-home') {{_ 'plan'}}
+        a.compass.animated.fadeInDown(href='/actions-home')
+          .btn.btn-default {{_ 'plan'}}
       // Fake chart
       .row: .col-md-12: .panel.panel-primary.followup-tools
         .panel-body.animated.fadeInUp

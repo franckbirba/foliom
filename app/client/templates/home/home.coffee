@@ -1,7 +1,3 @@
-Template.home.events
-  'click .sextan': -> Router.go 'observatory'
-  'click .compass': -> Router.go 'actions-home'
-
 Template.home.helpers username: ->
   Meteor.user() and Meteor.user().emails.shift().address
 
