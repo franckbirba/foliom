@@ -103,7 +103,9 @@ Template.buildingAndLeaseImport.events({
                   "grade" : element['dpe_co2_emission.grade'],
                   "value" : element['dpe_co2_emission.value']
                 },
-                "fluid_consumption_meter" : []
+                "fluid_consumption_meter" : [],
+                "consumption_by_end_use" : [],
+                "certifications" : []
 
 
               };
@@ -119,7 +121,7 @@ Template.buildingAndLeaseImport.events({
                 var first_year_value = 'fluid_consumption_meter.' + i + '.first_year_value';
 
                 if (element[fluid_id] !== "") {
-                  console.log(element[fluid_id]);
+                  // console.log(element[fluid_id]);
 
                   // CALC YEARLY COST
                   matchingFluid = element[fluid_id];
@@ -154,6 +156,45 @@ Template.buildingAndLeaseImport.events({
               };
 
               tmpLease.consumption_by_end_use_total = total_kWhef_Fluids;
+
+
+              // CONSUMPTION BY END USE
+              var consumption_by_end_use_cellsNb = 9;
+
+              for (i = 0; i < consumption_by_end_use_cellsNb; i++) {
+                var end_use_name = 'consumption_by_end_use.' + i + '.end_use_name';
+                var fluid_id = 'consumption_by_end_use.' + i + '.fluid_id';
+                var first_year_value = 'consumption_by_end_use.' + i + '.first_year_value';
+
+                if (element[fluid_id] !== "") {
+                  tmpLease.consumption_by_end_use.push(
+                    {
+                      "end_use_name" : element[end_use_name],
+                      "fluid_id" : element[fluid_id],
+                      "first_year_value" : element[first_year_value]
+                    }
+                  );
+                }
+
+              }
+
+              // CERTIFICATIONS
+              var certifications_cellsNb = 3;
+
+              for (i = 0; i < certifications_cellsNb; i++) {
+                var cert_id = 'certifications.' + i + '.cert_id';
+                var cert_comments = 'certifications.' + i + '.cert_comments';
+
+                if (element[cert_id] !== "") {
+                  tmpLease.certifications.push(
+                    {
+                      "cert_id" : element[cert_id],
+                      "cert_comments" : element[cert_comments]
+                    }
+                  );
+                }
+
+              }
 
               console.log("tmpLease is");
               console.log(tmpLease);

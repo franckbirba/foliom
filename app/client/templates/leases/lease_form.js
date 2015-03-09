@@ -223,12 +223,12 @@ Template.leaseForm.rendered = function () {
   /* END-USE FORMULAS */
   /* ---------------- */
 
-  // 1 - Set "Specific" field: always field #06
+
   var endUseVal_array = [];
 
   Tracker.autorun(function () {
     $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
-      // console.log(index);
+
       if (index != 6) { // Exclude 6 as it's the specific field
           var firstYearValue = AutoForm.getFieldValue("insertLeaseForm", "consumption_by_end_use." + index + ".first_year_value") ;
           if(firstYearValue) {endUseVal_array[index] = firstYearValue ;}
