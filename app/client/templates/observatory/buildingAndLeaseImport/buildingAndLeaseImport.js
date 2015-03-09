@@ -108,7 +108,11 @@ Template.buildingAndLeaseImport.events({
 
               };
 
+              var total_kWhef_Fluids = 0;
+              var total_kWhef_Fluids_array = [];
+
               var fluid_consumption_meter_cellsNb = 6
+
               for (i = 0; i < fluid_consumption_meter_cellsNb; i++) {
                 var fluid_id = 'fluid_consumption_meter.' + i + '.fluid_id';
                 var yearly_subscription = 'fluid_consumption_meter.' + i + '.yearly_subscription';
@@ -118,17 +122,38 @@ Template.buildingAndLeaseImport.events({
                   console.log(element[fluid_id]);
 
                   // CALC YEARLY COST
+                  matchingFluid = element[fluid_id];
+                  matchingYearlySubscription = element[yearly_subscription];
+                  matchingFirstYearValue = element[first_year_value];
+
+                  var correctFluid = fluidToObject(matchingFluid); // gets the Fluid obj in the conf. from a txt like "EDF - fluid_heat"
+                  var yearly_cost = matchingYearlySubscription + matchingFirstYearValue * correctFluid.yearly_values[0].cost ;
 
                   tmpLease.fluid_consumption_meter.push(
                     {
                       "fluid_id" : element[fluid_id],
                       "yearly_subscription" : element[yearly_subscription],
                       "first_year_value" : element[first_year_value],
-                      // "yearly_cost" : 441
+                      "yearly_cost" : yearly_cost
                     }
-                    );
+                  );
+
+                  /* ---------------------------------------------- */
+                  /* END-USE FORMULAS: consumption_by_end_use_total */
+                  /* ---------------------------------------------- */
+                    // 1- Take advatage of this Loop to update total_kWhef_Fluids
+                    if (correctFluid.fluid_unit == "u_euro_kwhEF") {
+                        total_kWhef_Fluids_array[i] = matchingFirstYearValue ;
+                    } else {
+                        total_kWhef_Fluids_array[i] = 0;
+                    }
+
+                    // 2- reduce array and update the field
+                    total_kWhef_Fluids = _.reduce(total_kWhef_Fluids_array, function(memo, num){ return memo + num; }, 0);
                 }
               };
+
+              tmpLease.consumption_by_end_use_total = total_kWhef_Fluids;
 
               console.log("tmpLease is");
               console.log(tmpLease);
