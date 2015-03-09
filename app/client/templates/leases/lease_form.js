@@ -110,7 +110,7 @@ Template.leaseForm.rendered = function () {
 
   }
 
-  Tracker.autorun(function () {
+  this.autorun(function () {
 
     // Set values on change
     $(".tcc_lifetime").change(function(){
@@ -176,11 +176,11 @@ Template.leaseForm.rendered = function () {
     }
   });
 
-  var totalHeatElecFluids = 0;
-  var totalHeatElecFluids_array = [];
+  var total_kWhef_Fluids = 0;
+  var total_kWhef_Fluids_array = [];
 
   // Monitor fluid_consumption_meter and apply formulas
-  Tracker.autorun(function () {
+  this.autorun(function () {
 
     $("[name^='fluid_consumption_meter.'][name$='.yearly_cost']").each(function( index ) {
     // "fluid_consumption_meter.0.yearly_cost"
@@ -192,29 +192,27 @@ Template.leaseForm.rendered = function () {
         if (matchingFluid) {
 
             var correctFluid = fluidToObject(matchingFluid); // gets the Fluid obj in the conf. from a txt like "EDF - fluid_heat"
+            var yearly_cost = matchingYearlySubscription + matchingFirstYearValue * correctFluid.yearly_values[0].cost ;
 
             // console.log("correctFluid: ");
             // console.log(correctFluid);
 
-            //target is for example fluid_consumption_meter.0.yearly_cost
-            $("[name='fluid_consumption_meter." + index + ".yearly_cost']").val(
-                matchingYearlySubscription +
-                    matchingFirstYearValue * correctFluid.yearly_values[0].cost // cost et pas evolution_index
-            );
+            //target type: fluid_consumption_meter.0.yearly_cost
+            $("[name='fluid_consumption_meter." + index + ".yearly_cost']").val( yearly_cost );
 
             /* ---------------------------------------------- */
             /* END-USE FORMULAS: consumption_by_end_use_total */
             /* ---------------------------------------------- */
-                // 1- Take advatage of this Loop to update totalHeatElecFluids
-                if (correctFluid.fluid_type == "fluid_electricity" || correctFluid.fluid_type == "fluid_heat") {
-                    totalHeatElecFluids_array[index] = matchingFirstYearValue ;
+                // 1- Take advatage of this Loop to update total_kWhef_Fluids
+                if (correctFluid.fluid_unit == "u_euro_kwhEF") {
+                    total_kWhef_Fluids_array[index] = matchingFirstYearValue ;
                 } else {
-                    totalHeatElecFluids_array[index] = 0;
+                    total_kWhef_Fluids_array[index] = 0;
                 }
 
-                // So now update the field
-                totalHeatElecFluids = _.reduce(totalHeatElecFluids_array, function(memo, num){ return memo + num; }, 0);
-                $("[name='consumption_by_end_use_total']").val( totalHeatElecFluids );
+                // 2- reduce array and update the field
+                total_kWhef_Fluids = _.reduce(total_kWhef_Fluids_array, function(memo, num){ return memo + num; }, 0);
+                $("[name='consumption_by_end_use_total']").val( total_kWhef_Fluids );
         }
 
         // ToDo: create 30 yearly Values
@@ -225,12 +223,12 @@ Template.leaseForm.rendered = function () {
   /* END-USE FORMULAS */
   /* ---------------- */
 
-  // 1 - Set "Specific" field: always field #06
+
   var endUseVal_array = [];
 
-  Tracker.autorun(function () {
+  this.autorun(function () {
     $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
-      // console.log(index);
+
       if (index != 6) { // Exclude 6 as it's the specific field
           var firstYearValue = AutoForm.getFieldValue("insertLeaseForm", "consumption_by_end_use." + index + ".first_year_value") ;
           if(firstYearValue) {endUseVal_array[index] = firstYearValue ;}
