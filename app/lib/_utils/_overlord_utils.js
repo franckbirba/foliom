@@ -174,7 +174,8 @@ qualitativeScaling = function(x) {
     // f(x) = --------------  + a
     //           max - min
 
-    min = calc_qualitative_assessment("good","good", "good"); //Get the lowest val
+    // min = calc_qualitative_assessment("good","good", "good"); //Get the lowest val
+    min = 1/3; //Get the lowest val
     max = 1;
     a = 0;
     b = 1;
@@ -198,18 +199,20 @@ calc_qualitative_value = function(param) {
 
 calc_qualitative_assessment = function(param1, param2, param3) {
   var total = calc_qualitative_value(param1) + calc_qualitative_value(param2) + calc_qualitative_value(param3);
-  return (total / 9).toFixed(2)*1;
+  var total_scaled = qualitativeScaling(total / 9) ;
+  return total_scaled.toFixed(2)*1;
 };
 
 calc_qualitative_assessment_class = function(classParam) {
-  var total = 1;
+  var total = 0;
   $(classParam).each(function() {
     total = total + calc_qualitative_value($(this).val());
   });
 
   var nbValues = $(classParam).length;
+  var total_scaled = qualitativeScaling(total / (3 * nbValues));
 
-  return (total / (3 * nbValues)).toFixed(2)*1;
+  return total_scaled.toFixed(2)*1;
 };
 
 randomIntFromInterval = function(min, max) {
