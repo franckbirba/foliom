@@ -115,8 +115,8 @@ Template.buildingAndLeaseImport.events({
                 },
                 "technical_compliance" : {
                   "categories" : {},
-                  "global_lifetime" : 0,
-                  "global_conformity" : 0,
+                  "global_lifetime" : "",
+                  "global_conformity" : "",
                 }
 
 
@@ -228,7 +228,14 @@ Template.buildingAndLeaseImport.events({
 
               }
 
-              // @BSE : CALC "global_lifetime" & "global_conformity"
+              // CALC "global_lifetime" & "global_conformity"
+              var global_lifetime_array = _.pluck(tmpLease.technical_compliance.categories,'lifetime');
+
+              tmpLease.technical_compliance.global_lifetime = calc_qualitative_assessment_array(global_lifetime_array);
+
+              var global_conformity_array = _.pluck(tmpLease.technical_compliance.categories,'conformity');
+
+              tmpLease.technical_compliance.global_conformity = calc_qualitative_assessment_array(global_conformity_array);
 
               tmpLease.technical_compliance.tc_comments = element["technical_compliance.tc_comments"];
 
