@@ -467,9 +467,12 @@
     "action_type": "Action type",
     "efficiency": "Efficiency",
 
+		"enrgy_type_water": "Water",
+		"enrgy_type_co2": "CO2",
+		"enrgy_type_kwh": "kWh",
 		"consumption_label": "Consumption over time",
     "consumption_noaction": "Current consumption",
-    "consumption_action_co2": "Consumption after CO2 actions",
+    "consumption_action_co2": "Consumption after CO² actions",
     "consumption_action_kwh": "Consumption after kWh actions",
 		"expense_label": "Expense over time",
     "expense_raw": "Expense",

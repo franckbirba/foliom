@@ -1,5 +1,17 @@
+@import 'client/stylesheets/colors.import'
 @import 'client/templates/timeline/timeline.import'
 
 .timeline
   .timeline-header
     height headingHeight
+
+  .energy-selector
+    margin-left 10px
+    button
+      width 100px
+      &[data-value='water']
+        i
+          color brandInfo
+      &[data-value='kwh']
+        i
+          color #f0ad4e
