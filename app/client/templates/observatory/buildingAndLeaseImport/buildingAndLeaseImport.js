@@ -117,9 +117,8 @@ Template.buildingAndLeaseImport.events({
                   "categories" : {},
                   "global_lifetime" : "",
                   "global_conformity" : "",
-                }
-
-
+                },
+                "conformity_information" : {}
               };
 
               var total_kWhef_Fluids = 0;
@@ -212,7 +211,9 @@ Template.buildingAndLeaseImport.events({
               tmpLease.comfort_qualitative_assessment.global_comfort_index = calc_qualitative_assessment(element["comfort_qualitative_assessment.acoustic"], element["comfort_qualitative_assessment.visual"], element["comfort_qualitative_assessment.thermic"]);
 
 
-              // technical_compliance_items
+              // TECHNICAL COMPLIANCE ITEMS
+              // technical_compliance_items = ['core_and_shell', 'facade', 'roof_terrasse', 'heat_production', 'chiller', 'power_supply', 'electrical_delivery', 'thermal_delivery', 'heating_terminal', 'chiller_terminal', 'lighting_terminal', 'GTC_GTB', 'air_system', 'ventilation_system', 'hot_water_production', 'hot_water_delivery', 'fire_security'];
+
               for (i = 0; i < technical_compliance_items.length; i++) {
                 var name = technical_compliance_items[i];
 
@@ -229,17 +230,39 @@ Template.buildingAndLeaseImport.events({
               }
 
               // CALC "global_lifetime" & "global_conformity"
-              var global_lifetime_array = _.pluck(tmpLease.technical_compliance.categories,'lifetime');
-
+              var global_lifetime_array = _.pluck(tmpLease.technical_compliance.categories,'lifetime'); // get all "new_dvr" and so values
+              // Then calc. the index
               tmpLease.technical_compliance.global_lifetime = calc_qualitative_assessment_array(global_lifetime_array);
 
-              var global_conformity_array = _.pluck(tmpLease.technical_compliance.categories,'conformity');
-
+              var global_conformity_array = _.pluck(tmpLease.technical_compliance.categories,'conformity');  // get all "new_dvr" and so values
+              // Then calc. the index
               tmpLease.technical_compliance.global_conformity = calc_qualitative_assessment_array(global_conformity_array);
 
               tmpLease.technical_compliance.tc_comments = element["technical_compliance.tc_comments"];
 
-              // technical_compliance_items = ['core_and_shell', 'facade', 'roof_terrasse', 'heat_production', 'chiller', 'power_supply', 'electrical_delivery', 'thermal_delivery', 'heating_terminal', 'chiller_terminal', 'lighting_terminal', 'GTC_GTB', 'air_system', 'ventilation_system', 'hot_water_production', 'hot_water_delivery', 'fire_security'];
+
+
+
+              // CONFORMITY INFORMATION ITEMS
+              // conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'DPE', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
+
+              _.each(conformity_information_items, function(item){
+                var eligibility = item + ".eligibility";
+                var periodicity = item + ".periodicity";
+                var due_date = item + ".due_date";
+                var conformity = item + ".conformity";
+                var description = item + ".description";
+
+                tmpLease.conformity_information[item] = {
+                  "eligibility" : element[eligibility],
+                  "periodicity" : element[periodicity],
+                  "due_date" : element[due_date],
+                  "conformity" : element[conformity],
+                  "description" : element[description]
+                };
+
+              });
+
 
               console.log("tmpLease is");
               console.log(tmpLease);
