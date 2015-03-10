@@ -118,10 +118,10 @@ getFluids = function(limit_to_single_type) {
     estate_id: Session.get('current_estate_doc')._id
   }).fluids;
 
-    // If a unit is passed in param
-    if(limit_to_single_type !== undefined) {
-        allFluids = _.where(allFluids, {fluid_unit: limit_to_single_type});
-    }
+  // If a unit is passed in param
+  if(limit_to_single_type !== undefined) {
+      allFluids = _.where(allFluids, {fluid_unit: limit_to_single_type});
+  }
 
   allFluids.forEach(function(item) { // ToDo : ajouter Estate
 
@@ -178,17 +178,17 @@ getActions = function(curr_action) {
 //CREATE SCALE FOR QUALITATIVE ASSESMENTS
 // http://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value
 qualitativeScaling = function(x) {
-    //        (b-a)(x - min)
-    // f(x) = --------------  + a
-    //           max - min
+  //        (b-a)(x - min)
+  // f(x) = --------------  + a
+  //           max - min
 
-    // min = calc_qualitative_assessment("good","good", "good"); //Get the lowest val
-    min = 1/3; //Get the lowest val
-    max = 1;
-    a = 0;
-    b = 1;
+  // min = calc_qualitative_assessment("good","good", "good"); //Get the lowest val
+  min = 1/3; //Get the lowest val
+  max = 1;
+  a = 0;
+  b = 1;
 
-    return (b-a)*(x - min) / (max - min) + a;
+  return (b-a)*(x - min) / (max - min) + a;
 };
 
 
