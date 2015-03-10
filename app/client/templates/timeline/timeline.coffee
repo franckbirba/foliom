@@ -9,7 +9,7 @@
     @totalCost = 0
     @scenario = null
     @buildings = []
-    @portfolios = null
+    @portfolios = []
     @minDate = null
     @maxDate = null
     @coefs = {}
@@ -18,40 +18,16 @@
     @charts = ticks: [], budget: [], consumption: water: [], co2: [], kwh: []
     @currentFilter = null
   scenario: null
-  ###*
-   * Get the current scenario.
-   * @param {Object} data Data received from the Router: the selected scenario.
-  ###
-  getScenario: (data) -> @scenario = data
   buildings: []
-  portfolios: null
+  portfolios: []
   ###*
-   * Get all actions and denormalize them in the current Scenario. Extract
-   * from the actions all the buildings and their associated portfolios.
-   * Get all leases that matches the buildings and denormalize them.
+   * Get the scenario, the buildings and the portfolios from the router's data.
+   * @param {Object} data Data received from the Router.
   ###
-  getActionsBuildingsPortfoliosLeases: ->
-    # Get actions that matches the Ids in the Scenario
-    pactions = @scenario.planned_actions
-    actionIds = _.pluck pactions, 'action_id'
-    actions = (Actions.find  _id: $in: actionIds).fetch()
-    # Denormalize actions in the scenario and transform the start date as moment
-    for paction in pactions
-      paction.action = _.findWhere actions, _id: paction.action_id
-      paction.start = moment paction.start
-    # Get each buildings for each actions
-    buildingIds = _.uniq _.pluck actions, 'building_id'
-    @buildings = (Buildings.find _id: $in: buildingIds).fetch()
-    # Get each portfolios for each buildings
-    portfolioIds = _.uniq _.pluck @buildings, 'portfolio_id'
-    @portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
-    # Get all leases for all building, this action is done in a single DB call
-    # for avoiding too much latency on the screen's creation
-    leases = (Leases.find building_id: $in: buildingIds).fetch()
-    # Now dernomalize leases and buildings, re-establishing document object
-    # for each building
-    for building in @buildings
-      building.leases = _.where leases, building_id: building._id
+  getRouterData: (data) ->
+    @scenario = data.scenario
+    @buildings = data.buildings
+    @portfolios = data.portfolios
   minDate: null
   maxDate: null
   ###*
@@ -341,12 +317,9 @@ TV = TimelineVars
 Template.timeline.created = ->
   # Reset current TimelineVars
   TV.reset()
-  # Get Scenario's data from router
+  # Get denormalized scenario, buildings and portfolios from router
   # @TODO check for unplanned actions
-  TV.getScenario @data
-  # Get actions, buildings, portfolios and leases
-  # @TODO Set this in the router
-  TV.getActionsBuildingsPortfoliosLeases()
+  TV.getRouterData @data
   # Set minimum and maximum date
   TV.setMinMaxDate()
   # Get fluids and coefficients
