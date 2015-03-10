@@ -114,14 +114,22 @@ Template.leaseForm.rendered = function () {
 
     // Set values on change
     $(".tcc_lifetime").change(function(){
+        var tcc_lifetime = $(".tcc_lifetime").map(function() {
+          return $(this).val();
+        });
+
         $("[name='technical_compliance.global_lifetime']").val(
-            calc_qualitative_assessment_class(".tcc_lifetime")
+            calc_qualitative_assessment_array(tcc_lifetime)
         ).change();
     });
 
     $(".tcc_conformity").change(function(){
+        var tcc_conformity = $(".tcc_conformity").map(function() {
+          return $(this).val();
+        });
+
         $("[name='technical_compliance.global_conformity']").val(
-            calc_qualitative_assessment_class(".tcc_conformity")
+            calc_qualitative_assessment_array(tcc_conformity)
         ).change();
     });
 

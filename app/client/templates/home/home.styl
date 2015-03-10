@@ -6,16 +6,26 @@ menuBig(home, sextan compass, png)
   .all-except-title
     min-height 600px
     margin-bottom 1em
-  .followup-tools
-    margin 1em 0
+  .mainButtons
+    padding-left 70px
+    padding-right 70px
   .messages
     height 600px
   .chat-panel
     height 500px
+
   .followup-tools
-    .panel-body
-      margin 0
-      padding 0
-      height 223px
-    .ct-point
-      stroke-width 12px
+    a
+      margin-top 1em
+      background-image url(/icon/evaluer-2.png)
+      display inline-block
+      background-repeat no-repeat
+      background-size contain
+      width 640px
+      height 288px
+      padding 10px
+      transition filter .3s ease-in-out
+      border-radius 2px
+      &:hover
+        transition filter .3s ease-in-out
+        filter brightness(0.7) contrast(0.7)

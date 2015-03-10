@@ -110,7 +110,7 @@ getSelectors = function(param) {
 //     return labelList;
 // };
 
-getFluids = function() {
+getFluids = function(limit_to_single_type) {
   var labelList = [];
 
   // Selectors.find({name:param}).forEach(function(selector) { // ToDo : ajouter Estate
@@ -118,7 +118,13 @@ getFluids = function() {
     estate_id: Session.get('current_estate_doc')._id
   }).fluids;
 
+  // If a unit is passed in param
+  if(limit_to_single_type !== undefined) {
+      allFluids = _.where(allFluids, {fluid_unit: limit_to_single_type});
+  }
+
   allFluids.forEach(function(item) { // ToDo : ajouter Estate
+
     var complete_fluid_EN = item.fluid_provider + ' - ' + item.fluid_type;
 
     var fl_provider = transr(item.fluid_provider);
@@ -133,6 +139,7 @@ getFluids = function() {
       value: complete_fluid_EN
     });
   });
+
   return labelList;
 };
 
@@ -168,6 +175,24 @@ getActions = function(curr_action) {
 /*   Calc utilities     */
 /*   --------------     */
 
+//CREATE SCALE FOR QUALITATIVE ASSESMENTS
+// http://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value
+qualitativeScaling = function(x) {
+  //        (b-a)(x - min)
+  // f(x) = --------------  + a
+  //           max - min
+
+  // min = calc_qualitative_assessment("good","good", "good"); //Get the lowest val
+  min = 1/3; //Get the lowest val
+  max = 1;
+  a = 0;
+  b = 1;
+
+  return (b-a)*(x - min) / (max - min) + a;
+};
+
+
+
 calc_qualitative_value = function(param) {
   if (param == 'good' || param == 'new_dvr' || param == 'good_dvr' || param == 'compliant') {
     return 1;
@@ -181,19 +206,22 @@ calc_qualitative_value = function(param) {
 };
 
 calc_qualitative_assessment = function(param1, param2, param3) {
-  var total = calc_qualitative_value(param1) * calc_qualitative_value(param2) * calc_qualitative_value(param3);
-  return (total / 27).toFixed(2)*1;
+  var total = calc_qualitative_value(param1) + calc_qualitative_value(param2) + calc_qualitative_value(param3);
+  var total_scaled = qualitativeScaling(total / 9) ;
+  return total_scaled.toFixed(2)*1;
 };
 
-calc_qualitative_assessment_class = function(classParam) {
-  var total = 1;
-  $(classParam).each(function() {
-    total = total * calc_qualitative_value($(this).val());
+calc_qualitative_assessment_array = function(val_array) {
+
+  var qual_array = _.map(val_array, function(item) {
+    return calc_qualitative_value(item);
   });
+  var total = _.reduce(qual_array, function(memo, num){ return memo + num; }, 0);
 
-  var nbValues = $(classParam).length;
+  var nbValues = val_array.length;
+  var total_scaled = qualitativeScaling(total / (3 * nbValues));
 
-  return (total / Math.pow(3, nbValues)).toFixed(2)*1;
+  return total_scaled.toFixed(2)*1;
 };
 
 randomIntFromInterval = function(min, max) {
