@@ -12,11 +12,10 @@
     @portfolios = null
     @minDate = null
     @maxDate = null
-    @fluids = []
     @coefs = {}
     @actualization_rate = 0
     @consumption_degradation = 0
-    @charts = ticks: [], budget: [], consumption: []
+    @charts = ticks: [], budget: [], consumption: water: [], co2: [], kwh: []
     @currentFilter = null
   scenario: null
   ###*
@@ -110,45 +109,6 @@
     for paction in @scenario.planned_actions
       # Total costs
       @totalCost += paction.action.investment.cost
-  charts: ticks: [], budget: [], consumption: []
-  ###*
-   * Iterator function that creates ticks (labels used in the chart's xAxis)
-   * for each quarter.
-   * @param {Moment} quarter Moment as a quarter.
-  ###
-  itFctTicks: (quarter) ->
-    # Labels for charts
-    @charts.ticks.push \
-      "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
-  ###*
-   * Iterator function that calculates budget for each quarter.
-   * @param {Moment} quarter Moment as a quarter.
-  ###
-  itFctBudget: (quarter) ->
-    # Budget line for chart
-    @charts.budget.push @scenario.total_expenditure
-  ###*
-   * Iterator functino that calculates consumption for each quarter.
-   * @param {Moment} quarter Moment as a quarter.
-  ###
-  itFctConsumption: (quarter) ->
-    # Current consumption for charts
-    # @TODO Fake data
-    @charts.consumption.push 3.5
-  ###*
-   * Iterates over quarters for calculating ticks, budget and consumption.
-  ###
-  calculateStaticCharts: ->
-    quarter = @minDate.clone()
-    while quarter.isBefore @maxDate
-      # Ticks
-      @itFctTicks quarter
-      # Budget
-      @itFctBudget quarter
-      # Consumption
-      @itFctConsumption quarter
-      # Increment by 1 quarter
-      quarter.add 1, 'Q'
   rxTimelineActions: new ReactiveVar
   currentFilter: null
   ###*
@@ -216,6 +176,47 @@
       timelineActions.push yearContent
     # Assign reactive vars
     TV.rxTimelineActions.set timelineActions
+  charts: ticks: [], budget: [], consumption: water: [], co2: [], kwh: []
+  ###*
+   * Iterator function that creates ticks (labels used in the chart's xAxis)
+   * for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctTicks: (quarter) ->
+    # Labels for charts
+    @charts.ticks.push \
+      "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
+  ###*
+   * Iterator function that calculates budget for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctBudget: (quarter) ->
+    # Budget line for chart
+    @charts.budget.push @scenario.total_expenditure
+  ###*
+   * Iterator functino that calculates consumption for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctConsumption: (quarter) ->
+    # Current consumption for charts
+    # @TODO Fake data
+    @charts.consumption.water.push 3.5
+    @charts.consumption.co2.push 3.5
+    @charts.consumption.kwh.push 3.5
+  ###*
+   * Iterates over quarters for calculating ticks, budget and consumption.
+  ###
+  calculateStaticCharts: ->
+    quarter = @minDate.clone()
+    while quarter.isBefore @maxDate
+      # Ticks
+      @itFctTicks quarter
+      # Budget
+      @itFctBudget quarter
+      # Consumption
+      @itFctConsumption quarter
+      # Increment by 1 quarter
+      quarter.add 1, 'Q'
   rxPlannedActions: new ReactiveVar
   ###*
    * Perform all calculations and fill the global TimelineVars object.
@@ -344,6 +345,7 @@ Template.timeline.created = ->
   # @TODO check for unplanned actions
   TV.getScenario @data
   # Get actions, buildings, portfolios and leases
+  # @TODO Set this in the router
   TV.getActionsBuildingsPortfoliosLeases()
   # Set minimum and maximum date
   TV.setMinMaxDate()
