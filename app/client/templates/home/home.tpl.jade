@@ -3,7 +3,7 @@
   .row: .col-md-12: h1.page-title.animated.fadeInDown {{_ "hello"}} {{username}}
   // Main row
   .row.all-except-title
-    .col-md-8
+    .col-md-8.mainButtons
       nav
         // Access to Observe section
         a.sextan.animated.fadeInLeft(href='/observatory')
@@ -11,11 +11,10 @@
         // Access to Plan section
         a.compass.animated.fadeInDown(href='/actions-home')
           .btn.btn-default {{_ 'plan'}}
-      // Fake chart
-      .row: .col-md-12: .panel.panel-primary.followup-tools
-        .panel-body.animated.fadeInUp
-          #followup-chart.ct-chart.ct-double-octave
-        .panel-footer: h4 {{_ 'followup_tools'}}
+      // Follow-up tools
+      .row: .col-md-12.followup-tools
+        a.animated.fadeInDown(href='/actions-home')
+          .btn.btn-default {{_ 'followup_tools'}}
     // Message box
     .col-md-4
       .messages.animated.fadeInRight
