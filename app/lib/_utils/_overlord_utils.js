@@ -211,13 +211,14 @@ calc_qualitative_assessment = function(param1, param2, param3) {
   return total_scaled.toFixed(2)*1;
 };
 
-calc_qualitative_assessment_class = function(classParam) {
-  var total = 0;
-  $(classParam).each(function() {
-    total = total + calc_qualitative_value($(this).val());
-  });
+calc_qualitative_assessment_array = function(val_array) {
 
-  var nbValues = $(classParam).length;
+  var qual_array = _.map(val_array, function(item) {
+    return calc_qualitative_value(item);
+  });
+  var total = _.reduce(qual_array, function(memo, num){ return memo + num; }, 0);
+
+  var nbValues = val_array.length;
   var total_scaled = qualitativeScaling(total / (3 * nbValues));
 
   return total_scaled.toFixed(2)*1;

@@ -112,6 +112,11 @@ Template.buildingAndLeaseImport.events({
                   "thermic" : element["comfort_qualitative_assessment.thermic"],
                   "global_comfort_index" : 0,
                   "comments": element["comfort_qualitative_assessment.comments"]
+                },
+                "technical_compliance" : {
+                  "categories" : {},
+                  "global_lifetime" : 0,
+                  "global_conformity" : 0,
                 }
 
 
@@ -207,6 +212,27 @@ Template.buildingAndLeaseImport.events({
               tmpLease.comfort_qualitative_assessment.global_comfort_index = calc_qualitative_assessment(element["comfort_qualitative_assessment.acoustic"], element["comfort_qualitative_assessment.visual"], element["comfort_qualitative_assessment.thermic"]);
 
 
+              // technical_compliance_items
+              for (i = 0; i < technical_compliance_items.length; i++) {
+                var name = technical_compliance_items[i];
+
+                var lifetime = 'technical_compliance.' + name + '.lifetime';
+                var conformity = 'technical_compliance.' + name + '.conformity';
+                var description = 'technical_compliance.' + name + '.description';
+
+                tmpLease.technical_compliance.categories[name] = {
+                  "lifetime" : element[lifetime],
+                  "conformity" : element[lifetime],
+                  "description" : element[description],
+                }
+
+              }
+
+              // @BSE : CALC "global_lifetime" & "global_conformity"
+
+              tmpLease.technical_compliance.tc_comments = element["technical_compliance.tc_comments"];
+
+              // technical_compliance_items = ['core_and_shell', 'facade', 'roof_terrasse', 'heat_production', 'chiller', 'power_supply', 'electrical_delivery', 'thermal_delivery', 'heating_terminal', 'chiller_terminal', 'lighting_terminal', 'GTC_GTB', 'air_system', 'ventilation_system', 'hot_water_production', 'hot_water_delivery', 'fire_security'];
 
               console.log("tmpLease is");
               console.log(tmpLease);
