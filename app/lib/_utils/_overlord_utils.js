@@ -168,6 +168,22 @@ getActions = function(curr_action) {
 /*   Calc utilities     */
 /*   --------------     */
 
+//CREATE SCALE FOR QUALITATIVE ASSESMENTS
+qualitativeScaling = function(x) {
+    //        (b-a)(x - min)
+    // f(x) = --------------  + a
+    //           max - min
+
+    min = calc_qualitative_assessment("good","good", "good"); //Get the lowest val
+    max = 1;
+    a = 0;
+    b = 1;
+
+    return (b-a)*(x - min) / (max - min) + a;
+};
+
+
+
 calc_qualitative_value = function(param) {
   if (param == 'good' || param == 'new_dvr' || param == 'good_dvr' || param == 'compliant') {
     return 1;
@@ -181,19 +197,19 @@ calc_qualitative_value = function(param) {
 };
 
 calc_qualitative_assessment = function(param1, param2, param3) {
-  var total = calc_qualitative_value(param1) * calc_qualitative_value(param2) * calc_qualitative_value(param3);
-  return (total / 27).toFixed(2)*1;
+  var total = calc_qualitative_value(param1) + calc_qualitative_value(param2) + calc_qualitative_value(param3);
+  return (total / 9).toFixed(2)*1;
 };
 
 calc_qualitative_assessment_class = function(classParam) {
   var total = 1;
   $(classParam).each(function() {
-    total = total * calc_qualitative_value($(this).val());
+    total = total + calc_qualitative_value($(this).val());
   });
 
   var nbValues = $(classParam).length;
 
-  return (total / Math.pow(3, nbValues)).toFixed(2)*1;
+  return (total / (3 * nbValues)).toFixed(2)*1;
 };
 
 randomIntFromInterval = function(min, max) {
