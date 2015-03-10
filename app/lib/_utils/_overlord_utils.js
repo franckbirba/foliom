@@ -110,7 +110,7 @@ getSelectors = function(param) {
 //     return labelList;
 // };
 
-getFluids = function() {
+getFluids = function(limit_to_single_type) {
   var labelList = [];
 
   // Selectors.find({name:param}).forEach(function(selector) { // ToDo : ajouter Estate
@@ -118,7 +118,13 @@ getFluids = function() {
     estate_id: Session.get('current_estate_doc')._id
   }).fluids;
 
+    // If a unit is passed in param
+    if(limit_to_single_type !== undefined) {
+        allFluids = _.where(allFluids, {fluid_unit: limit_to_single_type});
+    }
+
   allFluids.forEach(function(item) { // ToDo : ajouter Estate
+
     var complete_fluid_EN = item.fluid_provider + ' - ' + item.fluid_type;
 
     var fl_provider = transr(item.fluid_provider);
@@ -133,6 +139,7 @@ getFluids = function() {
       value: complete_fluid_EN
     });
   });
+
   return labelList;
 };
 
@@ -169,6 +176,7 @@ getActions = function(curr_action) {
 /*   --------------     */
 
 //CREATE SCALE FOR QUALITATIVE ASSESMENTS
+// http://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value
 qualitativeScaling = function(x) {
     //        (b-a)(x - min)
     // f(x) = --------------  + a

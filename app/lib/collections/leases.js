@@ -116,7 +116,7 @@ consumption_by_end_use = new SimpleSchema({
     autoform: {
       type: 'select',
       options: function() {
-        return getFluids();
+        return getFluids("u_euro_kwhEF");
       }
     }
   },
