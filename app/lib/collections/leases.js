@@ -276,7 +276,7 @@ technical_compliance_categorySchema = new SimpleSchema({
     }
   },
 });
-Schema.categories2 = technical_compliance_categorySchema;
+Schema.technical_compliance_categories = technical_compliance_categorySchema;
 
 
 conformity_infoSchema = new SimpleSchema({
@@ -310,7 +310,7 @@ conformity_infoSchema = new SimpleSchema({
   },
   due_date: {
     type: Date,
-    label: transr("due_date"),
+    label: transr("or_due_date"),
     autoform: {
       afFieldInput: {
         type: "date",
@@ -341,17 +341,21 @@ conformity_infoSchema = new SimpleSchema({
     optional: true,
 
   },
-  diagnostic_alert: {
-    type: Boolean,
-    autoform: {
-      // template: 'eportfolio-horizontal',
-      omit: true
-    },
-    optional: true,
-  },
   comments_small: {
     type: String,
     label: transr("comments_small"),
+    optional: true,
+  },
+  diagnostic_alert: {
+    type: Boolean,
+    autoform: {
+      type: "hidden",
+      label: false
+      // omit: true
+      // afFormGroup:{
+      //   class:"hidden"
+      //   }
+    },
     optional: true,
   },
   files: {
@@ -1053,3 +1057,6 @@ Leases.attachSchema(new SimpleSchema({
 
 
 }));
+
+// Leases.attachSchema(leaseSchema);
+// var leaseContext = leaseSchema.namedContext("leaseForm");

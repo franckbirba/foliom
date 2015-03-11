@@ -238,6 +238,7 @@
     "eligibility": "Eligibilité",
     "is_eligibile": "Eligible",
     "due_date": "Echéance",
+    "or_due_date": "Ou : Echéance",
     "last_diagnostic": "Date du dernier diagnostic",
 
     /* Leases Selectors */
@@ -308,13 +309,15 @@
     "lead": "Plomb",
     "legionella": "Légionelle",
     "electrical_installation": "Installations électriques",
-    "DPE": "DPE",
+    "dpe": "DPE",
     "indoor_air_quality": "Qualité de l'air intérieur (QAI)",
     "radon": "Radon",
     //"chiller_terminal": "Terminaux climatisation", // Deja présent
     "lead_disconnector": "Disconnecteurs Plomb",
     "automatic_doors":"Portes automatiques",
     "chiller_system": "Groupe Froid",
+
+    "last_diagnostic_obsolete": "Le dernier diagnostic est obsolete",
 
     "nf_hqe": "NF - démarche HQE",
     "breeam": "BREEAM",

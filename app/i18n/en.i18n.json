@@ -77,7 +77,7 @@
 	"fluid": "Fluid",
 	"import": "Import",
 
-	"In": "in",
+    "In": "in",
 
 	"custom_visual": "Visuel",
     "evolution": "Evolution",
@@ -240,6 +240,7 @@
     "eligibility": "Eligibility",
     "is_eligibile": "Eligible",
     "due_date": "Due date",
+    "or_due_date": "Or: Due date",
     "last_diagnostic": "Date of the last diagnostic",
 
     /* Leases Selectors */
@@ -309,7 +310,7 @@
     "lead": "Lead",
     "legionella": "Legionella",
     "electrical_installation": "Electrical installation",
-    "DPE": "DPE",
+    "dpe": "DPE",
     "indoor_air_quality": "Indoor air quality (IAQ)",
     "radon": "Radon",
 
@@ -317,6 +318,8 @@
     "lead_disconnector": "Lead disconnector",
     "automatic_doors":"Automatic doors",
     "chiller_system": "Chiller system",
+
+    "last_diagnostic_obsolete": "The latest diagnostic is obsolete",
 
     "nf_hqe": "nf_hqe",
     "breeam": "BREEAM",

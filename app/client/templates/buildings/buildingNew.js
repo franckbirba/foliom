@@ -51,8 +51,8 @@ Template.buildingNew.helpers({
                     this.done();
                   } else {
                     //Set current building doc to the one we just created
-                    Session.set('current_building_id', id);
-                    console.log('new building _id is: '+ Session.get('current_building_id') );
+                    var curr_building = Buildings.findOne(id);
+                    Session.set('current_building_doc', curr_building);
 
                     var nbL_create = AutoForm.getFormValues('building-stepform-leaseNb').insertDoc.n_lease ;
 
