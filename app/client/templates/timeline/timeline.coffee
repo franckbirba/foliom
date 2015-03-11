@@ -315,6 +315,9 @@ TV = TimelineVars
  * Prepare calculation at template creation.
 ###
 Template.timeline.created = ->
+  # Reactive var for choosing consumption chart for energy type
+  @rxEnergyType = new ReactiveVar
+  @rxEnergyType.set 'water'
   # Reset current TimelineVars
   TV.reset()
   # Get denormalized scenario, buildings and portfolios from router
@@ -340,6 +343,34 @@ Template.timeline.created = ->
     TV.calculateDynamicChart()
 
 ###*
+ * Set the consumption chart filter at template rendering.
+###
+Template.timeline.rendered = ->
+  $btnGroup = @$ '[data-role=\'energy-type\']'
+  $btnGroup.children().removeClass 'active'
+  energyType = @rxEnergyType.get()
+  $selected = $btnGroup.find "[data-value=\'#{energyType}\']"
+  $selected.addClass 'active'
+
+###*
  * Object containing helper keys for the template.
 ###
-Template.timeline.helpers scenarioName: -> TV.scenario.name
+Template.timeline.helpers
+  scenarioName: -> TV.scenario.name
+  isEnergyTypeWater: -> Template.instance().rxEnergyType.get() is 'water'
+  isEnergyTypeCo2: -> Template.instance().rxEnergyType.get() is 'co2'
+  isEnergyTypeKwh: -> Template.instance().rxEnergyType.get() is 'kwh'
+
+###*
+ * Object containing event actions for the template.
+###
+Template.timeline.events
+  # Change filter on action bucket
+  'click [data-role=\'energy-type\']': (e, t) ->
+    $btnGroup = t.$ '[data-role=\'energy-type\']'
+    $selected = $ e.target
+    value = $selected.attr 'data-value'
+    unless value is undefined
+      $btnGroup.children().removeClass 'active'
+      $selected.addClass 'active'
+      t.rxEnergyType.set $selected.attr 'data-value'
