@@ -16,7 +16,7 @@ class @D3LineChart
     @svgContainer,
     @margin = { top: 10, right: 15, bottom: 20, left: 45 },
     @svgWidth = 750,
-    @svgHeight = 170
+    @svgHeight = 161
   ) ->
     # Graph's width
     @graphWidth = @svgWidth - @margin.left - @margin.right

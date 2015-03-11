@@ -24,7 +24,6 @@ fortawesome:fontawesome
 rzymek:moment-locale-fr
 tap:i18n
 iron:router
-aldeed:simple-schema
 numeral:numeral
 danielqiu:feed
 insecure
@@ -39,3 +38,4 @@ mquandalle:stylus
 cfs:gridfs
 msavin:mongol
 cfs:standard-packages
+aldeed:simple-schema

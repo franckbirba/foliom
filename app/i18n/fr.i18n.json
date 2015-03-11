@@ -476,9 +476,12 @@
 		"action_type": "Type d'action",
 		"efficiency_percent": "Efficacité",
 
+		"enrgy_type_water": "Eau",
+		"enrgy_type_co2": "CO2",
+		"enrgy_type_kwh": "kWh",
 		"consumption_label": "Consommation dans le temps",
 		"consumption_noaction": "Consommation courante",
-		"consumption_action_co2": "Consommation après actions CO2",
+		"consumption_action_co2": "Consommation après actions CO²",
 		"consumption_action_kwh": "Consommation après actions kWh",
 		"expense_label": "Dépense dans le temps",
 		"expense_raw": "Dépenses",

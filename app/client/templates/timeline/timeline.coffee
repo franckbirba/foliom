@@ -9,50 +9,25 @@
     @totalCost = 0
     @scenario = null
     @buildings = []
-    @portfolios = null
+    @portfolios = []
     @minDate = null
     @maxDate = null
-    @fluids = []
     @coefs = {}
     @actualization_rate = 0
     @consumption_degradation = 0
-    @charts = ticks: [], budget: [], consumption: []
+    @charts = ticks: [], budget: [], consumption: water: [], co2: [], kwh: []
     @currentFilter = null
   scenario: null
-  ###*
-   * Get the current scenario.
-   * @param {Object} data Data received from the Router: the selected scenario.
-  ###
-  getScenario: (data) -> @scenario = data
   buildings: []
-  portfolios: null
+  portfolios: []
   ###*
-   * Get all actions and denormalize them in the current Scenario. Extract
-   * from the actions all the buildings and their associated portfolios.
-   * Get all leases that matches the buildings and denormalize them.
+   * Get the scenario, the buildings and the portfolios from the router's data.
+   * @param {Object} data Data received from the Router.
   ###
-  getActionsBuildingsPortfoliosLeases: ->
-    # Get actions that matches the Ids in the Scenario
-    pactions = @scenario.planned_actions
-    actionIds = _.pluck pactions, 'action_id'
-    actions = (Actions.find  _id: $in: actionIds).fetch()
-    # Denormalize actions in the scenario and transform the start date as moment
-    for paction in pactions
-      paction.action = _.findWhere actions, _id: paction.action_id
-      paction.start = moment paction.start
-    # Get each buildings for each actions
-    buildingIds = _.uniq _.pluck actions, 'building_id'
-    @buildings = (Buildings.find _id: $in: buildingIds).fetch()
-    # Get each portfolios for each buildings
-    portfolioIds = _.uniq _.pluck @buildings, 'portfolio_id'
-    @portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
-    # Get all leases for all building, this action is done in a single DB call
-    # for avoiding too much latency on the screen's creation
-    leases = (Leases.find building_id: $in: buildingIds).fetch()
-    # Now dernomalize leases and buildings, re-establishing document object
-    # for each building
-    for building in @buildings
-      building.leases = _.where leases, building_id: building._id
+  getRouterData: (data) ->
+    @scenario = data.scenario
+    @buildings = data.buildings
+    @portfolios = data.portfolios
   minDate: null
   maxDate: null
   ###*
@@ -110,45 +85,6 @@
     for paction in @scenario.planned_actions
       # Total costs
       @totalCost += paction.action.investment.cost
-  charts: ticks: [], budget: [], consumption: []
-  ###*
-   * Iterator function that creates ticks (labels used in the chart's xAxis)
-   * for each quarter.
-   * @param {Moment} quarter Moment as a quarter.
-  ###
-  itFctTicks: (quarter) ->
-    # Labels for charts
-    @charts.ticks.push \
-      "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
-  ###*
-   * Iterator function that calculates budget for each quarter.
-   * @param {Moment} quarter Moment as a quarter.
-  ###
-  itFctBudget: (quarter) ->
-    # Budget line for chart
-    @charts.budget.push @scenario.total_expenditure
-  ###*
-   * Iterator functino that calculates consumption for each quarter.
-   * @param {Moment} quarter Moment as a quarter.
-  ###
-  itFctConsumption: (quarter) ->
-    # Current consumption for charts
-    # @TODO Fake data
-    @charts.consumption.push 3.5
-  ###*
-   * Iterates over quarters for calculating ticks, budget and consumption.
-  ###
-  calculateStaticCharts: ->
-    quarter = @minDate.clone()
-    while quarter.isBefore @maxDate
-      # Ticks
-      @itFctTicks quarter
-      # Budget
-      @itFctBudget quarter
-      # Consumption
-      @itFctConsumption quarter
-      # Increment by 1 quarter
-      quarter.add 1, 'Q'
   rxTimelineActions: new ReactiveVar
   currentFilter: null
   ###*
@@ -216,6 +152,47 @@
       timelineActions.push yearContent
     # Assign reactive vars
     TV.rxTimelineActions.set timelineActions
+  charts: ticks: [], budget: [], consumption: water: [], co2: [], kwh: []
+  ###*
+   * Iterator function that creates ticks (labels used in the chart's xAxis)
+   * for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctTicks: (quarter) ->
+    # Labels for charts
+    @charts.ticks.push \
+      "#{TAPi18n.__ 'quarter_abbreviation'}#{quarter.format 'Q YYYY'}"
+  ###*
+   * Iterator function that calculates budget for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctBudget: (quarter) ->
+    # Budget line for chart
+    @charts.budget.push @scenario.total_expenditure
+  ###*
+   * Iterator functino that calculates consumption for each quarter.
+   * @param {Moment} quarter Moment as a quarter.
+  ###
+  itFctConsumption: (quarter) ->
+    # Current consumption for charts
+    # @TODO Fake data
+    @charts.consumption.water.push 3.5
+    @charts.consumption.co2.push 3.5
+    @charts.consumption.kwh.push 3.5
+  ###*
+   * Iterates over quarters for calculating ticks, budget and consumption.
+  ###
+  calculateStaticCharts: ->
+    quarter = @minDate.clone()
+    while quarter.isBefore @maxDate
+      # Ticks
+      @itFctTicks quarter
+      # Budget
+      @itFctBudget quarter
+      # Consumption
+      @itFctConsumption quarter
+      # Increment by 1 quarter
+      quarter.add 1, 'Q'
   rxPlannedActions: new ReactiveVar
   ###*
    * Perform all calculations and fill the global TimelineVars object.
@@ -340,11 +317,9 @@ TV = TimelineVars
 Template.timeline.created = ->
   # Reset current TimelineVars
   TV.reset()
-  # Get Scenario's data from router
+  # Get denormalized scenario, buildings and portfolios from router
   # @TODO check for unplanned actions
-  TV.getScenario @data
-  # Get actions, buildings, portfolios and leases
-  TV.getActionsBuildingsPortfoliosLeases()
+  TV.getRouterData @data
   # Set minimum and maximum date
   TV.setMinMaxDate()
   # Get fluids and coefficients
