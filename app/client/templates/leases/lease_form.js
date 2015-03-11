@@ -253,6 +253,91 @@ Template.leaseForm.rendered = function () {
   });
 
 
+  /* ------------------- */
+  /* CONFORMITY FORMULAS */
+  /* ------------------- */
+
+  // Props that are only set for new Leases
+  if( !Session.get('leaseToEdit') ){
+    // SSI : default: (‘checked’ & ‘Selector: ‘every year’)
+    this.$('[name="conformity_information.ssi.eligibility"]').prop('checked', true);
+    this.$('[name="conformity_information.ssi.periodicity"]').val('yearly');
+
+    // Amiante: if (Building construit < 01/07/97) then (checked & ’date’: ’31/01/2021’)
+    var construction_year = Session.get('current_building_doc').building_info.construction_year ;
+    if (construction_year < 1998) {
+      this.$('[name="conformity_information.asbestos.eligibility"]').prop('checked', true);
+      this.$('[name="conformity_information.asbestos.due_date"]').val('2021-01-31');
+    }
+
+    // Installations électriques: default: (‘checked’ & ‘Selector: ‘every year’)
+    this.$('[name="conformity_information.electrical_installation.eligibility"]').prop('checked', true);
+    this.$('[name="conformity_information.electrical_installation.periodicity"]').val('yearly');
+
+    // Systèmes de climatisation: default: (‘checked’ & ‘Selector: ‘every 5 years’)
+    this.$('[name="conformity_information.chiller_terminal.eligibility"]').prop('checked', true);
+    this.$('[name="conformity_information.chiller_terminal.periodicity"]').val('5_years');
+
+    // Groupe Froid: default: (‘checked’ & ‘Selector: ‘every year’)
+    this.$('[name="conformity_information.chiller_system.eligibility"]').prop('checked', true);
+    this.$('[name="conformity_information.chiller_system.periodicity"]').val('yearly');
+  }
+
+  this.autorun(function () {
+    var erp_status = AutoForm.getFieldValue("insertLeaseForm", "erp_status") ;
+    var igh = AutoForm.getFieldValue("insertLeaseForm", "igh") ;
+    var building_area = Session.get('current_building_doc').building_info.area_total ;
+
+    if (isERP(erp_status)){
+      // Accessibilité : if (ERP) then (‘checked’ & ’date’: ’31/12/2014’)
+      $('[name="conformity_information.accessibility.eligibility"]').prop('checked', true);
+      $('[name="conformity_information.accessibility.due_date"]').val("2014-12-31");
+
+      // Legionelle : if (ERP) then (‘checked’ & ‘Selector: ‘every year’)
+      $('[name="conformity_information.legionella.eligibility"]').prop('checked', true);
+      $('[name="conformity_information.legionella.periodicity"]').val('yearly');
+
+      // Qualité de l'air intérieur: if (ERP) then (‘checked’ & ‘Selector: ‘every 7 years’)
+      $('[name="conformity_information.indoor_air_quality.eligibility"]').prop('checked', true);
+      $('[name="conformity_information.indoor_air_quality.periodicity"]').val('7_years');
+
+      // DPE: if (ERP && building.surface >250m²) then (checked & ‘Selector: ‘every 10 years’)
+      if (building_area > 250) {
+        $('[name="conformity_information.dpe.eligibility"]').prop('checked', true);
+        $('[name="conformity_information.dpe.periodicity"]').val('10_years');
+      }
+
+    }
+
+    if (igh == "yes"){
+      // Ascenseurs: if (IGH) then (checked & Selector:’every 6 months’) else (checked & Selector:’every 5 years’)
+      $('[name="conformity_information.elevators.eligibility"]').prop('checked', true);
+      $('[name="conformity_information.elevators.periodicity"]').val('bi_annual');
+    } else {
+      $('[name="conformity_information.elevators.eligibility"]').prop('checked', true);
+      $('[name="conformity_information.elevators.periodicity"]').val('5_years');
+    }
+
+
+
+
+  });
+
+
 };
+
+// Template.leaseForm.events({
+//   "change [name='erp_status']": function (event, tplt) {
+//     if( isERP(event.target.value) ) {
+//       category = "accessibility";
+//       eligibility = "true";
+//       date = ;
+
+//       tplt.$('[name="conformity_information.accessibility.eligibility"]').prop('checked', true);
+//       tplt.$('[name="conformity_information.accessibility.due_date"]').val(date);
+//     }
+
+//   }
+// });
 
 
