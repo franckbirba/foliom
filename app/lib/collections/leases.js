@@ -310,7 +310,7 @@ conformity_infoSchema = new SimpleSchema({
   },
   due_date: {
     type: Date,
-    label: transr("due_date"),
+    label: transr("or_due_date"),
     autoform: {
       afFieldInput: {
         type: "date",

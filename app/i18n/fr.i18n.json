@@ -238,6 +238,7 @@
     "eligibility": "Eligibilité",
     "is_eligibile": "Eligible",
     "due_date": "Echéance",
+    "or_due_date": "Ou : Echéance",
     "last_diagnostic": "Date du dernier diagnostic",
 
     /* Leases Selectors */

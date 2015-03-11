@@ -77,7 +77,7 @@
 	"fluid": "Fluid",
 	"import": "Import",
 
-	"In": "in",
+    "In": "in",
 
 	"custom_visual": "Visuel",
     "evolution": "Evolution",
@@ -240,6 +240,7 @@
     "eligibility": "Eligibility",
     "is_eligibile": "Eligible",
     "due_date": "Due date",
+    "or_due_date": "Or: Due date",
     "last_diagnostic": "Date of the last diagnostic",
 
     /* Leases Selectors */
