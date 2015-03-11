@@ -306,7 +306,6 @@ Template.leaseForm.rendered = function () {
         $('[name="conformity_information.dpe.eligibility"]').prop('checked', true);
         $('[name="conformity_information.dpe.periodicity"]').val('10_years');
       }
-
     }
 
     if (igh == "yes"){
@@ -319,6 +318,27 @@ Template.leaseForm.rendered = function () {
     }
 
 
+    // WARNINGS
+    //conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'DPE', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
+
+    _.each(conformity_information_items, function(item){
+      var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
+      // var periodicity_selector = '[name="conformity_information.'+item+'.periodicity"]';
+      // var due_date_selector = '[name="conformity_information.'+item+'.due_date"]';
+
+      var last_diagnostic_val = AutoForm.getFieldValue("insertLeaseForm", 'conformity_information.'+item+'.last_diagnostic');
+      var periodicity = AutoForm.getFieldValue("insertLeaseForm", "conformity_information."+item+".periodicity");
+      var due_date = AutoForm.getFieldValue("insertLeaseForm", "conformity_information."+item+".due_date");
+
+      var span_item = $(last_diagnostic_selector).siblings('span');
+
+      if (due_date > last_diagnostic_val || last_diagnostic_val == null) {
+        var warning_text = transr("last_diagnostic_obsolete");
+        span_item.text(warning_text).css( "color", "red" );
+      } else {
+        span_item.text("");
+      }
+    });
 
 
   });

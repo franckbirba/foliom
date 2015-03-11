@@ -316,6 +316,8 @@
     "automatic_doors":"Portes automatiques",
     "chiller_system": "Groupe Froid",
 
+    "last_diagnostic_obsolete": "Le dernier diagnostic est obsolete",
+
     "nf_hqe": "NF - démarche HQE",
     "breeam": "BREEAM",
     "us_leed": "USGBC - LEED",

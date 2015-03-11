@@ -318,6 +318,8 @@
     "automatic_doors":"Automatic doors",
     "chiller_system": "Chiller system",
 
+    "last_diagnostic_obsolete": "The latest diagnostic is obsolete",
+
     "nf_hqe": "nf_hqe",
     "breeam": "BREEAM",
     "us_leed": "USGBC - LEED",

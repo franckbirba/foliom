@@ -339,6 +339,16 @@ conformity_infoSchema = new SimpleSchema({
       type: "date",
     },
     optional: true,
+    // custom: function () {
+    //   if (this.value !== this.field('password').value) {
+    //     return "passwordMismatch";
+    //   }
+    // }
+    custom: function () {
+      if (this.value == null) {
+        return "passwordMismatch";
+      }
+    }
 
   },
   diagnostic_alert: {
@@ -1053,3 +1063,10 @@ Leases.attachSchema(new SimpleSchema({
 
 
 }));
+
+SimpleSchema.messages({
+  "passwordMismatch": "Passwords do not match"
+});
+
+// Leases.attachSchema(leaseSchema);
+// var leaseContext = leaseSchema.namedContext("leaseForm");

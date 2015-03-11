@@ -12,7 +12,6 @@ alanning:roles
 aldeed:delete-button
 nemo64:bootstrap
 d3js:d3
-yogiben:autoform-file
 vazco:maps
 yogiben:autoform-modals
 harrison:babyparse
@@ -39,3 +38,4 @@ cfs:gridfs
 msavin:mongol
 cfs:standard-packages
 aldeed:simple-schema
+yogiben:autoform-file
