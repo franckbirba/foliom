@@ -44,7 +44,7 @@ AutoForm.hooks({
         /* ------------------------------------- */
         /* --- Insert relevant data in Lease --- */
         /* ------------------------------------- */
-        doc.building_id = Session.get('current_building_id');
+        doc.building_id = Session.get('current_building_doc')._id;
         return doc;
       }
     },
@@ -66,7 +66,7 @@ AutoForm.hooks({
                     });
         } else {
             Session.set('nbLeases_2create', 0);
-            Router.go('building-detail', {_id: Session.get('current_building_id') });
+            Router.go('building-detail', {_id: Session.get('current_building_doc')._id });
         }
       }
 
@@ -283,9 +283,8 @@ Template.leaseForm.rendered = function () {
     this.$('[name="conformity_information.chiller_system.periodicity"]').val('yearly');
   }
 
-  this.autorun(function () {
-    var erp_status = AutoForm.getFieldValue("insertLeaseForm", "erp_status") ;
-    var igh = AutoForm.getFieldValue("insertLeaseForm", "igh") ;
+  $('[name="erp_status"]').change(function(){
+    var erp_status = $(this).val();
     var building_area = Session.get('current_building_doc').building_info.area_total ;
 
     if (isERP(erp_status)){
@@ -307,7 +306,10 @@ Template.leaseForm.rendered = function () {
         $('[name="conformity_information.dpe.periodicity"]').val('10_years');
       }
     }
+  });
 
+  $('[name="igh"]').change(function(){
+    var igh = $(this).val();
     if (igh == "yes"){
       // Ascenseurs: if (IGH) then (checked & Selector:’every 6 months’) else (checked & Selector:’every 5 years’)
       $('[name="conformity_information.elevators.eligibility"]').prop('checked', true);
@@ -316,13 +318,17 @@ Template.leaseForm.rendered = function () {
       $('[name="conformity_information.elevators.eligibility"]').prop('checked', true);
       $('[name="conformity_information.elevators.periodicity"]').val('5_years');
     }
+  });
 
 
+
+  this.autorun(function () {
     // WARNINGS
-    //conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'DPE', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
+    //conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'dpe', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
 
     _.each(conformity_information_items, function(item){
       var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
+      var diagnostic_alert_selector = '[name="conformity_information.'+item+'.diagnostic_alert"]';
       // var periodicity_selector = '[name="conformity_information.'+item+'.periodicity"]';
       // var due_date_selector = '[name="conformity_information.'+item+'.due_date"]';
 
@@ -335,11 +341,12 @@ Template.leaseForm.rendered = function () {
       if (due_date > last_diagnostic_val || last_diagnostic_val == null) {
         var warning_text = transr("last_diagnostic_obsolete");
         span_item.text(warning_text).css( "color", "red" );
+        $(diagnostic_alert_selector).prop('checked', true);
       } else {
         span_item.text("");
+        $(diagnostic_alert_selector).prop('checked', false);
       }
     });
-
 
   });
 

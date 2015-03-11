@@ -276,7 +276,7 @@ technical_compliance_categorySchema = new SimpleSchema({
     }
   },
 });
-Schema.categories2 = technical_compliance_categorySchema;
+Schema.technical_compliance_categories = technical_compliance_categorySchema;
 
 
 conformity_infoSchema = new SimpleSchema({
@@ -339,29 +339,23 @@ conformity_infoSchema = new SimpleSchema({
       type: "date",
     },
     optional: true,
-    // custom: function () {
-    //   if (this.value !== this.field('password').value) {
-    //     return "passwordMismatch";
-    //   }
-    // }
-    custom: function () {
-      if (this.value == null) {
-        return "passwordMismatch";
-      }
-    }
 
-  },
-  diagnostic_alert: {
-    type: Boolean,
-    autoform: {
-      // template: 'eportfolio-horizontal',
-      omit: true
-    },
-    optional: true,
   },
   comments_small: {
     type: String,
     label: transr("comments_small"),
+    optional: true,
+  },
+  diagnostic_alert: {
+    type: Boolean,
+    autoform: {
+      type: "hidden",
+      label: false
+      // omit: true
+      // afFormGroup:{
+      //   class:"hidden"
+      //   }
+    },
     optional: true,
   },
   files: {
@@ -1063,10 +1057,6 @@ Leases.attachSchema(new SimpleSchema({
 
 
 }));
-
-SimpleSchema.messages({
-  "passwordMismatch": "Passwords do not match"
-});
 
 // Leases.attachSchema(leaseSchema);
 // var leaseContext = leaseSchema.namedContext("leaseForm");
