@@ -19,7 +19,7 @@
       ticks: []
       budget: []
       consumption: water: [], co2: [], kwh: []
-      expense: []
+      expense: water: [], electricity: [], frost: [], heat: []
     @currentFilter = null
   scenario: null
   buildings: []
@@ -164,7 +164,7 @@
     ticks: []
     budget: []
     consumption: water: [], co2: [], kwh: []
-    expense: []
+    expense: water: [], electricity: [], frost: [], heat: []
   ###*
    * Iterator function that creates ticks (labels used in the chart's xAxis)
    * for each quarter.
@@ -187,23 +187,52 @@
    * @param {Moment} quarter Moment as a quarter.
   ###
   itFctCalcFromBuildings: (quarter) ->
-    water = 0
-    co2 = 0
-    kwh = 0
-    expense = 0
+    # Consumption depending on fluid type
+    cons_water = cons_co2 = cons_kwh = 0
+    # Expenses depending on fluid kind
+    exp_water = exp_elec = exp_frost = exp_heat = 0
+    # Years since the scenario's start
+    yearsSinceStart = quarter.year() - @minDate.year()
     for building in @buildings
       for lease in building.leases
         for cons in lease.consumption_by_end_use
-          console.log 'cons', cons
-          # @consumption_degradation
+          # Get fluid provider
+          fluidProvider = _.findWhere lease.fluid_consumption_meter,
+            fluid_id: cons.fluid_id
+          # Get inflated consumption
+          consumption = cons.first_year_value * \
+            Math.pow(1 + @consumption_degradation, yearsSinceStart)
+          # Check energy type
+          fluidType = (cons.fluid_id.split ' - ')[1]
+          if fluidType is 'fluid_water'
+            cons_water += consumption
+          else
+            cons_kwh += consumption
+            # @TODO Energy mater isn't defined?
+            cons_co2 += consumption * @coefs.kwh2CO2.fluid_electricity
+          # Get inflated subscription and price depending on unit
+
+
+
+
+
+          # inflatedSubscription???
+
+          # Subscription is paid at the end of the year
+          #if quarter.quarter() is 4
+          #  expense += inflatedSubscription
+
+          # Check energy type
+
           # @actualization_rate
-        for fluid in lease.fluid_consumption_meter
-          fluidType = (fluid.fluid_id.split ' - ')[1]
-          console.log 'fluid', fluid
-    @charts.consumption.water.push water
-    @charts.consumption.co2.push co2
-    @charts.consumption.kwh.push kwh
-    @charts.expense.push expense
+
+    @charts.consumption.water.push cons_water
+    @charts.consumption.co2.push cons_co2
+    @charts.consumption.kwh.push cons_kwh
+    @charts.expense.water.push exp_water
+    @charts.expense.electricity.push exp_elec
+    @charts.expense.frost.push exp_frost
+    @charts.expense.heat.push exp_heat
   ###*
    * Iterates over quarters for calculating ticks, budget and consumption.
   ###
