@@ -15,7 +15,11 @@
     @coefs = {}
     @actualization_rate = 0
     @consumption_degradation = 0
-    @charts = ticks: [], budget: [], consumption: water: [], co2: [], kwh: []
+    @charts =
+      ticks: []
+      budget: []
+      consumption: water: [], co2: [], kwh: []
+      expense: []
     @currentFilter = null
   scenario: null
   buildings: []
@@ -77,6 +81,8 @@
           fluidOverQuarter.push fluidOverYear for quarter in [1..4]
       fluid['fluidOverQuarter'] = fluidOverQuarter
       fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
+    # Coefs for kWh to CO2
+    @coefs['kwh2CO2'] = settings.kwhef_to_co2_coefficients
   totalCost: 0
   ###*
    * Iterate over each action for getting their cost.
@@ -84,7 +90,9 @@
   calculateTotalCost: ->
     for paction in @scenario.planned_actions
       # Total costs
-      @totalCost += paction.action.investment.cost
+      # @TODO Removed?
+      # @totalCost += paction.action.investment.cost
+      @totalCost += paction.action.investment.ratio
   rxTimelineActions: new ReactiveVar
   currentFilter: null
   ###*
@@ -152,7 +160,11 @@
       timelineActions.push yearContent
     # Assign reactive vars
     TV.rxTimelineActions.set timelineActions
-  charts: ticks: [], budget: [], consumption: water: [], co2: [], kwh: []
+  charts:
+    ticks: []
+    budget: []
+    consumption: water: [], co2: [], kwh: []
+    expense: []
   ###*
    * Iterator function that creates ticks (labels used in the chart's xAxis)
    * for each quarter.
@@ -170,15 +182,28 @@
     # Budget line for chart
     @charts.budget.push @scenario.total_expenditure
   ###*
-   * Iterator functino that calculates consumption for each quarter.
+   * Iterator function that performs calculations that depends on buildings
+   * and leases: consumptions and expenditure.
    * @param {Moment} quarter Moment as a quarter.
   ###
-  itFctConsumption: (quarter) ->
-    # Current consumption for charts
-    # @TODO Fake data
-    @charts.consumption.water.push 3.5
-    @charts.consumption.co2.push 3.5
-    @charts.consumption.kwh.push 3.5
+  itFctCalcFromBuildings: (quarter) ->
+    water = 0
+    co2 = 0
+    kwh = 0
+    expense = 0
+    for building in @buildings
+      for lease in building.leases
+        for cons in lease.consumption_by_end_use
+          console.log 'cons', cons
+          # @consumption_degradation
+          # @actualization_rate
+        for fluid in lease.fluid_consumption_meter
+          fluidType = (fluid.fluid_id.split ' - ')[1]
+          console.log 'fluid', fluid
+    @charts.consumption.water.push water
+    @charts.consumption.co2.push co2
+    @charts.consumption.kwh.push kwh
+    @charts.expense.push expense
   ###*
    * Iterates over quarters for calculating ticks, budget and consumption.
   ###
@@ -190,7 +215,7 @@
       # Budget
       @itFctBudget quarter
       # Consumption
-      @itFctConsumption quarter
+      @itFctCalcFromBuildings quarter
       # Increment by 1 quarter
       quarter.add 1, 'Q'
   rxPlannedActions: new ReactiveVar
@@ -289,8 +314,11 @@
       consumptionKwhModifier = 0
       while quarter.isBefore @maxDate
         if paction.start.isBetween quarter, nextQuarter
-          investment = paction.action.investment.cost
-          investmentSubventioned = paction.action.subventions.residual_cost
+          # @TODO Removed?
+          #investment = paction.action.investment.cost
+          #investmentSubventioned = paction.action.subventions.residual_cost
+          investment = 2.4
+          investmentSubventioned = 1.5
         if paction.endWork.isBetween quarter, nextQuarter
           # @TODO Fake modifiers
           consumptionCo2Modifier = -.5
@@ -315,6 +343,9 @@ TV = TimelineVars
  * Prepare calculation at template creation.
 ###
 Template.timeline.created = ->
+  # Reactive var for choosing consumption chart for energy type
+  @rxEnergyType = new ReactiveVar
+  @rxEnergyType.set 'water'
   # Reset current TimelineVars
   TV.reset()
   # Get denormalized scenario, buildings and portfolios from router
@@ -340,6 +371,34 @@ Template.timeline.created = ->
     TV.calculateDynamicChart()
 
 ###*
+ * Set the consumption chart filter at template rendering.
+###
+Template.timeline.rendered = ->
+  $btnGroup = @$ '[data-role=\'energy-type\']'
+  $btnGroup.children().removeClass 'active'
+  energyType = @rxEnergyType.get()
+  $selected = $btnGroup.find "[data-value=\'#{energyType}\']"
+  $selected.addClass 'active'
+
+###*
  * Object containing helper keys for the template.
 ###
-Template.timeline.helpers scenarioName: -> TV.scenario.name
+Template.timeline.helpers
+  scenarioName: -> TV.scenario.name
+  isEnergyTypeWater: -> Template.instance().rxEnergyType.get() is 'water'
+  isEnergyTypeCo2: -> Template.instance().rxEnergyType.get() is 'co2'
+  isEnergyTypeKwh: -> Template.instance().rxEnergyType.get() is 'kwh'
+
+###*
+ * Object containing event actions for the template.
+###
+Template.timeline.events
+  # Change filter on action bucket
+  'click [data-role=\'energy-type\']': (e, t) ->
+    $btnGroup = t.$ '[data-role=\'energy-type\']'
+    $selected = $ e.target
+    value = $selected.attr 'data-value'
+    unless value is undefined
+      $btnGroup.children().removeClass 'active'
+      $selected.addClass 'active'
+      t.rxEnergyType.set $selected.attr 'data-value'

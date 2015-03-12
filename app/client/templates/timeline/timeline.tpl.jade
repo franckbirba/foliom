@@ -15,7 +15,7 @@
       // The charts
       .row: .col-md-12: .panel.panel-primary
         .panel-body.animated.fadeInRight
-          .btn-group.btn-group-xs.energy-selector(data-role='consumption-type')
+          .btn-group.btn-group-xs(data-role='energy-type')
             button.btn.btn-default(data-value='water')
               i.fa.fa-tint
               | {{_ 'enrgy_type_water'}}
@@ -26,7 +26,12 @@
               i.fa.fa-flash
               | {{_ 'enrgy_type_kwh'}}
           // The consumption chart
-          +timelineD3Chart chartName='consumptionChart'
+          if(isEnergyTypeWater)
+            +timelineD3Chart chartName='waterConsumptionChart'
+          if(isEnergyTypeCo2)
+            +timelineD3Chart chartName='co2ConsumptionChart'
+          if(isEnergyTypeKwh)
+            +timelineD3Chart chartName='kwhConsumptionChart'
           // The Expense chart
           +timelineD3Chart chartName='expenseChart'
           // The Investment chart

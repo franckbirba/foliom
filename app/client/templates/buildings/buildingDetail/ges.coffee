@@ -15,4 +15,4 @@ Template.ges.rendered = ->
     else 'G'
   # Set the appropriate indice in the chart
   ges = $ "#ges-path-#{gesIndice}"
-  ges.attr 'fill', CHARTIST_COLORS[0]
+  ges.attr 'fill', COLORS[0]

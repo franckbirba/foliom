@@ -99,4 +99,4 @@ Template.dpe.rendered = ->
         else 'G'
       # Set the appropriate indice in the chart
       dpe = $ ".dpe-path-#{dpeIncide}"
-      dpe.attr 'fill', CHARTIST_COLORS[0]
+      dpe.attr 'fill', COLORS[0]

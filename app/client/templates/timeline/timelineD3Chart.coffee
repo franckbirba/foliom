@@ -6,12 +6,26 @@ TV = TimelineVars
 ###
 ChartFct =
   ###*
-   * Calculate and present data suite for the Consumption chart.
+   * Calculate and present data suite for the Water consumption chart.
   ###
-  consumptionChart: ->
+  waterConsumptionChart: ->
     rxPlannedActions = TV.rxPlannedActions.get()
     quarters: TV.charts.ticks
-    unit: TAPi18n.__ 'u_kwhEF'
+    unit: TAPi18n.__ 'u_m3'
+    chartName: TAPi18n.__ 'consumption_label'
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_noaction'
+        data: TV.charts.consumption.kwh
+      }
+    ]
+  ###*
+   * Calculate and present data suite for the CO2 consumption chart.
+  ###
+  co2ConsumptionChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    quarters: TV.charts.ticks
+    unit: TAPi18n.__ 'u_kg_eqC02_m2_year'
     chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
@@ -23,13 +37,26 @@ ChartFct =
         data: sum2Suites TV.charts.consumption.kwh, \
           sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
       }
+    ]
+  ###*
+   * Calculate and present data suite for the kWh consumption chart.
+  ###
+  kwhConsumptionChart: ->
+    rxPlannedActions = TV.rxPlannedActions.get()
+    quarters: TV.charts.ticks
+    unit: TAPi18n.__ 'u_kwhEF'
+    chartName: TAPi18n.__ 'consumption_label'
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_noaction'
+        data: TV.charts.consumption.kwh
+      }
       {
         name: TAPi18n.__ 'consumption_action_kwh'
         data: sum2Suites TV.charts.consumption.kwh, \
           sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
       }
     ]
-
   ###*
    * Calculate and present data suite for the Expense chart.
   ###
