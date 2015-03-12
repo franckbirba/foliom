@@ -196,12 +196,9 @@
     for building in @buildings
       for lease in building.leases
         for cons in lease.consumption_by_end_use
-          # Get fluid provider
-          fluidProvider = _.findWhere lease.fluid_consumption_meter,
-            fluid_id: cons.fluid_id
           # Get inflated consumption
           consumption = cons.first_year_value * \
-            Math.pow(1 + @consumption_degradation, yearsSinceStart)
+            Math.pow 1 + @consumption_degradation, yearsSinceStart
           # Check energy type
           fluidType = (cons.fluid_id.split ' - ')[1]
           if fluidType is 'fluid_water'
@@ -210,22 +207,27 @@
             cons_kwh += consumption
             # @TODO Energy mater isn't defined?
             cons_co2 += consumption * @coefs.kwh2CO2.fluid_electricity
-          # Get inflated subscription and price depending on unit
-
-
-
-
-
-          # inflatedSubscription???
-
+          # Get fluid provider
+          fluidProvider = _.findWhere lease.fluid_consumption_meter,
+            fluid_id: cons.fluid_id
+          # Get inflated subscription based on ICC
+          subscription = fluidProvider.yearly_subscription
+          inflatedSubscription = subscription * \
+            Math.pow 1 + @actualization_rate, @coefs.icc[yearsSinceStart]
+          # Get inflated rate based on IPC
+          rate = fluidProvider.first_year_value
+          inflatedRate = rate * \
+            Math.pow 1 + @actualization_rate, @coefs.icc[yearsSinceStart]
+          # Inflated expense independent from fluid kind
+          expense = inflatedRate * consumption
           # Subscription is paid at the end of the year
-          #if quarter.quarter() is 4
-          #  expense += inflatedSubscription
-
-          # Check energy type
-
-          # @actualization_rate
-
+          expense += inflatedSubscription if quarter.quarter() is 4
+          # Assign expense to a fluid kind
+          switch fluidType
+            when 'fluid_water' then exp_water += expense
+            when 'fluid_electricity' then exp_elec += expense
+            when 'fluid_heat' then exp_heat += expense
+            else exp_frost += expense
     @charts.consumption.water.push cons_water
     @charts.consumption.co2.push cons_co2
     @charts.consumption.kwh.push cons_kwh
@@ -272,17 +274,6 @@
     # PEM Get the appropriate coefficient for each type of unit
     # Session.get('current_config').kwhef_to_co2_coefficients
     #
-    ###
-    fluids = []
-    b = TimelineVars.buildings[0]
-    console.log 'Building', b
-    l = b.leases[0]
-    console.log 'Lease', l
-    fluids = l.fluid_consumption_meter
-    console.table fluids
-    console.log settings.fluids
-    ###
-
     # This provide 3 scalings
     # Before action
     # After actions

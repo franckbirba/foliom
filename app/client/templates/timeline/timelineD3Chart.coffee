@@ -15,8 +15,12 @@ ChartFct =
     chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
-        name: TAPi18n.__ 'consumption_noaction'
-        data: TV.charts.consumption.kwh
+        name: TAPi18n.__ 'consumption_noaction_water'
+        data: TV.charts.consumption.water
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_water'
+        data: TV.charts.consumption.water
       }
     ]
   ###*
@@ -29,8 +33,8 @@ ChartFct =
     chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
-        name: TAPi18n.__ 'consumption_noaction'
-        data: TV.charts.consumption.kwh
+        name: TAPi18n.__ 'consumption_noaction_co2'
+        data: TV.charts.consumption.co2
       }
       # {
       #   name: TAPi18n.__ 'consumption_action_co2'
@@ -48,7 +52,7 @@ ChartFct =
     chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
-        name: TAPi18n.__ 'consumption_noaction'
+        name: TAPi18n.__ 'consumption_noaction_kwh'
         data: TV.charts.consumption.kwh
       }
       # {
