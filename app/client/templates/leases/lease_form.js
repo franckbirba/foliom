@@ -338,13 +338,13 @@ Template.leaseForm.rendered = function () {
 
       var span_item = $(last_diagnostic_selector).siblings('span');
 
-      if (due_date > last_diagnostic_val || last_diagnostic_val == null) {
+      if (due_date >= last_diagnostic_val || last_diagnostic_val == null) {
         var warning_text = transr("last_diagnostic_obsolete");
         span_item.text(warning_text).css( "color", "red" );
-        $(diagnostic_alert_selector).prop('checked', true);
+        $(diagnostic_alert_selector).val(true);
       } else {
         span_item.text("");
-        $(diagnostic_alert_selector).prop('checked', false);
+        $(diagnostic_alert_selector).val(false);
       }
     });
 
