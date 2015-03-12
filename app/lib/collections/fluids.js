@@ -11,7 +11,7 @@ if (typeof Schema === "undefined") {
 }
 Fluids = new Mongo.Collection('fluids');
 
-Schema.YearlyValues = new SimpleSchema({
+YearlyValues = new SimpleSchema({
   year: {
     type: Number,
     defaultValue: function() {
