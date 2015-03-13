@@ -34,7 +34,7 @@ forwarder:autoform-wizard
 ian:accounts-ui-bootstrap-3
 mquandalle:stylus
 cfs:gridfs
-msavin:mongol
 cfs:standard-packages
 aldeed:simple-schema
 yogiben:autoform-file
+msavin:mongol
