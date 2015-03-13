@@ -35,24 +35,68 @@ D3LineChart(page, h)
       line
         stroke-dasharray 2 3
 
-  // Styles for lines, circles, legends
-  for idx in 0..4
-    .{page}
-      .data{idx}
-        stroke color + idx
-        circle
-          stroke-width 0px
-          stroke color + idx
-          fill color + idx
-          transition all .3s ease-in-out
-      circle.legend.data{idx}
-        fill color + idx
-      text.legend.data{idx}
-        font-size 10px
-        font-weight normal
-        stroke none
-        fill color + idx
-  .{page}
+    // Styles for paths, circles, legends
+    path
+      &.action
+        stroke-width 2px
+      &.noaction
+        stroke-dasharray 5 2
+    path, circle
+      &.orange
+        stroke brandWarning
+      &.blue
+        stroke brandInfo
+      &.violet
+        stroke colorElec
+      &.darkgray
+        stroke color1
+      &.red
+        stroke brandDanger
+      &.green
+        stroke color0
+      &.gray
+        stroke color2
+    circle.action, circle.noaction
+      transition all .3s ease-in-out
+    circle.action
+      stroke-width 0px
+      &.orange
+        fill brandWarning
+      &.blue
+        fill brandInfo
+      &.violet
+        fill colorElec
+      &.darkgray
+        fill color1
+      &.red
+        fill brandDanger
+      &.green
+        fill color0
+      &.gray
+        fill color2
+    circle.noaction
+      stroke-width 1px
+      fill white
+    text.legend
+      font-size 10px
+      font-weight normal
+      stroke none
+      &.orange
+        fill brandWarning
+      &.blue
+        fill brandInfo
+      &.violet
+        fill colorElec
+      &.darkgray
+        fill color1
+      &.red
+        fill brandDanger
+      &.green
+        fill color0
+      &.gray
+        fill color2
+
+    // Hovering surfaces for tooltips activation
     g.point
       rect
         stroke none

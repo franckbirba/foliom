@@ -16,10 +16,12 @@ ChartFct =
     series: [
       {
         name: TAPi18n.__ 'consumption_noaction_water'
+        style: 'noaction blue'
         data: TV.charts.consumption.water
       }
       {
         name: TAPi18n.__ 'consumption_action_water'
+        style: 'action blue'
         data: TV.charts.consumption.water
       }
     ]
@@ -34,10 +36,12 @@ ChartFct =
     series: [
       {
         name: TAPi18n.__ 'consumption_noaction_co2'
+        style: 'noaction darkgray'
         data: TV.charts.consumption.co2
       }
       # {
       #   name: TAPi18n.__ 'consumption_action_co2'
+      #   style: 'action darkgray'
       #   data: sum2Suites TV.charts.consumption.kwh, \
       #     sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
       # }
@@ -53,6 +57,7 @@ ChartFct =
     series: [
       {
         name: TAPi18n.__ 'consumption_noaction_kwh'
+        style: 'noaction orange'
         data: TV.charts.consumption.kwh
       }
       # {
@@ -70,19 +75,23 @@ ChartFct =
     chartName: TAPi18n.__ 'expense_label'
     series: [
       {
-        name: (TAPi18n.__ 'expense_water')
+        name: (TAPi18n.__ 'expense_noaction_water')
+        style: 'noaction blue'
         data: TV.charts.expense.water
       }
       {
-        name: (TAPi18n.__ 'expense_electricity')
+        name: (TAPi18n.__ 'expense_noaction_electricity')
+        style: 'noaction violet'
         data: TV.charts.expense.electricity
       }
       {
-        name: (TAPi18n.__ 'expense_frost')
+        name: (TAPi18n.__ 'expense_noaction_frost')
+        style: 'noaction darkgray'
         data: TV.charts.expense.frost
       }
       {
-        name: (TAPi18n.__ 'expense_heat')
+        name: (TAPi18n.__ 'expense_noaction_heat')
+        style: 'noaction red'
         data: TV.charts.expense.heat
       }
     ]
@@ -98,14 +107,17 @@ ChartFct =
     series: [
       {
         name: TAPi18n.__ 'investment_budget'
+        style: 'action green'
         data: TV.charts.budget
       }
       {
         name: TAPi18n.__ 'investment_raw'
+        style: 'action darkgray'
         data: sumSuiteFromArray rxPlannedActions, 'investmentSuite'
       }
       {
         name: TAPi18n.__ 'investment_minus_subventions'
+        style: 'action gray'
         data: sumSuiteFromArray rxPlannedActions, 'investmentSubventionedSuite'
       }
     ]

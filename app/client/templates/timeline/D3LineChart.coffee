@@ -94,24 +94,26 @@ class @D3LineChart
   ###*
    * Display legends.
    * @param {String} name Legend's name.
+   * @param {String} style Legend's style.
   ###
-  _setLegend: (name) ->
+  _setLegend: (name, style) ->
     @graph.append 'circle'
-      .attr 'class', "data#{@lines.length} legend"
+      .attr 'class', "legend #{style}"
       .attr 'r', 4
-      .attr 'cx', @graphWidth - 180
+      .attr 'cx', @graphWidth - 200
       .attr 'cy', @nbLegend * 12 + 16
     @graph.append 'text'
-      .attr 'class', "data#{@lines.length} legend"
-      .attr 'x', @graphWidth - 170
+      .attr 'class', "legend #{style}"
+      .attr 'x', @graphWidth - 190
       .attr 'y', @nbLegend * 12 + 20
       .text name
     @nbLegend++
   ###*
    * Set the chart line and store the line function as a line member.
    * @param {Array} arr Array of Number.
+   * @param {String} style Chart line's style.
   ###
-  _setChartLine: (arr) ->
+  _setChartLine: (arr, style) ->
     # Set the line properties
     line = d3.svg.line()
       .x (d, i) =>
@@ -124,15 +126,17 @@ class @D3LineChart
     lineGroup = @graph.append 'svg:g'
       .attr 'class', "data#{@lines.length}"
     lineGroup.append 'svg:path'
+      .attr 'class', style
       .attr 'd', line arr
     line['group'] = lineGroup
     @lines.push line
   ###*
    * Set circles on a graph line and create tooltip shown when circles hovered.
    * @param {String} name Chart's name.
+   * @param {String} style Chart point's style.
    * @param {Array} arr Array of Number used for drawing a chart.
   ###
-  _setCirclesTooltip: (name, arr) ->
+  _setCirclesTooltip: (name, style, arr) ->
     # Add circles and tips
     tip = d3.tip()
       .attr 'class', 'd3-tip'
@@ -155,6 +159,7 @@ class @D3LineChart
         .on 'mouseout', tip.hide
     line.group.selectAll 'g.point'
       .append 'circle'
+        .attr 'class', style
         .attr 'r', 3
         .attr 'cx', (d, i) => @xScalingFct i
         .attr 'cy', (d) => @yScalingFct d
@@ -172,15 +177,18 @@ class @D3LineChart
     @_setXAxis obj.chartName, obj.quarters
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
-      do (name=dataObj.name, data=dataObj.data, unit=obj.unit, idx=idx) =>
+      do (
+        name=dataObj.name, data=dataObj.data, style=dataObj.style,
+        unit=obj.unit, idx=idx
+      ) =>
         # Only display xAxis and yAxis on the first data set
         @_setYAxis unit, data if idx is 0
         # Display legend
-        @_setLegend name
+        @_setLegend name, style
         # Display chart
-        @_setChartLine data
+        @_setChartLine data, style
         # Display circles and tooltips
-        @_setCirclesTooltip name, data
+        @_setCirclesTooltip name, style, data
   ###*
    * Update lines and circles.
    * @param {Object} obj An Object describing each chart.
