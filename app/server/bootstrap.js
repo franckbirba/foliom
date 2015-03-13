@@ -1150,8 +1150,14 @@ Meteor.startup(function () {
                     name: 'kwhef_to_co2_coefficients',
                     labels: ["NA", "fluid_electricity", "fluid_naturalGas", "fluid_fuelOil_household", "fluid_fuelOil_heavy", "fluid_woodEnergy"]
                 },
+                {
+                    name: 'conformity_periodicity',
+                    labels: ["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]
+                },
 
             ];
+
+
 
         _.each(tmpSelectorList, function(item) {
             Selectors.insert(

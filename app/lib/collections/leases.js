@@ -299,7 +299,7 @@ conformity_infoSchema = new SimpleSchema({
       afFieldInput: {
         type: "select",
         options: function() {
-          return buildOptions(["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]);
+          return getSelectors('conformity_periodicity');
         },
       },
       // afFormGroup:{

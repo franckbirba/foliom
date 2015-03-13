@@ -329,22 +329,30 @@ Template.leaseForm.rendered = function () {
     _.each(conformity_information_items, function(item){
       var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
       var diagnostic_alert_selector = '[name="conformity_information.'+item+'.diagnostic_alert"]';
-      // var periodicity_selector = '[name="conformity_information.'+item+'.periodicity"]';
-      // var due_date_selector = '[name="conformity_information.'+item+'.due_date"]';
 
       var last_diagnostic_val = AutoForm.getFieldValue("insertLeaseForm", 'conformity_information.'+item+'.last_diagnostic');
       var periodicity = AutoForm.getFieldValue("insertLeaseForm", "conformity_information."+item+".periodicity");
       var due_date = AutoForm.getFieldValue("insertLeaseForm", "conformity_information."+item+".due_date");
 
+      var last_diagnostic_moment = moment(last_diagnostic_val);
+      var periodicity_moment = periodicityToMoment(periodicity);
+      var due_date_moment = moment(due_date);
+      var today = moment();
+
       var span_item = $(last_diagnostic_selector).siblings('span');
 
-      if (due_date > last_diagnostic_val || last_diagnostic_val == null) {
+      /* Alert cases:
+      IF (last_diagnostic + periodicity) < today
+      OR IF due_date >= last_diagnostic
+      OR IF last_diagnostic is empty
+      */
+      if (last_diagnostic_moment.add(periodicity_moment) < today || due_date >= last_diagnostic_val || last_diagnostic_val == null) {
         var warning_text = transr("last_diagnostic_obsolete");
         span_item.text(warning_text).css( "color", "red" );
-        $(diagnostic_alert_selector).prop('checked', true);
+        $(diagnostic_alert_selector).val(true);
       } else {
         span_item.text("");
-        $(diagnostic_alert_selector).prop('checked', false);
+        $(diagnostic_alert_selector).val(false);
       }
     });
 
