@@ -6,7 +6,7 @@
       span.text-primary= building_name
       |  -
       select#leaseSelect.form-control
-        option(value='all_leases', selected='') All leases
+        option(value='all_leases', selected='') {{_ "all_leases"}}
         each getLeases
           option(value='{{_id}}')= lease_name
   // First row: Summary & Assesment
