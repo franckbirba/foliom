@@ -58,8 +58,8 @@ D3LineChart(page, h)
         stroke color2
     circle.action, circle.noaction
       transition all .3s ease-in-out
+      stroke-width 2px
     circle.action
-      stroke-width 0px
       &.orange
         fill brandWarning
       &.blue
@@ -75,7 +75,6 @@ D3LineChart(page, h)
       &.gray
         fill color2
     circle.noaction
-      stroke-width 1px
       fill white
     text.legend
       font-size 10px
@@ -104,7 +103,7 @@ D3LineChart(page, h)
         fill-opacity 0
       &:hover
         circle
-          stroke-width 6px
+          stroke-width 8px
 
   // Tooltips
   .d3-tip
