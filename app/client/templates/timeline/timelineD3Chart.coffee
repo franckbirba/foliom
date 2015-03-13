@@ -15,8 +15,12 @@ ChartFct =
     chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
-        name: TAPi18n.__ 'consumption_noaction'
-        data: TV.charts.consumption.kwh
+        name: TAPi18n.__ 'consumption_noaction_water'
+        data: TV.charts.consumption.water
+      }
+      {
+        name: TAPi18n.__ 'consumption_action_water'
+        data: TV.charts.consumption.water
       }
     ]
   ###*
@@ -29,14 +33,14 @@ ChartFct =
     chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
-        name: TAPi18n.__ 'consumption_noaction'
-        data: TV.charts.consumption.kwh
+        name: TAPi18n.__ 'consumption_noaction_co2'
+        data: TV.charts.consumption.co2
       }
-      {
-        name: TAPi18n.__ 'consumption_action_co2'
-        data: sum2Suites TV.charts.consumption.kwh, \
-          sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
-      }
+      # {
+      #   name: TAPi18n.__ 'consumption_action_co2'
+      #   data: sum2Suites TV.charts.consumption.kwh, \
+      #     sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
+      # }
     ]
   ###*
    * Calculate and present data suite for the kWh consumption chart.
@@ -48,14 +52,14 @@ ChartFct =
     chartName: TAPi18n.__ 'consumption_label'
     series: [
       {
-        name: TAPi18n.__ 'consumption_noaction'
+        name: TAPi18n.__ 'consumption_noaction_kwh'
         data: TV.charts.consumption.kwh
       }
-      {
-        name: TAPi18n.__ 'consumption_action_kwh'
-        data: sum2Suites TV.charts.consumption.kwh, \
-          sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
-      }
+      # {
+      #   name: TAPi18n.__ 'consumption_action_kwh'
+      #   data: sum2Suites TV.charts.consumption.kwh, \
+      #     sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
+      # }
     ]
   ###*
    * Calculate and present data suite for the Expense chart.
@@ -66,9 +70,20 @@ ChartFct =
     chartName: TAPi18n.__ 'expense_label'
     series: [
       {
-        name: (TAPi18n.__ 'expense_raw')
-        # @TODO Fake data
-        data: TV.charts.budget
+        name: (TAPi18n.__ 'expense_water')
+        data: TV.charts.expense.water
+      }
+      {
+        name: (TAPi18n.__ 'expense_electricity')
+        data: TV.charts.expense.electricity
+      }
+      {
+        name: (TAPi18n.__ 'expense_frost')
+        data: TV.charts.expense.frost
+      }
+      {
+        name: (TAPi18n.__ 'expense_heat')
+        data: TV.charts.expense.heat
       }
     ]
 

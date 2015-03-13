@@ -358,7 +358,7 @@
     "regulatory_compliance": "Regulatory compliance",
     "residual_lifetime": "Residual lifetime",
 
-  "investment_cost_separator": "Investments cost",
+  	"investment_cost_separator": "Investments cost",
     "investment": "Investments",
     "investment_ratio": "Investment ratio",
     "investment_cost": "Investment cost",
@@ -371,7 +371,7 @@
     "CEE_opportunity": "CEE opportunity",
     "residual_cost": "Residual cost",
 
-  "efficiency_calc": "Efficiency calculation",
+  	"efficiency_calc": "Efficiency calculation",
     "raw_roi": "Raw ROI",
     "actualised_roi": "Actualised ROI",
     "value_analysis": "Value analysis",
@@ -477,8 +477,19 @@
     "consumption_noaction": "Current consumption",
     "consumption_action_co2": "Consumption after CO² actions",
     "consumption_action_kwh": "Consumption after kWh actions",
+
+		"consumption_noaction_water": "Water consumption before actions (m³/year)",
+		"consumption_action_water": "Water consumption after actions (m³/year)",
+		"consumption_noaction_co2": "CO2 emission before actions (kgeqCO2/year)",
+		"consumption_action_co2": "CO2 emission after@ actions (kgeqCO2/an) (kgeqCO2/year)",
+		"consumption_noaction_kwh": "Consumption by end-use without action kWhEF/year",
+		"consumption_action_kwh": "Consumption by end-use after actions kWhEF/year",
+
 		"expense_label": "Expense over time",
-    "expense_raw": "Expense",
+		"expense_water": "Water invoice",
+		"expense_electricity": "Electricity invoice",
+		"expense_frost": "Cooling invoice",
+		"expense_heat": "Heat invoice",
 		"investment_label": "Investment over time",
     "investment_budget": "Budget",
     "investment_raw": "Investments",
