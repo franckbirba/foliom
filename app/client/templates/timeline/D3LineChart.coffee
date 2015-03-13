@@ -145,7 +145,7 @@ class @D3LineChart
         "<div class='animated fadeInUp'>
         <div class='d3-tip-content'>
         <strong>#{name}</strong><br>\
-        <span>#{d} #{@unit}</span><br>\
+        <span>#{(numeral d).format '0.0a'} #{@unit}</span><br>\
         <span>#{@abscissa[i]}</span>
         </div></div>"
     @graph.call tip
