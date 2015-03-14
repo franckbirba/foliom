@@ -11,15 +11,14 @@ menuBig(page, bigButtons, extension)
       flex-direction row
       justify-content space-between
       a
-        display inline-block
         background-repeat no-repeat
         background-size contain
         size 293px
         padding 10px
-        transition filter .3s ease-in-out
+        transition filter defaultAnimation
         border-radius 2px
         &:hover
-          transition filter .3s ease-in-out
+          transition filter defaultAnimation
           filter brightness(0.7) contrast(0.7)
       for bigButton in bigButtons
         .{bigButton}

@@ -1,11 +1,11 @@
-@import 'client/templates/timeline/timeline.import'
+@import 'client/templates/timeline/*.import'
 
 .timeline
   .quarter-content
     cursor pointer
     &:hover
       color black
-      transition color .3s ease-in-out
+      transition color defaultAnimation
   .date-selection
     cursor auto
     height initial
@@ -42,11 +42,11 @@
         height 1.2em
         line-height 1.2em
         text-align center
-        transition all .3s ease-in-out
+        transition all defaultAnimation
         &:hover
           background-color white
           transform scale(1.2)
-          transition all .3s ease-in-out
+          transition all defaultAnimation
     p
       font-weight bold
       color color1
@@ -66,18 +66,18 @@
       color white
       border-bottom none
       font-weight bold
-      transition all .3s ease-in-out
+      transition all defaultAnimation
     [type="radio"]:not(:checked) + label
       border-radius 3px
       background-color color3
       color color1
       border-bottom none
       font-weight normal
-      transition all .3s ease-in-out
+      transition all defaultAnimation
       &:hover
         color black
         background-color color2
-        transition all .3s ease-in-out
+        transition all defaultAnimation
   // Little arrow triangle
   .date-selection:after, .date-selection:before
     border solid transparent
