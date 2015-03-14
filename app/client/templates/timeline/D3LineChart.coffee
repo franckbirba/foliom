@@ -174,15 +174,14 @@ class @D3LineChart
    * @param {Object} obj An Object describing each chart.
   ###
   setData: (obj) ->
+    # Display axis
     @_setXAxis obj.chartName, obj.quarters
+    @_setYAxis obj.unit, _.flatten(_.pluck obj.series, 'data')
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
       do (
-        name=dataObj.name, data=dataObj.data, style=dataObj.style,
-        unit=obj.unit, idx=idx
+        name=dataObj.name, data=dataObj.data, style=dataObj.style, idx=idx
       ) =>
-        # Only display xAxis and yAxis on the first data set
-        @_setYAxis unit, data if idx is 0
         # Display legend
         @_setLegend name, style
         # Display chart
