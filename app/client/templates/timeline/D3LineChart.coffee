@@ -179,9 +179,7 @@ class @D3LineChart
     @_setYAxis obj.unit, _.flatten(_.pluck obj.series, 'data')
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
-      do (
-        name=dataObj.name, data=dataObj.data, style=dataObj.style, idx=idx
-      ) =>
+      do (name=dataObj.name, data=dataObj.data, style=dataObj.style) =>
         # Display legend
         @_setLegend name, style
         # Display chart
