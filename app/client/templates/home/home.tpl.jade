@@ -2,20 +2,17 @@
   // Page's title as a welcome message
   .row: .col-md-12: h1.page-title.animated.fadeInDown {{_ "hello"}} {{username}}
   // Main row
-  .row.all-except-title
-    .col-md-8.mainButtons
-      nav
-        // Access to Observe section
-        a.sextan.animated.fadeInLeft(href='/observatory')
-          .btn.btn-default {{_ 'observe'}}
-        // Access to Plan section
-        a.compass.animated.fadeInDown(href='/actions-home')
-          .btn.btn-default {{_ 'plan'}}
+  .row: section.col-md-12  
+    nav
+      // Access to Observe section
+      a.sextan.animated.fadeInLeft(href='/observatory')
+        .btn.btn-default {{_ 'observe'}}
+      // Access to Plan section
+      a.compass.animated.fadeInDown(href='/actions-home')
+        .btn.btn-default {{_ 'plan'}}
       // Follow-up tools
-      .row: .col-md-12.followup-tools
-        a.animated.fadeInDown(href='/actions-home')
-          .btn.btn-default {{_ 'followup_tools'}}
+      a.animated.fadeInUp(href='/actions-home')
+        .btn.btn-default {{_ 'followup_tools'}}
     // Message box
-    .col-md-4
-      .messages.animated.fadeInRight
+    article.animated.fadeInRight
         +messageBox

@@ -9,7 +9,7 @@ aldeed:template-extension@3.4.1
 anti:i18n@0.4.3
 application-configuration@1.0.4
 autoupdate@1.1.5
-babrahams:editable-json@0.3.7
+babrahams:editable-json@0.3.9
 base64@1.0.2
 binary-heap@1.0.2
 blaze@2.0.4
@@ -87,9 +87,8 @@ mongo-livedata@1.0.7
 mpowaga:string-template@0.1.0
 mquandalle:jade@0.4.1
 mquandalle:stylus@1.1.0
-mrt:moment@2.8.1
 mrt:twit@0.2.0
-msavin:mongol@1.0.1
+msavin:mongol@1.0.2
 natestrauser:animate-css@3.1.2
 natestrauser:select2@3.5.1
 nemo64:bootstrap@3.3.1_1
@@ -105,7 +104,6 @@ reactive-dict@1.0.5
 reactive-var@1.0.4
 reload@1.1.2
 retry@1.0.2
-richsilv:pikaday@1.0.0
 routepolicy@1.0.4
 rzymek:moment-locale-fr@2.8.4
 service-configuration@1.0.3
