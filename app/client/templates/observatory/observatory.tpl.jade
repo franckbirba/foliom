@@ -1,9 +1,11 @@
 .page.observe.observatory: .container
-  .row: .col-md-12
-    h1.page-title.animated.fadeInDown {{_ 'manage_portfolios'}}
-    .animated.fadeInDown: +map
-  .row.animated.fadeInUp
-    .col-md-3
+  // Page title
+  h1.page-title.animated.fadeInDown {{_ 'manage_portfolios'}}
+  // Map
+  .animated.fadeInDown: +map
+  // Row of actions
+  section.animated.fadeInUp
+    article
       .panel.panel-primary
         .panel-heading
           h3.panel-title
@@ -16,25 +18,21 @@
               each getPortfolioList
                 a.list-group-item.select_portfolio(href='#')= name
             button.btn.btn-primary.insert_portfolio(type='button', data-toggle='modal', data-target='#portfolioForm') {{_ 'new_portfolio'}}
-    .col-md-3
+    article
       .panel.panel-default
         .panel-heading
           h3.panel-title
             | {{_ 'buildings'}}
             if isBuilding
               span.glyphicon.glyphicon-cog.pull-right(aria-hidden='true')
-        .panel-body.observatory#building_panel
+        #building_panel.panel-body
           // Buildings for current Portfolio
-          #building_list(style='display: none;')
-            if isBuilding
-              .list-group
-                each getBuildingList
-                  a.list-group-item.select_building(href='#')= building_name
-              a.btn.btn-primary(href="{{pathFor 'building-new'}}", role='button') {{_ 'new_building'}}
-    .col-md-6
-      .panel.panel-primary
-        .panel-body
-          p
-            +barchart
+          if isBuilding
+            .list-group
+              each getBuildingList
+                a.list-group-item.select_building(href='#')= building_name
+            a.btn.btn-primary(href="{{pathFor 'building-new'}}", role='button') {{_ 'new_building'}}
+    article
+      +barchart
   +insertPortfolioForm
   +buildingAndLeaseImport
