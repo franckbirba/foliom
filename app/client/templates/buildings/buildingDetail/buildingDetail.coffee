@@ -35,6 +35,7 @@ Template.buildingDetail.helpers
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
+    console.log "waterFluids"
     console.log waterFluids
 
     if waterFluids? #wait until the waterFluids array has been generated
@@ -84,16 +85,15 @@ Template.buildingDetail.rendered = ->
   #get the Water fluids for each Lease
   _.each allLeases, (lease, i) ->
     #For each lease, extract the fluid with the fluid_type to water
-    _.each lease.fluid_consumption_meter, (entry, i) ->
-      if entry.fluid_id.split(' - ')[1] is 'fluid_water'
-        # surcharge: add the surface and id to make the average easier
-        entry.surface = lease.area_by_usage
-        entry.lease_id = lease._id
-        waterFluids.push entry
+    for entry in lease.fluid_consumption_meter when entry.fluid_id.split(' - ')[1] is 'fluid_water'
+      # surcharge: add the surface and id to make the average easier
+      entry.surface = lease.area_by_usage
+      entry.lease_id = lease._id
+      waterFluids.push entry
 
-  # debugger
-
+  console.log "waterFluids"
   console.log waterFluids
+
   Template.instance().waterFluids.set(waterFluids)
 
 
