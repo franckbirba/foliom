@@ -5,8 +5,50 @@ Template.buildingDetail.created = ->
 
   Session.set("current_lease_id", null) #Reset the var session associated to the Selector
 
-  console.log "@data is"
-  console.log @data
+  current_building_doc_id = @data._id
+  allLeases = Leases.find(building_id: current_building_doc_id).fetch()
+
+  ### ------------ ###
+  # CALC WATER FLUIDS
+  waterFluids = Template.instance().waterFluids.get()
+
+  #get the Water fluids for each Lease
+  _.each allLeases, (lease, i) ->
+    #For each lease, extract the fluid with the fluid_type to water
+    for entry in lease.fluid_consumption_meter when entry.fluid_id.split(' - ')[1] is 'fluid_water'
+      # surcharge: add the surface and id to make the average easier
+      entry.surface = lease.area_by_usage
+      entry.lease_id = lease._id
+      waterFluids.push entry
+
+  console.log "waterFluids"
+  console.log waterFluids
+
+  Template.instance().waterFluids.set(waterFluids)
+  ### ------------ ###
+
+
+  ### ------------------------------ ###
+  #  Create data for the DPE barchart
+  ### ------------------------------ ###
+  dpe_ges_data = Template.instance().dpe_ges_data.get()
+
+  for lease in allLeases
+    dpe_ges_data.push
+      lease_name: lease.lease_name
+      lease_id: lease._id
+      surface: lease.area_by_usage
+      dpe_type: lease.dpe_type
+      dpe_energy_consuption: lease.dpe_energy_consuption
+      dpe_co2_emission: lease.dpe_co2_emission
+
+  console.log "dpe_ges_data is"
+  console.log dpe_ges_data
+  Template.instance().dpe_ges_data.set(dpe_ges_data)
+  ### ------------ ###
+
+  # console.log "@data is"
+  # console.log @data
 
 
 
@@ -19,6 +61,7 @@ Template.buildingDetail.helpers
     if Session.get('current_lease_id')?
       correctData = _.where(dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
     else dpe_ges_data[0]
+      #@BSE: TO DO ([0] for the moment)
 
   getCertificates: ->
     if Session.get('current_lease_id')?
@@ -34,13 +77,10 @@ Template.buildingDetail.helpers
     if result.certifications
       for cert in result.certifications
         cert.cert_url = "/icon/certificates/#{cert.cert_id}.png" #Construct the URL
-      console.log result.certifications
-      result.certifications
+      result.certifications #return array
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
-    console.log "waterFluids"
-    console.log waterFluids
 
     if waterFluids? #wait until the waterFluids array has been generated
 
@@ -83,22 +123,6 @@ Template.buildingDetail.helpers
 Template.buildingDetail.rendered = ->
   current_building_doc_id = Session.get('current_building_doc')._id
   allLeases = Leases.find(building_id: current_building_doc_id).fetch()
-
-  waterFluids = Template.instance().waterFluids.get()
-
-  #get the Water fluids for each Lease
-  _.each allLeases, (lease, i) ->
-    #For each lease, extract the fluid with the fluid_type to water
-    for entry in lease.fluid_consumption_meter when entry.fluid_id.split(' - ')[1] is 'fluid_water'
-      # surcharge: add the surface and id to make the average easier
-      entry.surface = lease.area_by_usage
-      entry.lease_id = lease._id
-      waterFluids.push entry
-
-  console.log "waterFluids"
-  console.log waterFluids
-
-  Template.instance().waterFluids.set(waterFluids)
 
 
   ### ---------------------###
@@ -154,28 +178,6 @@ Template.buildingDetail.rendered = ->
     return
   Session.set 'pieData', dataHolder
   Session.set 'averagedPieData', averagedData
-
-
-  ### ------------------------------ ###
-  #  Create data for the DPE barchart
-  ### ------------------------------ ###
-
-  dpe_ges_data = Template.instance().dpe_ges_data.get()
-
-  for lease in allLeases
-    dpe_ges_data.push
-      lease_name: lease.lease_name
-      lease_id: lease._id
-      surface: lease.area_by_usage
-      dpe_type: lease.dpe_type
-      dpe_energy_consuption: lease.dpe_energy_consuption
-      dpe_co2_emission: lease.dpe_co2_emission
-
-  console.log "dpe_ges_data is"
-  console.log dpe_ges_data
-  Template.instance().dpe_ges_data.set(dpe_ges_data)
-
-  return
 
 
 
