@@ -5,6 +5,9 @@ Template.buildingDetail.created = ->
 
   Session.set("current_lease_id", null) #Reset the var session associated to the Selector
 
+  console.log "@data is"
+  console.log @data
+
 
 
 Template.buildingDetail.helpers
@@ -22,10 +25,11 @@ Template.buildingDetail.helpers
       result = Leases.find({ _id: Session.get('current_lease_id') }, {fields: {certifications: 1}}).fetch()[0]
     else
       result = Leases.find({ building_id: Session.get('current_building_doc')._id }, {fields: {certifications: 1}}).fetch()
-      allCerts = []
-      for lease in result
-        allCerts = _.union allCerts, lease.certifications
-      result.certifications = allCerts
+
+      allCerts = _.flatten _.map result, (lease) ->
+        return lease.certifications #Each lease.certifications is an array, hence the _.flatten
+      result.certifications = _.uniq allCerts
+
 
     if result.certifications
       for cert in result.certifications
