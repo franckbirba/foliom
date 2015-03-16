@@ -35,11 +35,13 @@ Template.buildingDetail.helpers
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
-    # console.log waterFluids
+    console.log waterFluids
 
     if waterFluids? #wait until the waterFluids array has been generated
 
       if Session.get('current_lease_id')?
+        curr_lease = Leases.findOne({ _id: Session.get('current_lease_id') })
+
         # in waterFluids array, get the one corresponding to the Session var (set by selector)
         correctWaterFluid = _.where(waterFluids, lease_id: Session.get('current_lease_id'))[0]
         if param is 'yearly_cost'
@@ -50,21 +52,25 @@ Template.buildingDetail.helpers
           return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision)
         if param is '€/m3'
           return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision)
+        if param is 'm3/pers'
+          return (correctWaterFluid.first_year_value / curr_lease.headcount).toFixed(precision)
 
       else
-        if param == 'yearly_cost'
+        if param is 'yearly_cost'
           # return waterFluids.map(function(fluid){
           #     return { label: item.end_use_name, value: item.first_year_value }
           # });
           return 0
-        if param == 'm3'
+        if param is 'm3'
           # return correctWaterFluid.first_year_value;
           return 0
-        if param == 'm3/m2'
+        if param is 'm3/m2'
           # return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
           return 0
-        if param == '€/m3'
+        if param is '€/m3'
           # return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
+          return 0
+        if param is 'm3/pers'
           return 0
     return
 
