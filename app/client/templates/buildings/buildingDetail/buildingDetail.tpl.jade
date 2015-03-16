@@ -64,21 +64,17 @@
         table#waterTblSmall.waterTable
           tr
             td
-              .water2 -
-              br
+              .water2 {{waterConsumption "m3/pers" "3"}}
               .water2u m³/pers
             td
               .water2 {{waterConsumption "m3/m2" "3"}}
-              br
               .water2u m³/m²
           tr
             td
               .water2 {{waterConsumption "yearly_cost"}}
-              br
               .water2u €
             td
               .water2 {{waterConsumption "€/m3" "0"}}
-              br
               .water2u €/m³
   // Last row: Actions summary, Indices
   .row: .animated.fadeInUp
