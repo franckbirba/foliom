@@ -19,6 +19,7 @@ Template.buildingDetail.created = ->
       # surcharge: add the surface and id to make the average easier
       entry.surface = lease.area_by_usage
       entry.lease_id = lease._id
+      entry.headcount = lease.headcount
       waterFluids.push entry
 
   console.log "waterFluids"
@@ -55,10 +56,35 @@ Template.buildingDetail.created = ->
   @data.areaSum = areaArray.reduce (prev, current) -> prev + current
 
   @data.av_waterConsumption = {}
-  #Averaged yearly_cost
-  av_yearly_cost_array = _.map waterFluids, (fluid) ->
-    fluid.yearly_cost * fluid.surface / Template.currentData().areaSum
-  @data.av_waterConsumption.av_yearly_cost = av_yearly_cost_array.reduce (prev, current) -> prev + current
+
+  average_water_data = (waterFluids, areaSum, param) =>
+    if param is 'yearly_cost'
+      av_array = _.map waterFluids, (fluid) ->
+        fluid.yearly_cost * fluid.surface / areaSum
+    if param is 'm3'
+      av_array = _.map waterFluids, (fluid) ->
+        fluid.first_year_value * fluid.surface / areaSum
+    if param is 'm3/m2'
+      av_array = _.map waterFluids, (fluid) ->
+        #(correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision)
+        fluid.first_year_value / areaSum # Multiplying and dividing by surface > simplification
+    if param is '€/m3'
+      # correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value
+      av_array = _.map waterFluids, (fluid) ->
+        fluid.yearly_cost * fluid.surface / (areaSum * fluid.first_year_value)
+    if param is 'm3/pers'
+      # correctWaterFluid.first_year_value / curr_lease.headcount
+      av_array = _.map waterFluids, (fluid, index) ->
+        fluid.first_year_value * fluid.surface / (areaSum * fluid.headcount)
+
+    av_array.reduce (prev, current) -> prev + current #one-liner to reduce the array
+
+
+  @data.av_waterConsumption.av_yearly_cost = average_water_data(waterFluids, @data.areaSum, 'yearly_cost')
+  @data.av_waterConsumption.av_m3 = average_water_data(waterFluids, @data.areaSum, 'm3')
+  @data.av_waterConsumption.av_m3_by_m2 = average_water_data(waterFluids, @data.areaSum, 'm3/m2')
+  @data.av_waterConsumption.av_euro_by_m3 = average_water_data(waterFluids, @data.areaSum, '€/m3')
+  @data.av_waterConsumption.av_m3_by_pers = average_water_data(waterFluids, @data.areaSum, 'm3/pers')
 
   console.log "@data is"
   console.log @data
@@ -118,15 +144,15 @@ Template.buildingDetail.helpers
           return Template.currentData().av_waterConsumption.av_yearly_cost.toFixed(precision)
         if param is 'm3'
           # return correctWaterFluid.first_year_value;
-          return 0
+          return Template.currentData().av_waterConsumption.av_m3.toFixed(precision)
         if param is 'm3/m2'
           # return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
-          return 0
+          return Template.currentData().av_waterConsumption.av_m3_by_m2.toFixed(precision)
         if param is '€/m3'
           # return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
-          return 0
+          return Template.currentData().av_waterConsumption.av_euro_by_m3.toFixed(precision)
         if param is 'm3/pers'
-          return 0
+          return Template.currentData().av_waterConsumption.av_m3_by_pers.toFixed(precision)
     return
 
 
