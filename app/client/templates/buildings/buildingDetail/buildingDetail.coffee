@@ -50,8 +50,15 @@ Template.buildingDetail.created = ->
   ### ------------------------------ ###
   #  Data for the averages
   ### ------------------------------ ###
+  #Averaged area (from all leases)
   areaArray = _.pluck @data.allLeases, 'area_by_usage' #Result ex: [700, 290]
   @data.areaSum = areaArray.reduce (prev, current) -> prev + current
+
+  @data.av_waterConsumption = {}
+  #Averaged yearly_cost
+  av_yearly_cost_array = _.map waterFluids, (fluid) ->
+    fluid.yearly_cost * fluid.surface / Template.currentData().areaSum
+  @data.av_waterConsumption.av_yearly_cost = av_yearly_cost_array.reduce (prev, current) -> prev + current
 
   console.log "@data is"
   console.log @data
@@ -108,12 +115,7 @@ Template.buildingDetail.helpers
 
       else
         if param is 'yearly_cost'
-          # return waterFluids.map(function(fluid){
-          #     return { label: item.end_use_name, value: item.first_year_value }
-          # });
-          console.log "in helper"
-          console.log @data
-          return 0
+          return Template.currentData().av_waterConsumption.av_yearly_cost.toFixed(precision)
         if param is 'm3'
           # return correctWaterFluid.first_year_value;
           return 0
