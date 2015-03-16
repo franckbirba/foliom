@@ -6,14 +6,14 @@ Template.buildingDetail.created = ->
   Session.set("current_lease_id", null) #Reset the var session associated to the Selector
 
   current_building_doc_id = @data._id
-  allLeases = Leases.find(building_id: current_building_doc_id).fetch()
+  @data.allLeases = Leases.find(building_id: current_building_doc_id).fetch()
 
   ### ------------ ###
   # CALC WATER FLUIDS
   waterFluids = Template.instance().waterFluids.get()
 
   #get the Water fluids for each Lease
-  _.each allLeases, (lease, i) ->
+  _.each @data.allLeases, (lease, i) ->
     #For each lease, extract the fluid with the fluid_type to water
     for entry in lease.fluid_consumption_meter when entry.fluid_id.split(' - ')[1] is 'fluid_water'
       # surcharge: add the surface and id to make the average easier
@@ -33,7 +33,7 @@ Template.buildingDetail.created = ->
   ### ------------------------------ ###
   dpe_ges_data = Template.instance().dpe_ges_data.get()
 
-  for lease in allLeases
+  for lease in @data.allLeases
     dpe_ges_data.push
       lease_name: lease.lease_name
       lease_id: lease._id
@@ -47,8 +47,14 @@ Template.buildingDetail.created = ->
   Template.instance().dpe_ges_data.set(dpe_ges_data)
   ### ------------ ###
 
-  # console.log "@data is"
-  # console.log @data
+  ### ------------------------------ ###
+  #  Data for the averages
+  ### ------------------------------ ###
+  areaArray = _.pluck @data.allLeases, 'area_by_usage' #Result ex: [700, 290]
+  @data.areaSum = areaArray.reduce (prev, current) -> prev + current
+
+  console.log "@data is"
+  console.log @data
 
 
 
@@ -105,6 +111,8 @@ Template.buildingDetail.helpers
           # return waterFluids.map(function(fluid){
           #     return { label: item.end_use_name, value: item.first_year_value }
           # });
+          console.log "in helper"
+          console.log @data
           return 0
         if param is 'm3'
           # return correctWaterFluid.first_year_value;
