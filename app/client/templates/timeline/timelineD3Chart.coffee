@@ -1,15 +1,22 @@
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
 
-setSeries = (pactions, fluidType, color) ->
+###*
+ * Create 2 series, one taking no action in account and a second with actions.
+ * @param {Array}  pactions  An array of actions.
+ * @param {String} chartType A property used for the chart's type.
+ * @param {String} fluidType A fluid kind or type.
+ * @param {String} color     A color for each serie.
+###
+setSeries = (pactions, chartType, fluidType, color) ->
   firstUpperCase = fluidType.substr(0, 1).toUpperCase() + fluidType.substr(1)
   for act in [true, false]
     name: TAPi18n.__ \
-      "consumption_#{unless act then 'no' else ''}action_#{fluidType}"
-    style: "#{unless act then 'no' else ''}action #{color}"
-    data: if act then TV.charts.consumption[fluidType] else \
-      sum2Suites TV.charts.consumption[fluidType],
-        sumSuiteFromArray pactions, "consumption#{firstUpperCase}"
+      "#{chartType}_#{if act then 'no' else ''}action_#{fluidType}"
+    style: "#{if act then 'no' else ''}action #{color}"
+    data: if act then TV.charts[chartType][fluidType] else \
+      sum2Suites TV.charts[chartType][fluidType],
+        sumSuiteFromArray pactions, "#{chartType}#{firstUpperCase}"
 
 ###*
  * Chart's functions
@@ -23,7 +30,7 @@ ChartFct =
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_m3'
     chartName: TAPi18n.__ 'consumption_label'
-    series: setSeries pactions, 'water', 'blue'
+    series: setSeries pactions, 'consumption', 'water', 'blue'
   ###*
    * Calculate and present data suite for the CO2 consumption chart.
   ###
@@ -32,7 +39,7 @@ ChartFct =
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kg_eqC02_m2_year'
     chartName: TAPi18n.__ 'consumption_label'
-    series: setSeries pactions, 'co2', 'darkgray'
+    series: setSeries pactions, 'consumption', 'co2', 'darkgray'
   ###*
    * Calculate and present data suite for the kWh consumption chart.
   ###
@@ -41,7 +48,7 @@ ChartFct =
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kwhEF'
     chartName: TAPi18n.__ 'consumption_label'
-    series: setSeries pactions, 'kwh', 'orange'
+    series: setSeries pactions, 'consumption', 'kwh', 'orange'
   ###*
    * Calculate and present data suite for the Expense chart.
   ###
@@ -50,53 +57,11 @@ ChartFct =
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
     chartName: TAPi18n.__ 'invoice_label'
-    series: [
-      {
-        name: (TAPi18n.__ 'invoice_noaction_water')
-        style: 'noaction blue'
-        data: TV.charts.invoice.water
-      }
-      {
-        name: (TAPi18n.__ 'invoice_action_water')
-        style: 'action blue'
-        data: sum2Suites TV.charts.invoice.water, \
-          sumSuiteFromArray pactions, 'invoiceWater'
-      }
-      {
-        name: (TAPi18n.__ 'invoice_noaction_electricity')
-        style: 'noaction violet'
-        data: TV.charts.invoice.electricity
-      }
-      {
-        name: (TAPi18n.__ 'invoice_action_electricity')
-        style: 'action violet'
-        data: sum2Suites TV.charts.invoice.electricity, \
-          sumSuiteFromArray pactions, 'invoiceElectricity'
-      }
-      {
-        name: (TAPi18n.__ 'invoice_noaction_frost')
-        style: 'noaction darkgray'
-        data: TV.charts.invoice.frost
-      }
-      {
-        name: (TAPi18n.__ 'invoice_action_frost')
-        style: 'action darkgray'
-        data: sum2Suites TV.charts.invoice.frost, \
-          sumSuiteFromArray pactions, 'invoiceFrost'
-      }
-      {
-        name: (TAPi18n.__ 'invoice_noaction_heat')
-        style: 'noaction red'
-        data: TV.charts.invoice.heat
-      }
-      {
-        name: (TAPi18n.__ 'invoice_action_heat')
-        style: 'action red'
-        data: sum2Suites TV.charts.invoice.heat, \
-          sumSuiteFromArray pactions, 'invoiceHeat'
-      }
-    ]
-
+    series: []
+      .concat setSeries pactions, 'invoice', 'water', 'blue'
+      .concat setSeries pactions, 'invoice', 'electricity', 'violet'
+      .concat setSeries pactions, 'invoice', 'frost', 'darkgray'
+      .concat setSeries pactions, 'invoice', 'heat', 'red'
   ###*
    * Calculate and present data suite for the Investment chart.
   ###
