@@ -1,6 +1,16 @@
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
 
+setSeries = (pactions, fluidType, color) ->
+  firstUpperCase = fluidType.substr(0, 1).toUpperCase() + fluidType.substr(1)
+  for act in [true, false]
+    name: TAPi18n.__ \
+      "consumption_#{unless act then 'no' else ''}action_#{fluidType}"
+    style: "#{unless act then 'no' else ''}action #{color}"
+    data: if act then TV.charts.consumption[fluidType] else \
+      sum2Suites TV.charts.consumption[fluidType],
+        sumSuiteFromArray pactions, "consumption#{firstUpperCase}"
+
 ###*
  * Chart's functions
 ###
@@ -9,90 +19,81 @@ ChartFct =
    * Calculate and present data suite for the Water consumption chart.
   ###
   waterConsumptionChart: ->
-    rxPlannedActions = TV.rxPlannedActions.get()
+    pactions = TV.rxPlannedActions.get()
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_m3'
     chartName: TAPi18n.__ 'consumption_label'
-    series: [
-      {
-        name: TAPi18n.__ 'consumption_noaction_water'
-        style: 'noaction blue'
-        data: TV.charts.consumption.water
-      }
-      {
-        name: TAPi18n.__ 'consumption_action_water'
-        style: 'action blue'
-        data: TV.charts.consumption.water
-      }
-    ]
+    series: setSeries pactions, 'water', 'blue'
   ###*
    * Calculate and present data suite for the CO2 consumption chart.
   ###
   co2ConsumptionChart: ->
-    rxPlannedActions = TV.rxPlannedActions.get()
+    pactions = TV.rxPlannedActions.get()
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kg_eqC02_m2_year'
     chartName: TAPi18n.__ 'consumption_label'
-    series: [
-      {
-        name: TAPi18n.__ 'consumption_noaction_co2'
-        style: 'noaction darkgray'
-        data: TV.charts.consumption.co2
-      }
-      # {
-      #   name: TAPi18n.__ 'consumption_action_co2'
-      #   style: 'action darkgray'
-      #   data: sum2Suites TV.charts.consumption.kwh, \
-      #     sumSuiteFromArray rxPlannedActions, 'consumptionCo2ModifierSuite'
-      # }
-    ]
+    series: setSeries pactions, 'co2', 'darkgray'
   ###*
    * Calculate and present data suite for the kWh consumption chart.
   ###
   kwhConsumptionChart: ->
-    rxPlannedActions = TV.rxPlannedActions.get()
+    pactions = TV.rxPlannedActions.get()
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kwhEF'
     chartName: TAPi18n.__ 'consumption_label'
-    series: [
-      {
-        name: TAPi18n.__ 'consumption_noaction_kwh'
-        style: 'noaction orange'
-        data: TV.charts.consumption.kwh
-      }
-      # {
-      #   name: TAPi18n.__ 'consumption_action_kwh'
-      #   data: sum2Suites TV.charts.consumption.kwh, \
-      #     sumSuiteFromArray rxPlannedActions, 'consumptionKwhModifierSuite'
-      # }
-    ]
+    series: setSeries pactions, 'kwh', 'orange'
   ###*
    * Calculate and present data suite for the Expense chart.
   ###
-  expenseChart: ->
+  invoiceChart: ->
+    pactions = TV.rxPlannedActions.get()
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
-    chartName: TAPi18n.__ 'expense_label'
+    chartName: TAPi18n.__ 'invoice_label'
     series: [
       {
-        name: (TAPi18n.__ 'expense_noaction_water')
+        name: (TAPi18n.__ 'invoice_noaction_water')
         style: 'noaction blue'
-        data: TV.charts.expense.water
+        data: TV.charts.invoice.water
       }
       {
-        name: (TAPi18n.__ 'expense_noaction_electricity')
+        name: (TAPi18n.__ 'invoice_action_water')
+        style: 'action blue'
+        data: sum2Suites TV.charts.invoice.water, \
+          sumSuiteFromArray pactions, 'invoiceWater'
+      }
+      {
+        name: (TAPi18n.__ 'invoice_noaction_electricity')
         style: 'noaction violet'
-        data: TV.charts.expense.electricity
+        data: TV.charts.invoice.electricity
       }
       {
-        name: (TAPi18n.__ 'expense_noaction_frost')
+        name: (TAPi18n.__ 'invoice_action_electricity')
+        style: 'action violet'
+        data: sum2Suites TV.charts.invoice.electricity, \
+          sumSuiteFromArray pactions, 'invoiceElectricity'
+      }
+      {
+        name: (TAPi18n.__ 'invoice_noaction_frost')
         style: 'noaction darkgray'
-        data: TV.charts.expense.frost
+        data: TV.charts.invoice.frost
       }
       {
-        name: (TAPi18n.__ 'expense_noaction_heat')
+        name: (TAPi18n.__ 'invoice_action_frost')
+        style: 'action darkgray'
+        data: sum2Suites TV.charts.invoice.frost, \
+          sumSuiteFromArray pactions, 'invoiceFrost'
+      }
+      {
+        name: (TAPi18n.__ 'invoice_noaction_heat')
         style: 'noaction red'
-        data: TV.charts.expense.heat
+        data: TV.charts.invoice.heat
+      }
+      {
+        name: (TAPi18n.__ 'invoice_action_heat')
+        style: 'action red'
+        data: sum2Suites TV.charts.invoice.heat, \
+          sumSuiteFromArray pactions, 'invoiceHeat'
       }
     ]
 
@@ -113,12 +114,12 @@ ChartFct =
       {
         name: TAPi18n.__ 'investment_raw'
         style: 'action darkgray'
-        data: sumSuiteFromArray rxPlannedActions, 'investmentSuite'
+        data: sumSuiteFromArray rxPlannedActions, 'investment'
       }
       {
         name: TAPi18n.__ 'investment_minus_subventions'
         style: 'action gray'
-        data: sumSuiteFromArray rxPlannedActions, 'investmentSubventionedSuite'
+        data: sumSuiteFromArray rxPlannedActions, 'investmentSubventioned'
       }
     ]
 

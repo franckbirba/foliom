@@ -19,7 +19,7 @@
       ticks: []
       budget: []
       consumption: water: [], co2: [], kwh: []
-      expense: water: [], electricity: [], frost: [], heat: []
+      invoice: water: [], electricity: [], frost: [], heat: []
     @currentFilter = null
   scenario: null
   buildings: []
@@ -164,7 +164,7 @@
     ticks: []
     budget: []
     consumption: water: [], co2: [], kwh: []
-    expense: water: [], electricity: [], frost: [], heat: []
+    invoice: water: [], electricity: [], frost: [], heat: []
   ###*
    * Iterator function that creates ticks (labels used in the chart's xAxis)
    * for each quarter.
@@ -231,10 +231,10 @@
     @charts.consumption.water.push cons_water
     @charts.consumption.co2.push cons_co2
     @charts.consumption.kwh.push cons_kwh
-    @charts.expense.water.push exp_water
-    @charts.expense.electricity.push exp_elec
-    @charts.expense.frost.push exp_frost
-    @charts.expense.heat.push exp_heat
+    @charts.invoice.water.push exp_water
+    @charts.invoice.electricity.push exp_elec
+    @charts.invoice.frost.push exp_frost
+    @charts.invoice.heat.push exp_heat
   ###*
    * Iterates over quarters for calculating ticks, budget and consumption.
   ###
@@ -321,32 +321,60 @@
         paction.action.works_duration, 'M'
       paction.end = paction.endWork.clone().add \
         paction.action.action_lifetime, 'Y'
-      paction.investmentSuite = []
-      paction.investmentSubventionedSuite = []
-      paction.consumptionCo2ModifierSuite = []
-      paction.consumptionKwhModifierSuite = []
+      # Reset former calculations
+      paction.consumptionWater = []
+      paction.consumptionCo2 = []
+      paction.consumptionKwh = []
+      paction.invoiceWater = []
+      paction.invoiceElectricity = []
+      paction.invoiceFrost = []
+      paction.invoiceHeat = []
+      paction.investment = []
+      paction.investmentSubventioned = []
       # Iterate over the scenario duration
       quarter = @minDate.clone()
       nextQuarter = quarter.clone().add 1, 'Q'
       investment = 0
       investmentSubventioned = 0
-      consumptionCo2Modifier = 0
-      consumptionKwhModifier = 0
+      consumption = 0
+      invoice = 0
+
+      # Check fluid type
+      # @PEM
+
       while quarter.isBefore @maxDate
+        # Investment starts when work on action begins
         if paction.start.isBetween quarter, nextQuarter
           # @TODO Removed?
           #investment = paction.action.investment.cost
           #investmentSubventioned = paction.action.subventions.residual_cost
           investment = 2.4
           investmentSubventioned = 1.5
+
+        # Results of an action on consumption starts when action is done
         if paction.endWork.isBetween quarter, nextQuarter
           # @TODO Fake modifiers
-          consumptionCo2Modifier = -.5
-          consumptionKwhModifier = -1
-        paction.investmentSuite.push investment
-        paction.investmentSubventionedSuite.push investmentSubventioned
-        paction.consumptionCo2ModifierSuite.push consumptionCo2Modifier
-        paction.consumptionKwhModifierSuite.push consumptionKwhModifier
+          consumption = -.5
+          invoice = -1000
+
+
+        paction.investment.push investment
+        paction.investmentSubventioned.push investmentSubventioned
+
+        # @PEM ToDO: Depends on fluid type
+        paction.consumptionWater.push consumption
+        paction.consumptionCo2.push consumption
+        paction.consumptionKwh.push consumption
+
+        # @PEM ToDo: Depends on fluid type and consumption
+        paction.invoiceWater.push invoice
+        paction.invoiceElectricity.push invoice
+        paction.invoiceFrost.push invoice
+        paction.invoiceHeat.push invoice
+
+
+
+
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
