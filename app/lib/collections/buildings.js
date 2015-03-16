@@ -155,5 +155,33 @@ Buildings.attachSchema(new SimpleSchema({
     autoform: {
       omit: true
     }
-  }
+  },
+  properties: {
+    type: Object,
+    optional: true,
+    autoform: {
+      omit: true
+    }
+  },
+  'properties.leases_calc': {
+    type: Object,
+    optional: true,
+    autoform: {
+      omit: true
+    }
+  },
+  'properties.leases_calc.largest_area_num': {
+    type: Number,
+    optional: true,
+    autoform: {
+      omit: true
+    }
+  },
+  'properties.leases_calc.largest_area_lease': {
+    type: String,
+    optional: true,
+    autoform: {
+      omit: true
+    }
+  },
 }));
