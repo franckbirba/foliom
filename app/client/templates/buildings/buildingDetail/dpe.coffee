@@ -90,7 +90,6 @@ Template.dpe.rendered = ->
       parseDpeGesScale("dpe", lease_dpe_data.dpe_type, dpeValue)
 
 
-
       # Get the indices
       dpeIncide = switch
         when dpeValue <= 50  then 'A'
