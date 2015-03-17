@@ -1,3 +1,32 @@
+@parseDpeGesScale = (dpe_or_ges, dpe_type, dpeValue) ->
+  console.log "in parseDpeGesScale"
+  console.log "dpe_type is #{dpe_type}"
+
+  pattern1 = /// #Looking for a string which looks like "51 - 90"
+    (\d+) #First number
+    \s-\s # the - (in between 2 spaces)
+    (\d+) #Second number
+  ///
+
+  var1 = "51 - 90".match(pattern1)[1..3]
+  # var2 = "≤ 50".match(pattern1)[1..3]
+  var2 = "≤ 50".match(pattern1)
+  console.log "test is #{var1}"
+  console.log "test is #{var2}"
+
+  for item in dpe_scale[dpe_type][dpe_or_ges] #In the dpe_scale, get the type, then the dpe or ges scale. Then, we go through the values
+    console.log item.label.match(pattern1)
+    if item.label.match(pattern1)?.length > 0 #only keep cases when there's a match
+      matchArray = item.label.match(pattern1)[1..3]
+      console.log dpeValue
+      console.log Number(matchArray[0])
+      console.log Number(matchArray[1])
+      console.log "dpeValue: #{dpeValue} - matchArray[0]: #{matchArray[0]} - matchArray[1]: #{matchArray[1]}"
+      if Number(matchArray[0]) <= dpeValue <= Number(matchArray[1])
+        console.log "letter is #{item.letter}"
+    else console.log "null :("
+
+
 @dpe_scale =
   housing:
     dpe: [
