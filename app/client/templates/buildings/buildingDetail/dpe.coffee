@@ -86,8 +86,10 @@ Template.dpe.rendered = ->
           .attr "fill", (d)-> d.textColor
 
 
-      # Fake value
-      dpeValue = 240
+      dpeValue = lease_dpe_data.dpe_energy_consuption.value
+      parseDpeGesScale("dpe", lease_dpe_data.dpe_type, dpeValue)
+
+
       # Get the indices
       dpeIncide = switch
         when dpeValue <= 50  then 'A'
