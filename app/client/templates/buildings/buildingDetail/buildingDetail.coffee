@@ -1,7 +1,7 @@
 Template.buildingDetail.created = ->
   instance = this
   instance.waterFluids = new ReactiveVar([])
-  instance.dpe_ges_data = new ReactiveVar([])
+  instance.lease_dpe_ges_data = new ReactiveVar([])
 
   Session.set("current_lease_id", null) #Reset the var session associated to the Selector
 
@@ -32,10 +32,10 @@ Template.buildingDetail.created = ->
   ### ------------------------------ ###
   #  Create data for the DPE barchart
   ### ------------------------------ ###
-  dpe_ges_data = Template.instance().dpe_ges_data.get()
+  lease_dpe_ges_data = Template.instance().lease_dpe_ges_data.get()
 
   for lease in @data.allLeases
-    dpe_ges_data.push
+    lease_dpe_ges_data.push
       lease_name: lease.lease_name
       lease_id: lease._id
       surface: lease.area_by_usage
@@ -43,9 +43,9 @@ Template.buildingDetail.created = ->
       dpe_energy_consuption: lease.dpe_energy_consuption
       dpe_co2_emission: lease.dpe_co2_emission
 
-  console.log "dpe_ges_data is"
-  console.log dpe_ges_data
-  Template.instance().dpe_ges_data.set(dpe_ges_data)
+  console.log "lease_dpe_ges_data is"
+  console.log lease_dpe_ges_data
+  Template.instance().lease_dpe_ges_data.set(lease_dpe_ges_data)
   ### ------------ ###
 
   ### ------------------------------ ###
@@ -96,10 +96,10 @@ Template.buildingDetail.helpers
     result = Leases.find({ building_id: Session.get('current_building_doc')._id }, sort: lease_name: 1).fetch()
     result
   dpe_ges_dataH: ->
-    dpe_ges_data = Template.instance().dpe_ges_data.get() #get all DPE_GES DATA
+    lease_dpe_ges_data = Template.instance().lease_dpe_ges_data.get() #get all DPE_GES DATA
     if Session.get('current_lease_id')?
-      correctData = _.where(dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
-    else dpe_ges_data[0]
+      correctData = _.where(lease_dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
+    else lease_dpe_ges_data[0]
       #@BSE: TO DO ([0] for the moment)
 
   getCertificates: ->
