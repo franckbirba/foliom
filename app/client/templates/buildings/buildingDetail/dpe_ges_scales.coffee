@@ -2,31 +2,54 @@
   console.log "in parseDpeGesScale"
   console.log "dpe_type is #{dpe_type}"
 
-  pattern1 = /// #Looking for a string which looks like "51 - 90"
+  pattern_inferior = /// #Looking for a string which looks like "≤ 50"
+    (?:≤\s|<\s) # either a "≤ " or a "< " // we use a group and escape it with "?:"
+    (\d+) #Second number
+  ///
+
+  pattern_dash = /// #Looking for a string which looks like "51 - 90"
     (\d+) #First number
     \s-\s # the - (in between 2 spaces)
     (\d+) #Second number
   ///
 
-  var1 = "51 - 90".match(pattern1)[1..3]
+  # pattern_superior = /// #Looking for a string which looks like "51 - 90"
+  #   (\d+) #First number
+  #   \s-\s # the - (in between 2 spaces)
+  #   (\d+) #Second number
+  # ///
+
+  # var1 = "51 - 90".match(pattern1)[1..3]
   # var2 = "≤ 50".match(pattern1)[1..3]
-  var2 = "≤ 50".match(pattern1)
-  console.log "test is #{var1}"
-  console.log "test is #{var2}"
+  # var2 = "≤ 50".match(pattern1)
+  # console.log "test is #{var1}"
+  # console.log "test is #{var2}"
+
+  dpe_letter = ""
 
   for item in dpe_scale[dpe_type][dpe_or_ges] #In the dpe_scale, get the type, then the dpe or ges scale.
     # Now we go through all the values
-    # console.log item.label.match(pattern1)
-    if item.label.match(pattern1)?.length > 0 #only keep cases when there's a match
-      matchArray = item.label.match(pattern1)[1..3]
-      # console.log dpeValue
-      # console.log Number(matchArray[0])
-      # console.log Number(matchArray[1])
-      # console.log "dpeValue: #{dpeValue} - matchArray[0]: #{matchArray[0]} - matchArray[1]: #{matchArray[1]}"
-      if Number(matchArray[0]) <= dpeValue <= Number(matchArray[1])
-        console.log "letter is #{item.letter}"
-    else console.log "null :("
 
+    match_result_inf = item.label.match(pattern_inferior)
+    match_result_dash = item.label.match(pattern_dash)
+    # match_result_sup = item.label.match(pattern_sup)
+
+    if match_result_inf?.length > 0 #only keep cases when there's a match
+      matchArray = match_result_inf[1]
+      if Number(matchArray[0]) <= dpeValue
+        dpe_letter = item.letter
+
+    else if match_result_dash?.length > 0 #only keep cases when there's a match
+      matchArray = match_result_dash[1..2]
+      if Number(matchArray[0]) <= dpeValue <= Number(matchArray[1])
+        dpe_letter = item.letter
+
+    # else if item.label.match(pattern_dash)?.length > 0 #only keep cases when there's a match
+    #   matchArray = item.label.match(pattern1)[1..2]
+    #   if Number(matchArray[0]) <= dpeValue <= Number(matchArray[1])
+    #     dpe_letter = item.letter
+
+  console.log "dpe_letter is #{dpe_letter}"
 
 @dpe_scale =
   housing:
