@@ -13,6 +13,8 @@ Leases.find().observeChanges
     #   $set: {'estate_properties.technical_compliance_categoriesList': unique_names}
     # }
 
+
+    # ALERTS
     alerts = _.where(fields.conformity_information, {diagnostic_alert: true})
 
     if alerts.length > 0
@@ -33,4 +35,56 @@ Leases.find().observeChanges
             building_id: building_id
 
           Messages.upsert {time: today, message: msgTxt, building_id: building_id}, {$set: msgContent}
+
+
+Leases.find().observe
+  changed: (doc) ->
+    computeAverages(doc)
+  added: (doc) ->
+    computeAverages(doc)
+
+
+ computeAverages = (document) ->
+  console.log "I LOVE BEER"
+  doc_buiding_id = document.building_id
+  allLeases = Leases.find({building_id:doc_buiding_id}).fetch()
+  lease_dpe_ges_data = []
+
+  # BUILDINGS - AGGLOMERATE
+
+  # Averaged area (from all leases)
+  areaArray = _.pluck allLeases, 'area_by_usage' # Result ex: [700, 290]
+  areaSum = areaArray.reduce (prev, current) -> prev + current
+
+  # AvgDpeEnergy & AvgCo2Consumption
+  for lease in allLeases
+    lease_dpe_ges_data.push
+      surface: lease.area_by_usage
+      dpe_type: lease.dpe_type
+      dpe_energy_consuption: lease.dpe_energy_consuption
+      dpe_co2_emission: lease.dpe_co2_emission
+
+  # get type from lease with max Area
+  leaseWithMaxArea = _.max lease_dpe_ges_data, (lease) -> lease.surface
+  # create averaged dpe value
+  dpeEnergyConsuptionAverage = _.reduce lease_dpe_ges_data, ((memo, data) ->
+    data.dpe_energy_consuption.value * data.surface + memo), 0
+  dpeEnergyConsuptionAverage /= areaSum
+  # create averaged ges value
+  dpeCo2EmissionAverage = _.reduce lease_dpe_ges_data, ((memo, data) ->
+    data.dpe_co2_emission.value * data.surface + memo), 0
+  dpeCo2EmissionAverage /= areaSum
+
+  merged_dpe_ges_data =
+    dpe_type: leaseWithMaxArea.dpe_type
+    dpe_energy_consuption:
+      value: dpeEnergyConsuptionAverage
+    dpe_co2_emission:
+      value: dpeCo2EmissionAverage
+
+  Buildings.update { _id: doc_buiding_id },
+    { $set: {
+      'properties.leases_averages.merged_dpe_ges_data': merged_dpe_ges_data,
+      'properties.leases_averages.area_sum': areaSum
+    }}
 

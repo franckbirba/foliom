@@ -1,7 +1,8 @@
 Template.buildingDetail.created = ->
   instance = this
   instance.waterFluids = new ReactiveVar([])
-  instance.dpe_ges_data = new ReactiveVar([])
+  instance.lease_dpe_ges_data = new ReactiveVar([])
+  instance.merged_dpe_ges_data = new ReactiveVar([]) #Result of all Leases DPE_GES Data
 
   Session.set("current_lease_id", null) #Reset the var session associated to the Selector
 
@@ -30,31 +31,9 @@ Template.buildingDetail.created = ->
 
 
   ### ------------------------------ ###
-  #  Create data for the DPE barchart
-  ### ------------------------------ ###
-  dpe_ges_data = Template.instance().dpe_ges_data.get()
-
-  for lease in @data.allLeases
-    dpe_ges_data.push
-      lease_name: lease.lease_name
-      lease_id: lease._id
-      surface: lease.area_by_usage
-      dpe_type: lease.dpe_type
-      dpe_energy_consuption: lease.dpe_energy_consuption
-      dpe_co2_emission: lease.dpe_co2_emission
-
-  console.log "dpe_ges_data is"
-  console.log dpe_ges_data
-  Template.instance().dpe_ges_data.set(dpe_ges_data)
-  ### ------------ ###
-
-  ### ------------------------------ ###
   #  Data for the averages
   ### ------------------------------ ###
   #Averaged area (from all leases)
-  areaArray = _.pluck @data.allLeases, 'area_by_usage' #Result ex: [700, 290]
-  @data.areaSum = areaArray.reduce (prev, current) -> prev + current
-
   @data.av_waterConsumption = {}
 
   average_water_data = (waterFluids, areaSum, param) =>
@@ -79,12 +58,35 @@ Template.buildingDetail.created = ->
 
     av_array.reduce (prev, current) -> prev + current #one-liner to reduce the array
 
+  areaSum = @data.properties.leases_averages.area_sum
+  @data.av_waterConsumption.av_yearly_cost = average_water_data(waterFluids, areaSum, 'yearly_cost')
+  @data.av_waterConsumption.av_m3 = average_water_data(waterFluids, areaSum, 'm3')
+  @data.av_waterConsumption.av_m3_by_m2 = average_water_data(waterFluids, areaSum, 'm3/m2')
+  @data.av_waterConsumption.av_euro_by_m3 = average_water_data(waterFluids, areaSum, '€/m3')
+  @data.av_waterConsumption.av_m3_by_pers = average_water_data(waterFluids, areaSum, 'm3/pers')
 
-  @data.av_waterConsumption.av_yearly_cost = average_water_data(waterFluids, @data.areaSum, 'yearly_cost')
-  @data.av_waterConsumption.av_m3 = average_water_data(waterFluids, @data.areaSum, 'm3')
-  @data.av_waterConsumption.av_m3_by_m2 = average_water_data(waterFluids, @data.areaSum, 'm3/m2')
-  @data.av_waterConsumption.av_euro_by_m3 = average_water_data(waterFluids, @data.areaSum, '€/m3')
-  @data.av_waterConsumption.av_m3_by_pers = average_water_data(waterFluids, @data.areaSum, 'm3/pers')
+
+  ### ------------------------------ ###
+  #  Create data for the DPE barchart
+  ### ------------------------------ ###
+  lease_dpe_ges_data = instance.lease_dpe_ges_data.get()
+
+  for lease in @data.allLeases
+    lease_dpe_ges_data.push
+      lease_name: lease.lease_name
+      lease_id: lease._id
+      surface: lease.area_by_usage
+      dpe_type: lease.dpe_type
+      dpe_energy_consuption: lease.dpe_energy_consuption
+      dpe_co2_emission: lease.dpe_co2_emission
+
+  console.log "lease_dpe_ges_data is", lease_dpe_ges_data
+  #console.log "merged_dpe_ges_data is", merged_dpe_ges_data
+
+  instance.lease_dpe_ges_data.set(lease_dpe_ges_data)
+  instance.merged_dpe_ges_data.set(@data.properties.leases_averages.merged_dpe_ges_data)
+  ### ------------ ###
+
 
   console.log "@data is"
   console.log @data
@@ -96,11 +98,12 @@ Template.buildingDetail.helpers
     result = Leases.find({ building_id: Session.get('current_building_doc')._id }, sort: lease_name: 1).fetch()
     result
   dpe_ges_dataH: ->
-    dpe_ges_data = Template.instance().dpe_ges_data.get() #get all DPE_GES DATA
+    lease_dpe_ges_data = Template.instance().lease_dpe_ges_data.get() #get all lease DPE_GES DATA
+    merged_dpe_ges_data = Template.instance().merged_dpe_ges_data.get() #get merged DPE_GES DATA
     if Session.get('current_lease_id')?
-      correctData = _.where(dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
-    else dpe_ges_data[0]
-      #@BSE: TO DO ([0] for the moment)
+      correctData = _.where(lease_dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
+    else merged_dpe_ges_data
+
 
   getCertificates: ->
     if Session.get('current_lease_id')?

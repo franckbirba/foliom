@@ -4,3 +4,16 @@
 @buildingName_fromLeaseId = (id) ->
   building_id = buildingId_fromLeaseId(id)
   building_name = Buildings.findOne({_id:building_id}, {fields: {building_name: 1}}).building_name
+
+
+
+# UTILITIES
+
+#Check if var is an array or not
+typeIsArray = ( value ) ->
+  value and
+    typeof value is 'object' and
+    value instanceof Array and
+    typeof value.length is 'number' and
+    typeof value.splice is 'function' and
+    not ( value.propertyIsEnumerable 'length' )
