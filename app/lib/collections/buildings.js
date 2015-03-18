@@ -163,22 +163,23 @@ Buildings.attachSchema(new SimpleSchema({
       omit: true
     }
   },
-  'properties.leases_calc': {
+  'properties.leases_averages': {
     type: Object,
     optional: true,
     autoform: {
       omit: true
     }
   },
-  'properties.leases_calc.largest_area_num': {
-    type: Number,
+  'properties.leases_averages.merged_dpe_ges_data': {
+    type: Object,
     optional: true,
+    blackbox: true,
     autoform: {
       omit: true
     }
   },
-  'properties.leases_calc.largest_area_lease': {
-    type: String,
+  'properties.leases_averages.area_sum': {
+    type: Number,
     optional: true,
     autoform: {
       omit: true

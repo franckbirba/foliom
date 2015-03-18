@@ -73,7 +73,6 @@ Template.buildingDetail.created = ->
   #  Create data for the DPE barchart
   ### ------------------------------ ###
   lease_dpe_ges_data = instance.lease_dpe_ges_data.get()
-  merged_dpe_ges_data = instance.merged_dpe_ges_data.get()
 
   for lease in @data.allLeases
     lease_dpe_ges_data.push
@@ -84,29 +83,11 @@ Template.buildingDetail.created = ->
       dpe_energy_consuption: lease.dpe_energy_consuption
       dpe_co2_emission: lease.dpe_co2_emission
 
-  # get type from lease with max Area
-  leaseWithMaxArea = _.max lease_dpe_ges_data, (lease) -> lease.surface
-  # create averaged dpe value
-  dpeEnergyConsuptionAverage = _.reduce lease_dpe_ges_data, ((memo, data) ->
-    data.dpe_energy_consuption.value * data.surface + memo), 0
-  dpeEnergyConsuptionAverage /= @data.areaSum
-  # create averaged ges value
-  dpeCo2EmissionAverage = _.reduce lease_dpe_ges_data, ((memo, data) ->
-    data.dpe_co2_emission.value * data.surface + memo), 0
-  dpeCo2EmissionAverage /= @data.areaSum
-
-  merged_dpe_ges_data =
-    dpe_type: leaseWithMaxArea.dpe_type
-    dpe_energy_consuption:
-      value: dpeEnergyConsuptionAverage
-    dpe_co2_emission:
-      value: dpeCo2EmissionAverage
-
   console.log "lease_dpe_ges_data is", lease_dpe_ges_data
-  console.log "merged_dpe_ges_data is", merged_dpe_ges_data
+  #console.log "merged_dpe_ges_data is", merged_dpe_ges_data
 
   instance.lease_dpe_ges_data.set(lease_dpe_ges_data)
-  instance.merged_dpe_ges_data.set(merged_dpe_ges_data)
+  #instance.merged_dpe_ges_data.set(merged_dpe_ges_data)
   ### ------------ ###
 
 
