@@ -1,5 +1,4 @@
 @parseDpeGesScale = (dpe_or_ges, dpe_type, dpeValue) ->
-  console.log "in parseDpeGesScale"
   console.log "dpe_type is #{dpe_type}"
 
   pattern_inferior = /// #Looking for a string which looks like "≤ 50"

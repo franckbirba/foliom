@@ -12,8 +12,6 @@ Template.dpe.rendered = ->
       # @TODO Perform some calculations
 
       dpeData = dpe_scale[lease_dpe_data.dpe_type].dpe
-      console.log "dpeData is"
-      console.log dpeData
 
       width = 220
       height = 220
