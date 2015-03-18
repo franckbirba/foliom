@@ -105,7 +105,8 @@ Template.buildingDetail.created = ->
   console.log "lease_dpe_ges_data is", lease_dpe_ges_data
   console.log "merged_dpe_ges_data is", merged_dpe_ges_data
 
-  Template.instance().lease_dpe_ges_data.set(lease_dpe_ges_data)
+  instance.lease_dpe_ges_data.set(lease_dpe_ges_data)
+  instance.merged_dpe_ges_data.set(merged_dpe_ges_data)
   ### ------------ ###
 
 
@@ -119,11 +120,12 @@ Template.buildingDetail.helpers
     result = Leases.find({ building_id: Session.get('current_building_doc')._id }, sort: lease_name: 1).fetch()
     result
   dpe_ges_dataH: ->
-    lease_dpe_ges_data = Template.instance().lease_dpe_ges_data.get() #get all DPE_GES DATA
+    lease_dpe_ges_data = Template.instance().lease_dpe_ges_data.get() #get all lease DPE_GES DATA
+    merged_dpe_ges_data = Template.instance().merged_dpe_ges_data.get() #get merged DPE_GES DATA
     if Session.get('current_lease_id')?
       correctData = _.where(lease_dpe_ges_data, lease_id: Session.get('current_lease_id'))[0]
-    else lease_dpe_ges_data[0]
-      #@BSE: TO DO ([0] for the moment)
+    else merged_dpe_ges_data
+
 
   getCertificates: ->
     if Session.get('current_lease_id')?
