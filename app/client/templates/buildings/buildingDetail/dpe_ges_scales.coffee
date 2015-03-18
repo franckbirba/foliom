@@ -3,8 +3,8 @@
   console.log "dpe_type is #{dpe_type}"
 
   pattern_inferior = /// #Looking for a string which looks like "≤ 50"
-    (?:≤\s|<\s) # either a "≤ " or a "< " // we use a group and escape it with "?:"
-    (\d+) #Second number
+    ≤\s # "≤ "// note that if we wanted to have a double check we could use a group + pipe + escape it with "?:"
+    (\d+) #Number
   ///
 
   pattern_dash = /// #Looking for a string which looks like "51 - 90"
@@ -13,17 +13,10 @@
     (\d+) #Second number
   ///
 
-  # pattern_superior = /// #Looking for a string which looks like "51 - 90"
-  #   (\d+) #First number
-  #   \s-\s # the - (in between 2 spaces)
-  #   (\d+) #Second number
-  # ///
-
-  # var1 = "51 - 90".match(pattern1)[1..3]
-  # var2 = "≤ 50".match(pattern1)[1..3]
-  # var2 = "≤ 50".match(pattern1)
-  # console.log "test is #{var1}"
-  # console.log "test is #{var2}"
+  pattern_superior = /// #Looking for a string which looks like "> 450"
+    >\s # "> "
+    (\d+) #Number
+  ///
 
   dpe_letter = ""
 
@@ -32,7 +25,7 @@
 
     match_result_inf = item.label.match(pattern_inferior)
     match_result_dash = item.label.match(pattern_dash)
-    # match_result_sup = item.label.match(pattern_sup)
+    match_result_sup = item.label.match(pattern_superior)
 
     if match_result_inf?.length > 0 #only keep cases when there's a match
       matchArray = match_result_inf[1]
@@ -44,10 +37,10 @@
       if Number(matchArray[0]) <= dpeValue <= Number(matchArray[1])
         dpe_letter = item.letter
 
-    # else if item.label.match(pattern_dash)?.length > 0 #only keep cases when there's a match
-    #   matchArray = item.label.match(pattern1)[1..2]
-    #   if Number(matchArray[0]) <= dpeValue <= Number(matchArray[1])
-    #     dpe_letter = item.letter
+    else if match_result_sup?.length > 0 #only keep cases when there's a match
+      matchArray = match_result_sup[1]
+      if Number(matchArray[0]) > dpeValue
+        dpe_letter = item.letter
 
   console.log "dpe_letter is #{dpe_letter}"
 
