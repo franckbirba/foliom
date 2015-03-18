@@ -1,5 +1,5 @@
 @parseDpeGesScale = (dpe_or_ges, dpe_type, dpeValue) ->
-  console.log "dpe_type is #{dpe_type}"
+  dpeValue = Math.floor(dpeValue)
 
   pattern_inferior = /// #Looking for a string which looks like "≤ 50"
     ≤\s # "≤ "// note that if we wanted to have a double check we could use a group + pipe + escape it with "?:"
