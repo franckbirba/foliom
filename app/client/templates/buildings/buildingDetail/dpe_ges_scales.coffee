@@ -42,7 +42,7 @@
       if Number(match) < dpeValue
         dpe_letter = item.letter
 
-  console.log "dpe_letter is #{dpe_letter}"
+  dpe_letter #return letter
 
 @dpe_scale =
   housing:

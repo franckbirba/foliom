@@ -87,18 +87,18 @@ Template.dpe.rendered = ->
 
 
       dpeValue = lease_dpe_data.dpe_energy_consuption.value
-      parseDpeGesScale("dpe", lease_dpe_data.dpe_type, dpeValue)
+      dpeLetter = parseDpeGesScale("dpe", lease_dpe_data.dpe_type, dpeValue)
 
 
       # Get the indices
-      dpeIncide = switch
-        when dpeValue <= 50  then 'A'
-        when dpeValue <= 90  then 'B'
-        when dpeValue <= 150 then 'C'
-        when dpeValue <= 230 then 'D'
-        when dpeValue <= 330 then 'E'
-        when dpeValue <= 450 then 'F'
-        else 'G'
+      # dpeIncide = switch
+      #   when dpeValue <= 50  then 'A'
+      #   when dpeValue <= 90  then 'B'
+      #   when dpeValue <= 150 then 'C'
+      #   when dpeValue <= 230 then 'D'
+      #   when dpeValue <= 330 then 'E'
+      #   when dpeValue <= 450 then 'F'
+      #   else 'G'
       # Set the appropriate indice in the chart
-      dpe = $ ".dpe-path-#{dpeIncide}"
+      dpe = $ ".dpe-path-#{dpeLetter}"
       dpe.attr 'fill', COLORS[0]
