@@ -88,41 +88,43 @@ ChartFct =
       }
     ]
 
+###*
+ * Set the template created callback for creating the reactive vars.
+###
 Template.timelineD3Chart.created = ->
   @rxDisplayLegend = new ReactiveVar
   @rxDisplayLegend.set true
 
 ###*
- * Set the template rendered callback.
+ * Set the template rendered callback for creating the charts and their
+ * behavior once the reactive vars are modified.
 ###
 Template.timelineD3Chart.rendered = ->
-  # @TODO Check if 'this' enforcement is required
   chartFct = ChartFct[@data.chartName]
-
-
-  chart = new D3LineChart "[data-chart='#{@data.chartName}']", \
-    @rxDisplayLegend.get()
-  chart.setData chartFct()
-
-  Meteor.setTimeout =>
-    btn = @$ '.showhide-legend'
-    console.log 'Btn', btn
-    btn.on 'click', (e, t) =>
-      console.log 'Clicked', @, e, t
-  , 0
-
-
+  # An autorun is used for drawing the chart as its layout may change
+  #  when the legend show/hide button is toggled.
+  @autorun (computation) =>
+    displayChart = @rxDisplayLegend.get()
+    # When the chart needs to be redrawn for legeng toggling, the former
+    #  content needs to be removed from the screen.
+    unless computation.firstRun
+      # Remove the former chart and the associated event.
+      (@$ "[data-chart='#{@data.chartName}']").empty()
+    @chart = new D3LineChart "[data-chart='#{@data.chartName}']", displayChart
+    @chart.setData chartFct()
+    # Meteor's event helper is not used here as the charts are rendered
+    #  after the template rendering. Thus, the event assignement is done
+    #  on the next requestAnimationFrame.
+    Meteor.setTimeout =>
+      (@$ '.showhide-legend').on 'click', =>
+        @rxDisplayLegend.set not @rxDisplayLegend.get()
+    , 0
   # Update chart when reactive variables change
   # NOTE: We use the computation on the Template.Tracker for avoiding
   # the first call to the chart's update.
-  @autorun (computation) ->
+  @autorun (computation) =>
     rxPlannedActions = TV.rxPlannedActions.get()
-    chart.updateData chartFct() unless computation.firstRun
-
-Template.timelineD3Chart.helpers
-  'click .showhide-legend': (e, t) ->
-    t.rxDisplayLegend.set not t.rxDisplayLegend.get()
-    console.log 'Show Hide', @date.chartName, t.rxDisplayLegend.get()
+    @chart.updateData chartFct() unless computation.firstRun
 
 ###*
  * Create an Array of the provided size filled with 0.

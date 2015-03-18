@@ -29,6 +29,8 @@ class @D3LineChart
     @lines = []
     # Add an SVG element with the desired dimensions and margin.
     @graph = d3.select @svgContainer
+      .append 'div'
+        .attr 'class', 'animated fadeIn'
       .append 'svg:svg'
       # Make SVG responsive
       .attr 'preserveAspectRatio', 'xMinYMin meet'
