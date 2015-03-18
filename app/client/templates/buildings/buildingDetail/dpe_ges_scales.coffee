@@ -28,8 +28,8 @@
     match_result_sup = item.label.match(pattern_superior)
 
     if match_result_inf?.length > 0 #only keep cases when there's a match
-      matchArray = match_result_inf[1]
-      if Number(matchArray[0]) <= dpeValue
+      match = match_result_inf[1]
+      if dpeValue <= Number(match)
         dpe_letter = item.letter
 
     else if match_result_dash?.length > 0 #only keep cases when there's a match
@@ -38,8 +38,8 @@
         dpe_letter = item.letter
 
     else if match_result_sup?.length > 0 #only keep cases when there's a match
-      matchArray = match_result_sup[1]
-      if Number(matchArray[0]) > dpeValue
+      match = match_result_sup[1]
+      if Number(match) < dpeValue
         dpe_letter = item.letter
 
   console.log "dpe_letter is #{dpe_letter}"
@@ -74,7 +74,7 @@
       { "label": "331 - 450", "letter": "F", "color" : "#888a85", "textColor":"black", "value": 80 },
       { "label": "451 - 590", "letter": "G", "color" : "#555753", "textColor":"white", "value": 90 },
       { "label": "591 - 750", "letter": "H", "color" : "#4d4d4d", "textColor":"white", "value": 100 },
-      { "label": "≥ 750", "letter": "I", "color" : "#333", "textColor":"white", "value": 110 }
+      { "label": "> 750", "letter": "I", "color" : "#333", "textColor":"white", "value": 110 }
     ]
     ges: [
       { "label": "≤ 5", "letter": "A", "color" : "#ccc", "textColor":"white", "value": 30 },
