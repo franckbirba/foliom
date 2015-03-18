@@ -40,12 +40,11 @@ Leases.find().observeChanges
 Leases.find().observe
   changed: (doc) ->
     computeAverages(doc)
-  added: (doc) ->
-    computeAverages(doc)
+#   added: (doc) ->
+#     computeAverages(doc)
 
 
- computeAverages = (document) ->
-  console.log "I LOVE BEER"
+computeAverages = (document) ->
   doc_buiding_id = document.building_id
   allLeases = Leases.find({building_id:doc_buiding_id}).fetch()
   lease_dpe_ges_data = []
