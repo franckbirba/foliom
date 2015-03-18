@@ -5,21 +5,24 @@ class @D3LineChart
   ###*
    * C-tor
    * @param  {String} @svgContainer DOM container with a .d3-svg-container
+   * @param  {Boolean} @showLegend  Show or hide the legend, default to true
    * @param  {Object} @margin       Margins as an Object of Number
    *                                with top, right, bottom, left keys,
-   *                                default to { top: 10, right: 30,
-   *                                bottom: 20, left: 30 }
+   *                                default to { top: 10, right: 15,
+   *                                bottom: 20, left: 30, righLegend = 180}
    * @param  {Number} @svgWidth     Width of the SVG, default to 490
-   * @param  {Number} @svgHeight    Heigh of the SVG, default to 195
+   * @param  {Number} @svgHeight    Heigh of the SVG, default to 160
   ###
   constructor: (
     @svgContainer,
-    @margin = { top: 10, right: 15, bottom: 20, left: 45 },
+    @showLegend = true,
+    @margin = { top: 10, right: 15, bottom: 20, left: 45, rightLegend: 180 },
     @svgWidth = 750,
-    @svgHeight = 161
+    @svgHeight = 160
   ) ->
     # Graph's width
-    @graphWidth = @svgWidth - @margin.left - @margin.right
+    @graphWidth = @svgWidth - @margin.left - \
+      if @showLegend then @margin.rightLegend else @margin.right
     # Graph's height
     @graphHeight = @svgHeight - @margin.top - @margin.bottom
     # Chart's display functions
@@ -97,17 +100,18 @@ class @D3LineChart
    * @param {String} style Legend's style.
   ###
   _setLegend: (name, style) ->
-    @graph.append 'circle'
-      .attr 'class', "legend #{style}"
-      .attr 'r', 4
-      .attr 'cx', @graphWidth - 200
-      .attr 'cy', @nbLegend * 12 + 16
-    @graph.append 'text'
-      .attr 'class', "legend #{style}"
-      .attr 'x', @graphWidth - 190
-      .attr 'y', @nbLegend * 12 + 20
-      .text name
-    @nbLegend++
+    if @showLegend
+      @graph.append 'circle'
+        .attr 'class', "legend #{style}"
+        .attr 'r', 4
+        .attr 'cx', @svgWidth - 215
+        .attr 'cy', @nbLegend * 12 + 16
+      @graph.append 'text'
+        .attr 'class', "legend #{style}"
+        .attr 'x', @svgWidth - 205
+        .attr 'y', @nbLegend * 12 + 20
+        .text name
+      @nbLegend++
   ###*
    * Set the chart line and store the line function as a line member.
    * @param {Array} arr Array of Number.
@@ -170,6 +174,15 @@ class @D3LineChart
         .attr 'width', 20
         .attr 'height', 40
   ###*
+   * Create a show / hide button usable by a reactive helper.
+  ###
+  _createShowHideLegend: ->
+    @graph.append 'text'
+      .attr 'class', 'showhide-legend'
+      .attr 'x', @svgWidth - @margin.left - 18
+      .attr 'y', 0
+      .text if @showLegend then '' else ''  # Eyes are UTF8 from FontAwesome
+  ###*
    * Set data for each lines.
    * @param {Object} obj An Object describing each chart.
   ###
@@ -177,6 +190,8 @@ class @D3LineChart
     # Display axis
     @_setXAxis obj.chartName, obj.quarters
     @_setYAxis obj.unit, _.flatten(_.pluck obj.series, 'data')
+    # Display the show / hide button
+    @_createShowHideLegend()
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
       do (name=dataObj.name, data=dataObj.data, style=dataObj.style) =>

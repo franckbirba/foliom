@@ -31,10 +31,10 @@ natestrauser:select2
 reactive-var
 harrison:papa-parse
 forwarder:autoform-wizard
-ian:accounts-ui-bootstrap-3
 mquandalle:stylus
-cfs:gridfs
 cfs:standard-packages
 aldeed:simple-schema
 yogiben:autoform-file
 msavin:mongol
+ian:accounts-ui-bootstrap-3
+cfs:gridfs
