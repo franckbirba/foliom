@@ -34,9 +34,6 @@ Template.buildingDetail.created = ->
   #  Data for the averages
   ### ------------------------------ ###
   #Averaged area (from all leases)
-  areaArray = _.pluck @data.allLeases, 'area_by_usage' #Result ex: [700, 290]
-  @data.areaSum = areaArray.reduce (prev, current) -> prev + current
-
   @data.av_waterConsumption = {}
 
   average_water_data = (waterFluids, areaSum, param) =>
@@ -61,12 +58,12 @@ Template.buildingDetail.created = ->
 
     av_array.reduce (prev, current) -> prev + current #one-liner to reduce the array
 
-
-  @data.av_waterConsumption.av_yearly_cost = average_water_data(waterFluids, @data.areaSum, 'yearly_cost')
-  @data.av_waterConsumption.av_m3 = average_water_data(waterFluids, @data.areaSum, 'm3')
-  @data.av_waterConsumption.av_m3_by_m2 = average_water_data(waterFluids, @data.areaSum, 'm3/m2')
-  @data.av_waterConsumption.av_euro_by_m3 = average_water_data(waterFluids, @data.areaSum, '€/m3')
-  @data.av_waterConsumption.av_m3_by_pers = average_water_data(waterFluids, @data.areaSum, 'm3/pers')
+  areaSum = @data.properties.leases_averages.area_sum
+  @data.av_waterConsumption.av_yearly_cost = average_water_data(waterFluids, areaSum, 'yearly_cost')
+  @data.av_waterConsumption.av_m3 = average_water_data(waterFluids, areaSum, 'm3')
+  @data.av_waterConsumption.av_m3_by_m2 = average_water_data(waterFluids, areaSum, 'm3/m2')
+  @data.av_waterConsumption.av_euro_by_m3 = average_water_data(waterFluids, areaSum, '€/m3')
+  @data.av_waterConsumption.av_m3_by_pers = average_water_data(waterFluids, areaSum, 'm3/pers')
 
 
   ### ------------------------------ ###
@@ -87,7 +84,7 @@ Template.buildingDetail.created = ->
   #console.log "merged_dpe_ges_data is", merged_dpe_ges_data
 
   instance.lease_dpe_ges_data.set(lease_dpe_ges_data)
-  #instance.merged_dpe_ges_data.set(merged_dpe_ges_data)
+  instance.merged_dpe_ges_data.set(@data.properties.leases_averages.merged_dpe_ges_data)
   ### ------------ ###
 
 
