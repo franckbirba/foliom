@@ -14,14 +14,15 @@
   console.log "test is #{var1}"
   console.log "test is #{var2}"
 
-  for item in dpe_scale[dpe_type][dpe_or_ges] #In the dpe_scale, get the type, then the dpe or ges scale. Then, we go through the values
-    console.log item.label.match(pattern1)
+  for item in dpe_scale[dpe_type][dpe_or_ges] #In the dpe_scale, get the type, then the dpe or ges scale.
+    # Now we go through all the values
+    # console.log item.label.match(pattern1)
     if item.label.match(pattern1)?.length > 0 #only keep cases when there's a match
       matchArray = item.label.match(pattern1)[1..3]
-      console.log dpeValue
-      console.log Number(matchArray[0])
-      console.log Number(matchArray[1])
-      console.log "dpeValue: #{dpeValue} - matchArray[0]: #{matchArray[0]} - matchArray[1]: #{matchArray[1]}"
+      # console.log dpeValue
+      # console.log Number(matchArray[0])
+      # console.log Number(matchArray[1])
+      # console.log "dpeValue: #{dpeValue} - matchArray[0]: #{matchArray[0]} - matchArray[1]: #{matchArray[1]}"
       if Number(matchArray[0]) <= dpeValue <= Number(matchArray[1])
         console.log "letter is #{item.letter}"
     else console.log "null :("
