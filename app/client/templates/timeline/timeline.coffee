@@ -320,7 +320,7 @@
       paction.endWork = paction.endDesign.clone().add \
         paction.action.works_duration, 'M'
       paction.end = paction.endWork.clone().add \
-        paction.action.action_lifetime, 'Y'
+        paction.action.action_lifetime, 'y'
       # Reset former calculations
       paction.consumptionWater = []
       paction.consumptionCo2 = []
@@ -338,24 +338,27 @@
       investmentSubventioned = 0
       consumption = 0
       invoice = 0
-
-      # Check fluid type
-      # @PEM
-
       while quarter.isBefore @maxDate
         # Investment starts when work on action begins
         if paction.start.isBetween quarter, nextQuarter
-          # @TODO Removed?
-          #investment = paction.action.investment.cost
-          #investmentSubventioned = paction.action.subventions.residual_cost
-          investment = 2.4
-          investmentSubventioned = 1.5
+          investment = if paction.action.investment?.cost then \
+            paction.action.investment.cost else 0
+          investmentSubventioned = if paction.action.subventions?.or_euro then \
+            paction.action.subventions.or_euro else 0
 
         # Results of an action on consumption starts when action is done
         if paction.endWork.isBetween quarter, nextQuarter
           # @TODO Fake modifiers
           consumption = -.5
           invoice = -1000
+
+        # Results of an action stops if its lifetime is exceeded
+        # @PEM
+        if paction.end.isBetween quarter, nextQuarter
+          console.log 'Action has ended', paction.end.toString(), \
+            'with', paction.action.action_lifetime
+          consumption = 0
+          invoice = 0
 
 
         paction.investment.push investment

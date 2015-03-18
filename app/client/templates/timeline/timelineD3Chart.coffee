@@ -100,7 +100,8 @@ Template.timelineD3Chart.created = ->
  * behavior once the reactive vars are modified.
 ###
 Template.timelineD3Chart.rendered = ->
-  chartFct = ChartFct[@data.chartName]
+  @chartFct = ChartFct[@data.chartName]
+  @chartData = @chartFct()
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
   @autorun (computation) =>
@@ -111,7 +112,7 @@ Template.timelineD3Chart.rendered = ->
       # Remove the former chart and the associated event.
       (@$ "[data-chart='#{@data.chartName}']").empty()
     @chart = new D3LineChart "[data-chart='#{@data.chartName}']", displayChart
-    @chart.setData chartFct()
+    @chart.setData @chartData
     # Meteor's event helper is not used here as the charts are rendered
     #  after the template rendering. Thus, the event assignement is done
     #  on the next requestAnimationFrame.
@@ -124,7 +125,9 @@ Template.timelineD3Chart.rendered = ->
   # the first call to the chart's update.
   @autorun (computation) =>
     rxPlannedActions = TV.rxPlannedActions.get()
-    @chart.updateData chartFct() unless computation.firstRun
+    unless computation.firstRun
+      @chartData = @chartFct()
+      @chart.updateData @chartData
 
 ###*
  * Create an Array of the provided size filled with 0.
