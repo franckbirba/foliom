@@ -18,10 +18,10 @@
         p Leases present:
         each getLeases
           div: a.update_lease(href='#') {{_ lease_name}}
-          div Lease usage is: {{_ lease_usage}}
-          div Lease surface is: {{_ area_by_usage}}
-          div DPE Energy consumption: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}}
-          p DPE CO2 emission: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
+          div {{_ 'lease_usage'}}: {{_ lease_usage}}
+          div {{_ 'area_by_usage'}}: {{_ area_by_usage}}
+          div {{_ 'dpe_energy_consuption'}}: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}}
+          p {{_ 'dpe_co2_emission'}}: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
     // Assesment
     .col-md-8: .panel.panel-primary
       .panel-heading: h3.panel-title {{_ "assessment"}}

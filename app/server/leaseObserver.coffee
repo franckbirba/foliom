@@ -37,11 +37,25 @@ Leases.find().observeChanges
           Messages.upsert {time: today, message: msgTxt, building_id: building_id}, {$set: msgContent}
 
 
-Leases.find().observe
-  changed: (doc) ->
-    computeAverages(doc)
-#   added: (doc) ->
-#     computeAverages(doc)
+# Leases.find().observe
+  # added: (doc) ->
+  #   # computeAverages(doc)
+  #   console.log "in ADDED"
+  #   console.log doc
+  # changed: (newDocument, oldDocument) ->
+  #   computeAverages(newDocument)
+
+
+# Using Collection hooks instead of Observe. BEWARE: hooks don't work when directly modifying MondoDB
+Leases.after.insert (userId, doc) ->
+  computeAverages(doc)
+
+Leases.after.update ((userId, doc, fieldNames, modifier, options) ->
+  computeAverages(doc)
+), fetchPrevious: false
+
+Leases.after.remove (userId, doc) ->
+  computeAverages(doc)
 
 
 computeAverages = (document) ->
