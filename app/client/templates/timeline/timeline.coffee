@@ -89,10 +89,7 @@
   ###
   calculateTotalCost: ->
     for paction in @scenario.planned_actions
-      # Total costs
-      # @TODO Removed?
-      # @totalCost += paction.action.investment.cost
-      @totalCost += paction.action.investment.ratio
+      @totalCost += paction.action.investment.cost
   rxTimelineActions: new ReactiveVar
   currentFilter: null
   ###*
@@ -166,6 +163,13 @@
     consumption: water: [], co2: [], kwh: []
     invoice: water: [], electricity: [], frost: [], heat: []
   ###*
+   * Transform kWh to CO2 depending on energy type.
+   * @param {Number} kwh    kWh
+   * @param {String} energy Type of energy: electricity, fuelOil_heavy,
+   *                        fuelOil_house, naturalGas, woodEnergy.
+  ###
+  kwh2Co2: (kwh, energy) -> kwh * @coefs.kwh2CO2["fluid_#{energy}"]
+  ###*
    * Iterator function that creates ticks (labels used in the chart's xAxis)
    * for each quarter.
    * @param {Moment} quarter Moment as a quarter.
@@ -206,7 +210,7 @@
           else
             cons_kwh += consumption
             # @TODO Energy mater isn't defined?
-            cons_co2 += consumption * @coefs.kwh2CO2.fluid_electricity
+            cons_co2 += @kwh2Co2 consumption, 'electricity'
           # Get fluid provider
           fluidProvider = _.findWhere lease.fluid_consumption_meter,
             fluid_id: cons.fluid_id
@@ -256,14 +260,14 @@
   calculateDynamicChart: ->
     # Graph 1
     # -------
-    # PEM To expand on all buildings
+    # To expand on all buildings
     # For each leases: fluid_consumption_meter
     #     @allLeases = Leases.find(
     # {building_id: @building_id},
     # {sort: {lease_name:1}}
     # ).fetch()
 
-    # PEM to get the unit of a fluid
+    # To get the unit of a fluid
     # confFluids = Session.get('current_config').fluids
     #for fluid in confFluids
     #  completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type
@@ -271,7 +275,7 @@
     #    endUse.fluid = fluid #We store the Fluid in the array
     #    matchingEndUseInLease[leaseIndex] = endUse
 
-    # PEM Get the appropriate coefficient for each type of unit
+    # Get the appropriate coefficient for each type of unit
     # Session.get('current_config').kwhef_to_co2_coefficients
     #
     # This provide 3 scalings
@@ -334,50 +338,47 @@
       # Iterate over the scenario duration
       quarter = @minDate.clone()
       nextQuarter = quarter.clone().add 1, 'Q'
-      investment = 0
-      investmentSubventioned = 0
-      consumption = 0
-      invoice = 0
+      investment = investmentSubventioned = 0
+      consumptionWater = consumptionKwh = 0
+      invoiceWater = invoiceElectricity = invoiceFrost = invoiceHeat = 0
+      # On each action, iterate over the scenario's duration
       while quarter.isBefore @maxDate
         # Investment starts when work on action begins
         if paction.start.isBetween quarter, nextQuarter
           investment = if paction.action.investment?.cost then \
             paction.action.investment.cost else 0
-          investmentSubventioned = if paction.action.subventions?.or_euro then \
+          investmentSubventioned = investment - \
+            if paction.action.subventions?.or_euro then \
             paction.action.subventions.or_euro else 0
-
         # Results of an action on consumption starts when action is done
         if paction.endWork.isBetween quarter, nextQuarter
-          # @TODO Fake modifiers
-          consumption = -.5
-          invoice = -1000
-
+          for gain in paction.action.gain_fluids_water
+            consumptionWater -= gain.or_m3
+            invoiceWater -= gain.yearly_savings
+          for gain in paction.action.gain_fluids_kwhef
+            consumptionKwh -= gain.or_kwhef
+            switch gain.opportunity
+              when 'end_use_heating' then invoiceHeat -= gain.yearly_savings
+              when 'end_use_AC', 'end_use_ventilation'
+                invoiceFrost -= gain.yearly_savings
+              else invoiceElectricity -= gain.yearly_savings
         # Results of an action stops if its lifetime is exceeded
-        # @PEM
         if paction.end.isBetween quarter, nextQuarter
-          console.log 'Action has ended', paction.end.toString(), \
-            'with', paction.action.action_lifetime
-          consumption = 0
-          invoice = 0
-
-
+          consumptionWater = consumptionKwh = 0
+          invoiceWater = invoiceElectricity = invoiceFrost = invoiceHeat = 0
+        # Set modifiers on consumption
+        paction.consumptionWater.push consumptionWater
+        # @TODO: Energy type isn't defined
+        paction.consumptionCo2.push @kwh2Co2 consumptionKwh, 'electricity'
+        paction.consumptionKwh.push consumptionKwh
+        # Set modifiers on consumption
+        paction.invoiceWater.push invoiceWater
+        paction.invoiceElectricity.push invoiceElectricity
+        paction.invoiceFrost.push invoiceFrost
+        paction.invoiceHeat.push invoiceHeat
+        # Set values on investments and subventions
         paction.investment.push investment
         paction.investmentSubventioned.push investmentSubventioned
-
-        # @PEM ToDO: Depends on fluid type
-        paction.consumptionWater.push consumption
-        paction.consumptionCo2.push consumption
-        paction.consumptionKwh.push consumption
-
-        # @PEM ToDo: Depends on fluid type and consumption
-        paction.invoiceWater.push invoice
-        paction.invoiceElectricity.push invoice
-        paction.invoiceFrost.push invoice
-        paction.invoiceHeat.push invoice
-
-
-
-
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
