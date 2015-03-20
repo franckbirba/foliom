@@ -79,10 +79,12 @@
 
     "In": "in",
 
-	"custom_visual": "Visuel",
+	"custom_visual": "Visual",
     "evolution": "Evolution",
 
-    "files": "Fichiers",
+    "files": "Files",
+
+    "nb_buildings": "Building count",
 
     /* Configuration Compass */
 
