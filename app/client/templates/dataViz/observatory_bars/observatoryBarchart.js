@@ -50,8 +50,8 @@ Template.observatoryBarchart.rendered = function () {
 
   this.autorun(function () {
     var margin = {top: 20, right: 20, bottom: 70, left: 40},
-    width = container_width - margin.left - margin.right,
-    height = 280 - margin.top - margin.bottom;
+    width = container_width - margin.left - margin.right + 150, // @BSE: FIND A WAY TO CORRECT THIS UGLY +150
+    height = 280 - margin.top - margin.bottom ;
 
     // console.log("PL", container_width, "width", width);
 
