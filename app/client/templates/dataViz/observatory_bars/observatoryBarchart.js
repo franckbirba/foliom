@@ -7,10 +7,14 @@
 
 Template.observatoryBarchart.events({
   'change #barchartDisplaySelector': function(e, tplt){
-    console.log($(e.currentTarget).val());
+    Session.set("observatoryBarchartDisplaySelector", $(e.currentTarget).val() );
     // console.log(tplt.this);
   },
 });
+
+Template.observatoryBarchart.created = function () {
+  Session.set("observatoryBarchartDisplaySelector", "dpe_co2_emission" );
+};
 
 Template.observatoryBarchart.rendered = function () {
   // var container_width = setTimeout(function() { $("#observatory_barchart_placeholder").width() }, 2000);
@@ -24,7 +28,7 @@ Template.observatoryBarchart.rendered = function () {
     width = container_width - margin.left - margin.right,
     height = 280 - margin.top - margin.bottom;
 
-    console.log("PL", container_width, "width", width);
+    // console.log("PL", container_width, "width", width);
 
     // var formatPercent = d3.format(".0%");
     var format4digits = d3.format("04d");
@@ -55,6 +59,7 @@ Template.observatoryBarchart.rendered = function () {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
+    // OPTIMIZATION @BSE: CALC DATA IN CREATED
     // var data = [
     //   {letter: "A", frequency: .08167},
     //   {letter: "B", frequency: .04780},
@@ -77,9 +82,9 @@ Template.observatoryBarchart.rendered = function () {
 
 
     // Rules to display the correct data with the correct parameters
-    display = "construction_year_data";
+    display = Session.get("observatoryBarchartDisplaySelector");
 
-    if (display == "construction_year_data") {
+    if (display == "construction_year") {
       data = construction_year_data;
       y_legend = 'construction_year';
       x_legend_rotation = "rotate(-45)";
