@@ -5,8 +5,6 @@
 -
 */
 
-
-
 Template.observatory_barchart.rendered = function () {
 
   this.autorun(function () {
@@ -46,27 +44,6 @@ Template.observatory_barchart.rendered = function () {
     // var data = [
     //   {letter: "A", frequency: .08167},
     //   {letter: "B", frequency: .04780},
-    //   {letter: "C", frequency: .05780},
-    //   {letter: "D", frequency: .03780},
-    //   {letter: "E", frequency: .01492},
-    //   {letter: "F", frequency: .02780},
-    //   {letter: "G", frequency: .06780},
-    //   {letter: "H", frequency: .06780},
-    //   {letter: "I", frequency: .06780},
-    //   {letter: "J", frequency: .06780},
-    //   {letter: "K", frequency: .06780},
-    //   {letter: "L", frequency: .06780},
-    //   {letter: "M", frequency: .06780},
-    //   {letter: "N", frequency: .06780},
-    //   {letter: "O", frequency: .06780},
-    //   {letter: "P", frequency: .06780},
-    //   {letter: "Q", frequency: .06780},
-    //   {letter: "R", frequency: .06780},
-    //   {letter: "S", frequency: .06780},
-    //   {letter: "T", frequency: .06780},
-    //   {letter: "U", frequency: .06780},
-    //   {letter: "V", frequency: .06780},
-    //   {letter: "W", frequency: .06780},
     // ];
     var data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "building_info.construction_year" : 1} }).fetch().map(function(x){
           return {letter:x.building_name, frequency: x.building_info.construction_year};
@@ -74,55 +51,6 @@ Template.observatory_barchart.rendered = function () {
     var y_legend = 'construction_year';
 
 
-    // Get all Portfolios IDs for current Estate
-    // var portfolioIDs = Estates.findOne({_id: Session.get('current_estate_doc')._id}).portfolio_collection;
-
-    // var distinctEntriesName = _.uniq(Portfolios.find(
-    //     {_id: {$in : portfolioIDs} }, {
-    //     sort: {name: 1}, fields: {name: true}
-    // }).fetch().map(function(x) {
-    //     return x.name;
-    // }), true);
-
-    // _.each(portfolioIDs, function(entry, i) {
-    //     var count = Buildings.find({portfolio_id: entry }).count();
-
-    //     data.push(
-    //         {
-    //             "name": distinctEntriesName[i],
-    //             "value": count
-    //         }
-    //     );
-    // });
-
-
-
-    // x.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-    // chart.attr("height", barHeight * data.length);
-
-    // var bar = chart.selectAll("g")
-    //     .data(data)
-    //   .enter().append("g")
-    //     .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
-
-    // bar.append("rect")
-    //     .attr("width", function(d) { return x(d.value); })
-    //     .attr("height", barHeight - 1);
-
-    // bar.append("text")
-    //     .attr("x", function(d) { return x(d.value) - 8; })
-    //     .attr("y", barHeight / 2)
-    //     .attr("dy", ".35em")
-    //     .text(function(d) {
-    //           return d.name + " - " + d.value + " buildings";
-    //       });
-
-
-    // function type(d) {
-    //   d.value = +d.value; // coerce to number
-    //   return d;
-    // }
 
     data.forEach(function(d) {
       d.frequency = +d.frequency;
@@ -164,11 +92,11 @@ Template.observatory_barchart.rendered = function () {
         .attr("height", function(d) { return height - y(d.frequency); });
 
 
-    d3.select("input").on("change", change);
+    d3.select("#sortBarchartValues").on("change", change);
 
-    // var sortTimeout = setTimeout(function() {
-    //   d3.select("input").property("checked", true).each(change);
-    // }, 2000);
+    var sortTimeout = setTimeout(function() {
+      d3.select("#sortBarchartValues").property("checked", true).each(change);
+    }, 2000);
 
     function change() {
       clearTimeout(sortTimeout);
