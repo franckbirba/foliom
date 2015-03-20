@@ -45,7 +45,7 @@ Template.observatoryBarchart.created = function () {
 Template.observatoryBarchart.rendered = function () {
   // var container_width = setTimeout(function() { $("#observatory_barchart_placeholder").width() }, 2000);
   var container_width = $("#observatory_barchart_placeholder").width();
-  var data, display, y_legend, x_legend_rotation;
+  var data, display, y_legend, y_domain_start, x_legend_rotation;
   console.log("Template.currentData() is: ", Template.currentData() );
 
   this.autorun(function () {
@@ -56,7 +56,7 @@ Template.observatoryBarchart.rendered = function () {
     // console.log("PL", container_width, "width", width);
 
     // var formatPercent = d3.format(".0%");
-    var format4digits = d3.format("04d");
+    var format4digits = d3.format("4d");
     var format = format4digits;
 
     var x = d3.scale.ordinal()
@@ -93,10 +93,12 @@ Template.observatoryBarchart.rendered = function () {
     if (display == "construction_year") {
       data = barchartData.construction_year_data;
       y_legend = 'construction_year';
+      y_domain_start = 1700;
       x_legend_rotation = "rotate(-45)";
     } else if (display == "dpe_co2_emission") {
       data = barchartData.dpe_co2_emission_data;
-      y_legend = 'dpe_co2_emission';
+      y_legend = 'nb_buildings';
+      y_domain_start = 0;
       x_legend_rotation = "rotate(0)";
     }
 
@@ -107,7 +109,7 @@ Template.observatoryBarchart.rendered = function () {
     });
 
     x.domain(data.map(function(d) { return d.letter; }));
-    y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+    y.domain([y_domain_start, d3.max(data, function(d) { return d.frequency; })]); //Domain goes from y_domain_start to max frequency
 
     svg.append("g")
       .attr("class", "x axis")
