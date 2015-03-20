@@ -38,12 +38,14 @@ Template.scenarioForm.rendered = function() {
 };
 
 Template.scenarioForm.helpers({
-    getActionLogo: function(){
-        var logoList = ["&#58880;", "&#58881;", "&#58882;", "&#58883;", "&#58884;", "&#58885;", "&#58886;", "&#58887;"];
+    getScenarioLogo: function(){
+        var logoList = ["boat_02", "boat_03", "boat_04", "boat_05", "boat_06", "boat_07", "boat_08", "boat_09"];
         //max-height: 175px;
         //overflow-y: auto;
         // return Selectors.findOne({name: 'action_logo'}, {reactive: false}).labels;
-        return logoList;
+        return logoList.map(function(x){
+            return "/icon/scenario_boats/" + x + ".png"
+        });
     },
     isCheckbox: function(type){
         return (type == "checkbox") ? true : false;

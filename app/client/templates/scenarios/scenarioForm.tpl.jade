@@ -19,10 +19,17 @@
       .form-group
         label.col-sm-3.control-label(for="logo") {{_ 'logo'}}
         .col-sm-7
-          each getActionLogo
-            input.logo-radio(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isSelected this.valueOf ../logo}}")
-            label.logo-label(for="!{this.valueOf}") !{this.valueOf}
+          each getScenarioLogo
+            //- input.logo-radio(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isSelected this.valueOf ../logo}}")
+            //- label.logo-label(for="!{this.valueOf}" style="background: url(http://i.imgur.com/mW6xr2I.png)") !{this.valueOf}
+            input.input-hidden(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isSelected this.valueOf ../logo}}")
+            label(for="!{this.valueOf}"): img.img-logo(src="#{this.valueOf}")
+            //- label(for="!{this.valueOf}"): img(src="//placekitten.com/151/151")
 
+    //- <input type="radio" class="radio" name="example" id="ex1" value="ex1" checked />
+    //- <label for="ex1" class="label">Example 1</label>
+    //- <input type="radio" class="radio" name="example" id="ex2" value="ex2" />
+    //- <label for="ex2" class="label">Example 2</label>
 
     //- Criterions
     #scenarioCriterion
