@@ -9,12 +9,17 @@
 
 Template.observatory_barchart.rendered = function () {
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+  this.autorun(function () {
+    var margin = {top: 20, right: 20, bottom: 70, left: 40},
 
     width = $("#observatory_barchart_placeholder").width() - margin.left - margin.right,
     height = 280 - margin.top - margin.bottom;
 
-    var formatPercent = d3.format(".0%");
+    console.log("PL", $("#observatory_barchart_placeholder").width(), "width", width);
+
+    // var formatPercent = d3.format(".0%");
+    var format4digits = d3.format("04d");
+    var format = format4digits;
 
     var x = d3.scale.ordinal()
         .rangeRoundBands([0, width], .1, 1);
@@ -29,7 +34,7 @@ Template.observatory_barchart.rendered = function () {
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left")
-        .tickFormat(formatPercent);
+        .tickFormat(format);
 
     var svg = d3.select("#observatory_barchart")
         .attr("width", width + margin.left + margin.right)
@@ -38,43 +43,34 @@ Template.observatory_barchart.rendered = function () {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-
-    // var width = 420,
-    // barHeight = 40;
-
-    // var x = d3.scale.linear()
-    //     .range([0, width]);
-
-    // var chart = d3.select(".chart")
-    //     .attr("width", width);
-
-    // var countByPortfolio = {};
-
-    var data = [
-      {letter: "A", frequency: .08167},
-      {letter: "B", frequency: .04780},
-      {letter: "C", frequency: .05780},
-      {letter: "D", frequency: .03780},
-      {letter: "E", frequency: .01492},
-      {letter: "F", frequency: .02780},
-      {letter: "G", frequency: .06780},
-      {letter: "H", frequency: .06780},
-      {letter: "I", frequency: .06780},
-      {letter: "J", frequency: .06780},
-      {letter: "K", frequency: .06780},
-      {letter: "L", frequency: .06780},
-      {letter: "M", frequency: .06780},
-      {letter: "N", frequency: .06780},
-      {letter: "O", frequency: .06780},
-      {letter: "P", frequency: .06780},
-      {letter: "Q", frequency: .06780},
-      {letter: "R", frequency: .06780},
-      {letter: "S", frequency: .06780},
-      {letter: "T", frequency: .06780},
-      {letter: "U", frequency: .06780},
-      {letter: "V", frequency: .06780},
-      {letter: "W", frequency: .06780},
-    ];
+    // var data = [
+    //   {letter: "A", frequency: .08167},
+    //   {letter: "B", frequency: .04780},
+    //   {letter: "C", frequency: .05780},
+    //   {letter: "D", frequency: .03780},
+    //   {letter: "E", frequency: .01492},
+    //   {letter: "F", frequency: .02780},
+    //   {letter: "G", frequency: .06780},
+    //   {letter: "H", frequency: .06780},
+    //   {letter: "I", frequency: .06780},
+    //   {letter: "J", frequency: .06780},
+    //   {letter: "K", frequency: .06780},
+    //   {letter: "L", frequency: .06780},
+    //   {letter: "M", frequency: .06780},
+    //   {letter: "N", frequency: .06780},
+    //   {letter: "O", frequency: .06780},
+    //   {letter: "P", frequency: .06780},
+    //   {letter: "Q", frequency: .06780},
+    //   {letter: "R", frequency: .06780},
+    //   {letter: "S", frequency: .06780},
+    //   {letter: "T", frequency: .06780},
+    //   {letter: "U", frequency: .06780},
+    //   {letter: "V", frequency: .06780},
+    //   {letter: "W", frequency: .06780},
+    // ];
+    var data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "building_info.construction_year" : 1} }).fetch().map(function(x){
+          return {letter:x.building_name, frequency: x.building_info.construction_year};
+        });
     var y_legend = 'construction_year';
 
 
@@ -136,9 +132,16 @@ Template.observatory_barchart.rendered = function () {
     y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
 
     svg.append("g")
-        .attr("class", "x axis")
-        .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+        .selectAll("text")
+          .style("text-anchor", "end")
+          // .attr("dx", "-.8em")
+          // .attr("dy", ".15em")
+          .attr("transform", "rotate(-45)");
+          // http://bl.ocks.org/d3noob/ccdcb7673cdb3a796e13
+
 
     svg.append("g")
         .attr("class", "y axis")
@@ -150,6 +153,7 @@ Template.observatory_barchart.rendered = function () {
         .style("text-anchor", "end")
         .text( transr(y_legend)() );
 
+
     svg.selectAll(".bar")
         .data(data)
       .enter().append("rect")
@@ -159,11 +163,12 @@ Template.observatory_barchart.rendered = function () {
         .attr("y", function(d) { return y(d.frequency); })
         .attr("height", function(d) { return height - y(d.frequency); });
 
+
     d3.select("input").on("change", change);
 
-    var sortTimeout = setTimeout(function() {
-      d3.select("input").property("checked", true).each(change);
-    }, 2000);
+    // var sortTimeout = setTimeout(function() {
+    //   d3.select("input").property("checked", true).each(change);
+    // }, 2000);
 
     function change() {
       clearTimeout(sortTimeout);
@@ -187,10 +192,16 @@ Template.observatory_barchart.rendered = function () {
 
       transition.select(".x.axis")
           .call(xAxis)
+            .selectAll("text")
+              .style("text-anchor", "end")
+              // .attr("dx", "-.8em")
+              // .attr("dy", ".15em")
+              .attr("transform", "rotate(-45)")
         .selectAll("g")
           .delay(delay);
     }
 
+  });
 };
 
 
