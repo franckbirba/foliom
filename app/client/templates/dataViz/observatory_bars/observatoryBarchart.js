@@ -5,6 +5,13 @@
 -
 */
 
+Template.observatoryBarchart.events({
+  'change #barchartDisplaySelector': function(e, tplt){
+    console.log($(e.currentTarget).val());
+    // console.log(tplt.this);
+  },
+});
+
 Template.observatoryBarchart.rendered = function () {
   // var container_width = setTimeout(function() { $("#observatory_barchart_placeholder").width() }, 2000);
   var container_width = $("#observatory_barchart_placeholder").width();
@@ -58,11 +65,11 @@ Template.observatoryBarchart.rendered = function () {
         });
 
     // ges Data
-    var gesData = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch().map(function(x){
+    var dpe_co2_emission_data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch().map(function(x){
           return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade, frequency:x.building_name };
         });
-    gesData = _.countBy(gesData, 'letter');
-    gesData = _.map(gesData,function(value, key){
+    dpe_co2_emission_data = _.countBy(dpe_co2_emission_data, 'letter');
+    dpe_co2_emission_data = _.map(dpe_co2_emission_data,function(value, key){
       return {letter:transr(key)(), frequency: value};
       });
 
@@ -70,14 +77,14 @@ Template.observatoryBarchart.rendered = function () {
 
 
     // Rules to display the correct data with the correct parameters
-    display = "gesData"
+    display = "construction_year_data";
 
     if (display == "construction_year_data") {
       data = construction_year_data;
       y_legend = 'construction_year';
       x_legend_rotation = "rotate(-45)";
-    } else if (display == "gesData") {
-      data = gesData;
+    } else if (display == "dpe_co2_emission") {
+      data = dpe_co2_emission_data;
       y_legend = 'dpe_co2_emission';
       x_legend_rotation = "rotate(0)";
     }

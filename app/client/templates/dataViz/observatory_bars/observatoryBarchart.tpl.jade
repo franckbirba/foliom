@@ -1,8 +1,10 @@
 #observatory_barchart_container
-  label
-    input(type="checkbox" id="sortBarchartValues")
-    | Sort values
-  //- select#barchartDisplaySelector
-  //-   option(value="" disabled selected) {{_ "select_criterion"}}
+  #barchartControls
+    label
+      input(type="checkbox" id="sortBarchartValues")
+      | Sort values
+    select#barchartDisplaySelector.form-control
+      option(value="gesData" selected) {{_ "dpe_co2_emission"}}
+      option(value="construction_year_data") {{_ "construction_year"}}
   #observatory_barchart
 
