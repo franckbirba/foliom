@@ -56,6 +56,7 @@ Template.observatoryBarchart.rendered = function () {
     // console.log("PL", container_width, "width", width);
 
     // var formatPercent = d3.format(".0%");
+    // var format4digits = d3.format("04d"); // the 0 is used for "0-padding on the left"
     var format4digits = d3.format("4d");
     var format = format4digits;
 
