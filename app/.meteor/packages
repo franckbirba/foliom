@@ -13,7 +13,6 @@ aldeed:delete-button
 nemo64:bootstrap
 d3js:d3
 vazco:maps
-yogiben:autoform-modals
 harrison:babyparse
 mquandalle:jade
 coffeescript
@@ -39,3 +38,4 @@ msavin:mongol
 ian:accounts-ui-bootstrap-3
 cfs:gridfs
 matb33:collection-hooks
+yogiben:autoform-modals
