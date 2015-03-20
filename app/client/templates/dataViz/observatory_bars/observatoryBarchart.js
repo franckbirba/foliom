@@ -5,15 +5,19 @@
 -
 */
 
-Template.observatory_barchart.rendered = function () {
+Template.observatoryBarchart.rendered = function () {
+  // var container_width = setTimeout(function() { $("#observatory_barchart_placeholder").width() }, 2000);
+  var container_width = $("#observatory_barchart_placeholder").width();
+  var data, display, y_legend, x_legend_rotation;
+
 
   this.autorun(function () {
-    var margin = {top: 20, right: 20, bottom: 70, left: 40},
 
-    width = $("#observatory_barchart_placeholder").width() - margin.left - margin.right,
+    var margin = {top: 20, right: 20, bottom: 70, left: 40},
+    width = container_width - margin.left - margin.right,
     height = 280 - margin.top - margin.bottom;
 
-    console.log("PL", $("#observatory_barchart_placeholder").width(), "width", width);
+    console.log("PL", container_width, "width", width);
 
     // var formatPercent = d3.format(".0%");
     var format4digits = d3.format("04d");
@@ -34,7 +38,10 @@ Template.observatory_barchart.rendered = function () {
         .orient("left")
         .tickFormat(format);
 
-    var svg = d3.select("#observatory_barchart")
+    // remove previous barchart
+    d3.select("#observatory_barchart_placeholder").select("svg").remove();
+
+    var svg = d3.select("#observatory_barchart").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -45,10 +52,35 @@ Template.observatory_barchart.rendered = function () {
     //   {letter: "A", frequency: .08167},
     //   {letter: "B", frequency: .04780},
     // ];
-    var data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "building_info.construction_year" : 1} }).fetch().map(function(x){
+    // construction_year_data
+    var construction_year_data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "building_info.construction_year" : 1} }).fetch().map(function(x){
           return {letter:x.building_name, frequency: x.building_info.construction_year};
         });
-    var y_legend = 'construction_year';
+
+    // ges Data
+    var gesData = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch().map(function(x){
+          return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade, frequency:x.building_name };
+        });
+    gesData = _.countBy(gesData, 'letter');
+    gesData = _.map(gesData,function(value, key){
+      return {letter:transr(key)(), frequency: value};
+      });
+
+    // var dpe_data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch();
+
+
+    // Rules to display the correct data with the correct parameters
+    display = "gesData"
+
+    if (display == "construction_year_data") {
+      data = construction_year_data;
+      y_legend = 'construction_year';
+      x_legend_rotation = "rotate(-45)";
+    } else if (display == "gesData") {
+      data = gesData;
+      y_legend = 'dpe_co2_emission';
+      x_legend_rotation = "rotate(0)";
+    }
 
 
 
@@ -67,7 +99,7 @@ Template.observatory_barchart.rendered = function () {
           .style("text-anchor", "end")
           // .attr("dx", "-.8em")
           // .attr("dy", ".15em")
-          .attr("transform", "rotate(-45)");
+          .attr("transform", x_legend_rotation);
           // http://bl.ocks.org/d3noob/ccdcb7673cdb3a796e13
 
 
@@ -124,7 +156,7 @@ Template.observatory_barchart.rendered = function () {
               .style("text-anchor", "end")
               // .attr("dx", "-.8em")
               // .attr("dy", ".15em")
-              .attr("transform", "rotate(-45)")
+              .attr("transform", x_legend_rotation)
         .selectAll("g")
           .delay(delay);
     }
