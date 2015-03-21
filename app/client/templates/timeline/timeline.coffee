@@ -199,7 +199,7 @@
     yearsSinceStart = quarter.year() - @minDate.year()
     for building in @buildings
       for lease in building.leases
-        for cons in lease.consumption_by_end_use
+        for cons in lease.fluid_consumption_meter
           # Get inflated consumption
           consumption = cons.first_year_value * \
             Math.pow 1 + @consumption_degradation, yearsSinceStart
