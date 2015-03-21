@@ -463,6 +463,8 @@ exports.createBuildings = (nb_buildings) ->
     buildingToCreate = clone building_1
     delete buildingToCreate._id
     buildingToCreate.building_name = "#{building_1.building_name}-#{i}"
+    buildingToCreate.building_info.construction_year = randomIntFromInterval(1900, 2012)
+    buildingToCreate.building_info.area_total = randomIntFromInterval(100, 3000)
 
     newBuilding_id = Buildings.insert buildingToCreate
 
@@ -471,6 +473,11 @@ exports.createBuildings = (nb_buildings) ->
       delete leaseToCreate._id
       delete leaseToCreate.building_id
       leaseToCreate.building_id = newBuilding_id
+
+      leaseToCreate.dpe_energy_consuption.value = randomIntFromInterval(0, 800)
+      leaseToCreate.dpe_energy_consuption.grade = "dpe_#{parseDpeGesScale("dpe", leaseToCreate.dpe_type, leaseToCreate.dpe_energy_consuption.value)}"
+      leaseToCreate.dpe_co2_emission.value = randomIntFromInterval(0, 250)
+      leaseToCreate.dpe_co2_emission.grade = "dpe_#{parseDpeGesScale("dpe", leaseToCreate.dpe_type, leaseToCreate.dpe_co2_emission.value)}"
 
       Leases.insert leaseToCreate
 

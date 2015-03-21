@@ -79,10 +79,12 @@
 
     "In": "in",
 
-	"custom_visual": "Visuel",
+	"custom_visual": "Visual",
     "evolution": "Evolution",
 
-    "files": "Fichiers",
+    "files": "Files",
+
+    "nb_buildings": "Building count",
 
     /* Configuration Compass */
 
@@ -286,6 +288,10 @@
     "dpe_C": "C",
     "dpe_D": "D",
     "dpe_E": "E",
+    "dpe_F": "F",
+    "dpe_G": "G",
+    "dpe_H": "H",
+    "dpe_I": "I",
 
     "new_dvr": "New",
     "good_dvr": "Good condition (DVR > 10)",

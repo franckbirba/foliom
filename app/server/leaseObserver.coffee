@@ -91,8 +91,10 @@ computeAverages = (document) ->
   merged_dpe_ges_data =
     dpe_type: leaseWithMaxArea.dpe_type
     dpe_energy_consuption:
+      grade: "dpe_#{parseDpeGesScale("dpe", leaseWithMaxArea.dpe_type, dpeEnergyConsuptionAverage)}"
       value: dpeEnergyConsuptionAverage
     dpe_co2_emission:
+      grade: "dpe_#{parseDpeGesScale("ges", leaseWithMaxArea.dpe_type, dpeCo2EmissionAverage)}"
       value: dpeCo2EmissionAverage
 
   Buildings.update { _id: doc_buiding_id },

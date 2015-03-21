@@ -1,6 +1,11 @@
 @import 'client/stylesheets/*.import'
 
 .scenarioList
+  .addButtonHolder
+    width 75px
+    height 75px
+    padding-left 55px
+    padding-top 15px
   .fa
     color color1
   div
@@ -8,13 +13,16 @@
       margin-bottom .5em
   .scenarioItem
     float left
-    box-shadow: color0 0px 3px 0px
+    box-shadow: navBarDefaultBg 0px 3px 0px
     text-align center
     width 100%
     height 115px
     margin-bottom 1em
-    background-color navBarDefaultBg
+    // background-color color0
+    border: 2px solid color2
     // So that we can position the Edit button
     position relative
     padding 10px
     font-style italic
+  .scenarioName
+    // color: color2

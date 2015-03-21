@@ -1,0 +1,11 @@
+.observatory_barchart_tplt
+  #observatory_barchart_container
+    #barchartControls
+      label
+        input(type="checkbox" id="sortBarchartValues")
+        | Sort values
+      select#barchartDisplaySelector
+        option(value="dpe_co2_emission" selected) {{_ "dpe_co2_emission"}}
+        option(value="construction_year") {{_ "construction_year"}}
+    #observatory_barchart
+

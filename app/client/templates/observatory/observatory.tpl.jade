@@ -32,7 +32,7 @@
               each getBuildingList
                 a.list-group-item.select_building(href='#')= building_name
             a.btn.btn-primary(href="{{pathFor 'building-new'}}", role='button') {{_ 'new_building'}}
-    article
-      +barchart
+    article#observatory_barchart_placeholder
+      +observatoryBarchart
   +insertPortfolioForm
   +buildingAndLeaseImport

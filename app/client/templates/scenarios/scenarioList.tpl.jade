@@ -5,15 +5,15 @@
   .col-md-9
     .row: .animated.fadeInDown
       each getScenarios
-        .col-md-4
+        .col-md-3
           .scenarioItem
             a.editScenario(href='')
-              img(src='/icon/actionIcons/iconmonstr-loading-14-icon-256.png', width='50')
-              div= name
-      .col-md-4
+              img(src="#{logo}", width='75')
+              .scenarioName= name
+      .col-md-3
         #scenarioCreate.scenarioItem
           a.newScenario(href='')
-            div: span.fa-stack.fa-lg
+            .addButtonHolder: span.fa-stack.fa-lg
               i.fa.fa-circle-o.fa-stack-2x
               i.fa.fa-plus
             div {{_ "create_scenario"}}
