@@ -85,24 +85,17 @@ Template.treeTplt.rendered = function () {
 
           // Method to get all Actions for Each building + build a children list for the Tree
           function getActionsForBuilding(id_param) {
-              var action_list = Actions.find({
+              var action_list = Actions.find({ // First get all child actions
                                   "action_type":"child",
                                   "building_id": id_param
                               },
                               {sort: {name:1}}
-                              ).fetch();
-
-              var tmp_list = [];
-
-              _.each(action_list, function(item) {
-                  tmp_list.push(
-                          {
-                              "name": item.name,
-                          }
-                      );
-              });
-              // console.log(tmp_list);
-              return tmp_list;
+                              ).fetch()
+                              // then map it to a format that the tree can use
+                              .map(function(item) {
+                                return {"name": item.name}
+                              });
+              return action_list;
           };
 
           _.each(building_list, function(item) {
