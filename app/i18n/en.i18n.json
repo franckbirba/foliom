@@ -84,6 +84,7 @@
 
     "files": "Files",
 
+    "sort": "Sort",
     "nb_buildings": "Building count",
 
     /* Configuration Compass */
