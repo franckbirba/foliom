@@ -71,17 +71,23 @@ Template.treeTplt.rendered = function () {
           // Create our own JSON-structured file
           var foliom_data = new Object();
           foliom_data = {
-              "name": "flare",
+              "name": Session.get('current_portfolio_doc').name,
                "children": []
           };
 
-          foliom_data.name = Session.get('current_portfolio_doc').name ;
-
-          var tmp_current_portfolio_doc = Portfolios.findOne(Session.get('current_portfolio_doc')._id);
-
-          var building_list = Buildings.find({portfolio_id: tmp_current_portfolio_doc._id },
+          var building_list = Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
                               {sort: {name:1}}
                               ).fetch();
+          // For each Building, create the Action List
+          _.each(building_list, function(item) {
+            foliom_data.children.push(
+              {
+                  "name": item.building_name,
+                  "id": item._id,
+                  "children": getActionsForBuilding(item._id)
+              }
+            );
+          });
 
           // Method to get all Actions for Each building + build a children list for the Tree
           function getActionsForBuilding(id_param) {
@@ -98,30 +104,20 @@ Template.treeTplt.rendered = function () {
               return action_list;
           };
 
-          _.each(building_list, function(item) {
-                  foliom_data.children.push(
-                          {
-                              "name": item.building_name,
-                              "id": item._id,
-                              "children": getActionsForBuilding(item._id)
-                          }
-                      );
-              });
+          root = foliom_data;
+          root.x0 = height / 2;
+          root.y0 = 0;
 
-            root = foliom_data;
-            root.x0 = height / 2;
-            root.y0 = 0;
-
-            function collapse(d) {
-              if (d.children) {
-                d._children = d.children;
-                d._children.forEach(collapse);
-                d.children = null;
-              }
+          function collapse(d) {
+            if (d.children) {
+              d._children = d.children;
+              d._children.forEach(collapse);
+              d.children = null;
             }
+          }
 
-            root.children.forEach(collapse);
-            update(root);
+          root.children.forEach(collapse);
+          update(root);
         }
 
 
@@ -240,7 +236,7 @@ Template.treeTplt.rendered = function () {
                 // delete clickedBuilding_d3ref.parent ;
 
                 var clickedBuilding = Buildings.findOne({
-                            portfolio_id: tmp_current_portfolio_doc._id,
+                            portfolio_id: Session.get('current_portfolio_doc')._id,
                             building_name: d.name
                         });
 
