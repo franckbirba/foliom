@@ -13,10 +13,13 @@ AutoForm.hooks({
                   }
                 });
 
+                // Update current_estate_doc
+                Session.set('current_estate_doc', Estates.findOne(currentEstateId));
+
                 $('#portfolioForm').modal('hide');
 
             } else if (operation == "update") {
-                // $('#estateForm').modal('hide');
+                $('#portfolioForm').modal('hide');
             }
         },
     }

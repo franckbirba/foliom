@@ -34,12 +34,9 @@ Template.registerHelper("portfolios",
 // Get list of all Portfolios for current Estate, sorted by alpha (on name)
 Template.registerHelper("getPortfolioList",
     function(){
-        var curr_est_doc = Estates.findOne(Session.get('current_estate_doc')._id)
-
         // only return smthg if Session.get('current_estate_doc') has a value
-        if (curr_est_doc !== undefined && curr_est_doc.hasOwnProperty("portfolio_collection") ) {
-            //console.log("I display current Portfolios");
-            var result = Portfolios.find({_id: {$in : curr_est_doc.portfolio_collection} },
+        if (Session.get('current_estate_doc').hasOwnProperty("portfolio_collection") ) {
+            var result = Portfolios.find({_id: {$in : Session.get('current_estate_doc').portfolio_collection } },
                     {sort: {name:1}}
                     ).fetch();
             return result;
