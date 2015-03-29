@@ -4,6 +4,8 @@
 
 // tree origin: http://bl.ocks.org/mbostock/4339083
 
+
+
 Template.treeTplt.rendered = function () {
 
     // Extend jQuery click method so that we can call it with jQuery selectors
@@ -79,15 +81,14 @@ Template.treeTplt.rendered = function () {
                               {sort: {name:1}}
                               ).fetch();
           // For each Building, create the Action List
-          _.each(building_list, function(item) {
-            foliom_data.children.push(
-              {
+          foliom_data.children = _.map(building_list, function(item) {
+            return {
                   "name": item.building_name,
                   "id": item._id,
                   "children": getActionsForBuilding(item._id)
-              }
-            );
+                }
           });
+          // debugger
 
           // Method to get all Actions for Each building + build a children list for the Tree
           function getActionsForBuilding(id_param) {
