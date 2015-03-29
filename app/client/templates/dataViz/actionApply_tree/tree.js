@@ -77,33 +77,12 @@ Template.treeTplt.rendered = function () {
                "children": []
           };
 
-          var building_list = Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
-                              {sort: {name:1}}
-                              ).fetch();
-          // For each Building, create the Action List
-          foliom_data.children = _.map(building_list, function(item) {
-            return {
-                  "name": item.building_name,
-                  "id": item._id,
-                  "children": getActionsForBuilding(item._id)
-                }
-          });
-          // debugger
+          // Calc all relevant Data
+          var buildingActionData = calcBuildingData();
 
-          // Method to get all Actions for Each building + build a children list for the Tree
-          function getActionsForBuilding(id_param) {
-              var action_list = Actions.find({ // First get all child actions
-                                  "action_type":"child",
-                                  "building_id": id_param
-                              },
-                              {sort: {name:1}}
-                              ).fetch()
-                              // then map it to a format that the tree can use
-                              .map(function(item) {
-                                return {"name": item.name}
-                              });
-              return action_list;
-          };
+          // Set the data corresponding to the selected mode
+          foliom_data.children = buildingActionData ;
+
 
           root = foliom_data;
           root.x0 = height / 2;
