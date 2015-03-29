@@ -78,7 +78,7 @@ Template.treeTplt.rendered = function () {
           };
 
           // Calc all relevant Data
-          var buildingActionData = calcBuildingData();
+          var buildingActionData = calcBuildingToActionData();
 
           // Set the data corresponding to the selected mode
           foliom_data.children = buildingActionData ;

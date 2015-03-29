@@ -1,4 +1,6 @@
-@calcBuildingData = () ->
+# Create Building list, and for each building get the Actions.
+# Returns an object already formatted correctly for the Tree
+@calcBuildingToActionData = () ->
   building_list = Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
                               {sort: {name:1}}
                               ).fetch()
