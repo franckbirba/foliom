@@ -43,7 +43,7 @@ nav.navbar.navbar-default(role='navigation'): .container: .col-sm-12
           //- .interrogation ?
           span.caret
         ul.dropdown-menu(role='menu')
-          li: a(href='#') {{_ 'about'}}
-          li: a(href='#') {{_ 'help'}}
-          li: a(href='#') {{_ 'confidentiality'}}
+          li: a(href='{{pathFor "about"}}') {{_ 'about'}}
+          li: a(href='{{pathFor "help"}}') {{_ 'help'}}
+          li: a(href='{{pathFor "confidentiality"}}') {{_ 'confidentiality'}}
 +SelectEstate
