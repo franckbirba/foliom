@@ -78,10 +78,11 @@ Template.treeTplt.rendered = function () {
           };
 
           // Calc all relevant Data
-          var buildingActionData = calcBuildingToActionData();
+          var treeData = calcBuildingToActionData();
 
           // Set the data corresponding to the selected mode
-          foliom_data.children = buildingActionData ;
+          // foliom_data.children = treeData.building_to_actions ;
+          foliom_data.children = treeData.actions_to_buildings ;
 
 
           root = foliom_data;
@@ -98,6 +99,7 @@ Template.treeTplt.rendered = function () {
 
           root.children.forEach(collapse);
           update(root);
+          console.log(root);
         }
 
 
@@ -190,13 +192,26 @@ Template.treeTplt.rendered = function () {
             d.y0 = d.y;
           });
 
+          // Test to wrap text
+          node.each(function(d) {
+
+            console.log("I'm in loop", d3.select(this) );
+            if (d.depth == 1){
+              console.log("node: ", node, "d.depth: ", d.depth, "d: ", d);
+              console.log("this:", this);
+              d3.select(this).select("text").call(wrap, 155);
+              // node.select("text").call(wrap, 155);
+            }; // Only wrap for depth = 1 (ie. first level)
+          });
+
+
           // New: force click on Building after a refresh
           // if(clickedBuilding_d3ref) {
           //   click(clickedBuilding_d3ref);
           //   clickedBuilding_d3ref = null;
           // }
 
-        }
+        } // END UPDATE FUNCTION
 
         // Toggle children on click.
         function click(d) {
@@ -256,7 +271,35 @@ Template.treeTplt.rendered = function () {
             update(d);
         }
 
+        // http://bl.ocks.org/mbostock/7555321
+        function wrap(text, width) {
+          var left_offset = -15;
+          text.each(function() {
+            var text = d3.select(this),
+                words = text.text().split(/\s+/).reverse(),
+                word,
+                line = [],
+                lineNumber = 0,
+                lineHeight = 1.1, // ems
+                y = text.attr("y"),
+                dy = parseFloat(text.attr("dy")),
+                tspan = text.text(null).append("tspan").attr("x", left_offset).attr("y", y).attr("dy", dy + "em");
+            while (word = words.pop()) {
+              line.push(word);
+              tspan.text(line.join(" "));
+              if (tspan.node().getComputedTextLength() > width) {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+                tspan = text.append("tspan").attr("x", left_offset).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+              }
+            }
+          });
+        }
+
     }); // END OF AUTORUN
+
+
 
 
 
