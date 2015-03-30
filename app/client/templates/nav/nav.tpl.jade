@@ -37,4 +37,13 @@ nav.navbar.navbar-default(role='navigation'): .container: .col-sm-12
         ul.dropdown-menu(role='menu')
           li: a.fr-lang(href='#', class="{{langActiv 'fr'}}") Français
           li: a.en-lang(href='#', class="{{langActiv 'en'}}") English
+      li.dropdown
+        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+          | ?
+          //- .interrogation ?
+          span.caret
+        ul.dropdown-menu(role='menu')
+          li: a(href='#') {{_ 'about'}}
+          li: a(href='#') {{_ 'help'}}
+          li: a(href='#') {{_ 'confidentiality'}}
 +SelectEstate
