@@ -29,7 +29,6 @@
             return {
                   "name": item.building_name,
                   "id": item._id,
-                  "level": 1,
                   "children": getActionsForBuilding(item._id)
                 }
           )
@@ -38,7 +37,6 @@
             return {
                   "name": key,
                   "id": item[0].action_template_id, # Use action_template_id as Id
-                  "level": 1,
                   "children": []
                 }
           )

@@ -213,8 +213,6 @@ Template.treeTplt.rendered = function () {
             }
 
             if (d.depth == 1) { // Depth==1 means it's a building
-                // console.log(d);
-                // console.log(d.name);
 
                 // clickedBuilding_d3ref = d; // To be able to keep track of it and expand it
                 // delete clickedBuilding_d3ref.parent ;
@@ -262,8 +260,7 @@ Template.treeTplt.rendered = function () {
 
         function wraptext_wrapper(text){
           text.each(function(d) {
-            if(  d3.select(this).attr("level") == 1 ){
-              console.log("d: ", d);
+            if(  d.depth == 1 ){
               wraptext(d3.select(this), 200, -15);
             }
           });
