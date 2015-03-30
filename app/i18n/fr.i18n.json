@@ -22,6 +22,9 @@
 
 	/* Navbar */
 	"search": "Rechercher",
+    "about": "A propos",
+    "help": "Aide",
+    "confidentiality": "Confidentialité",
 
 	/* Estate */
 	"new_estate": "Nouvel estate",
