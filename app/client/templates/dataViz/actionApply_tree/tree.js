@@ -81,8 +81,8 @@ Template.treeTplt.rendered = function () {
           var treeData = calcBuildingToActionData();
 
           // Set the data corresponding to the selected mode
-          foliom_data.children = treeData.building_to_actions ;
-          // foliom_data.children = treeData.actions_to_buildings ;
+          // foliom_data.children = treeData.building_to_actions ;
+          foliom_data.children = treeData.actions_to_buildings ;
 
 
           root = foliom_data;
@@ -135,12 +135,15 @@ Template.treeTplt.rendered = function () {
               .text(function(d) { return d.name; })
               .style("fill-opacity", 1e-6)
               .attr("id", function(d) { return d.id; }) // Add an ID to be able to select
+              .attr("level", function(d) { return d.level; }) // Add an ID to be able to select
               // .call(wraptext, 155); // Test to wrap at enter only
-              .call(wraptext, // Wrap text at enter only
-                  function(d) { return d.children || d._children ? 155 : 400; }, // Wrap at depth 1 - not so much for children
-                  function(d) { return d.children || d._children ? -15 : 15; } // Offset is -15 for depth =1 (and +15 for children)
-                );
-
+              .call(wraptext_wrapper); // Test to wrap at enter only
+              // .call(wraptext, // Wrap text at enter only
+              //     function(d) { return d.children || d._children ? 155 : 400; }, // Wrap at depth 1 - not so much for children
+              //     function(d) { return d.children || d._children ? -15 : 15; } // Offset is -15 for depth =1 (and +15 for children)
+              //   );
+              // .call(function(d) { d.children || d._children ? wraptext(d, 155, -15) : wraptext(d, 400, 15); });
+// d3.select(this)
 
           // Transition nodes to their new position.
           var nodeUpdate = node.transition()
@@ -265,10 +268,20 @@ Template.treeTplt.rendered = function () {
             update(d);
         }
 
+        function wraptext_wrapper(text){
+          text.each(function() {
+            if(  d3.select(this).attr("level") == 1 ){
+              console.log("level 1 detected");
+              wraptext(d3.select(this), 155, -15);
+            }
+          });
+        }
+
         // http://bl.ocks.org/mbostock/7555321
         // Evolved function with x_offset parameter: we want a left offset for depth = 1, and right offset for children
         function wraptext(text, width, x_offset) {
-          // var left_offset = -15;
+          // x_offset = -15;
+          // debugger
           text.each(function() {
             var text = d3.select(this),
                 words = text.text().split(/\s+/).reverse(),
