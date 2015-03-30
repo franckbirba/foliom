@@ -25,19 +25,33 @@ Template.treeTplt.rendered = function () {
         duration = 750,
         root;
 
-    // First autorun that set the tree SVG, and will be re-run if the Portfolio doc changes >> means that we have to redraw the tree
     this.autorun(function () {
+        // Get the data, tree SVG, and will be re-run if the Portfolio doc changes >> means that we have to redraw the tree
         // but only start it when he Portfolio is defined
         if(Session.get('current_portfolio_doc')) {
 
-          //Set totalHeight dynamically
-          var building_nb = Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id }).fetch().length;
-          totalHeight = 35*building_nb + 100;
-          // console.log(totalHeight);
+          // Create our own JSON-structured file
+          var foliom_data = new Object();
+          foliom_data = {
+              "name": Session.get('current_portfolio_doc').name,
+               "children": []
+          };
+
+          // Calc all relevant Data
+          var treeData = calcBuildingToActionData();
+
+          // Set the data corresponding to the selected mode
+          if (Session.equals('current_tree_mode', 'building_to_actions')) {
+            foliom_data.children = treeData.building_to_actions ;
+          } else if (Session.equals('current_tree_mode', 'actions_to_buildings')) {
+            foliom_data.children = treeData.actions_to_buildings ;
+          }
+
+          totalHeight = 45*foliom_data.children.length + 100; //Set totalHeight dynamically
+
+          // DRAW TREE
 
           margin = {top: 20, right: 120, bottom: 20, left: 120};
-          // totalHeight = 1800,
-          // totalWidth = 600;
           totalWidth = $("#treePlaceholder").width() - 10; // Set width dynamically to occupy almost all width
           width = totalWidth - margin.right - margin.left;
           height = totalHeight - margin.top - margin.bottom;
@@ -62,31 +76,6 @@ Template.treeTplt.rendered = function () {
             .append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        }
-      });
-
-      //Second autorun that is in charge of drawing the nodes and tree (and redrawing on events)
-      this.autorun(function () {
-        // but only start it when he Portfolio is defined
-        if(Session.get('current_portfolio_doc')) {
-
-          // Create our own JSON-structured file
-          var foliom_data = new Object();
-          foliom_data = {
-              "name": Session.get('current_portfolio_doc').name,
-               "children": []
-          };
-
-          // Calc all relevant Data
-          var treeData = calcBuildingToActionData();
-
-          // Set the data corresponding to the selected mode
-          if (Session.equals('current_tree_mode', 'building_to_actions')) {
-            foliom_data.children = treeData.building_to_actions ;
-          } else if (Session.equals('current_tree_mode', 'actions_to_buildings')) {
-            foliom_data.children = treeData.actions_to_buildings ;
-          }
-
 
 
           root = foliom_data;
@@ -103,8 +92,8 @@ Template.treeTplt.rendered = function () {
 
           root.children.forEach(collapse);
           update(root);
-          console.log(root);
         }
+
 
 
         d3.select(self.frameElement).style("height", totalHeight);
@@ -115,8 +104,14 @@ Template.treeTplt.rendered = function () {
           var nodes = tree.nodes(root).reverse(),
               links = tree.links(nodes);
 
-          // Normalize for fixed-depth.
-          nodes.forEach(function(d) { d.y = d.depth * 150; });
+          // Normalize for fixed-depth. Evol: adjust depth depending on level
+          nodes.forEach(function(d) {
+            if (d.depth == 1) {
+              d.y = d.depth * 200;
+            } else {
+              d.y = d.depth * 140;
+            }
+          });
 
           // Update the nodes…
           var node = svg.selectAll("g.node")
@@ -140,14 +135,7 @@ Template.treeTplt.rendered = function () {
               .style("fill-opacity", 1e-6)
               .attr("id", function(d) { return d.id; }) // Add an ID to be able to select
               .attr("level", function(d) { return d.level; }) // Add an ID to be able to select
-              // .call(wraptext, 155); // Test to wrap at enter only
               .call(wraptext_wrapper); // Test to wrap at enter only
-              // .call(wraptext, // Wrap text at enter only
-              //     function(d) { return d.children || d._children ? 155 : 400; }, // Wrap at depth 1 - not so much for children
-              //     function(d) { return d.children || d._children ? -15 : 15; } // Offset is -15 for depth =1 (and +15 for children)
-              //   );
-              // .call(function(d) { d.children || d._children ? wraptext(d, 155, -15) : wraptext(d, 400, 15); });
-// d3.select(this)
 
           // Transition nodes to their new position.
           var nodeUpdate = node.transition()
@@ -273,10 +261,10 @@ Template.treeTplt.rendered = function () {
         }
 
         function wraptext_wrapper(text){
-          text.each(function() {
+          text.each(function(d) {
             if(  d3.select(this).attr("level") == 1 ){
-              console.log("level 1 detected");
-              wraptext(d3.select(this), 155, -15);
+              console.log("d: ", d);
+              wraptext(d3.select(this), 200, -15);
             }
           });
         }
