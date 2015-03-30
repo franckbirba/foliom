@@ -81,8 +81,8 @@ Template.treeTplt.rendered = function () {
           var treeData = calcBuildingToActionData();
 
           // Set the data corresponding to the selected mode
-          // foliom_data.children = treeData.building_to_actions ;
-          foliom_data.children = treeData.actions_to_buildings ;
+          foliom_data.children = treeData.building_to_actions ;
+          // foliom_data.children = treeData.actions_to_buildings ;
 
 
           root = foliom_data;
@@ -134,7 +134,13 @@ Template.treeTplt.rendered = function () {
               .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
               .text(function(d) { return d.name; })
               .style("fill-opacity", 1e-6)
-              .attr("id", function(d) { return d.id; }); // Add an ID to be able to select
+              .attr("id", function(d) { return d.id; }) // Add an ID to be able to select
+              // .call(wraptext, 155); // Test to wrap at enter only
+              .call(wraptext, // Wrap text at enter only
+                  function(d) { return d.children || d._children ? 155 : 400; }, // Wrap at depth 1 - not so much for children
+                  function(d) { return d.children || d._children ? -15 : 15; } // Offset is -15 for depth =1 (and +15 for children)
+                );
+
 
           // Transition nodes to their new position.
           var nodeUpdate = node.transition()
@@ -190,18 +196,6 @@ Template.treeTplt.rendered = function () {
           nodes.forEach(function(d) {
             d.x0 = d.x;
             d.y0 = d.y;
-          });
-
-          // Test to wrap text
-          node.each(function(d) {
-
-            console.log("I'm in loop", d3.select(this) );
-            if (d.depth == 1){
-              console.log("node: ", node, "d.depth: ", d.depth, "d: ", d);
-              console.log("this:", this);
-              d3.select(this).select("text").call(wrap, 155);
-              // node.select("text").call(wrap, 155);
-            }; // Only wrap for depth = 1 (ie. first level)
           });
 
 
@@ -272,8 +266,9 @@ Template.treeTplt.rendered = function () {
         }
 
         // http://bl.ocks.org/mbostock/7555321
-        function wrap(text, width) {
-          var left_offset = -15;
+        // Evolved function with x_offset parameter: we want a left offset for depth = 1, and right offset for children
+        function wraptext(text, width, x_offset) {
+          // var left_offset = -15;
           text.each(function() {
             var text = d3.select(this),
                 words = text.text().split(/\s+/).reverse(),
@@ -283,7 +278,7 @@ Template.treeTplt.rendered = function () {
                 lineHeight = 1.1, // ems
                 y = text.attr("y"),
                 dy = parseFloat(text.attr("dy")),
-                tspan = text.text(null).append("tspan").attr("x", left_offset).attr("y", y).attr("dy", dy + "em");
+                tspan = text.text(null).append("tspan").attr("x", x_offset).attr("y", y).attr("dy", dy + "em");
             while (word = words.pop()) {
               line.push(word);
               tspan.text(line.join(" "));
@@ -291,7 +286,7 @@ Template.treeTplt.rendered = function () {
                 line.pop();
                 tspan.text(line.join(" "));
                 line = [word];
-                tspan = text.append("tspan").attr("x", left_offset).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                tspan = text.append("tspan").attr("x", x_offset).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
               }
             }
           });
