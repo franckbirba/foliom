@@ -402,6 +402,10 @@
     "select_portfolio": "Sélectionnez votre patrimoine",
     "click_building_to_choose_actions": "Cliquez sur un Bâtiment pour lui appliquer des Actions",
 
+    "tree_mode_select": "Organiser par",
+    "building_to_actions": "Bâtiments / Actions",
+    "actions_to_buildings": "Actions / Bâtiments",
+
 
     /* Message Box */
     "messages": "Messages & Alertes",

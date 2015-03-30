@@ -260,7 +260,7 @@ Template.treeTplt.rendered = function () {
 
         function wraptext_wrapper(text){
           text.each(function(d) {
-            if(  d.depth == 1 ){
+            if(  d.depth == 1 ){ // Specific rule for wrapping text at depth == 1
               wraptext(d3.select(this), 200, -15);
             }
           });

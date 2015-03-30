@@ -23,10 +23,6 @@
 	/* Navbar */
 	"search": "Search",
 
-    /* Apply Actions */
-    "actions_apply": "Apply actions on your portfolio",
-    "select_portfolio": "Select your portfolio",
-
 	/* Estate */
 	"new_estate": "New estate",
 
@@ -396,6 +392,10 @@
     "actions_apply": "Apply actions",
     "select_portfolio": "Select a Portfolio",
     "click_building_to_choose_actions": "Click a building to choose actions",
+
+    "tree_mode_select": "Organize by",
+    "building_to_actions": "Buildings / Actions",
+    "actions_to_buildings": "Actions / Buildings",
 
 
     /* Message Box */
