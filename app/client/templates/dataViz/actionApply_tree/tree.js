@@ -81,8 +81,12 @@ Template.treeTplt.rendered = function () {
           var treeData = calcBuildingToActionData();
 
           // Set the data corresponding to the selected mode
-          // foliom_data.children = treeData.building_to_actions ;
-          foliom_data.children = treeData.actions_to_buildings ;
+          if (Session.equals('current_tree_mode', 'building_to_actions')) {
+            foliom_data.children = treeData.building_to_actions ;
+          } else if (Session.equals('current_tree_mode', 'actions_to_buildings')) {
+            foliom_data.children = treeData.actions_to_buildings ;
+          }
+
 
 
           root = foliom_data;

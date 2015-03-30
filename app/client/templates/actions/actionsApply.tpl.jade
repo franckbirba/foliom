@@ -22,4 +22,7 @@
       #scenarioLink
         a.btn.btn-primary(role='button' href='{{pathFor "scenarioList"}}') {{_ 'schemaDir_create'}}
     .col-md-9.treeViz
+      .pull-right: select#treeModeSelect.form-control
+        option(value='building_to_actions', selected) {{_ "building_to_actions"}}
+        option(value='actions_to_buildings') {{_ "actions_to_buildings"}}
       +treeTplt

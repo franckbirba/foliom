@@ -3,11 +3,13 @@
 
 */
 
+Template.actionsApply.created = function () {
+
+    Session.set('current_building_doc', null); // clear building_doc session var
+    Session.set('current_tree_mode', 'building_to_actions'); // Init tree mode
+};
 
 Template.actionsApply.rendered = function () {
-
-    // clear building_doc session var
-    Session.set('current_building_doc', null);
 
     if (Session.get('current_portfolio_doc')) {
         // If a Portfolio is alreay "selected", then use it
@@ -21,13 +23,6 @@ Template.actionsApply.rendered = function () {
             $("#portfolioSelect").change();
         }, 300);
     }
-
-    // On Portfolio selector change: set the correct current Portfolio Doc
-    $("#portfolioSelect").change(function(){
-        Session.set('current_portfolio_doc',
-            Portfolios.findOne( $("#portfolioSelect").val() )
-        );
-    });
 
 };
 
@@ -59,7 +54,18 @@ Template.actionsApply.helpers({
   }
 });
 
+
 Template.actionsApply.events({
+    'change #portfolioSelect': function(event) {
+        // On Portfolio selector change: set the correct current Portfolio Doc
+        Session.set('current_portfolio_doc',
+            Portfolios.findOne( $(event.currentTarget).val() )
+        );
+    },
+    'change #treeModeSelect': function(event) {
+        // On Portfolio selector change: set the correct current Portfolio Doc
+        Session.set('current_tree_mode', $(event.currentTarget).val() );
+    },
     'change .checkbox': function(event) {
         // console.log(this);
         // var childActionToCreate = this;
