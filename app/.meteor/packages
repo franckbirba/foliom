@@ -3,39 +3,54 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
+# MDG
 standard-app-packages
-aldeed:autoform
-aldeed:collection2
-less
+reactive-var
+
+# Security
+insecure
 accounts-password
 alanning:roles
-aldeed:delete-button
-nemo64:bootstrap
-d3js:d3
-vazco:maps
-harrison:babyparse
+
+# Easing development
 mquandalle:jade
 coffeescript
-mizzao:jquery-ui
-momentjs:moment
-fortawesome:fontawesome
-rzymek:moment-locale-fr
-tap:i18n
-iron:router
-numeral:numeral
-danielqiu:feed
-insecure
-natestrauser:animate-css
-natestrauser:select2
-reactive-var
-harrison:papa-parse
-forwarder:autoform-wizard
 mquandalle:stylus
-cfs:standard-packages
-aldeed:simple-schema
-yogiben:autoform-file
+less
 msavin:mongol
+
+# Style
+nemo64:bootstrap
 ian:accounts-ui-bootstrap-3
+fortawesome:fontawesome
+natestrauser:animate-css
+
+# FileSystem
+cfs:standard-packages
 cfs:gridfs
+
+# Collection
+aldeed:simple-schema
+aldeed:collection2
+aldeed:autoform
+aldeed:delete-button
+yogiben:autoform-file
+forwarder:autoform-wizard
 matb33:collection-hooks
 yogiben:autoform-modals
+
+# Server & client utils
+iron:router
+harrison:babyparse
+harrison:papa-parse
+danielqiu:feed
+
+# Client utils
+tap:i18n
+momentjs:moment
+rzymek:moment-locale-fr
+numeral:numeral
+d3js:d3
+vazco:maps
+mizzao:jquery-ui
+natestrauser:select2
