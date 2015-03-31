@@ -1,12 +1,18 @@
 # Using Collection hooks instead of Observe. BEWARE: hooks don't work when directly modifying MondoDB
 Actions.after.insert (userId, doc) ->
   if doc.action_type is "generic" or doc.action_type is "user_template"
-    manageActionLogos(doc.logo, "remove_logo")
+    manageActionLogos(doc.logo, "remove_logo") # remove new logo
 
 Actions.after.remove (userId, doc) ->
   if doc.action_type is "generic" or doc.action_type is "user_template"
-    manageActionLogos(doc.logo, "restore_logo")
+    manageActionLogos(doc.logo, "restore_logo") # restore previous logo
 
+Actions.after.update ((userId, doc, fieldNames, modifier, options) ->
+  if doc.logo isnt this.previous.logo # only change logos if new doc has a different logo
+    console.log "Do stuff to logos"
+    manageActionLogos(this.previous.logo, "restore_logo") # restore previous logo
+    manageActionLogos(doc.logo, "remove_logo") # remove new logo
+), fetchPrevious: true
 
 manageActionLogos = (logo, add_or_remove_logo) ->
   action_logo = logo # get used logo
