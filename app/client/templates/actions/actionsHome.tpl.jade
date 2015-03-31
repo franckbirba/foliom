@@ -1,7 +1,7 @@
 .page.plan.actionsHome: .container: nav.animated.fadeInDown
-  a.action_conf.animated.fadeInLeft(href='{{pathFor "actions-list"}}')
-    .btn.btn-default {{_ 'actionList_title'}}
-  a.action_apply.animated.fadeInDown(href='{{pathFor "actions-apply"}}')
-    .btn.btn-default {{_ 'actions_apply'}}
-  a.action_blueprint.animated.fadeInRight(href='{{pathFor "scenarioList"}}')
-    .btn.btn-default {{_ 'schemaDir_create'}}
+  a.action_conf.animated.fadeInLeft.captionWrapper(href='{{pathFor "actions-list"}}')
+    .caption {{_ 'actionList_title'}}
+  a.action_apply.animated.fadeInDown.captionWrapper(href='{{pathFor "actions-apply"}}')
+    .caption {{_ 'actions_apply'}}
+  a.action_blueprint.animated.fadeInRight.captionWrapper(href='{{pathFor "scenarioList"}}')
+    .caption {{_ 'schemaDir_create'}}

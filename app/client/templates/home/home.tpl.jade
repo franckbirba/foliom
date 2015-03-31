@@ -5,14 +5,14 @@
   section
     nav
       // Access to Observe section
-      a.sextan.animated.fadeInLeft(href='/observatory')
-        .btn.btn-default {{_ 'observe'}}
+      a.sextan.animated.fadeInLeft.captionWrapper(href='/observatory')
+        .caption {{_ 'observe'}}
       // Access to Plan section
-      a.compass.animated.fadeInDown(href='/actions-home')
-        .btn.btn-default {{_ 'plan'}}
+      a.compass.animated.fadeInDown.captionWrapper(href='/actions-home')
+        .caption {{_ 'plan'}}
       // Follow-up tools
-      a.animated.fadeInUp(href='/actions-home')
-        .btn.btn-default {{_ 'followup_tools'}}
+      a.animated.fadeInUp.captionWrapper(href='/actions-home')
+        .caption {{_ 'followup_tools'}}
     // Message box
     article.animated.fadeInRight
         +messageBox
