@@ -1,11 +1,11 @@
 # Using Collection hooks instead of Observe. BEWARE: hooks don't work when directly modifying MondoDB
 Actions.after.insert (userId, doc) ->
-  manageActionLogos(doc.logo, "remove_logo")
+  if doc.action_type is "generic" or doc.action_type is "user_template"
+    manageActionLogos(doc.logo, "remove_logo")
 
 Actions.after.remove (userId, doc) ->
-  manageActionLogos(doc.logo, "restore_logo")
-
-# WAIT! ONLY DO IT FOR GENERIC OR USER TEMPLATE ACTIONS
+  if doc.action_type is "generic" or doc.action_type is "user_template"
+    manageActionLogos(doc.logo, "restore_logo")
 
 
 manageActionLogos = (logo, add_or_remove_logo) ->
