@@ -395,6 +395,7 @@ TV = TimelineVars
  * Prepare calculation at template creation.
 ###
 Template.timeline.created = ->
+  Log.info 'Timeline created'
   # HACK: D3 tips should be used as a singleton but are actually not designed
   # this way. See: https://github.com/Caged/d3-tip/issues/91
   # Thus, I remove all D3 tips before recreating new ones for avoiding DOM
@@ -410,23 +411,30 @@ Template.timeline.created = ->
   TV.reset()
   # Get denormalized scenario, buildings and portfolios from router
   # @TODO check for unplanned actions
+  Log.info 'Routed data'
   TV.getRouterData @data
   # Set minimum and maximum date
+  Log.info 'Min max date'
   TV.setMinMaxDate()
   # Get fluids and coefficients
+  Log.info 'Fluids and coefs'
   TV.getFluidsAndCoefs()
   # Get scenario total cost
+  Log.info 'Total costs'
   TV.calculateTotalCost()
   # Create ticks, consumption and budget charts
+  Log.info 'Static charts'
   TV.calculateStaticCharts()
   # Reactively perform TimelineTable refresh based on filter changes
   @autorun ->
     buildingFilter = Session.get 'timeline-filter-portfolio-or-building'
+    Log.info 'Filter on portfolio or building changed: Recalculate timeline'
     # Calculate values used in the TimelineTable
     TV.calculateTimelineTable buildingFilter
   # Reactively perform TimelineTable and chart refresh on Scenario change
   @autorun (computation) ->
     scenario = Scenarios.findOne TV.scenario._id
+    Log.info 'Scenario content changed: Recalculate timeline and charts'
     TV.calculateTimelineTable() unless computation.firstRun
     TV.calculateDynamicChart()
 
