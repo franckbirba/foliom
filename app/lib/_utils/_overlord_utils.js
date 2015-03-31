@@ -65,50 +65,23 @@ fluidToObject = function(matchingFluid) {
 };
 
 
-/*TODO @FBI: performance optimisation*/
-getSelectors = function(param) {
+getSelectors = function(selector_name) {
   var labelList2 = [];
 
   Selectors.find({
-    name: param
+    name: selector_name
   }).forEach(function(selector) {
     // Va passer dans la boucle .forEach "selector"
-    // console.log(selector.labels);
-
     _.each(selector.labels, function(item) {
       labelList2.push({
         label: transr(item),
         value: item
       });
-      // console.log(labelList2);
+
     });
   });
-
-  //console.log(labelList2);
   return labelList2;
 };
-
-// Modifié suite aux modifs de Franck.
-// getFluids = function () {
-//     var labelList = [] ;
-
-//     // Selectors.find({name:param}).forEach(function(selector) { // ToDo : ajouter Estate
-//     Fluids.find().forEach(function(item) { // ToDo : ajouter Estate
-//         console.log(item);
-
-//         var fl_provider = transr(item.fluid_provider) ;
-//         var fl_type = transr(item.fluid_type) ;
-//         var complete_fluid = fl_provider() + " - " + fl_type();
-
-//         console.log('complete_fluid var is: ');
-//         console.log(complete_fluid);
-
-//         labelList.push(
-//             {label:complete_fluid, value: item._id }
-//         );
-//     });
-//     return labelList;
-// };
 
 getFluids = function(limit_to_single_type) {
   var labelList = [];
