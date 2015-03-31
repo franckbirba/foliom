@@ -226,7 +226,7 @@ Actions.attachSchema(new SimpleSchema({
       afFieldInput: {
         type: 'select-radio-inline_image',
         options: function() {
-          return getSelectors('action_logo');
+          return getSelectors('available_action_logos');
         }
       }
     }

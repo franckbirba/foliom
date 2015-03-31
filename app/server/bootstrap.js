@@ -1154,6 +1154,10 @@ Meteor.startup(function () {
                     name: 'conformity_periodicity',
                     labels: ["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]
                 },
+                {
+                    name: 'available_action_logos',
+                    labels: []
+                },
 
             ];
 
@@ -1173,6 +1177,9 @@ Meteor.startup(function () {
 
     // get all pictos from 'foliom-picto' font
     fontImport ('foliom-picto-selection.json', 'action_logo');
+    // copy pictos to available_action_logos & update selector
+    available_action_logos = Selectors.findOne({name: 'action_logo'}).labels
+    Selectors.upsert({name: 'available_action_logos'}, {$set: {labels:available_action_logos} })
 
 
 
