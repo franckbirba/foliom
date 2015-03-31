@@ -1115,49 +1115,52 @@ Meteor.startup(function () {
         var cfgId = Configurations.insert(estateCfg);
         console.log('Inserted Cfg for estate 77 ' +  cfgId);
     }
+
     if(Selectors.find().count() === 0) {
-        var tmpSelectorList = [
-                {
-                    name: 'fluid_type',
-                    labels: ["fluid_electricity", "fluid_water", "fluid_heat" ],
-                    portfolio_id: ""
-                },
-                {
-                    name: 'fluid_provider',
-                    labels: ["EDF", "Poweo", "Lyonnaise des Eaux"],
-                    portfolio_id: ""
-                },
-                {
-                    name: 'fluid_unit',
-                    labels: ["u_euro_kwhEF", "u_euro_m3", "u_euro_m2"],
-                    portfolio_id: ""
-                },
-                {
-                    name: 'lease_usage',
-                    labels: ["office", "retail", "residential"],
-                    portfolio_id: ""
-                },
-                {
-                    name: 'conformity_options',
-                    labels: ["compliant", "not_compliant_minor", "not_compliant_major"],
-                    portfolio_id: ""
-                },
-                {
-                    name: 'certifications',
-                    labels: ["nf_hqe", "breeam", "us_leed", "effinergie", "bepos2013"]
-                },
-                {
-                    name: 'kwhef_to_co2_coefficients',
-                    labels: ["NA", "fluid_electricity", "fluid_naturalGas", "fluid_fuelOil_household", "fluid_fuelOil_heavy", "fluid_woodEnergy"]
-                },
-                {
-                    name: 'conformity_periodicity',
-                    labels: ["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]
-                },
+      var tmpSelectorList = [
+              {
+                  name: 'fluid_type',
+                  labels: ["fluid_electricity", "fluid_water", "fluid_heat" ],
+                  portfolio_id: ""
+              },
+              {
+                  name: 'fluid_provider',
+                  labels: ["EDF", "Poweo", "Lyonnaise des Eaux"],
+                  portfolio_id: ""
+              },
+              {
+                  name: 'fluid_unit',
+                  labels: ["u_euro_kwhEF", "u_euro_m3", "u_euro_m2"],
+                  portfolio_id: ""
+              },
+              {
+                  name: 'lease_usage',
+                  labels: ["office", "retail", "residential"],
+                  portfolio_id: ""
+              },
+              {
+                  name: 'conformity_options',
+                  labels: ["compliant", "not_compliant_minor", "not_compliant_major"],
+                  portfolio_id: ""
+              },
+              {
+                  name: 'certifications',
+                  labels: ["nf_hqe", "breeam", "us_leed", "effinergie", "bepos2013"]
+              },
+              {
+                  name: 'kwhef_to_co2_coefficients',
+                  labels: ["NA", "fluid_electricity", "fluid_naturalGas", "fluid_fuelOil_household", "fluid_fuelOil_heavy", "fluid_woodEnergy"]
+              },
+              {
+                  name: 'conformity_periodicity',
+                  labels: ["monthly", "quaterly", "bi_annual", "yearly", "2_years", "5_years", "7_years", "10_years"]
+              },
+              {
+                  name: 'available_action_logos',
+                  labels: []
+              },
 
-            ];
-
-
+          ];
 
         _.each(tmpSelectorList, function(item) {
             Selectors.insert(
@@ -1167,12 +1170,13 @@ Meteor.startup(function () {
             console.log(item);
         });
 
-        console.log('created first Selector list - 2 items!');
+        // get all pictos from 'foliom-picto' font
+        fontImport ('foliom-picto-selection.json', 'action_logo');
+        // copy pictos to available_action_logos & update selector
+        available_action_logos = Selectors.findOne({name: 'action_logo'}).labels;
+        Selectors.upsert({name: 'available_action_logos'}, {$set: {labels:available_action_logos} });
 
     };
-
-    // get all pictos from 'foliom-picto' font
-    fontImport ('foliom-picto-selection.json', 'action_logo');
 
 
 

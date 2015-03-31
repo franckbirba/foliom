@@ -39,9 +39,9 @@ nav.navbar.navbar-default(role='navigation'): .container: .col-sm-12
           li: a.en-lang(href='#', class="{{langActiv 'en'}}") English
       li.dropdown
         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-          | ?
-          //- .interrogation ?
-          span.caret
+          //- | ?
+          .interrogation.pull-left ?
+          span.caret.help-caret
         ul.dropdown-menu(role='menu')
           li: a(href='{{pathFor "about"}}') {{_ 'about'}}
           li: a(href='{{pathFor "help"}}') {{_ 'help'}}
