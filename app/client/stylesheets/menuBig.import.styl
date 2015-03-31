@@ -27,7 +27,7 @@ menuBig(page, bigButtons, extension)
           color white
           font-size 2.2em
           line-height @width
-          transform opacity defaultAnimation
+          transition opacity defaultAnimation
           outline none
           text-decoration none
         &::after
@@ -40,6 +40,7 @@ menuBig(page, bigButtons, extension)
           transition all defaultAnimation
         &:hover
           span
+            transform 2s ease-out
             opacity 1
           &::after
             filter brightness(0.7) contrast(0.7)
