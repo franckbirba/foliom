@@ -1,20 +1,21 @@
-# Subscribe for the correct configurations
-Tracker.autorun ->
-  currentEstate = Session.get 'current_estate_doc'
-  if currentEstate?
-    estate_doc_id = currentEstate._id
-    # CONFIGURATIONS
-    #Subscribe to the Estate config
-    Meteor.subscribe 'configurations', estate_doc_id
-    #Also set a Session var
-    curr_config = Configurations.findOne master: false
-    Session.set 'current_config', curr_config  if curr_config
-    #PORTFOLIOS
-    Meteor.subscribe 'portfolios', estate_doc_id
-    #SCENARIOS
-    Meteor.subscribe 'scenarios', estate_doc_id
-    # Empty the current Portfolio doc
-    #Session.set 'current_portfolio_doc', undefined
+Template.nav.created = ->
+  # Subscribe for the correct configurations
+  @autorun ->
+    currentEstate = Session.get 'current_estate_doc'
+    if currentEstate?
+      estate_doc_id = currentEstate._id
+      # CONFIGURATIONS
+      #Subscribe to the Estate config
+      Meteor.subscribe 'configurations', estate_doc_id
+      #Also set a Session var
+      curr_config = Configurations.findOne master: false
+      Session.set 'current_config', curr_config  if curr_config
+      #PORTFOLIOS
+      Meteor.subscribe 'portfolios', estate_doc_id
+      #SCENARIOS
+      Meteor.subscribe 'scenarios', estate_doc_id
+      # Empty the current Portfolio doc
+      #Session.set 'current_portfolio_doc', undefined
 
 Template.nav.events
   'click .js-logout': ->
@@ -58,4 +59,3 @@ Template.nav.rendered = ->
         Session.set 'current_estate_doc', Estates.findOne()
       else
         $('#SelectEstateForm').modal 'show'
-

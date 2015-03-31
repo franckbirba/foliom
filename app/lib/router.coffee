@@ -4,7 +4,7 @@ basicWaitOn = -> [
   Meteor.subscribe 'configurationMaster'
   Meteor.subscribe 'userData'
   Meteor.subscribe 'estates', null
-  # @NOTE Portfolio sub. is now done when Estate is set (in NAV.js)
+  # @NOTE Portfolio sub. is now done when Estate is set (in nav.coffee)
   # Meteor.subscribe 'portfolios', null
   Meteor.subscribe 'buildings', null
   Meteor.subscribe 'leases', null
@@ -14,7 +14,8 @@ basicWaitOn = -> [
   Meteor.subscribe 'messages', null
   Meteor.subscribe 'images'
   Meteor.subscribe 'actions'
-  Meteor.subscribe 'scenarios'
+  # @NOTE Portfolio sub. is now done when Estate is set (in nav.coffee)
+  # Meteor.subscribe 'scenarios'
 ]
 
 Router.configure
