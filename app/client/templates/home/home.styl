@@ -19,7 +19,11 @@ navWidth = 640px
       flex-wrap wrap
       a:last-child
         margin-top 1em
-        background-image url(/icon/evaluer-2.png)
+        span
+          width navWidth
+        &::after
+          width navWidth
+          background-image url(/icon/evaluer-2.png)
         width navWidth
     article
       flex-grow 1

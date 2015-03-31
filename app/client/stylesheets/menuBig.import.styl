@@ -11,15 +11,39 @@ menuBig(page, bigButtons, extension)
       flex-direction row
       justify-content space-between
       a
-        background-repeat no-repeat
-        background-size contain
         size 293px
         padding 10px
-        transition all defaultAnimation
         border-radius 2px
-        &:hover
+        position relative
+        z-index 2
+        outline none
+        text-decoration none
+        line-height @width
+        span
+          size @width
+          absolute top left
+          text-align center
+          opacity 0
+          color white
+          font-size 2.2em
+          line-height @width
+          transform opacity defaultAnimation
+          outline none
+          text-decoration none
+        &::after
+          content ''
+          z-index -1
+          size @width
+          absolute top left
+          background-repeat no-repeat
+          background-size contain
           transition all defaultAnimation
-          filter brightness(0.7) contrast(0.7)
+        &:hover
+          span
+            opacity 1
+          &::after
+            filter brightness(0.7) contrast(0.7)
       for bigButton in bigButtons
         .{bigButton}
-          background-image url(/icon/bigButton.extension)
+          &::after
+            background-image url(/icon/bigButton.extension)
