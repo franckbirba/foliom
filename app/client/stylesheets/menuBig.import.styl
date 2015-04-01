@@ -12,35 +12,29 @@ menuBig(page, bigButtons, extension)
       justify-content space-between
       a
         size 293px
-        padding 10px
-        border-radius 2px
         position relative
         z-index 2
-        outline none
         text-decoration none
-        line-height @width
+        display flex
+        justify-content center
+        align-items center
+        text-align center
         span
-          size @width
-          absolute top left
-          text-align center
           opacity 0
           color white
           font-size 2.2em
-          line-height @width
-          transition opacity defaultAnimation
-          outline none
-          text-decoration none
+          transition opacity .3s
         &::after
           content ''
           z-index -1
-          size @width
+          size inherit
           absolute top left
           background-repeat no-repeat
           background-size contain
-          transition all defaultAnimation
+          transition all .3s
+          border-radius 2px
         &:hover
           span
-            transform 2s ease-out
             opacity 1
           &::after
             filter brightness(0.7) contrast(0.7)
