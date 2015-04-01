@@ -75,6 +75,9 @@ Template.actionForm.helpers({
 Template.actionForm.rendered = function () {
   curr_route = Router.current().route.getName();
 
+  // If editing a child action, then hide the logo field
+  if( Session.get('childActionToEdit') ) { $('[data-schema-key="logo"]').parent().parent().hide(); }
+
 
   // Only apply formulas if we're editing a child action
   //or if we're in the actions-apply screen
