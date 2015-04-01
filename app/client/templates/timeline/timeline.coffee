@@ -396,14 +396,6 @@ TV = TimelineVars
 ###
 Template.timeline.created = ->
   Log.info 'Timeline created'
-  # HACK: D3 tips should be used as a singleton but are actually not designed
-  # this way. See: https://github.com/Caged/d3-tip/issues/91
-  # Thus, I remove all D3 tips before recreating new ones for avoiding DOM
-  # pollution.
-  # @NOTE: This should be done in the Template.timeline.destroyed when
-  # Blaze get finally fixed.
-  ($ '.d3-tip')?.remove()
-  ($ 'span[role=\'status\']')?.remove()
   # Reactive var for choosing consumption chart for energy type
   @rxEnergyType = new ReactiveVar
   @rxEnergyType.set 'water'
@@ -470,3 +462,14 @@ Template.timeline.events
       $btnGroup.children().removeClass 'active'
       $selected.addClass 'active'
       t.rxEnergyType.set $selected.attr 'data-value'
+
+###*
+ * Remove DOM elements not created by Blaze.
+###
+Template.timeline.destroyed = ->
+  # HACK: D3 tips should be used as a singleton but are actually not designed
+  # this way. See: https://github.com/Caged/d3-tip/issues/91
+  # Thus, I remove all D3 tips before recreating new ones for avoiding DOM
+  # pollution.
+  ($ '.d3-tip')?.remove()
+  ($ 'span[role=\'status\']')?.remove()
