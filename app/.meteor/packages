@@ -18,6 +18,7 @@ coffeescript
 mquandalle:stylus
 less
 msavin:mongol
+msavin:jetsetter
 
 # Style
 nemo64:bootstrap
@@ -54,4 +55,3 @@ d3js:d3
 vazco:maps
 mizzao:jquery-ui
 natestrauser:select2
-msavin:jetsetter
