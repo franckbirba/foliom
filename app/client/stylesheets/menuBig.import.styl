@@ -16,31 +16,27 @@ menuBig(page, bigButtons, extension)
         border-radius 2px
         position relative
         z-index 2
-        outline none
         text-decoration none
-        line-height @width
+        display flex
+        flex-direction row
+        justify-content center
+        align-items center
+        text-align center
         span
-          size @width
-          absolute top left
-          text-align center
           opacity 0
           color white
           font-size 2.2em
-          line-height @width
           transition opacity defaultAnimation
-          outline none
-          text-decoration none
         &::after
           content ''
           z-index -1
-          size @width
+          size inherit
           absolute top left
           background-repeat no-repeat
           background-size contain
           transition all defaultAnimation
         &:hover
           span
-            transform 2s ease-out
             opacity 1
           &::after
             filter brightness(0.7) contrast(0.7)
