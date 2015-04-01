@@ -89,7 +89,7 @@ mquandalle:stylus@1.1.0
 mrt:twit@0.2.0
 msavin:jetsetter@1.0.7
 msavin:mongol@1.0.12
-natestrauser:animate-css@3.1.2
+natestrauser:animate-css@3.2.6
 natestrauser:select2@3.5.1
 nemo64:bootstrap@3.3.4_1
 nemo64:bootstrap-data@3.3.4_1
@@ -123,5 +123,5 @@ url@1.0.4
 vazco:maps@0.0.1
 webapp@1.2.0
 webapp-hashing@1.0.3
-yogiben:autoform-file@0.2.0
+yogiben:autoform-file@0.2.1
 yogiben:autoform-modals@0.3.2
