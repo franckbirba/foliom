@@ -9,7 +9,6 @@ Actions.after.remove (userId, doc) ->
 
 Actions.after.update ((userId, doc, fieldNames, modifier, options) ->
   if doc.logo isnt this.previous.logo # only change logos if new doc has a different logo
-    console.log "Do stuff to logos"
     manageActionLogos(this.previous.logo, "restore_logo") # restore previous logo
     manageActionLogos(doc.logo, "remove_logo") # remove new logo
 ), fetchPrevious: true
@@ -26,4 +25,4 @@ manageActionLogos = (logo, add_or_remove_logo) ->
   Selectors.update {'name':'available_action_logos'},
     { $set: { labels: new_action_logos_array } }
 
-  console.log "available_action_logos.length is now #{new_action_logos_array.length}"
+  # console.log "available_action_logos.length is now #{new_action_logos_array.length}"
