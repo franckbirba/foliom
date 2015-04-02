@@ -5,20 +5,19 @@
   .action-bucket
     transition transform defaultAnimation
   .action-bucket-displayed
-    width 939px
+    size 939px 300px
+    transform translateY(-300px)
+    max-height @height
     @media (min-width: 1200px)
       width 1139px
     position absolute
-    transform translateY(-300px)
-    height 300px
-    max-height 300px
   .action-bucket-heading
     height headingHeight
     cursor pointer
   .action-bucket-arrow
     width 72px
     height headingHeight
-    line-height headingHeight
+    line-height @height
     text-align center
     margin-top -10px
     margin-right -15px
@@ -30,7 +29,7 @@
     padding 0
     .action-bucket-table
       height 249px
-      max-height 249px
+      max-height @height
       overflow-x hidden
       overflow-y auto
       tbody

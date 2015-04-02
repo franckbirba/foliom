@@ -396,6 +396,7 @@ TV = TimelineVars
 ###
 Template.timeline.created = ->
   Log.info 'Timeline created'
+  window.scroll 0, 0
   # Reactive var for choosing consumption chart for energy type
   @rxEnergyType = new ReactiveVar
   @rxEnergyType.set 'water'

@@ -1,20 +1,20 @@
 .page.plan: .timeline.container
   // Scenario being displayed
-  .row: .col-md-12: h1.page-title.animated.fadeInDown #{scenarioName}
+  .row: .col-md-12: h1.page-title.mFadeInDown #{scenarioName}
   .row
     // Timeline table
     .col-md-4
-      .animated.fadeInLeft
+      .mFadeInLeft
         +timelineTable
     // Appraisal, charts and available actions
     .col-md-8
       // Appraisal
       .row: .col-md-12
-        .panel.panel-primary.animated.fadeInRight
+        .panel.panel-primary.mFadeInRight
           +timelineAppraisal
       // The charts
       .row: .col-md-12: .panel.panel-primary
-        .panel-body.animated.fadeInRight
+        .panel-body.mFadeInRight
           .btn-group.btn-group-xs(data-role='energy-type')
             button.btn.btn-default(data-value='water')
               i.fa.fa-tint
@@ -37,6 +37,5 @@
           // The Investment chart
           +timelineD3Chart chartName='investmentChart'
   // Action bucket
-  .row: .col-md-12
-    .animated.fadeInUp
-      +timelineBucket
+  .row: .col-md-12: .mFadeInUp
+    +timelineBucket

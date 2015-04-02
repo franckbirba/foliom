@@ -1,10 +1,10 @@
 .page.plan.actionList: .container: .row
-  .col-md-3.text-center: .animated.fadeInLeft
+  .col-md-3.text-center: .mFadeInLeft
       div: span.fa.fa-gears.fa-5x
       h4 {{_ "actionList_title"}}
       .newActionBtn: a.btn.btn-primary.newGenericActionBtn(role='button') {{_ "new_generic_action"}}
       .newActionBtn: a.btn.btn-primary(href='{{pathFor "actions-apply"}}', role='button') {{_ 'apply_actions'}}
-  .col-md-9: .actionGrid: .row: .animated.fadeInDown
+  .col-md-9: .actionGrid: .row: .mFadeInDown
     each getGenericActions
       .col-md-3
         .actionList.newActionFromMaster
