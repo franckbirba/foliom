@@ -3,6 +3,10 @@ Template.registerHelper('session', function(name) {
     return Session.get(name);
 });
 
+Template.registerHelper('session_equals', function(name, param) {
+    return Session.get(name) == param;
+});
+
 // Check if User is Admin
 Template.registerHelper("isAdmin",
     function(){
