@@ -30,7 +30,7 @@ class @D3LineChart
     # Add an SVG element with the desired dimensions and margin.
     @graph = d3.select @svgContainer
       .append 'div'
-        .attr 'class', 'animated fadeIn'
+        .attr 'class', 'mFadeIn'
       .append 'svg:svg'
       # Make SVG responsive
       .attr 'preserveAspectRatio', 'xMinYMin meet'
@@ -148,7 +148,7 @@ class @D3LineChart
       .attr 'class', 'd3-tip'
       .offset [3, 0]
       .html (d, i) =>
-        "<div class='animated fadeInUp'>
+        "<div class='mFadeInDownSmall'>
         <div class='d3-tip-content'>
         <strong>#{name}</strong><br>\
         <span>#{(numeral d).format '0.0a'} #{@unit}</span><br>\

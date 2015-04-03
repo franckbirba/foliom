@@ -56,8 +56,8 @@ Template.timelineTable.rendered = ->
       ($ '[data-role=\'draggable-action\']').draggable
         helper: 'clone'
         cursor: '-webkit-grabbing'
-        scrollSensitivity: 100
-        scrollSpeed: 100
+        # scrollSensitivity: 100
+        # scrollSpeed: 100
         containment: 'table.timeline.timeline-year-table'
         revert: 'invalid'
     , 0

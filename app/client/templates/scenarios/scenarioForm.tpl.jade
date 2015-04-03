@@ -67,7 +67,7 @@
     //- Validate form
     input#scenario-submit.btn.btn-primary(type="submit" value="{{_ 'scenario_validate'}}")
 
-    //ActionTable
+    // ActionTable
     table.actionTable
       tr
         th {{_ 'planned_for'}}
@@ -103,6 +103,5 @@
       a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}
   // Action bucket
   .timeline.container
-    .row: .col-md-12
-      .animated.fadeInUp
-        +timelineBucket
+    .row: .col-md-12: .mFadeInUp
+      +timelineBucket

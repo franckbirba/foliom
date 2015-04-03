@@ -5,14 +5,14 @@
   section
     nav
       // Access to Observe section
-      a.sextan.animated.fadeInLeft(href='/observatory')
+      a.sextan.mFadeInLeft(href='/observatory')
         span {{_ 'observe'}}
       // Access to Plan section
-      a.compass.animated.fadeInDown(href='/actions-home')
+      a.compass.mFadeInDown(href='/actions-home')
         span {{_ 'plan'}}
       // Follow-up tools
-      a.animated.fadeInUp(href='/actions-home')
+      a.mFadeInUp(href='/actions-home')
         span {{_ 'followup_tools'}}
     // Message box
-    article.animated.fadeInRight
+    article.mFadeInRight
       +messageBox

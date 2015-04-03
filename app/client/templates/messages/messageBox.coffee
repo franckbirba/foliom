@@ -1,7 +1,7 @@
 scroll = ->
   $msgs = $ '#messages'
   $msgs.scrollTop 20 + ($msgs.prop 'scrollHeight')
-  $msgs.children().children().last().toggleClass 'animated lightSpeedIn'
+  $msgs.children().children().last().toggleClass 'mLightSpeedIn'
 
 # Debounce scroll by one frame
 debouncedScroll = _.debounce scroll, 16, false

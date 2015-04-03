@@ -1,3 +1,4 @@
+@import 'nib'
 @import 'client/templates/timeline/*.import'
 
 .timeline
@@ -42,11 +43,10 @@
         height 1.2em
         line-height 1.2em
         text-align center
-        transition all defaultAnimation
+        transition background-color defaultAnimation, transform defaultAnimation
         &:hover
           background-color white
           transform scale(1.2)
-          transition all defaultAnimation
     p
       font-weight bold
       color color1
@@ -73,28 +73,24 @@
       color color1
       border-bottom none
       font-weight normal
-      transition all defaultAnimation
+      transition background-color defaultAnimation, color defaultAnimation
       &:hover
         color black
         background-color color2
-        transition all defaultAnimation
   // Little arrow triangle
   .date-selection:after, .date-selection:before
     border solid transparent
     content ' '
-    height 0
-    width 0
+    size 0
     absolute top 100% left 90px
     pointer-events none
   .date-selection:after
     border-color transparent
     border-top-color color3
-    //margin-top -1px
     border-width 19px
     margin-left -20px
   .date-selection:before
     border-color transparent
     border-top-color color2
-    //margin-top -1px
     margin-left -21px
     border-width 20px

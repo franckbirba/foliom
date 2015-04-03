@@ -1,5 +1,84 @@
 @import 'nib'
+@import '/client/stylesheets/*.import'
 
 // Prevent text selection
 .noselect
   user-select none
+
+transSpacing = 200px
+entranceAnimation = .7s ease-in-out
+
+@keyframes mFadeInDown
+  0%
+    opacity 0
+    transform translate3d(0, -(transSpacing), 0)
+  to
+    opacity 1
+    transform none
+.mFadeInDown
+  animation mFadeInDown entranceAnimation
+
+@keyframes mFadeInDownSmall
+  0%
+    opacity 0
+    transform translate3d(0, -30px, 0)
+  to
+    opacity 1
+    transform none
+.mFadeInDownSmall
+  animation mFadeInDownSmall entranceAnimation
+
+
+@keyframes mFadeInUp
+  0%
+    opacity 0
+    transform translate3d(0, transSpacing, 0)
+  to
+    opacity 1
+    transform none
+.mFadeInUp
+  animation mFadeInUp entranceAnimation
+
+@keyframes mFadeInRight
+  0%
+    opacity 0
+    transform translate3d(transSpacing, 0, 0)
+  to
+    opacity 1
+    transform none
+.mFadeInRight
+  animation mFadeInRight entranceAnimation
+
+@keyframes mFadeInLeft
+  0%
+    opacity 0
+    transform translate3d(-(transSpacing), 0, 0)
+  to
+    opacity 1
+    transform none
+.mFadeInLeft
+  animation mFadeInLeft entranceAnimation
+
+@keyframes mFadeIn
+  0%
+    opacity 0
+  to
+    opacity 1
+.mFadeIn
+  animation mFadeIn entranceAnimation
+
+@keyframes mLightSpeedIn
+  0%
+    transform translate3d(100%, 0, 0) skewX(-30deg)
+    opacity 0
+  60%
+    transform skewX(20deg)
+    opacity 1
+  80%
+    transform skewX(-5deg)
+    opacity 1
+  100%
+    transform none
+    opacity 1
+.mLightSpeedIn
+  animation mLightSpeedIn entranceAnimation
