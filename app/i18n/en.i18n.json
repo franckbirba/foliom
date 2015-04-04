@@ -503,11 +503,11 @@
 		"invoice_label": "Expense over time before",
 		"invoice_noaction_water": "Water invoice before actions",
 		"invoice_noaction_electricity": "Electricity invoice before actions",
-		"invoice_noaction_frost": "Cooling invoice before actions",
+		"invoice_noaction_cool": "Cooling invoice before actions",
 		"invoice_noaction_heat": "Heat invoice before actions",
 		"invoice_action_water": "Water invoice after actions",
 		"invoice_action_electricity": "Electricity invoice after actions",
-		"invoice_action_frost": "Cooling invoice after actions",
+		"invoice_action_cool": "Cooling invoice after actions",
 		"invoice_action_heat": "Heat invoice after actions",
 
 		"investment_label": "Investment over time",

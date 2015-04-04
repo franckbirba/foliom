@@ -23,7 +23,6 @@ menuBig(page, bigButtons, extension)
           opacity 0
           color white
           font-size 2.2em
-          transition opacity .3s
         &::after
           content ''
           z-index -1
@@ -35,7 +34,7 @@ menuBig(page, bigButtons, extension)
           border-radius 2px
         &:hover
           span
-            opacity 1
+            animation mScaleIn .3s ease-out forwards
           &::after
             filter brightness(0.7) contrast(0.7)
       for bigButton in bigButtons

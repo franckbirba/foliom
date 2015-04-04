@@ -1,4 +1,14 @@
 # @TODO Planned action vs unplanned actions
+# @TODO Fullscreen API pour les graphs
+# @TODO Tooltips dans la timeline
+#   - Le nom de l'action
+#   - Si plusieurs batiment, les noms des batiments
+# @TODO Add unplanned button in date selection
+# @TODO Date selection: add z-index
+# @TODO Réduite la timeline pour donner plus d'espace à la légende
+# @TODO /!\ Actions liés action_link
+# @TODO Energy type isn't defined: Check fluid (the fluid type)
+# @TODO Remove $ to €
 
 # Isolate calculated value in a namespace
 @TimelineVars =
@@ -19,7 +29,7 @@
       ticks: []
       budget: []
       consumption: water: [], co2: [], kwh: []
-      invoice: water: [], electricity: [], frost: [], heat: []
+      invoice: water: [], electricity: [], cool: [], heat: []
     @currentFilter = null
   scenario: null
   buildings: []
@@ -64,23 +74,23 @@
     @coefs['icc'] = []
     for icc in settings.icc.evolution_index
       if minYear <= icc.year <= maxYear
-        @coefs['icc'].push icc.cost for quarter in [1..4]
+        @coefs['icc'].push icc.cost
     # Expand IPC on quarters, remove what doesn't fit between minDate / maxDate
     @coefs['ipc'] = []
     for ipc in settings.ipc.evolution_index
       if minYear <= ipc.year <= maxYear
-        @coefs['ipc'].push ipc.cost for quarter in [1..4]
+        @coefs['ipc'].push ipc.cost
     # Expand the fluid's yearly value on all quarters, remove what
     #  doesn't fit between minDate / maxDate
-    fluidInSettings = {}
+    @fluidInSettings = {}
     for fluid in settings.fluids
       year = fluid.yearly_values.year
-      fluidOverQuarter = []
-      for fluidOverYear in fluid.yearly_values
-        if minYear <= fluidOverYear.year <= maxYear
-          fluidOverQuarter.push fluidOverYear for quarter in [1..4]
-      fluid['fluidOverQuarter'] = fluidOverQuarter
-      fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
+      fluidOverYear = []
+      for fluidForYear in fluid.yearly_values
+        if minYear <= fluidForYear.year <= maxYear
+          fluidOverYear.push fluidForYear
+      fluid['fluidOverYear'] = fluidOverYear
+      @fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
     # Coefs for kWh to CO2
     @coefs['kwh2CO2'] = settings.kwhef_to_co2_coefficients
   totalCost: 0
@@ -161,14 +171,15 @@
     ticks: []
     budget: []
     consumption: water: [], co2: [], kwh: []
-    invoice: water: [], electricity: [], frost: [], heat: []
+    invoice: water: [], electricity: [], cool: [], heat: []
   ###*
    * Transform kWh to CO2 depending on energy type.
    * @param {Number} kwh    kWh
-   * @param {String} energy Type of energy: electricity, fuelOil_heavy,
-   *                        fuelOil_house, naturalGas, woodEnergy.
+   * @param {String} energy Type of energy: fluid_electricity,
+   *                        fluid_fuelOil_heavy, fluid_fuelOil_house,
+   *                        fluid_naturalGas, fluid_woodEnergy.
   ###
-  kwh2Co2: (kwh, energy) -> kwh * @coefs.kwh2CO2["fluid_#{energy}"]
+  kwh2Co2: (kwh, energy) -> kwh * @coefs.kwh2CO2[energy]
   ###*
    * Iterator function that creates ticks (labels used in the chart's xAxis)
    * for each quarter.
@@ -194,50 +205,49 @@
     # Consumption depending on fluid type
     cons_water = cons_co2 = cons_kwh = 0
     # Expenses depending on fluid kind
-    exp_water = exp_elec = exp_frost = exp_heat = 0
+    exp_water = exp_elec = exp_cool = exp_heat = 0
     # Years since the scenario's start
     yearsSinceStart = quarter.year() - @minDate.year()
     for building in @buildings
       for lease in building.leases
         for cons in lease.fluid_consumption_meter
-          # Get inflated consumption
+          # Get degraded consumption
           consumption = cons.first_year_value * \
             Math.pow 1 + @consumption_degradation, yearsSinceStart
-          # Check energy type
-          fluidType = (cons.fluid_id.split ' - ')[1]
-          if fluidType is 'fluid_water'
+          # Get fluid provider
+          cons.fluidProvider = @fluidInSettings[cons.fluid_id]
+          # Get fluid matter
+          if cons.fluidProvider.fluid_type is 'fluid_water'
             cons_water += consumption
           else
             cons_kwh += consumption
-            # @TODO Energy mater isn't defined?
-            cons_co2 += @kwh2Co2 consumption, 'electricity'
-          # Get fluid provider
-          fluidProvider = _.findWhere lease.fluid_consumption_meter,
-            fluid_id: cons.fluid_id
-          # Get inflated subscription based on ICC
-          subscription = fluidProvider.yearly_subscription
-          inflatedSubscription = subscription * \
-            Math.pow 1 + @actualization_rate, @coefs.icc[yearsSinceStart]
-          # Get inflated rate based on IPC
-          rate = fluidProvider.first_year_value
-          inflatedRate = rate * \
-            Math.pow 1 + @actualization_rate, @coefs.icc[yearsSinceStart]
+            # Adjust CO2 depending on energy matter
+            cons_co2 += @kwh2Co2 consumption, \
+              cons.fluidProvider.kwhef_to_co2_coefficient
+          # Get inflated subscription based on IPC
+          subscription = cons.yearly_subscription
+          # Get the rate depending on the year
+          rate = cons.fluidProvider.fluidOverYear[yearsSinceStart].cost
           # Inflated expense independent from fluid kind
-          expense = inflatedRate * consumption
+          expense = rate * consumption
           # Subscription is paid at the end of the year
-          expense += inflatedSubscription if quarter.quarter() is 4
+          expense += subscription if quarter.quarter() is 4
+          # Inflated expense
+          inflatedExpense = expense * \
+            (Math.pow 1 + @actualization_rate, yearsSinceStart) *
+            (Math.pow 1 + @coefs.ipc[yearsSinceStart], yearsSinceStart)
           # Assign expense to a fluid kind
-          switch fluidType
-            when 'fluid_water' then exp_water += expense
-            when 'fluid_electricity' then exp_elec += expense
-            when 'fluid_heat' then exp_heat += expense
-            else exp_frost += expense
+          switch cons.fluidType
+            when 'fluid_water' then exp_water += inflatedExpense
+            when 'fluid_electricity' then exp_elec += inflatedExpense
+            when 'fluid_heat' then exp_heat += inflatedExpense
+            else exp_cool += expense
     @charts.consumption.water.push cons_water
     @charts.consumption.co2.push cons_co2
     @charts.consumption.kwh.push cons_kwh
     @charts.invoice.water.push exp_water
     @charts.invoice.electricity.push exp_elec
-    @charts.invoice.frost.push exp_frost
+    @charts.invoice.cool.push exp_cool
     @charts.invoice.heat.push exp_heat
   ###*
    * Iterates over quarters for calculating ticks, budget and consumption.
@@ -317,7 +327,7 @@
       paction.portfolioId = building.portfolio_id
       # Denormalize and format cost
       paction.formattedCost = (numeral \
-        paction.action.investment.cost).format '0,0[.]00 $'
+        paction.action.investment.cost).format '0,0[.]00 '
       # Prepare triggering dates
       paction.endDesign = paction.start.clone().add \
         paction.action.design_duration, 'M'
@@ -331,7 +341,7 @@
       paction.consumptionKwh = []
       paction.invoiceWater = []
       paction.invoiceElectricity = []
-      paction.invoiceFrost = []
+      paction.invoiceCool = []
       paction.invoiceHeat = []
       paction.investment = []
       paction.investmentSubventioned = []
@@ -340,10 +350,15 @@
       nextQuarter = quarter.clone().add 1, 'Q'
       investment = investmentSubventioned = 0
       consumptionWater = consumptionKwh = 0
-      invoiceWater = invoiceElectricity = invoiceFrost = invoiceHeat = 0
+      invoiceWater = invoiceElectricity = invoiceCool = invoiceHeat = 0
       # On each action, iterate over the scenario's duration
       while quarter.isBefore @maxDate
         # Investment starts when work on action begins
+        #
+        # @TODO Inflate investment and subvention with ICC depending on year
+        #
+        #
+        #
         if paction.start.isBetween quarter, nextQuarter
           investment = if paction.action.investment?.cost then \
             paction.action.investment.cost else 0
@@ -351,6 +366,22 @@
             if paction.action.subventions?.or_euro then \
             paction.action.subventions.or_euro else 0
         # Results of an action on consumption starts when action is done
+        #
+        # @TODO Le calculs des invoices est uniquement sur la 1ere année
+        # dans les fluids, il faut extrapoler sur les années suivantes
+        #
+        # @TODO
+        #  - Expose and Get the fluidprovider
+        #  - Get the rate depending on the year
+        ## rate = fluidProvider.
+        ## fluid.yearly_values
+        ## inflatedRate = rate * \
+        ##  Math.pow 1 + @actualization_rate, @coefs.ipc[yearsSinceStart]
+        #
+        # @TODO Other gains : Add inflated IPC on each other gain
+        #
+        #
+        #
         if paction.endWork.isBetween quarter, nextQuarter
           for gain in paction.action.gain_fluids_water
             consumptionWater -= gain.or_m3
@@ -360,12 +391,12 @@
             switch gain.opportunity
               when 'end_use_heating' then invoiceHeat -= gain.yearly_savings
               when 'end_use_AC', 'end_use_ventilation'
-                invoiceFrost -= gain.yearly_savings
+                invoiceCool -= gain.yearly_savings
               else invoiceElectricity -= gain.yearly_savings
         # Results of an action stops if its lifetime is exceeded
         if paction.end.isBetween quarter, nextQuarter
           consumptionWater = consumptionKwh = 0
-          invoiceWater = invoiceElectricity = invoiceFrost = invoiceHeat = 0
+          invoiceWater = invoiceElectricity = invoiceCool = invoiceHeat = 0
         # Set modifiers on consumption
         paction.consumptionWater.push consumptionWater
         # @TODO: Energy type isn't defined
@@ -374,7 +405,7 @@
         # Set modifiers on consumption
         paction.invoiceWater.push invoiceWater
         paction.invoiceElectricity.push invoiceElectricity
-        paction.invoiceFrost.push invoiceFrost
+        paction.invoiceCool.push invoiceCool
         paction.invoiceHeat.push invoiceHeat
         # Set values on investments and subventions
         paction.investment.push investment

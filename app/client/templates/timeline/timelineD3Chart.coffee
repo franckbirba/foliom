@@ -60,7 +60,7 @@ ChartFct =
     series: []
       .concat setSeries pactions, 'invoice', 'water', 'blue'
       .concat setSeries pactions, 'invoice', 'electricity', 'violet'
-      .concat setSeries pactions, 'invoice', 'frost', 'darkgray'
+      .concat setSeries pactions, 'invoice', 'cool', 'darkgray'
       .concat setSeries pactions, 'invoice', 'heat', 'red'
   ###*
    * Calculate and present data suite for the Investment chart.
