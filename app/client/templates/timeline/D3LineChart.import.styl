@@ -105,8 +105,9 @@ D3LineChart(page, h)
         circle
           stroke-width 8px
 
-    // Show / hide legend button
-    .showhide-legend
+    // Show / hide legend button & Fullscreen button
+    .showhide-legend, .fullscreen
+      z-index 3
       fill color1
       stroke none
       font-family FontAwesome
@@ -116,6 +117,7 @@ D3LineChart(page, h)
 
   // Tooltips
   .d3-tip
+    z-index 3
     .d3-tip-content
       text-align center
       font-size 10px

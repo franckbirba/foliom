@@ -16,7 +16,7 @@ class @D3LineChart
   constructor: (
     @svgContainer,
     @showLegend = true,
-    @margin = { top: 10, right: 15, bottom: 20, left: 45, rightLegend: 180 },
+    @margin = { top: 23, right: 10, bottom: 20, left: 35, rightLegend: 185 },
     @svgWidth = 750,
     @svgHeight = 160
   ) ->
@@ -28,7 +28,7 @@ class @D3LineChart
     # Chart's display functions
     @lines = []
     # Add an SVG element with the desired dimensions and margin.
-    @graph = d3.select @svgContainer
+    @svg = d3.select @svgContainer
       .append 'div'
         .attr 'class', 'mFadeIn'
       .append 'svg:svg'
@@ -37,10 +37,12 @@ class @D3LineChart
       .attr 'viewBox', "0 0 #{@svgWidth} #{@svgHeight}"
       .attr 'class', 'd3-svg-content'
       # Group chart's components
-      .append 'svg:g'
+    @graph = @svg.append 'svg:g'
       .attr 'transform', "translate(#{@margin.left}, #{@margin.top})"
     # Number of legends
     @nbLegend = 0
+    # Is graph in fullscreen
+    @isFullScreen = false
   ###*
    * Set the abscissa for each lines, calulate the xScalingFct, hold the
    * abscissa as a member reused for displaying date values within tooltips,
@@ -106,11 +108,11 @@ class @D3LineChart
       @graph.append 'circle'
         .attr 'class', "legend #{style}"
         .attr 'r', 4
-        .attr 'cx', @svgWidth - 215
+        .attr 'cx', @graphWidth + 10
         .attr 'cy', @nbLegend * 12 + 16
       @graph.append 'text'
         .attr 'class', "legend #{style}"
-        .attr 'x', @svgWidth - 205
+        .attr 'x', @graphWidth + 17
         .attr 'y', @nbLegend * 12 + 20
         .text name
       @nbLegend++
@@ -179,11 +181,17 @@ class @D3LineChart
    * Create a show / hide button usable by a reactive helper.
   ###
   _createShowHideLegend: ->
-    @graph.append 'text'
+    @svg.append 'text'
       .attr 'class', 'showhide-legend'
-      .attr 'x', @svgWidth - @margin.left - 18
-      .attr 'y', 0
+      .attr 'x', @svgWidth - 15
+      .attr 'y', 15
       .text if @showLegend then '' else ''  # Eyes are UTF8 from FontAwesome
+  _createToggleFullscreen: ->
+    @svg.append 'text'
+      .attr 'class', 'fullscreen'
+      .attr 'x', @svgWidth - 33
+      .attr 'y', 15
+      .text if @isFullScreen then '' else ''# Expand are UTF8 from FontAwesome
   ###*
    * Set data for each lines.
    * @param {Object} obj An Object describing each chart.
@@ -194,6 +202,8 @@ class @D3LineChart
     @_setYAxis obj.unit, _.flatten(_.pluck obj.series, 'data')
     # Display the show / hide button
     @_createShowHideLegend()
+    # Display the fullscreen button
+    @_createToggleFullscreen()
     for dataObj, idx in obj.series
       # Prevent hoisting by performing immediate actions
       do (name=dataObj.name, data=dataObj.data, style=dataObj.style) =>

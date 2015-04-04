@@ -1,14 +1,14 @@
 # @TODO Planned action vs unplanned actions
+# @TODO Add unplanned button in date selection
 # @TODO Fullscreen API pour les graphs
 # @TODO Tooltips dans la timeline
 #   - Le nom de l'action
 #   - Si plusieurs batiment, les noms des batiments
-# @TODO Add unplanned button in date selection
 # @TODO Date selection: add z-index
-# @TODO Réduite la timeline pour donner plus d'espace à la légende
+# @TODO Réduire la timeline pour donner plus d'espace à la légende
 # @TODO /!\ Actions liés action_link
 # @TODO Energy type isn't defined: Check fluid (the fluid type)
-# @TODO Remove $ to €
+# @TODO Review total cost as it depends on when the actions are performed
 
 # Isolate calculated value in a namespace
 @TimelineVars =
@@ -326,8 +326,8 @@
       paction.buildingName = building.building_name
       paction.portfolioId = building.portfolio_id
       # Denormalize and format cost
-      paction.formattedCost = (numeral \
-        paction.action.investment.cost).format '0,0[.]00 '
+      paction.formattedCost = "#{(numeral \
+        paction.action.investment.cost).format '0,0[.]00'} €"
       # Prepare triggering dates
       paction.endDesign = paction.start.clone().add \
         paction.action.design_duration, 'M'

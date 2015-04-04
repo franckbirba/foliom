@@ -6,7 +6,7 @@ TV = TimelineVars
 ###
 Template.timelineAppraisal.helpers
   nbActions: -> TV.scenario.planned_actions.length
-  totalCost: -> (numeral TV.totalCost).format '0,0[.]00 $'
+  totalCost: -> "#{(numeral TV.totalCost).format '0,0[.]00'} €"
   triGlobal: -> "#{TV.scenario.duration} #{TAPi18n.__ 'u_years'}"
   energySaving: -> TAPi18n.__ 'calculating'
   waterSaving: -> TAPi18n.__ 'calculating'
