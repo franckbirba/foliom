@@ -16,9 +16,9 @@ class @D3LineChart
   constructor: (
     @svgContainer,
     @showLegend = true,
-    @margin = { top: 23, right: 10, bottom: 20, left: 35, rightLegend: 185 },
+    @margin = { top: 23, right: 1, bottom: 20, left: 40, rightLegend: 185 },
     @svgWidth = 750,
-    @svgHeight = 160
+    @svgHeight = 180
   ) ->
     # Graph's width
     @graphWidth = @svgWidth - @margin.left - \
@@ -94,8 +94,8 @@ class @D3LineChart
       .call yAxis
     .append 'text'
       .attr 'transform', 'rotate(-90)'
-      .attr 'y', -35
-      .attr 'dy', '.71em'
+      .attr 'y', -40
+      .attr 'dy', '.8em'
       .style 'text-anchor', 'end'
       .text unit
   ###*
@@ -186,6 +186,9 @@ class @D3LineChart
       .attr 'x', @svgWidth - 15
       .attr 'y', 15
       .text if @showLegend then '' else ''  # Eyes are UTF8 from FontAwesome
+  ###*
+   * Create a fullscreen toggle button usable by a reactive helper.
+  ###
   _createToggleFullscreen: ->
     @svg.append 'text'
       .attr 'class', 'fullscreen'

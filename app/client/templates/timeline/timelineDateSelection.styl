@@ -13,12 +13,13 @@
     absolute bottom 48px 0 left -36px
     user-select none
     border 2px solid color2
-    border-radius 5px
+    border-radius 2px
     background-color color3
     width 360px
     padding 5px
     margin 0
     z-index 5
+    box-shadow 0 3px 8px rgba(black, .3)
     .quarter-years
       display flex
       .quarter-selection
@@ -82,15 +83,14 @@
     border solid transparent
     content ' '
     size 0
-    absolute top 100% left 90px
+    absolute top 100% left 70px
     pointer-events none
+    border-color transparent
   .date-selection:after
-    border-color transparent
     border-top-color color3
-    border-width 19px
-    margin-left -20px
+    border-width 10px
+    margin-left -(@border-width)
   .date-selection:before
-    border-color transparent
     border-top-color color2
-    margin-left -21px
-    border-width 20px
+    border-width 13px
+    margin-left -(@border-width)
