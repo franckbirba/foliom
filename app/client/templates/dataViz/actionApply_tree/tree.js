@@ -204,67 +204,37 @@ Template.treeTplt.rendered = function () {
 
         // Toggle children on click.
         function click(d) {
-            if (d.children) {
-                d._children = d.children;
-                d.children = null;
-            } else {
-                d.children = d._children;
-                d._children = null;
-            }
+          if (d.children) {
+              d._children = d.children;
+              d.children = null;
+          } else {
+              d.children = d._children;
+              d._children = null;
+          }
 
+          if (Session.equals('current_tree_mode', 'building_to_actions')) {
             if (d.depth == 1) { // Depth==1 means it's a building
-
-                // clickedBuilding_d3ref = d; // To be able to keep track of it and expand it
-                // delete clickedBuilding_d3ref.parent ;
-
-                var clickedBuilding = Buildings.findOne({
-                            portfolio_id: Session.get('current_portfolio_doc')._id,
-                            building_name: d.name
-                        });
-
-                // Set building session var
-                Session.set('current_building_doc', clickedBuilding);
-
-                // Set checkboxes
-                $(".ActionCheckbox").each(function () {
-                    // Look in child Actions if we find a match
-                    var actionID = $(this).val();
-                    actionExists = Actions.findOne({
-                                        "action_type":"child",
-                                        "building_id": Session.get('current_building_doc')._id,
-                                        "action_template_id": actionID
-                                        });
-
-                    if(actionExists) {
-                        $(this).prop("checked", true);
-                    } else {
-                        $(this).prop("checked", false);
-                    }
-                });
-
+              building_to_actions_click_depth1(d);
+            } else if (d.depth == 2) { // Depth==2 means it's an action
+              building_to_actions_click_depth2(d);
             }
-            if (d.depth == 2) { // Depth==2 means it's an action
-                // find the Action
-                actionExists = Actions.findOne({
-                                    "action_type":"child",
-                                    "building_id": Session.get('current_building_doc')._id,
-                                    "name": d.name
-                                    });
+          } else if (Session.equals('current_tree_mode', 'actions_to_buildings')) {
 
-                Session.set('childActionToEdit', actionExists);
-                Router.go('action-form');
-            }
+          }
 
-            update(d);
+
+          update(d);
         }
 
+
+        // Function to add functionnalities to wraptext
         function wraptext_wrapper(text){
           text.each(function(d) {
             if(  d.depth == 1 ){ // Specific rule for wrapping text at depth == 1
               wraptext(d3.select(this), 200, -15);
             }
           });
-        }
+        };
 
         // http://bl.ocks.org/mbostock/7555321
         // Evolved function with x_offset parameter: we want a left offset for depth = 1, and right offset for children

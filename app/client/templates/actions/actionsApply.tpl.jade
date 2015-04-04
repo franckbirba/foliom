@@ -10,14 +10,24 @@
       .panel.panel-primary
         .panel-heading: h3.panel-title.text-center Actions {{currentBuildingName}}
         .panel-body.panel-actions
-          if session 'current_building_doc'
-            each getUsableActions
-              .checkbox
-                label
-                  input.ActionCheckbox(type='checkbox', value='{{_id}}')
-                  | {{name}}
-          else
-            #actionListFiller {{_ "click_building_to_choose_actions"}}
+          if session_equals 'current_tree_mode' 'building_to_actions'
+            if session 'current_building_doc'
+              each getUsableActions
+                .checkbox
+                  label
+                    input.ActionCheckbox(type='checkbox', value='{{_id}}')
+                    | {{name}}
+            else
+              #actionListFiller {{_ "click_building_to_choose_actions"}}
+          else if session_equals 'current_tree_mode' 'actions_to_buildings'
+            //- if session 'current_action_doc'
+            //-   each getUsableBuildings
+            //-     .checkbox
+            //-       label
+            //-         input.ActionCheckbox(type='checkbox', value='{{_id}}')
+            //-         | {{building_name}}
+            //- else
+            //-   #buildingListFiller {{_ "click_action_to_choose_building"}}
       // Timeline link
       #scenarioLink
         a.btn.btn-primary(role='button' href='{{pathFor "scenarioList"}}') {{_ 'schemaDir_create'}}

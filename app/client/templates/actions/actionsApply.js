@@ -41,6 +41,11 @@ Template.actionsApply.helpers({
         ]
     }).fetch();
   },
+  getUsableBuildings: function(){
+    return Buildings.find({portfolio_id: Session.get('current_portfolio_doc')._id },
+                              {sort: {name:1}}
+                              ).fetch()
+  },
   currentBuildingName: function(){
     if (Session.get('current_building_doc')) {
         return " - " + Session.get('current_building_doc').building_name;
