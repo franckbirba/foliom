@@ -13,8 +13,9 @@ if isDateSelectionDisplayed
           input(type='radio', name='date-selection-year', value='{{value}}', id='date-selection-year-{{value}}', checked=checked)
           label(for='date-selection-year-{{value}}')= name
     .buttons
-      span.validate.fa.fa-check.text-success
-      span.cancel.fa.fa-close.text-danger
+      span.cancel.fa.fa-eraser.text-warning(data-role='erase')
+      span.fa.fa-check.text-success(data-role='validate')
+      span.cancel.fa.fa-close.text-danger(data-role='validate')
 .quarter-content
   i.fa.fa-calendar
   = action.quarter

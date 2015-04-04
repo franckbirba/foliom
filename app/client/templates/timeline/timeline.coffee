@@ -4,8 +4,6 @@
 # @TODO Tooltips dans la timeline
 #   - Le nom de l'action
 #   - Si plusieurs batiment, les noms des batiments
-# @TODO Date selection: add z-index
-# @TODO Réduire la timeline pour donner plus d'espace à la légende
 # @TODO /!\ Actions liés action_link
 # @TODO Energy type isn't defined: Check fluid (the fluid type)
 # @TODO Review total cost as it depends on when the actions are performed

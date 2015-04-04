@@ -28,7 +28,8 @@ Template.timelineDateSelection.events
       containerHeight = ($ '.timeline.container').height()
       $form.css 'bottom', containerHeight + 20 - e.pageY
     , 0
-  'click .validate': (e, t) ->
+  'click [data-role=\'erase\']': (e, t) -> removeDateSelection e, t
+  'click [data-role=\'validate\']': (e, t) ->
     quarter = Number (t.$ 'input[name=\'date-selection-quarter\']\
       :checked').val()
     year = Number (t.$ 'input[name=\'date-selection-year\']:checked').val()
@@ -48,6 +49,6 @@ Template.timelineDateSelection.events
     Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions
     # Remove date selection once validation and update is finished
     removeDateSelection e, t
-  'click .cancel': (e, t) -> removeDateSelection e, t
+  'click [data-role=\'cancel\']': (e, t) -> removeDateSelection e, t
 
 removeDateSelection = (e, t) -> t.rxIsDateSelectionDisplayed.set false
