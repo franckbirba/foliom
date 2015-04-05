@@ -7,13 +7,11 @@
       each getScenarios
         .col-md-3
           .scenarioItem
-            a.editScenario(href='')
-              img(src="#{logo}", width='75')
-              .scenarioName= name
+            img(src="#{logo}", width='75')
+            .scenarioName= name
       .col-md-3
         #scenarioCreate.scenarioItem
-          a.newScenario(href='')
-            .addButtonHolder: span.fa-stack.fa-lg
-              i.fa.fa-circle-o.fa-stack-2x
-              i.fa.fa-plus
-            div {{_ "create_scenario"}}
+          .addButtonHolder: span.fa-stack.fa-lg
+            i.fa.fa-circle-o.fa-stack-2x
+            i.fa.fa-plus
+          div {{_ "create_scenario"}}
