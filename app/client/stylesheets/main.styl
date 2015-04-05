@@ -5,6 +5,12 @@
 .noselect
   user-select none
 
+// Ensure font aliasing
+*, *::after, *::before
+ -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  -webkit-touch-callout none
+
 transSpacing = 50px
 smallTransSpacing = 10px
 entranceAnimation = .7s ease-in-out
