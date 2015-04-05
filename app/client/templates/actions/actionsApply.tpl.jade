@@ -1,12 +1,12 @@
 .page.plan: .container
-  #portfolioSelectZone
+  #portfolioSelectZone.mFadeInDown
     h3.pull-left#actionsApplyTitle {{_ "select_portfolio"}}
     select#portfolioSelect.form-control
       option(value='', disabled='', selected='') {{_ "select_portfolio"}}
       each getPortfolioList
         option(value=_id)= name
   .row
-    .col-md-3
+    .col-md-3.mFadeInLeft
       .panel.panel-primary
         .panel-heading: h3.panel-title.text-center Actions {{currentBuildingName}}
         .panel-body.panel-actions
@@ -31,7 +31,7 @@
       // Timeline link
       #scenarioLink
         a.btn.btn-primary(role='button' href='{{pathFor "scenarioList"}}') {{_ 'schemaDir_create'}}
-    .col-md-9.treeViz
+    .col-md-9.treeViz.mFadeInRight
       .pull-right
         .form-inline
           .form-group
