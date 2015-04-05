@@ -3,15 +3,13 @@
 .timeline
   .timeline-filter
     background-color color2
-    width 180px
-    height headingHeight
+    size 180px headingHeight
     margin-top -10px
     margin-right -15px
     padding-top 8px
     color white
     display table
     .select2-container
-      outline none
       cursor pointer
       width inherit
       .select2-choice, .select2-arrow, .select2-chosen, .select2-container-active
@@ -22,8 +20,9 @@
         b
           background none
           &:before
-            font-family 'Glyphicons Halflings'
-            content '\e138'
+            font-weight 100
+            font-family FontAwesome
+            content '\f0b0'
   .timeline-year-panel
     padding 0
     max-height 668px
@@ -49,9 +48,10 @@
       vertical-align top
       h4.panel-inner-title
         width 1.4em
-    td
+    td:not(:first-child)
       height 43px
       padding .1em
+      display flex
   .timeline-year
     padding .1em
     text-align center
@@ -63,31 +63,28 @@
     font-size 1.4em
   .timeline-action-items
     // Set a hand as a cursor to denote draggable property
-    cursor -webkit-grab
     cursor grab
     font-family 'foliom-picto'
     background-color color0
     color white
     font-size rondFontSize
-    width roundIconSize
+    font-weight 100
+    size roundIconSize roundIconSize
     border-radius roundIconSize
     line-height roundIconSize
     text-align center
-    height roundIconSize
-    display inline-flex
     margin .2em
-    padding-left @margin
+    position relative
     >span
       background-color color2
       font-family OpenSans
       font-size .5em
+      font-weight bold
       border-radius 1.5em
-      max-width @border-radius
+      width @border-radius
       min-width @border-radius
       height @border-radius
       line-height @border-radius
-      left 6px
-      display block
-      relative
+      absolute top right
     >span[data-value='1']
       display none
