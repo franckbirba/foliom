@@ -1,55 +1,55 @@
+@import 'nib'
 @import 'client/stylesheets/*.import'
 
 .actionList
   .fa
     color color1
-  div
-    span.fa-stack.fa-lg
-      margin-bottom .5em
-  float left
-  // box-shadow: color0 0px 3px 0px
-  text-align center
-  width 100%
-  height 115px
-  margin-bottom 1em
-  background-color color0
-  // So that we can position the Edit button
-  position relative
+  div span.fa-stack.fa-lg
+    margin-bottom .5em
+  .newActionFromMaster, .actionUserTemplate, .actionCreate
+    float left
+    text-align center
+    size 100% 130px
+    margin-bottom 1em
+    background-color color0
+    cursor pointer
+    border-radius 2px
+    border 1px solid darken(color0, 20%)
+    padding 5px
+    // So that we can position the Edit button
+    transition background-color defaultAnimation
+    position relative
+    .logo
+      font-family 'foliom-picto'
+      font-size: 65px
+      margin-bottom: -12px
+    .actionTitle
+      font-style italic
+      font-size: 0.8em
+    &:hover
+      background-color darken(color0, 20%)
 
-  .logo
-    font-family 'foliom-picto'
-    font-size: 65px
-    margin-bottom: -12px
-  .actionTitle
-    font-style italic
-    // height: 40px
-    // line-height: 40px
-    // vertical-align: middle
-    font-size: 0.8em
+  .blackLink
+    color color1
 
-.blackLink
-  color rgb(77, 78, 76)
+  .addUTactionLogo
+    margin-top 25px
 
-.addUTactionLogo
-  margin-top 25px
+  .editAction
+    absolute top 5px right 5px
 
-.editAction
-    position absolute
-    top 5px
-    right 5px
+  .actionUserTemplate
+    border-color brandInfo
 
-.actionUserTemplate
-    border-color rgb(43, 219, 226)
-
-.actionCreate
+  .actionCreate
     border-color black
 
-.newActionBtn
-  margin-top 1em
-  a
-    width 100%
+  .newActionBtn
+    margin-top 1em
+    a
+      width 100%
 
-.actionStuff
+  .actionStuff
     clear both
     margin-top 25px
-    color rgb(187, 180, 172)
+    color color3

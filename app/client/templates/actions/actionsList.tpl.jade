@@ -7,7 +7,7 @@
   .col-md-9: .actionGrid: .row: .mFadeInDown
     each getGenericActions
       .col-md-3
-        .actionList.newActionFromMaster
+        .newActionFromMaster
           if isAdmin
             button.btn.btn-default.btn-xs.editAction
               span.glyphicon.glyphicon-pencil(aria-hidden='true')
@@ -15,13 +15,13 @@
           .actionTitle= name
     each getUserTemplateActions
       .col-md-3
-        .actionList.actionUserTemplate
+        .actionUserTemplate
           button.btn.btn-default.btn-xs.editAction
             span.glyphicon.glyphicon-pencil(aria-hidden='true')
           .logo !{logo}
           .actionTitle= name
     .col-md-3
-      .actionList.actionCreate
+      .actionCreate
         a.newUserTempalteAction(href='')
           .addUTactionLogo: span.fa-stack.fa-lg
             i.fa.fa-circle-o.fa-stack-2x
