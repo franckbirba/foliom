@@ -2,27 +2,36 @@
 
 .scenarioList
   .addButtonHolder
-    width 75px
-    height 75px
-    padding-left 55px
-    padding-top 15px
-  .fa
-    color color1
-  div
-    span.fa-stack.fa-lg
+    size 100% 75px
+    text-align center
+    line-height @height
+  div span.fa-stack.fa-lg
       margin-bottom .5em
   .scenarioItem
     float left
-    box-shadow: navBarDefaultBg 0px 3px 0px
     text-align center
-    width 100%
-    height 115px
+    size 100% 130px
     margin-bottom 1em
-    // background-color color0
-    border: 2px solid color2
+    background-color color0
+    border 1px solid darken(color0, 20%)
+    border-radius 2px
     // So that we can position the Edit button
     position relative
-    padding 10px
+    padding 5px
     font-style italic
+    cursor pointer
+    transition background-color defaultAnimation
+    a, .scenarioName
+      color color1
+      outline none
+      text-decoration none
+    img
+      transition all defaultAnimation
+    &:hover
+      background-color darken(color0, 20%)
+      a, .scenarioName
+        text-decoration none
+      img
+        filter brightness(0.82)
   .scenarioName
-    // color: color2
+    color: color1
