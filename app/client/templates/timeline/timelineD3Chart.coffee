@@ -94,6 +94,31 @@ ChartFct =
 Template.timelineD3Chart.created = ->
   @rxDisplayLegend = new ReactiveVar
   @rxDisplayLegend.set true
+  @rxFullScreen = new ReactiveVar
+  @rxFullScreen.set false
+
+createChart = (t, options) ->
+  width = 750
+  height = 180
+  if screenfull.isFullscreen
+    $window = $(window)
+    width = $window.width()
+    height = $window.height()
+  t['chart'] = new D3LineChart "[data-chart='#{t.data.chartName}']", \
+    t.rxDisplayLegend.get(),
+      { top: 23, right: 1, bottom: 20, left: 40, rightLegend: 185 },
+      width, height
+  t.chart.setData t.chartData
+  console.log 'Template', t
+  # Meteor's event helper is not used here as the charts are rendered
+  #  after the template rendering. Thus, the event assignement is done
+  #  on the next requestAnimationFrame.
+  Meteor.setTimeout ->
+    (t.$ '.showhide-legend').on 'click', ->
+      t.rxDisplayLegend.set not t.rxDisplayLegend.get()
+    (t.$ '.fullscreen').on 'click', ->
+      t.rxFullScreen.set not t.rxFullScreen.get()
+  , 32
 
 ###*
  * Set the template rendered callback for creating the charts and their
@@ -105,21 +130,19 @@ Template.timelineD3Chart.rendered = ->
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
   @autorun (computation) =>
-    displayChart = @rxDisplayLegend.get()
-    # When the chart needs to be redrawn for legeng toggling, the former
-    #  content needs to be removed from the screen.
+    isFullscreen = @rxFullScreen.get()
+    displayLegend = @rxDisplayLegend.get()
+    # When the chart needs to be redrawn for legend or fullscreen toggling,
+    #  the former content needs to be removed from the screen.
     unless computation.firstRun
       # Remove the former chart and the associated event.
       (@$ "[data-chart='#{@data.chartName}']").empty()
-    @chart = new D3LineChart "[data-chart='#{@data.chartName}']", displayChart
-    @chart.setData @chartData
-    # Meteor's event helper is not used here as the charts are rendered
-    #  after the template rendering. Thus, the event assignement is done
-    #  on the next requestAnimationFrame.
-    Meteor.setTimeout =>
-      (@$ '.showhide-legend').on 'click', =>
-        @rxDisplayLegend.set not @rxDisplayLegend.get()
-    , 0
+      if isFullscreen and not screenfull.isFullscreen
+        screenfull.request (@$ '.d3-chart-fixed-height')[0]
+      else
+        screenfull.exit() if screenfull.isFullscreen
+    else
+      createChart @
   # Update chart when reactive variables change
   # NOTE: We use the computation on the Template.Tracker for avoiding
   # the first call to the chart's update.
@@ -129,6 +152,10 @@ Template.timelineD3Chart.rendered = ->
       @chartData = @chartFct()
       @chart.updateData @chartData
 
+Template.timelineD3Chart.events
+  'webkitfullscreenchange': (e, t) ->
+    console.log 'Fullscreen change', t
+    createChart t if screenfull.isFullscreen
 ###*
  * Create an Array of the provided size filled with 0.
  * @param {Number} size Size of the expected Array.
