@@ -193,9 +193,9 @@ Template.leaseForm.rendered = function () {
     $("[name^='fluid_consumption_meter.'][name$='.yearly_cost']").each(function( index ) {
     // "fluid_consumption_meter.0.yearly_cost"
 
-        var matchingFluid = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".fluid_id") ;
-        var matchingYearlySubscription = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".yearly_subscription") ;
-        var matchingFirstYearValue = AutoForm.getFieldValue("insertLeaseForm", "fluid_consumption_meter." + index + ".first_year_value") ;
+        var matchingFluid = AutoForm.getFieldValue("fluid_consumption_meter." + index + ".fluid_id", "insertLeaseForm") ;
+        var matchingYearlySubscription = AutoForm.getFieldValue("fluid_consumption_meter." + index + ".yearly_subscription", "insertLeaseForm") ;
+        var matchingFirstYearValue = AutoForm.getFieldValue("fluid_consumption_meter." + index + ".first_year_value", "insertLeaseForm") ;
 
         if (matchingFluid) {
 
@@ -238,7 +238,7 @@ Template.leaseForm.rendered = function () {
     $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
 
       if (index != 6) { // Exclude 6 as it's the specific field
-          var firstYearValue = AutoForm.getFieldValue("insertLeaseForm", "consumption_by_end_use." + index + ".first_year_value") ;
+          var firstYearValue = AutoForm.getFieldValue("consumption_by_end_use." + index + ".first_year_value", "insertLeaseForm") ;
           if(firstYearValue) {endUseVal_array[index] = firstYearValue ;}
       } else {
           endUseVal_array[index] = 0;
@@ -246,7 +246,7 @@ Template.leaseForm.rendered = function () {
     });
     console.log("endUseVal_array is: "+ endUseVal_array);
     var specificFieldValue = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
-    var totalConsumption = AutoForm.getFieldValue("insertLeaseForm", "consumption_by_end_use_total") ;
+    var totalConsumption = AutoForm.getFieldValue("consumption_by_end_use_total", "insertLeaseForm") ;
     $("[name='consumption_by_end_use.6.first_year_value']").val(
         totalConsumption - specificFieldValue
     ) ;
@@ -330,9 +330,9 @@ Template.leaseForm.rendered = function () {
       var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
       var diagnostic_alert_selector = '[name="conformity_information.'+item+'.diagnostic_alert"]';
 
-      var last_diagnostic_val = AutoForm.getFieldValue("insertLeaseForm", 'conformity_information.'+item+'.last_diagnostic');
-      var periodicity = AutoForm.getFieldValue("insertLeaseForm", "conformity_information."+item+".periodicity");
-      var due_date = AutoForm.getFieldValue("insertLeaseForm", "conformity_information."+item+".due_date");
+      var last_diagnostic_val = AutoForm.getFieldValue('conformity_information.'+item+'.last_diagnostic', "insertLeaseForm");
+      var periodicity = AutoForm.getFieldValue("conformity_information."+item+".periodicity", "insertLeaseForm");
+      var due_date = AutoForm.getFieldValue("conformity_information."+item+".due_date", "insertLeaseForm");
 
       var last_diagnostic_moment = moment(last_diagnostic_val);
       var periodicity_moment = periodicityToMoment(periodicity);
