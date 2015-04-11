@@ -3,7 +3,7 @@
 AutoForm.hooks({
   insertActionForm: {
     before: {
-      insert: function(doc, template) {
+      insert: function(doc) {
         // Get the Action type
         doc.action_type = Session.get('newActionType');
 
@@ -15,7 +15,7 @@ AutoForm.hooks({
         return doc;
       }
     },
-    onSuccess: function(operation, result, template) {
+    onSuccess: function(operation, result) {
       if (Session.get('childActionToEdit')) {
           // Session.set('childActionToEdit', null); // Always set "nul when template destroyed
           Router.go('actions-apply');
