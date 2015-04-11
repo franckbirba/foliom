@@ -1,15 +1,12 @@
 AutoForm.hooks({
     AFselectorForm: {
         before: {
-            insert: function(doc, template) {
+            insert: function(doc) {
                 doc.estate_id = Session.get('current_estate_doc')._id;
                 return doc;
             }
-            // update: function(docId, modifier, template) {},
-            // "methodName": function(doc, template) {}
-
         },
-        onSuccess: function(operation, result, template) {
+        onSuccess: function(formType, result) {
             $('#selectorFormModal').modal('hide');
             Session.set('selectorType', null);
         },
