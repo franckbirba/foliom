@@ -696,9 +696,12 @@ Leases.attachSchema(new SimpleSchema({
       afFieldInput: {
         readonly: true,
         value: function() {
-          var acoustic = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.acoustic");
-          var visual = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.visual");
-          var thermic = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.thermic");
+          // var acoustic = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.acoustic");
+          // var visual = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.visual");
+          // var thermic = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.thermic");
+          var acoustic = AutoForm.getFieldValue("comfort_qualitative_assessment.acoustic");
+          var visual = AutoForm.getFieldValue("comfort_qualitative_assessment.visual");
+          var thermic = AutoForm.getFieldValue("comfort_qualitative_assessment.thermic");
 
           return calc_qualitative_assessment(acoustic, visual, thermic);
 
