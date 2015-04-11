@@ -37,7 +37,6 @@ aldeed:delete-button
 yogiben:autoform-file
 forwarder:autoform-wizard
 matb33:collection-hooks
-yogiben:autoform-modals
 
 # Server & client utils
 iron:router
@@ -54,3 +53,4 @@ d3js:d3
 vazco:maps
 mizzao:jquery-ui
 natestrauser:select2
+bse:autoform-wizard-custom
