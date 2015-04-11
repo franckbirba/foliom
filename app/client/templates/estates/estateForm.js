@@ -38,18 +38,17 @@ AutoForm.addHooks(null, {
 
 AutoForm.hooks({
     AFestateForm: {
-        onSuccess: function(operation, result, template) {
-            console.log(operation, result, template);
+        onSuccess: function(formType, result) {
 
-            // console.log("Success : operation is " + operation);
-            if (operation == "insert") {
+            // console.log("Success : formType is " + formType);
+            if (formType == "insert") {
                 $('#estateForm').modal('hide');
                 Meteor.call("copyMasterCfg", result, function(error, result){
                     if (error) {
                         console.log(error);
                     }
                 });
-            } else if (operation == "update") {
+            } else if (formType == "update") {
                 $('#estateForm').modal('hide');
             }
         },
