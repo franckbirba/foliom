@@ -1,8 +1,8 @@
 AutoForm.hooks({
     AFinsertPortfolioForm: {
-        onSuccess: function(operation, result, template) {
-            // console.log("Success : operation is " + operation);
-            if (operation == "insert") {
+        onSuccess: function(formType, result) {
+            // console.log("Success : formType is " + formType);
+            if (formType == "insert") {
 
                 var currentEstateId = Session.get('current_estate_doc')._id;
 
@@ -18,7 +18,7 @@ AutoForm.hooks({
 
                 $('#portfolioForm').modal('hide');
 
-            } else if (operation == "update") {
+            } else if (formType == "update") {
                 $('#portfolioForm').modal('hide');
             }
         },
