@@ -97,7 +97,7 @@ Template.actionForm.rendered = function () {
       // Have this loop monitor all opportunity Selectors
       $("[name^='gain_fluids_kwhef.'][name$='.opportunity']").each(function( index ) {
 
-        var endUseOpportunity = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".opportunity") ;
+        var endUseOpportunity = AutoForm.getFieldValue("gain_fluids_kwhef." + index + ".opportunity", "insertActionForm") ;
 
         if (endUseOpportunity !== "") { // We make sure that something is selected
             // For each line, we find the matching EndUse in the Lease(s). This is why we have an array: one cell per lease.
@@ -106,7 +106,7 @@ Template.actionForm.rendered = function () {
 
 
             // If first EndUse and per_cent fields are entered, then set the kWef per_cent
-            var per_cent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".per_cent")*1 ;
+            var per_cent = AutoForm.getFieldValue("gain_fluids_kwhef." + index + ".per_cent", "insertActionForm")*1 ;
             // var matchingKWhEF = AutoForm.getFieldValue("insertActionForm", "gain_fluids_kwhef." + index + ".or_kwhef")*1 ;
 
             if (per_cent !== 0){
@@ -145,7 +145,7 @@ Template.actionForm.rendered = function () {
     /* Water formula  */
     /* -------------- */
     this.autorun(function () {
-      var per_cent = AutoForm.getFieldValue("insertActionForm", "gain_fluids_water.0.per_cent")*1 ;
+      var per_cent = AutoForm.getFieldValue("gain_fluids_water.0.per_cent", "insertActionForm")*1 ;
 
       if (per_cent !== 0){
         // Calc the Gain in m3 and set the value
@@ -198,7 +198,7 @@ Template.actionForm.rendered = function () {
       $("[name='savings_first_year.fluids.euro_peryear']").val( total_fluid_savings_a[0] ) ;
 
       // operating_total_gain
-      var gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
+      var gain_operating_cost = AutoForm.getFieldValue("gain_operating.cost", "insertActionForm")*1 ;
       var operating_total_gain = gain_operating_cost + total_fluid_savings_a[0];
 
       $("[name='operating_total_gain.cost']").val( operating_total_gain ) ;
@@ -241,7 +241,7 @@ Template.actionForm.rendered = function () {
       var curr_field = $(this).val()*1;
       var target, estimate;
       // var source = $("[name='investment.cost']").val();
-      var source = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
+      var source = AutoForm.getFieldValue("investment.cost", "insertActionForm")*1 ;
 
       if( $(this).attr("name") == "subventions.ratio") {
         estimate = (curr_field/100 * source).toFixed(2) ;
@@ -261,9 +261,9 @@ Template.actionForm.rendered = function () {
 
     // Subventions: residual cost
     this.autorun(function () {
-      investment_cost = AutoForm.getFieldValue("insertActionForm", "investment.cost")*1 ;
-      sub_euro = AutoForm.getFieldValue("insertActionForm", "subventions.or_euro")*1 ;
-      cee_opportunity = AutoForm.getFieldValue("insertActionForm", "subventions.CEE_opportunity")*1 ;
+      investment_cost = AutoForm.getFieldValue("investment.cost", "insertActionForm")*1 ;
+      sub_euro = AutoForm.getFieldValue("subventions.or_euro", "insertActionForm")*1 ;
+      cee_opportunity = AutoForm.getFieldValue("subventions.CEE_opportunity", "insertActionForm")*1 ;
 
       $("[name='subventions.residual_cost']").val(
         investment_cost - sub_euro - cee_opportunity
@@ -276,9 +276,9 @@ Template.actionForm.rendered = function () {
     /* -------------------------- */
 
     this.autorun(function () {
-      action_lifetime = AutoForm.getFieldValue("insertActionForm", "action_lifetime")*1 ;
-      residual_cost = AutoForm.getFieldValue("insertActionForm", "subventions.residual_cost")*1 ;
-      gain_operating_cost = AutoForm.getFieldValue("insertActionForm", "gain_operating.cost")*1 ;
+      action_lifetime = AutoForm.getFieldValue("action_lifetime", "insertActionForm")*1 ;
+      residual_cost = AutoForm.getFieldValue("subventions.residual_cost", "insertActionForm")*1 ;
+      gain_operating_cost = AutoForm.getFieldValue("gain_operating.cost", "insertActionForm")*1 ;
       var YS_array = Session.get('gain_kwhef_euro');
       var total_fluid_savings_a = Session.get('total_fluid_savings_a');
 
