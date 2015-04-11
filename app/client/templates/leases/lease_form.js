@@ -1,7 +1,7 @@
 AutoForm.hooks({
   insertLeaseForm: {
     before: {
-      insert: function(doc, template) {
+      insert: function(doc) {
         //  var testDoc = jQuery.extend(true, {}, doc);
         // console.log(testDoc);
 
@@ -48,7 +48,7 @@ AutoForm.hooks({
         return doc;
       }
     },
-    onSuccess: function(operation, result, template) {
+    onSuccess: function(formType, result) {
 
       // If update: go back to buildingDetail
       if( Session.get('leaseToEdit') ) {
