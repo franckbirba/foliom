@@ -20,8 +20,8 @@ Template.settings.rendered = ->
         $("[name='icc.evolution_index.#{position[position_number]}.evolution_index']").val(result)
 
   @autorun ->
-    lastCost = AutoForm.getFieldValue("configAutoForm", "icc.evolution_index.30.cost")
-    firstCost = AutoForm.getFieldValue("configAutoForm", "icc.evolution_index.0.cost")
+    lastCost = AutoForm.getFieldValue("icc.evolution_index.30.cost", "configAutoForm")
+    firstCost = AutoForm.getFieldValue("icc.evolution_index.0.cost", "configAutoForm")
     result = calcEvolutionIndex(lastCost, firstCost)
     $("[name='icc.global_evolution_index']").val(result)
 
@@ -40,7 +40,7 @@ Template.settings.rendered = ->
   #     $("[name='yearly_values.#{position[position_number]}.evolution_index']").val(result)
 
   # this.autorun ()->
-  #   lastCost = AutoForm.getFieldValue("fluidAutoForm", "yearly_values.30.cost")
-  #   firstCost = AutoForm.getFieldValue("fluidAutoForm", "yearly_values.0.cost")
+  #   lastCost = AutoForm.getFieldValue("yearly_values.30.cost", "fluidAutoForm")
+  #   firstCost = AutoForm.getFieldValue("yearly_values.0.cost", "fluidAutoForm")
   #   result = calcEvolutionIndex(lastCost, firstCost)
   #   $("[name='global_evolution_index']").val(result)
