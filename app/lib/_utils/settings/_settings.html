@@ -1,5 +1,5 @@
 <template name="afObjectField_eportfolio-settings">
-  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
     <table>
       <tr>
         {{#each yearlyValues}}
@@ -7,7 +7,7 @@
         {{/each}}
       </tr>
       <tr>
-        {{#each afFieldNames name=this.atts.name}}
+        {{#each afFieldNames name=this.name}}
           <td>
             {{> afFormGroup name=this options="auto"}}
           </td>
@@ -22,9 +22,9 @@
 
 
 <template name="afFormGroup_eportfolio-settings">
-  <div style="" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div style="" class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
       {{> afFieldInput afFieldInputAtts}}
-      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
   </div>
 </template>
 
