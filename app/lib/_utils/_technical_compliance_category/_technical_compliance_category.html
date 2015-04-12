@@ -16,18 +16,18 @@
 </template>
 
 <template name="afFormGroup_technical_compliance_category">
-  <div class="form-group{{#if afFieldIsInvalid name=this.atts.name}} has-error{{/if}}">
+  <div class="form-group{{#if afFieldIsInvalid name=this.name}} has-error{{/if}}">
     {{#unless skipLabel}}
-    <label {{bsFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.atts.name}}{{/if}}</label>
+    <label {{bsFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.name}}{{/if}}</label>
     {{/unless}}
     {{> afFieldInput this.afFieldInputAtts}}
-    <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+    <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
   </div>
 </template>
 
 <template name="afObjectField_technical_compliance_category_Block">
-  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle" style="border: 1px solid #ddd; padding:15px">
-    <!-- <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div> -->
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}} extraFormStyle" style="border: 1px solid #ddd; padding:15px">
+    <!-- <div class="objectTitleAF">{{afFieldLabelText name=this.name}}</div> -->
 
     <!-- COLUMN TITLES -->
     <div class="TCC_item">
@@ -38,21 +38,21 @@
     </div>
 
     <div class="TCC_block">
-      {{> afQuickFields name=this.atts.name }}
+      {{> afQuickFields name=this.name }}
     </div>
   </div>
 </template>
 
 <template name="afObjectField_technical_compliance_category">
   <div class="TCC_item">
-    {{#with afFieldLabelText name=this.atts.name}}
+    {{#with afFieldLabelText name=this.name}}
       <div class="TCC_label">{{this}}</div>
     {{/with}}
     <!-- <div class="TCC_fields"> -->
-      {{#if afFieldIsInvalid name=this.atts.name}}
-      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+      {{#if afFieldIsInvalid name=this.name}}
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
       {{/if}}
-      {{> afQuickFields name=this.atts.name}}
+      {{> afQuickFields name=this.name}}
     <!-- </div> -->
   </div>
 </template>
