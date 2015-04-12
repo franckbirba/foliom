@@ -21,8 +21,8 @@
 
 
 <template name="afObjectField_table">
-  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
-    {{#each afFieldNames name=this.atts.name}}
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+    {{#each afFieldNames name=this.name}}
       <!-- {{> afFormGroup template="verylight" name=this options="auto"}} -->
       <td class="col-sm-1 col-xs-1" style="vertical-align: middle;">
         <!-- {{> afFormGroup name=this options="auto" template="eportfolio-horizontal"}} -->
@@ -43,25 +43,25 @@
 </template> -->
 
 <template name="afFormGroup_eportfolio-horizontal">
-  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
     {{#if skipLabel}}
     {{! We include the empty label as the easiest way to keep proper field alignment}}
     <label {{afFieldLabelAtts}}></label>
     {{else}}
-    <label {{afFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.atts.name}}{{/if}}</label>
+    <label {{afFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.name}}{{/if}}</label>
     {{/if}}
     <div class="{{rightColumnClass}}">
       {{> afFieldInput afFieldInputAtts}}
-      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
     </div>
   </div>
 </template>
 
 <template name="afObjectField_eportfolio-horizontal">
-  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
-    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}} extraFormStyle">
+    <div class="objectTitleAF">{{afFieldLabelText name=this.name}}</div>
     <div class="{{rightColumnClass}}">
-      {{> afQuickFields name=this.atts.name }}
+      {{> afQuickFields name=this.name }}
     </div>
   </div>
 </template>
