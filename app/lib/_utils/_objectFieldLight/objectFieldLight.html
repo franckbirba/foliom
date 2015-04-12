@@ -1,6 +1,6 @@
 <template name="afObjectField_verylight">
-  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
-    {{#each afFieldNames name=this.atts.name}}
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+    {{#each afFieldNames name=this.name}}
       {{> afFormGroup template="verylight" name=this options="auto"}}
     {{/each}}
   </div>
@@ -8,9 +8,9 @@
 
 
 <template name="afFormGroup_verylight">
-  <div style="width:50px;" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div style="width:50px;" class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
       {{> afFieldInput afFieldInputAtts}}
-      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
   </div>
 </template>
 
