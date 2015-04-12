@@ -16,25 +16,25 @@
 </template>
 
 <template name="afFormGroup_arraySettings">
-  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
     <!-- {{#unless this.skipLabel}}
-    <label {{this.afFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.atts.name}}{{/if}}</label>
+    <label {{this.afFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.name}}{{/if}}</label>
     {{/unless}} -->
     {{> afFieldInput this.afFieldInputAtts}}
-    <span>{{{afFieldMessage name=this.atts.name}}}</span>
+    <span>{{{afFieldMessage name=this.name}}}</span>
   </div>
 </template>
 
 <template name="afObjectField_arraySettings">
   <!-- Removing fieldset tag -->
   <!-- <fieldset> -->
-    {{#with afFieldLabelText name=this.atts.name}}
+    {{#with afFieldLabelText name=this.name}}
     <!-- <legend>{{this}}</legend> -->
     {{/with}}
-    <!-- {{> afQuickFields name=this.atts.name}} -->
+    <!-- {{> afQuickFields name=this.name}} -->
     <!-- ORIGINAL above: why do we have to specify template??? -->
 
-    {{> afQuickFields name=this.atts.name template="arraySettings"}}
+    {{> afQuickFields name=this.name template="arraySettings"}}
   <!-- </fieldset> -->
 </template>
 
