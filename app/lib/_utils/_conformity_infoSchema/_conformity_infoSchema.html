@@ -16,36 +16,36 @@
 </template>
 
 <template name="afFormGroup_conformity_infoSchema">
-  <div class="form-group{{#if afFieldIsInvalid name=this.atts.name}} has-error{{/if}}">
+  <div class="form-group{{#if afFieldIsInvalid name=this.name}} has-error{{/if}}">
     {{#unless skipLabel}}
-    <label {{bsFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.atts.name}}{{/if}}</label>
+    <label {{bsFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.name}}{{/if}}</label>
     {{/unless}}
     {{> afFieldInput this.afFieldInputAtts}}
-    <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+    <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
   </div>
 </template>
 
 <template name="afObjectField_conformity_infoBlock">
-  <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
-    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}} extraFormStyle">
+    <div class="objectTitleAF">{{afFieldLabelText name=this.name}}</div>
     <div class="CiS_block">
-      {{> afQuickFields name=this.atts.name }}
+      {{> afQuickFields name=this.name }}
     </div>
   </div>
 </template>
 
 <template name="afObjectField_conformity_infoSchema">
   <div class="panel panel-default CiS_item">
-    {{#with afFieldLabelText name=this.atts.name}}
+    {{#with afFieldLabelText name=this.name}}
     <div class="panel-heading">
       <h3 class="panel-title">{{this}}</h3>
     </div>
     {{/with}}
     <div class="panel-body">
-      {{#if afFieldIsInvalid name=this.atts.name}}
-      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+      {{#if afFieldIsInvalid name=this.name}}
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
       {{/if}}
-      {{> afQuickFields name=this.atts.name}}
+      {{> afQuickFields name=this.name}}
     </div>
   </div>
 </template>
