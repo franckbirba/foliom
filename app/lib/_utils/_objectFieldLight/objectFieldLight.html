@@ -1,7 +1,7 @@
 <template name="afObjectField_verylight">
   <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
     {{#each afFieldNames name=this.name}}
-      {{> afFormGroup template="verylight" name=this options="auto"}}
+      {{> afFormGroup template="verylight" name=this.name options=afOptionsFromSchema}}
     {{/each}}
   </div>
 </template>

@@ -9,7 +9,7 @@
       <tr>
         {{#each afFieldNames name=this.name}}
           <td>
-            {{> afFormGroup name=this options="auto"}}
+            {{> afFormGroup name=this.name options=afOptionsFromSchema}}
           </td>
         {{/each}}
       </tr>

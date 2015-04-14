@@ -7,6 +7,14 @@ Template.registerHelper('session_equals', function(name, param) {
     return Session.get(name) == param;
 });
 
+// Debugging Helper
+Template.registerHelper('console_log', function(param) {
+    console.log("param is", param);
+});
+Template.registerHelper('debugger', function() {
+    debugger
+});
+
 // Check if User is Admin
 Template.registerHelper("isAdmin",
     function(){
