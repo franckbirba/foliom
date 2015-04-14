@@ -34,7 +34,6 @@ aldeed:simple-schema
 aldeed:collection2
 aldeed:autoform
 aldeed:delete-button
-yogiben:autoform-file
 forwarder:autoform-wizard
 matb33:collection-hooks
 
