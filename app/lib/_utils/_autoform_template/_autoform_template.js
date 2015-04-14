@@ -42,6 +42,12 @@ if (Meteor.isClient) {
     }
   });
 
+  // Template.afFormGroup_infoButton.helpers({
+  //   afFieldInputAtts: function () {
+  //     return _.extend({template: 'bootstrap3'}, this.afFieldInputAtts);
+  //   }
+  // });
+
   Template['afFormGroup_eportfolio-horizontal'].helpers({
     afFieldInputAtts: function() {
       var atts = _.clone(this.afFieldInputAtts || {});
@@ -49,11 +55,14 @@ if (Meteor.isClient) {
         delete atts['input-col-class'];
       }
       // We have a special template for check boxes, but otherwise we
-      // want to use the same as those defined for eportfolio template.
+      // want to use the same as those defined for eportfolio-horizontal template.
       if (AutoForm.getInputType(this.afFieldInputAtts) === 'boolean-checkbox') {
-        atts.template = 'eportfolio-horizontal';
+        atts.template = 'bootstrap3-horizontal';
       } else {
-        atts.template = 'eportfolio';
+        // atts.template = 'eportfolio-horizontal';
+        atts.template = 'bootstrap3';
+        // [BSE] adding "form-control" class (fix for AutoForm5 changes)
+        atts = AutoForm.Utility.addClass(atts, 'form-control');
       }
       return atts;
     },
@@ -174,4 +183,11 @@ if (Meteor.isClient) {
       return this.atts.leftLabel;
     }
   });
+
+  // Template.registerHelper('attsPlusFormControlClass', function attsPlusFormControlClass() {
+  //   var atts = _.clone(this.atts);
+  //   // Add bootstrap class
+  //   atts = AutoForm.Utility.addClass(atts, "form-control");
+  //   return atts;
+  // });
 }
