@@ -14,6 +14,7 @@ binary-heap@1.0.3
 blaze@2.1.2
 blaze-tools@1.0.3
 boilerplate-generator@1.0.3
+bse:autoform-file-custom@0.2.2
 callback-hook@1.0.3
 cfs:access-point@0.1.47
 cfs:base-package@0.0.29
