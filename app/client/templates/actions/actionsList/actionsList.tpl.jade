@@ -12,10 +12,7 @@
     each getUserTemplateActions
       .col-md-3
         .actionUserTemplate
-          button.btn.btn-default.btn-xs.editAction
-            span.glyphicon.glyphicon-pencil(aria-hidden='true')
-          .logo !{logo}
-          .actionTitle= name
+          +itemBlockMedium
     .col-md-3
       .actionCreate
         a.newUserTempalteAction(href='')
