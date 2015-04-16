@@ -10,8 +10,8 @@
         .newActionFromMaster
           if isAdmin
             .dropdown.dropdownBtn
-              button(id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"): span.itemMenu.glyphicon.glyphicon-pencil(aria-hidden='true')
-              ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+              button(id="{{this._id}}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"): span.itemMenu.glyphicon.glyphicon-pencil(aria-hidden='true')
+              ul.dropdown-menu(role="menu" aria-labelledby="{{this._id}}")
                 li(role="presentation")
                   a.editAction(role="menuitem" tabindex="-1" href="") Edit Action
                   a(role="menuitem" tabindex="-1" href="") Delete Action
