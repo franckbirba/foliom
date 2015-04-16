@@ -57,10 +57,13 @@ if (Meteor.isClient) {
       // We have a special template for check boxes, but otherwise we
       // want to use the same as those defined for eportfolio-horizontal template.
       if (AutoForm.getInputType(this.afFieldInputAtts) === 'boolean-checkbox') {
-        atts.template = 'bootstrap3-horizontal';
-      } else {
-        // atts.template = 'eportfolio-horizontal';
         atts.template = 'bootstrap3';
+      } else if (AutoForm.getInputType(this.afFieldInputAtts) === 'select-checkbox-inline') {
+        atts.template = 'bootstrap3-horizontal';
+      }
+      else {
+        // atts.template = 'eportfolio-horizontal';
+        atts.template = 'eportfolio-horizontal';
         // [BSE] adding "form-control" class (fix for AutoForm5 changes)
         atts = AutoForm.Utility.addClass(atts, 'form-control');
       }
