@@ -9,10 +9,22 @@
       .col-md-3
         .newActionFromMaster
           if isAdmin
-            button.btn.btn-default.btn-xs.editAction
-              span.glyphicon.glyphicon-pencil(aria-hidden='true')
+            .dropdown
+              button(id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false").editAction: span.glyphicon.glyphicon-pencil(aria-hidden='true')
+              ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
+                li(role="presentation")
+                  a(role="menuitem" tabindex="-1" href="") Edit Action
+                  a(role="menuitem" tabindex="-1" href="") Delete Action
           .logo !{logo}
           .actionTitle= name
+    //- each getGenericActions
+    //-   .col-md-3
+    //-     .newActionFromMaster
+    //-       if isAdmin
+    //-         button.btn.btn-default.btn-xs.editAction
+    //-           span.glyphicon.glyphicon-pencil(aria-hidden='true')
+    //-       .logo !{logo}
+    //-       .actionTitle= name
     each getUserTemplateActions
       .col-md-3
         .actionUserTemplate
