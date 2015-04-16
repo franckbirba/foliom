@@ -1,63 +1,44 @@
 Template.actionsList.rendered = function () {
-    // init session vars
-    Session.set('masterAction', null);
-    Session.set('newActionType', null);
-
+  // init session vars
+  Session.set('masterAction', null);
+  Session.set('newActionType', null);
 };
 
 
-
-Template.actionsList.helpers(
-    {
-        getGenericActions: function(){
-            return Actions.find({
-               "estate_id": { $exists: false },
-               "action_type": "generic"
-            }).fetch();
-        }
+Template.actionsList.helpers({
+  getGenericActions: function(){
+    return Actions.find({
+       "estate_id": { $exists: false },
+       "action_type": "generic"
+    }).fetch();
+  },
+  getUserTemplateActions: function(){
+    return Actions.find({
+       "estate_id": Session.get('current_estate_doc')._id,
+       "action_type": "user_template"
+    }).fetch();
+  },
+  getChildActions: function(){
+    return Actions.find({
+       "estate_id": Session.get('current_estate_doc')._id,
+       "action_type": "child"
+    }).fetch();
+  },
+  getActionLogo: function() {
+    // console.log($(this));
+    if(this.logo){
+      // Check if the img URL links to images in the public folder
+      if(this.logo.charAt(0) == "/") {
+          return this.logo;
+      }
+      else { return "/cfs/files/images/"+ this.logo; }
     }
-);
+    return "";
+  }
 
-Template.actionsList.helpers(
-    {
-        getUserTemplateActions: function(){
-            return Actions.find({
-               "estate_id": Session.get('current_estate_doc')._id,
-               "action_type": "user_template"
-            }).fetch();
-        }
-    }
-);
 
-Template.actionsList.helpers(
-    {
-        getChildActions: function(){
-            return Actions.find({
-               "estate_id": Session.get('current_estate_doc')._id,
-               "action_type": "child"
-            }).fetch();
-        }
-    }
-);
+});
 
-Template.actionsList.helpers(
-    {
-        getActionLogo: function() {
-
-             // console.log($(this));
-             if(this.logo){
-                // Check if the img URL links to images in the public folder
-                if(this.logo.charAt(0) == "/") {
-                    return this.logo;
-                }
-                else {
-                    return "/cfs/files/images/"+ this.logo;
-                }
-             }
-             return "";
-        }
-    }
-);
 
 Template.actionsList.events({
     'click .newGenericActionBtn': function(e) {
