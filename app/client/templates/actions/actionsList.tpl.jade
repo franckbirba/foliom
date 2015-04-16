@@ -9,11 +9,11 @@
       .col-md-3
         .newActionFromMaster
           if isAdmin
-            .dropdown
-              button(id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false").editAction: span.glyphicon.glyphicon-pencil(aria-hidden='true')
+            .dropdown.dropdownBtn
+              button(id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"): span.itemMenu.glyphicon.glyphicon-pencil(aria-hidden='true')
               ul.dropdown-menu(role="menu" aria-labelledby="dLabel")
                 li(role="presentation")
-                  a(role="menuitem" tabindex="-1" href="") Edit Action
+                  a.editAction(role="menuitem" tabindex="-1" href="") Edit Action
                   a(role="menuitem" tabindex="-1" href="") Delete Action
           .logo !{logo}
           .actionTitle= name

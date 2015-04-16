@@ -49,10 +49,13 @@ Template.actionsList.events({
     },
     'click .newActionFromMaster': function(e) {
         e.preventDefault();
-        Session.set('newActionType', "user_template");
-        Session.set('masterAction', this);
+        if (!e.target.classList.contains("itemMenu") && !e.target.firstChild.classList.contains("itemMenu") ){ // Don't trigger these events if the pressed button was an itemMenu
+          // Could be improved as the child element does not always exist
+          Session.set('newActionType', "user_template");
+          Session.set('masterAction', this);
 
-        Router.go('action-form');
+          Router.go('action-form');
+        }
     },
     'click .newUserTempalteAction': function(e) {
         e.preventDefault();
@@ -63,7 +66,9 @@ Template.actionsList.events({
     'click .editAction': function(e) { //Sends to the Action form for updating
         e.preventDefault();
         Session.set('updateAction', this);
-
         Router.go('action-form');
+    },
+    'click .dropdownBtn': function(e) {
+        // e.preventDefault(); // Prevent other events
     },
 });
