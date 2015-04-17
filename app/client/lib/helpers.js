@@ -123,17 +123,12 @@ Template.registerHelper("beforeRemove",
                   this.remove();
                 }
             }
+            else if( doc.hasOwnProperty('action_type') ){
+                if (confirm('Really delete "' + doc.name + '"?')) {
+                  this.remove();
+                }
+            }
           };
     }
 );
 
-
-// beforeRemove: function () {
-//       return function (collection, id) {
-//         var doc = collection.findOne(id);
-//         console.log(doc);
-//         if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
-//           this.remove();
-//         }
-//       };
-//     },

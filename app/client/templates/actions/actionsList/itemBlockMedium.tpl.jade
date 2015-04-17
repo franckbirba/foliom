@@ -3,7 +3,9 @@ if isAllowedToEditAction
     button(id="{{this._id}}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"): span.itemMenu.glyphicon.glyphicon-pencil(aria-hidden='true')
     ul.dropdown-menu(role="menu" aria-labelledby="{{this._id}}")
       li(role="presentation")
-        a.editAction(role="menuitem" tabindex="-1" href="") Edit Action
-        a(role="menuitem" tabindex="-1" href="") Delete Action
+        a.editAction(role="menuitem" tabindex="-1") Edit Action
+        a(role="menuitem" tabindex="-1")
+          +quickRemoveButton collection="Actions" _id=this._id beforeRemove=beforeRemove style="border:none !important;background-color:transparent; padding-left: 0;font-family: inherit;"
+            | Delete Action
 .logo !{logo}
 .actionTitle= name
