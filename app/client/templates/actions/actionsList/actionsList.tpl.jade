@@ -9,10 +9,14 @@
       .col-md-3
         .newActionFromMaster
           +itemBlockMedium
+          .logo !{logo}
+          .actionTitle= name
     each getUserTemplateActions
       .col-md-3
         .actionUserTemplate
           +itemBlockMedium
+          .logo !{logo}
+          .actionTitle= name
     .col-md-3
       .actionCreate
         a.newUserTempalteAction(href='')
