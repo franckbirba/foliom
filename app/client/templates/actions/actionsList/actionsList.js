@@ -41,7 +41,7 @@ Template.actionsList.events({
 
         Router.go('action-form');
     },
-    'click .editAction': function(e) { //Sends to the Action form for updating
+    'click .editItem': function(e) { //Sends to the Action form for updating
         e.preventDefault();
         Session.set('updateAction', this);
         Router.go('action-form');
