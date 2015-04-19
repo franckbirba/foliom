@@ -5,9 +5,9 @@
       ul.dropdown-menu(role="menu" aria-labelledby="{{this._id}}")
         li(role="presentation")
           if isActionListTplt
-            a.editItem(role="menuitem" tabindex="-1") Edit
+            a.editItem(role="menuitem" tabindex="-1") {{_ 'edit'}}
           if isScenarioListTplt
-            a.copyItem(role="menuitem" tabindex="-1") Copy
+            a.copyItem(role="menuitem" tabindex="-1") {{_ 'copy'}}
           a(role="menuitem" tabindex="-1")
             +quickRemoveButton(collection=whichCollection _id=this._id beforeRemove=beforeRemove style="border:none !important;background-color:transparent; padding-left: 0;font-family: inherit;")
-              | Delete
+              | {{_ 'delete'}}

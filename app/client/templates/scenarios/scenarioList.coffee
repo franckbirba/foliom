@@ -19,12 +19,6 @@ Template.scenarioList.events
     e.preventDefault()
     doc = clone @
     delete doc._id
-    doc.name = "#{doc.name} - copy"
+    doc.name = "#{doc.name} - clone"
     Scenarios.insert(doc)
     $('#'+ this._id).dropdown('toggle')
-
-  # 'click .editItem': function(e) { //Sends to the Action form for updating
-  #       e.preventDefault();
-  #       Session.set('updateAction', this);
-  #       Router.go('action-form');
-  #   },

@@ -11,5 +11,4 @@ Template.itemBlockMedium.helpers
     if Router.current().route.getName() is 'actions-list'
       return "Actions"
     else if Router.current().route.getName() is 'scenarioList'
-      console.log "scenarios case"
       return "Scenarios"

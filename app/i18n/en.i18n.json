@@ -2,6 +2,10 @@
 	/* Global keywords */
 	"hello": "Welcome to e-portfolio",
 
+    "edit": "Edit",
+    "copy": "Copy",
+    "delete": "Delete",
+
 	/* Home */
 	"observe": "Observe",
 	"plan": "Plan",
