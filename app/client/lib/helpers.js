@@ -112,23 +112,24 @@ Template.registerHelper("beforeRemove",
                 if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
                   this.remove();
                 }
-            }
-            else if( doc.hasOwnProperty('building_name') ){
+            } else if( doc.hasOwnProperty('building_name') ){
                 if (confirm('Really delete "' + doc.building_name + '"?')) {
                   this.remove();
                 }
-            }
-            else if( doc.hasOwnProperty('lease_name') ){
+            } else if( doc.hasOwnProperty('lease_name') ){
                 if (confirm('Really delete "' + doc.lease_name + '"?')) {
                   this.remove();
                 }
-            }
-            else if( doc.hasOwnProperty('action_type') ){
+            } else if( doc.hasOwnProperty('action_type') ){
+                if (confirm('Really delete "' + doc.name + '"?')) {
+                  this.remove();
+                }
+            } else if( doc.hasOwnProperty('duration') ){
                 if (confirm('Really delete "' + doc.name + '"?')) {
                   this.remove();
                 }
             }
+
           };
     }
 );
-

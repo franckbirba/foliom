@@ -9,3 +9,12 @@ Template.scenarioList.events
     Router.go 'scenario-form'
   'click .scenarioItem': (e) ->
     Router.go 'scenario-form', this
+  'click .dropdownBtn': (e) ->
+    e.stopPropagation(); # Prevent propagation
+    $('#'+ this._id).dropdown('toggle')
+
+  # 'click .editItem': function(e) { //Sends to the Action form for updating
+  #       e.preventDefault();
+  #       Session.set('updateAction', this);
+  #       Router.go('action-form');
+  #   },
