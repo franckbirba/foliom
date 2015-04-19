@@ -1,12 +1,5 @@
 exports = this
 
-clone = (obj) ->
-  return obj  if obj is null or typeof (obj) isnt "object"
-  temp = new obj.constructor()
-  for key of obj
-    temp[key] = clone(obj[key])
-  temp
-
 exports.createBuildings = (nb_buildings) ->
   building_1 =
     "_id": "25bQcnwe2RZHdjsu5"
