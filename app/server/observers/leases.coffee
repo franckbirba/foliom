@@ -21,7 +21,7 @@ Leases.find().observeChanges
       lease_name = Leases.findOne({_id:id}).lease_name
       building_name = buildingName_fromLeaseId(id)
       building_id = buildingId_fromLeaseId(id)
-      today = new Date
+      today = Date.now()
 
       for key, value of fields.conformity_information
         if value.diagnostic_alert is true
