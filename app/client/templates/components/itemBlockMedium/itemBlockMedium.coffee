@@ -6,6 +6,7 @@ Template.itemBlockMedium.helpers
     else
       return true
   isActionListTplt: -> Router.current().route.getName() is 'actions-list'
+  isScenarioListTplt: -> Router.current().route.getName() is 'scenarioList'
   whichCollection: ->
     if Router.current().route.getName() is 'actions-list'
       return "Actions"
