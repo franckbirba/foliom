@@ -1,5 +1,7 @@
 <template name="afObjectField_verylightBSE">
   <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+    {{console_log "in very_light objectField"}}
+    {{console_log this}}
     {{#each afFieldNames name=this.name}}
       <!-- {{> afFormGroup template="verylight" name=this options="auto"}} -->
       {{#if isFirstValue this.name}}
@@ -25,21 +27,3 @@
       <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
   </div>
 </template>
-
-<!--
-<template name="afFieldInput_verylightBSE">
-  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
-      {{> afFieldInput afFieldInputAtts}}
-      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
-  </div>
-</template> -->
-
-
-
-<!-- <template name="afInputNumber_verylightBSE">
-  {{#if isYear atts}}
-    <input class="" readonly="readonly" style="width:40px;border: none;-webkit-appearance: none;" type="number" value="{{this.value}}" {{atts}}/>
-  {{else}}
-    <input class="" style="width:40px;border: none;-webkit-appearance: none;" placeholder="{{getPlaceHolder atts.name}}" type="number" value="{{this.value}}" {{atts}}/>
-  {{/if}}
-</template> -->

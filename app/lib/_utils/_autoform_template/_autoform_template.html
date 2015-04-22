@@ -1,6 +1,6 @@
 <template name="quickForm_eportfolio-horizontal">
   {{#autoForm qfAutoFormContext}}
-    {{> afQuickFields input-col-class=inputClass label-class=labelClass}}
+    {{> afQuickFields quickFieldsAtts}}
     {{#if qfShouldRenderButton}}
     <div class="form-group">
       <div class="{{labelClass}}"></div>
@@ -20,23 +20,9 @@
 
 
 
-<template name="afObjectField_table">
-  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
-    {{#each afFieldNames name=this.name}}
-      <td class="col-sm-1 col-xs-1" style="vertical-align: middle;">
-        <!-- {{> afFormGroup name=this options="auto" template="eportfolio-horizontal"}} -->
-        {{> afFormGroup name=this.name options=afOptionsFromSchema template="verylightBSE"}}
-        <!-- {{> afFormGroup name=this options="auto" template="verylight"}} -->
-      </td>
-
-    {{/each}}
-  </div>
-</template>
-
-
 
 <template name="afFormGroup_eportfolio-horizontal">
-  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}}" data-required={{required}}>
     {{#if skipLabel}}
     {{! We include the empty label as the easiest way to keep proper field alignment}}
     <label {{afFieldLabelAtts}}></label>
@@ -51,23 +37,28 @@
 </template>
 
 
+
+
 <template name="afObjectField_eportfolio-horizontal">
   <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}} extraFormStyle">
     <div class="objectTitleAF">{{afFieldLabelText name=this.name}}</div>
     <div class="{{rightColumnClass}}">
-      {{> afQuickFields name=this.name }}
+      {{> afQuickFields quickFieldsAtts }}
     </div>
   </div>
 </template>
+
 
 
 <template name="afArrayField_eportfolio-horizontal">
   <div class="form-group {{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}} extraFormStyle">
     <!-- <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label> -->
     <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+
     {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
-                  <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
-              {{/if}}
+      <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+    {{/if}}
+
     <div class="{{rightColumnClass}}">
       <div class="panel panel-default autoform-padding-fix">
         {{#if afFieldIsInvalid name=this.atts.name}}
@@ -76,13 +67,12 @@
         </div>
         {{/if}}
 
-         <table class="table table-responsive" >
+        <table class="table table-responsive" >
           <tr style="display:block;width:100%;">
             {{#each getSchemaFields}}
               <th style="margin-left:auto;margin-right:auto;float:left;font-size:8px;text-align: center;padding-bottom:10px;" class="{{this.bootstrap}}">
-                  {{this.label}}
+                {{this.label}}
               </th>
-
             {{/each}}
           </tr>
 
@@ -93,23 +83,38 @@
               {{/if}}
 
               {{> afObjectField name=this.name template="table" }}
+              <!-- {{> afQuickField name=this.name label=false options=afOptionsFromSchema}} -->
             </tr>
           {{/afEachArrayItem}}
-         </table>
+        </table>
       </div>
     </div>
   </div>
 </template>
 
 
+<!-- @BSE : potentiellement a recheck -->
+<template name="afObjectField_table">
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+    {{#each afFieldNames name=this.name}}
+      <td class="col-sm-1 col-xs-1" style="vertical-align: middle;">
+        <!-- {{> afFormGroup name=this options="auto" template="eportfolio-horizontal"}} -->
+        {{> afFormGroup name=this.name options=afOptionsFromSchema template="verylightBSE"}}
+        <!-- {{> afFormGroup name=this options="auto" template="verylight"}} -->
+      </td>
 
+    {{/each}}
+  </div>
+</template>
 
+<!-- @BSE : potentiellement a recheck -->
 <template name="afCheckbox_eportfolio-horizontal">
    <div class="checkbox">
     <input type="checkbox" value="{{this.value}}" {{attsPlusSpecialClass}} />
   </div>
 </template>
 
+<!-- @BSE : potentiellement a recheck -->
 <template name="afFieldInput_eportfolio-horizontal">
   <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
   <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label>

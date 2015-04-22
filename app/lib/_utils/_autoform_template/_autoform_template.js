@@ -10,18 +10,17 @@ if (Meteor.isClient) {
 
   Template['quickForm_eportfolio-horizontal'].helpers({
     inputClass: function() {
-      var atts = findAtts();
-      if (atts) {
-        return atts['input-col-class'];
-      }
+      return this.atts["input-col-class"];
     },
     labelClass: function() {
-      var atts = findAtts();
-      if (atts) {
-        return atts['label-class'];
-      }
+      return this.atts["label-class"];
     },
-    submitButtonAtts: function() {
+    quickFieldsAtts: function () {
+      // These are the quickForm attributes that we want to forward to
+      // the afQuickFields component.
+      return _.pick(this.atts, 'id-prefix', 'input-col-class', 'label-class');
+    },
+    submitButtonAtts: function bsQuickFormSubmitButtonAtts() {
       var qfAtts = this.atts;
       var atts = {};
       if (typeof qfAtts.buttonClasses === 'string') {
@@ -33,20 +32,15 @@ if (Meteor.isClient) {
     },
     qfAutoFormContext: function() {
       var ctx = _.clone(this.qfAutoFormContext || {});
-      ctx = AutoForm.Utility.addClass(ctx, 'form-horizontal');
-      if (ctx['input-col-class'])
-        delete ctx['input-col-class'];
-      if (ctx['label-class'])
-        delete ctx['label-class'];
+      ctx = AutoForm.Utility.addClass(ctx, "form-horizontal");
+      delete ctx["input-col-class"];
+      delete ctx["label-class"];
+      delete ctx["id-prefix"];
       return ctx;
     }
   });
 
-  // Template.afFormGroup_infoButton.helpers({
-  //   afFieldInputAtts: function () {
-  //     return _.extend({template: 'bootstrap3'}, this.afFieldInputAtts);
-  //   }
-  // });
+
 
   Template['afFormGroup_eportfolio-horizontal'].helpers({
     afFieldInputAtts: function() {
@@ -57,27 +51,31 @@ if (Meteor.isClient) {
       // We have a special template for check boxes, but otherwise we
       // want to use the same as those defined for eportfolio-horizontal template.
       if (AutoForm.getInputType(this.afFieldInputAtts) === 'boolean-checkbox') {
-        atts.template = 'bootstrap3';
-      } else if (AutoForm.getInputType(this.afFieldInputAtts) === 'select-checkbox-inline') {
         atts.template = 'bootstrap3-horizontal';
       }
+      // else if (AutoForm.getInputType(this.afFieldInputAtts) === 'select-checkbox-inline') {
+      //   atts.template = 'bootstrap3-horizontal';
+      // }
+      // else if (AutoForm.getInputType(this.afFieldInputAtts) === 'select-checkbox') {
+      //   atts.template = 'bootstrap3-horizontal';
+      // }
       else {
         // atts.template = 'eportfolio-horizontal';
-        atts.template = 'eportfolio-horizontal';
+        atts.template = 'bootstrap3';
         // [BSE] adding "form-control" class (fix for AutoForm5 changes)
-        atts = AutoForm.Utility.addClass(atts, 'form-control');
+        // atts = AutoForm.Utility.addClass(atts, 'form-control');
       }
       return atts;
     },
     afFieldLabelAtts: function() {
       var atts = _.clone(this.afFieldLabelAtts || {});
       // Add bootstrap class
-      atts = AutoForm.Utility.addClass(atts, 'control-label');
+      atts = AutoForm.Utility.addClass(atts, "control-label");
       return atts;
     },
     rightColumnClass: function() {
       var atts = this.afFieldInputAtts || {};
-      return atts['input-col-class'] || '';
+      return atts['input-col-class'] || "";
     },
     skipLabel: function() {
       var self = this;
@@ -87,29 +85,38 @@ if (Meteor.isClient) {
     }
   });
 
+
+
   Template['afObjectField_eportfolio-horizontal'].helpers({
     rightColumnClass: function() {
-      var atts = this.atts || {};
-      return atts['input-col-class'] || '';
+      return this['input-col-class'] || "";
     },
     afFieldLabelAtts: function() {
       // Use only atts beginning with label-
       var labelAtts = {};
       _.each(this.atts, function(val, key) {
-        if (key.indexOf('label-') === 0) {
+        if (key.indexOf("label-") === 0) {
           labelAtts[key.substring(6)] = val;
         }
       });
       // Add bootstrap class
-      labelAtts = AutoForm.Utility.addClass(labelAtts, 'control-label');
+      labelAtts = AutoForm.Utility.addClass(labelAtts, "control-label");
       return labelAtts;
+    },
+    quickFieldsAtts: function () {
+      console.log("in eportfolio-horizontal", this);
+      var atts = _.pick(this, 'name', 'id-prefix');
+      // We want to default to using bootstrap3 template below this point
+      // because we don't want horizontal within horizontal
+      // atts.template = 'bootstrap3'; // 2015-04-21 commented by BSE: we don't mind having horizontal within horizontal
+      return atts;
     }
   });
 
   Template['afArrayField_eportfolio-horizontal'].helpers({
     rightColumnClass: function() {
       var atts = this.atts || {};
-      return atts['input-col-class'] || '';
+      return atts['input-col-class'] || "";
     },
     afFieldLabelAtts: function() {
       // Use only atts beginning with label-
@@ -164,17 +171,18 @@ if (Meteor.isClient) {
       }
       return tmp;
     },
-    getBootStrapClass: function() {
-      var result = 12 / this.length;
-      if (result >= 3) {
-        return 'col-sm-3';
-      } else if (result >= 4) {
-        return 'col-sm-4';
-      } else {
-        return 'col-sm-1';
-      }
-    }
+    // getBootStrapClass: function() {
+    //   var result = 12 / this.length;
+    //   if (result >= 3) {
+    //     return 'col-sm-3';
+    //   } else if (result >= 4) {
+    //     return 'col-sm-4';
+    //   } else {
+    //     return 'col-sm-1';
+    //   }
+    // }
   });
+// console.log("Error - schema not found?")
 
   Template['afCheckbox_eportfolio-horizontal'].helpers({
     attsPlusSpecialClass: function() {

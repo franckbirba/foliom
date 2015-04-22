@@ -94,6 +94,9 @@ Template.leaseForm.helpers({
   }
 });
 
+Template.leaseForm.created = function () {
+  AutoForm.debug();
+};
 
 Template.leaseForm.rendered = function () {
 
