@@ -104,7 +104,7 @@ if (Meteor.isClient) {
       return labelAtts;
     },
     quickFieldsAtts: function () {
-      console.log("in eportfolio-horizontal", this);
+      // console.log("in eportfolio-horizontal", this);
       var atts = _.pick(this, 'name', 'id-prefix');
       // We want to default to using bootstrap3 template below this point
       // because we don't want horizontal within horizontal

@@ -100,6 +100,11 @@ Template.leaseForm.created = function () {
 
 Template.leaseForm.rendered = function () {
 
+  // Activate auto-fill for new leases if needed
+  if( !Session.get('leaseToEdit') ){
+    fillLeaseForm(false); // Set to true to activate
+  }
+
   //Apply End-Use to correct field
   var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
@@ -113,9 +118,7 @@ Template.leaseForm.rendered = function () {
 
   }
 
-  this.autorun(function () {
-
-    // Set values on change
+  // tcc_lifetime & tcc_conformity
     $(".tcc_lifetime").change(function(){
         var tcc_lifetime = $(".tcc_lifetime").map(function() {
           return $(this).val();
@@ -136,56 +139,8 @@ Template.leaseForm.rendered = function () {
         ).change();
     });
 
-    if( !Session.get('leaseToEdit') ){
-      // $(".end_use_name").each(function( index ) {
-      //     $(this).val( transr(endUses[index].end_use_name) );
-      //     $(this).prop("readonly","readonly") ;
-      //     // $(this).val( index );
-      // });
 
 
-      /* ------------------------------------------------------------------- */
-      /* Auto-values: used to auto-fill part of the form - for dev. purposes */
-      /* ------------------------------------------------------------------- */
-
-      var lease_autovalues = false;
-      if (lease_autovalues){
-        $("[name^='fluid_consumption_meter.'][name$='.first_year_value']").each(function( index ) { $(this).val( randomIntFromInterval(0,100) ); });
-        $("[name^='fluid_consumption_meter.'][name$='.yearly_subscription']").each(function( index ) { $(this).val( randomIntFromInterval(0,100) ); });
-        $("[name^='technical_compliance.categories.'][name$='.lifetime']").each(function( index ) { $(this).val( "bad_dvr" ); });
-        $("[name^='technical_compliance.categories.'][name$='.conformity']").each(function( index ) { $(this).val( "compliant" ); });
-
-        $("[name^='conformity_information.'][name$='.eligibility']").each(function( index ) {
-            if(randomIntFromInterval(0,1)>0){
-                $(this).prop("checked", true);
-            }
-        });
-
-        var fakeOptionInput = function (name1, name2){
-            var options = $("[name='"+name1+".0."+name2+"'] option").map(function() { return $(this).val(); });
-            $("[name^='"+name1+".'][name$='."+name2+"']").each(function( index ) {
-                $(this).val( options[randomIntFromInterval(1,options.length-1)] );
-            });
-        }
-
-        fakeOptionInput("conformity_information", "periodicity");
-        fakeOptionInput("conformity_information", "conformity");
-
-        $("[name^='conformity_information.'][name$='.due_date']").each(function( index ) {
-            $(this).val("2015-01-16");
-        });
-        $("[name^='conformity_information.'][name$='.last_diagnostic']").each(function( index ) {
-            $(this).val("2015-01-16");
-        });
-
-        var options = $("[name='consumption_by_end_use.0.fluid_id'] option").map(function() { return $(this).val(); });
-        $("[name^='consumption_by_end_use.'][name$='.fluid_id']").each(function( index ) {
-            $(this).val( options[3] );
-        });
-      }
-
-    }
-  });
 
   var total_kWhef_Fluids = 0;
   var total_kWhef_Fluids_array = [];

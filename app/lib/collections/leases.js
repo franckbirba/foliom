@@ -721,323 +721,323 @@ Leases.attachSchema(new SimpleSchema({
     },
   },
 
-  // technical_compliance: {
-  //   type: Object,
-  //   label: transr("technical_compliance"),
-  //   autoform: {
-  //     // template:"consumptionByEndUse"
-  //   },
-  //   optional: function() {
-  //     return debugMode;
-  //   },
-  // },
-  // 'technical_compliance.categories': {
-  //   type: Object,
-  //   // label: transr("technical_compliance"),
-  //   autoform: {
-  //     template: "technical_compliance_category_Block",
-  //     afFormGroup: {
-  //       label: false
-  //     },
-  //   },
-  //   optional: function() {
-  //     return debugMode;
-  //   },
-  // },
-  // 'technical_compliance.categories.core_and_shell': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("core_and_shell"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.facade': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("facade"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.roof_terrasse': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("roof_terrasse"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.heat_production': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("heat_production"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.chiller': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("chiller"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.power_supply': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("power_supply"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.electrical_delivery': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("electrical_delivery"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.thermal_delivery': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("thermal_delivery"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.heating_terminal': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("heating_terminal"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.chiller_terminal': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("chiller_terminal"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.lighting_terminal': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("lighting_terminal"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.GTC_GTB': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("GTC_GTB"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
+  technical_compliance: {
+    type: Object,
+    label: transr("technical_compliance"),
+    autoform: {
+      // template:"consumptionByEndUse"
+    },
+    optional: function() {
+      return debugMode;
+    },
+  },
+  'technical_compliance.categories': {
+    type: Object,
+    // label: transr("technical_compliance"),
+    autoform: {
+      template: "technical_compliance_category_Block",
+      afFormGroup: {
+        label: false
+      },
+    },
+    optional: function() {
+      return debugMode;
+    },
+  },
+  'technical_compliance.categories.core_and_shell': {
+    type: technical_compliance_categorySchema,
+    label: transr("core_and_shell"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.facade': {
+    type: technical_compliance_categorySchema,
+    label: transr("facade"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.roof_terrasse': {
+    type: technical_compliance_categorySchema,
+    label: transr("roof_terrasse"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.heat_production': {
+    type: technical_compliance_categorySchema,
+    label: transr("heat_production"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.chiller': {
+    type: technical_compliance_categorySchema,
+    label: transr("chiller"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.power_supply': {
+    type: technical_compliance_categorySchema,
+    label: transr("power_supply"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.electrical_delivery': {
+    type: technical_compliance_categorySchema,
+    label: transr("electrical_delivery"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.thermal_delivery': {
+    type: technical_compliance_categorySchema,
+    label: transr("thermal_delivery"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.heating_terminal': {
+    type: technical_compliance_categorySchema,
+    label: transr("heating_terminal"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.chiller_terminal': {
+    type: technical_compliance_categorySchema,
+    label: transr("chiller_terminal"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.lighting_terminal': {
+    type: technical_compliance_categorySchema,
+    label: transr("lighting_terminal"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.GTC_GTB': {
+    type: technical_compliance_categorySchema,
+    label: transr("GTC_GTB"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
 
-  // 'technical_compliance.categories.air_system': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("air_system"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.ventilation_system': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("ventilation_system"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.hot_water_production': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("hot_water_production"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.hot_water_delivery': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("hot_water_delivery"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
-  // 'technical_compliance.categories.fire_security': {
-  //   type: technical_compliance_categorySchema,
-  //   label: transr("fire_security"),
-  //   autoform: {
-  //     template: 'technical_compliance_category'
-  //   }
-  // },
+  'technical_compliance.categories.air_system': {
+    type: technical_compliance_categorySchema,
+    label: transr("air_system"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.ventilation_system': {
+    type: technical_compliance_categorySchema,
+    label: transr("ventilation_system"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.hot_water_production': {
+    type: technical_compliance_categorySchema,
+    label: transr("hot_water_production"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.hot_water_delivery': {
+    type: technical_compliance_categorySchema,
+    label: transr("hot_water_delivery"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
+  'technical_compliance.categories.fire_security': {
+    type: technical_compliance_categorySchema,
+    label: transr("fire_security"),
+    autoform: {
+      template: 'technical_compliance_category'
+    }
+  },
 
-  // 'technical_compliance.global_lifetime': {
-  //   type: Number,
-  //   decimal: true,
-  //   label: transr("global_lifetime"),
-  //   autoform: {
-  //     afFieldInput: {
-  //       readonly: true,
-  //     }
-  //   }
-  // },
-  // 'technical_compliance.global_conformity': {
-  //   type: Number,
-  //   decimal: true,
-  //   label: transr("global_conformity"),
-  //   autoform: {
-  //     readonly: true,
-  //     // template:"consumptionByEndUse"
-  //   }
-  // },
-  // 'technical_compliance.tc_comments': {
-  //   type: String,
-  //   label: transr("tc_comment"),
-  //   autoform: {
-  //     rows: 6,
-  //     // template:"consumptionByEndUse"
-  //   },
-  //   optional: true,
-  // },
+  'technical_compliance.global_lifetime': {
+    type: Number,
+    decimal: true,
+    label: transr("global_lifetime"),
+    autoform: {
+      afFieldInput: {
+        readonly: true,
+      }
+    }
+  },
+  'technical_compliance.global_conformity': {
+    type: Number,
+    decimal: true,
+    label: transr("global_conformity"),
+    autoform: {
+      readonly: true,
+      // template:"consumptionByEndUse"
+    }
+  },
+  'technical_compliance.tc_comments': {
+    type: String,
+    label: transr("tc_comment"),
+    autoform: {
+      rows: 6,
+      // template:"consumptionByEndUse"
+    },
+    optional: true,
+  },
 
 
-  // conformity_information: {
-  //   type: Object,
-  //   label: transr("conformity_information"),
-  //   // minCount: 14,
-  //   // maxCount: 14,
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoBlock"
-  //     },
-  //     // afFormGroup:{
-  //     //     template:"conformity_infoSchema"
-  //     // },
-  //     // afArrayField:{
-  //     //     template:"conformity_infoSchema"
-  //     // },
-  //   },
-  // },
-  // 'conformity_information.accessibility': {
-  //   type: conformity_infoSchema,
-  //   label: transr("accessibility"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.elevators': {
-  //   type: conformity_infoSchema,
-  //   label: transr("elevators"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.ssi': {
-  //   type: conformity_infoSchema,
-  //   label: transr("ssi"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.asbestos': {
-  //   type: conformity_infoSchema,
-  //   label: transr("asbestos"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.lead': {
-  //   type: conformity_infoSchema,
-  //   label: transr("lead"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.legionella': {
-  //   type: conformity_infoSchema,
-  //   label: transr("legionella"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.electrical_installation': {
-  //   type: conformity_infoSchema,
-  //   label: transr("electrical_installation"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.dpe': {
-  //   type: conformity_infoSchema,
-  //   label: transr("dpe"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.indoor_air_quality': {
-  //   type: conformity_infoSchema,
-  //   label: transr("indoor_air_quality"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.radon': {
-  //   type: conformity_infoSchema,
-  //   label: transr("radon"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.chiller_terminal': {
-  //   type: conformity_infoSchema,
-  //   label: transr("chiller_terminal"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.lead_disconnector': {
-  //   type: conformity_infoSchema,
-  //   label: transr("lead_disconnector"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.automatic_doors': {
-  //   type: conformity_infoSchema,
-  //   label: transr("automatic_doors"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
-  // 'conformity_information.chiller_system': {
-  //   type: conformity_infoSchema,
-  //   label: transr("chiller_system"),
-  //   autoform: {
-  //     afObjectField: {
-  //       template: "conformity_infoSchema"
-  //     },
-  //   },
-  // },
+  conformity_information: {
+    type: Object,
+    label: transr("conformity_information"),
+    // minCount: 14,
+    // maxCount: 14,
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoBlock"
+      },
+      // afFormGroup:{
+      //     template:"conformity_infoSchema"
+      // },
+      // afArrayField:{
+      //     template:"conformity_infoSchema"
+      // },
+    },
+  },
+  'conformity_information.accessibility': {
+    type: conformity_infoSchema,
+    label: transr("accessibility"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.elevators': {
+    type: conformity_infoSchema,
+    label: transr("elevators"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.ssi': {
+    type: conformity_infoSchema,
+    label: transr("ssi"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.asbestos': {
+    type: conformity_infoSchema,
+    label: transr("asbestos"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.lead': {
+    type: conformity_infoSchema,
+    label: transr("lead"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.legionella': {
+    type: conformity_infoSchema,
+    label: transr("legionella"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.electrical_installation': {
+    type: conformity_infoSchema,
+    label: transr("electrical_installation"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.dpe': {
+    type: conformity_infoSchema,
+    label: transr("dpe"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.indoor_air_quality': {
+    type: conformity_infoSchema,
+    label: transr("indoor_air_quality"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.radon': {
+    type: conformity_infoSchema,
+    label: transr("radon"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.chiller_terminal': {
+    type: conformity_infoSchema,
+    label: transr("chiller_terminal"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.lead_disconnector': {
+    type: conformity_infoSchema,
+    label: transr("lead_disconnector"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.automatic_doors': {
+    type: conformity_infoSchema,
+    label: transr("automatic_doors"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
+  'conformity_information.chiller_system': {
+    type: conformity_infoSchema,
+    label: transr("chiller_system"),
+    autoform: {
+      afObjectField: {
+        template: "conformity_infoSchema"
+      },
+    },
+  },
 
 
 

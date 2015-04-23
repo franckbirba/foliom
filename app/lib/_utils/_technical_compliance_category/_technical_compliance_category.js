@@ -74,14 +74,14 @@ if (Meteor.isClient) {
 
   Template.afObjectField_technical_compliance_category_Block.helpers({
     quickFieldsAtts: function () {
-      console.log("in block", this);
+      // console.log("in block", this);
       return _.pick(this, 'name', 'id-prefix');
     }
   });
 
   Template.afObjectField_technical_compliance_category.helpers({
     quickFieldsAtts: function () {
-      console.log("in normal", this);
+      // console.log("in normal", this);
       return _.pick(this, 'name', 'id-prefix');
     }
   });
