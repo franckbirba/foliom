@@ -27,6 +27,10 @@ Router.configure
   loadingTemplate: 'appLoading'
   waitOn: basicWaitOn
 
+  # configuration for iron-router-progress
+  # progressDelay : 100
+
+
 if Meteor.isClient
   Router.onBeforeAction ->
     Log.info "Routing: #{@url}"
