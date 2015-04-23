@@ -145,8 +145,16 @@ Template.leaseForm.rendered = function () {
   var total_kWhef_Fluids = 0;
   var total_kWhef_Fluids_array = [];
 
-  /* ---------------- */
+  /* --------------------- */
   // FLUID_CONSUMPTION_METER
+
+  if (Session.get('leaseToEdit')){ // Init array with the values from the Lease
+    total_kWhef_Fluids_array = _.map(Session.get('leaseToEdit').fluid_consumption_meter, function(item){
+      var fluid = fluidToObject(item.fluid_id);
+      if (fluid.fluid_unit == "u_euro_kwhEF") { return item.first_year_value ;}
+      else {return 0;}
+    })
+  }
 
   // Get the table
   var fluidConsumptionMeter_table = $(".fluidConsumptionMeter_fluidID").parents("table");
@@ -184,11 +192,11 @@ Template.leaseForm.rendered = function () {
   /* END-USE FORMULAS */
   /* ---------------- */
 
-  endUseVal_array = $("[name^='consumption_by_end_use.'][name$='.first_year_value']").map(function() {
+  var endUseVal_array = $("[name^='consumption_by_end_use.'][name$='.first_year_value']").map(function() {
     return $(this).val()*1;
   }).toArray();
   endUseVal_array[6] = 0; // Force the "specific" field to be nutral in the calc
-  console.log("endUseVal_array is ", endUseVal_array);
+
   var consumption_by_end_use_table = $("[name='consumption_by_end_use.0.end_use_name']").parents("table");
   // Monitor all changes and apply formulas
   consumption_by_end_use_table.on('change', "[name^='consumption_by_end_use.'][name$='.first_year_value']", function() {
@@ -201,30 +209,11 @@ Template.leaseForm.rendered = function () {
     } else {
         endUseVal_array[index] = 0;
     }
-    console.log("endUseVal_array is: ", endUseVal_array);
 
     var totalFields_exceptSpecific = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
     var totalConsumption = $("[name='consumption_by_end_use_total']").val()*1;
     $("[name='consumption_by_end_use.6.first_year_value']").val( totalConsumption - totalFields_exceptSpecific ) ;
   });
-
-  // this.autorun(function () {
-  //   $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
-
-  //     if (index != 6) { // Exclude 6 as it's the specific field
-  //         var firstYearValue = AutoForm.getFieldValue("consumption_by_end_use." + index + ".first_year_value", "insertLeaseForm") ;
-  //         if(firstYearValue) {endUseVal_array[index] = firstYearValue ;}
-  //     } else {
-  //         endUseVal_array[index] = 0;
-  //     }
-  //   });
-  //   console.log("endUseVal_array is: "+ endUseVal_array);
-  //   var specificFieldValue = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
-  //   var totalConsumption = AutoForm.getFieldValue("consumption_by_end_use_total", "insertLeaseForm") ;
-  //   $("[name='consumption_by_end_use.6.first_year_value']").val(
-  //       totalConsumption - specificFieldValue
-  //   ) ;
-  // });
 
 
   /* ------------------- */
