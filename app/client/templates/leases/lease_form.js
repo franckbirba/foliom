@@ -145,13 +145,14 @@ Template.leaseForm.rendered = function () {
   var total_kWhef_Fluids = 0;
   var total_kWhef_Fluids_array = [];
 
-  // Monitor fluid_consumption_meter and apply formulas
+  /* ---------------- */
+  // FLUID_CONSUMPTION_METER
 
   // Get the table
   var fluidConsumptionMeter_table = $(".fluidConsumptionMeter_fluidID").parents("table");
-
+  // Monitor all changes and apply formulas
   fluidConsumptionMeter_table.on('change', 'input, select', function() {
-    index = $(this).attr("name").split(".")[1];
+    index = $(this).attr("name").split(".")[1]*1;
 
     var matchingFluid = fluidConsumptionMeter_table.find("[name='fluid_consumption_meter."+index+".fluid_id']").val();
     var matchingYearlySubscription = fluidConsumptionMeter_table.find("[name='fluid_consumption_meter."+index+".yearly_subscription']").val()*1;
@@ -183,8 +184,29 @@ Template.leaseForm.rendered = function () {
   /* END-USE FORMULAS */
   /* ---------------- */
 
+  endUseVal_array = $("[name^='consumption_by_end_use.'][name$='.first_year_value']").map(function() {
+    return $(this).val()*1;
+  }).toArray();
+  endUseVal_array[6] = 0; // Force the "specific" field to be nutral in the calc
+  console.log("endUseVal_array is ", endUseVal_array);
+  var consumption_by_end_use_table = $("[name='consumption_by_end_use.0.end_use_name']").parents("table");
+  // Monitor all changes and apply formulas
+  consumption_by_end_use_table.on('change', "[name^='consumption_by_end_use.'][name$='.first_year_value']", function() {
+    index = $(this).attr("name").split(".")[1]*1;
 
-  var endUseVal_array = [];
+    if (index != 6) { // Exclude 6 as it's the specific field
+        var firstYearValue = consumption_by_end_use_table.find("[name='consumption_by_end_use."+index+".first_year_value']").val()*1;
+        console.log("firstYearValue is ", firstYearValue)
+        if(!isNaN(firstYearValue)) {endUseVal_array[index] = firstYearValue ;}
+    } else {
+        endUseVal_array[index] = 0;
+    }
+    console.log("endUseVal_array is: ", endUseVal_array);
+
+    var totalFields_exceptSpecific = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
+    var totalConsumption = $("[name='consumption_by_end_use_total']").val()*1;
+    $("[name='consumption_by_end_use.6.first_year_value']").val( totalConsumption - totalFields_exceptSpecific ) ;
+  });
 
   // this.autorun(function () {
   //   $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
