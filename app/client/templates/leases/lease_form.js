@@ -142,11 +142,10 @@ Template.leaseForm.rendered = function () {
 
 
 
-  var total_kWhef_Fluids = 0;
-  var total_kWhef_Fluids_array = [];
-
   /* --------------------- */
   // FLUID_CONSUMPTION_METER
+  var total_kWhef_Fluids = 0;
+  var total_kWhef_Fluids_array = [];
 
   if (Session.get('leaseToEdit')){ // Init array with the values from the Lease
     total_kWhef_Fluids_array = _.map(Session.get('leaseToEdit').fluid_consumption_meter, function(item){
@@ -285,57 +284,50 @@ Template.leaseForm.rendered = function () {
 
 
 
-  // this.autorun(function () {
-  //   // WARNINGS
-  //   //conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'dpe', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
+  /* -------------------------------------- */
+  // WARNINGS for conformity_information_items
+  //conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'dpe', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
 
-  //   _.each(conformity_information_items, function(item){
-  //     var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
-  //     var diagnostic_alert_selector = '[name="conformity_information.'+item+'.diagnostic_alert"]';
+  conformity_information_items_div = $(".CiS_block");
 
-  //     var last_diagnostic_val = AutoForm.getFieldValue('conformity_information.'+item+'.last_diagnostic', "insertLeaseForm");
-  //     var periodicity = AutoForm.getFieldValue("conformity_information."+item+".periodicity", "insertLeaseForm");
-  //     var due_date = AutoForm.getFieldValue("conformity_information."+item+".due_date", "insertLeaseForm");
+  _.each(conformity_information_items, function(item){
+    var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
+    var diagnostic_alert_selector = '[name="conformity_information.'+item+'.diagnostic_alert"]';
 
-  //     var last_diagnostic_moment = moment(last_diagnostic_val);
-  //     var periodicity_moment = periodicityToMoment(periodicity);
-  //     var due_date_moment = moment(due_date);
-  //     var today = moment();
+    conformity_information_items_div.on('change', "[name^='conformity_information.'][name$='.last_diagnostic'],[name^='conformity_information.'][name$='.periodicity'],[name^='conformity_information.'][name$='.due_date']", function() {
 
-  //     var span_item = $(last_diagnostic_selector).siblings('span');
+      var last_diagnostic_val = conformity_information_items_div.find("[name='conformity_information."+item+".last_diagnostic']").val();
+      var periodicity = conformity_information_items_div.find("[name='conformity_information."+item+".periodicity']").val();
+      var due_date = conformity_information_items_div.find("[name='conformity_information."+item+".due_date']").val();
 
-  //     /* Alert cases:
-  //     IF (last_diagnostic + periodicity) < today
-  //     OR IF due_date >= last_diagnostic
-  //     OR IF last_diagnostic is empty
-  //     */
-  //     if (last_diagnostic_moment.add(periodicity_moment) < today || due_date >= last_diagnostic_val || last_diagnostic_val == null) {
-  //       var warning_text = transr("last_diagnostic_obsolete");
-  //       span_item.text(warning_text).css( "color", "red" );
-  //       $(diagnostic_alert_selector).val(true);
-  //     } else {
-  //       span_item.text("");
-  //       $(diagnostic_alert_selector).val(false);
-  //     }
-  //   });
+      var last_diagnostic_moment = moment(last_diagnostic_val);
+      var periodicity_moment = periodicityToMoment(periodicity);
+      var due_date_moment = moment(due_date);
+      var today = moment();
 
-  // });
+      var span_item = $(last_diagnostic_selector).siblings('span');
+
+      /* Alert cases:
+      IF (last_diagnostic + periodicity) < today
+      OR IF due_date >= last_diagnostic
+      OR IF last_diagnostic is empty
+      */
+      if (last_diagnostic_moment.add(periodicity_moment) < today || due_date >= last_diagnostic_val || last_diagnostic_val == null) {
+        var warning_text = transr("last_diagnostic_obsolete");
+        span_item.text(warning_text).css( "color", "red" );
+        $(diagnostic_alert_selector).val(true);
+      } else {
+        span_item.text("");
+        $(diagnostic_alert_selector).val(false);
+      }
+
+    });
+
+
+  });
+
 
 
 };
-
-// Template.leaseForm.events({
-//   "change [name='erp_status']": function (event, tplt) {
-//     if( isERP(event.target.value) ) {
-//       category = "accessibility";
-//       eligibility = "true";
-//       date = ;
-
-//       tplt.$('[name="conformity_information.accessibility.eligibility"]').prop('checked', true);
-//       tplt.$('[name="conformity_information.accessibility.due_date"]').val(date);
-//     }
-
-//   }
-// });
 
 
