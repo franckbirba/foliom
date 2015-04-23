@@ -118,7 +118,7 @@ Template.leaseForm.rendered = function () {
 
   }
 
-  // tcc_lifetime & tcc_conformity
+  // tcc_lifetime & tcc_conformity: monitor all selects, then calc the value and sets it
     $(".tcc_lifetime").change(function(){
         var tcc_lifetime = $(".tcc_lifetime").map(function() {
           return $(this).val();
@@ -146,44 +146,38 @@ Template.leaseForm.rendered = function () {
   var total_kWhef_Fluids_array = [];
 
   // Monitor fluid_consumption_meter and apply formulas
-  this.autorun(function () {
 
-    $("[name^='fluid_consumption_meter.'][name$='.yearly_cost']").each(function( index ) {
-    // "fluid_consumption_meter.0.yearly_cost"
+  // Get the table
+  var fluidConsumptionMeter_table = $(".fluidConsumptionMeter_fluidID").parents("table");
 
-        var matchingFluid = AutoForm.getFieldValue("fluid_consumption_meter." + index + ".fluid_id", "insertLeaseForm") ;
-        var matchingYearlySubscription = AutoForm.getFieldValue("fluid_consumption_meter." + index + ".yearly_subscription", "insertLeaseForm") ;
-        var matchingFirstYearValue = AutoForm.getFieldValue("fluid_consumption_meter." + index + ".first_year_value", "insertLeaseForm") ;
+  fluidConsumptionMeter_table.on('change', 'input, select', function() {
+    index = $(this).attr("name").split(".")[1];
 
-        if (matchingFluid) {
+    var matchingFluid = fluidConsumptionMeter_table.find("[name='fluid_consumption_meter."+index+".fluid_id']").val();
+    var matchingYearlySubscription = fluidConsumptionMeter_table.find("[name='fluid_consumption_meter."+index+".yearly_subscription']").val()*1;
+    var matchingFirstYearValue = fluidConsumptionMeter_table.find("[name='fluid_consumption_meter."+index+".first_year_value']").val()*1;
 
-            var correctFluid = fluidToObject(matchingFluid); // gets the Fluid obj in the conf. from a txt like "EDF - fluid_heat"
-            var yearly_cost = matchingYearlySubscription + matchingFirstYearValue * correctFluid.yearly_values[0].cost ;
+    if (matchingFluid) {
+      var correctFluid = fluidToObject(matchingFluid); // gets the Fluid obj in the conf. from a txt like "EDF - fluid_heat"
+      var yearly_cost = matchingYearlySubscription + matchingFirstYearValue * correctFluid.yearly_values[0].cost ;
+      $("[name='fluid_consumption_meter." + index + ".yearly_cost']").val( yearly_cost );
 
-            // console.log("correctFluid: ");
-            // console.log(correctFluid);
+      /* ---------------------------------------------- */
+      /* END-USE FORMULAS: consumption_by_end_use_total */
+      // 1- Take advatage of this Loop to update total_kWhef_Fluids
+      if (correctFluid.fluid_unit == "u_euro_kwhEF") {
+          total_kWhef_Fluids_array[index] = matchingFirstYearValue ;
+      } else {
+          total_kWhef_Fluids_array[index] = 0;
+      }
+      // 2- reduce array and update the field
+      total_kWhef_Fluids = _.reduce(total_kWhef_Fluids_array, function(memo, num){ return memo + num; }, 0);
+      $("[name='consumption_by_end_use_total']").val( total_kWhef_Fluids );
+    }
 
-            //target type: fluid_consumption_meter.0.yearly_cost
-            $("[name='fluid_consumption_meter." + index + ".yearly_cost']").val( yearly_cost );
-
-            /* ---------------------------------------------- */
-            /* END-USE FORMULAS: consumption_by_end_use_total */
-            /* ---------------------------------------------- */
-                // 1- Take advatage of this Loop to update total_kWhef_Fluids
-                if (correctFluid.fluid_unit == "u_euro_kwhEF") {
-                    total_kWhef_Fluids_array[index] = matchingFirstYearValue ;
-                } else {
-                    total_kWhef_Fluids_array[index] = 0;
-                }
-
-                // 2- reduce array and update the field
-                total_kWhef_Fluids = _.reduce(total_kWhef_Fluids_array, function(memo, num){ return memo + num; }, 0);
-                $("[name='consumption_by_end_use_total']").val( total_kWhef_Fluids );
-        }
-
-        // ToDo: create 30 yearly Values
-    });
   });
+
+
 
   /* ---------------- */
   /* END-USE FORMULAS */
@@ -192,23 +186,23 @@ Template.leaseForm.rendered = function () {
 
   var endUseVal_array = [];
 
-  this.autorun(function () {
-    $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
+  // this.autorun(function () {
+  //   $("[name^='consumption_by_end_use.'][name$='.first_year_value']").each(function( index ) {
 
-      if (index != 6) { // Exclude 6 as it's the specific field
-          var firstYearValue = AutoForm.getFieldValue("consumption_by_end_use." + index + ".first_year_value", "insertLeaseForm") ;
-          if(firstYearValue) {endUseVal_array[index] = firstYearValue ;}
-      } else {
-          endUseVal_array[index] = 0;
-      }
-    });
-    console.log("endUseVal_array is: "+ endUseVal_array);
-    var specificFieldValue = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
-    var totalConsumption = AutoForm.getFieldValue("consumption_by_end_use_total", "insertLeaseForm") ;
-    $("[name='consumption_by_end_use.6.first_year_value']").val(
-        totalConsumption - specificFieldValue
-    ) ;
-  });
+  //     if (index != 6) { // Exclude 6 as it's the specific field
+  //         var firstYearValue = AutoForm.getFieldValue("consumption_by_end_use." + index + ".first_year_value", "insertLeaseForm") ;
+  //         if(firstYearValue) {endUseVal_array[index] = firstYearValue ;}
+  //     } else {
+  //         endUseVal_array[index] = 0;
+  //     }
+  //   });
+  //   console.log("endUseVal_array is: "+ endUseVal_array);
+  //   var specificFieldValue = _.reduce(endUseVal_array, function(memo, num){ return memo + num; }, 0);
+  //   var totalConsumption = AutoForm.getFieldValue("consumption_by_end_use_total", "insertLeaseForm") ;
+  //   $("[name='consumption_by_end_use.6.first_year_value']").val(
+  //       totalConsumption - specificFieldValue
+  //   ) ;
+  // });
 
 
   /* ------------------- */
@@ -280,41 +274,41 @@ Template.leaseForm.rendered = function () {
 
 
 
-  this.autorun(function () {
-    // WARNINGS
-    //conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'dpe', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
+  // this.autorun(function () {
+  //   // WARNINGS
+  //   //conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'dpe', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
 
-    _.each(conformity_information_items, function(item){
-      var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
-      var diagnostic_alert_selector = '[name="conformity_information.'+item+'.diagnostic_alert"]';
+  //   _.each(conformity_information_items, function(item){
+  //     var last_diagnostic_selector = '[name="conformity_information.'+item+'.last_diagnostic"]';
+  //     var diagnostic_alert_selector = '[name="conformity_information.'+item+'.diagnostic_alert"]';
 
-      var last_diagnostic_val = AutoForm.getFieldValue('conformity_information.'+item+'.last_diagnostic', "insertLeaseForm");
-      var periodicity = AutoForm.getFieldValue("conformity_information."+item+".periodicity", "insertLeaseForm");
-      var due_date = AutoForm.getFieldValue("conformity_information."+item+".due_date", "insertLeaseForm");
+  //     var last_diagnostic_val = AutoForm.getFieldValue('conformity_information.'+item+'.last_diagnostic', "insertLeaseForm");
+  //     var periodicity = AutoForm.getFieldValue("conformity_information."+item+".periodicity", "insertLeaseForm");
+  //     var due_date = AutoForm.getFieldValue("conformity_information."+item+".due_date", "insertLeaseForm");
 
-      var last_diagnostic_moment = moment(last_diagnostic_val);
-      var periodicity_moment = periodicityToMoment(periodicity);
-      var due_date_moment = moment(due_date);
-      var today = moment();
+  //     var last_diagnostic_moment = moment(last_diagnostic_val);
+  //     var periodicity_moment = periodicityToMoment(periodicity);
+  //     var due_date_moment = moment(due_date);
+  //     var today = moment();
 
-      var span_item = $(last_diagnostic_selector).siblings('span');
+  //     var span_item = $(last_diagnostic_selector).siblings('span');
 
-      /* Alert cases:
-      IF (last_diagnostic + periodicity) < today
-      OR IF due_date >= last_diagnostic
-      OR IF last_diagnostic is empty
-      */
-      if (last_diagnostic_moment.add(periodicity_moment) < today || due_date >= last_diagnostic_val || last_diagnostic_val == null) {
-        var warning_text = transr("last_diagnostic_obsolete");
-        span_item.text(warning_text).css( "color", "red" );
-        $(diagnostic_alert_selector).val(true);
-      } else {
-        span_item.text("");
-        $(diagnostic_alert_selector).val(false);
-      }
-    });
+  //     /* Alert cases:
+  //     IF (last_diagnostic + periodicity) < today
+  //     OR IF due_date >= last_diagnostic
+  //     OR IF last_diagnostic is empty
+  //     */
+  //     if (last_diagnostic_moment.add(periodicity_moment) < today || due_date >= last_diagnostic_val || last_diagnostic_val == null) {
+  //       var warning_text = transr("last_diagnostic_obsolete");
+  //       span_item.text(warning_text).css( "color", "red" );
+  //       $(diagnostic_alert_selector).val(true);
+  //     } else {
+  //       span_item.text("");
+  //       $(diagnostic_alert_selector).val(false);
+  //     }
+  //   });
 
-  });
+  // });
 
 
 };
