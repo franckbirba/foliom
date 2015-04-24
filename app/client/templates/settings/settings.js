@@ -17,11 +17,11 @@ Template.settings.helpers(
 		isEditingMasterCfg : function(){
 			return Session.get('editingMasterCfg') ? "active btn-success" : "";
 		},
-		fluidSchema: function () {
-	    	return Schema.Fluids;
-	  	},
-	  	getEstate: function() {
-		    return Session.get('current_estate_doc') ? Session.get('current_estate_doc')._id : null ;
+		// fluidSchema: function () {
+	 //    	return Schema.Fluids;
+	 //  	},
+  	getEstate: function() {
+	    return Session.get('current_estate_doc') ? Session.get('current_estate_doc')._id : null ;
 		},
 		getFluid: function(){
 			return null;
