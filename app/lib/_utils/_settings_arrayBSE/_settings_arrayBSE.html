@@ -1,6 +1,6 @@
 <template name="quickForm_arraySettings">
-  {{#autoForm this.qfAutoFormContext}}
-    {{> afQuickFields id-prefix=idPrefix}}
+  {{#autoForm qfAutoFormContext}}
+    {{> afQuickFields quickFieldsAtts}}
     {{#if qfShouldRenderButton}}
     <div>
       <button type="submit" {{submitButtonAtts}}>
@@ -16,26 +16,36 @@
 </template>
 
 <template name="afFormGroup_arraySettings">
-  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}}" data-required={{required}}>
     <!-- {{#unless this.skipLabel}}
     <label {{this.afFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.name}}{{/if}}</label>
     {{/unless}} -->
-    {{> afFieldInput this.afFieldInputAtts}}
+    {{> afFieldInput afFieldInputAtts}}
     <span>{{{afFieldMessage name=this.name}}}</span>
   </div>
 </template>
 
-<template name="afObjectField_arraySettings">
+<!-- <template name="afObjectField_arraySettings"> -->
   <!-- Removing fieldset tag -->
   <!-- <fieldset> -->
-    {{#with afFieldLabelText name=this.name}}
+    <!-- {{#with afFieldLabelText name=this.name}} -->
     <!-- <legend>{{this}}</legend> -->
-    {{/with}}
+    <!-- {{/with}} -->
     <!-- {{> afQuickFields name=this.name}} -->
     <!-- ORIGINAL above: why do we have to specify template??? -->
-
+<!--
     {{> afQuickFields name=this.name template="arraySettings"}}
-  <!-- </fieldset> -->
+    </fieldset>
+</template> -->
+
+<template name="afObjectField_arraySettings">
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}} extraFormStyle">
+    <!-- <div class="">{{afFieldLabelText name=this.name}}</div> -->
+    <!-- <div class="{{rightColumnClass}}"> -->
+      <!-- {{> afQuickFields quickFieldsAtts }} -->
+      {{> afQuickFields quickFieldsAtts template="arraySettings"}}
+    <!-- </div> -->
+  </div>
 </template>
 
 <template name="afArrayField_arraySettings">
@@ -57,7 +67,7 @@
     {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
       <!-- Testing display settings at the ArrayField level -->
       <div class="yearly_values_item">
-        {{> afQuickField name=this.name label=false}}
+        {{> afQuickField name=this.name label=false options=afOptionsFromSchema}}
 
         {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
         <button type="button" class="autoform-remove-item">Remove</button>
@@ -71,6 +81,47 @@
     </div>
     {{/if}}
 
+  </div>
+</template>
+
+
+
+
+<template name="afArrayField_fluidsArray">
+  <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+
+  <div class="form-group{{#if afFieldIsInvalid name=this.atts.name}} has-error{{/if}}">
+    <!-- <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label> -->
+    <div class="{{rightColumnClass}} ">
+      <div class="panel panel-default autoform-padding-fix">
+        {{#if afFieldIsInvalid name=this.atts.name}}
+        <div class="panel-body has-error">
+          <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+        </div>
+        {{/if}}
+        <ul class="list-group">
+          {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+          <li class="list-group-item autoform-array-item">
+            <div>
+              <div class="autoform-remove-item-wrap">
+                {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+                <button type="button" class="btn btn-primary autoform-remove-item"><span class="glyphicon glyphicon-minus"></span></button>
+                {{/if}}
+              </div>
+              <div class="autoform-array-item-body panelMaxWidth">
+                {{> afQuickField name=this.name label=false options=afOptionsFromSchema template="eportfolio-horizontal"}}
+              </div>
+            </div>
+          </li>
+          {{/afEachArrayItem}}
+          {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+          <li class="list-group-item">
+            <button type="button" class="btn btn-primary autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+          </li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 

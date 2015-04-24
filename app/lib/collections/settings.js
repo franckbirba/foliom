@@ -35,7 +35,7 @@ YearlyValues = new SimpleSchema({
     decimal: true,
     defaultValue: 0,
     autoform: {
-      template: 'afInputNumber_u',
+      // template: 'afInputNumber_u',
       class: 'AF_array_mainCell'
     }
   },
@@ -314,6 +314,7 @@ Configurations.attachSchema(new SimpleSchema({
         autoform: {
             // template:'eportfolio-settings'
             // template:'bootstrap3'
+            template:'fluidsArray',
             //omit:true
         }
     },
