@@ -18,11 +18,13 @@
 # same for target, eg. '[name=\'comfort_qualitative_assessment.global_comfort_index\']'
 @class_to_calc_qualitative_assessment_array = (class_param, target) ->
   array = []
-  $(class_param).change ->
-    array = $(class_param).map( ->
-      $(this).val()
-  )
-  $(target).val(calc_qualitative_assessment_array(array)).change()
+  $(class_param).change =>
+    array = $(class_param).get().map( (item) ->
+      $(item).val()
+    )
+    $(target).val(calc_qualitative_assessment_array(array)).change()
+  return
+
 
 
 ### Auto-values: used to auto-fill part of the form - for dev. purposes ###

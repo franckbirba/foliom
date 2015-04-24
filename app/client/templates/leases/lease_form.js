@@ -119,39 +119,9 @@ Template.leaseForm.rendered = function () {
   }
 
   // comfort_qualitative_assessment, tcc_lifetime & tcc_conformity: monitor all selects, then calc the value and sets it
-  // class_to_calc_qualitative_assessment_array(".comformt_QA", "[name='comfort_qualitative_assessment.global_comfort_index']");
-  // class_to_calc_qualitative_assessment_array(".tcc_lifetime", "[name='technical_compliance.global_lifetime']");
-  // class_to_calc_qualitative_assessment_array(".tcc_conformity", "[name='technical_compliance.global_conformity']");
-
-  $(".comformt_QA").change(function(){
-    var array = $(".comformt_QA").map(function() {
-      return $(this).val();
-    }).toArray();
-
-    $("[name='comfort_qualitative_assessment.global_comfort_index']").val(
-        calc_qualitative_assessment_array(array)
-    ).change();
-  });
-
-  $(".tcc_lifetime").change(function(){
-    var tcc_lifetime = $(".tcc_lifetime").map(function() {
-      return $(this).val();
-    });
-
-    $("[name='technical_compliance.global_lifetime']").val(
-        calc_qualitative_assessment_array(tcc_lifetime)
-    ).change();
-  });
-
-  $(".tcc_conformity").change(function(){
-    var tcc_conformity = $(".tcc_conformity").map(function() {
-      return $(this).val();
-    });
-
-    $("[name='technical_compliance.global_conformity']").val(
-        calc_qualitative_assessment_array(tcc_conformity)
-    ).change();
-  });
+  class_to_calc_qualitative_assessment_array(".comformt_QA", "[name='comfort_qualitative_assessment.global_comfort_index']");
+  class_to_calc_qualitative_assessment_array(".tcc_lifetime", "[name='technical_compliance.global_lifetime']");
+  class_to_calc_qualitative_assessment_array(".tcc_conformity", "[name='technical_compliance.global_conformity']");
 
 
 
