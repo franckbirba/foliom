@@ -397,7 +397,6 @@ Leases = new Mongo.Collection("leases");
 Leases.attachSchema(new SimpleSchema({
   building_id: {
     type: String,
-    //optional: true, // ToDo : a retirer
     autoform: {
       omit: true
     }
@@ -419,13 +418,6 @@ Leases.attachSchema(new SimpleSchema({
         return buildOptions(["empty", "rented", "multitenant"])
       }
     }
-    // autoform: {
-    //     type: "select",
-    //      options: function () {
-    //         return getSelectors('rental_status'); ;
-    //     }
-    // }
-
   },
   rent: {
     type: Number,
@@ -635,17 +627,11 @@ Leases.attachSchema(new SimpleSchema({
   certifications: {
     type: [certificationsSchema],
     label: transr("certifications"),
-    autoform: {
-      // template:"consumptionByEndUse"
-    },
     optional: true,
   },
   customCertifications: {
     type: [customCertificationsSchema],
     label: transr("custom_certifications"),
-    autoform: {
-      // template:"consumptionByEndUse"
-    },
     optional: true,
   },
 
@@ -665,7 +651,8 @@ Leases.attachSchema(new SimpleSchema({
     optional: true,
     autoform: {
       type: "select",
-      options: comfort_values
+      options: comfort_values,
+      class: "comformt_QA", // makes it easier to select
     }
   },
   'comfort_qualitative_assessment.visual': {
@@ -674,7 +661,8 @@ Leases.attachSchema(new SimpleSchema({
     optional: true,
     autoform: {
       type: "select",
-      options: comfort_values
+      options: comfort_values,
+      class: "comformt_QA", // makes it easier to select
     }
   },
   'comfort_qualitative_assessment.thermic': {
@@ -683,7 +671,8 @@ Leases.attachSchema(new SimpleSchema({
     optional: true,
     autoform: {
       type: "select",
-      options: comfort_values
+      options: comfort_values,
+      class: "comformt_QA", // makes it easier to select
     }
   },
   'comfort_qualitative_assessment.global_comfort_index': {
@@ -694,17 +683,13 @@ Leases.attachSchema(new SimpleSchema({
     autoform: {
       afFieldInput: {
         readonly: true,
-        value: function() {
-          // var acoustic = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.acoustic");
-          // var visual = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.visual");
-          // var thermic = AutoForm.getFieldValue("insertLeaseForm", "comfort_qualitative_assessment.thermic");
-          var acoustic = AutoForm.getFieldValue("comfort_qualitative_assessment.acoustic");
-          var visual = AutoForm.getFieldValue("comfort_qualitative_assessment.visual");
-          var thermic = AutoForm.getFieldValue("comfort_qualitative_assessment.thermic");
+        // value: function() {
+        //   var acoustic = AutoForm.getFieldValue("comfort_qualitative_assessment.acoustic");
+        //   var visual = AutoForm.getFieldValue("comfort_qualitative_assessment.visual");
+        //   var thermic = AutoForm.getFieldValue("comfort_qualitative_assessment.thermic");
 
-          return calc_qualitative_assessment(acoustic, visual, thermic);
-
-        }
+        //   return calc_qualitative_assessment(acoustic, visual, thermic);
+        // }
       }
     }
   },

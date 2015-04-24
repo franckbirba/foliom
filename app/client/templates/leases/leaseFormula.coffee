@@ -13,6 +13,18 @@
     when param is "7_years" then {years:7}
     when param is "10_years" then {years:10}
 
+# calc_qualitative_assessment_array
+# class must be jQuery selector, eg. ".comformt_QA"
+# same for target, eg. '[name=\'comfort_qualitative_assessment.global_comfort_index\']'
+@class_to_calc_qualitative_assessment_array = (class_param, target) ->
+  array = []
+  $(class_param).change ->
+    array = $(class_param).map( ->
+      $(this).val()
+  )
+  $(target).val(calc_qualitative_assessment_array(array)).change()
+
+
 ### Auto-values: used to auto-fill part of the form - for dev. purposes ###
 @fillLeaseForm = (activate) ->
   if activate
