@@ -1,0 +1,3 @@
+[submodule "app/packages/meteor-autoform-file-custom"]
+	path = app/packages/meteor-autoform-file-custom
+	url = https://github.com/Benczyk/meteor-autoform-file-custom
