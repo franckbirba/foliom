@@ -62,6 +62,7 @@ computeAverages = (document) ->
   doc_buiding_id = document.building_id
   allLeases = Leases.find({building_id:doc_buiding_id}).fetch()
   lease_dpe_ges_data = []
+  comfort_qualitative_assessment_data = []
 
   # BUILDINGS - AGGLOMERATE
 
@@ -69,6 +70,7 @@ computeAverages = (document) ->
   areaArray = _.pluck allLeases, 'area_by_usage' # Result ex: [700, 290]
   areaSum = areaArray.reduce (prev, current) -> prev + current
 
+  # ---------------------------- #
   # AvgDpeEnergy & AvgCo2Consumption
   for lease in allLeases
     lease_dpe_ges_data.push
@@ -97,9 +99,19 @@ computeAverages = (document) ->
       grade: "dpe_#{parseDpeGesScale("ges", leaseWithMaxArea.dpe_type, dpeCo2EmissionAverage)}"
       value: dpeCo2EmissionAverage
 
+  # ---------------------------- #
+  # comfort_qualitative_assessment
+  # Map Leases to get global_comfort_index * area_by_usage
+  all_global_comfort_index = allLeases.map (item) ->
+    item.comfort_qualitative_assessment.global_comfort_index * item.area_by_usage / areaSum
+  global_comfort_index_reduced = _.reduce all_global_comfort_index, ((memo, data) ->
+    data + memo), 0
+
+
   Buildings.update { _id: doc_buiding_id },
     { $set: {
       'properties.leases_averages.merged_dpe_ges_data': merged_dpe_ges_data,
+      'properties.leases_averages.global_comfort_index': global_comfort_index_reduced,
       'properties.leases_averages.area_sum': areaSum
     }}
 

@@ -159,30 +159,31 @@ Buildings.attachSchema(new SimpleSchema({
   properties: {
     type: Object,
     optional: true,
-    autoform: {
-      omit: true
-    }
-  },
-  'properties.leases_averages': {
-    type: Object,
-    optional: true,
-    autoform: {
-      omit: true
-    }
-  },
-  'properties.leases_averages.merged_dpe_ges_data': {
-    type: Object,
-    optional: true,
     blackbox: true,
     autoform: {
       omit: true
     }
   },
-  'properties.leases_averages.area_sum': {
-    type: Number,
-    optional: true,
-    autoform: {
-      omit: true
-    }
-  },
+  // 'properties.leases_averages': {
+  //   type: Object,
+  //   optional: true,
+  //   autoform: {
+  //     omit: true
+  //   }
+  // },
+  // 'properties.leases_averages.merged_dpe_ges_data': {
+  //   type: Object,
+  //   optional: true,
+  //   blackbox: true,
+  //   autoform: {
+  //     omit: true
+  //   }
+  // },
+  // 'properties.leases_averages.area_sum': {
+  //   type: Number,
+  //   optional: true,
+  //   autoform: {
+  //     omit: true
+  //   }
+  // },
 }));

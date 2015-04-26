@@ -484,7 +484,7 @@ exports.createBuildings = (nb_buildings) ->
       leaseToCreate.technical_compliance.global_lifetime = calc_qualitative_assessment_array( _.pluck(leaseToCreate.technical_compliance.categories, 'lifetime') )
       leaseToCreate.technical_compliance.global_conformity = calc_qualitative_assessment_array( _.pluck(leaseToCreate.technical_compliance.categories, 'conformity') )
 
-      console.log leaseToCreate.technical_compliance
+      # console.log leaseToCreate.technical_compliance
 
 
       Leases.insert leaseToCreate
