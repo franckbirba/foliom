@@ -18,9 +18,13 @@ Template.timelineTable.helpers
  * Object containing event actions for the template.
 ###
 Template.timelineTable.events
-  'dragstart [data-role=\'draggable-action\']': (e, t) -> actionDragged e, t
+  'dragstart [data-role=\'draggable-action\']': (e, t) ->
+    (t.$ '[data-tooltip=\'actionItem\']').removeClass 'show'
+    actionDragged e, t
   # Drop actions in the timeline
-  'drop [data-role=\'dropable-container\']': (e, t) -> actionItemDropped e, t
+  'drop [data-role=\'dropable-container\']': (e, t) ->
+    (t.$ '[data-tooltip=\'actionItem\']').removeClass 'show'
+    actionItemDropped e, t
   # Change filter on the timeline
   'change [data-trigger=\'timeline-trigger-estate-building-filter\']': (e, t) ->
     # Check selected filtering
@@ -39,6 +43,25 @@ Template.timelineTable.events
           _.where TV.buildings, { portfolio_id: filterObj.portfolio_id }
         ), '_id'
     Session.set 'timeline-filter-portfolio-or-building', buildingFilter
+  'mouseover .timeline-action-items': (e, t) ->
+    tooltip = t.$ '[data-tooltip=\'actionItem\']'
+    actionItem = t.$ e.target
+    actionIds = (actionItem.attr 'data-value').split ';'
+    html = ''
+    pactions = _.filter TimelineVars.scenario.planned_actions, (paction) ->
+      paction.action_id in actionIds
+    for paction, idx in pactions
+      if idx is 0
+        html += "<strong>#{paction.action.name}</strong>"
+      html += "<br>#{paction.buildingName}"
+    (tooltip.find 'span').html html
+    rect = actionItem[0].getBoundingClientRect()
+    tooltip.css 'transform', "translate3d(\
+      #{rect.left + .5 * (rect.width - tooltip.width())}px,\
+      #{rect.top - tooltip.height() - 5}px, 0)"
+    tooltip.addClass 'show'
+  'mouseleave .timeline-action-items': (e, t) ->
+    (t.$ '[data-tooltip=\'actionItem\']').removeClass 'show'
 
 Template.timelineTable.rendered = ->
   # Set estate and building filter as a select2
