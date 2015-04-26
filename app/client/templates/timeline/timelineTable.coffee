@@ -86,7 +86,7 @@ actionItemDropped = (e, t) ->
     actionIds = [$actions.attr 'data-value']
   else
     # Action is from the timeline table
-    actionIds = ($actions.attr 'data-value').split(';')
+    actionIds = ($actions.attr 'data-value').split ';'
   # Modify action's start
   quarterObj = JSON.parse $quarter.attr 'data-value'
   pactions = TV.scenario.planned_actions

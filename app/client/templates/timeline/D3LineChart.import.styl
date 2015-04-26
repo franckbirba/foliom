@@ -8,17 +8,6 @@ D3LineChart(page, h)
     // Set chart's size
     .d3-chart-fixed-height
       height h
-      // Styles when in fullscreen
-      &:fullscreen
-        size 100% 100%
-        fixed top left
-        background white
-        min-width 100%
-        min-height 100%
-        font-family OpenSans
-        // Expand the graph for taking the complete screen height
-        .d3-svg-container
-          padding-bottom 100%
     // Make SVG responsive
     .d3-svg-container
       display inline-block
@@ -27,6 +16,14 @@ D3LineChart(page, h)
       padding-bottom 23%
       vertical-align middle
       overflow hidden
+      // Styles when in fullscreen
+      &:fullscreen
+        size 100% 100%
+        fixed top left
+        background white
+        min-width 100%
+        min-height 100%
+        font-family OpenSans
     .d3-svg-content
       display inline-block
       position absolute
