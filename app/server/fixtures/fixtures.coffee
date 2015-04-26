@@ -472,6 +472,21 @@ exports.createBuildings = (nb_buildings) ->
       leaseToCreate.dpe_co2_emission.value = randomIntFromInterval(0, 250)
       leaseToCreate.dpe_co2_emission.grade = "dpe_#{parseDpeGesScale("dpe", leaseToCreate.dpe_type, leaseToCreate.dpe_co2_emission.value)}"
 
+      leaseToCreate.comfort_qualitative_assessment.acoustic = randomQualitativeValue('comfort_qualitative_assessment')
+      leaseToCreate.comfort_qualitative_assessment.visual = randomQualitativeValue('comfort_qualitative_assessment')
+      leaseToCreate.comfort_qualitative_assessment.thermic = randomQualitativeValue('comfort_qualitative_assessment')
+      leaseToCreate.comfort_qualitative_assessment['global_comfort_index'] = calc_qualitative_assessment(leaseToCreate.comfort_qualitative_assessment.acoustic, leaseToCreate.comfort_qualitative_assessment.visual, leaseToCreate.comfort_qualitative_assessment.thermic)
+
+      for item of leaseToCreate.technical_compliance.categories
+        leaseToCreate.technical_compliance.categories[item].lifetime = randomQualitativeValue('technical_compliance_lifetime')
+        leaseToCreate.technical_compliance.categories[item].conformity = randomQualitativeValue('technical_compliance_conformity')
+
+      leaseToCreate.technical_compliance.global_lifetime = calc_qualitative_assessment_array( _.pluck(leaseToCreate.technical_compliance.categories, 'lifetime') )
+      leaseToCreate.technical_compliance.global_conformity = calc_qualitative_assessment_array( _.pluck(leaseToCreate.technical_compliance.categories, 'conformity') )
+
+      console.log leaseToCreate.technical_compliance
+
+
       Leases.insert leaseToCreate
 
 
