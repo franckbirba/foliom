@@ -118,7 +118,7 @@ if (Meteor.isClient) {
   Template["afArrayField_fluidsArray"].helpers({
     rightColumnClass: function () {
       var atts = this.atts || {};
-      console.log("rightColumnClass: ", atts);
+      // console.log("rightColumnClass: ", atts);
       return atts['input-col-class'] || "";
     },
     afFieldLabelAtts: function () {

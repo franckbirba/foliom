@@ -20,13 +20,13 @@
 YearlyValues = new SimpleSchema({
   year: {
     type: Number,
-    defaultValue: function() {
-      return Number(new Date().getFullYear()) + Number(this.name.split('.')[1]);
-    },
     autoform: {
       afFieldInput: {
         readonly: true,
-        class: 'AF_array_title'
+        class: 'AF_array_title',
+        defaultValue:function(){
+          return Number(new Date().getFullYear()) + Number(this.name.split('.')[3]);
+        }
       }
     }
   },
@@ -35,7 +35,6 @@ YearlyValues = new SimpleSchema({
     decimal: true,
     defaultValue: 0,
     autoform: {
-      // template: 'afInputNumber_u',
       class: 'AF_array_mainCell'
     }
   },
