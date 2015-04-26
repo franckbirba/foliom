@@ -497,9 +497,4 @@ Template.timeline.events
  * Remove DOM elements not created by Blaze.
 ###
 Template.timeline.destroyed = ->
-  # HACK: D3 tips should be used as a singleton but are actually not designed
-  # this way. See: https://github.com/Caged/d3-tip/issues/91
-  # Thus, I remove all D3 tips before recreating new ones for avoiding DOM
-  # pollution.
-  ($ '.d3-tip')?.remove()
   ($ 'span[role=\'status\']')?.remove()

@@ -100,16 +100,18 @@ Template.timelineD3Chart.created = ->
 createChart = (t, options) ->
   width = 750
   height = 180
+  top = 23
   if screenfull.isFullscreen
-    $window = $(window)
+    $window = $ window
     width = $window.width()
     height = $window.height()
+    # Leave space for the tooltips
+    top = 80
   t['chart'] = new D3LineChart "[data-chart='#{t.data.chartName}']", \
     t.rxDisplayLegend.get(),
-      { top: 23, right: 1, bottom: 20, left: 40, rightLegend: 185 },
+      { top: top, right: 1, bottom: 20, left: 40, rightLegend: 185 },
       width, height
   t.chart.setData t.chartData
-  console.log 'Template', t
   # Meteor's event helper is not used here as the charts are rendered
   #  after the template rendering. Thus, the event assignement is done
   #  on the next requestAnimationFrame.
@@ -136,9 +138,10 @@ Template.timelineD3Chart.rendered = ->
     #  the former content needs to be removed from the screen.
     unless computation.firstRun
       # Remove the former chart and the associated event.
-      (@$ "[data-chart='#{@data.chartName}']").empty()
+      chartContainer = (@$ "[data-chart='#{@data.chartName}']")
+      chartContainer.find('.mFadeIn').remove()
       if isFullscreen and not screenfull.isFullscreen
-        screenfull.request (@$ '.d3-chart-fixed-height')[0]
+        screenfull.request chartContainer[0]
       else
         screenfull.exit() if screenfull.isFullscreen
     else
@@ -154,8 +157,8 @@ Template.timelineD3Chart.rendered = ->
 
 Template.timelineD3Chart.events
   'webkitfullscreenchange': (e, t) ->
-    console.log 'Fullscreen change', t
     createChart t if screenfull.isFullscreen
+
 ###*
  * Create an Array of the provided size filled with 0.
  * @param {Number} size Size of the expected Array.

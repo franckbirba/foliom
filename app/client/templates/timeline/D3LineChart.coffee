@@ -36,13 +36,19 @@ class @D3LineChart
       .attr 'preserveAspectRatio', 'xMinYMin meet'
       .attr 'viewBox', "0 0 #{@svgWidth} #{@svgHeight}"
       .attr 'class', 'd3-svg-content'
-      # Group chart's components
+    # Get tooltip associated to the chart
+    @tooltip = $ "[data-tooltip=#{(d3.select @svgContainer).attr 'data-chart'}]"
+    @lazyShowHideTip = _.debounce @showHideTip, 300
+    # Group chart's components
     @graph = @svg.append 'svg:g'
       .attr 'transform', "translate(#{@margin.left}, #{@margin.top})"
     # Number of legends
     @nbLegend = 0
     # Is graph in fullscreen
     @isFullScreen = false
+  showHideTip: -> @tooltip.toggleClass 'show'
+  showTip: -> Meteor.setTimeout (=> @tooltip.addClass 'show'), 300
+
   ###*
    * Set the abscissa for each lines, calulate the xScalingFct, hold the
    * abscissa as a member reused for displaying date values within tooltips,
@@ -145,26 +151,25 @@ class @D3LineChart
    * @param {Array} arr Array of Number used for drawing a chart.
   ###
   _setCirclesTooltip: (name, style, arr) ->
-    # Add circles and tips
-    tip = d3.tip()
-      .attr 'class', 'd3-tip'
-      .offset [3, 0]
-      .html (d, i) =>
-        "<div class='mFadeInDownSmall'>
-        <div class='d3-tip-content'>
-        <strong>#{name}</strong><br>\
-        <span>#{(numeral d).format '0.0a'} #{@unit}</span><br>\
-        <span>#{@abscissa[i]}</span>
-        </div></div>"
-    @graph.call tip
     line = _.last @lines
+    self = @
     group = line.group.selectAll 'g'
       .data arr
       .enter()
       .append 'svg:g'
         .attr 'class', 'point'
-        .on 'mouseover', tip.show
-        .on 'mouseout', tip.hide
+        .on 'mouseover', (d, i) ->
+          circle = ($ @).find 'circle'
+          content = self.tooltip.find 'span'
+          content.html "<strong>#{name}</strong><br>\
+            <span>#{(numeral d).format '0.0a'} #{self.unit}</span><br>\
+            <span>#{self.abscissa[i]}</span>"
+          rect = circle[0].getBoundingClientRect()
+          self.tooltip.css 'transform', "translate3d(\
+            #{rect.left + .5 * (rect.width - self.tooltip.width())}px,\
+            #{rect.top - self.tooltip.height() - 5}px, 0)"
+          self.showTip()
+        .on 'mouseleave', (d, i) => @lazyShowHideTip()
     line.group.selectAll 'g.point'
       .append 'circle'
         .attr 'class', style
