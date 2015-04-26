@@ -22,7 +22,6 @@ Template.settings.rendered = () ->
     $("[name$='.cost']").change ->
       # Start with splitting the name of the item that changed
       name_split = $(@).attr("name").split(".")
-      # console.log name_split
 
       # name looks like fluids.0.yearly_values.6.cost, or icc.evolution_index.5.cost
       index_position = name_split.length - 2 # index position is always at -2 from the end of the name

@@ -35,7 +35,9 @@ YearlyValues = new SimpleSchema({
     decimal: true,
     defaultValue: 0,
     autoform: {
-      class: 'AF_array_mainCell'
+      afFieldInput: {
+        class: 'AF_array_mainCell'
+      }
     }
   },
   evolution_index: {
