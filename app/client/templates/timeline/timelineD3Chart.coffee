@@ -137,15 +137,16 @@ Template.timelineD3Chart.rendered = ->
     # When the chart needs to be redrawn for legend or fullscreen toggling,
     #  the former content needs to be removed from the screen.
     unless computation.firstRun
+      console.log 'State', isFullscreen, screenfull.isFullscreen
       # Remove the former chart and the associated event.
       chartContainer = (@$ "[data-chart='#{@data.chartName}']")
       chartContainer.find('.mFadeIn').remove()
-      if isFullscreen and not screenfull.isFullscreen
-        screenfull.request chartContainer[0]
-      else
-        screenfull.exit() if screenfull.isFullscreen
-    else
-      createChart @
+      if isFullscreen isnt screenfull.isFullscreen
+        if isFullscreen
+          screenfull.request chartContainer[0]
+        else
+          screenfull.exit()
+    createChart @
   # Update chart when reactive variables change
   # NOTE: We use the computation on the Template.Tracker for avoiding
   # the first call to the chart's update.
@@ -157,7 +158,8 @@ Template.timelineD3Chart.rendered = ->
 
 Template.timelineD3Chart.events
   'webkitfullscreenchange': (e, t) ->
-    createChart t if screenfull.isFullscreen
+    if t.rxFullScreen.get() and not screenfull.isFullscreen
+      t.rxFullScreen.set false
 
 ###*
  * Create an Array of the provided size filled with 0.
