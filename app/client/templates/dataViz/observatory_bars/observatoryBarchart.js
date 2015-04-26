@@ -26,8 +26,10 @@ Template.observatoryBarchart.created = function () {
         return {letter:x.building_name, frequency: x.building_info.construction_year};
       });
 
+  var building_prop = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch();
+
   // ges Data
-  var dpe_co2_emission_data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch().map(function(x){
+  var dpe_co2_emission_data = building_prop.map(function(x){
         return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade, frequency:x.building_name };
       });
   dpe_co2_emission_data = _.countBy(dpe_co2_emission_data, 'letter');
@@ -36,10 +38,23 @@ Template.observatoryBarchart.created = function () {
     });
   instance.barchartData.dpe_co2_emission_data = dpe_co2_emission_data;
 
+  // dpe_energy_consuption Data
+  var dpe_energy_consuption_data = building_prop.map(function(x){
+        return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_energy_consuption.grade, frequency:x.building_name };
+      });
+  dpe_energy_consuption_data = _.countBy(dpe_energy_consuption_data, 'letter');
+  dpe_energy_consuption_data = _.map(dpe_energy_consuption_data,function(value, key){
+    return {letter:transr(key)(), frequency: value};
+    });
+  instance.barchartData.dpe_energy_consuption_data = dpe_energy_consuption_data;
+
+
+  console.log("instance.barchartData");
+  console.log(instance.barchartData);
+  // Save the object in the reactive var
   instance.barchartData.set(instance.barchartData)
 
 
-  // var dpe_data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch();
 };
 
 Template.observatoryBarchart.rendered = function () {
@@ -50,7 +65,7 @@ Template.observatoryBarchart.rendered = function () {
 
   this.autorun(function () {
     var margin = {top: 20, right: 20, bottom: 70, left: 40},
-    width = container_width - margin.left - margin.right + 150, // @BSE: FIND A WAY TO CORRECT THIS UGLY +150
+    width = container_width - margin.left - margin.right + 150, // ToDo: FIND A WAY TO CORRECT THIS UGLY +150
     height = 280 - margin.top - margin.bottom ;
 
     // console.log("PL", container_width, "width", width);
@@ -91,16 +106,27 @@ Template.observatoryBarchart.rendered = function () {
 
     var barchartData = Template.instance().barchartData.get() ;
 
-    if (display == "construction_year") {
-      data = barchartData.construction_year_data;
-      y_legend = 'construction_year';
-      y_domain_start = 1700;
-      x_legend_rotation = "rotate(-45)";
-    } else if (display == "dpe_co2_emission") {
-      data = barchartData.dpe_co2_emission_data;
-      y_legend = 'nb_buildings';
-      y_domain_start = 0;
-      x_legend_rotation = "rotate(0)";
+    switch(display) {
+      case "construction_year":
+        data = barchartData.construction_year_data;
+        y_legend = 'construction_year';
+        y_domain_start = 1700;
+        x_legend_rotation = "rotate(-45)";
+        break;
+      case "dpe_co2_emission":
+        data = barchartData.dpe_co2_emission_data;
+        y_legend = 'nb_buildings';
+        y_domain_start = 0;
+        x_legend_rotation = "rotate(0)";
+        break;
+      case "dpe_energy_consuption":
+        data = barchartData.dpe_energy_consuption_data;
+        y_legend = 'nb_buildings';
+        y_domain_start = 0;
+        x_legend_rotation = "rotate(0)";
+        break;
+      // default:
+      //   default code block
     }
 
 
