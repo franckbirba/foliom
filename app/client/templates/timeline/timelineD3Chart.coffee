@@ -97,11 +97,11 @@ Template.timelineD3Chart.created = ->
   @rxFullScreen = new ReactiveVar
   @rxFullScreen.set false
 
-createChart = (t, options) ->
+createChart = (t, isFullscreen) ->
   width = 750
   height = 180
   top = 23
-  if screenfull.isFullscreen
+  if isFullscreen
     $window = $ window
     width = $window.width()
     height = $window.height()
@@ -134,19 +134,25 @@ Template.timelineD3Chart.rendered = ->
   @autorun (computation) =>
     isFullscreen = @rxFullScreen.get()
     displayLegend = @rxDisplayLegend.get()
+    isSetFullscreen = false
     # When the chart needs to be redrawn for legend or fullscreen toggling,
     #  the former content needs to be removed from the screen.
     unless computation.firstRun
-      console.log 'State', isFullscreen, screenfull.isFullscreen
       # Remove the former chart and the associated event.
       chartContainer = (@$ "[data-chart='#{@data.chartName}']")
       chartContainer.find('.mFadeIn').remove()
       if isFullscreen isnt screenfull.isFullscreen
         if isFullscreen
           screenfull.request chartContainer[0]
+          isSetFullscreen = true
         else
           screenfull.exit()
-    createChart @
+    # Wait few seconds for the screen resolution to settle when
+    # going in fullscreen.
+    if isSetFullscreen
+      Meteor.setTimeout (=> createChart @, isFullscreen), 1500
+    else
+      createChart @, isFullscreen
   # Update chart when reactive variables change
   # NOTE: We use the computation on the Template.Tracker for avoiding
   # the first call to the chart's update.
