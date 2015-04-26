@@ -107,11 +107,29 @@ computeAverages = (document) ->
   global_comfort_index_reduced = _.reduce all_global_comfort_index, ((memo, data) ->
     data + memo), 0
 
+  # ---------------------------- #
+  # technical_compliance global_lifetime and global_conformity
+  all_tc_global_lifetime = allLeases.map (item) ->
+    item.technical_compliance.global_lifetime * item.area_by_usage / areaSum
+  tc_global_lifetime = _.reduce all_tc_global_lifetime, ((memo, data) ->
+    data + memo), 0
+
+  all_tc_global_conformity = allLeases.map (item) ->
+    item.technical_compliance.global_conformity * item.area_by_usage / areaSum
+  tc_global_conformity = _.reduce all_tc_global_conformity, ((memo, data) ->
+    data + memo), 0
+
+  tc =
+    global_lifetime: tc_global_lifetime
+    global_conformity: tc_global_conformity
+
+
 
   Buildings.update { _id: doc_buiding_id },
     { $set: {
       'properties.leases_averages.merged_dpe_ges_data': merged_dpe_ges_data,
       'properties.leases_averages.global_comfort_index': global_comfort_index_reduced,
+      'properties.leases_averages.technical_compliance': tc,
       'properties.leases_averages.area_sum': areaSum
     }}
 
