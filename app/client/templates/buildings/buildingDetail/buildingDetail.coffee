@@ -229,9 +229,10 @@ Template.buildingDetail.events
       Session.set 'current_lease_id', null
     else
       Session.set 'current_lease_id', event.target.value
-
   'click .update_lease': (e) ->
     e.preventDefault()
     Session.set 'leaseToEdit', this # "this" is passed by Meteor - it's the current item
     Router.go 'leaseForm'
-
+  'click .goToLinkedAction': (e) ->
+    e.preventDefault()
+    building_to_actions_click_depth2(this)
