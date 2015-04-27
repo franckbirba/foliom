@@ -120,6 +120,9 @@ Template.buildingDetail.helpers
       for cert in result.certifications
         cert.cert_url = "/icon/certificates/#{cert.cert_id}.png" #Construct the URL
       result.certifications #return array
+  getBuildingActions: ->
+    result = Actions.find({ building_id: Template.currentData()._id }, {sort: {name: 1}}).fetch()
+    return result
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
