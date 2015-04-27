@@ -15,13 +15,14 @@ Template.timelineDateSelection.helpers
     for idx in [1..4]
       name: "#{TAPi18n.__ 'quarter_abbreviation'}#{idx}"
       value: idx
-      checked: idx is @action.start.quarter()
+      checked: if @action.start is null then false \
+        else idx is @action.start.quarter()
   years: ->
     for year in [TV.minDate.year()..TV.maxDate.year()]
       name: year
       value: year
-      checked: year is @action.start.year()
-
+      checked: if @action.start is null then false \
+        else year is @action.start.year()
 Template.timelineDateSelection.events
   'click .quarter-content': (e, t) ->
     t.rxIsDateSelectionDisplayed.set true
@@ -38,7 +39,7 @@ Template.timelineDateSelection.events
     # Update DB
     formattedActions = _.map pactions, (paction) ->
       action_id: paction.action_id
-      start: paction.start.toDate()
+      start: null
       efficiency_ratio: paction.efficiency_ratio
     # console.table formattedActions
     Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions

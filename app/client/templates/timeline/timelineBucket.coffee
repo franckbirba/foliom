@@ -31,9 +31,9 @@ Template.timelineBucket.helpers
     rxPlannedActions = TV.rxPlannedActions.get()
     switch filter
       when 'planned'
-        _.filter rxPlannedActions, (action) -> action.start?
+        _.filter rxPlannedActions, (action) -> action.start isnt null
       when 'unplanned'
-        _.filter rxPlannedActions, (action) -> action.start is undefined
+        _.filter rxPlannedActions, (action) -> action.start is null
       else rxPlannedActions
 
 ###*

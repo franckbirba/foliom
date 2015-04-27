@@ -111,7 +111,7 @@
     timelineActions = []
     # Sort planned actions
     # Unplanned actions are pushed to the end of the Array
-    @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) ->
+    @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) =>
       return (@maxDate.clone().add 1, 'y').valueOf() if item.start is null
       item.start.valueOf()
     # Index on the actions table
@@ -413,7 +413,8 @@
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
     # Assign reactive vars
-    TV.rxPlannedActions.set @scenario.planned_actions
+    TV.rxPlannedActions.set _.filter @scenario.planned_actions, (action) ->
+      action.start isnt null
     #console.table _.map TV.scenario.planned_actions, (paction) ->
     #  id: paction.action_id
     #  start: (moment paction.start).format 'Q YYYY'

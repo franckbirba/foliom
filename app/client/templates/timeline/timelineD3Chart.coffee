@@ -3,7 +3,7 @@ TV = TimelineVars
 
 ###*
  * Create 2 series, one taking no action in account and a second with actions.
- * @param {Array}  pactions  An array of actions.
+ * @param {Array}  pactions  An array of planned actions.
  * @param {String} chartType A property used for the chart's type.
  * @param {String} fluidType A fluid kind or type.
  * @param {String} color     A color for each serie.
@@ -25,8 +25,7 @@ ChartFct =
   ###*
    * Calculate and present data suite for the Water consumption chart.
   ###
-  waterConsumptionChart: ->
-    pactions = TV.rxPlannedActions.get()
+  waterConsumptionChart: (pactions) ->
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_m3'
     chartName: TAPi18n.__ 'consumption_label'
@@ -34,8 +33,7 @@ ChartFct =
   ###*
    * Calculate and present data suite for the CO2 consumption chart.
   ###
-  co2ConsumptionChart: ->
-    pactions = TV.rxPlannedActions.get()
+  co2ConsumptionChart: (pactions) ->
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kg_eqC02_m2_year'
     chartName: TAPi18n.__ 'consumption_label'
@@ -43,8 +41,7 @@ ChartFct =
   ###*
    * Calculate and present data suite for the kWh consumption chart.
   ###
-  kwhConsumptionChart: ->
-    pactions = TV.rxPlannedActions.get()
+  kwhConsumptionChart: (pactions) ->
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kwhEF'
     chartName: TAPi18n.__ 'consumption_label'
@@ -52,8 +49,7 @@ ChartFct =
   ###*
    * Calculate and present data suite for the Expense chart.
   ###
-  invoiceChart: ->
-    pactions = TV.rxPlannedActions.get()
+  invoiceChart: (pactions) ->
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
     chartName: TAPi18n.__ 'invoice_label'
@@ -65,8 +61,7 @@ ChartFct =
   ###*
    * Calculate and present data suite for the Investment chart.
   ###
-  investmentChart: ->
-    rxPlannedActions = TV.rxPlannedActions.get()
+  investmentChart: (pactions) ->
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
     chartName: TAPi18n.__ 'investment_label'
@@ -79,12 +74,12 @@ ChartFct =
       {
         name: TAPi18n.__ 'investment_raw'
         style: 'action darkgray'
-        data: sumSuiteFromArray rxPlannedActions, 'investment'
+        data: sumSuiteFromArray pactions, 'investment'
       }
       {
         name: TAPi18n.__ 'investment_minus_subventions'
         style: 'action gray'
-        data: sumSuiteFromArray rxPlannedActions, 'investmentSubventioned'
+        data: sumSuiteFromArray pactions, 'investmentSubventioned'
       }
     ]
 
@@ -128,7 +123,8 @@ createChart = (t, isFullscreen) ->
 ###
 Template.timelineD3Chart.rendered = ->
   @chartFct = ChartFct[@data.chartName]
-  @chartData = @chartFct()
+  pactions = TV.rxPlannedActions.get()
+  @chartData = @chartFct pactions
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
   @autorun (computation) =>
@@ -157,9 +153,9 @@ Template.timelineD3Chart.rendered = ->
   # NOTE: We use the computation on the Template.Tracker for avoiding
   # the first call to the chart's update.
   @autorun (computation) =>
-    rxPlannedActions = TV.rxPlannedActions.get()
+    pactions = TV.rxPlannedActions.get()
     unless computation.firstRun
-      @chartData = @chartFct()
+      @chartData = @chartFct pactions
       @chart.updateData @chartData
 
 Template.timelineD3Chart.events
