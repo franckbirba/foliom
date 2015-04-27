@@ -80,7 +80,9 @@
   .row.mFadeInUp
     // Actions summary
     .col-md-4: .panel.panel-primary
-      .panel-heading: h3.panel-title.text-center {{_ 'actionRecap'}}
+      .panel-heading: h3.panel-title.text-center
+        | {{_ 'actionRecap'}}
+        span.badge #{getActionsCount}
       .panel-body
         .buildingActions
           each getBuildingActions

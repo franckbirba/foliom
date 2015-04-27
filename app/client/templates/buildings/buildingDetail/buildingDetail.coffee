@@ -1,5 +1,6 @@
 Template.buildingDetail.created = ->
   instance = this
+  instance.linkedActions = new ReactiveVar([])
   instance.waterFluids = new ReactiveVar([])
   instance.lease_dpe_ges_data = new ReactiveVar([])
   instance.merged_dpe_ges_data = new ReactiveVar([]) #Result of all Leases DPE_GES Data
@@ -8,6 +9,10 @@ Template.buildingDetail.created = ->
 
   current_building_doc_id = @data._id
   @data.allLeases = Leases.find(building_id: current_building_doc_id).fetch()
+
+  # get linked Actions
+  linkedActions = Actions.find({ building_id: current_building_doc_id }, {sort: {name: 1}}).fetch()
+  Template.instance().linkedActions.set(linkedActions)
 
   ### ------------ ###
   # CALC WATER FLUIDS
@@ -121,8 +126,9 @@ Template.buildingDetail.helpers
         cert.cert_url = "/icon/certificates/#{cert.cert_id}.png" #Construct the URL
       result.certifications #return array
   getBuildingActions: ->
-    result = Actions.find({ building_id: Template.currentData()._id }, {sort: {name: 1}}).fetch()
-    return result
+    return Template.instance().linkedActions.get()
+  getActionsCount: ->
+    return Template.instance().linkedActions.get().length
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
