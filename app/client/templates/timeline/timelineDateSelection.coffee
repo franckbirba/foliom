@@ -8,7 +8,9 @@ Template.timelineDateSelection.created = ->
 Template.timelineDateSelection.helpers
   isDateSelectionDisplayed: ->
     Template.instance().rxIsDateSelectionDisplayed.get()
-  dataValue: -> @action.start.format 'Q-YYYY'
+  dataValue: ->
+    return '?-????' if @action.start is null
+    @action.start.format 'Q-YYYY'
   quarters: ->
     for idx in [1..4]
       name: "#{TAPi18n.__ 'quarter_abbreviation'}#{idx}"
@@ -28,7 +30,19 @@ Template.timelineDateSelection.events
       containerHeight = ($ '.timeline.container').height()
       $form.css 'bottom', containerHeight + 20 - e.pageY
     , 0
-  'click [data-role=\'erase\']': (e, t) -> removeDateSelection e, t
+  'click [data-role=\'erase\']': (e, t) ->
+    actionId = t.data.action.action_id
+    pactions = TV.scenario.planned_actions
+    idx = _.indexOf pactions, (_.findWhere pactions, {action_id: actionId})
+    pactions[idx].start = null
+    # Update DB
+    formattedActions = _.map pactions, (paction) ->
+      action_id: paction.action_id
+      start: paction.start.toDate()
+      efficiency_ratio: paction.efficiency_ratio
+    # console.table formattedActions
+    Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions
+    removeDateSelection e, t
   'click [data-role=\'validate\']': (e, t) ->
     quarter = Number (t.$ 'input[name=\'date-selection-quarter\']\
       :checked').val()
