@@ -37,3 +37,30 @@ Template.scenarioForm.helpers
     result = _.map technical_compliance_items, (item) ->
       return { label: item, value: item }
     return result
+  getCriterion: (toAdd) ->
+    toAddCriterionList = [
+            {"label": "yearly_expense_max", "unit": "u_euro_year", "weight": 0},
+            {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent", "weight": 0},
+            {"label": "wait_for_obsolescence", "type":"checkbox", "desc": "wait_for_obsolescence_desc", "weight": 0},
+            {"label": "priority_to_gobal_obsolescence", "type":"checkbox", "desc": "priority_to_gobal_obsolescence_desc", "weight": 0},
+            {"label": "priority_to_techField", "type":"selector_techfield", "weight": 0}
+            ]
+    if toAdd is 'toAdd'
+      return toAddCriterionList
+
+    curr_scenario = Template.currentData()
+    current_criterion_list = []
+
+    if curr_scenario.hasOwnProperty('criterion_list')
+      current_criterion_list = curr_scenario.criterion_list
+    else
+      current_criterion_list = toAddCriterionList
+    console.log 'current_criterion_list', current_criterion_list
+    current_criterion_list
+
+  displayActions: ->
+    if Template.currentData().hasOwnProperty('planned_actions')
+      return _.map(@planned_actions, (action) ->
+        Actions.findOne action.action_id
+      )
+    return
