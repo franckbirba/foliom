@@ -24,3 +24,8 @@
   for key of obj
     temp[key] = clone(obj[key])
   temp
+
+# Generate an ID client-side. Risks of overlay are extremely low
+@giveMeAnId = () ->
+  return "#{new Date().getTime()}-#{Meteor.user().profile.lastName}"
+
