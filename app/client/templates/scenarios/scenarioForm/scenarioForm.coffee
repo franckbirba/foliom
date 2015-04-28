@@ -37,10 +37,9 @@ Template.scenarioForm.helpers
     result = _.map technical_compliance_items, (item) ->
       return { label: item, value: item }
     return result
-  getCriterion: (toAdd) ->
-    if toAdd is 'toAdd'
-      return toAddCriterionList
-
+  getCriterionToAdd: ->
+    return toAddCriterionList
+  getCriterion:  ->
     curr_scenario = Template.currentData()
 
     if curr_scenario.hasOwnProperty('criterion_list')

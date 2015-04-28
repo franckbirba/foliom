@@ -61,8 +61,8 @@
             .col-md-3.col-md-offset-1 {{_ 'add_criterion'}}
             .col-md-7
               select#addCriterionSelect.form-control.addCriterion
-                option(value="" disabled selected) {{_ "select_criterion"}}
-                each getCriterion 'toAdd'
+                option.selectPlaceholder(value="" disabled selected) {{_ "select_criterion"}}
+                each getCriterionToAdd
                   optgroup(label="{{_ type}}")
                     each criterion
                       option(value=label) {{_ label}}
