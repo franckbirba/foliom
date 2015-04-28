@@ -19,10 +19,10 @@
       .form-group
         label.col-sm-3.control-label(for="logo") {{_ 'logo'}}
         .col-sm-7
-          each getScenarioLogo
-            //- input.logo-radio(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isSelected this.valueOf ../logo}}")
+          each getScenarioLogos
+            //- input.logo-radio(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isEqual this.valueOf ../logo}}")
             //- label.logo-label(for="!{this.valueOf}" style="background: url(http://i.imgur.com/mW6xr2I.png)") !{this.valueOf}
-            input.input-hidden(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isSelected this.valueOf ../logo}}")
+            input.input-hidden(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isEqual this.valueOf ../logo}}")
             label(for="!{this.valueOf}"): img.img-logo(src="#{this.valueOf}")
             //- label(for="!{this.valueOf}"): img(src="//placekitten.com/151/151")
 
@@ -42,15 +42,15 @@
 
             .item2.critDetail
               .form-inline: .form-group
-                if isCheckbox type
+                if isEqual type 'checkbox'
                   .row
                     .col-sm-2: input(type="checkbox" value="" checked="{{isChecked input}}")
                     .col-sm-10: .criterion-desc {{_ desc}}
-                else if isSelectorTechfield type
+                else if isEqual type 'selector_techfield'
                   select#addTechfield.form-control(type="select")
                     option(value="" disabled selected) {{_ "select_techField"}}
                     each getTechnical_compliance_items
-                      option(value=value selected="{{isSelected input value}}") {{_ label}}
+                      option(value=value selected="{{isEqual input value}}") {{_ label}}
                 else
                   .formStyling.input-group
                     input.form-control#criterionAmount(type="number" value="#{input}")

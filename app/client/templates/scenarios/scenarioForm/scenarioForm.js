@@ -1,71 +1,65 @@
 //https://github.com/oorabona/reactive-table
 
-Template.scenarioForm.helpers({
+// Template.scenarioForm.rendered = function() {
+//   console.log(this);
 
-});
+//   // Init sortable function
+//   $( "#sortable" ).sortable();
+//   $( "#sortable" ).disableSelection();
 
-Template.scenarioForm.rendered = function() {
-    console.log(this);
+//   var curr_scenario = this.data;
 
-    // Init sortable function
-    $( "#sortable" ).sortable();
-    $( "#sortable" ).disableSelection();
+//   // If we're editing a Scenario (eg. this.data isn't false)
+//   if ( curr_scenario ){
+//       $('#scenario_name').val(curr_scenario.name);
+//       $('#duration').val(curr_scenario.duration);
+//       $('#total_expenditure').val(curr_scenario.total_expenditure);
+//       $('#roi_less_than').val(curr_scenario.roi_less_than);
 
-    var curr_scenario = this.data;
-
-    // If we're editing a Scenario (eg. this.data isn't false)
-    if ( curr_scenario ){
-        $('#scenario_name').val(curr_scenario.name);
-        $('#duration').val(curr_scenario.duration);
-        $('#total_expenditure').val(curr_scenario.total_expenditure);
-        $('#roi_less_than').val(curr_scenario.roi_less_than);
-
-        //Set techField if it exists >> @BSE: make it work for several techFields
-        _.each(curr_scenario.criterion_list, function(criterion) {
-            if (criterion.label == "priority_to_techField") {
-                $('#addTechfield').val(criterion.input);
-            }
-        });
-    }
-
-    //Remove item on click
-    $(".removeCriterion").click(function() {
-        // $(this).remove();
-        console.log( $(this).parents( ".criterion" )[0].remove() );
-    });
-
-
-};
+//       //Set techField if it exists >> @BSE: make it work for several techFields
+//       _.each(curr_scenario.criterion_list, function(criterion) {
+//           if (criterion.label == "priority_to_techField") {
+//               $('#addTechfield').val(criterion.input);
+//           }
+//       });
+//   }
+//   //Remove item on click
+//   $(".removeCriterion").click(function() {
+//       // $(this).remove();
+//       console.log( $(this) );
+//       console.log( $(this).parents( ".criterion" )[0].remove() );
+//   });
+// };
 
 Template.scenarioForm.helpers({
-    getScenarioLogo: function(){
-        var logoList = ["boat_02", "boat_03", "boat_04", "boat_05", "boat_06", "boat_07", "boat_08", "boat_09"];
-        //max-height: 175px;
-        //overflow-y: auto;
-        // return Selectors.findOne({name: 'action_logo'}, {reactive: false}).labels;
-        return logoList.map(function(x){
-            return "/icon/scenario_boats/" + x + ".png"
-        });
-    },
-    isCheckbox: function(type){
-        return (type == "checkbox") ? true : false;
-    },
-    isSelectorTechfield: function(type){
-        return (type == "selector_techfield") ? true : false;
-    },
-    isChecked: function(param){
-        // return (param === "checked");
-        return (param === "checked");
-    },
-    isSelected: function(input, value){
-        // console.log(input + " "+ value);
-        return (input === value);
-    },
-    getTechnical_compliance_items: function() {
-        return result = _.map(technical_compliance_items, function(item){
-            return { label: item, value: item }
-        });
-    },
+    // getScenarioLogo: function(){
+    //     var logoList = ["boat_02", "boat_03", "boat_04", "boat_05", "boat_06", "boat_07", "boat_08", "boat_09"];
+    //     //max-height: 175px;
+    //     //overflow-y: auto;
+    //     // return Selectors.findOne({name: 'action_logo'}, {reactive: false}).labels;
+    //     return logoList.map(function(x){
+    //         return "/icon/scenario_boats/" + x + ".png"
+    //     });
+    // },
+    // isCheckbox: function(type){
+    //     return (type == "checkbox") ? true : false;
+    // },
+    // isSelectorTechfield: function(type){
+    //     return (type == "selector_techfield") ? true : false;
+    // },
+    // isChecked: function(param){
+    //     // return (param === "checked");
+    //     return (param === "checked");
+    // },
+    // isSelected: function(input, value){
+    //     // console.log(input + " "+ value);
+    //     return (input === value);
+    // },
+    // getTechnical_compliance_items: function() {
+    //     return result = _.map(technical_compliance_items, function(item){
+    //         return { label: item, value: item }
+    //     });
+    // },
     getCriterion: function(toAdd){
         var current_criterion_list ;
         var toAddCriterionList = [

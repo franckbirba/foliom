@@ -7,6 +7,11 @@ Template.registerHelper('session_equals', function(name, param) {
     return Session.get(name) == param;
 });
 
+// Triple equals
+Template.registerHelper('isEqual', function(param1, param2) {
+    return param1 === param2;
+});
+
 // Debugging Helper
 Template.registerHelper('console_log', function(param) {
     console.log("param is", param);
