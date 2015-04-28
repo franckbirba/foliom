@@ -123,7 +123,8 @@ createChart = (t, isFullscreen) ->
 ###
 Template.timelineD3Chart.rendered = ->
   @chartFct = ChartFct[@data.chartName]
-  pactions = TV.rxPlannedActions.get()
+  pactions = _.filter TV.rxPlannedActions.get(), (action) ->
+    action.start isnt null
   @chartData = @chartFct pactions
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
@@ -153,7 +154,8 @@ Template.timelineD3Chart.rendered = ->
   # NOTE: We use the computation on the Template.Tracker for avoiding
   # the first call to the chart's update.
   @autorun (computation) =>
-    pactions = TV.rxPlannedActions.get()
+    pactions = _.filter TV.rxPlannedActions.get(), (action) ->
+      action.start isnt null
     unless computation.firstRun
       @chartData = @chartFct pactions
       @chart.updateData @chartData

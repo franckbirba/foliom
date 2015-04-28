@@ -413,11 +413,7 @@
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
     # Assign reactive vars
-    TV.rxPlannedActions.set _.filter @scenario.planned_actions, (action) ->
-      action.start isnt null
-    #console.table _.map TV.scenario.planned_actions, (paction) ->
-    #  id: paction.action_id
-    #  start: (moment paction.start).format 'Q YYYY'
+    TV.rxPlannedActions.set @scenario.planned_actions
 
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars
