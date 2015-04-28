@@ -30,7 +30,6 @@ Template.scenarioForm.rendered = ->
     # handle: ".handlerPicto"
     # items: ':not(.static)'
   )
-  $('#sortable').disableSelection()
 
   # If we're editing a Scenario (eg. this.data isn't false)
   if curr_scenario
