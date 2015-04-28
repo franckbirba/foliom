@@ -1,9 +1,3 @@
-# @TODO Planned action vs unplanned actions
-# @TODO Add unplanned button in date selection
-# @TODO Fullscreen API pour les graphs
-# @TODO Tooltips dans la timeline
-#   - Le nom de l'action
-#   - Si plusieurs batiment, les noms des batiments
 # @TODO /!\ Actions liés action_link
 # @TODO Energy type isn't defined: Check fluid (the fluid type)
 # @TODO Review total cost as it depends on when the actions are performed
@@ -97,7 +91,8 @@
   ###
   calculateTotalCost: ->
     for paction in @scenario.planned_actions
-      @totalCost += paction.action.investment.cost
+      unless paction.start is null
+        @totalCost += paction.action.investment.cost
   rxTimelineActions: new ReactiveVar
   currentFilter: null
   ###*
@@ -115,8 +110,10 @@
     # Reset the timelineAction
     timelineActions = []
     # Sort planned actions
-    @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) ->
-      (moment item.start).valueOf()
+    # Unplanned actions are pushed to the end of the Array
+    @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) =>
+      return (@maxDate.clone().add 1, 'y').valueOf() if item.start is null
+      item.start.valueOf()
     # Index on the actions table
     currentAction = 0
     # Build formatted data
@@ -139,6 +136,8 @@
           # Get out of the loop if all actions have been checked
           break unless @scenario.planned_actions[currentAction]?
           paction = @scenario.planned_actions[currentAction]
+          # Get out of the loop if remaining actions are unplanned
+          break if paction.start is null
           # Check if current action is contained in the current filter
           if paction.action.building_id in buildingFilter
             # Check if current action is contained in the current quarter
@@ -316,9 +315,6 @@
 
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
-      # Denormalize date
-      paction.quarter = \
-        "#{TAPi18n.__ 'quarter_abbreviation'}#{paction.start.format 'Q YYYY'}"
       # Denormalize building's name and portfolio's id
       building = _.findWhere @buildings, _id: paction.action.building_id
       paction.buildingName = building.building_name
@@ -326,6 +322,14 @@
       # Denormalize and format cost
       paction.formattedCost = "#{(numeral \
         paction.action.investment.cost).format '0,0[.]00'} €"
+      # Skip calculation on loop when reaching unplanned actions
+      if paction.start is null
+        # Reset former message
+        paction.quarter = "#{TAPi18n.__ 'unplanned_female'}"
+        continue
+      # Denormalize date
+      paction.quarter = \
+        "#{TAPi18n.__ 'quarter_abbreviation'}#{paction.start.format 'Q YYYY'}"
       # Prepare triggering dates
       paction.endDesign = paction.start.clone().add \
         paction.action.design_duration, 'M'
@@ -413,9 +417,6 @@
         nextQuarter.add 1, 'Q'
     # Assign reactive vars
     TV.rxPlannedActions.set @scenario.planned_actions
-    #console.table _.map TV.scenario.planned_actions, (paction) ->
-    #  id: paction.action_id
-    #  start: (moment paction.start).format 'Q YYYY'
 
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars

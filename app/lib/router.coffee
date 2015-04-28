@@ -106,7 +106,7 @@ Router.map ->
         # Denormalize actions in the scenario and transform start date as moment
         for paction in pactions
           paction.action = _.findWhere actions, _id: paction.action_id
-          paction.start = moment paction.start
+          paction.start = moment paction.start unless paction.start is null
         # Get each buildings for each actions
         buildingIds = _.uniq _.pluck actions, 'building_id'
         buildings = (Buildings.find _id: $in: buildingIds).fetch()
