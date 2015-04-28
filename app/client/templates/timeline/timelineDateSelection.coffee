@@ -39,7 +39,7 @@ Template.timelineDateSelection.events
     # Update DB
     formattedActions = _.map pactions, (paction) ->
       action_id: paction.action_id
-      start: null
+      start: if paction.start is null then null else paction.start.toDate()
       efficiency_ratio: paction.efficiency_ratio
     # console.table formattedActions
     Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions
@@ -58,7 +58,7 @@ Template.timelineDateSelection.events
     # Update DB
     formattedActions = _.map pactions, (paction) ->
       action_id: paction.action_id
-      start: paction.start.toDate()
+      start: if paction.start is null then null else paction.start.toDate()
       efficiency_ratio: paction.efficiency_ratio
     # console.table formattedActions
     Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions
