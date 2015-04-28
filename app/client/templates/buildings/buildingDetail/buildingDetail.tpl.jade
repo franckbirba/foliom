@@ -80,10 +80,13 @@
   .row.mFadeInUp
     // Actions summary
     .col-md-4: .panel.panel-primary
-      .panel-heading: h3.panel-title.text-center {{_ 'actionRecap'}}
+      .panel-heading: h3.panel-title.text-center
+        | {{_ 'actionRecap'}}
+        span.badge #{getActionsCount}
       .panel-body
-        p Action1
-        p Action2
+        .buildingActions
+          each getBuildingActions
+            div: a.goToLinkedAction(href='#') {{_ name}}
     // Idices
     .col-md-8: .row
       // Indices lifetime

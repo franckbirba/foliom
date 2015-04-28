@@ -48,9 +48,47 @@ Template.observatoryBarchart.created = function () {
     });
   instance.barchartData.dpe_energy_consuption_data = dpe_energy_consuption_data;
 
+  // global_comfort_index Data
+  var global_comfort_index_data = building_prop.map(function(x){
+        return {
+          letter: (x.properties.leases_averages.global_comfort_index).toFixed(1)*1,
+          frequency:x.building_name
+        };
+      });
+  global_comfort_index_data = _.countBy(global_comfort_index_data, 'letter');
+  global_comfort_index_data = _.map(global_comfort_index_data,function(value, key){
+    return {letter:transr(key)(), frequency: value};
+    });
+  instance.barchartData.global_comfort_index_data = global_comfort_index_data;
 
-  console.log("instance.barchartData");
-  console.log(instance.barchartData);
+  // technical_compliance global_lifetime and global_conformity
+  var global_tc_lifetime_data = building_prop.map(function(x){
+        return {
+          letter: (x.properties.leases_averages.technical_compliance.global_lifetime).toFixed(1)*1,
+          frequency:x.building_name
+        };
+      });
+  global_tc_lifetime_data = _.countBy(global_tc_lifetime_data, 'letter');
+  global_tc_lifetime_data = _.map(global_tc_lifetime_data,function(value, key){
+    return {letter:transr(key)(), frequency: value};
+    });
+  instance.barchartData.global_tc_lifetime_data = global_tc_lifetime_data;
+
+  var global_tc_conformity_data = building_prop.map(function(x){
+        return {
+          letter: (x.properties.leases_averages.technical_compliance.global_conformity).toFixed(1)*1,
+          frequency:x.building_name
+        };
+      });
+  global_tc_conformity_data = _.countBy(global_tc_conformity_data, 'letter');
+  global_tc_conformity_data = _.map(global_tc_conformity_data,function(value, key){
+    return {letter:transr(key)(), frequency: value};
+    });
+  instance.barchartData.global_tc_conformity_data = global_tc_conformity_data;
+
+
+  // console.log("instance.barchartData");
+  // console.log(instance.barchartData);
   // Save the object in the reactive var
   instance.barchartData.set(instance.barchartData)
 
@@ -121,6 +159,24 @@ Template.observatoryBarchart.rendered = function () {
         break;
       case "dpe_energy_consuption":
         data = barchartData.dpe_energy_consuption_data;
+        y_legend = 'nb_buildings';
+        y_domain_start = 0;
+        x_legend_rotation = "rotate(0)";
+        break;
+      case "global_comfort_index":
+        data = barchartData.global_comfort_index_data;
+        y_legend = 'nb_buildings';
+        y_domain_start = 0;
+        x_legend_rotation = "rotate(0)";
+        break;
+      case "tc_lifetime":
+        data = barchartData.global_tc_lifetime_data;
+        y_legend = 'nb_buildings';
+        y_domain_start = 0;
+        x_legend_rotation = "rotate(0)";
+        break;
+      case "tc_conformity":
+        data = barchartData.global_tc_conformity_data;
         y_legend = 'nb_buildings';
         y_domain_start = 0;
         x_legend_rotation = "rotate(0)";

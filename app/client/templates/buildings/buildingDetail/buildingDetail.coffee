@@ -1,5 +1,6 @@
 Template.buildingDetail.created = ->
   instance = this
+  instance.linkedActions = new ReactiveVar([])
   instance.waterFluids = new ReactiveVar([])
   instance.lease_dpe_ges_data = new ReactiveVar([])
   instance.merged_dpe_ges_data = new ReactiveVar([]) #Result of all Leases DPE_GES Data
@@ -8,6 +9,10 @@ Template.buildingDetail.created = ->
 
   current_building_doc_id = @data._id
   @data.allLeases = Leases.find(building_id: current_building_doc_id).fetch()
+
+  # get linked Actions
+  linkedActions = Actions.find({ building_id: current_building_doc_id }, {sort: {name: 1}}).fetch()
+  Template.instance().linkedActions.set(linkedActions)
 
   ### ------------ ###
   # CALC WATER FLUIDS
@@ -120,6 +125,10 @@ Template.buildingDetail.helpers
       for cert in result.certifications
         cert.cert_url = "/icon/certificates/#{cert.cert_id}.png" #Construct the URL
       result.certifications #return array
+  getBuildingActions: ->
+    return Template.instance().linkedActions.get()
+  getActionsCount: ->
+    return Template.instance().linkedActions.get().length
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
@@ -226,9 +235,10 @@ Template.buildingDetail.events
       Session.set 'current_lease_id', null
     else
       Session.set 'current_lease_id', event.target.value
-
   'click .update_lease': (e) ->
     e.preventDefault()
     Session.set 'leaseToEdit', this # "this" is passed by Meteor - it's the current item
     Router.go 'leaseForm'
-
+  'click .goToLinkedAction': (e) ->
+    e.preventDefault()
+    building_to_actions_click_depth2(this)

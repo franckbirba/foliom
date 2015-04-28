@@ -61,6 +61,7 @@ Router.map ->
   @route '/buildings/:_id',
     name: 'building-detail'
     data: ->
+      return false  unless @params._id
       curr_building = Buildings.findOne @params._id
       # Apparently the router goes several times through the loop
       # We have to catch this annoying behavior, and give it time to let

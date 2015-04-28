@@ -1,4 +1,6 @@
 if (Meteor.isClient) {
+
+
   AutoForm.addInputType('select-radio-inline_image', {
     template: 'afRadioGroupInline_image',
     valueOut: function() {
@@ -38,6 +40,7 @@ if (Meteor.isClient) {
       // remove data-schema-key attribute because we put it
       // on the entire group
       delete atts['data-schema-key'];
+      delete atts['id']; // 2015-04 - migration to AF5: removing Id to repair custom tplt
       return atts;
     },
     dsk: function dsk() {
