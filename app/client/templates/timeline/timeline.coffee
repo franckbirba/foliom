@@ -114,7 +114,6 @@
     @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) =>
       return (@maxDate.clone().add 1, 'y').valueOf() if item.start is null
       item.start.valueOf()
-    console.table @scenario.planned_actions
     # Index on the actions table
     currentAction = 0
     # Build formatted data
@@ -316,6 +315,13 @@
 
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
+      # Denormalize building's name and portfolio's id
+      building = _.findWhere @buildings, _id: paction.action.building_id
+      paction.buildingName = building.building_name
+      paction.portfolioId = building.portfolio_id
+      # Denormalize and format cost
+      paction.formattedCost = "#{(numeral \
+        paction.action.investment.cost).format '0,0[.]00'} €"
       # Skip calculation on loop when reaching unplanned actions
       if paction.start is null
         # Reset former message
@@ -324,13 +330,6 @@
       # Denormalize date
       paction.quarter = \
         "#{TAPi18n.__ 'quarter_abbreviation'}#{paction.start.format 'Q YYYY'}"
-      # Denormalize building's name and portfolio's id
-      building = _.findWhere @buildings, _id: paction.action.building_id
-      paction.buildingName = building.building_name
-      paction.portfolioId = building.portfolio_id
-      # Denormalize and format cost
-      paction.formattedCost = "#{(numeral \
-        paction.action.investment.cost).format '0,0[.]00'} €"
       # Prepare triggering dates
       paction.endDesign = paction.start.clone().add \
         paction.action.design_duration, 'M'
