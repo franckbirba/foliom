@@ -433,6 +433,10 @@
 
     /* Criterion */
     "select_criterion": "Choisissez un critère",
+    "scenarioLevelCriterion": "Critère de Scenario",
+    "actionLevelCriterion": "Critère d'Action",
+    "buildingLevelCriterion": "Critère de Bâtiment",
+
     "yearly_expense_max": "Dépense annuelle max",
     "energy_consum_atLeast_in_E_year": "Consommation d’énergie en € / an : réduction au moins égale à",
     "wait_for_obsolescence": "Tenir compte de l’obsolescence pour déclencher les actions",

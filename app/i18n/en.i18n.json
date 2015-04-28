@@ -422,6 +422,10 @@
 
     /* Criterion */
     "select_criterion": "Select a criterion",
+    "scenarioLevelCriterion": "Scenario-level criterion",
+    "actionLevelCriterion": "Action-level criterion",
+    "buildingLevelCriterion": "Building-level criterion",
+
     "yearly_expense_max": "Maximum yearly expense",
     "energy_consum_atLeast_in_E_year": "Energy consumption in € / year: savings at least equal to",
     "wait_for_obsolescence": "Take obsolescence into account before triggering actions",
