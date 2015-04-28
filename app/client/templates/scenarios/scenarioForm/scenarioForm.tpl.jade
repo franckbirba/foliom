@@ -63,7 +63,9 @@
               select#addCriterionSelect.form-control.addCriterion
                 option(value="" disabled selected) {{_ "select_criterion"}}
                 each getCriterion 'toAdd'
-                  option(value=label) {{_ label}}
+                  optgroup(label="{{_ type}}")
+                    each criterion
+                      option(value=label) {{_ label}}
     //- Validate form
     input#scenario-submit.btn.btn-primary(type="submit" value="{{_ 'scenario_validate'}}")
 
