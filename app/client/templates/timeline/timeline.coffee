@@ -114,6 +114,7 @@
     @scenario.planned_actions = _.sortBy @scenario.planned_actions, (item) =>
       return (@maxDate.clone().add 1, 'y').valueOf() if item.start is null
       item.start.valueOf()
+    console.table @scenario.planned_actions
     # Index on the actions table
     currentAction = 0
     # Build formatted data
@@ -315,8 +316,11 @@
 
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
-      # Get out of the loop when reaching unplanned actions
-      break if paction.start is null
+      # Skip calculation on loop when reaching unplanned actions
+      if paction.start is null
+        # Reset former message
+        paction.quarter = "#{TAPi18n.__ 'unplanned_female'}"
+        continue
       # Denormalize date
       paction.quarter = \
         "#{TAPi18n.__ 'quarter_abbreviation'}#{paction.start.format 'Q YYYY'}"
