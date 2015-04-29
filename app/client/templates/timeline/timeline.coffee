@@ -417,6 +417,18 @@
         nextQuarter.add 1, 'Q'
     # Assign reactive vars
     TV.rxPlannedActions.set @scenario.planned_actions
+  ###*
+   * Update the scenario in th DB.
+  ###
+  updateDbScenario: ->
+    # Update DB
+    formattedActions = _.map @scenario.planned_actions, (paction) ->
+      action_id: paction.action_id
+      start: if paction.start is null then null else paction.start.toDate()
+      efficiency_ratio: paction.efficiency_ratio
+    # console.table formattedActions
+    Scenarios.update {_id: TV.scenario._id}, \
+      $set:planned_actions:formattedActions
 
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars

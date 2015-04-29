@@ -120,9 +120,4 @@ actionItemDropped = (e, t) ->
       month: (quarterObj.Q - 1) * 3
       year: quarterObj.Y
   # Update DB
-  formattedActions = _.map pactions, (paction) ->
-    action_id: paction.action_id
-    start: paction.start.toDate()
-    efficiency_ratio: paction.efficiency_ratio
-  # console.table formattedActions
-  Scenarios.update {_id: TV.scenario._id}, $set:planned_actions:formattedActions
+  TV.updateDbScenario()
