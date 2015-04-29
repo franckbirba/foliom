@@ -43,14 +43,6 @@ Template.scenarioForm.rendered = ->
         $('#addTechfield').val criterion.input
       return
 
-  #Remove item on click
-  # $('.removeCriterion').click ->
-  #   # $(this).remove();
-  #   console.log $(this)
-  #   console.log $(this).parents('.criterion')[0].remove()
-  #   return
-  # return
-
 Template.scenarioForm.helpers
   getScenarioLogos: ->
     logoList = ["boat_02", "boat_03", "boat_04", "boat_05", "boat_06", "boat_07", "boat_08", "boat_09"]
@@ -70,6 +62,8 @@ Template.scenarioForm.helpers
   displayActions: ->
     if Template.currentData().hasOwnProperty('planned_actions')
       return _.map(@planned_actions, (action) ->
-        Actions.findOne action.action_id
+        displayedAction = Actions.findOne action.action_id
+        displayedAction.start = "Q#{moment(action.start).quarter()} #{moment(action.start).year()}"
+        return displayedAction
       )
     return
