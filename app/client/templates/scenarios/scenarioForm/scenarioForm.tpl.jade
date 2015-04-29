@@ -38,7 +38,7 @@
         each getCriterion
           li: .criterionContainer
             .handlerPicto: span.glyphicon.glyphicon-resize-vertical(aria-hidden="true")
-            .item2: span.criterion-label(true_label=label unit=unit type=type desc=desc) {{_ label}}
+            .item2: span.criterion-label(true_label=label data-sc_id=sc_id unit=unit type=type desc=desc) {{_ label}}
 
             .item2.critDetail
               .form-inline: .form-group
@@ -56,6 +56,8 @@
                     input.form-control#criterionAmount(type="number" value="#{input}")
                     .input-group-addon.critAddon {{_ unit}}
             .critCell: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
+          //- Hack to make sure that the new criterion appear at the correct place
+          li.fakeLi.hidden
         li#addCriterionLi.criterion
           .row.row-correct
             .col-md-3.col-md-offset-1 {{_ 'add_criterion'}}
@@ -84,7 +86,7 @@
         th {{_ 'comfort_impact'}}
       each displayActions
         tr
-          td -
+          td {{start}}
           td {{name}}
           td {{getBuildingName building_id}}
           td {{subventions.residual_cost}}

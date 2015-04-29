@@ -1,9 +1,28 @@
 //https://github.com/oorabona/reactive-table
 
 Template.scenarioForm.events({
-  'change #addCriterionSelect': function(e, tplt){
-    console.log($(e.currentTarget).val());
-    console.log(tplt.this);
+  'change #addCriterionSelect': function(e){
+    criterion_list =Template.instance().criterion_list.get();
+    flattend_toAddCriterionList = Template.instance().flattend_toAddCriterionList.get();
+
+    criterion = _.where(flattend_toAddCriterionList, {label:$(e.currentTarget).val()})[0];
+    criterion.sc_id = giveMeAnId(); // Add an Id to the criterion
+    criterion_list.push(criterion); // Push criterion in the list
+
+    Template.instance().criterion_list.set(criterion_list); // Set criterion_list
+    $(e.currentTarget).val(''); // Reset select field
+  },
+  'click .removeCriterion': function(e){
+    // remove li element from the list
+    $(e.currentTarget).parents('li').remove();
+
+    // criterion_list =Template.instance().criterion_list.get();
+    // criterion = _.where(criterion_list, {sc_id:this.sc_id})[0];
+    // console.log("found criterion in criterion_list: ", criterion);
+    // criterion_list = _.without(criterion_list, criterion); // Remove criterion from list
+    // console.log("criterion is now: ", criterion_list);
+
+    // Template.instance().criterion_list.set(criterion_list);
   },
   'submit form': function(e, scenarioForm_template) {
     e.preventDefault();
@@ -23,6 +42,7 @@ Template.scenarioForm.events({
     $(".criterionContainer .criterion-label").each(function( index ) {
         criterion_list.push( {
             label: $(this).attr("true_label"),
+            sc_id: $(this).attr("data-sc_id"),
             unit: $(this).attr("unit"),
             type: $(this).attr("type"),
             desc: $(this).attr("desc"),
@@ -80,6 +100,7 @@ Template.scenarioForm.events({
                     action_id : action._id,
                     start : new Date()
                     // savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
+                    // Si non plannifié : mettre start à null
                 }
             );
         });

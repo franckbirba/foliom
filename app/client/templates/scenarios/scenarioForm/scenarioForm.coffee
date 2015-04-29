@@ -1,9 +1,35 @@
+Template.scenarioForm.created = ->
+  instance = this
+  instance.criterion_list = new ReactiveVar([])
+  instance.flattend_toAddCriterionList = new ReactiveVar([])
+
+  # Create a flattened version of toAddCriterionList (and without the types)
+  flattend_toAddCriterionList = _.chain(toAddCriterionList)
+                                .pluck( 'criterion')
+                                .flatten()
+                                .value()
+  instance.flattend_toAddCriterionList.set(flattend_toAddCriterionList)
+
+  # If editing a scenario : criterion list exists. Otherwise it's a new scenario => use an empty array
+  if @data.criterion_list?
+    instance.criterion_list.set(@data.criterion_list)
+  else
+    instance.criterion_list.set([])
+
+  console.log instance.criterion_list.get()
+
+  this.autorun ->
+    console.log "instance.criterion_list.get()"
+    console.log instance.criterion_list.get()
+
 Template.scenarioForm.rendered = ->
   curr_scenario = @data
 
   # Init sortable function
-  $('#sortable').sortable()
-  $('#sortable').disableSelection()
+  $('#sortable').sortable(
+    # handle: ".handlerPicto"
+    # items: ':not(.static)'
+  )
 
   # If we're editing a Scenario (eg. this.data isn't false)
   if curr_scenario
@@ -16,14 +42,6 @@ Template.scenarioForm.rendered = ->
       if criterion.label == 'priority_to_techField'
         $('#addTechfield').val criterion.input
       return
-
-  #Remove item on click
-  $('.removeCriterion').click ->
-    # $(this).remove();
-    console.log $(this)
-    console.log $(this).parents('.criterion')[0].remove()
-    return
-  return
 
 Template.scenarioForm.helpers
   getScenarioLogos: ->
@@ -40,16 +58,12 @@ Template.scenarioForm.helpers
   getCriterionToAdd: ->
     return toAddCriterionList
   getCriterion:  ->
-    curr_scenario = Template.currentData()
-
-    if curr_scenario.hasOwnProperty('criterion_list')
-      return curr_scenario.criterion_list
-    else
-      return toAddCriterionList
-
+    return Template.instance().criterion_list.get()
   displayActions: ->
     if Template.currentData().hasOwnProperty('planned_actions')
       return _.map(@planned_actions, (action) ->
-        Actions.findOne action.action_id
+        displayedAction = Actions.findOne action.action_id
+        displayedAction.start = "Q#{moment(action.start).quarter()} #{moment(action.start).year()}"
+        return displayedAction
       )
     return
