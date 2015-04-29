@@ -17,7 +17,7 @@ boilerplate-generator@1.0.3
 bse:autoform-file-custom@0.2.2
 callback-hook@1.0.3
 cfs:access-point@0.1.47
-cfs:base-package@0.0.29
+cfs:base-package@0.0.30
 cfs:collection@0.5.5
 cfs:collection-filters@0.2.4
 cfs:data-man@0.0.6
@@ -84,8 +84,8 @@ mobile-status-bar@1.0.3
 momentjs:moment@2.10.3
 mongo@1.1.0
 mongo-livedata@1.0.8
-mquandalle:jade@0.4.2
-mquandalle:jade-compiler@0.4.2
+mquandalle:jade@0.4.3
+mquandalle:jade-compiler@0.4.3
 mquandalle:stylus@1.1.0
 mrt:twit@0.2.0
 msavin:jetsetter@1.0.12
