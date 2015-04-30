@@ -5,32 +5,22 @@
     .row: .col-md-12: .form-horizontal
       .form-group
         label.col-sm-3.control-label(for="scenario_name") {{_ 'name'}}
-        //- .col-sm-8: input.form-control#scenario_name(type="text" placeholder=name_pl value=(sc_data "name"))
-        .col-sm-7: input.form-control#scenario_name(type="text" placeholder="{{_ 'name'}}")
+        .col-sm-7: input.form-control#scenario_name(type="text" name='scenario_name' placeholder="{{_ 'name'}}" value="#{name}")
       .form-group
         label.col-sm-3.control-label(for="duration") {{_ 'duration'}}
-        .col-sm-7: input.form-control#duration(type="number" placeholder="{{_ 'In'}} {{_ 'u_years'}}")
+        .col-sm-7: input.form-control#duration(type="number" name='duration' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{duration}")
       .form-group
         label.col-sm-3.control-label(for="total_expenditure") {{_ 'total_expenditure'}}
-        .col-sm-7: input.form-control#total_expenditure(type="number" placeholder="{{_ 'In'}} {{_ 'u_euro'}}")
+        .col-sm-7: input.form-control#total_expenditure(type="number" name='total_expenditure' placeholder="{{_ 'In'}} {{_ 'u_euro'}}" value="#{total_expenditure}")
       .form-group
         label.col-sm-3.control-label(for="roi_less_than") {{_ 'roi_less_than'}}
-        .col-sm-7: input.form-control#roi_less_than(type="number" placeholder="{{_ 'In'}} {{_ 'u_years'}}")
+        .col-sm-7: input.form-control#roi_less_than(type="number" name='roi_less_than' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{roi_less_than}")
       .form-group
         label.col-sm-3.control-label(for="logo") {{_ 'logo'}}
         .col-sm-7
           each getScenarioLogos
-            //- input.logo-radio(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isEqual this.valueOf ../logo}}")
-            //- label.logo-label(for="!{this.valueOf}" style="background: url(http://i.imgur.com/mW6xr2I.png)") !{this.valueOf}
             input.input-hidden(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isEqual this.valueOf ../logo}}")
             label(for="!{this.valueOf}"): img.img-logo(src="#{this.valueOf}")
-            //- label(for="!{this.valueOf}"): img(src="//placekitten.com/151/151")
-
-    //- <input type="radio" class="radio" name="example" id="ex1" value="ex1" checked />
-    //- <label for="ex1" class="label">Example 1</label>
-    //- <input type="radio" class="radio" name="example" id="ex2" value="ex2" />
-    //- <label for="ex2" class="label">Example 2</label>
-
     //- Criterions
     #scenarioCriterion
       #scenarioCriterionTitle {{_ "scenario_criterion"}}
@@ -56,7 +46,7 @@
                     input.form-control#criterionAmount(type="number" value="#{input}")
                     .input-group-addon.critAddon {{_ unit}}
             .critCell: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
-          //- Hack to make sure that the new criterion appear at the correct place
+          //- Next line is a hack to make sure that the new criterion appear at the correct place
           li.fakeLi.hidden
         li#addCriterionLi.criterion
           .row.row-correct
