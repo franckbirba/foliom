@@ -24,24 +24,8 @@ Template.scenarioForm.created = ->
 
 Template.scenarioForm.rendered = ->
   curr_scenario = @data
-
   # Init sortable function
-  $('#sortable').sortable(
-    # handle: ".handlerPicto"
-    # items: ':not(.static)'
-  )
-
-  # If we're editing a Scenario (eg. this.data isn't false)
-  if curr_scenario
-    $('#scenario_name').val curr_scenario.name
-    $('#duration').val curr_scenario.duration
-    $('#total_expenditure').val curr_scenario.total_expenditure
-    $('#roi_less_than').val curr_scenario.roi_less_than
-    #Set techField if it exists >> @BSE: make it work for several techFields
-    _.each curr_scenario.criterion_list, (criterion) ->
-      if criterion.label == 'priority_to_techField'
-        $('#addTechfield').val criterion.input
-      return
+  $('#sortable').sortable()
 
 Template.scenarioForm.helpers
   getScenarioLogos: ->
@@ -49,8 +33,7 @@ Template.scenarioForm.helpers
     logoList.map (x) ->
       '/icon/scenario_boats/' + x + '.png'
   isChecked: (param) ->
-    # return (param === "checked");
-    param == 'checked'
+    return param is true
   getTechnical_compliance_items: ->
     result = _.map technical_compliance_items, (item) ->
       return { label: item, value: item }
@@ -92,15 +75,16 @@ Template.scenarioForm.events
     return
   'submit form': (e, scenarioForm_template) ->
     e.preventDefault()
+
     scenario =
       name: $(e.target).find('#scenario_name').val()
       duration: $(e.target).find('#duration').val() * 1
       total_expenditure: $(e.target).find('#total_expenditure').val() * 1
       roi_less_than: $(e.target).find('#roi_less_than').val() * 1
       logo: $(e.target).find('input:radio[name=logo]:checked').val()
-    # Get all criterion
+    # Get all criterion. First the basic info, then extend with the values
     criterion_list = new Array
-    $(".criterionContainer .criterion-label").each () ->
+    $(e.target).find(".criterionContainer .criterion-label").each () ->
       criterion_list.push {
           label: $(this).attr("true_label"),
           sc_id: $(this).attr("data-sc_id"),
@@ -108,6 +92,11 @@ Template.scenarioForm.events
           type: $(this).attr("type"),
           desc: $(this).attr("desc"),
           }
+    $(e.target).find(".criterionContainer :input").each (i) ->
+      if $(@).is(':checkbox') then val = $(@).is(':checked')
+      else val = $(this).val()
+      criterion_list[i].input = val
+      item = criterion_list[i]
     # console.log "criterion list is ", criterion_list
     current_estate = Session.get('current_estate_doc')
     scenario.criterion_list = criterion_list;
@@ -168,7 +157,7 @@ Template.scenarioForm.events
         logo: scenario.logo
         criterion_list: scenario.criterion_list
         planned_actions: scenario.planned_actions
-      #Re-render template to make sure everything is in order
+      #Re-render template to make sure everything is in order - @BSE: can be deleted at some point
       Router.go 'scenario-form', _id: curr_scenario_id
     else
       # INSERT

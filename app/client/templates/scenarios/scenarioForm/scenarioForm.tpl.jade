@@ -2,20 +2,21 @@
   .row: .col-md-12: h1.page-title.mFadeInDown {{_ 'create_scenario'}}
   //General form
   form.mFadeInUp
+    //- {{debugger}}
     .row: .col-md-12: .form-horizontal
       .form-group
         label.col-sm-3.control-label(for="scenario_name") {{_ 'name'}}
         //- .col-sm-8: input.form-control#scenario_name(type="text" placeholder=name_pl value=(sc_data "name"))
-        .col-sm-7: input.form-control#scenario_name(type="text" placeholder="{{_ 'name'}}")
+        .col-sm-7: input.form-control#scenario_name(type="text" name='scenario_name' placeholder="{{_ 'name'}}" value="#{name}")
       .form-group
         label.col-sm-3.control-label(for="duration") {{_ 'duration'}}
-        .col-sm-7: input.form-control#duration(type="number" placeholder="{{_ 'In'}} {{_ 'u_years'}}")
+        .col-sm-7: input.form-control#duration(type="number" name='duration' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{duration}")
       .form-group
         label.col-sm-3.control-label(for="total_expenditure") {{_ 'total_expenditure'}}
-        .col-sm-7: input.form-control#total_expenditure(type="number" placeholder="{{_ 'In'}} {{_ 'u_euro'}}")
+        .col-sm-7: input.form-control#total_expenditure(type="number" name='total_expenditure' placeholder="{{_ 'In'}} {{_ 'u_euro'}}" value="#{total_expenditure}")
       .form-group
         label.col-sm-3.control-label(for="roi_less_than") {{_ 'roi_less_than'}}
-        .col-sm-7: input.form-control#roi_less_than(type="number" placeholder="{{_ 'In'}} {{_ 'u_years'}}")
+        .col-sm-7: input.form-control#roi_less_than(type="number" name='roi_less_than' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{roi_less_than}")
       .form-group
         label.col-sm-3.control-label(for="logo") {{_ 'logo'}}
         .col-sm-7
