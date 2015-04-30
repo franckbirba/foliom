@@ -67,3 +67,113 @@ Template.scenarioForm.helpers
         return displayedAction
       )
     return
+
+Template.scenarioForm.events
+  'change #addCriterionSelect': (e) ->
+    criterion_list = Template.instance().criterion_list.get()
+    flattend_toAddCriterionList = Template.instance().flattend_toAddCriterionList.get()
+    criterion = _.where(flattend_toAddCriterionList, label: $(e.currentTarget).val())[0]
+    # Add an Id to the criterion, then push it in the list
+    criterion.sc_id = giveMeAnId()
+    criterion_list.push criterion
+    Template.instance().criterion_list.set criterion_list
+    # Reset select field
+    $(e.currentTarget).val ''
+    return
+  'click .removeCriterion': (e) ->
+    # remove li element from the list
+    $(e.currentTarget).parents('li').remove()
+    # criterion_list =Template.instance().criterion_list.get();
+    # criterion = _.where(criterion_list, {sc_id:this.sc_id})[0];
+    # console.log("found criterion in criterion_list: ", criterion);
+    # criterion_list = _.without(criterion_list, criterion); // Remove criterion from list
+    # console.log("criterion is now: ", criterion_list);
+    # Template.instance().criterion_list.set(criterion_list);
+    return
+  'submit form': (e, scenarioForm_template) ->
+    e.preventDefault()
+    scenario =
+      name: $(e.target).find('#scenario_name').val()
+      duration: $(e.target).find('#duration').val() * 1
+      total_expenditure: $(e.target).find('#total_expenditure').val() * 1
+      roi_less_than: $(e.target).find('#roi_less_than').val() * 1
+      logo: $(e.target).find('input:radio[name=logo]:checked').val()
+    # Get all criterion
+    criterion_list = new Array
+    $(".criterionContainer .criterion-label").each () ->
+      criterion_list.push {
+          label: $(this).attr("true_label"),
+          sc_id: $(this).attr("data-sc_id"),
+          unit: $(this).attr("unit"),
+          type: $(this).attr("type"),
+          desc: $(this).attr("desc"),
+          }
+    # console.log "criterion list is ", criterion_list
+    current_estate = Session.get('current_estate_doc')
+    scenario.criterion_list = criterion_list;
+    scenario.estate_id = current_estate._id
+    # If the scenario does not already have a planned_actions array: instantiate it
+    if !(scenario.planned_actions instanceof Array) then scenario.planned_actions = []
+
+    # CREATE BUILDING LIST AND ACTION LIST (for the Estate, ie. all Portfolios in the Estate)
+    building_list = _.chain(current_estate.portfolio_collection)
+                      .map ((portfolio_id) ->
+                        Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
+                      )
+                      .flatten()
+                      .value()
+
+    planActionsForBuilding = (id_param) ->
+      # get all child Actions for this Building
+      action_list = Actions.find({
+        'action_type': 'child'
+        'building_id': id_param
+      }, sort: name: 1).fetch()
+      # Go through all Actions and push them to the planned_actions array
+      _.each action_list, (action) ->
+        scenario.planned_actions.push
+          action_id: action._id
+          start: new Date
+          # savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
+          # Si non plannifié : mettre start à null
+        return
+      return
+
+    _.each building_list, (item) ->
+      planActionsForBuilding item._id
+      return
+
+    #SORT ACTIONS
+    #Default sort
+    scenario.planned_actions = _.sortBy(scenario.planned_actions, (item) ->
+      item.internal_return
+      #sortBy ranks in ascending order (use a - to change order)
+    )
+    #For each Criterion
+    _.each scenario.criterion_list, (criterion) ->
+      if criterion.label == 'priority_to_techField'
+        console.log criterion.input
+      return
+
+    console.log "scenario", scenario
+    curr_scenario_id = scenarioForm_template?.data?._id # Get the Scenario Id if it exists
+
+    if curr_scenario_id
+      # UPDATE
+      Scenarios.update curr_scenario_id, $set:
+        name: scenario.name
+        duration: scenario.duration
+        total_expenditure: scenario.total_expenditure
+        roi_less_than: scenario.roi_less_than
+        logo: scenario.logo
+        criterion_list: scenario.criterion_list
+        planned_actions: scenario.planned_actions
+      #Re-render template to make sure everything is in order
+      Router.go 'scenario-form', _id: curr_scenario_id
+    else
+      # INSERT
+      newScenario_id = Scenarios.insert(scenario)
+      #Re-render template to go to EDIT mode
+      Router.go 'scenario-form', _id: newScenario_id
+
+
