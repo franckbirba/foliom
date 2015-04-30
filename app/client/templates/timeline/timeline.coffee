@@ -62,12 +62,12 @@
     @actualization_rate = settings.other_indexes.actualization_rate
     # Cunsumption degradation
     @consumption_degradation = settings.other_indexes.consumption_degradation
-    # Expand ICC on quarters, remove what doesn't fit between minDate / maxDate
+    # Remove ICC values that doesn't fit between minDate / maxDate
     @coefs['icc'] = []
     for icc in settings.icc.evolution_index
       if minYear <= icc.year <= maxYear
         @coefs['icc'].push icc.cost
-    # Expand IPC on quarters, remove what doesn't fit between minDate / maxDate
+    # Remove IPC values that doesn't fit between minDate / maxDate
     @coefs['ipc'] = []
     for ipc in settings.ipc.evolution_index
       if minYear <= ipc.year <= maxYear
@@ -355,18 +355,18 @@
       invoiceWater = invoiceElectricity = invoiceCool = invoiceHeat = 0
       # On each action, iterate over the scenario's duration
       while quarter.isBefore @maxDate
-        # Investment starts when work on action begins
-        #
-        # @TODO Inflate investment and subvention with ICC depending on year
-        #
-        #
-        #
+        yearsSinceStart = quarter.year() - @minDate.year()
+        # Investment and subventions starts when work on action begins.
+        # Investments are inflated on ICC depending on year of application
+        # of the action while subventions remain unchanged.
         if paction.start.isBetween quarter, nextQuarter
-          investment = if paction.action.investment?.cost then \
-            paction.action.investment.cost else 0
+          investment = unless paction.action.investment?.cost then 0 else \
+            paction.action.investment.cost * \
+            Math.pow 1 + @coefs.icc[yearsSinceStart], yearsSinceStart
+          # Subvention are not subject to inflation.
           investmentSubventioned = investment - \
-            if paction.action.subventions?.or_euro then \
-            paction.action.subventions.or_euro else 0
+            unless paction.action.subventions?.or_euro then 0 else \
+            paction.action.subventions.or_euro
         # Results of an action on consumption starts when action is done
         #
         # @TODO Le calculs des invoices est uniquement sur la 1ere année
@@ -417,6 +417,18 @@
         nextQuarter.add 1, 'Q'
     # Assign reactive vars
     TV.rxPlannedActions.set @scenario.planned_actions
+  ###*
+   * Update the scenario in th DB.
+  ###
+  updateDbScenario: ->
+    # Update DB
+    formattedActions = _.map @scenario.planned_actions, (paction) ->
+      action_id: paction.action_id
+      start: if paction.start is null then null else paction.start.toDate()
+      efficiency_ratio: paction.efficiency_ratio
+    # console.table formattedActions
+    Scenarios.update {_id: TV.scenario._id}, \
+      $set:planned_actions:formattedActions
 
 # Local alias on the namespaced variables for the Timeline
 TV = TimelineVars

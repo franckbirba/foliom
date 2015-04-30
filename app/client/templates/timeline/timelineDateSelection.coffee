@@ -37,12 +37,8 @@ Template.timelineDateSelection.events
     idx = _.indexOf pactions, (_.findWhere pactions, {action_id: actionId})
     pactions[idx].start = null
     # Update DB
-    formattedActions = _.map pactions, (paction) ->
-      action_id: paction.action_id
-      start: if paction.start is null then null else paction.start.toDate()
-      efficiency_ratio: paction.efficiency_ratio
-    # console.table formattedActions
-    Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions
+    TV.updateDbScenario()
+    # Remove date selection tooltip
     removeDateSelection e, t
   'click [data-role=\'validate\']': (e, t) ->
     quarter = Number (t.$ 'input[name=\'date-selection-quarter\']\
@@ -56,13 +52,8 @@ Template.timelineDateSelection.events
       month: (quarter - 1) * 3
       year: year
     # Update DB
-    formattedActions = _.map pactions, (paction) ->
-      action_id: paction.action_id
-      start: if paction.start is null then null else paction.start.toDate()
-      efficiency_ratio: paction.efficiency_ratio
-    # console.table formattedActions
-    Scenarios.update {_id:TV.scenario._id},$set:planned_actions:formattedActions
-    # Remove date selection once validation and update is finished
+    TV.updateDbScenario()
+    # Remove date selection tooltip
     removeDateSelection e, t
   'click [data-role=\'cancel\']': (e, t) -> removeDateSelection e, t
 
