@@ -46,7 +46,10 @@ Template.scenarioForm.helpers
     if Template.currentData().hasOwnProperty('planned_actions')
       return _.map(@planned_actions, (action) ->
         displayedAction = Actions.findOne action.action_id
-        displayedAction.start = "Q#{moment(action.start).quarter()} #{moment(action.start).year()}"
+        # Format displayedAction.start for display
+        if action.start is null then displayedAction.start = "-"
+        else displayedAction.start = "Q#{moment(action.start).quarter()} #{moment(action.start).year()}"
+
         return displayedAction
       )
     return
@@ -153,7 +156,15 @@ Template.scenarioForm.events
 
       return
 
-    # return planned_actions to usable state
+    # TOTAL EXPENDITURE FILTER: set action.start to null if we are over budget
+    added_action_cost = 0
+    _.each scenario.planned_actions, (action, index)->
+      added_action_cost += action.subventions.residual_cost
+      if added_action_cost > scenario.total_expenditure
+        action.start = null
+
+
+    # return planned_actions to the format we want to save them in
     scenario.planned_actions = _.map(scenario.planned_actions, (item) ->
       action=
         action_id: item._id
@@ -174,11 +185,11 @@ Template.scenarioForm.events
         criterion_list: scenario.criterion_list
         planned_actions: scenario.planned_actions
       #Re-render template to make sure everything is in order - @BSE: can be deleted at some point
-      Router.go 'scenario-form', _id: curr_scenario_id
+      # Router.go 'scenario-form', _id: curr_scenario_id
     else
       # INSERT
       newScenario_id = Scenarios.insert(scenario)
-      #Re-render template to go to EDIT mode
+      #Re-render template and go to UPDATE form
       Router.go 'scenario-form', _id: newScenario_id
 
 
