@@ -346,7 +346,7 @@
 
     "opportunity": "Gisement",
     "project_type": "Montage",
-    "technical_field": "Lot technique concerné",
+    "technical_field": "Lots techniques et architecturaux concernés",
     "feasable_while_occupied": "Faisabilité site occupé",
 
     "design_duration": "Durée des études",
@@ -439,8 +439,7 @@
 
     "yearly_expense_max": "Dépense annuelle max",
     "energy_consum_atLeast_in_E_year": "Consommation d’énergie en € / an : réduction au moins égale à",
-    "wait_for_obsolescence": "Tenir compte de l’obsolescence pour déclencher les actions",
-    "wait_for_obsolescence_desc": "Les Actions ne se déclenchent que si pendant la durée du Schéma Directeur on arrive à l’obsolescence de l’élément technique",
+    "only_keep_if_lifetime_greater_than": "Obsolescence: ne pas garder d’Action dont la DVR du champ technique concerné est > X",
     "priority_to_gobal_obsolescence": "Priorité à l’indice global d’obsolescence",
     "priority_to_gobal_obsolescence_desc": "Priorité aux bâtiments dont l’indicateur « Indice d’obsolescence » est le plus fort",
 

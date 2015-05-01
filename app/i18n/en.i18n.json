@@ -342,7 +342,7 @@
     /* Action Form */
     "opportunity": "Opportunity",
     "project_type": "Project type",
-    "technical_field": "Technical field",
+    "technical_field": "Technical and architectural packages",
     "feasable_while_occupied": "Feasable while occupied",
 
     "design_duration": "Design duration",
@@ -428,8 +428,7 @@
 
     "yearly_expense_max": "Maximum yearly expense",
     "energy_consum_atLeast_in_E_year": "Energy consumption in € / year: savings at least equal to",
-    "wait_for_obsolescence": "Take obsolescence into account before triggering actions",
-    "wait_for_obsolescence_desc": "Actions only activate if - during the scenario - the technical field becomes obsolete",
+    "only_keep_if_lifetime_greater_than": "Obsolescence: only keep Actions whose lifetime is greater than",
     "priority_to_gobal_obsolescence": "Priority to the global obscolescence index",
     "priority_to_gobal_obsolescence_desc": "Priority to Buildings whose Obsolescence index is the highest",
 
