@@ -108,7 +108,7 @@ Template.scenarioForm.events
     if !(scenario.planned_actions instanceof Array) then scenario.planned_actions = []
 
     # CREATE BUILDING LIST AND ACTION LIST (for the Estate, ie. all Portfolios in the Estate)
-    building_list = _.chain(current_estate.portfolio_collection)
+    @building_list = _.chain(current_estate.portfolio_collection)
                       .map ((portfolio_id) ->
                         Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
                       )
@@ -148,6 +148,10 @@ Template.scenarioForm.events
               yearly_sum = action.subventions.residual_cost # reset cost to current cost
               nb_toAdd++ #increment counter
             action.start.add nb_toAdd, 'Y'
+          break
+        when 'only_keep_if_lifetime_greater_than'
+          _.each scenario.planned_actions, (action, index)->
+
           break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
