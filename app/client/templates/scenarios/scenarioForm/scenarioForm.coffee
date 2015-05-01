@@ -120,9 +120,12 @@ Template.scenarioForm.events
       }, sort: name: 1).fetch()
       # Go through all Actions and push them to the planned_actions array
       _.each action_list, (action) ->
-        scenario.planned_actions.push
-          action_id: action._id
-          start: new Date
+          # A la fin, il ne faudra garder que l'id et start
+          action.start = new Date
+          scenario.planned_actions.push action
+        # scenario.planned_actions.push
+        #   action_id: action._id
+        #   start: new Date
           # savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
           # Si non plannifié : mettre start à null
         return
@@ -140,9 +143,22 @@ Template.scenarioForm.events
     )
     #For each Criterion
     _.each scenario.criterion_list, (criterion) ->
-      if criterion.label == 'priority_to_techField'
-        console.log criterion.input
+      switch criterion.label
+        when 'yearly_expense_max'
+          console.log "yearly_expense_max: #{criterion.input}"
+          break
+        when 'priority_to_techField'
+          console.log "priority_to_techField: #{criterion.input}"
+          break
+
       return
+
+    # return planned_actions to usable state
+    scenario.planned_actions = _.map(scenario.planned_actions, (item) ->
+      action=
+        action_id: item._id
+        start: item.start
+      )
 
     console.log "scenario", scenario
     curr_scenario_id = scenarioForm_template?.data?._id # Get the Scenario Id if it exists
