@@ -53,7 +53,7 @@ Scenarios.attachSchema(new SimpleSchema({
     blackbox: true
   },
   planned_actions: {
-    type: [Object], //Will be an array of action_id - the planned trimester will be in the Action
+    type: [Object],
     optional: true
   },
   'planned_actions.$.action_id': {
@@ -66,10 +66,10 @@ Scenarios.attachSchema(new SimpleSchema({
     defaultValue: null,
     optional: true
   },
-  'planned_actions.$.efficiency_ratio': {
-    type: Number,
-    decimal: true,
-    defaultValue: null,
-    optional: true
-  }
+  // 'planned_actions.$.efficiency_ratio': {
+  //   type: Number,
+  //   decimal: true,
+  //   defaultValue: null,
+  //   optional: true
+  // }
 }));
