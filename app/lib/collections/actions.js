@@ -261,10 +261,10 @@ Actions.attachSchema(new SimpleSchema({
     }
   },
   technical_field: {
-    type: String,
+    type: [String],
     label: transr('technical_field'),
     autoform: {
-      type: 'select',
+      type: 'select-multiple',
       options: function() {
         return buildOptions(['comfort_qualitative_assessment']).concat(buildOptions(technical_compliance_items));
       }
