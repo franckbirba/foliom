@@ -114,28 +114,19 @@ Template.scenarioForm.events
                       )
                       .flatten()
                       .value()
-
-    planActionsForBuilding = (id_param) ->
+    # ADD ALL ACTIONS TO SCENARIO.PLANNED_ACTIONS
+    _.each building_list, (item) ->
       # get all child Actions for this Building
       action_list = Actions.find({
         'action_type': 'child'
-        'building_id': id_param
+        'building_id': item._id
       }, sort: name: 1).fetch()
       # Go through all Actions and push them to the planned_actions array
       _.each action_list, (action) ->
-          # A la fin, il ne faudra garder que l'id et start
-          action.start = new Date
-          scenario.planned_actions.push action
-        # scenario.planned_actions.push
-        #   action_id: action._id
-        #   start: new Date
-          # savings_first_year_fluids_euro_peryear: action.savings_first_year.fluids.euro_peryear //@BSE: FROM HERE
-          # Si non plannifié : mettre start à null
-        return
-      return
-
-    _.each building_list, (item) ->
-      planActionsForBuilding item._id
+        # Add start date, set to today
+        action.start = moment()
+        #push Action
+        scenario.planned_actions.push action
       return
 
     #SORT ACTIONS
@@ -148,7 +139,15 @@ Template.scenarioForm.events
     _.each scenario.criterion_list, (criterion) ->
       switch criterion.label
         when 'yearly_expense_max'
-          console.log "yearly_expense_max: #{criterion.input}"
+          # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
+          yearly_sum = 0
+          nb_toAdd = 0
+          _.each scenario.planned_actions, (action, index)->
+            yearly_sum += action.subventions.residual_cost
+            if yearly_sum > criterion.input
+              yearly_sum = action.subventions.residual_cost # reset cost to current cost
+              nb_toAdd++ #increment counter
+            action.start.add nb_toAdd, 'Y'
           break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
@@ -163,17 +162,16 @@ Template.scenarioForm.events
       if added_action_cost > scenario.total_expenditure
         action.start = null
 
-
-    # return planned_actions to the format we want to save them in
+    # FORMAT planned_actions to just the _id and start date
     scenario.planned_actions = _.map(scenario.planned_actions, (item) ->
       action=
         action_id: item._id
-        start: item.start
+        start: if item.start is null then null else item.start.toDate()
       )
 
     console.log "scenario", scenario
-    curr_scenario_id = scenarioForm_template?.data?._id # Get the Scenario Id if it exists
 
+    curr_scenario_id = scenarioForm_template?.data?._id # Get the Scenario Id if it exists
     if curr_scenario_id
       # UPDATE
       Scenarios.update curr_scenario_id, $set:
