@@ -48,7 +48,7 @@ Template.scenarioForm.helpers
         displayedAction = Actions.findOne action.action_id
         # Format displayedAction.start for display
         if action.start is null then displayedAction.start = "-"
-        else displayedAction.start = "Q#{moment(action.start).quarter()} #{moment(action.start).year()}"
+        else displayedAction.start = "#{TAPi18n.__ 'quarter_abbreviation'}#{moment(action.start).format('Q-YYYY')}"
 
         return displayedAction
       )
