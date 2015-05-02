@@ -81,6 +81,16 @@ ChartFct =
         style: 'action gray'
         data: sumSuiteFromArray pactions, 'investmentSubventioned'
       }
+      {
+        name: TAPi18n.__ 'total_cost_noaction'
+        style: 'action violet'
+        data: sumAllSuites TV.charts.invoice
+      }
+      # {
+      #   name: TAPi18n.__ 'total_cost_action'
+      #   style: 'action red'
+      #   data: sumSuiteFromArray pactions, 'investmentSubventioned'
+      # }
     ]
 
 ###*
@@ -197,4 +207,17 @@ sum2Suites = (suite1, suite2) ->
   results = createArrayFilledWithZero suite1.length
   for idx in [0...results.length]
     results[idx] = suite1[idx] + suite2[idx]
+  results
+
+###*
+ * Sum all suites in a dictionnary of suite.
+ * @param {Object} suites A dictionnary of suites with same length.
+ * @return {Array} The result of the sum.
+###
+sumAllSuites = (suites) ->
+  keys = (key for key of suites)
+  results = createArrayFilledWithZero suites[keys[0]].length
+  for idx in [0...results.length]
+    for key in keys
+      results[idx] += suites[key][idx]
   results
