@@ -1,5 +1,4 @@
 # @TODO /!\ Actions liés action_link
-# @TODO Energy type isn't defined: Check fluid (the fluid type)
 # @TODO Review total cost as it depends on when the actions are performed
 
 # Isolate calculated value in a namespace
@@ -265,54 +264,6 @@
    * Perform all calculations and fill the global TimelineVars object.
   ###
   calculateDynamicChart: ->
-    # Graph 1
-    # -------
-    # To expand on all buildings
-    # For each leases: fluid_consumption_meter
-    #     @allLeases = Leases.find(
-    # {building_id: @building_id},
-    # {sort: {lease_name:1}}
-    # ).fetch()
-
-    # To get the unit of a fluid
-    # confFluids = Session.get('current_config').fluids
-    #for fluid in confFluids
-    #  completeFluideName = fluid.fluid_provider + " - " + fluid.fluid_type
-    #  if completeFluideName is endUse.fluid_id
-    #    endUse.fluid = fluid #We store the Fluid in the array
-    #    matchingEndUseInLease[leaseIndex] = endUse
-
-    # Get the appropriate coefficient for each type of unit
-    # Session.get('current_config').kwhef_to_co2_coefficients
-    #
-    # This provide 3 scalings
-    # Before action
-    # After actions
-    # -> 6 graphs
-    # /!\ Apply setting.other_indexes.consumption_degradation :
-    # indepedent of the fluid
-
-    # Graph 2
-    # -------
-    # Chart with action and without actions
-    # Cold fluid is not available.
-    # Invoice is done for each fluid:
-    #  subscription(time) + price(year) * consumption(year)
-    # consumption(year): calculated in graph 1
-    # @allLeases.fluid_consumption_meter[ fluid_type ].yearly_subscription
-    # Create an array for subscription(time):
-    #  num * Math.pow( 1+actualizationRate , -ic_index)
-    # subscription(year) =
-    #  subscription(0) * (1+(inflation_rate))^year * (1+actualization_rate)^year
-    # actualization_rate = setting.other_indexes.actualization_rate
-    # inflation_rate(year) = setting.ipc.evolution_index[ year ].cost
-    # price(year) =
-    #  setting.fluids(
-    #   for each fluid
-    #  ).yearly_values[year]*(1+actualization_rate)^year
-    # /!\ yearly_values starts at 2014
-    #  but the start of the scenario may be in 2017
-
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
       # Denormalize building's name and portfolio's id
@@ -351,7 +302,7 @@
       quarter = @minDate.clone()
       nextQuarter = quarter.clone().add 1, 'Q'
       investment = investmentSubventioned = 0
-      consumptionWater = consumptionKwh = 0
+      consumptionWater = consumptionKwh = consumptionCo2 = 0
       invoiceWater = invoiceElectricity = invoiceCool = invoiceHeat = 0
       # On each action, iterate over the scenario's duration
       while quarter.isBefore @maxDate
@@ -447,9 +398,6 @@
           #         first_year_value: 34
           #         fluid_id: "EDF - fluid_electricity"
           #
-          # @TODO Le calculs des invoices est uniquement sur la 1ere année
-          # dans les fluids, il faut extrapoler sur les années suivantes
-          #
           # @TODO
           #  - Expose and Get the fluidprovider
           #  - Get the rate depending on the year
@@ -460,36 +408,50 @@
           #
           # @TODO Other gains : Add inflated IPC on each other gain
           #
-          #
-          #
+
+          # Analyse gain for water fluids
           for gain in paction.action.gain_fluids_water
             consumptionWater -= gain.or_m3
             invoiceWater -= gain.yearly_savings
             # Get each fluid provider if it hasn't been already calculated
-            # if gain.fluidProvider is undefined
-            #   for key, val of @fluidInSettings
-            #     if val.
-            # _.findWhere fluidInSettings,  gain.opportunity
+            if gain.fluidProvider is undefined
+              for key, val of @fluidInSettings
+                if key.search(gain.opportunity) isnt -1
+                  gain.fluidProvider = @fluidInSettings[key]
+          # Analyse gain for other fluids
           for gain in paction.action.gain_fluids_kwhef
             consumptionKwh -= gain.or_kwhef
+            # Get each fluid provider if it hasn't been already calculated
+            if gain.fluidProvider is undefined
+              # Get building on which the action is performed
+              building = _.findWhere @buildings,
+                _id: paction.action.building_id
+              # Parse each lease to find which end use on which the gain
+              # is applied.
+              for lease in building.leases
+                # Parse each consumption by end use for determining
+                #  the associated fluid provider.
+                for cons in lease.consumption_by_end_use
+                  if cons.end_use_name is gain.opportunity
+                    gain.fluidProvider = @fluidInSettings[cons.fluid_id]
+                    break
+                break if gain.fluidProvider isnt undefined
+            # Group type of invoice on end use.
             switch gain.opportunity
               when 'end_use_heating' then invoiceHeat -= gain.yearly_savings
               when 'end_use_AC', 'end_use_ventilation'
                 invoiceCool -= gain.yearly_savings
               else invoiceElectricity -= gain.yearly_savings
-
-
-
-
-
+            # Set the CO2 consumption depending on the type of energy.
+            consumptionCo2 = @kwh2Co2 consumptionKwh, \
+              gain.fluidProvider.kwhef_to_co2_coefficient
         # Results of an action stops if its lifetime is exceeded
         if paction.end.isBetween quarter, nextQuarter
           consumptionWater = consumptionKwh = 0
           invoiceWater = invoiceElectricity = invoiceCool = invoiceHeat = 0
         # Set modifiers on consumption
         paction.consumptionWater.push consumptionWater
-        # @TODO: Energy type isn't defined
-        paction.consumptionCo2.push @kwh2Co2 consumptionKwh, 'fluid_electricity'
+        paction.consumptionCo2.push consumptionCo2
         paction.consumptionKwh.push consumptionKwh
         # Set modifiers on consumption
         paction.invoiceWater.push invoiceWater
