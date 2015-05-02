@@ -89,6 +89,7 @@ Template.scenarioForm.events
       logo: $(e.target).find('input:radio[name=logo]:checked').val()
     # Get all criterion. First the basic info, then extend with the values
     criterion_list = new Array
+    unplanned_actions = new Array
     $(e.target).find(".criterionContainer .criterion-label").each () ->
       criterion_list.push {
           label: $(this).attr("true_label"),
@@ -154,7 +155,7 @@ Template.scenarioForm.events
             action.start.add nb_toAdd, 'Y'
           break
         when 'obsolescence_lifetime_greater_than'
-          _.each scenario.planned_actions, (action)->
+          _.each scenario.planned_actions, (action, index)->
             tech_fields = action.technical_field
             building = _.findWhere building_list, _id: action.building_id
             allLeases = Leases.find({building_id: building._id}).fetch()
@@ -163,6 +164,7 @@ Template.scenarioForm.events
               for lease in allLeases
                 if isLifetimeGreaterOrEqual(lease.technical_compliance.categories[tech_field].lifetime, criterion.input) is true
                   action.start = null
+                  unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
                   breakLoop1 = true; break
               break if breakLoop1
           break
@@ -179,6 +181,8 @@ Template.scenarioForm.events
       if added_action_cost > scenario.total_expenditure
         action.start = null
 
+    # Add the unplanned actions at the end of the planned_actions
+    scenario.planned_actions = scenario.planned_actions.concat(unplanned_actions)
     # FORMAT planned_actions to just the _id and start date
     scenario.planned_actions = _.map(scenario.planned_actions, (item) ->
       action=
