@@ -60,7 +60,7 @@
     minYear =  @minDate.year()
     maxYear = @maxDate.year()
     # Actualization rate
-    @actualizationRate = settings.other_indexes.actualizationRate
+    @actualizationRate = settings.other_indexes.actualization_rate
     # Cunsumption degradation
     @consumptionDegradation = settings.other_indexes.consumption_degradation
     # Remove ICC values that doesn't fit between minDate / maxDate
@@ -221,11 +221,11 @@
             # Adjust CO2 depending on energy matter
             cons_co2 += @kwh2Co2 consumption, \
               cons.fluidProvider.kwhef_to_co2_coefficient
-          # Get inflated subscription based on IPC
+          # Get subscription
           subscription = cons.yearly_subscription
           # Get the rate depending on the year
           rate = cons.fluidProvider.fluidOverYear[yearsSinceStart].cost
-          # Inflated expense independent from fluid kind
+          # Get expense as the product of the rate and the consumption
           expense = rate * consumption
           # Subscription is paid at the end of the year
           expense += subscription if quarter.quarter() is 4
@@ -234,7 +234,7 @@
             (Math.pow 1 + @actualizationRate, yearsSinceStart) *
             (Math.pow 1 + @coefs.ipc[yearsSinceStart], yearsSinceStart)
           # Assign expense to a fluid kind
-          switch cons.fluidType
+          switch cons.fluidProvider.fluid_type
             when 'fluid_water' then exp_water += inflatedExpense
             when 'fluid_electricity' then exp_elec += inflatedExpense
             when 'fluid_heat' then exp_heat += inflatedExpense
@@ -303,13 +303,13 @@
     # Create an array for subscription(time):
     #  num * Math.pow( 1+actualizationRate , -ic_index)
     # subscription(year) =
-    #  subscription(0) * (1+(inflation_rate))^year * (1+actualisation_rate)^year
-    # actualisation_rate = setting.other_indexes.actualization_rate
+    #  subscription(0) * (1+(inflation_rate))^year * (1+actualization_rate)^year
+    # actualization_rate = setting.other_indexes.actualization_rate
     # inflation_rate(year) = setting.ipc.evolution_index[ year ].cost
     # price(year) =
     #  setting.fluids(
     #   for each fluid
-    #  ).yearly_values[year]*(1+actualisation_rate)^year
+    #  ).yearly_values[year]*(1+actualization_rate)^year
     # /!\ yearly_values starts at 2014
     #  but the start of the scenario may be in 2017
 
