@@ -443,8 +443,10 @@
                 invoiceCool -= gain.yearly_savings
               else invoiceElectricity -= gain.yearly_savings
             # Set the CO2 consumption depending on the type of energy.
-            consumptionCo2 = @kwh2Co2 consumptionKwh, \
+            consumptionCo2 -= @kwh2Co2 gain.or_kwhef, \
               gain.fluidProvider.kwhef_to_co2_coefficient
+          # Other gains
+
         # Results of an action stops if its lifetime is exceeded
         if paction.end.isBetween quarter, nextQuarter
           consumptionWater = consumptionKwh = 0
