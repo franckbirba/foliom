@@ -401,8 +401,7 @@
           # @TODO
           #  - Expose and Get the fluidprovider
           #  - Get the rate depending on the year
-          ## rate = fluidProvider.
-          ## fluid.yearly_values
+          ## rate = fluidProvider.fluid.yearly_values
           ## inflatedRate = rate * \
           ##  Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
           #

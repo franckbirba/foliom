@@ -521,5 +521,7 @@
 		"investment_label": "Investment over time",
     "investment_budget": "Budget",
     "investment_raw": "Investments",
-    "investment_minus_subventions": "Investments - Subventions"
+    "investment_minus_subventions": "Investments - Subventions",
+		"total_cost_noaction": "Total costs before actions",
+		"total_cost_action": "Total costs after actions"
 }

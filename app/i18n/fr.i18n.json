@@ -529,8 +529,9 @@
 		"invoice_action_heat": "Facture de chaleur après actions",
 
 		"investment_label": "Investissement dans le temps",
-		"investment_label": "Investissement dans le temps",
 		"investment_budget": "Budget",
 		"investment_raw": "Investissements",
-		"investment_minus_subventions": "Investissements - Subventions"
+		"investment_minus_subventions": "Investissements - Subventions",
+		"total_cost_noaction": "Coûts totaux avant actions",
+		"total_cost_action": "Coûts totaux après actions"
 }
