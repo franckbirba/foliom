@@ -439,12 +439,12 @@
 
     "yearly_expense_max": "Dépense annuelle max",
     "energy_consum_atLeast_in_E_year": "Consommation d’énergie en € / an : réduction au moins égale à",
-    "only_keep_if_lifetime_greater_than": "Obsolescence: ne pas garder d’Action dont la DVR du champ technique concerné est > X",
+    "obsolescence_lifetime_greater_than": "Obsolescence : retirer les Actions dont la DVR du champ technique concerné est au moins",
     "priority_to_gobal_obsolescence": "Priorité à l’indice global d’obsolescence",
     "priority_to_gobal_obsolescence_desc": "Priorité aux bâtiments dont l’indicateur « Indice d’obsolescence » est le plus fort",
 
     "priority_to_techField": "Priorité au lot technique :",
-    "select_techField": "Lots techniques",
+    "select_value": "Choisissez un élément",
 
     "scenario_validate": "Enregistrer & voir les résultats",
     "go_to_timeline": "Timeline",

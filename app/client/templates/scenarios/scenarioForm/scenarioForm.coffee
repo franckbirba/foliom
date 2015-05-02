@@ -34,10 +34,12 @@ Template.scenarioForm.helpers
       '/icon/scenario_boats/' + x + '.png'
   isChecked: (param) ->
     return param is true
-  getTechnical_compliance_items: ->
-    result = _.map technical_compliance_items, (item) ->
-      return { label: item, value: item }
-    return result
+  getOptions: (label) ->
+    switch label
+      when 'priority_to_techField'
+        return buildOptions(technical_compliance_items)
+      when 'obsolescence_lifetime_greater_than'
+        return buildOptions ["new_dvr", "good_dvr", "average_dvr", "bad_dvr"]
   getCriterionToAdd: ->
     return toAddCriterionList
   getCriterion:  ->
@@ -108,7 +110,7 @@ Template.scenarioForm.events
     if !(scenario.planned_actions instanceof Array) then scenario.planned_actions = []
 
     # CREATE BUILDING LIST AND ACTION LIST (for the Estate, ie. all Portfolios in the Estate)
-    @building_list = _.chain(current_estate.portfolio_collection)
+    building_list = _.chain(current_estate.portfolio_collection)
                       .map ((portfolio_id) ->
                         Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
                       )
@@ -123,11 +125,13 @@ Template.scenarioForm.events
       }, sort: name: 1).fetch()
       # Go through all Actions and push them to the planned_actions array
       _.each action_list, (action) ->
-        # Add start date, set to today
+        # Add start date (today)
         action.start = moment()
         #push Action
         scenario.planned_actions.push action
       return
+
+    console.log building_list
 
     #SORT ACTIONS
     #Default sort
@@ -142,16 +146,25 @@ Template.scenarioForm.events
           # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
           yearly_sum = 0
           nb_toAdd = 0
-          _.each scenario.planned_actions, (action, index)->
+          _.each scenario.planned_actions, (action)->
             yearly_sum += action.subventions.residual_cost
             if yearly_sum > criterion.input
               yearly_sum = action.subventions.residual_cost # reset cost to current cost
               nb_toAdd++ #increment counter
             action.start.add nb_toAdd, 'Y'
           break
-        when 'only_keep_if_lifetime_greater_than'
-          _.each scenario.planned_actions, (action, index)->
-
+        when 'obsolescence_lifetime_greater_than'
+          _.each scenario.planned_actions, (action)->
+            tech_fields = action.technical_field
+            building = _.findWhere building_list, _id: action.building_id
+            allLeases = Leases.find({building_id: building._id}).fetch()
+            # For each tech_field, look for the match in all Leases. When a match is found, look if it's enough to disqualify the Action
+            for tech_field in tech_fields
+              for lease in allLeases
+                if isLifetimeGreaterOrEqual(lease.technical_compliance.categories[tech_field].lifetime, criterion.input) is true
+                  action.start = null
+                  breakLoop1 = true; break
+              break if breakLoop1
           break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
@@ -161,7 +174,7 @@ Template.scenarioForm.events
 
     # TOTAL EXPENDITURE FILTER: set action.start to null if we are over budget
     added_action_cost = 0
-    _.each scenario.planned_actions, (action, index)->
+    _.each scenario.planned_actions, (action)->
       added_action_cost += action.subventions.residual_cost
       if added_action_cost > scenario.total_expenditure
         action.start = null

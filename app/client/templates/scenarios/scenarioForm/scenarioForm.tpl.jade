@@ -31,20 +31,20 @@
             .item2: span.criterion-label(true_label=label data-sc_id=sc_id unit=unit type=type desc=desc) {{_ label}}
 
             .item2.critDetail
-              .form-inline: .form-group
-                if isEqual type 'checkbox'
-                  .row
-                    .col-sm-2: input(type="checkbox" value="" checked="{{isChecked input}}")
-                    .col-sm-10: .criterion-desc {{_ desc}}
-                else if isEqual type 'selector_techfield'
-                  select#addTechfield.form-control(type="select")
-                    option(value="" disabled selected) {{_ "select_techField"}}
-                    each getTechnical_compliance_items
-                      option(value=value selected="{{isEqual input value}}") {{_ label}}
-                else
-                  .formStyling.input-group
-                    input.form-control#criterionAmount(type="number" value="#{input}")
-                    .input-group-addon.critAddon {{_ unit}}
+              //- .form-inline: .form-group
+              if isEqual type 'checkbox'
+                .row
+                  .col-sm-2: input(type="checkbox" value="" checked disabled)
+                  .col-sm-10: .criterion-desc {{_ desc}}
+              else if isEqual type 'selector'
+                select.form-control(type="select")
+                  option(value="" disabled selected) {{_ "select_value"}}
+                  each getOptions label
+                    option(value=value selected="{{isEqual ../input value}}") {{_ label}}
+              else
+                .formStyling.input-group
+                  input.form-control#criterionAmount(type="number" value="#{input}")
+                  .input-group-addon.critAddon {{_ unit}}
             .critCell: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
           //- Next line is a hack to make sure that the new criterion appear at the correct place
           li.fakeLi.hidden
@@ -88,7 +88,9 @@
             each impact_assessment_fluids
               | {{_ opportunity}} : {{or_kwhef}}
               br
-          td {{_ technical_field}}
+          td
+            each technical_field
+              | {{_ this.valueOf}}
           td {{internal_return}}
           td {{actualised_roi}}
           td {{other_gains.comfort}}
