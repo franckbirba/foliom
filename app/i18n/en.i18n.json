@@ -428,12 +428,12 @@
 
     "yearly_expense_max": "Maximum yearly expense",
     "energy_consum_atLeast_in_E_year": "Energy consumption in € / year: savings at least equal to",
-    "only_keep_if_lifetime_greater_than": "Obsolescence: only keep Actions whose lifetime is greater than",
+    "obsolescence_lifetime_greater_than": "Obsolescence: Remove Actions targeting technical fields whose lifetime is at least",
     "priority_to_gobal_obsolescence": "Priority to the global obscolescence index",
     "priority_to_gobal_obsolescence_desc": "Priority to Buildings whose Obsolescence index is the highest",
 
     "priority_to_techField": "Priority to the technical field:",
-    "select_techField": "Technical fields",
+    "select_value": "Select one",
 
     "scenario_validate": "Save and see results",
     "go_to_timeline": "Timeline",

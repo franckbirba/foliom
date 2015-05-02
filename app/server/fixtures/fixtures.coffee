@@ -507,7 +507,7 @@ exports.createActions = (nb_actions) ->
       }
     ]
     "project_type": "NA"
-    "technical_field": "heat_production"
+    "technical_field": ["facade","heat_production"]
     "feasable_while_occupied": "no"
     "priority": "high"
     "other_gains":
