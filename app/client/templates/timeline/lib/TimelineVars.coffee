@@ -1,4 +1,3 @@
-# @TODO Total costs should be cumulative
 # @TODO /!\ Actions liés action_link
 # @TODO Review total cost as it depends on when the actions are performed
 
