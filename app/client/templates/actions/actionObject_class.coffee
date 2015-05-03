@@ -21,6 +21,9 @@ exports.ActionObject = class ActionObject
       kwhef_euro: []
       water_euro: []
       merged_fluids_euro: []
+      merged_fluids_euro_actualized: []
+      operatingSavings_array: []
+      operatingSavings_array_actualized: []
       fluidImpact_in_kwhef: 0
     #@all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
@@ -170,7 +173,7 @@ exports.ActionObject = class ActionObject
     all_fluids_euro = [];
     all_fluids_euro.push( addValuesForArrays(kwhef_multiple_array) ) #push the merge of all EndUse euro gain
     if water_array? then all_fluids_euro.push(water_array)
-    addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
+    @gain.merged_fluids_euro = addValuesForArrays( all_fluids_euro ) #return the sum of all fluid Euro gains
 
   sum_all_kwhef_fluids_in_kwhef: () =>
     fluidImpact_in_kwhef =0 ;
@@ -209,3 +212,27 @@ exports.ActionObject = class ActionObject
     # console.log "@investment.values is #{@investment.values}"
     # console.log "@investment.values_act is #{@investment.values_act}"
     # @Blandine, BSE, PEM : Actualisation fait diminuer l'investissement ?
+
+  actualize_merged_fluids_euro: () =>
+    #L'éco. de fluides est calc. avec le coût du fluide (qui évolue) : only Actualiser (pas inflater) - confirmé le 14/1
+    @gain.merged_fluids_euro_actualized = _.map(@gain.merged_fluids_euro, (num, index)->
+                result = num * Math.pow( 1+actualization_rate , -index);
+                return result.toFixed(2)*1;
+            )
+    return @gain.merged_fluids_euro_actualized
+
+  actualize_operatingSavings_arrays: (action_lifetime, gain_operating_cost) =>
+    # Operating savings (économie de frais d'exploitation) - a appliquer chaque année
+    @gain.operatingSavings_array = buildArrayWithZeroes(action_lifetime)
+    i = 0
+    while i < action_lifetime
+      @gain.operatingSavings_array[i] = gain_operating_cost
+      i++
+    #Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
+    @gain.operatingSavings_array_actualized = _.map(@gain.operatingSavings_array, (num, ic_index) ->
+      result = num * (1 + actualization_rate) ** (-ic_index)
+      result.toFixed(2) * 1
+    )
+
+    console.log "@gain.operatingSavings_array is ", @gain.operatingSavings_array
+    console.log "@gain.operatingSavings_array_actualized is ", @gain.operatingSavings_array_actualized

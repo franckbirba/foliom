@@ -104,7 +104,7 @@ This function is designed to apply all calculus that an Action needs in the foll
   # Subventions: ratio and cost in Euro
   source = action.investment.cost
   if action.subventions
-    if action.subventions.ratio?
+    if action.subventions.ratio isnt 0
       curr_field = action.subventions.ratio
       estimate = (curr_field/100 * source).toFixed(2) *1
       action.subventions.or_euro = estimate
@@ -114,14 +114,9 @@ This function is designed to apply all calculus that an Action needs in the foll
       action.subventions.ratio = estimate
 
     # Subventions: residual cost
-    if action.subventions.or_euro? then sub_euro = action.subventions.or_euro
-    else sub_euro = 0
-
-    if action.subventions.CEE_opportunity? then cee_opportunity = action.subventions.cee_opportunity
-    else cee_opportunity = 0
-
-    result = action.investment.cost - sub_euro - cee_opportunity
+    result = action.investment.cost - action.subventions.or_euro - action.subventions.CEE_opportunity
     action.subventions.residual_cost = result
+
   else # no subs >> residual cost is the investment
     action.subventions =
       residual_cost: action.investment.cost

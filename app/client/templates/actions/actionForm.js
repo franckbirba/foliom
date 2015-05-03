@@ -240,8 +240,7 @@ Template.actionForm.rendered = function () {
     $("[name='subventions.ratio'], [name='subventions.or_euro']").change(function() {
       var curr_field = $(this).val()*1;
       var target, estimate;
-      // var source = $("[name='investment.cost']").val();
-      var source = AutoForm.getFieldValue("investment.cost", "insertActionForm")*1 ;
+      var source = $("[name='investment.cost']").val()*1;
 
       if( $(this).attr("name") == "subventions.ratio") {
         estimate = (curr_field/100 * source).toFixed(2) ;
@@ -255,7 +254,7 @@ Template.actionForm.rendered = function () {
         target.val(estimate).change() ;
       }
     });
-    $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
+    // $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
 
 
 
@@ -304,29 +303,16 @@ Template.actionForm.rendered = function () {
 
 
       // PREPARE ENERGY SAVINGS
-      //L'éco. de fluides est calc. avec le coût du fluide (qui évolue) : only Actualiser (pas inflater) - confirmé le 14/1
-      var all_yearly_savings_simplyValues_actualized = [];
-      _.each(YS_array, function(allYSavings, tmp_index) {
-        actualized_energy = _.map(allYSavings, function(num, allYSavings_index){
-                var result = num * Math.pow( 1+actualization_rate , -allYSavings_index);
-                return result.toFixed(2)*1;
-            });
-        all_yearly_savings_simplyValues_actualized.push(actualized_energy);
-      });
-      // console.log("all_yearly_savings_simplyValues_actualized");
-      // console.log(all_yearly_savings_simplyValues_actualized);
+      var merged_fluids_euro_actualized = ao.actualize_merged_fluids_euro();
+      // console.log("merged_fluids_euro_actualized", merged_fluids_euro_actualized);
 
-      // Operating savings (économie de frais d'exploitation) - a appliquer chaque année
-      var operatingSavings_array = buildArrayWithZeroes(action_lifetime);
-      for (var i = 0; i < action_lifetime; i++) {
-        operatingSavings_array[i] = gain_operating_cost ;
-      }
+      // PREPARE Operating savings (économie de frais d'exploitation) - a appliquer chaque année
+      ao.actualize_operatingSavings_arrays(action_lifetime, gain_operating_cost);
+      var operatingSavings_array = ao.gain.operatingSavings_array;
+      var operatingSavings_array_actualized = ao.gain.operatingSavings_array_actualized;
 
-      //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
-      var operatingSavings_array_actualized = _.map(operatingSavings_array, function(num, ic_index){
-        var result = num * Math.pow( 1+actualization_rate , -ic_index);
-        return result.toFixed(2)*1;
-      });
+
+
 
       // PREPARE FLUX (savings - investments)
       var flux = _.map(ic_array_actualized, function(num, tmp_index){
@@ -353,7 +339,7 @@ Template.actionForm.rendered = function () {
 
 
       // FLUX ACCUMULATION (savings - investments over all the previous years)
-      var total_YS_val_actualized = addValuesForArrays (all_yearly_savings_simplyValues_actualized) ; // Sum all actualized savings by year
+      var total_YS_val_actualized = addValuesForArrays (merged_fluids_euro_actualized) ; // Sum all actualized savings by year
 
       var flux_accumulation = _.map(ic_array_actualized, function(num, tmp_index){
         var sum = 0

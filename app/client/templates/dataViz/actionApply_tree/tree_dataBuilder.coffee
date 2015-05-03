@@ -64,7 +64,7 @@ getBuildingsForActions = (item) ->
           }).fetch()
           # then map it to a format that the tree can use
           .map( (building) ->
-            console.log "building is ", building
+            # console.log "building is ", building
             return {"name": building.building_name}
           )
   _.flatten children # We double-mapped, so we flatten to remove a level of arrays
