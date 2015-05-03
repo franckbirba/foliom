@@ -284,6 +284,7 @@ exports.ActionObject = class ActionObject
 
   calc_LEC: (action_lifetime) =>
     # = coût d'investissement (ie. 'reduce' du tableau) / (durée vie * éco d'énergie en kWh pour chaque fluide)
+    # Not using Water savings - normal (might be another variable, in V2)
     total_investment = _.reduce(@investment.values_act, ((memo, num) ->
       memo + num
     ), 0)
