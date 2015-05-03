@@ -306,17 +306,13 @@ Template.actionForm.rendered = function () {
       var merged_fluids_euro_actualized = ao.actualize_merged_fluids_euro();
       // console.log("merged_fluids_euro_actualized", merged_fluids_euro_actualized);
 
-      // Operating savings (économie de frais d'exploitation) - a appliquer chaque année
-      var operatingSavings_array = buildArrayWithZeroes(action_lifetime);
-      for (var i = 0; i < action_lifetime; i++) {
-        operatingSavings_array[i] = gain_operating_cost ;
-      }
+      // PREPARE Operating savings (économie de frais d'exploitation) - a appliquer chaque année
+      ao.actualize_operatingSavings_arrays(action_lifetime, gain_operating_cost);
+      var operatingSavings_array = ao.gain.operatingSavings_array;
+      var operatingSavings_array_actualized = ao.gain.operatingSavings_array_actualized;
 
-      //Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
-      var operatingSavings_array_actualized = _.map(operatingSavings_array, function(num, ic_index){
-        var result = num * Math.pow( 1+actualization_rate , -ic_index);
-        return result.toFixed(2)*1;
-      });
+
+
 
       // PREPARE FLUX (savings - investments)
       var flux = _.map(ic_array_actualized, function(num, tmp_index){

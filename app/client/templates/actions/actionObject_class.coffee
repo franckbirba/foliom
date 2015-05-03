@@ -22,6 +22,8 @@ exports.ActionObject = class ActionObject
       water_euro: []
       merged_fluids_euro: []
       merged_fluids_euro_actualized: []
+      operatingSavings_array: []
+      operatingSavings_array_actualized: []
       fluidImpact_in_kwhef: 0
     #@all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
 
@@ -219,3 +221,18 @@ exports.ActionObject = class ActionObject
             )
     return @gain.merged_fluids_euro_actualized
 
+  actualize_operatingSavings_arrays: (action_lifetime, gain_operating_cost) =>
+    # Operating savings (économie de frais d'exploitation) - a appliquer chaque année
+    @gain.operatingSavings_array = buildArrayWithZeroes(action_lifetime)
+    i = 0
+    while i < action_lifetime
+      @gain.operatingSavings_array[i] = gain_operating_cost
+      i++
+    #Actualize the array: =current_year_val*(1+actualization_rate)^(-index)
+    @gain.operatingSavings_array_actualized = _.map(@gain.operatingSavings_array, (num, ic_index) ->
+      result = num * (1 + actualization_rate) ** (-ic_index)
+      result.toFixed(2) * 1
+    )
+
+    console.log "@gain.operatingSavings_array is ", @gain.operatingSavings_array
+    console.log "@gain.operatingSavings_array_actualized is ", @gain.operatingSavings_array_actualized
