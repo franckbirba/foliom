@@ -122,10 +122,21 @@ This function is designed to apply all calculus that an Action needs in the foll
       residual_cost: action.investment.cost
 
 
-  # INVESTMENTS
+  # EFFICIENCY
   action.raw_roi = ao.calc_raw_roi(action.subventions.residual_cost, total_fluid_savings_a[0], action.gain_operating.cost);
 
-  value_analysis = ao.calc_value_analysis(action.action_lifetime, action.subventions.residual_cost);
+  action.value_analysis = ao.calc_value_analysis(action.action_lifetime, action.subventions.residual_cost);
+
+  ao.prepare_investment_arrays(action_lifetime, residual_cost)
+  ao.actualize_merged_fluids_euro()
+  ao.prepare_operatingSavings_arrays(action_lifetime, gain_operating_cost)
+  ao.prepare_flux_arrays();
+
+  action.internal_return = ao.calc_IRR()
+
+  action.actualised_roi = ao.calc_TRA()
+
+  action.lec = ao.calc_LEC(action_lifetime)
 
 
   console.log 'action is', action
@@ -142,6 +153,9 @@ This function is designed to apply all calculus that an Action needs in the foll
     subventions: action.subventions
     raw_roi: action.raw_roi
     value_analysis: action.value_analysis
+    internal_return: action.internal_return
+    actualised_roi: action.actualised_roi
+    lec: action.lec
 
 ###
 {
