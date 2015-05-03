@@ -254,7 +254,7 @@ Template.actionForm.rendered = function () {
         target.val(estimate).change() ;
       }
     });
-    $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
+    // $("[name='subventions.ratio'], [name='subventions.or_euro']").change() ; // Execute once at form Load
 
 
 

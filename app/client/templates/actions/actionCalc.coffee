@@ -104,7 +104,7 @@ This function is designed to apply all calculus that an Action needs in the foll
   # Subventions: ratio and cost in Euro
   source = action.investment.cost
   if action.subventions
-    if action.subventions.ratio?
+    if action.subventions.ratio isnt 0
       curr_field = action.subventions.ratio
       estimate = (curr_field/100 * source).toFixed(2) *1
       action.subventions.or_euro = estimate
