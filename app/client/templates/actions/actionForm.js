@@ -311,32 +311,15 @@ Template.actionForm.rendered = function () {
       var operatingSavings_array = ao.gain.operatingSavings_array;
       var operatingSavings_array_actualized = ao.gain.operatingSavings_array_actualized;
 
-
       // PREPARE FLUX (savings - investments)
       ao.prepare_flux_arrays();
       var flux = ao.flux.flux_actualized;
       var flux_notActualized = ao.flux.flux_notActualized;
-
+      var flux_accumulation = ao.flux.flux_accumulation;
 
       // IRR (TRI)
       var irr = IRR( flux_notActualized );
       $("[name='internal_return']").val( (irr*100).toFixed(2) ) ;
-
-
-      // FLUX ACCUMULATION (savings - investments over all the previous years)
-      var total_YS_val_actualized = addValuesForArrays (merged_fluids_euro_actualized) ; // Sum all actualized savings by year
-
-      var flux_accumulation = _.map(ic_array_actualized, function(num, tmp_index){
-        var sum = 0
-        for (var i = 0; i < tmp_index+1; i++) { // +1 is necessary as the tmp_index starts at 0
-            sum += - ic_array_actualized[i]
-                + operatingSavings_array_actualized[i] // Pas actualisé
-                + total_YS_val_actualized[i] ;
-            }
-        return sum.toFixed(2)*1;
-      });
-      // console.log("flux_accumulation");
-      // console.log(flux_accumulation);
 
 
       // TRA

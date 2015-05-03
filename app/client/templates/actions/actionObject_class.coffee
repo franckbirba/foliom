@@ -29,6 +29,7 @@ exports.ActionObject = class ActionObject
     @flux =
       flux_notActualized: []
       flux_actualized: []
+      flux_accumulation: []
 
     @investment =
       values:[]
@@ -250,5 +251,14 @@ exports.ActionObject = class ActionObject
                 + @gain.operatingSavings_array_actualized[tmp_index] \
                 + @gain.merged_fluids_euro_actualized[tmp_index] #check suite aux retours de @Blandine sur l'actualisation des fluides
       )
+    # PREPARE FLUX ACCUMULATION
+    _.each(@flux.flux_actualized, (num, tmp_index) =>
+        if tmp_index is 0 then result = num
+        else result = @flux.flux_accumulation[tmp_index-1] + num
+
+        @flux.flux_accumulation[tmp_index] = result.toFixed(2) * 1
+      )
     # console.log "@flux.flux_notActualized is ", @flux.flux_notActualized
     # console.log "@flux.flux_actualized is ", @flux.flux_actualized
+    console.log "@flux.flux_accumulation is ", @flux.flux_accumulation
+
