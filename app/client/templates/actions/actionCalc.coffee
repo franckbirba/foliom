@@ -127,16 +127,16 @@ This function is designed to apply all calculus that an Action needs in the foll
 
   action.value_analysis = ao.calc_value_analysis(action.action_lifetime, action.subventions.residual_cost);
 
-  ao.prepare_investment_arrays(action_lifetime, residual_cost)
+  ao.prepare_investment_arrays(action.action_lifetime, action.subventions.residual_cost)
   ao.actualize_merged_fluids_euro()
-  ao.prepare_operatingSavings_arrays(action_lifetime, gain_operating_cost)
-  ao.prepare_flux_arrays();
+  ao.prepare_operatingSavings_arrays(action.action_lifetime, action.gain_operating.cost)
+  ao.prepare_flux_arrays()
 
   action.internal_return = ao.calc_IRR()
 
   action.actualised_roi = ao.calc_TRA()
 
-  action.lec = ao.calc_LEC(action_lifetime)
+  action.lec = ao.calc_LEC(action.action_lifetime)
 
 
   console.log 'action is', action
