@@ -460,10 +460,169 @@ Meteor.startup(function () {
                 "fluid_unit": "u_euro_kwhEF",
                 "yearly_values": [
                   {
-                    "year": 2014,
+                    "year": 2015,
                     "cost": 10,
                     "evolution_index": 0
                   },
+                  {
+                    "year": 2016,
+                    "cost": 10.1,
+                    "evolution_index": 1
+                  },
+                  {
+                    "year": 2017,
+                    "cost": 10.1,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2018,
+                    "cost": 10.1,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2019,
+                    "cost": 10.1,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2020,
+                    "cost": 10.2,
+                    "evolution_index": 0.99
+                  },
+                  {
+                    "year": 2021,
+                    "cost": 10.2,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2022,
+                    "cost": 10.2,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2023,
+                    "cost": 10.2,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2024,
+                    "cost": 10.2,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2025,
+                    "cost": 10.2,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2026,
+                    "cost": 10.3,
+                    "evolution_index": 0.98
+                  },
+                  {
+                    "year": 2027,
+                    "cost": 10.3,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2028,
+                    "cost": 10.3,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2029,
+                    "cost": 10.3,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2030,
+                    "cost": 10.3,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2031,
+                    "cost": 10.3,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2032,
+                    "cost": 10.4,
+                    "evolution_index": 0.971
+                  },
+                  {
+                    "year": 2033,
+                    "cost": 10.4,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2034,
+                    "cost": 10.4,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2035,
+                    "cost": 10.4,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2036,
+                    "cost": 10.4,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2037,
+                    "cost": 10.5,
+                    "evolution_index": 0.962
+                  },
+                  {
+                    "year": 2038,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2039,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2040,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2041,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2042,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2043,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2044,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  },
+                  {
+                    "year": 2045,
+                    "cost": 10.5,
+                    "evolution_index": 0
+                  }
+                ],
+                "global_evolution_index": 5,
+                "kwhef_to_co2_coefficient": "fluid_fuelOil_heavy"
+              },
+              {
+                "fluid_type": "fluid_cooling",
+                "fluid_provider": "EDF",
+                "fluid_unit": "u_euro_kwhEF",
+                "yearly_values": [
                   {
                     "year": 2015,
                     "cost": 10,
@@ -613,6 +772,11 @@ Meteor.startup(function () {
                     "year": 2044,
                     "cost": 10.5,
                     "evolution_index": 0
+                  },
+                  {
+                    "year": 2045,
+                    "cost": 10.5,
+                    "evolution_index": 0
                   }
                 ],
                 "global_evolution_index": 5,
@@ -623,11 +787,6 @@ Meteor.startup(function () {
                 "fluid_provider": "Lyonnaise des Eaux",
                 "fluid_unit": "u_euro_m3",
                 "yearly_values": [
-                  {
-                    "year": 2014,
-                    "cost": 20,
-                    "evolution_index": 0
-                  },
                   {
                     "year": 2015,
                     "cost": 20,
@@ -777,6 +936,11 @@ Meteor.startup(function () {
                     "year": 2044,
                     "cost": 20.3,
                     "evolution_index": 0
+                  },
+                  {
+                    "year": 2045,
+                    "cost": 20.3,
+                    "evolution_index": 0
                   }
                 ],
                 "global_evolution_index": 1.5,
@@ -787,11 +951,6 @@ Meteor.startup(function () {
                 "fluid_provider": "EDF",
                 "fluid_unit": "u_euro_kwhEF",
                 "yearly_values": [
-                  {
-                    "year": 2014,
-                    "cost": 30,
-                    "evolution_index": 0
-                  },
                   {
                     "year": 2015,
                     "cost": 30,
@@ -941,6 +1100,11 @@ Meteor.startup(function () {
                     "year": 2044,
                     "cost": 31,
                     "evolution_index": 0
+                  },
+                  {
+                    "year": 2045,
+                    "cost": 31,
+                    "evolution_index": 0
                   }
                 ],
                 "global_evolution_index": 3.333,
@@ -951,11 +1115,6 @@ Meteor.startup(function () {
                 "fluid_provider": "Poweo",
                 "fluid_unit": "u_euro_kwhEF",
                 "yearly_values": [
-                  {
-                    "year": 2014,
-                    "cost": 12,
-                    "evolution_index": 0
-                  },
                   {
                     "year": 2015,
                     "cost": 12,
@@ -1105,6 +1264,11 @@ Meteor.startup(function () {
                     "year": 2044,
                     "cost": 12.2,
                     "evolution_index": 0
+                  },
+                  {
+                    "year": 2045,
+                    "cost": 12.2,
+                    "evolution_index": 0
                   }
                 ],
                 "global_evolution_index": 1.667,
@@ -1120,7 +1284,7 @@ Meteor.startup(function () {
       var tmpSelectorList = [
               {
                   name: 'fluid_type',
-                  labels: ["fluid_electricity", "fluid_water", "fluid_heat" ],
+                  labels: ["fluid_electricity", "fluid_water", "fluid_heat", "fluid_cooling" ],
                   portfolio_id: ""
               },
               {
