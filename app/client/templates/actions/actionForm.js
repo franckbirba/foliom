@@ -295,8 +295,7 @@ Template.actionForm.rendered = function () {
       /* -------------------------- */
       /*          TRA / TRI         */
 
-      // PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
-      // ACTUALIZE INVESTMENT_COST_ARRRAY (for residual_cost)
+      // PREPARE INVESTMENT_COST_ARRRAYS (for residual_cost)
       ao.prepare_investment_arrays(action_lifetime, residual_cost);
       var ic_array = ao.investment.values;
       var ic_array_actualized = ao.investment.values_act;
@@ -308,8 +307,6 @@ Template.actionForm.rendered = function () {
 
       // PREPARE Operating savings (économie de frais d'exploitation) - a appliquer chaque année
       ao.prepare_operatingSavings_arrays(action_lifetime, gain_operating_cost);
-      var operatingSavings_array = ao.gain.operatingSavings_array;
-      var operatingSavings_array_actualized = ao.gain.operatingSavings_array_actualized;
 
       // PREPARE FLUX (savings - investments)
       ao.prepare_flux_arrays();
@@ -323,14 +320,9 @@ Template.actionForm.rendered = function () {
 
 
       // TRA
-      //We find the first positive value in the flux_accumulation
-      var firstPositive = _.find(flux_accumulation, function(num){
-        if (num >= 0) return num;
-      });
-      var TRA = _.indexOf(flux_accumulation, firstPositive); // if value is not found: returns -1
-      // console.log("TRA: " + TRA);
+      ao.calc_TRA();
+      var TRA = ao.efficiency.TRA;
       if (TRA !== -1) { $("[name='actualised_roi']").val( TRA ) ; }
-
 
       // LEC
       // = coût d'investissement (ie. 'reduce' du tableau) / (durée vie * éco d'énergie en kWh pour chaque fluide)

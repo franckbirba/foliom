@@ -35,6 +35,9 @@ exports.ActionObject = class ActionObject
       values:[]
       values_act:[] #Actualized values
 
+    @efficiency =
+
+
     @getWaterDataFromLeases() # Init water Data
 
 
@@ -192,13 +195,12 @@ exports.ActionObject = class ActionObject
     # "Coût d'investissement" / ("Impact Fluide en €/an" + "Gain sur les autres charges d'exploit en €/an")
     # Anciennement = "Coût d'investissement" / ("Impact Fluide en €/an" + "Coût en fonctionnement en €/an")
     raw_roi = residual_cost / (total_fluid_savings_year_0 + gain_operating_cost); #Validé avec @Blandine : année 0 des économies d'énergie
-    raw_roi.toFixed(2)*1
+    @efficiency.raw_roi = raw_roi.toFixed(2)*1
 
   calc_value_analysis: (action_lifetime, residual_cost) =>
     @sum_all_kwhef_fluids_in_kwhef()
-    value_analysis = action_lifetime * @gain.fluidImpact_in_kwhef / residual_cost
+    @efficiency.value_analysis = action_lifetime * @gain.fluidImpact_in_kwhef / residual_cost
     # value_analysis.toFixed(2)*1
-    value_analysis
 
   prepare_investment_arrays: (action_lifetime, residual_cost) =>
     # PREPARE INVESTMENT_COST_ARRRAY (for residual_cost)
@@ -260,5 +262,14 @@ exports.ActionObject = class ActionObject
       )
     # console.log "@flux.flux_notActualized is ", @flux.flux_notActualized
     # console.log "@flux.flux_actualized is ", @flux.flux_actualized
-    console.log "@flux.flux_accumulation is ", @flux.flux_accumulation
+    # console.log "@flux.flux_accumulation is ", @flux.flux_accumulation
+
+  calc_TRA: () =>
+    #We find the first positive value in the flux_accumulation
+    firstPositive = _.find(@flux.flux_accumulation, (num) ->
+      if num >= 0 then return num
+    )
+    @efficiency.TRA = _.indexOf(@flux.flux_accumulation, firstPositive) # if value is not found: returns -1
+    # console.log("TRA: #{@efficiency.TRA}");
+
 
