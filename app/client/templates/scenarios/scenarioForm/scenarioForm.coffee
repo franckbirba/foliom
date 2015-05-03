@@ -55,6 +55,10 @@ Template.scenarioForm.helpers
         return displayedAction
       )
     return
+  display_impact_fluids: ->
+    # Return gain kwhef and water - unless there is no water savings
+    if @gain_fluids_water[0].or_m3 isnt 0 then return @gain_fluids_kwhef.concat(@gain_fluids_water)
+    else return @gain_fluids_kwhef
 
 Template.scenarioForm.events
   'change #addCriterionSelect': (e) ->
