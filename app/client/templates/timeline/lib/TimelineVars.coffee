@@ -191,8 +191,8 @@
     for building in @buildings
       for lease in building.leases
         for cons in lease.fluid_consumption_meter
-          # Get degraded consumption
-          consumption = cons.first_year_value * \
+          # Get degraded consumption divided by 4 as calc is on quarter
+          consumption = cons.first_year_value / 4 * \
             Math.pow 1 + @consumptionDegradation, yearsSinceStart
           # Get fluid provider
           cons.fluidProvider = @fluidInSettings[cons.fluid_id]
@@ -394,8 +394,10 @@
 
           # Analyse gain for water fluids
           for gain in paction.action.gain_fluids_water
-            consumptionWater -= gain.or_m3
-            invoiceWater -= gain.yearly_savings
+            # Gains are expressed over years so divide them
+            #  for each quarters.
+            consumptionWater -= gain.or_m3 / 4
+            invoiceWater -= gain.yearly_savings / 4
             # Get each fluid provider if it hasn't been already calculated
             if gain.fluidProvider is undefined
               for key, val of @fluidInSettings
@@ -403,7 +405,9 @@
                   gain.fluidProvider = @fluidInSettings[key]
           # Analyse gain for other fluids
           for gain in paction.action.gain_fluids_kwhef
-            consumptionKwh -= gain.or_kwhef
+            # Gains are expressed over years so divide them
+            #  for each quarters.
+            consumptionKwh -= gain.or_kwhef / 4
             # Get each fluid provider if it hasn't been already calculated
             if gain.fluidProvider is undefined
               # Get building on which the action is performed
@@ -420,11 +424,15 @@
                     break
                 break if gain.fluidProvider isnt undefined
             # Group type of invoice on end use.
-            switch gain.opportunity
-              when 'end_use_heating' then invoiceHeat -= gain.yearly_savings
-              when 'end_use_AC', 'end_use_ventilation'
-                invoiceCool -= gain.yearly_savings
-              else invoiceElectricity -= gain.yearly_savings
+            # Gains are expressed over years so divide them
+            #  for each quarters.
+            switch gain.fluidProvider.fluid_type
+              when 'fluid_heat'
+                invoiceHeat -= gain.yearly_savings / 4
+              when 'fluid_electricity'
+                invoiceElectricity -= gain.yearly_savings / 4
+              else
+                invoiceCool -= gain.yearly_savings / 4
             # Set the CO2 consumption depending on the type of energy.
             consumptionCo2 -= @kwh2Co2 gain.or_kwhef, \
               gain.fluidProvider.kwhef_to_co2_coefficient

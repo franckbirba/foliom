@@ -218,6 +218,7 @@ sumAllSuites = (suites) ->
   keys = (key for key of suites)
   results = createArrayFilledWithZero suites[keys[0]].length
   for idx in [0...results.length]
+    results[idx] += results[idx - 1] unless idx is 0
     for key in keys
       results[idx] += suites[key][idx]
   results
