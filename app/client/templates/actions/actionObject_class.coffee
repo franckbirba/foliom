@@ -25,7 +25,10 @@ exports.ActionObject = class ActionObject
       operatingSavings_array: []
       operatingSavings_array_actualized: []
       fluidImpact_in_kwhef: 0
-    #@all_yearly_savings_simplyValues = [] # Will contain all savings, for each EndUse
+
+    @flux =
+      flux_notActualized: []
+      flux_actualized: []
 
     @investment =
       values:[]
@@ -221,7 +224,7 @@ exports.ActionObject = class ActionObject
             )
     return @gain.merged_fluids_euro_actualized
 
-  actualize_operatingSavings_arrays: (action_lifetime, gain_operating_cost) =>
+  prepare_operatingSavings_arrays: (action_lifetime, gain_operating_cost) =>
     # Operating savings (économie de frais d'exploitation) - a appliquer chaque année
     @gain.operatingSavings_array = buildArrayWithZeroes(action_lifetime)
     i = 0
@@ -234,5 +237,35 @@ exports.ActionObject = class ActionObject
       result.toFixed(2) * 1
     )
 
-    console.log "@gain.operatingSavings_array is ", @gain.operatingSavings_array
-    console.log "@gain.operatingSavings_array_actualized is ", @gain.operatingSavings_array_actualized
+  prepare_flux_arrays: () =>
+    # PREPARE FLUX NOT ACTUALIZED (savings - investments)
+    @flux.flux_notActualized = _.map(@investment.values, (num, tmp_index) =>
+      return -@investment.values[tmp_index] \
+              + @gain.operatingSavings_array[tmp_index] \
+              + @gain.merged_fluids_euro[tmp_index]
+      )
+
+    @flux.flux_actualized  = _.map(@investment.values_act, (num, tmp_index) =>
+        return -@investment.values_act[tmp_index] \
+                + @gain.operatingSavings_array_actualized[tmp_index] \
+                + @gain.merged_fluids_euro_actualized[tmp_index] #check suite aux retours de @Blandine sur l'actualisation des fluides
+      )
+
+    console.log "@flux.flux_notActualized is ", @flux.flux_notActualized
+    console.log "@flux.flux_actualized is ", @flux.flux_actualized
+
+# `// PREPARE FLUX (savings - investments)
+#       var flux = _.map(ic_array_actualized, function(num, tmp_index){
+#         return - ic_array_actualized[tmp_index]
+#                 + operatingSavings_array_actualized[tmp_index]
+#                 + total_fluid_savings_a[tmp_index] ; //check suite aux retours de @Blandine sur l'actualisation des fluides
+#       });
+#       // console.log("flux");
+#       // console.log(flux);
+
+#       // PREPARE FLUX NOT ACTUALIZED (savings - investments)
+#       var flux_notActualized = _.map(ic_array, function(num, tmp_index){
+#         return - ic_array[tmp_index] // Pas actualisé
+#                 + operatingSavings_array[tmp_index] // Pas actualisé
+#                 + total_fluid_savings_a[tmp_index] ; // Pas actualisé : check suite aux retours de @Blandine sur l'actualisation des fluides
+#       });`

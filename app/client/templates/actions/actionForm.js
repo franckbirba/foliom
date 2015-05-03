@@ -35,7 +35,7 @@ Template.actionForm.destroyed = function () {
 
   Session.set('gain_kwhef_euro', null);
   Session.set('gain_water_euro', null);
-  Session.set("flux_notActualized", null);
+  // Session.set("flux_notActualized", null);
 
   if (Router.current().route.getName() !== "action-form"){
     Session.set('childActionToEdit', null);
@@ -307,34 +307,19 @@ Template.actionForm.rendered = function () {
       // console.log("merged_fluids_euro_actualized", merged_fluids_euro_actualized);
 
       // PREPARE Operating savings (économie de frais d'exploitation) - a appliquer chaque année
-      ao.actualize_operatingSavings_arrays(action_lifetime, gain_operating_cost);
+      ao.prepare_operatingSavings_arrays(action_lifetime, gain_operating_cost);
       var operatingSavings_array = ao.gain.operatingSavings_array;
       var operatingSavings_array_actualized = ao.gain.operatingSavings_array_actualized;
 
 
-
-
       // PREPARE FLUX (savings - investments)
-      var flux = _.map(ic_array_actualized, function(num, tmp_index){
-        return - ic_array_actualized[tmp_index]
-                + operatingSavings_array_actualized[tmp_index]
-                + total_fluid_savings_a[tmp_index] ; //check suite aux retours de @Blandine sur l'actualisation des fluides
-      });
-      // console.log("flux");
-      // console.log(flux);
+      ao.prepare_flux_arrays();
+      var flux = ao.flux.flux_actualized;
+      var flux_notActualized = ao.flux.flux_notActualized;
 
-      // PREPARE FLUX NOT ACTUALIZED (savings - investments)
-      var flux_notActualized = _.map(ic_array, function(num, tmp_index){
-        return - ic_array[tmp_index] // Pas actualisé
-                + operatingSavings_array[tmp_index] // Pas actualisé
-                + total_fluid_savings_a[tmp_index] ; // Pas actualisé : check suite aux retours de @Blandine sur l'actualisation des fluides
-      });
-      // console.log("flux_notActualized");
-      // console.log(flux_notActualized);
-      Session.set("flux_notActualized", flux_notActualized);
 
       // IRR (TRI)
-      var irr = IRR( Session.get("flux_notActualized") );
+      var irr = IRR( flux_notActualized );
       $("[name='internal_return']").val( (irr*100).toFixed(2) ) ;
 
 
