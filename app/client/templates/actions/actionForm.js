@@ -325,10 +325,8 @@ Template.actionForm.rendered = function () {
       if (TRA !== -1) { $("[name='actualised_roi']").val( TRA ) ; }
 
       // LEC
-      // = coût d'investissement (ie. 'reduce' du tableau) / (durée vie * éco d'énergie en kWh pour chaque fluide)
-      var total_investment = _.reduce(ic_array_actualized, function(memo, num){ return memo + num; }, 0);
-      var LEC = total_investment / (action_lifetime * ao.gain.fluidImpact_in_kwhef);
-      $("[name='lec']").val( LEC.toFixed(2)*1 ) ;
+      var LEC = ao.calc_LEC(action_lifetime);
+      $("[name='lec']").val( LEC ) ;
 
     });
 

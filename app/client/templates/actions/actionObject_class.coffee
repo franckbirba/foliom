@@ -271,5 +271,14 @@ exports.ActionObject = class ActionObject
     )
     @efficiency.TRA = _.indexOf(@flux.flux_accumulation, firstPositive) # if value is not found: returns -1
     # console.log("TRA: #{@efficiency.TRA}");
+    return @efficiency.TRA
 
+  calc_LEC: (action_lifetime) =>
+    # = coût d'investissement (ie. 'reduce' du tableau) / (durée vie * éco d'énergie en kWh pour chaque fluide)
+    total_investment = _.reduce(@investment.values_act, ((memo, num) ->
+      memo + num
+    ), 0)
+    @efficiency.LEC = (total_investment / (action_lifetime * @gain.fluidImpact_in_kwhef)).toFixed(2) * 1
+    console.log "@efficiency.LEC: #{@efficiency.LEC}"
+    return @efficiency.LEC
 
