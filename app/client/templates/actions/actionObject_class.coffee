@@ -244,28 +244,11 @@ exports.ActionObject = class ActionObject
               + @gain.operatingSavings_array[tmp_index] \
               + @gain.merged_fluids_euro[tmp_index]
       )
-
+    # PREPARE FLUX ACTUALIZED
     @flux.flux_actualized  = _.map(@investment.values_act, (num, tmp_index) =>
         return -@investment.values_act[tmp_index] \
                 + @gain.operatingSavings_array_actualized[tmp_index] \
                 + @gain.merged_fluids_euro_actualized[tmp_index] #check suite aux retours de @Blandine sur l'actualisation des fluides
       )
-
-    console.log "@flux.flux_notActualized is ", @flux.flux_notActualized
-    console.log "@flux.flux_actualized is ", @flux.flux_actualized
-
-# `// PREPARE FLUX (savings - investments)
-#       var flux = _.map(ic_array_actualized, function(num, tmp_index){
-#         return - ic_array_actualized[tmp_index]
-#                 + operatingSavings_array_actualized[tmp_index]
-#                 + total_fluid_savings_a[tmp_index] ; //check suite aux retours de @Blandine sur l'actualisation des fluides
-#       });
-#       // console.log("flux");
-#       // console.log(flux);
-
-#       // PREPARE FLUX NOT ACTUALIZED (savings - investments)
-#       var flux_notActualized = _.map(ic_array, function(num, tmp_index){
-#         return - ic_array[tmp_index] // Pas actualisé
-#                 + operatingSavings_array[tmp_index] // Pas actualisé
-#                 + total_fluid_savings_a[tmp_index] ; // Pas actualisé : check suite aux retours de @Blandine sur l'actualisation des fluides
-#       });`
+    # console.log "@flux.flux_notActualized is ", @flux.flux_notActualized
+    # console.log "@flux.flux_actualized is ", @flux.flux_actualized
