@@ -305,17 +305,13 @@ Template.actionForm.rendered = function () {
 
       // PREPARE FLUX (savings - investments)
       ao.prepare_flux_arrays();
-      var flux = ao.flux.flux_actualized;
-      var flux_notActualized = ao.flux.flux_notActualized;
-      var flux_accumulation = ao.flux.flux_accumulation;
 
       // IRR (TRI)
       var irr = ao.calc_IRR();
       $("[name='internal_return']").val( irr ) ;
 
       // TRA
-      ao.calc_TRA();
-      var TRA = ao.efficiency.TRA;
+      var TRA = ao.calc_TRA();
       if (TRA !== -1) { $("[name='actualised_roi']").val( TRA ) ; }
 
       // LEC
