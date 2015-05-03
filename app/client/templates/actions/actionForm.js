@@ -35,7 +35,6 @@ Template.actionForm.destroyed = function () {
 
   Session.set('gain_kwhef_euro', null);
   Session.set('gain_water_euro', null);
-  // Session.set("flux_notActualized", null);
 
   if (Router.current().route.getName() !== "action-form"){
     Session.set('childActionToEdit', null);
@@ -297,13 +296,9 @@ Template.actionForm.rendered = function () {
 
       // PREPARE INVESTMENT_COST_ARRRAYS (for residual_cost)
       ao.prepare_investment_arrays(action_lifetime, residual_cost);
-      var ic_array = ao.investment.values;
-      var ic_array_actualized = ao.investment.values_act;
-
 
       // PREPARE ENERGY SAVINGS
-      var merged_fluids_euro_actualized = ao.actualize_merged_fluids_euro();
-      // console.log("merged_fluids_euro_actualized", merged_fluids_euro_actualized);
+      ao.actualize_merged_fluids_euro();
 
       // PREPARE Operating savings (économie de frais d'exploitation) - a appliquer chaque année
       ao.prepare_operatingSavings_arrays(action_lifetime, gain_operating_cost);
@@ -315,9 +310,8 @@ Template.actionForm.rendered = function () {
       var flux_accumulation = ao.flux.flux_accumulation;
 
       // IRR (TRI)
-      var irr = IRR( flux_notActualized );
-      $("[name='internal_return']").val( (irr*100).toFixed(2) ) ;
-
+      var irr = ao.calc_IRR();
+      $("[name='internal_return']").val( irr ) ;
 
       // TRA
       ao.calc_TRA();

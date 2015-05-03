@@ -36,6 +36,11 @@ exports.ActionObject = class ActionObject
       values_act:[] #Actualized values
 
     @efficiency =
+      raw_roi: 0
+      value_analysis: 0
+      irr: 0
+      TRA: 0
+      LEC: 0
 
 
     @getWaterDataFromLeases() # Init water Data
@@ -225,7 +230,7 @@ exports.ActionObject = class ActionObject
                 result = num * Math.pow( 1+actualization_rate , -index);
                 return result.toFixed(2)*1;
             )
-    return @gain.merged_fluids_euro_actualized
+    return
 
   prepare_operatingSavings_arrays: (action_lifetime, gain_operating_cost) =>
     # Operating savings (économie de frais d'exploitation) - a appliquer chaque année
@@ -264,6 +269,10 @@ exports.ActionObject = class ActionObject
     # console.log "@flux.flux_actualized is ", @flux.flux_actualized
     # console.log "@flux.flux_accumulation is ", @flux.flux_accumulation
 
+  calc_IRR: () =>
+    irr = IRR( @flux.flux_notActualized )
+    return @efficiency.irr = (irr * 100).toFixed(2) * 1 # Format IRR to what we want to display
+
   calc_TRA: () =>
     #We find the first positive value in the flux_accumulation
     firstPositive = _.find(@flux.flux_accumulation, (num) ->
@@ -279,6 +288,6 @@ exports.ActionObject = class ActionObject
       memo + num
     ), 0)
     @efficiency.LEC = (total_investment / (action_lifetime * @gain.fluidImpact_in_kwhef)).toFixed(2) * 1
-    console.log "@efficiency.LEC: #{@efficiency.LEC}"
+    # console.log "@efficiency.LEC: #{@efficiency.LEC}"
     return @efficiency.LEC
 
