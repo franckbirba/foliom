@@ -240,8 +240,7 @@ Template.actionForm.rendered = function () {
     $("[name='subventions.ratio'], [name='subventions.or_euro']").change(function() {
       var curr_field = $(this).val()*1;
       var target, estimate;
-      // var source = $("[name='investment.cost']").val();
-      var source = AutoForm.getFieldValue("investment.cost", "insertActionForm")*1 ;
+      var source = $("[name='investment.cost']").val()*1;
 
       if( $(this).attr("name") == "subventions.ratio") {
         estimate = (curr_field/100 * source).toFixed(2) ;

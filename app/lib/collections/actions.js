@@ -646,7 +646,7 @@ Actions.attachSchema(new SimpleSchema({
     type: Number,
     decimal: true,
     label: transr('subventions_per_cent'),
-    optional: true,
+    defaultValue: 0,
     autoform: {
       afFieldInput: {
         type: 'number_u',
@@ -658,7 +658,7 @@ Actions.attachSchema(new SimpleSchema({
     type: Number,
     decimal: true,
     label: transr('or_euro'),
-    optional: true,
+    defaultValue: 0,
     autoform: {
       afFieldInput: {
         type: 'number_u',
@@ -667,9 +667,9 @@ Actions.attachSchema(new SimpleSchema({
     }
   },
   'subventions.CEE_opportunity': {
-    type: String,
+    type: Number,
     label: transr('CEE_opportunity'),
-    optional: true,
+    defaultValue: 0,
     autoform: {
       afFieldInput: {
         type: 'number_u',
@@ -681,7 +681,7 @@ Actions.attachSchema(new SimpleSchema({
     type: Number,
     decimal: true,
     label: transr('residual_cost'),
-    optional: true,
+    defaultValue: 0,
     autoform: {
       afFieldInput: {
         type: 'number_u',
