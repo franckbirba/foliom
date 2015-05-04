@@ -139,6 +139,8 @@ Template.timelineD3Chart.rendered = ->
   # Specific behavior for the investment chart
   if @data.chartName is 'investmentChart'
     console.log 'Add some specific data for investmentChart'
+    console.log @chartData
+
 
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
@@ -175,6 +177,7 @@ Template.timelineD3Chart.rendered = ->
       # Specific behavior for the investment chart
       if @data.chartName is 'investmentChart'
         console.log 'Update some specific data for investmentChart'
+        # @TODO PEM factorize that
 
       @chart.updateData @chartData
 
