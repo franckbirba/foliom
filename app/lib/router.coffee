@@ -95,11 +95,16 @@ Router.map ->
           'building_id': building._id
         }, sort: name: 1).fetch()
         # Go through all Actions and push them to the planned_actions array
-        # We respect the format needed by the Timeline
+        # Note: heavy design - we have to respect the format needed by the Timeline, but we also need to denormalize the Action to have easier filtering for the criterions
+        # Thus, the Action data is present two times
         for action in actions
-          action_list.push
-            'action': action
-            'start': moment() # Add start date (today)
+          action.start = moment()
+          action.criterion_priority = {}
+          action.action = action
+          action_list.push action
+          # action_list.push
+          #   'action': action
+          #   'start': moment() # Add start date (today)
       # Get each portfolios for each buildings
       portfolioIds = Session.get('current_estate_doc').portfolio_collection
       portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()

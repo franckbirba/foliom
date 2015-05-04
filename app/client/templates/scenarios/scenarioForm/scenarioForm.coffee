@@ -164,15 +164,32 @@ Template.scenarioForm.events
             .map( (item)->
               return {
                 'building_name': item.building_name
-                'building_id': item._id
+                '_id': item._id
                 'global_lifetime':item.properties.leases_averages.technical_compliance.global_lifetime
               })
-            .sortBy( (item)->
-              return -item.global_lifetime # highest values first thanks to the "-"
+            .groupBy( (item)->
+              if 0 <= item.global_lifetime <= 0.25
+                return 4
+              else if 0.25 < item.global_lifetime <= 0.5
+                return 3
+              else if 0.5 < item.global_lifetime <= 0.75
+                return 2
+              else if 0.75 < item.global_lifetime <= 1
+                return 1
             )
             .value()
           console.log "ordered_buildings ", ordered_buildings
 
+          # Apply priority to Actions
+          for key, value of ordered_buildings
+            console.log key, value
+            for building in value
+              actions = _.where scenario.planned_actions, {building_id: building._id}
+              console.log "found actions: ", actions
+              for action in actions
+                # Set priority
+                action.criterion_priority[priority] = key
+          console.log "scenario.planned_actions is now ", scenario.planned_actions
           break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
@@ -188,7 +205,6 @@ Template.scenarioForm.events
         paction.start = null
 
 
-
     # Add the unplanned actions at the end of the planned_actions
     scenario.planned_actions = scenario.planned_actions.concat(unplanned_actions)
     # FORMAT planned_actions to just the _id and start date
@@ -198,7 +214,7 @@ Template.scenarioForm.events
         start: if paction.start is null then null else paction.start.toDate()
       )
 
-    console.log "scenario", scenario
+    # console.log "scenario", scenario
 
     curr_scenario_id = scenarioForm_template?.data?.scenario._id # Get the Scenario Id if it exists
     if curr_scenario_id

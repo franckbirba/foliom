@@ -76,6 +76,7 @@
           th {{_ 'tri_years'}}
           th {{_ 'actualised_roi'}}
           th {{_ 'comfort_impact'}}
+          th priority
         each this.planned_actions
           tr
             td.text-center {{displayStart start}}
@@ -101,6 +102,7 @@
                 each other_gains.comfort
                   | {{_ this.valueOf}}
                   br
+            td {{criterion_priority}}
       // Timeline link
       #timelineLink
         a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}
