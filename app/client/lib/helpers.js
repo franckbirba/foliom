@@ -9,7 +9,10 @@ Template.registerHelper('session_equals', function(name, param) {
 
 // Triple equals
 Template.registerHelper('isEqual', function(param1, param2) {
-    return param1 === param2;
+    if (_.isArray(param1)) {
+        // param1 is an array > check if the value exists inside the array
+        return _.indexOf(param1, param2) > -1;
+    } else return param1 === param2;
 });
 
 // Debugging Helper

@@ -39,16 +39,16 @@ Template.scenarioForm.helpers
         return buildOptions(technical_compliance_items)
       when 'obsolescence_lifetime_greater_than'
         return buildOptions ["new_dvr", "good_dvr", "average_dvr", "bad_dvr"]
-  isMultiple: ()->
-    # if this?.multiple is true then return "multiple"
-    # else return
+  multipleAttr: ()->
     if this?.multiple is true
-      console.log "ok, sending MULTIPLE!"
       data =
         "multiple":"multiple"
         "size":"3"
       return data
     else return
+  isMultiple: ->
+    if this?.multiple is true then return true
+    else return false
   getCriterionToAdd: ->
     return toAddCriterionList
   getCriterion:  ->
@@ -104,6 +104,8 @@ Template.scenarioForm.events
     return
   'submit form': (e, scenarioForm_template) ->
     e.preventDefault()
+    console.log "$(@) is "
+    console.log $(@)
 
     scenario =
       name: $(e.target).find('#scenario_name').val()
@@ -116,20 +118,23 @@ Template.scenarioForm.events
     unplanned_actions = new Array
     $(e.target).find(".criterionContainer .criterion-label").each () ->
       criterion_list.push {
-          label: $(this).attr("true_label"),
-          sc_id: $(this).attr("data-sc_id"),
-          unit: $(this).attr("unit"),
-          type: $(this).attr("type"),
-          desc: $(this).attr("desc"),
+          label: $(@).attr("true_label"),
+          sc_id: $(@).attr("data-sc_id"),
+          unit: $(@).attr("unit"),
+          type: $(@).attr("type"),
+          desc: $(@).attr("desc"),
           }
     $(e.target).find(".criterionContainer :input").each (i) ->
+      # set input
       if $(@).is(':checkbox') then val = $(@).is(':checked')
       else val = $(this).val()
       criterion_list[i].input = val
-      item = criterion_list[i]
+      # add multiple if the attr exists
+      criterion_list[i].multiple = true if $(@).attr("multiple") isnt undefined
 
     current_estate = Session.get('current_estate_doc')
-    scenario.criterion_list = criterion_list;
+    scenario.criterion_list = criterion_list
+    # Template.instance().criterion_list.set criterion_list
     scenario.estate_id = current_estate._id
     # GET BUILDING LIST
     building_list = Template.currentData().buildings
@@ -209,7 +214,8 @@ Template.scenarioForm.events
                 # Set priority
                 action.criterion_priority[priority] = key
           # console.log "scenario.planned_actions is now ", scenario.planned_actions
-          # NOW SORT
+
+          # NOW SORT @BSE - rework here
           scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
             paction.criterion_priority[1]
             #sortBy ranks in ascending order (use a - to change order)
@@ -239,7 +245,7 @@ Template.scenarioForm.events
         start: if paction.start is null then null else paction.start.toDate()
       )
 
-    # console.log "scenario", scenario
+    console.log "scenario", scenario
 
     curr_scenario_id = scenarioForm_template?.data?.scenario._id # Get the Scenario Id if it exists
     if curr_scenario_id
