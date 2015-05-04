@@ -146,7 +146,7 @@ Router.map ->
     name: 'timeline'
     data: ->
       try
-        throw new Meteor.Error 'route', 'param is null' if @params._is is null
+        throw new Meteor.Error 'route', 'param is null' if @params._id is undefined
         # Get the current selected scenario
         scenario = Scenarios.findOne @params._id
         throw new Meteor.Error 'route', 'no scenario' unless scenario
