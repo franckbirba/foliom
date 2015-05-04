@@ -1,4 +1,6 @@
 Template.scenarioForm.created = ->
+  console.log "@data", @data
+
   instance = this
   instance.criterion_list = new ReactiveVar([])
   instance.flattend_toAddCriterionList = new ReactiveVar([])
@@ -8,16 +10,9 @@ Template.scenarioForm.created = ->
                                 .pluck( 'criterion')
                                 .flatten()
                                 .value()
+  # Set reactive vars
   instance.flattend_toAddCriterionList.set(flattend_toAddCriterionList)
-
-  # If editing a scenario : criterion list exists. Otherwise it's a new scenario => use an empty array
-  if @data.scenario.criterion_list?
-    instance.criterion_list.set(@data.scenario.criterion_list)
-  else
-    instance.criterion_list.set([])
-
-  console.log instance.criterion_list.get()
-  console.log "@data", @data
+  instance.criterion_list.set(@data.scenario.criterion_list)
 
   this.autorun ->
     console.log "instance.criterion_list.get()"

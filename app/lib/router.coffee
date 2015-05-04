@@ -78,10 +78,6 @@ Router.map ->
   @route '/scenario-form/:_id?',
     name: 'scenario-form'
     data: ->
-      if @params._id is null
-        Log.info '/scenario-form route has been called with a null param'
-        return false
-      curr_scenario = Scenarios.findOne @params._id
       # GET BUILDING LIST (for the Estate, ie. all Portfolios in the Estate)
       buildings = _.chain(Session.get('current_estate_doc').portfolio_collection)
                       .map ((portfolio_id) ->
@@ -104,7 +100,6 @@ Router.map ->
           action_list.push
             'action': action
             'start': moment() # Add start date (today)
-      console.log "action_list is ", action_list
       # Get each portfolios for each buildings
       portfolioIds = Session.get('current_estate_doc').portfolio_collection
       portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
@@ -116,12 +111,30 @@ Router.map ->
       for building in buildings
         building.leases = _.where leases, building_id: building._id
 
+      console.log "@params is ", @params
+      curr_scenario = {}
+      if @params._id is undefined
+        Log.info '/scenario-form route has been called with a null param'
+        curr_scenario =
+          "name": "",
+          "duration": "",
+          "total_expenditure": ""
+          "roi_less_than": ""
+          "criterion_list": []
+          "estate_id": Session.get('current_estate_doc')._id
+          "planned_actions": []
+          "logo": ""
+        # return false
+      else
+        curr_scenario = Scenarios.findOne @params._id
+
       # Apparently the router goes several times through the loop
       # We have to catch this annoying behavior, and give it time to let
       # the Data be ready
-      unless curr_scenario
-        Log.info "/scenario-form route can't find scenario #{@params._id}"
-        return false
+      # unless curr_scenario
+      #   Log.info "/scenario-form route can't find scenario #{@params._id}"
+      #   return false
+
       return {
           scenario: curr_scenario
           buildings: buildings
