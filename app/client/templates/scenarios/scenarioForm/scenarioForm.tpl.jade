@@ -31,7 +31,6 @@
             li: .criterionContainer
               .handlerPicto: span.glyphicon.glyphicon-resize-vertical(aria-hidden="true")
               .item2: span.criterion-label(true_label=label data-sc_id=sc_id unit=unit type=type desc=desc) {{_ label}}
-
               .item2.critDetail
                 //- .form-inline: .form-group
                 if isEqual type 'checkbox'
@@ -39,7 +38,8 @@
                     .col-sm-2: input(type="checkbox" value="" checked disabled)
                     .col-sm-10: .criterion-desc {{_ desc}}
                 else if isEqual type 'selector'
-                  select.form-control(type="select")
+                  //- select.form-control(type="select" multiple=isMultiple size="3")
+                  select.form-control(type="select" $dyn=isMultiple)
                     option(value="" disabled selected) {{_ "select_value"}}
                     each getOptions label
                       option(value=value selected="{{isEqual ../input value}}") {{_ label}}

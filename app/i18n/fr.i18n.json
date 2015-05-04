@@ -443,7 +443,7 @@
     "priority_to_gobal_obsolescence": "Priorité à l’indice global d’obsolescence",
     "priority_to_gobal_obsolescence_desc": "Priorité aux bâtiments dont l’indicateur « Indice d’obsolescence » est le plus fort",
 
-    "priority_to_techField": "Priorité au lot technique :",
+    "priority_to_techField": "Priorité à un/des lots techniques",
     "select_value": "Choisissez un élément",
 
     "scenario_validate": "Enregistrer & voir les résultats",

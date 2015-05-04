@@ -39,6 +39,16 @@ Template.scenarioForm.helpers
         return buildOptions(technical_compliance_items)
       when 'obsolescence_lifetime_greater_than'
         return buildOptions ["new_dvr", "good_dvr", "average_dvr", "bad_dvr"]
+  isMultiple: ()->
+    # if this?.multiple is true then return "multiple"
+    # else return
+    if this?.multiple is true
+      console.log "ok, sending MULTIPLE!"
+      data =
+        "multiple":"multiple"
+        "size":"3"
+      return data
+    else return
   getCriterionToAdd: ->
     return toAddCriterionList
   getCriterion:  ->
