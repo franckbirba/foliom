@@ -93,17 +93,17 @@ Router.map ->
       # GET ALL RELEVANT ACTIONS
       action_list = []
       for building in buildings
-        # get all child Actions for this Building
+        # Get all child Actions for this Building
         actions = Actions.find({
           'action_type': 'child'
           'building_id': building._id
         }, sort: name: 1).fetch()
         # Go through all Actions and push them to the planned_actions array
+        # We respect the format needed by the Timeline
         for action in actions
-          # Add start date (today)
-          action.start = moment()
-          #push Action
-          action_list.push action
+          action_list.push
+            'action': action
+            'start': moment() # Add start date (today)
       console.log "action_list is ", action_list
       # Get each portfolios for each buildings
       portfolioIds = Session.get('current_estate_doc').portfolio_collection
