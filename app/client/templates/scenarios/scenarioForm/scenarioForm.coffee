@@ -118,6 +118,10 @@ Template.scenarioForm.events
 
     console.log "scenario.planned_actions is now ", scenario.planned_actions
 
+
+
+
+
     #SORT ACTIONS
     #Default sort
     scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
@@ -126,6 +130,7 @@ Template.scenarioForm.events
     )
     #For each Criterion
     _.each scenario.criterion_list, (criterion) ->
+      priority = 0
       switch criterion.label
         when 'yearly_expense_max'
           # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
@@ -152,6 +157,23 @@ Template.scenarioForm.events
                   breakLoop1 = true; break
               break if breakLoop1
           break
+        when 'priority_to_gobal_obsolescence'
+          priority++
+          ordered_buildings = \
+            _.chain(building_list)
+            .map( (item)->
+              return {
+                'building_name': item.building_name
+                'building_id': item._id
+                'global_lifetime':item.properties.leases_averages.technical_compliance.global_lifetime
+              })
+            .sortBy( (item)->
+              return -item.global_lifetime # highest values first thanks to the "-"
+            )
+            .value()
+          console.log "ordered_buildings ", ordered_buildings
+
+          break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
           break
@@ -164,6 +186,8 @@ Template.scenarioForm.events
       added_action_cost += paction.action.subventions.residual_cost
       if added_action_cost > scenario.total_expenditure
         paction.start = null
+
+
 
     # Add the unplanned actions at the end of the planned_actions
     scenario.planned_actions = scenario.planned_actions.concat(unplanned_actions)

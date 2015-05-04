@@ -81,7 +81,7 @@ Router.map ->
       # GET BUILDING LIST (for the Estate, ie. all Portfolios in the Estate)
       buildings = _.chain(Session.get('current_estate_doc').portfolio_collection)
                       .map ((portfolio_id) ->
-                        Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
+                        Buildings.find({ portfolio_id: portfolio_id }).fetch()
                       )
                       .flatten()
                       .value()
