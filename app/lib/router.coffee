@@ -88,7 +88,12 @@ Router.map ->
       unless curr_scenario
         Log.info "/scenario-form route can't find scenario #{@params._id}"
         return false
-      curr_scenario
+      # curr_scenario
+      return {
+          scenario: curr_scenario
+          # buildings: buildings
+          # portfolios: portfolios
+        }
 
   @route '/timeline/:_id',
     name: 'timeline'
