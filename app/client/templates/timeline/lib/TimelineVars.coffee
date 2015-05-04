@@ -284,6 +284,7 @@
       paction.invoiceElectricity = []
       paction.invoiceCool = []
       paction.invoiceHeat = []
+      paction.allGains = []
       paction.investment = []
       paction.investmentSubventioned = []
       # Iterate over the scenario duration
@@ -292,6 +293,7 @@
       investment = investmentSubventioned = 0
       consumptionWater = consumptionKwh = consumptionCo2 = 0
       invoiceWater = invoiceElectricity = invoiceCool = invoiceHeat = 0
+      allGains = 0
       # On each action, iterate over the scenario's duration
       while quarter.isBefore @maxDate
         # Calculate year since begining of the scenario for the current quarter
@@ -318,12 +320,11 @@
         if paction.endWork.isBetween quarter, nextQuarter
           # Analyse gain for water fluids
           for gain in paction.action.gain_fluids_water
-            # Gains are expressed over years so divide them
-            #  for each quarters.
+            # Gains are expressed over years so divide them for each quarters.
             consumptionWater -= gain.or_m3 / 4
             invoiceWater -= gain.yearly_savings / 4 * \
               Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
-            # Get each fluid provider if it hasn't been already calculated
+            # Get each fluid provider if it hasn't been already calculated.
             if gain.fluidProvider is undefined
               for key, val of @fluidInSettings
                 if key.search(gain.opportunity) isnt -1
@@ -364,8 +365,10 @@
             # Set the CO2 consumption depending on the type of energy.
             consumptionCo2 -= @kwh2Co2 gain.or_kwhef, \
               gain.fluidProvider.kwhef_to_co2_coefficient
-          # @NOTE : Other gains are already inflated and integrated in the
-          # subventionned investments
+          # Other gains are inflated and spread on all quarters.
+          allGains = invoiceWater + invoiceHeat + invoiceElectricity + \
+            invoiceCool - paction.action.gain_operating.cost / 4 * \
+            Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
         # Results of an action stops if its lifetime is exceeded
         if paction.end.isBetween quarter, nextQuarter
           consumptionWater = consumptionKwh = 0
@@ -379,6 +382,8 @@
         paction.invoiceElectricity.push invoiceElectricity
         paction.invoiceCool.push invoiceCool
         paction.invoiceHeat.push invoiceHeat
+        # Set modifiers on all gains
+        paction.allGains.push allGains
         # Set values on investments and subventions
         paction.investment.push investment
         paction.investmentSubventioned.push investmentSubventioned

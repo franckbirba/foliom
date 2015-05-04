@@ -86,11 +86,8 @@ ChartFct =
         style: 'action violet'
         data: sumAllSuites TV.charts.invoice
       }
-      # {
-      #   name: TAPi18n.__ 'total_cost_action'
-      #   style: 'action red'
-      #   data: sumSuiteFromArray pactions, 'investmentSubventioned'
-      # }
+      # @NOTE Total costs with actions is achieved once all other
+      # charts have been calculated.
     ]
 
 ###*
@@ -136,13 +133,21 @@ Template.timelineD3Chart.rendered = ->
   pactions = _.filter TV.rxPlannedActions.get(), (action) ->
     action.start isnt null
   @chartData = @chartFct pactions
+  @calculateTotalCostChart = ->
+    @chartData.series.push
+      name: TAPi18n.__ 'total_cost_action'
+      style: 'action red'
+      data: []
+    subventionnedInvestment = @chartData.series[2].data
+    noAction = @chartData.series[3].data
+    withAction = @chartData.series[4].data
+    for quarter, idx in @chartData.quarters
+      totalGain = 0
+      totalGain += paction.allGains[idx] for paction in pactions
+      withAction.push noAction[idx] + subventionnedInvestment[idx] - totalGain
   # Specific behavior for the investment chart
   if @data.chartName is 'investmentChart'
-    console.log 'Add some specific data for investmentChart'
-    console.log @chartData
-    
-
-
+    @calculateTotalCostChart()
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
   @autorun (computation) =>
@@ -176,10 +181,8 @@ Template.timelineD3Chart.rendered = ->
     unless computation.firstRun
       @chartData = @chartFct pactions
       # Specific behavior for the investment chart
-      if @data.chartName is 'investmentChart'
-        console.log 'Update some specific data for investmentChart'
-        # @TODO PEM factorize that
-
+      if Template.instance().data.chartName is 'investmentChart'
+        @calculateTotalCostChart()
       @chart.updateData @chartData
 
 ###*
