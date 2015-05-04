@@ -13,8 +13,9 @@
     @portfolios = []
     @minDate = null
     @maxDate = null
+    @fluidInSettings = {}
     @coefs = {}
-    fluidInSettings: {}
+    @projectTypeIndexes = {}
     @actualizationRate = 0
     @consumptionDegradation = 0
     @charts =
@@ -75,6 +76,8 @@
       @fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
     # Coefs for kWh to CO2
     @coefs['kwh2CO2'] = settings.kwhef_to_co2_coefficients
+    # Static indexes
+    @projectTypeIndexes = settings.project_type_static_index
   ###*
    * Iterate over each action for getting their cost.
   ###

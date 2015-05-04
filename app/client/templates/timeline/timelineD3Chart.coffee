@@ -169,7 +169,7 @@ Template.timelineD3Chart.rendered = ->
     unless computation.firstRun
       @chartData = @chartFct pactions
       @chart.updateData @chartData
-
+      
 Template.timelineD3Chart.events
   'webkitfullscreenchange': (e, t) ->
     if t.rxFullScreen.get() and not screenfull.isFullscreen
