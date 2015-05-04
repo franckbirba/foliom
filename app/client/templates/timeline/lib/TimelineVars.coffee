@@ -13,8 +13,9 @@
     @portfolios = []
     @minDate = null
     @maxDate = null
+    @fluidInSettings = {}
     @coefs = {}
-    fluidInSettings: {}
+    @projectTypeIndexes = {}
     @actualizationRate = 0
     @consumptionDegradation = 0
     @charts =
@@ -34,7 +35,6 @@
   ###*
    * Set minimum date based on scenario's creation date and maximum
    * date based on scenario's duration.
-   * @TODO BSE: MinDate is false: it should be the date of the creation.
   ###
   setMinMaxDate: ->
     creationYear = (moment (Session.get 'current_config').creation_date).year()
@@ -75,13 +75,15 @@
       @fluidInSettings["#{fluid.fluid_provider} - #{fluid.fluid_type}"] = fluid
     # Coefs for kWh to CO2
     @coefs['kwh2CO2'] = settings.kwhef_to_co2_coefficients
+    # Static indexes
+    @projectTypeIndexes = settings.project_type_static_index
   ###*
-   * Iterate over each action for getting their cost.
+   * Get the coef fo build for a project type.
+   * @param {String} projectType Project type applied on the action.
   ###
-  calculateTotalCost: ->
-    for paction in @scenario.planned_actions
-      unless paction.start is null
-        @totalCost += paction.action.investment.cost
+  projectType2buildCoef: (projectType) ->
+    return 1 if projectType is 'N/A'
+    @projectTypeIndexes[projectType]
   rxTimelineActions: new ReactiveVar
   ###*
    * Calculate values used under the TimelineTable.
@@ -248,6 +250,8 @@
    * Perform all calculations and fill the global TimelineVars object.
   ###
   calculateDynamicChart: ->
+    # Reset totalCost as dynamic chart are subject to plannification.
+    @totalCost = 0
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
       # Denormalize building's name and portfolio's id
@@ -301,103 +305,24 @@
             paction.action.investment.cost * \
             Math.pow 1 + @coefs.icc[yearsSinceStart], yearsSinceStart
           # Subvention are not subject to inflation.
+          # Investment - Subventionned is subject to coefficient on
+          # the project type (a coefficient of build).
           investmentSubventioned = investment - \
             unless paction.action.subventions?.or_euro then 0 else \
-            paction.action.subventions.or_euro
+            paction.action.subventions.or_euro * \
+            (projectType2buildCoef paction.action.project_type)
+          # Set inflated total cost in TDC (minus VAT)
+          # depending on time and planned actions.
+          @totalCost += investmentSubventioned
         # Results of an action on consumption starts when action is done
         if paction.endWork.isBetween quarter, nextQuarter
-          ## -- Gain --
-          # paction
-          #   action
-          #     building_id: "ZZAqsToJt726KtGLu"
-          #     gain_fluids_kwhef []
-          #       opportunity: "end_use_heating"
-          #       or_kwhef: 2.1
-          #       per_cent: 5
-          #       yearly_savings: 51
-          #     gain_fluids_water []
-          #       opportunity: "fluid_water"
-          #       or_m3: 0
-          #       per_cent: 0
-          #       yearly_savings: 0
-          #     gain_operating
-          #       cost: 1028.5
-          #       ratio: 0.5
-          ## -- Fluids --
-          # @fluidInSettings
-          #   EDF - fluid_electricity
-          #     fluidOverYear: Array(7)
-          #     fluid_provider: 'EDF'
-          #     fluid_type: "fluid_electricity"
-          #     fluid_unit: "u_euro_kwhEF"
-          #     global_evolution_index: 3.333
-          #     kwhef_to_co2_coefficient: "fluid_electricity"
-          #     yearly_values: Array[31]
-          #   EDF - fluid_heat
-          #     fluidOverYear: Array[7]
-          #     fluid_provider: "EDF"
-          #     fluid_type: "fluid_heat"
-          #     fluid_unit: "u_euro_kwhEF"
-          #     global_evolution_index: 5
-          #     kwhef_to_co2_coefficient: "fluid_fuelOil_heavy"
-          #     yearly_values: Array[31]
-          #   Lyonnaise des Eaux - fluid_water
-          #     fluidOverYear: Array[7]
-          #     fluid_provider: "Lyonnaise des Eaux"
-          #     fluid_type: "fluid_water"
-          #     fluid_unit: "u_euro_m3"
-          #     global_evolution_index: 1.5
-          #     kwhef_to_co2_coefficient: "NA"
-          #     yearly_values: Array[31]
-          ## -- Buildings and Leases --
-          # @buildings
-          #   leases: Array[2]
-          #     consumption_by_end_use: Array[7]
-          #       0: Object
-          #         end_use_name: "end_use_heating"
-          #         first_year_value: 12
-          #         fluid_id: "EDF - fluid_heat"
-          #       1: Object
-          #         end_use_name: "end_use_AC"
-          #         first_year_value: 7
-          #         fluid_id: "EDF - fluid_electricity"
-          #       2: Object
-          #         end_use_name: "end_use_ventilation"
-          #         first_year_value: 4
-          #         fluid_id: "EDF - fluid_electricity"
-          #       3: Object
-          #         end_use_name: "end_use_lighting"
-          #         first_year_value: 18
-          #         fluid_id: "EDF - fluid_electricity"
-          #       4: Object
-          #         end_use_name: "end_use_aux"
-          #         first_year_value: 9
-          #         fluid_id: "EDF - fluid_electricity"
-          #       5: Object
-          #         end_use_name: "end_use_ecs"
-          #         first_year_value: 14
-          #         fluid_id: "Poweo - fluid_heat"
-          #       6: Object
-          #         end_use_name: "end_use_specific"
-          #         first_year_value: 34
-          #         fluid_id: "EDF - fluid_electricity"
-          #
-          # @TODO
-          #  - Expose and Get the fluidprovider
-          #  - Get the rate depending on the year
-          ## rate = fluidProvider.fluid.yearly_values
-          ## inflatedRate = rate * \
-          ##  Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
-          #
-          # @TODO Other gains : Add inflated IPC on each other gain
-          #
-
           # Analyse gain for water fluids
           for gain in paction.action.gain_fluids_water
             # Gains are expressed over years so divide them
             #  for each quarters.
             consumptionWater -= gain.or_m3 / 4
-            invoiceWater -= gain.yearly_savings / 4
+            invoiceWater -= gain.yearly_savings / 4 * \
+              Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
             # Get each fluid provider if it hasn't been already calculated
             if gain.fluidProvider is undefined
               for key, val of @fluidInSettings
@@ -428,16 +353,19 @@
             #  for each quarters.
             switch gain.fluidProvider.fluid_type
               when 'fluid_heat'
-                invoiceHeat -= gain.yearly_savings / 4
+                invoiceHeat -= gain.yearly_savings / 4 * \
+                  Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
               when 'fluid_electricity'
-                invoiceElectricity -= gain.yearly_savings / 4
+                invoiceElectricity -= gain.yearly_savings / 4 * \
+                  Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
               else
-                invoiceCool -= gain.yearly_savings / 4
+                invoiceCool -= gain.yearly_savings / 4 * \
+                  Math.pow 1 + @actualizationRate, @coefs.ipc[yearsSinceStart]
             # Set the CO2 consumption depending on the type of energy.
             consumptionCo2 -= @kwh2Co2 gain.or_kwhef, \
               gain.fluidProvider.kwhef_to_co2_coefficient
-          # Other gains
-
+          # @NOTE : Other gains are already inflated and integrated in the
+          # subventionned investments
         # Results of an action stops if its lifetime is exceeded
         if paction.end.isBetween quarter, nextQuarter
           consumptionWater = consumptionKwh = 0

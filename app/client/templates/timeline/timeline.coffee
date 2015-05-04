@@ -21,9 +21,6 @@ Template.timeline.created = ->
   # Get fluids and coefficients
   Log.info 'Fluids and coefs'
   TV.getFluidsAndCoefs()
-  # Get scenario total cost
-  Log.info 'Total costs'
-  TV.calculateTotalCost()
   # Create ticks, consumption and budget charts
   Log.info 'Static charts'
   TV.calculateStaticCharts()

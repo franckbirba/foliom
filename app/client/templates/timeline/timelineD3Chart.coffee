@@ -136,6 +136,13 @@ Template.timelineD3Chart.rendered = ->
   pactions = _.filter TV.rxPlannedActions.get(), (action) ->
     action.start isnt null
   @chartData = @chartFct pactions
+  # Specific behavior for the investment chart
+  if @data.chartName is 'investmentChart'
+    console.log 'Add some specific data for investmentChart'
+    console.log @chartData
+    
+
+
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
   @autorun (computation) =>
@@ -168,8 +175,16 @@ Template.timelineD3Chart.rendered = ->
       action.start isnt null
     unless computation.firstRun
       @chartData = @chartFct pactions
+      # Specific behavior for the investment chart
+      if @data.chartName is 'investmentChart'
+        console.log 'Update some specific data for investmentChart'
+        # @TODO PEM factorize that
+
       @chart.updateData @chartData
 
+###*
+ * Object containing event actions for the template.
+###
 Template.timelineD3Chart.events
   'webkitfullscreenchange': (e, t) ->
     if t.rxFullScreen.get() and not screenfull.isFullscreen

@@ -18,13 +18,13 @@ Template.timelineBucket.helpers
   isActionBucketDisplayed: -> Template.instance().rxIsBucketDisplayed.get()
   # Action bucket's exports as table
   actionBucketTableHeadings: -> [
-    TAPi18n.__ 'quarter'
-    TAPi18n.__ 'action_type'
-    TAPi18n.__ 'building'
-    '€'
-    "#{TAPi18n.__ 'efficiency'} (%)"
-    "#{TAPi18n.__ 'efficiency'} (kWh)"
-    'TRI'
+    {klass: '', msg: TAPi18n.__ 'quarter'}
+    {klass: '', msg: TAPi18n.__ 'action_type'}
+    {klass: '', msg: TAPi18n.__ 'building'}
+    {klass: 'text-right', msg: '€'}
+    {klass: '', msg: "#{TAPi18n.__ 'efficiency'} (%)"}
+    {klass: '', msg: "#{TAPi18n.__ 'efficiency'} (kWh)"}
+    {klass: '', msg: 'TRI'}
   ]
   actionBucketTableBody: ->
     filter = Template.instance().rxFilterAction.get()
@@ -35,6 +35,33 @@ Template.timelineBucket.helpers
       when 'unplanned'
         _.filter rxPlannedActions, (action) -> action.start is null
       else rxPlannedActions
+  formattedPercentEfficiency: -> formatEfficiency @, 'per_cent'
+  formattedKwhEfficiency: -> formatEfficiency @, 'or_kwhef'
+
+###*
+ * Format efficiency on a given key.
+ * Water isn't taken into account for kWh efficiency.
+ * @param {Object} self Context of the caller.
+ * @param {String} key 'per_cent' or 'or_kwhef'
+###
+formatEfficiency = (self, key) ->
+  # Group efficiency by fluid type
+  gainDict = {}
+  for gainKwh in self.action.gain_fluids_kwhef
+    if gainDict[gainKwh.opportunity] is undefined
+      gainDict[gainKwh.opportunity] = 0
+    gainDict[gainKwh.opportunity] += gainKwh[key]
+  unless key is 'per_cent'
+    gainDict['fluid_water'] = 0
+    for gainWater in self.action.gain_fluids_water
+      gainDict['fluid_water'] += gainWater.per_cent
+  # Create a filtered Array out of the dictionnary
+  res = []
+  for key, val of gainDict
+    unless val is 0
+      res.push "#{TAPi18n.__ key} : #{val}"
+  # Set the result as an HTML formatted string
+  res.join '<br>'
 
 ###*
  * Object containing event actions for the template.
