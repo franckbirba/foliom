@@ -102,7 +102,7 @@
                 each other_gains.comfort
                   | {{_ this.valueOf}}
                   br
-            td {{criterion_priority}}
+              td {{getCriterion_priority _id}}
       // Timeline link
       #timelineLink
         a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}

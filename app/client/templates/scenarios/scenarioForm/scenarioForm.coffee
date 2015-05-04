@@ -14,6 +14,10 @@ Template.scenarioForm.created = ->
   instance.flattend_toAddCriterionList.set(flattend_toAddCriterionList)
   instance.criterion_list.set(@data.scenario.criterion_list)
 
+  # For debug
+  instance.tmpActionList = new ReactiveVar([])
+  instance.tmpActionList.set([])
+
   this.autorun ->
     console.log "instance.criterion_list.get()"
     console.log instance.criterion_list.get()
@@ -59,6 +63,15 @@ Template.scenarioForm.helpers
     # Return gain kwhef and water - unless there is no water savings
     if @gain_fluids_water[0].or_m3 isnt 0 then return @gain_fluids_kwhef.concat(@gain_fluids_water)
     else return @gain_fluids_kwhef
+  getCriterion_priority: (action_id) ->
+    action_list = Template.instance().tmpActionList.get()
+    action = _.findWhere action_list, _id: action_id
+    console.log "action_id is ", action_id
+    console.log "action_list is ", action_list
+    console.log "action is ", action
+    if action?.criterion_priority then return JSON.stringify(action.criterion_priority)
+    else return
+
 
 Template.scenarioForm.events
   'change #addCriterionSelect': (e) ->
@@ -178,18 +191,18 @@ Template.scenarioForm.events
                 return 1
             )
             .value()
-          console.log "ordered_buildings ", ordered_buildings
+          # console.log "ordered_buildings ", ordered_buildings
 
           # Apply priority to Actions
           for key, value of ordered_buildings
             console.log key, value
             for building in value
               actions = _.where scenario.planned_actions, {building_id: building._id}
-              console.log "found actions: ", actions
               for action in actions
                 # Set priority
                 action.criterion_priority[priority] = key
-          console.log "scenario.planned_actions is now ", scenario.planned_actions
+          # console.log "scenario.planned_actions is now ", scenario.planned_actions
+          Template.instance().tmpActionList.set(scenario.planned_actions)
           break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
