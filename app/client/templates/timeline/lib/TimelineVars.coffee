@@ -1,5 +1,4 @@
 # @TODO /!\ Actions liés action_link
-# @TODO Review total cost as it depends on when the actions are performed
 
 # Isolate calculated value in a namespace
 @TimelineVars =
