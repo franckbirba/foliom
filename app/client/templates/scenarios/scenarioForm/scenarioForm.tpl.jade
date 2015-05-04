@@ -1,108 +1,110 @@
 .page.plan: .scenarioForm.container
-  .row: .col-md-12: h1.page-title.mFadeInDown {{_ 'create_scenario'}}
-  //General form
-  form.mFadeInUp
-    .row: .col-md-12: .form-horizontal
-      .form-group
-        label.col-sm-3.control-label(for="scenario_name") {{_ 'name'}}
-        .col-sm-7: input.form-control#scenario_name(type="text" name='scenario_name' placeholder="{{_ 'name'}}" value="#{name}")
-      .form-group
-        label.col-sm-3.control-label(for="duration") {{_ 'duration'}}
-        .col-sm-7: input.form-control#duration(type="number" name='duration' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{duration}")
-      .form-group
-        label.col-sm-3.control-label(for="total_expenditure") {{_ 'total_expenditure'}}
-        .col-sm-7: input.form-control#total_expenditure(type="number" name='total_expenditure' placeholder="{{_ 'In'}} {{_ 'u_euro'}}" value="#{total_expenditure}")
-      .form-group
-        label.col-sm-3.control-label(for="roi_less_than") {{_ 'roi_less_than'}}
-        .col-sm-7: input.form-control#roi_less_than(type="number" name='roi_less_than' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{roi_less_than}")
-      .form-group
-        label.col-sm-3.control-label(for="logo") {{_ 'logo'}}
-        .col-sm-7
-          each getScenarioLogos
-            input.input-hidden(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isEqual this.valueOf ../logo}}")
-            label(for="!{this.valueOf}"): img.img-logo(src="#{this.valueOf}")
-    //- Criterions
-    #scenarioCriterion
-      #scenarioCriterionTitle {{_ "scenario_criterion"}}
-      ul#sortable
-        each getCriterion
-          li: .criterionContainer
-            .handlerPicto: span.glyphicon.glyphicon-resize-vertical(aria-hidden="true")
-            .item2: span.criterion-label(true_label=label data-sc_id=sc_id unit=unit type=type desc=desc) {{_ label}}
+  //- | {{console_log this}}
+  with scenario
+    .row: .col-md-12: h1.page-title.mFadeInDown {{_ 'create_scenario'}}
+    //General form
+    form.mFadeInUp
+      .row: .col-md-12: .form-horizontal
+        .form-group
+          label.col-sm-3.control-label(for="scenario_name") {{_ 'name'}}
+          .col-sm-7: input.form-control#scenario_name(type="text" name='scenario_name' placeholder="{{_ 'name'}}" value="#{name}")
+        .form-group
+          label.col-sm-3.control-label(for="duration") {{_ 'duration'}}
+          .col-sm-7: input.form-control#duration(type="number" name='duration' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{duration}")
+        .form-group
+          label.col-sm-3.control-label(for="total_expenditure") {{_ 'total_expenditure'}}
+          .col-sm-7: input.form-control#total_expenditure(type="number" name='total_expenditure' placeholder="{{_ 'In'}} {{_ 'u_euro'}}" value="#{total_expenditure}")
+        .form-group
+          label.col-sm-3.control-label(for="roi_less_than") {{_ 'roi_less_than'}}
+          .col-sm-7: input.form-control#roi_less_than(type="number" name='roi_less_than' placeholder="{{_ 'In'}} {{_ 'u_years'}}" value="#{roi_less_than}")
+        .form-group
+          label.col-sm-3.control-label(for="logo") {{_ 'logo'}}
+          .col-sm-7
+            each getScenarioLogos
+              input.input-hidden(type="radio" name="logo" id="!{this.valueOf}" value="!{this.valueOf}" checked="{{isEqual this.valueOf ../logo}}")
+              label(for="!{this.valueOf}"): img.img-logo(src="#{this.valueOf}")
+      //- Criterions
+      #scenarioCriterion
+        #scenarioCriterionTitle {{_ "scenario_criterion"}}
+        ul#sortable
+          each getCriterion
+            li: .criterionContainer
+              .handlerPicto: span.glyphicon.glyphicon-resize-vertical(aria-hidden="true")
+              .item2: span.criterion-label(true_label=label data-sc_id=sc_id unit=unit type=type desc=desc) {{_ label}}
 
-            .item2.critDetail
-              //- .form-inline: .form-group
-              if isEqual type 'checkbox'
-                .row
-                  .col-sm-2: input(type="checkbox" value="" checked disabled)
-                  .col-sm-10: .criterion-desc {{_ desc}}
-              else if isEqual type 'selector'
-                select.form-control(type="select")
-                  option(value="" disabled selected) {{_ "select_value"}}
-                  each getOptions label
-                    option(value=value selected="{{isEqual ../input value}}") {{_ label}}
-              else
-                .formStyling.input-group
-                  input.form-control#criterionAmount(type="number" value="#{input}")
-                  .input-group-addon.critAddon {{_ unit}}
-            .critCell: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
-          //- Next line is a hack to make sure that the new criterion appear at the correct place
-          li.fakeLi.hidden
-        li#addCriterionLi.criterion
-          .row.row-correct
-            .col-md-3.col-md-offset-1 {{_ 'add_criterion'}}
-            .col-md-7
-              select#addCriterionSelect.form-control.addCriterion
-                option.selectPlaceholder(value="" disabled selected) {{_ "select_criterion"}}
-                each getCriterionToAdd
-                  optgroup(label="{{_ type}}")
-                    each criterion
-                      option(value=label) {{_ label}}
-    //- Validate form
-    input#scenario-submit.btn.btn-primary(type="submit" value="{{_ 'scenario_validate'}}")
+              .item2.critDetail
+                //- .form-inline: .form-group
+                if isEqual type 'checkbox'
+                  .row
+                    .col-sm-2: input(type="checkbox" value="" checked disabled)
+                    .col-sm-10: .criterion-desc {{_ desc}}
+                else if isEqual type 'selector'
+                  select.form-control(type="select")
+                    option(value="" disabled selected) {{_ "select_value"}}
+                    each getOptions label
+                      option(value=value selected="{{isEqual ../input value}}") {{_ label}}
+                else
+                  .formStyling.input-group
+                    input.form-control#criterionAmount(type="number" value="#{input}")
+                    .input-group-addon.critAddon {{_ unit}}
+              .critCell: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
+            //- Next line is a hack to make sure that the new criterion appear at the correct place
+            li.fakeLi.hidden
+          li#addCriterionLi.criterion
+            .row.row-correct
+              .col-md-3.col-md-offset-1 {{_ 'add_criterion'}}
+              .col-md-7
+                select#addCriterionSelect.form-control.addCriterion
+                  option.selectPlaceholder(value="" disabled selected) {{_ "select_criterion"}}
+                  each getCriterionToAdd
+                    optgroup(label="{{_ type}}")
+                      each criterion
+                        option(value=label) {{_ label}}
+      //- Validate form
+      input#scenario-submit.btn.btn-primary(type="submit" value="{{_ 'scenario_validate'}}")
 
-    // ActionTable
-    table.actionTable
-      tr
-        th {{_ 'planned_for'}}
-        th {{_ 'action_type'}}
-        th {{_ 'building'}}
-        th €
-        th {{_ 'efficiency_in_percent'}}
-        th {{_ 'efficiency_in_kWhEF'}}
-        th {{_ 'technical_field'}}
-        th {{_ 'tri_years'}}
-        th {{_ 'actualised_roi'}}
-        th {{_ 'comfort_impact'}}
-      each displayActions
-        //- {{console_log this}}
+      // ActionTable
+      table.actionTable
         tr
-          td.text-center {{start}}
-          td {{name}}
-          td {{getBuildingName building_id}}
-          td {{subventions.residual_cost}}
-          td
-            each display_impact_fluids
-              | {{_ opportunity}} : {{per_cent}}
-              br
-          td
-            each display_impact_fluids
-              | {{_ opportunity}} : {{or_kwhef}}
-              br
-          td
-            each technical_field
-              | {{_ this.valueOf}}
-              br
-          td {{internal_return}}
-          td {{actualised_roi}}
-          td
-            each other_gains.comfort
-              | {{_ this.valueOf}}
-              br
-    // Timeline link
-    #timelineLink
-      a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}
-  // Action bucket
-  .timeline.container
-    .row: .col-md-12: .mFadeInUp
-      +timelineBucket
+          th {{_ 'planned_for'}}
+          th {{_ 'action_type'}}
+          th {{_ 'building'}}
+          th €
+          th {{_ 'efficiency_in_percent'}}
+          th {{_ 'efficiency_in_kWhEF'}}
+          th {{_ 'technical_field'}}
+          th {{_ 'tri_years'}}
+          th {{_ 'actualised_roi'}}
+          th {{_ 'comfort_impact'}}
+        each this.planned_actions
+          tr
+            td.text-center {{displayStart start}}
+            with action
+              td {{name}}
+              td {{getBuildingName building_id}}
+              td {{subventions.residual_cost}}
+              td
+                each display_impact_fluids
+                  | {{_ opportunity}} : {{per_cent}}
+                  br
+              td
+                each display_impact_fluids
+                  | {{_ opportunity}} : {{or_kwhef}}
+                  br
+              td
+                each technical_field
+                  | {{_ this.valueOf}}
+                  br
+              td {{internal_return}}
+              td {{actualised_roi}}
+              td
+                each other_gains.comfort
+                  | {{_ this.valueOf}}
+                  br
+      // Timeline link
+      #timelineLink
+        a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}
+    // Action bucket
+    .timeline.container
+      .row: .col-md-12: .mFadeInUp
+        +timelineBucket

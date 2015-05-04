@@ -1,4 +1,6 @@
 Template.scenarioForm.created = ->
+  console.log "@data", @data
+
   instance = this
   instance.criterion_list = new ReactiveVar([])
   instance.flattend_toAddCriterionList = new ReactiveVar([])
@@ -8,22 +10,15 @@ Template.scenarioForm.created = ->
                                 .pluck( 'criterion')
                                 .flatten()
                                 .value()
+  # Set reactive vars
   instance.flattend_toAddCriterionList.set(flattend_toAddCriterionList)
-
-  # If editing a scenario : criterion list exists. Otherwise it's a new scenario => use an empty array
-  if @data.criterion_list?
-    instance.criterion_list.set(@data.criterion_list)
-  else
-    instance.criterion_list.set([])
-
-  console.log instance.criterion_list.get()
+  instance.criterion_list.set(@data.scenario.criterion_list)
 
   this.autorun ->
     console.log "instance.criterion_list.get()"
     console.log instance.criterion_list.get()
 
 Template.scenarioForm.rendered = ->
-  curr_scenario = @data
   # Init sortable function
   $('#sortable').sortable()
 
@@ -45,16 +40,21 @@ Template.scenarioForm.helpers
   getCriterion:  ->
     return Template.instance().criterion_list.get()
   displayActions: ->
+    console.log this
     if Template.currentData().hasOwnProperty('planned_actions')
-      return _.map(@planned_actions, (action) ->
-        displayedAction = Actions.findOne action.action_id
+      return _.map(@planned_actions, (paction) ->
+        displayedAction = paction.action
         # Format displayedAction.start for display
-        if action.start is null then displayedAction.start = "-"
-        else displayedAction.start = "#{TAPi18n.__ 'quarter_abbreviation'}#{moment(action.start).format('Q-YYYY')}"
+        if paction.start is null then displayedAction.start = "-"
+        else displayedAction.start = "#{TAPi18n.__ 'quarter_abbreviation'}#{paction.start.format('Q-YYYY')}"
 
         return displayedAction
       )
     return
+  displayStart: (startMoment) ->
+    if startMoment is null then return "-"
+    else return "#{TAPi18n.__ 'quarter_abbreviation'}#{startMoment.format('Q-YYYY')}"
+
   display_impact_fluids: ->
     # Return gain kwhef and water - unless there is no water savings
     if @gain_fluids_water[0].or_m3 isnt 0 then return @gain_fluids_kwhef.concat(@gain_fluids_water)
@@ -107,41 +107,21 @@ Template.scenarioForm.events
       else val = $(this).val()
       criterion_list[i].input = val
       item = criterion_list[i]
-    # console.log "criterion list is ", criterion_list
+
     current_estate = Session.get('current_estate_doc')
     scenario.criterion_list = criterion_list;
     scenario.estate_id = current_estate._id
-    # If the scenario does not already have a planned_actions array: instantiate it
-    if !(scenario.planned_actions instanceof Array) then scenario.planned_actions = []
+    # GET BUILDING LIST
+    building_list = Template.currentData().buildings
+    # RESET SCENARIO.PLANNED_ACTIONS (to the list in @data)
+    scenario.planned_actions = Template.currentData().action_list
 
-    # CREATE BUILDING LIST AND ACTION LIST (for the Estate, ie. all Portfolios in the Estate)
-    building_list = _.chain(current_estate.portfolio_collection)
-                      .map ((portfolio_id) ->
-                        Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
-                      )
-                      .flatten()
-                      .value()
-    # ADD ALL ACTIONS TO SCENARIO.PLANNED_ACTIONS
-    _.each building_list, (item) ->
-      # get all child Actions for this Building
-      action_list = Actions.find({
-        'action_type': 'child'
-        'building_id': item._id
-      }, sort: name: 1).fetch()
-      # Go through all Actions and push them to the planned_actions array
-      _.each action_list, (action) ->
-        # Add start date (today)
-        action.start = moment()
-        #push Action
-        scenario.planned_actions.push action
-      return
-
-    console.log building_list
+    console.log "scenario.planned_actions is now ", scenario.planned_actions
 
     #SORT ACTIONS
     #Default sort
-    scenario.planned_actions = _.sortBy(scenario.planned_actions, (item) ->
-      item.internal_return
+    scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
+      paction.action.internal_return
       #sortBy ranks in ascending order (use a - to change order)
     )
     #For each Criterion
@@ -151,23 +131,23 @@ Template.scenarioForm.events
           # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
           yearly_sum = 0
           nb_toAdd = 0
-          _.each scenario.planned_actions, (action)->
-            yearly_sum += action.subventions.residual_cost
+          _.each scenario.planned_actions, (paction)->
+            yearly_sum += paction.action.subventions.residual_cost
             if yearly_sum > criterion.input
-              yearly_sum = action.subventions.residual_cost # reset cost to current cost
+              yearly_sum = paction.action.subventions.residual_cost # reset cost to current cost
               nb_toAdd++ #increment counter
-            action.start.add nb_toAdd, 'Y'
+            paction.start.add nb_toAdd, 'Y'
           break
         when 'obsolescence_lifetime_greater_than'
-          _.each scenario.planned_actions, (action, index)->
-            tech_fields = action.technical_field
-            building = _.findWhere building_list, _id: action.building_id
+          _.each scenario.planned_actions, (paction, index)->
+            tech_fields = paction.action.technical_field
+            building = _.findWhere building_list, _id: paction.action.building_id
             allLeases = Leases.find({building_id: building._id}).fetch()
             # For each tech_field, look for the match in all Leases. When a match is found, look if it's enough to disqualify the Action
             for tech_field in tech_fields
               for lease in allLeases
                 if isLifetimeGreaterOrEqual(lease.technical_compliance.categories[tech_field].lifetime, criterion.input) is true
-                  action.start = null
+                  paction.start = null
                   unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
                   breakLoop1 = true; break
               break if breakLoop1
@@ -180,23 +160,23 @@ Template.scenarioForm.events
 
     # TOTAL EXPENDITURE FILTER: set action.start to null if we are over budget
     added_action_cost = 0
-    _.each scenario.planned_actions, (action)->
-      added_action_cost += action.subventions.residual_cost
+    _.each scenario.planned_actions, (paction)->
+      added_action_cost += paction.action.subventions.residual_cost
       if added_action_cost > scenario.total_expenditure
-        action.start = null
+        paction.start = null
 
     # Add the unplanned actions at the end of the planned_actions
     scenario.planned_actions = scenario.planned_actions.concat(unplanned_actions)
     # FORMAT planned_actions to just the _id and start date
-    scenario.planned_actions = _.map(scenario.planned_actions, (item) ->
+    scenario.planned_actions = _.map(scenario.planned_actions, (paction) ->
       action=
-        action_id: item._id
-        start: if item.start is null then null else item.start.toDate()
+        action_id: paction.action._id
+        start: if paction.start is null then null else paction.start.toDate()
       )
 
     console.log "scenario", scenario
 
-    curr_scenario_id = scenarioForm_template?.data?._id # Get the Scenario Id if it exists
+    curr_scenario_id = scenarioForm_template?.data?.scenario._id # Get the Scenario Id if it exists
     if curr_scenario_id
       # UPDATE
       Scenarios.update curr_scenario_id, $set:

@@ -78,23 +78,81 @@ Router.map ->
   @route '/scenario-form/:_id?',
     name: 'scenario-form'
     data: ->
-      if @params._id is null
+      # GET BUILDING LIST (for the Estate, ie. all Portfolios in the Estate)
+      buildings = _.chain(Session.get('current_estate_doc').portfolio_collection)
+                      .map ((portfolio_id) ->
+                        Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
+                      )
+                      .flatten()
+                      .value()
+      buildingIds = _.pluck buildings, '_id'
+      # GET ALL RELEVANT ACTIONS
+      action_list = actions = []
+      for building in buildings
+        # Get all child Actions for this Building
+        actions = Actions.find({
+          'action_type': 'child'
+          'building_id': building._id
+        }, sort: name: 1).fetch()
+        # Go through all Actions and push them to the planned_actions array
+        # We respect the format needed by the Timeline
+        for action in actions
+          action_list.push
+            'action': action
+            'start': moment() # Add start date (today)
+      # Get each portfolios for each buildings
+      portfolioIds = Session.get('current_estate_doc').portfolio_collection
+      portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
+      # Get all leases for all building, this action is done in a single DB
+      # call for avoiding too much latency on the screen's creation
+      leases = (Leases.find building_id: $in: buildingIds).fetch()
+      # Now dernomalize leases and buildings, re-establishing document object
+      # for each building
+      for building in buildings
+        building.leases = _.where leases, building_id: building._id
+
+      curr_scenario = {}
+      if @params._id is undefined
         Log.info '/scenario-form route has been called with a null param'
-        return false
-      curr_scenario = Scenarios.findOne @params._id
+        curr_scenario =
+          "name": "",
+          "duration": "",
+          "total_expenditure": ""
+          "roi_less_than": ""
+          "criterion_list": []
+          "estate_id": Session.get('current_estate_doc')._id
+          "planned_actions": []
+          "logo": ""
+      else
+        curr_scenario = Scenarios.findOne @params._id
+        Log.info "/scenario-form route got data for scenario #{@params._id}"
+        # Create a simple array of all Actions (makes denormalization easier)
+        actions = _.map action_list, (item) ->
+          return item.action
+        # Denormalize actions in the scenario and transform start date as moment
+        for paction in curr_scenario.planned_actions
+          paction.action = _.findWhere actions, _id: paction.action_id
+          paction.start = moment paction.start unless paction.start is null
+
       # Apparently the router goes several times through the loop
       # We have to catch this annoying behavior, and give it time to let
       # the Data be ready
-      unless curr_scenario
-        Log.info "/scenario-form route can't find scenario #{@params._id}"
-        return false
-      curr_scenario
+      # unless curr_scenario
+      #   Log.info "/scenario-form route can't find scenario #{@params._id}"
+      #   return false
+
+      return {
+          scenario: curr_scenario
+          buildings: buildings
+          portfolios: portfolios
+          action_list: action_list
+        }
 
   @route '/timeline/:_id',
     name: 'timeline'
     data: ->
       try
-        throw new Meteor.Error 'route', 'param is null' if @params._is is null
+        throw new Meteor.Error 'route', 'param is null' if @params._id is undefined
         # Get the current selected scenario
         scenario = Scenarios.findOne @params._id
         throw new Meteor.Error 'route', 'no scenario' unless scenario
