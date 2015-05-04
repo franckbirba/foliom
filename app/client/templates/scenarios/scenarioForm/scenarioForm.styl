@@ -47,7 +47,7 @@
     // height: 60px
     // line-height: 60px
     border: 1px solid #d3d3d3
-    background-color #FAFAFA
+    background-color #ececed
 
   // Criterion Flex
   .criterionContainer
@@ -93,22 +93,23 @@
     margin-right: auto
     display: block
 
-
   .actionTable
     width:100%
     margin-top: 50px
     font-size: 0.8em
-
-  .actionTable th
-    background-color: color0
-    text-align: center
-
-  .actionTable table, th, td
-    border: 1px solid black
-    border-collapse: collapse
-
-  .actionTable th,td
-    padding: 7px
+    table, th, td
+      border: 1px solid black
+      border-collapse: collapse
+    th, td
+      padding: 7px
+    th
+      background-color: color0
+      text-align: center
+    tr:nth-child(2n+1)
+      background-color white
+    tr:nth-child(2n)
+      background-color color3
+    // background-color #ececed
 
   #timelineLink
     margin-top: 20px
