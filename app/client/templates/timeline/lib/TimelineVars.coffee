@@ -35,7 +35,6 @@
   ###*
    * Set minimum date based on scenario's creation date and maximum
    * date based on scenario's duration.
-   * @TODO BSE: MinDate is false: it should be the date of the creation.
   ###
   setMinMaxDate: ->
     creationYear = (moment (Session.get 'current_config').creation_date).year()
@@ -78,6 +77,13 @@
     @coefs['kwh2CO2'] = settings.kwhef_to_co2_coefficients
     # Static indexes
     @projectTypeIndexes = settings.project_type_static_index
+  ###*
+   * Get the coef fo build for a project type.
+   * @param {String} projectType Project type applied on the action.
+  ###
+  projectType2buildCoef: (projectType) ->
+    return 1 if projectType is 'N/A'
+    @projectTypeIndexes[projectType]
   ###*
    * Iterate over each action for getting their cost.
   ###
@@ -304,9 +310,12 @@
             paction.action.investment.cost * \
             Math.pow 1 + @coefs.icc[yearsSinceStart], yearsSinceStart
           # Subvention are not subject to inflation.
+          # Investment - Subventionned is subject to coefficient on
+          # the project type (a coefficient of build).
           investmentSubventioned = investment - \
             unless paction.action.subventions?.or_euro then 0 else \
-            paction.action.subventions.or_euro
+            paction.action.subventions.or_euro * \
+            (projectType2buildCoef paction.action.project_type)
         # Results of an action on consumption starts when action is done
         if paction.endWork.isBetween quarter, nextQuarter
           ## -- Gain --
@@ -386,7 +395,6 @@
           #         fluid_id: "EDF - fluid_electricity"
           #
           # @TODO
-          #  - Expose and Get the fluidprovider
           #  - Get the rate depending on the year
           ## rate = fluidProvider.fluid.yearly_values
           ## inflatedRate = rate * \

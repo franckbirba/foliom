@@ -140,6 +140,7 @@ Template.timelineD3Chart.rendered = ->
   if @data.chartName is 'investmentChart'
     console.log 'Add some specific data for investmentChart'
     console.log @chartData
+    
 
 
   # An autorun is used for drawing the chart as its layout may change
