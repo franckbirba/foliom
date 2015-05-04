@@ -66,9 +66,6 @@ Template.scenarioForm.helpers
   getCriterion_priority: (action_id) ->
     action_list = Template.instance().tmpActionList.get()
     action = _.findWhere action_list, _id: action_id
-    console.log "action_id is ", action_id
-    console.log "action_list is ", action_list
-    console.log "action is ", action
     if action?.criterion_priority then return JSON.stringify(action.criterion_priority)
     else return
 
@@ -202,6 +199,11 @@ Template.scenarioForm.events
                 # Set priority
                 action.criterion_priority[priority] = key
           # console.log "scenario.planned_actions is now ", scenario.planned_actions
+          # NOW SORT
+          scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
+            paction.criterion_priority[1]
+            #sortBy ranks in ascending order (use a - to change order)
+          )
           Template.instance().tmpActionList.set(scenario.planned_actions)
           break
         when 'priority_to_techField'
