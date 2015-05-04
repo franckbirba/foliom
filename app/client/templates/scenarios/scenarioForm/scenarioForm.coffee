@@ -14,6 +14,10 @@ Template.scenarioForm.created = ->
   instance.flattend_toAddCriterionList.set(flattend_toAddCriterionList)
   instance.criterion_list.set(@data.scenario.criterion_list)
 
+  # For debug
+  instance.tmpActionList = new ReactiveVar([])
+  instance.tmpActionList.set([])
+
   this.autorun ->
     console.log "instance.criterion_list.get()"
     console.log instance.criterion_list.get()
@@ -35,6 +39,16 @@ Template.scenarioForm.helpers
         return buildOptions(technical_compliance_items)
       when 'obsolescence_lifetime_greater_than'
         return buildOptions ["new_dvr", "good_dvr", "average_dvr", "bad_dvr"]
+  multipleAttr: ()->
+    if this?.multiple is true
+      data =
+        "multiple":"multiple"
+        "size":"3"
+      return data
+    else return
+  isMultiple: ->
+    if this?.multiple is true then return true
+    else return false
   getCriterionToAdd: ->
     return toAddCriterionList
   getCriterion:  ->
@@ -59,6 +73,12 @@ Template.scenarioForm.helpers
     # Return gain kwhef and water - unless there is no water savings
     if @gain_fluids_water[0].or_m3 isnt 0 then return @gain_fluids_kwhef.concat(@gain_fluids_water)
     else return @gain_fluids_kwhef
+  getCriterion_priority: (action_id) ->
+    action_list = Template.instance().tmpActionList.get()
+    action = _.findWhere action_list, _id: action_id
+    if action?.criterion_priority then return JSON.stringify(action.criterion_priority)
+    else return
+
 
 Template.scenarioForm.events
   'change #addCriterionSelect': (e) ->
@@ -84,6 +104,8 @@ Template.scenarioForm.events
     return
   'submit form': (e, scenarioForm_template) ->
     e.preventDefault()
+    console.log "$(@) is "
+    console.log $(@)
 
     scenario =
       name: $(e.target).find('#scenario_name').val()
@@ -96,20 +118,23 @@ Template.scenarioForm.events
     unplanned_actions = new Array
     $(e.target).find(".criterionContainer .criterion-label").each () ->
       criterion_list.push {
-          label: $(this).attr("true_label"),
-          sc_id: $(this).attr("data-sc_id"),
-          unit: $(this).attr("unit"),
-          type: $(this).attr("type"),
-          desc: $(this).attr("desc"),
+          label: $(@).attr("true_label"),
+          sc_id: $(@).attr("data-sc_id"),
+          unit: $(@).attr("unit"),
+          type: $(@).attr("type"),
+          desc: $(@).attr("desc"),
           }
     $(e.target).find(".criterionContainer :input").each (i) ->
+      # set input
       if $(@).is(':checkbox') then val = $(@).is(':checked')
       else val = $(this).val()
       criterion_list[i].input = val
-      item = criterion_list[i]
+      # add multiple if the attr exists
+      criterion_list[i].multiple = true if $(@).attr("multiple") isnt undefined
 
     current_estate = Session.get('current_estate_doc')
-    scenario.criterion_list = criterion_list;
+    scenario.criterion_list = criterion_list
+    # Template.instance().criterion_list.set criterion_list
     scenario.estate_id = current_estate._id
     # GET BUILDING LIST
     building_list = Template.currentData().buildings
@@ -117,6 +142,10 @@ Template.scenarioForm.events
     scenario.planned_actions = Template.currentData().action_list
 
     console.log "scenario.planned_actions is now ", scenario.planned_actions
+
+
+
+
 
     #SORT ACTIONS
     #Default sort
@@ -126,6 +155,7 @@ Template.scenarioForm.events
     )
     #For each Criterion
     _.each scenario.criterion_list, (criterion) ->
+      priority = 0
       switch criterion.label
         when 'yearly_expense_max'
           # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
@@ -152,6 +182,46 @@ Template.scenarioForm.events
                   breakLoop1 = true; break
               break if breakLoop1
           break
+        when 'priority_to_gobal_obsolescence'
+          priority++
+          ordered_buildings = \
+            _.chain(building_list)
+            .map( (item)->
+              return {
+                'building_name': item.building_name
+                '_id': item._id
+                'global_lifetime':item.properties.leases_averages.technical_compliance.global_lifetime
+              })
+            .groupBy( (item)->
+              if 0 <= item.global_lifetime <= 0.25
+                return 4
+              else if 0.25 < item.global_lifetime <= 0.5
+                return 3
+              else if 0.5 < item.global_lifetime <= 0.75
+                return 2
+              else if 0.75 < item.global_lifetime <= 1
+                return 1
+            )
+            .value()
+          # console.log "ordered_buildings ", ordered_buildings
+
+          # Apply priority to Actions
+          for key, value of ordered_buildings
+            console.log key, value
+            for building in value
+              actions = _.where scenario.planned_actions, {building_id: building._id}
+              for action in actions
+                # Set priority
+                action.criterion_priority[priority] = key
+          # console.log "scenario.planned_actions is now ", scenario.planned_actions
+
+          # NOW SORT @BSE - rework here
+          scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
+            paction.criterion_priority[1]
+            #sortBy ranks in ascending order (use a - to change order)
+          )
+          Template.instance().tmpActionList.set(scenario.planned_actions)
+          break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
           break
@@ -164,6 +234,7 @@ Template.scenarioForm.events
       added_action_cost += paction.action.subventions.residual_cost
       if added_action_cost > scenario.total_expenditure
         paction.start = null
+
 
     # Add the unplanned actions at the end of the planned_actions
     scenario.planned_actions = scenario.planned_actions.concat(unplanned_actions)

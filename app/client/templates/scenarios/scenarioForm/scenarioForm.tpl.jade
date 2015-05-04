@@ -31,7 +31,6 @@
             li: .criterionContainer
               .handlerPicto: span.glyphicon.glyphicon-resize-vertical(aria-hidden="true")
               .item2: span.criterion-label(true_label=label data-sc_id=sc_id unit=unit type=type desc=desc) {{_ label}}
-
               .item2.critDetail
                 //- .form-inline: .form-group
                 if isEqual type 'checkbox'
@@ -39,8 +38,9 @@
                     .col-sm-2: input(type="checkbox" value="" checked disabled)
                     .col-sm-10: .criterion-desc {{_ desc}}
                 else if isEqual type 'selector'
-                  select.form-control(type="select")
-                    option(value="" disabled selected) {{_ "select_value"}}
+                  select.form-control(type="select" $dyn=multipleAttr)
+                    unless isMultiple
+                      option(value="" disabled selected) {{_ "select_value"}}
                     each getOptions label
                       option(value=value selected="{{isEqual ../input value}}") {{_ label}}
                 else
@@ -76,6 +76,7 @@
           th {{_ 'tri_years'}}
           th {{_ 'actualised_roi'}}
           th {{_ 'comfort_impact'}}
+          th priority
         each this.planned_actions
           tr
             td.text-center {{displayStart start}}
@@ -101,10 +102,7 @@
                 each other_gains.comfort
                   | {{_ this.valueOf}}
                   br
+              td {{getCriterion_priority _id}}
       // Timeline link
       #timelineLink
         a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}
-    // Action bucket
-    .timeline.container
-      .row: .col-md-12: .mFadeInUp
-        +timelineBucket
