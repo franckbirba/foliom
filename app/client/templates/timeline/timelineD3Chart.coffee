@@ -141,10 +141,11 @@ Template.timelineD3Chart.rendered = ->
     subventionnedInvestment = @chartData.series[2].data
     noAction = @chartData.series[3].data
     withAction = @chartData.series[4].data
+    totalGain = 0
+    # @NOTE Gain are negative values.
     for quarter, idx in @chartData.quarters
-      totalGain = 0
       totalGain += paction.allGains[idx] for paction in pactions
-      withAction.push noAction[idx] + subventionnedInvestment[idx] - totalGain
+      withAction.push noAction[idx] + subventionnedInvestment[idx] + totalGain
   # Specific behavior for the investment chart
   if @data.chartName is 'investmentChart'
     @calculateTotalCostChart()
