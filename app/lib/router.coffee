@@ -87,7 +87,7 @@ Router.map ->
                       .value()
       buildingIds = _.pluck buildings, '_id'
       # GET ALL RELEVANT ACTIONS
-      action_list = []
+      action_list = actions = []
       for building in buildings
         # Get all child Actions for this Building
         actions = Actions.find({
@@ -111,7 +111,6 @@ Router.map ->
       for building in buildings
         building.leases = _.where leases, building_id: building._id
 
-      console.log "@params is ", @params
       curr_scenario = {}
       if @params._id is undefined
         Log.info '/scenario-form route has been called with a null param'
@@ -124,9 +123,16 @@ Router.map ->
           "estate_id": Session.get('current_estate_doc')._id
           "planned_actions": []
           "logo": ""
-        # return false
       else
         curr_scenario = Scenarios.findOne @params._id
+        Log.info "/scenario-form route got data for scenario #{@params._id}"
+        # Create a simple array of all Actions (makes denormalization easier)
+        actions = _.map action_list, (item) ->
+          return item.action
+        # Denormalize actions in the scenario and transform start date as moment
+        for paction in curr_scenario.planned_actions
+          paction.action = _.findWhere actions, _id: paction.action_id
+          paction.start = moment paction.start unless paction.start is null
 
       # Apparently the router goes several times through the loop
       # We have to catch this annoying behavior, and give it time to let
