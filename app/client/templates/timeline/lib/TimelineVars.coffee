@@ -82,7 +82,7 @@
    * @param {String} projectType Project type applied on the action.
   ###
   projectType2buildCoef: (projectType) ->
-    return 1 if projectType is 'N/A'
+    return 1 if projectType is 'NA'
     @projectTypeIndexes[projectType]
   rxTimelineActions: new ReactiveVar
   ###*
@@ -311,8 +311,8 @@
           # the project type (a coefficient of build).
           investmentSubventioned = investment - \
             unless paction.action.subventions?.or_euro then 0 else \
-            paction.action.subventions.or_euro * \
-            (projectType2buildCoef paction.action.project_type)
+            (paction.action.subventions.or_euro * \
+              (@projectType2buildCoef paction.action.project_type))
           # Set inflated total cost in TDC (minus VAT)
           # depending on time and planned actions.
           @totalCost += investmentSubventioned
