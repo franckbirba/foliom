@@ -82,17 +82,51 @@ Router.map ->
         Log.info '/scenario-form route has been called with a null param'
         return false
       curr_scenario = Scenarios.findOne @params._id
+      # GET BUILDING LIST (for the Estate, ie. all Portfolios in the Estate)
+      buildings = _.chain(Session.get('current_estate_doc').portfolio_collection)
+                      .map ((portfolio_id) ->
+                        Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
+                      )
+                      .flatten()
+                      .value()
+      buildingIds = _.pluck buildings, '_id'
+      # GET ALL RELEVANT ACTIONS
+      action_list = []
+      for building in buildings
+        # get all child Actions for this Building
+        actions = Actions.find({
+          'action_type': 'child'
+          'building_id': building._id
+        }, sort: name: 1).fetch()
+        # Go through all Actions and push them to the planned_actions array
+        for action in actions
+          # Add start date (today)
+          action.start = moment()
+          #push Action
+          action_list.push action
+      console.log "action_list is ", action_list
+      # Get each portfolios for each buildings
+      portfolioIds = Session.get('current_estate_doc').portfolio_collection
+      portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
+      # Get all leases for all building, this action is done in a single DB
+      # call for avoiding too much latency on the screen's creation
+      leases = (Leases.find building_id: $in: buildingIds).fetch()
+      # Now dernomalize leases and buildings, re-establishing document object
+      # for each building
+      for building in buildings
+        building.leases = _.where leases, building_id: building._id
+
       # Apparently the router goes several times through the loop
       # We have to catch this annoying behavior, and give it time to let
       # the Data be ready
       unless curr_scenario
         Log.info "/scenario-form route can't find scenario #{@params._id}"
         return false
-      # curr_scenario
       return {
           scenario: curr_scenario
-          # buildings: buildings
-          # portfolios: portfolios
+          buildings: buildings
+          portfolios: portfolios
+          action_list: action_list
         }
 
   @route '/timeline/:_id',

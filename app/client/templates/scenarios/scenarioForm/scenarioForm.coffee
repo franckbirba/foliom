@@ -11,19 +11,19 @@ Template.scenarioForm.created = ->
   instance.flattend_toAddCriterionList.set(flattend_toAddCriterionList)
 
   # If editing a scenario : criterion list exists. Otherwise it's a new scenario => use an empty array
-  if @data.criterion_list?
-    instance.criterion_list.set(@data.criterion_list)
+  if @data.scenario.criterion_list?
+    instance.criterion_list.set(@data.scenario.criterion_list)
   else
     instance.criterion_list.set([])
 
   console.log instance.criterion_list.get()
+  console.log "@data", @data
 
   this.autorun ->
     console.log "instance.criterion_list.get()"
     console.log instance.criterion_list.get()
 
 Template.scenarioForm.rendered = ->
-  curr_scenario = @data
   # Init sortable function
   $('#sortable').sortable()
 
@@ -107,36 +107,19 @@ Template.scenarioForm.events
       else val = $(this).val()
       criterion_list[i].input = val
       item = criterion_list[i]
-    # console.log "criterion list is ", criterion_list
+
     current_estate = Session.get('current_estate_doc')
     scenario.criterion_list = criterion_list;
     scenario.estate_id = current_estate._id
     # If the scenario does not already have a planned_actions array: instantiate it
     if !(scenario.planned_actions instanceof Array) then scenario.planned_actions = []
 
-    # CREATE BUILDING LIST AND ACTION LIST (for the Estate, ie. all Portfolios in the Estate)
-    building_list = _.chain(current_estate.portfolio_collection)
-                      .map ((portfolio_id) ->
-                        Buildings.find({ portfolio_id: portfolio_id }, {fields: {properties: 0}}).fetch()
-                      )
-                      .flatten()
-                      .value()
-    # ADD ALL ACTIONS TO SCENARIO.PLANNED_ACTIONS
-    _.each building_list, (item) ->
-      # get all child Actions for this Building
-      action_list = Actions.find({
-        'action_type': 'child'
-        'building_id': item._id
-      }, sort: name: 1).fetch()
-      # Go through all Actions and push them to the planned_actions array
-      _.each action_list, (action) ->
-        # Add start date (today)
-        action.start = moment()
-        #push Action
-        scenario.planned_actions.push action
-      return
+    # GET BUILDING LIST
+    building_list = Template.currentData().buildings
+    # RESET SCENARIO.PLANNED_ACTIONS (to the list in @data)
+    scenario.planned_actions = Template.currentData().action_list
 
-    console.log building_list
+    console.log "scenario.planned_actions is now ", scenario.planned_actions
 
     #SORT ACTIONS
     #Default sort
@@ -196,7 +179,7 @@ Template.scenarioForm.events
 
     console.log "scenario", scenario
 
-    curr_scenario_id = scenarioForm_template?.data?._id # Get the Scenario Id if it exists
+    curr_scenario_id = scenarioForm_template?.data?.scenario._id # Get the Scenario Id if it exists
     if curr_scenario_id
       # UPDATE
       Scenarios.update curr_scenario_id, $set:
