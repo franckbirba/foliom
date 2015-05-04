@@ -27,7 +27,6 @@ Template.timelineBucket.helpers
     {klass: '', msg: 'TRI'}
   ]
   actionBucketTableBody: ->
-    console.log 'Bucket content', @
     filter = Template.instance().rxFilterAction.get()
     rxPlannedActions = TV.rxPlannedActions.get()
     switch filter
