@@ -84,13 +84,6 @@
   projectType2buildCoef: (projectType) ->
     return 1 if projectType is 'N/A'
     @projectTypeIndexes[projectType]
-  ###*
-   * Iterate over each action for getting their cost.
-  ###
-  calculateTotalCost: ->
-    for paction in @scenario.planned_actions
-      unless paction.start is null
-        @totalCost += paction.action.investment.cost
   rxTimelineActions: new ReactiveVar
   ###*
    * Calculate values used under the TimelineTable.
@@ -257,6 +250,8 @@
    * Perform all calculations and fill the global TimelineVars object.
   ###
   calculateDynamicChart: ->
+    # Reset totalCost as dynamic chart are subject to plannification.
+    @totalCost = 0
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
       # Denormalize building's name and portfolio's id
@@ -316,6 +311,9 @@
             unless paction.action.subventions?.or_euro then 0 else \
             paction.action.subventions.or_euro * \
             (projectType2buildCoef paction.action.project_type)
+          # Set inflated total cost in TDC (minus VAT)
+          # depending on time and planned actions.
+          @totalCost += investmentSubventioned
         # Results of an action on consumption starts when action is done
         if paction.endWork.isBetween quarter, nextQuarter
           # Analyse gain for water fluids
