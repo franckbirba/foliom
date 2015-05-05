@@ -417,10 +417,9 @@
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
-    # Reset charts
+    # Reset charts by duplicating the content of the no action charts
     for type in ['water', 'co2', 'kwh']
-      @actionCharts.consumption[type] = \
-        @createArrayFilledWithZero @charts.ticks.length
+      @actionCharts.consumption[type] = @charts.consumption[type].slice()
     for type in ['water', 'electricity', 'cool', 'heat']
       @actionCharts.invoice[type] = \
         @createArrayFilledWithZero @charts.ticks.length
@@ -429,11 +428,19 @@
         @createArrayFilledWithZero @charts.ticks.length
     # Iterate over actions for filling charts
     for paction in @scenario.planned_actions when paction.start isnt null
-      @itFctWaterConsumption paction
+      for idx in [0...@charts.ticks.length]
+        @itFctWaterConsumption paction, idx
+        @itFctCo2Consumption paction, idx
+        @itFctKwhConsumption paction, idx
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
-  itFctWaterConsumption: (paction) ->
-    value = 0
+  itFctWaterConsumption: (paction, idx) ->
+    @actionCharts.consumption.water[idx] += paction.consumptionWater[idx]
+  itFctCo2Consumption: (paction, idx) ->
+    @actionCharts.consumption.co2[idx] += paction.consumptionCo2[idx]
+  itFctKwhConsumption: (paction, idx) ->
+    @actionCharts.consumption.kwh[idx] += paction.consumptionKwh[idx]
+
   ###*
    * Create an Array of the provided size filled with 0.
    * @param {Number} size Size of the expected Array.

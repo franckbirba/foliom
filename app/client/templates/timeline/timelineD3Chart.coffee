@@ -26,13 +26,21 @@ ChartFct =
    * Calculate and present data suite for the Water consumption chart.
   ###
   waterConsumptionChart: (pactions) ->
-    res =
-      quarters: TV.charts.ticks
-      unit: TAPi18n.__ 'u_m3'
-      chartName: TAPi18n.__ 'consumption_label'
-      series: setSeries pactions, 'consumption', 'water', 'blue'
-    console.log res
-    res
+    quarters: TV.charts.ticks
+    unit: TAPi18n.__ 'u_m3'
+    chartName: TAPi18n.__ 'consumption_label'
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_action_water'
+        style: 'noaction blue'
+        data: TV.charts.consumption.water
+      }
+      {
+        name: TAPi18n.__ 'consumption_noaction_water'
+        style: 'action blue'
+        data: TV.actionCharts.consumption.water
+      }
+    ]
   ###*
    * Calculate and present data suite for the CO2 consumption chart.
   ###
@@ -40,7 +48,18 @@ ChartFct =
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kg_eqC02_m2_year'
     chartName: TAPi18n.__ 'consumption_label'
-    series: setSeries pactions, 'consumption', 'co2', 'darkgray'
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_action_co2'
+        style: 'noaction darkgray'
+        data: TV.charts.consumption.co2
+      }
+      {
+        name: TAPi18n.__ 'consumption_noaction_co2'
+        style: 'action darkgray'
+        data: TV.actionCharts.consumption.co2
+      }
+    ]
   ###*
    * Calculate and present data suite for the kWh consumption chart.
   ###
@@ -48,7 +67,18 @@ ChartFct =
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_kwhEF'
     chartName: TAPi18n.__ 'consumption_label'
-    series: setSeries pactions, 'consumption', 'kwh', 'orange'
+    series: [
+      {
+        name: TAPi18n.__ 'consumption_action_kwh'
+        style: 'noaction orange'
+        data: TV.charts.consumption.kwh
+      }
+      {
+        name: TAPi18n.__ 'consumption_noaction_kwh'
+        style: 'action orange'
+        data: TV.actionCharts.consumption.kwh
+      }
+    ]
   ###*
    * Calculate and present data suite for the Expense chart.
   ###
@@ -159,8 +189,7 @@ Template.timelineD3Chart.rendered = ->
   # Specific behavior for CO2 / Water / link actions emission chart
   # @TODO Use TV.endBuildAction for setting the end of spares
   # Specific behavior for the investment chart
-  if @data.chartName is 'investmentChart'
-    @calculateTotalCostChart()
+  @calculateTotalCostChart() if @data.chartName is 'investmentChart'
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
   @autorun (computation) =>
