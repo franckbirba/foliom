@@ -426,6 +426,7 @@
     for type in ['raw', 'subventionned']
       @actionCharts.investment[type] = \
         @createArrayFilledWithZero @charts.ticks.length
+    @charts.invoiceAll = @createArrayFilledWithZero @charts.ticks.length
     # Iterate over actions for filling charts
     for paction in @scenario.planned_actions when paction.start isnt null
       for idx in [0...@charts.ticks.length]
@@ -438,8 +439,10 @@
         @itFctInvoiceHeat paction, idx
         @itFctInvestmentRaw paction, idx
         @itFctInvestmentSubventionned paction, idx
+        @itInvoicesAll paction, idx
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
+  # Functors for calculatings series
   itFctConsumptionWate: (paction, idx) ->
     @actionCharts.consumption.water[idx] += paction.consumptionWater[idx]
   itFctConsumptionCo2: (paction, idx) ->
@@ -459,6 +462,12 @@
   itFctInvestmentSubventionned: (paction, idx) ->
     @actionCharts.investment.subventionned[idx] += \
       paction.investmentSubventioned[idx]
+  itInvoicesAll: (paction, idx) ->
+    @charts.invoiceAll[idx] = @charts.invoice.water[idx] + \
+      @charts.invoice.electricity[idx] + @charts.invoice.cool[idx] + \
+      @charts.invoice.heat[idx]
+    unless idx is 0
+      @charts.invoiceAll[idx] += @charts.invoiceAll[idx - 1]
 
   ###*
    * Create an Array of the provided size filled with 0.

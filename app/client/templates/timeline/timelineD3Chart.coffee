@@ -137,7 +137,7 @@ ChartFct =
       {
         name: TAPi18n.__ 'total_cost_noaction'
         style: 'action violet'
-        data: sumAllSuites TV.charts.invoice
+        data: TV.charts.invoiceAll
       }
       # @NOTE Total costs with actions is achieved once all other
       # charts have been calculated.
@@ -254,17 +254,3 @@ Template.timelineD3Chart.events
   'webkitfullscreenchange': (e, t) ->
     if t.rxFullScreen.get() and not screenfull.isFullscreen
       t.rxFullScreen.set false
-
-###*
- * Sum all suites in a dictionnary of suite.
- * @param {Object} suites A dictionnary of suites with same length.
- * @return {Array} The result of the sum.
-###
-sumAllSuites = (suites) ->
-  keys = (key for key of suites)
-  results = TV.createArrayFilledWithZero suites[keys[0]].length
-  for idx in [0...results.length]
-    results[idx] += results[idx - 1] unless idx is 0
-    for key in keys
-      results[idx] += suites[key][idx]
-  results
