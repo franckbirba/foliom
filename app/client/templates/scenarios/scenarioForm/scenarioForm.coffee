@@ -153,6 +153,7 @@ Template.scenarioForm.events
     )
     # Go through each Criterion, find relevant Actions, and apply priority
     priority = 0
+    ordered_actions
     _.each scenario.criterion_list, (criterion) ->
       switch criterion.label
         when 'yearly_expense_max'
@@ -232,7 +233,10 @@ Template.scenarioForm.events
           for input in criterion.input
             # actions = _.where scenario.planned_actions.technical_field, {building_id: building._id}
             actions.push _.filter scenario.planned_actions, (obj) ->
-                return _.where(obj.technical_field, input).length >0
+                  # return _.where(obj.technical_field, input).length >0
+                  tmp_array = _.filter obj.technical_field, (item)->
+                    return item is input
+                  return tmp_array.length >0
           # Flatten resulting array
           actions = _.flatten(actions)
           console.log "found actions: ", actions
@@ -268,12 +272,39 @@ Template.scenarioForm.events
     # result will be in the form of
     # Object {1: Array[4], 2: Array[9]}
     console.log "ordered_actions are: ", ordered_actions
-    i++
-    for key, array of ordered_actions
-      # console.log "key, array", key, array
-      ordered_actions[key] = _.groupBy array, (item)->
-        return item.criterion_priority["#{i}"]
-    console.log "ordered_actions are NOW: ", ordered_actions
+    # i++
+    # while i < scenario.criterion_list.length
+    #   orderArrayByCriterion(ordered_actions)
+    #   i++
+
+    orderArrayByCriterion = (action_array, iterator, limit) ->
+      for key, array of action_array
+        # console.log "key, array", key, array
+        action_array[key] = _.groupBy array, (item)->
+          return item.criterion_priority["#{iterator}"]
+        console.log "ordered_actions are NOW: ", action_array
+        if iterator < limit
+          console.log "about to launch again"
+          # debugger
+          orderArrayByCriterion(action_array[key], iterator+1, limit)
+        else
+          console.log "not launching again"
+          # debugger
+
+    orderArrayByCriterion(ordered_actions, 1, scenario.criterion_list.length-1)
+    console.log "FINISHED RECURSION! ", ordered_actions
+
+    scenario.planned_actions = _.chain(ordered_actions).flatten().map((item) -> _.flatten(item)).flatten().map((item) -> _.flatten(item)).flatten().value()
+    #  console.log "scenario.planned_actions is noooow ", scenario.planned_actions
+
+    # _.chain(temp1).flatten().map(function(item){return _.flatten(item)}).flatten().value()
+
+    # for key, array of ordered_actions
+    #   # console.log "key, array", key, array
+    #   ordered_actions[key] = _.groupBy array, (item)->
+    #     return item.criterion_priority["#{i}"]
+    # console.log "ordered_actions are NOW: ", ordered_actions
+
 
       # ordered_actions =  _.filter scenario.planned_actions, (obj) ->
       #   return obj.criterion_priority[criterion_nb] is 1
@@ -284,10 +315,10 @@ Template.scenarioForm.events
       #   return obj.criterion_priority[criterion_nb] == 1 })
 
     # NOW SORT @BSE - rework here (for now, only using the first criterion_priority)
-    scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
-      paction.criterion_priority[0]
-      #sortBy ranks in ascending order (use a - to change order)
-    )
+    # scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
+    #   paction.criterion_priority[0]
+    #   #sortBy ranks in ascending order (use a - to change order)
+    # )
 
 
 
