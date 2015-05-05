@@ -8,7 +8,7 @@ Template.timelineAppraisal.helpers
   nbActions: -> TV.scenario.planned_actions.length
   totalCost: -> "#{(numeral TV.totalCost).format '0,0[.]00'} €"
   triGlobal: -> TV.rxTriGlobal.get()
-  energySaving: -> TAPi18n.__ 'calculating'
-  waterSaving: -> TAPi18n.__ 'calculating'
-  co2Saving: -> TAPi18n.__ 'calculating'
-  budgetSaving: -> TAPi18n.__ 'calculating'
+  energySaving: -> TV.rxKwhSpare.get()
+  waterSaving: -> TV.rxWaterSpare.get()
+  co2Saving: -> TV.rxCo2Spare.get()
+  budgetSaving: -> TV.rxInvoiceSpare.get()
