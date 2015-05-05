@@ -261,64 +261,30 @@ Template.scenarioForm.events
     Template.instance().tmpActionList.set(scenario.planned_actions)
     console.log "AFTER CRITERION - scenario.planned_actions is now ", scenario.planned_actions
 
-    # For criterion 1, create arrays Actions whose priority is 1
-    criterion_nb = "#{1}"
-    possible_categories = 4
-    ordered_actions = []
-    i = 0
-    # while i < scenario.criterion_list.length
-    ordered_actions =  _.groupBy scenario.planned_actions, (item)->
-      return item.criterion_priority["#{i}"]
-    # result will be in the form of
-    # Object {1: Array[4], 2: Array[9]}
-    console.log "ordered_actions are: ", ordered_actions
-    # i++
-    # while i < scenario.criterion_list.length
-    #   orderArrayByCriterion(ordered_actions)
-    #   i++
+
+
+    # ---- SORTING -----
 
     orderArrayByCriterion = (action_array, iterator, limit) ->
       for key, array of action_array
-        # console.log "key, array", key, array
         action_array[key] = _.groupBy array, (item)->
           return item.criterion_priority["#{iterator}"]
         console.log "ordered_actions are NOW: ", action_array
         if iterator < limit
-          console.log "about to launch again"
-          # debugger
           orderArrayByCriterion(action_array[key], iterator+1, limit)
-        else
-          console.log "not launching again"
-          # debugger
 
-    orderArrayByCriterion(ordered_actions, 1, scenario.criterion_list.length-1)
+    # Do the first sort manually, to initiate the object structure
+    # result will be in the form of: Object {1: Array[4], 2: Array[9]}
+    ordered_actions =  _.groupBy scenario.planned_actions, (item)->
+      return item.criterion_priority["0"]
+    # Launch recursive sorting - but only if there is more than one criterion
+    if scenario.criterion_list.length > 1
+      orderArrayByCriterion(ordered_actions, 1, scenario.criterion_list.length-1)
     console.log "FINISHED RECURSION! ", ordered_actions
 
     scenario.planned_actions = _.chain(ordered_actions).flatten().map((item) -> _.flatten(item)).flatten().map((item) -> _.flatten(item)).flatten().value()
     #  console.log "scenario.planned_actions is noooow ", scenario.planned_actions
 
-    # _.chain(temp1).flatten().map(function(item){return _.flatten(item)}).flatten().value()
-
-    # for key, array of ordered_actions
-    #   # console.log "key, array", key, array
-    #   ordered_actions[key] = _.groupBy array, (item)->
-    #     return item.criterion_priority["#{i}"]
-    # console.log "ordered_actions are NOW: ", ordered_actions
-
-
-      # ordered_actions =  _.filter scenario.planned_actions, (obj) ->
-      #   return obj.criterion_priority[criterion_nb] is 1
-
-      # _.groupBy(temp1, function(item){return item.criterion_priority['1']})
-
-      # _.filter(temp1, function(obj){
-      #   return obj.criterion_priority[criterion_nb] == 1 })
-
-    # NOW SORT @BSE - rework here (for now, only using the first criterion_priority)
-    # scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
-    #   paction.criterion_priority[0]
-    #   #sortBy ranks in ascending order (use a - to change order)
-    # )
 
 
 
