@@ -1,4 +1,4 @@
-@criterionCalc = (scenario) ->
+@criterionCalc = (scenario, building_list) ->
   unplanned_actions = new Array
 
   # Preliminary - apply the default sort: by internal_return
@@ -122,7 +122,7 @@
 
 
   # Flatten sorted actions
-  scenario.planned_actions = flattenSortedActions(ordered_actions, criterion_list.length)
+  scenario.planned_actions = flattenSortedActions(ordered_actions, scenario.criterion_list.length)
 
 
   # TOTAL EXPENDITURE FILTER: set action.start to null if we are over budget
