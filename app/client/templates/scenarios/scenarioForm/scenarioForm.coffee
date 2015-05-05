@@ -104,8 +104,6 @@ Template.scenarioForm.events
     return
   'submit form': (e, scenarioForm_template) ->
     e.preventDefault()
-    console.log "$(@) is "
-    console.log $(@)
 
     scenario =
       name: $(e.target).find('#scenario_name').val()
