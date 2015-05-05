@@ -16,21 +16,25 @@
         # 'yearly_expense_max' is always applied at the end, once the Actions have already been sorted
         # So don't do anything here
         break
+
       when 'obsolescence_lifetime_greater_than'
-        _.each scenario.planned_actions, (paction, index)->
-          tech_fields = paction.action.technical_field
-          building = _.findWhere building_list, _id: paction.action.building_id
+        _.each scenario.planned_actions, (action, index)->
+          tech_fields = action.technical_field
+          building = _.findWhere building_list, _id: action.building_id
           allLeases = Leases.find({building_id: building._id}).fetch()
           # For each tech_field, look for the match in all Leases. When a match is found, look if it's enough to disqualify the Action
           for tech_field in tech_fields
             for lease in allLeases
               if isLifetimeGreaterOrEqual(lease.technical_compliance.categories[tech_field].lifetime, criterion.input) is true
-                paction.start = null
+                action.start = null
                 unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
                 breakLoop1 = true; break
             break if breakLoop1
         break
 
+      # when 'gain_energy_consumption_kwhef_greater_than'
+
+      #   break
 
       when 'priority_to_gobal_obsolescence'
         # Create ordered_buildings list: order them based on global_lifetime
