@@ -151,9 +151,9 @@ Template.scenarioForm.events
       paction.action.internal_return
       #sortBy ranks in ascending order (use a - to change order)
     )
-    #For each Criterion
+    # Go through each Criterion, find relevant Actions, and apply priority
+    priority = 0
     _.each scenario.criterion_list, (criterion) ->
-      priority = 0
       switch criterion.label
         when 'yearly_expense_max'
           # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
@@ -193,6 +193,8 @@ Template.scenarioForm.events
                 'global_lifetime':item.properties.leases_averages.technical_compliance.global_lifetime
               })
             .groupBy( (item)->
+              # The higher the global_lifetime index, the worse DVR (lifetime) the equipement has
+              # NOTE: in terms of priority, a lower value means that the action is more important
               if 0 <= item.global_lifetime <= 0.25
                 return 4
               else if 0.25 < item.global_lifetime <= 0.5
@@ -213,14 +215,15 @@ Template.scenarioForm.events
               for action in actions
                 # Set priority
                 action.criterion_priority[priority] = key
-          # console.log "scenario.planned_actions is now ", scenario.planned_actions
+          console.log "scenario.planned_actions is now ", scenario.planned_actions
+          debugger
 
           # NOW SORT @BSE - rework here
-          scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
-            paction.criterion_priority[1]
-            #sortBy ranks in ascending order (use a - to change order)
-          )
-          Template.instance().tmpActionList.set(scenario.planned_actions)
+          # scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
+          #   paction.criterion_priority[1]
+          #   #sortBy ranks in ascending order (use a - to change order)
+          # )
+
           break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
@@ -230,15 +233,33 @@ Template.scenarioForm.events
           # For each input, find the Actions that target this Technical field
           for input in criterion.input
             # actions = _.where scenario.planned_actions.technical_field, {building_id: building._id}
-
             actions.push _.filter scenario.planned_actions, (obj) ->
                 return _.where(obj.technical_field, input).length >0
-
+          # Flatten resulting array
+          actions = _.flatten(actions)
           console.log "found actions: ", actions
+          # Keep action Ids
+          actions_Ids = _.pluck(actions, '_id')
+          # Set priority in scenario.planned_actions
+          for paction in scenario.planned_actions
+            # If the planned action's Id is in the actions_Ids array: we give it priority (1), otherwise it's not prioritary (thus a priority of 2)
+            if _.contains(actions_Ids, paction._id) then paction.criterion_priority[priority] = 1
+            else paction.criterion_priority[priority] = 2
+
+          console.log "scenario.planned_actions is now ", scenario.planned_actions
+          debugger
 
           break
 
       return
+
+    # @BSE - temp : display in array
+    Template.instance().tmpActionList.set(scenario.planned_actions)
+    # NOW SORT @BSE - rework here (for now, only using the first criterion_priority)
+    scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
+      paction.criterion_priority[1]
+      #sortBy ranks in ascending order (use a - to change order)
+    )
 
     # TOTAL EXPENDITURE FILTER: set action.start to null if we are over budget
     added_action_cost = 0
