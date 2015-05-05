@@ -73,5 +73,4 @@ Template.timeline.events
 ###*
  * Remove DOM elements not created by Blaze.
 ###
-Template.timeline.destroyed = ->
-  ($ 'span[role=\'status\']')?.remove()
+Template.timeline.destroyed = -> ($ 'span[role=\'status\']')?.remove()
