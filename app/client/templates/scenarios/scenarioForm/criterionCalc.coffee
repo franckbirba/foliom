@@ -16,19 +16,69 @@
         # 'yearly_expense_max' is always applied at the end, once the Actions have already been sorted
         # So don't do anything here
         break
+
       when 'obsolescence_lifetime_greater_than'
-        _.each scenario.planned_actions, (paction, index)->
-          tech_fields = paction.action.technical_field
-          building = _.findWhere building_list, _id: paction.action.building_id
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
+          tech_fields = action.technical_field
+          building = _.findWhere building_list, _id: action.building_id
           allLeases = Leases.find({building_id: building._id}).fetch()
           # For each tech_field, look for the match in all Leases. When a match is found, look if it's enough to disqualify the Action
           for tech_field in tech_fields
             for lease in allLeases
               if isLifetimeGreaterOrEqual(lease.technical_compliance.categories[tech_field].lifetime, criterion.input) is true
-                paction.start = null
+                action.start = null
                 unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
                 breakLoop1 = true; break
             break if breakLoop1
+        break
+
+      when 'gain_energy_consumption_kwhef_greater_than'
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
+          if action.gain_fluids_kwhef?
+            for gain in action.gain_fluids_kwhef
+              # Also make sure the value is > 0 : no point in removing an action if it's not targeting a kwhef gain (eg a water action)
+              if 0 < gain.or_kwhef <= criterion.input *1
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+                breakLoop1 = true; break
+              break if breakLoop1
+        break
+      when 'gain_water_consumption_greater_than'
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
+          if action.gain_fluids_water?
+            for gain in action.gain_fluids_water
+              # Also make sure the value is > 0 : no point in removing an action if it's not targeting a m3 gain
+              if 0 < gain.or_m3 <= criterion.input *1
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+                breakLoop1 = true; break
+              break if breakLoop1
+        break
+      when 'gain_euro_savings_greater_than'
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
+          # For this criterion, we want to look at both the kwhef and m3 savings in euro
+          if action.gain_fluids_kwhef?
+            for gain in action.gain_fluids_kwhef
+              if 0 < gain.yearly_savings <= criterion.input *1
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+                breakLoop1 = true; break
+              break if breakLoop1
+          if action.gain_fluids_water?
+            for gain in action.gain_fluids_water
+              if 0 < gain.yearly_savings <= criterion.input *1
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+                breakLoop1 = true; break
+              break if breakLoop1
         break
 
 
@@ -140,7 +190,7 @@
   _.each scenario.planned_actions, (action)->
     added_action_cost += action.subventions.residual_cost
     if added_action_cost > scenario.total_expenditure
-      paction.start = null
+      action.start = null
 
   # To Do
   # > Si le TRI global (voir infos plus bas sur le calcul des gains globaux d’un scénario ≠ somme des gains unitaires des actions) de ce panel d’actions est inférieur au TRI autorisé, tout va bien et on passe à la suite.

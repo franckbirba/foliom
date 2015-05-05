@@ -4,6 +4,7 @@ Template.buildingDetail.created = ->
   instance.waterFluids = new ReactiveVar([])
   instance.lease_dpe_ges_data = new ReactiveVar([])
   instance.merged_dpe_ges_data = new ReactiveVar([]) #Result of all Leases DPE_GES Data
+  instance.av_waterConsumption = new ReactiveVar([])
 
   Session.set("current_lease_id", null) #Reset the var session associated to the Selector
 
@@ -64,11 +65,14 @@ Template.buildingDetail.created = ->
     av_array.reduce (prev, current) -> prev + current #one-liner to reduce the array
 
   areaSum = @data.properties.leases_averages.area_sum
-  @data.av_waterConsumption.av_yearly_cost = average_water_data(waterFluids, areaSum, 'yearly_cost')
-  @data.av_waterConsumption.av_m3 = average_water_data(waterFluids, areaSum, 'm3')
-  @data.av_waterConsumption.av_m3_by_m2 = average_water_data(waterFluids, areaSum, 'm3/m2')
-  @data.av_waterConsumption.av_euro_by_m3 = average_water_data(waterFluids, areaSum, '€/m3')
-  @data.av_waterConsumption.av_m3_by_pers = average_water_data(waterFluids, areaSum, 'm3/pers')
+  av_waterConsumption =
+    av_yearly_cost : average_water_data(waterFluids, areaSum, 'yearly_cost')
+    av_m3 : average_water_data(waterFluids, areaSum, 'm3')
+    av_m3_by_m2 : average_water_data(waterFluids, areaSum, 'm3/m2')
+    av_euro_by_m3 : average_water_data(waterFluids, areaSum, '€/m3')
+    av_m3_by_pers : average_water_data(waterFluids, areaSum, 'm3/pers')
+
+  Template.instance().av_waterConsumption.set(av_waterConsumption)
 
 
   ### ------------------------------ ###
@@ -132,6 +136,7 @@ Template.buildingDetail.helpers
 
   waterConsumption: (param, precision) ->
     waterFluids = Template.instance().waterFluids.get()
+    av_waterConsumption = Template.instance().av_waterConsumption.get()
 
     if waterFluids? #wait until the waterFluids array has been generated
 
@@ -153,18 +158,18 @@ Template.buildingDetail.helpers
 
       else
         if param is 'yearly_cost'
-          return Template.currentData().av_waterConsumption.av_yearly_cost.toFixed(precision)
+          return av_waterConsumption.av_yearly_cost.toFixed(precision)
         if param is 'm3'
           # return correctWaterFluid.first_year_value;
-          return Template.currentData().av_waterConsumption.av_m3.toFixed(precision)
+          return av_waterConsumption.av_m3.toFixed(precision)
         if param is 'm3/m2'
           # return (correctWaterFluid.first_year_value / correctWaterFluid.surface).toFixed(precision);
-          return Template.currentData().av_waterConsumption.av_m3_by_m2.toFixed(precision)
+          return av_waterConsumption.av_m3_by_m2.toFixed(precision)
         if param is '€/m3'
           # return (correctWaterFluid.yearly_cost / correctWaterFluid.first_year_value).toFixed(precision);
-          return Template.currentData().av_waterConsumption.av_euro_by_m3.toFixed(precision)
+          return av_waterConsumption.av_euro_by_m3.toFixed(precision)
         if param is 'm3/pers'
-          return Template.currentData().av_waterConsumption.av_m3_by_pers.toFixed(precision)
+          return av_waterConsumption.av_m3_by_pers.toFixed(precision)
     return
 
 

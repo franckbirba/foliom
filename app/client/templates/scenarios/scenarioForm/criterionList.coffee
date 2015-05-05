@@ -24,6 +24,8 @@
 
       # Filter
       {"label": "gain_energy_consumption_kwhef_greater_than", "unit":"u_kwhEF_year"},
+      {"label": "gain_water_consumption_greater_than", "unit":"u_m3_year"},
+      {"label": "gain_euro_savings_greater_than", "unit":"u_euro_year"},
     ]
   }
 ]

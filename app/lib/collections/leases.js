@@ -362,7 +362,7 @@ conformity_infoSchema = new SimpleSchema({
     label: transr("Files"),
     optional: true,
     autoform: {
-      // template: 'eportfolio-horizontal',
+      template: 'bootstrap3',
     }
   },
   "files.$": {

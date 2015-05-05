@@ -45,7 +45,7 @@
                       option(value=value selected="{{isEqual ../input value}}") {{_ label}}
                 else
                   .formStyling.input-group
-                    input.form-control#criterionAmount(type="number" value="#{input}")
+                    input.form-control#criterionAmount(type="number" value="#{input}" step="any" min="0")
                     .input-group-addon.critAddon {{_ unit}}
               .critCell: span.removeCriterion.glyphicon.glyphicon-trash(aria-hidden="true")
             //- Next line is a hack to make sure that the new criterion appear at the correct place
