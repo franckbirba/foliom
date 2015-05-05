@@ -153,6 +153,8 @@ Template.timelineD3Chart.rendered = ->
         m = moment.duration()
         triGlobal = (m.add idx, 'Q').years()
     TV.rxTriGlobal.set triGlobal
+  # Specific behavior for CO2 / Water / link actions emission chart
+  # @TODO Use TV.endBuildAction for setting the end of spares
   # Specific behavior for the investment chart
   if @data.chartName is 'investmentChart'
     @calculateTotalCostChart()

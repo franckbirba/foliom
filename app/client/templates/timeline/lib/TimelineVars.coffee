@@ -3,7 +3,10 @@
 # Isolate calculated value in a namespace
 @TimelineVars =
   rxTriGlobal: new ReactiveVar
-  rxCo2Emission: new ReactiveVar
+  rxKwhSpare: new ReactiveVar
+  rxWaterSpare: new ReactiveVar
+  rxCo2Spare: new ReactiveVar
+  rxInvoiceSpare: new ReactiveVar
   ###*
    * Reset current object to its default values.
   ###
@@ -14,6 +17,7 @@
     @portfolios = []
     @minDate = null
     @maxDate = null
+    @endBuildAction = null
     @fluidInSettings = {}
     @coefs = {}
     @projectTypeIndexes = {}
@@ -25,7 +29,10 @@
       consumption: water: [], co2: [], kwh: []
       invoice: water: [], electricity: [], cool: [], heat: []
     @rxTriGlobal.set 0
-    @rxCo2Emission.set 0
+    @rxKwhSpare.set 0
+    @rxWaterSpare.set 0
+    @rxCo2Spare.set 0
+    @rxInvoiceSpare.set 0
     @currentFilter = null
   ###*
    * Get the scenario, the buildings and the portfolios from the router's data.
@@ -255,6 +262,8 @@
   calculateDynamicChart: ->
     # Reset totalCost as dynamic chart are subject to plannification.
     @totalCost = 0
+    # Reset current end of build of all actions
+    @endBuildAction = @minDate.clone()
     # Generate suites for each action
     for paction, idx in @scenario.planned_actions
       # Denormalize building's name and portfolio's id
@@ -279,6 +288,8 @@
         paction.action.works_duration, 'M'
       paction.end = paction.endWork.clone().add \
         paction.action.action_lifetime, 'y'
+      # Spare the end of build of all actions
+      @endBuildAction = moment.max @endBuildAction, paction.endWork
       # Reset former calculations
       paction.consumptionWater = []
       paction.consumptionCo2 = []
