@@ -2,23 +2,6 @@
 TV = TimelineVars
 
 ###*
- * Create 2 series, one taking no action in account and a second with actions.
- * @param {Array}  pactions  An array of planned actions.
- * @param {String} chartType A property used for the chart's type.
- * @param {String} fluidType A fluid kind or type.
- * @param {String} color     A color for each serie.
-###
-setSeries = (pactions, chartType, fluidType, color) ->
-  firstUpperCase = fluidType.substr(0, 1).toUpperCase() + fluidType.substr(1)
-  for act in [true, false]
-    name: TAPi18n.__ \
-      "#{chartType}_#{if act then 'no' else ''}action_#{fluidType}"
-    style: "#{if act then 'no' else ''}action #{color}"
-    data: if act then TV.charts[chartType][fluidType] else \
-      sum2Suites TV.charts[chartType][fluidType],
-        sumSuiteFromArray pactions, "#{chartType}#{firstUpperCase}"
-
-###*
  * Chart's functions
 ###
 ChartFct =
@@ -83,17 +66,6 @@ ChartFct =
    * Calculate and present data suite for the Expense chart.
   ###
   invoiceChart: (pactions) ->
-    # res =
-    #   quarters: TV.charts.ticks
-    #   unit: TAPi18n.__ 'u_euro'
-    #   chartName: TAPi18n.__ 'invoice_label'
-    #   series: []
-    #     .concat setSeries pactions, 'invoice', 'water', 'blue'
-    #     .concat setSeries pactions, 'invoice', 'electricity', 'violet'
-    #     .concat setSeries pactions, 'invoice', 'cool', 'darkgray'
-    #     .concat setSeries pactions, 'invoice', 'heat', 'red'
-    # console.log res
-    # res
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
     chartName: TAPi18n.__ 'invoice_label'
@@ -138,7 +110,6 @@ ChartFct =
         style: 'action red'
         data: TV.actionCharts.invoice.heat
       }
-
     ]
   ###*
    * Calculate and present data suite for the Investment chart.
@@ -156,12 +127,12 @@ ChartFct =
       {
         name: TAPi18n.__ 'investment_raw'
         style: 'action darkgray'
-        data: sumSuiteFromArray pactions, 'investment'
+        data: TV.actionCharts.investment.raw
       }
       {
         name: TAPi18n.__ 'investment_minus_subventions'
         style: 'action gray'
-        data: sumSuiteFromArray pactions, 'investmentSubventioned'
+        data: TV.actionCharts.investment.subventionned
       }
       {
         name: TAPi18n.__ 'total_cost_noaction'
@@ -283,32 +254,6 @@ Template.timelineD3Chart.events
   'webkitfullscreenchange': (e, t) ->
     if t.rxFullScreen.get() and not screenfull.isFullscreen
       t.rxFullScreen.set false
-
-###*
- * Sum suites from an Array of Object with suites reachable with the same
- *  property key.
- * @param {Array} arr The Array of Object.
- * @param {String} key The property of the Object.
- * @result {Array} The suite as a sum of all the Array of Object suite.
-###
-sumSuiteFromArray = (arr, key) ->
-  results = TV.createArrayFilledWithZero arr[0][key].length
-  for idx in [0...results.length]
-    for item in arr
-      results[idx] += item[key][idx]
-  results
-
-###*
- * Sum 2 suites of exact same length.
- * @param {Array} suite1 First suite. Its length is used as the reference.
- * @param {Array} suite2 Second suite.
- * @return {Array} The result of the sum.
-###
-sum2Suites = (suite1, suite2) ->
-  results = TV.createArrayFilledWithZero suite1.length
-  for idx in [0...results.length]
-    results[idx] = suite1[idx] + suite2[idx]
-  results
 
 ###*
  * Sum all suites in a dictionnary of suite.

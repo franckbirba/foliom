@@ -422,6 +422,7 @@
       @actionCharts.consumption[type] = @charts.consumption[type].slice()
     for type in ['water', 'electricity', 'cool', 'heat']
       @actionCharts.invoice[type] = @charts.invoice[type].slice()
+    # Reset charts by symply creating an Array with value as 0
     for type in ['raw', 'subventionned']
       @actionCharts.investment[type] = \
         @createArrayFilledWithZero @charts.ticks.length
@@ -435,6 +436,8 @@
         @itFctInvoiceElectricity paction, idx
         @itFctInvoiceCool paction, idx
         @itFctInvoiceHeat paction, idx
+        @itFctInvestmentRaw paction, idx
+        @itFctInvestmentSubventionned paction, idx
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
   itFctConsumptionWate: (paction, idx) ->
@@ -451,6 +454,12 @@
     @actionCharts.invoice.cool[idx] += paction.invoiceCool[idx]
   itFctInvoiceHeat: (paction, idx) ->
     @actionCharts.invoice.heat[idx] += paction.invoiceHeat[idx]
+  itFctInvestmentRaw: (paction, idx) ->
+    @actionCharts.investment.raw[idx] += paction.investment[idx]
+  itFctInvestmentSubventionned: (paction, idx) ->
+    @actionCharts.investment.subventionned[idx] += \
+      paction.investmentSubventioned[idx]
+
   ###*
    * Create an Array of the provided size filled with 0.
    * @param {Number} size Size of the expected Array.
