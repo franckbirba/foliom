@@ -18,7 +18,9 @@
         break
 
       when 'obsolescence_lifetime_greater_than'
-        _.each scenario.planned_actions, (action, index)->
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
           tech_fields = action.technical_field
           building = _.findWhere building_list, _id: action.building_id
           allLeases = Leases.find({building_id: building._id}).fetch()
@@ -32,9 +34,19 @@
             break if breakLoop1
         break
 
-      # when 'gain_energy_consumption_kwhef_greater_than'
-
-      #   break
+      when 'gain_energy_consumption_kwhef_greater_than'
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
+          if action.gain_fluids_kwhef?
+            for gain in action.gain_fluids_kwhef
+              if gain.or_kwhef < criterion.input *1
+                console.log "removing action"
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+              #   breakLoop1 = true; break
+              # break if breakLoop1
+        break
 
       when 'priority_to_gobal_obsolescence'
         # Create ordered_buildings list: order them based on global_lifetime
@@ -144,7 +156,7 @@
   _.each scenario.planned_actions, (action)->
     added_action_cost += action.subventions.residual_cost
     if added_action_cost > scenario.total_expenditure
-      paction.start = null
+      action.start = null
 
   # To Do
   # > Si le TRI global (voir infos plus bas sur le calcul des gains globaux d’un scénario ≠ somme des gains unitaires des actions) de ce panel d’actions est inférieur au TRI autorisé, tout va bien et on passe à la suite.
