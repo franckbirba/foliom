@@ -435,6 +435,7 @@
     "priority_to_techField": "Priority to one or more technical fields",
 
     "gain_energy_consumption_kwhef_greater_than": "Gain on energy consumptions > X kWh/year",
+    "gain_water_consumption_greater_than": "Gain on water consumptions > X m³/year",
 
     "select_value": "Select one",
 
@@ -459,6 +460,7 @@
     "u_euro_kwhEF": "€ ex VAT / kWhEF",
     "u_percent": "%",
     "u_m3": "m³",
+    "u_m3_year": "m / year³",
     "u_euro_m3": "€ ex VAT / m³",
     "u_m2": "m²",
     "u_euro_m2": "€ ex VAT / m²",

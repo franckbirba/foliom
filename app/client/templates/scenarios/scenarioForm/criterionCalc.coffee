@@ -40,7 +40,21 @@
         for action, index in scenario.planned_actions by -1
           if action.gain_fluids_kwhef?
             for gain in action.gain_fluids_kwhef
-              if gain.or_kwhef < criterion.input *1
+              # Also make sure the value is > 0 : no point in removing an action if it's not targeting a kwhef gain (eg a water action)
+              if 0 < gain.or_kwhef < criterion.input *1
+                console.log "removing action"
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+                breakLoop1 = true; break
+              break if breakLoop1
+        break
+      when 'gain_water_consumption_greater_than'
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
+          if action.gain_fluids_kwhef?
+            for gain in action.gain_fluids_kwhef
+              if 0 < gain.or_m3 < criterion.input *1
                 console.log "removing action"
                 action.start = null
                 unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
