@@ -132,7 +132,7 @@ Template.scenarioForm.events
     # RESET SCENARIO.PLANNED_ACTIONS (to the list in @data)
     scenario.planned_actions = Template.currentData().action_list
 
-    # Aplly criterion and sort
+    # Apply criterion and sort
     scenario = criterionCalc(scenario, building_list)
 
 
