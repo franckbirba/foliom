@@ -142,15 +142,17 @@ Template.timelineD3Chart.rendered = ->
     noAction = @chartData.series[3].data
     withAction = @chartData.series[4].data
     totalGain = 0
+    triGlobal = 0
     for quarter, idx in @chartData.quarters
       totalGain += paction.allGains[idx] for paction in pactions
       # @NOTE Gain are negative values.
       withAction.push noAction[idx] + subventionnedInvestment[idx] + totalGain
       # Check if action chart cross no action chart
-      if withAction[idx] < noAction[idx] and TV.triGlobal is 0
+      if withAction[idx] < noAction[idx] and triGlobal is 0
         # In this case, we got our global return of invest
-        TV.triGlobal = (TV.minDate.clone().add idx, 'Q').year()
-        console.log 'TRI', TV.triGlobal
+        m = moment.duration()
+        triGlobal = (m.add idx, 'Q').years()
+    TV.rxTriGlobal.set triGlobal
   # Specific behavior for the investment chart
   if @data.chartName is 'investmentChart'
     @calculateTotalCostChart()

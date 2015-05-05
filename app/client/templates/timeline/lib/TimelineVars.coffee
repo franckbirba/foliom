@@ -2,6 +2,7 @@
 
 # Isolate calculated value in a namespace
 @TimelineVars =
+  rxTriGlobal: new ReactiveVar
   ###*
    * Reset current object to its default values.
   ###
@@ -22,7 +23,7 @@
       budget: []
       consumption: water: [], co2: [], kwh: []
       invoice: water: [], electricity: [], cool: [], heat: []
-    @triGlobal = 0
+    @rxTriGlobal.set 0
     @currentFilter = null
   ###*
    * Get the scenario, the buildings and the portfolios from the router's data.
