@@ -445,8 +445,9 @@
 
     "priority_to_techField": "Priorité à un/des lots techniques",
 
-    "gain_energy_consumption_kwhef_greater_than": "Gain sur les consommations d’énergie > X kWh/an",
-    "gain_water_consumption_greater_than": "Gain sur les consommations d'eay > X m³/an",
+    "gain_energy_consumption_kwhef_greater_than": "Gain sur les consommations d’énergie doit être > X kWh/an",
+    "gain_water_consumption_greater_than": "Gain sur les consommations d'eau doit être > X m³/an",
+    "gain_euro_savings_greater_than": "Gain sur la facture d’énergie et de fluide doit être > X €HT/an",
 
     "select_value": "Choisissez un élément",
 

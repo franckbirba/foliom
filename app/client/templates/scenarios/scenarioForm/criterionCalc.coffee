@@ -41,8 +41,7 @@
           if action.gain_fluids_kwhef?
             for gain in action.gain_fluids_kwhef
               # Also make sure the value is > 0 : no point in removing an action if it's not targeting a kwhef gain (eg a water action)
-              if 0 < gain.or_kwhef < criterion.input *1
-                console.log "removing action"
+              if 0 < gain.or_kwhef <= criterion.input *1
                 action.start = null
                 unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
                 breakLoop1 = true; break
@@ -52,15 +51,36 @@
         # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
         # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
         for action, index in scenario.planned_actions by -1
-          if action.gain_fluids_kwhef?
-            for gain in action.gain_fluids_kwhef
-              if 0 < gain.or_m3 < criterion.input *1
-                console.log "removing action"
+          if action.gain_fluids_water?
+            for gain in action.gain_fluids_water
+              # Also make sure the value is > 0 : no point in removing an action if it's not targeting a m3 gain
+              if 0 < gain.or_m3 <= criterion.input *1
                 action.start = null
                 unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
                 breakLoop1 = true; break
               break if breakLoop1
         break
+      when 'gain_euro_savings_greater_than'
+        # Note: at some point in the loop we're using .splice on scenario.planned_actions. This creates
+        # a problem with the index. We can resolve this by going through the array in reverse ("by -1")
+        for action, index in scenario.planned_actions by -1
+          # For this criterion, we want to look at both the kwhef and m3 savings in euro
+          if action.gain_fluids_kwhef?
+            for gain in action.gain_fluids_kwhef
+              if 0 < gain.yearly_savings <= criterion.input *1
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+                breakLoop1 = true; break
+              break if breakLoop1
+          if action.gain_fluids_water?
+            for gain in action.gain_fluids_water
+              if 0 < gain.yearly_savings <= criterion.input *1
+                action.start = null
+                unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
+                breakLoop1 = true; break
+              break if breakLoop1
+        break
+
 
       when 'priority_to_gobal_obsolescence'
         # Create ordered_buildings list: order them based on global_lifetime
