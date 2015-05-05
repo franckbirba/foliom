@@ -11,28 +11,41 @@
    * Reset current object to its default values.
   ###
   reset: ->
-    @totalCost = 0
+    # Denormalized data
     @scenario = null
     @buildings = []
     @portfolios = []
+    # Dates
     @minDate = null
     @maxDate = null
     @endBuildAction = null
+    # Coefs and indices
     @fluidInSettings = {}
     @coefs = {}
     @projectTypeIndexes = {}
     @actualizationRate = 0
     @consumptionDegradation = 0
+    # Charts independant from actions (before action charts)
     @charts =
       ticks: []
       budget: []
       consumption: water: [], co2: [], kwh: []
       invoice: water: [], electricity: [], cool: [], heat: []
+      invoiceAll: []
+    # Appraisal non reactive values
+    @totalCost = 0
+    # Appraisal reactive values
     @rxTriGlobal.set 0
     @rxKwhSpare.set 0
     @rxWaterSpare.set 0
     @rxCo2Spare.set 0
     @rxInvoiceSpare.set 0
+    # Charts dependant from actions (after action charts)
+    @actionCharts =
+      consumption: water: [], co2: [], kwh: []
+      invoice: water: [], electricity: [], cool: [], heat: []
+      investment: raw: [], subventionned: []
+    # Others
     @currentFilter = null
   ###*
    * Get the scenario, the buildings and the portfolios from the router's data.
@@ -404,8 +417,30 @@
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
+    # Reset charts
+    for type in ['water', 'co2', 'kwh']
+      @actionCharts.consumption[type] = \
+        @createArrayFilledWithZero @charts.ticks.length
+    for type in ['water', 'electricity', 'cool', 'heat']
+      @actionCharts.invoice[type] = \
+        @createArrayFilledWithZero @charts.ticks.length
+    for type in ['raw', 'subventionned']
+      @actionCharts.investment[type] = \
+        @createArrayFilledWithZero @charts.ticks.length
+    # Iterate over actions for filling charts
+    for paction in @scenario.planned_actions when paction.start isnt null
+      @itFctWaterConsumption paction
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
+  itFctWaterConsumption: (paction) ->
+    value = 0
+  ###*
+   * Create an Array of the provided size filled with 0.
+   * @param {Number} size Size of the expected Array.
+   * @return {Array} The created Array.
+  ###
+  createArrayFilledWithZero: (size) ->
+    (Array.apply null, new Array size).map Number.prototype.valueOf, 0
   ###*
    * Update the scenario in th DB.
   ###

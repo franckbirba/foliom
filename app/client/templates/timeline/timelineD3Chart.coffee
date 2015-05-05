@@ -26,10 +26,13 @@ ChartFct =
    * Calculate and present data suite for the Water consumption chart.
   ###
   waterConsumptionChart: (pactions) ->
-    quarters: TV.charts.ticks
-    unit: TAPi18n.__ 'u_m3'
-    chartName: TAPi18n.__ 'consumption_label'
-    series: setSeries pactions, 'consumption', 'water', 'blue'
+    res =
+      quarters: TV.charts.ticks
+      unit: TAPi18n.__ 'u_m3'
+      chartName: TAPi18n.__ 'consumption_label'
+      series: setSeries pactions, 'consumption', 'water', 'blue'
+    console.log res
+    res
   ###*
    * Calculate and present data suite for the CO2 consumption chart.
   ###
@@ -204,14 +207,6 @@ Template.timelineD3Chart.events
       t.rxFullScreen.set false
 
 ###*
- * Create an Array of the provided size filled with 0.
- * @param {Number} size Size of the expected Array.
- * @return {Array} The created Array.
-###
-createArrayFilledWithZero = (size) ->
-  (Array.apply null, new Array size).map Number.prototype.valueOf, 0
-
-###*
  * Sum suites from an Array of Object with suites reachable with the same
  *  property key.
  * @param {Array} arr The Array of Object.
@@ -219,7 +214,7 @@ createArrayFilledWithZero = (size) ->
  * @result {Array} The suite as a sum of all the Array of Object suite.
 ###
 sumSuiteFromArray = (arr, key) ->
-  results = createArrayFilledWithZero arr[0][key].length
+  results = TV.createArrayFilledWithZero arr[0][key].length
   for idx in [0...results.length]
     for item in arr
       results[idx] += item[key][idx]
@@ -232,7 +227,7 @@ sumSuiteFromArray = (arr, key) ->
  * @return {Array} The result of the sum.
 ###
 sum2Suites = (suite1, suite2) ->
-  results = createArrayFilledWithZero suite1.length
+  results = TV.createArrayFilledWithZero suite1.length
   for idx in [0...results.length]
     results[idx] = suite1[idx] + suite2[idx]
   results
@@ -244,7 +239,7 @@ sum2Suites = (suite1, suite2) ->
 ###
 sumAllSuites = (suites) ->
   keys = (key for key of suites)
-  results = createArrayFilledWithZero suites[keys[0]].length
+  results = TV.createArrayFilledWithZero suites[keys[0]].length
   for idx in [0...results.length]
     results[idx] += results[idx - 1] unless idx is 0
     for key in keys
