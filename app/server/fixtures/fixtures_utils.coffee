@@ -16,3 +16,18 @@ allQualitativeValues=
 @randomQualitativeValue = (type) ->
   randomInt = randomIntFromInterval(1,3)
   return allQualitativeValues[type][randomInt]
+
+# Random Technical field
+@randomTechnicalField = () ->
+  randomInt = randomIntFromInterval(0, technical_compliance_items.length-1)
+  return technical_compliance_items[randomInt]
+
+# Return a random number of technical (in an array)
+@randomTechnicalFieldArray = (maxTechFields) ->
+  randomInt = randomIntFromInterval(1, maxTechFields)
+  i = 0
+  result = []
+  while i<randomInt
+    result.push randomTechnicalField()
+    i++
+  return result

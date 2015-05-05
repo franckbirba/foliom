@@ -181,7 +181,9 @@ Template.scenarioForm.events
               break if breakLoop1
           break
         when 'priority_to_gobal_obsolescence'
+          # Increment priority index
           priority++
+          # Create ordered_buildings list: order them based on global_lifetime
           ordered_buildings = \
             _.chain(building_list)
             .map( (item)->
@@ -222,6 +224,18 @@ Template.scenarioForm.events
           break
         when 'priority_to_techField'
           console.log "priority_to_techField: #{criterion.input}"
+          # Increment priority index
+          priority++
+          actions = []
+          # For each input, find the Actions that target this Technical field
+          for input in criterion.input
+            # actions = _.where scenario.planned_actions.technical_field, {building_id: building._id}
+
+            actions.push _.filter scenario.planned_actions, (obj) ->
+                return _.where(obj.technical_field, input).length >0
+
+          console.log "found actions: ", actions
+
           break
 
       return

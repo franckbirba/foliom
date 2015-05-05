@@ -555,6 +555,7 @@ exports.createActions = (nb_actions) ->
     actionToCreate = clone action_1
     delete actionToCreate._id
     actionToCreate.name = actionNames[i]
+    actionToCreate.technical_field = randomTechnicalFieldArray(2)
     randomLogo = 58880 + 99*Math.random()|0
     actionToCreate.logo = "&##{randomLogo};"
 
