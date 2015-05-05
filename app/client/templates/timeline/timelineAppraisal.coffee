@@ -10,5 +10,5 @@ Template.timelineAppraisal.helpers
   triGlobal: -> TV.rxTriGlobal.get()
   energySaving: -> TAPi18n.__ 'calculating'
   waterSaving: -> TAPi18n.__ 'calculating'
-  co2Saving: -> TAPi18n.__ 'calculating'
+  co2Saving: -> TV.rxCo2Emission.get()
   budgetSaving: -> TAPi18n.__ 'calculating'
