@@ -181,8 +181,6 @@ Template.scenarioForm.events
               break if breakLoop1
           break
         when 'priority_to_gobal_obsolescence'
-          # Increment priority index
-          priority++
           # Create ordered_buildings list: order them based on global_lifetime
           ordered_buildings = \
             _.chain(building_list)
@@ -214,9 +212,10 @@ Template.scenarioForm.events
               actions = _.where scenario.planned_actions, {building_id: building._id}
               for action in actions
                 # Set priority
-                action.criterion_priority[priority] = key
-          console.log "scenario.planned_actions is now ", scenario.planned_actions
-          debugger
+                action.criterion_priority[priority] = key * 1
+
+          # console.log "scenario.planned_actions is now ", scenario.planned_actions
+          # debugger
 
           # NOW SORT @BSE - rework here
           # scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
@@ -224,11 +223,10 @@ Template.scenarioForm.events
           #   #sortBy ranks in ascending order (use a - to change order)
           # )
 
-          break
-        when 'priority_to_techField'
-          console.log "priority_to_techField: #{criterion.input}"
           # Increment priority index
           priority++
+          break
+        when 'priority_to_techField'
           actions = []
           # For each input, find the Actions that target this Technical field
           for input in criterion.input
@@ -246,20 +244,53 @@ Template.scenarioForm.events
             if _.contains(actions_Ids, paction._id) then paction.criterion_priority[priority] = 1
             else paction.criterion_priority[priority] = 2
 
-          console.log "scenario.planned_actions is now ", scenario.planned_actions
-          debugger
+          # console.log "scenario.planned_actions is now ", scenario.planned_actions
+          # debugger
 
+          # Increment priority index
+          priority++
           break
 
       return
 
     # @BSE - temp : display in array
     Template.instance().tmpActionList.set(scenario.planned_actions)
+    console.log "AFTER CRITERION - scenario.planned_actions is now ", scenario.planned_actions
+
+    # For criterion 1, create arrays Actions whose priority is 1
+    criterion_nb = "#{1}"
+    possible_categories = 4
+    ordered_actions = []
+    i = 0
+    # while i < scenario.criterion_list.length
+    ordered_actions =  _.groupBy scenario.planned_actions, (item)->
+      return item.criterion_priority["#{i}"]
+    # result will be in the form of
+    # Object {1: Array[4], 2: Array[9]}
+    console.log "ordered_actions are: ", ordered_actions
+    i++
+    for key, array of ordered_actions
+      # console.log "key, array", key, array
+      ordered_actions[key] = _.groupBy array, (item)->
+        return item.criterion_priority["#{i}"]
+    console.log "ordered_actions are NOW: ", ordered_actions
+
+      # ordered_actions =  _.filter scenario.planned_actions, (obj) ->
+      #   return obj.criterion_priority[criterion_nb] is 1
+
+      # _.groupBy(temp1, function(item){return item.criterion_priority['1']})
+
+      # _.filter(temp1, function(obj){
+      #   return obj.criterion_priority[criterion_nb] == 1 })
+
     # NOW SORT @BSE - rework here (for now, only using the first criterion_priority)
     scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
-      paction.criterion_priority[1]
+      paction.criterion_priority[0]
       #sortBy ranks in ascending order (use a - to change order)
     )
+
+
+
 
     # TOTAL EXPENDITURE FILTER: set action.start to null if we are over budget
     added_action_cost = 0
