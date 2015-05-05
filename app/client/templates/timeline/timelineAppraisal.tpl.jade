@@ -12,21 +12,21 @@
     // Global TRI
     .col-xs-6
       h4.panel-inner-title {{_ 'global_tri'}}
-      p.appraisal-value #{triGlobal}
+      p.appraisal-value #{triGlobal} {{_ 'u_years'}}
   .row
     // Energy saving
     .col-xs-3.appraisal-sep
       h4.panel-inner-title {{_ 'energy_saving'}}
-      p.appraisal-value #{energySaving}
+      p.appraisal-value= energySaving
     // Water saving
     .col-xs-3.appraisal-sep
       h4.panel-inner-title {{_ 'water_saving'}}
-      p.appraisal-value #{waterSaving}
+      p.appraisal-value= waterSaving
     // CO2 saving
     .col-xs-3.appraisal-sep
       h4.panel-inner-title {{_ 'co2_saving'}}
-      p.appraisal-value #{co2Saving}
+      p.appraisal-value= co2Saving
     // Budget saving
     .col-xs-3
       h4.panel-inner-title {{_ 'budget_saving'}}
-      p.appraisal-value #{budgetSaving}
+      p.appraisal-value= budgetSaving
