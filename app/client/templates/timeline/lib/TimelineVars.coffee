@@ -421,26 +421,36 @@
     for type in ['water', 'co2', 'kwh']
       @actionCharts.consumption[type] = @charts.consumption[type].slice()
     for type in ['water', 'electricity', 'cool', 'heat']
-      @actionCharts.invoice[type] = \
-        @createArrayFilledWithZero @charts.ticks.length
+      @actionCharts.invoice[type] = @charts.invoice[type].slice()
     for type in ['raw', 'subventionned']
       @actionCharts.investment[type] = \
         @createArrayFilledWithZero @charts.ticks.length
     # Iterate over actions for filling charts
     for paction in @scenario.planned_actions when paction.start isnt null
       for idx in [0...@charts.ticks.length]
-        @itFctWaterConsumption paction, idx
-        @itFctCo2Consumption paction, idx
-        @itFctKwhConsumption paction, idx
+        @itFctConsumptionWate paction, idx
+        @itFctConsumptionCo2 paction, idx
+        @itFctConsumptionKwh paction, idx
+        @itFctInvoiceWater paction, idx
+        @itFctInvoiceElectricity paction, idx
+        @itFctInvoiceCool paction, idx
+        @itFctInvoiceHeat paction, idx
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
-  itFctWaterConsumption: (paction, idx) ->
+  itFctConsumptionWate: (paction, idx) ->
     @actionCharts.consumption.water[idx] += paction.consumptionWater[idx]
-  itFctCo2Consumption: (paction, idx) ->
+  itFctConsumptionCo2: (paction, idx) ->
     @actionCharts.consumption.co2[idx] += paction.consumptionCo2[idx]
-  itFctKwhConsumption: (paction, idx) ->
+  itFctConsumptionKwh: (paction, idx) ->
     @actionCharts.consumption.kwh[idx] += paction.consumptionKwh[idx]
-
+  itFctInvoiceWater: (paction, idx) ->
+    @actionCharts.invoice.water[idx] += paction.invoiceWater[idx]
+  itFctInvoiceElectricity: (paction, idx) ->
+    @actionCharts.invoice.electricity[idx] += paction.invoiceElectricity[idx]
+  itFctInvoiceCool: (paction, idx) ->
+    @actionCharts.invoice.cool[idx] += paction.invoiceCool[idx]
+  itFctInvoiceHeat: (paction, idx) ->
+    @actionCharts.invoice.heat[idx] += paction.invoiceHeat[idx]
   ###*
    * Create an Array of the provided size filled with 0.
    * @param {Number} size Size of the expected Array.

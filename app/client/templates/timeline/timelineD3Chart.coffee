@@ -83,14 +83,63 @@ ChartFct =
    * Calculate and present data suite for the Expense chart.
   ###
   invoiceChart: (pactions) ->
+    # res =
+    #   quarters: TV.charts.ticks
+    #   unit: TAPi18n.__ 'u_euro'
+    #   chartName: TAPi18n.__ 'invoice_label'
+    #   series: []
+    #     .concat setSeries pactions, 'invoice', 'water', 'blue'
+    #     .concat setSeries pactions, 'invoice', 'electricity', 'violet'
+    #     .concat setSeries pactions, 'invoice', 'cool', 'darkgray'
+    #     .concat setSeries pactions, 'invoice', 'heat', 'red'
+    # console.log res
+    # res
     quarters: TV.charts.ticks
     unit: TAPi18n.__ 'u_euro'
     chartName: TAPi18n.__ 'invoice_label'
-    series: []
-      .concat setSeries pactions, 'invoice', 'water', 'blue'
-      .concat setSeries pactions, 'invoice', 'electricity', 'violet'
-      .concat setSeries pactions, 'invoice', 'cool', 'darkgray'
-      .concat setSeries pactions, 'invoice', 'heat', 'red'
+    series: [
+      {
+        name: TAPi18n.__ 'invoice_noaction_water'
+        style: 'noaction blue'
+        data: TV.charts.invoice.water
+      }
+      {
+        name: TAPi18n.__ 'invoice_action_water'
+        style: 'action blue'
+        data: TV.actionCharts.invoice.water
+      }
+      {
+        name: TAPi18n.__ 'invoice_noaction_electricity'
+        style: 'noaction violet'
+        data: TV.charts.invoice.electricity
+      }
+      {
+        name: TAPi18n.__ 'invoice_action_electricity'
+        style: 'action violet'
+        data: TV.actionCharts.invoice.electricity
+      }
+      {
+        name: TAPi18n.__ 'invoice_noaction_cool'
+        style: 'noaction darkgray'
+        data: TV.charts.invoice.cool
+      }
+      {
+        name: TAPi18n.__ 'invoice_action_cool'
+        style: 'action darkgray'
+        data: TV.actionCharts.invoice.cool
+      }
+      {
+        name: TAPi18n.__ 'invoice_noaction_heat'
+        style: 'noaction red'
+        data: TV.charts.invoice.heat
+      }
+      {
+        name: TAPi18n.__ 'invoice_action_heat'
+        style: 'action red'
+        data: TV.actionCharts.invoice.heat
+      }
+
+    ]
   ###*
    * Calculate and present data suite for the Investment chart.
   ###
