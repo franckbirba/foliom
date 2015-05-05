@@ -149,7 +149,7 @@ Template.timelineD3Chart.rendered = ->
       # Check if action chart cross no action chart
       if withAction[idx] < noAction[idx] and TV.triGlobal is 0
         # In this case, we got our global return of invest
-        TV.triGlobal = (TV.minDate.clone().add idx, 'Q').years()
+        TV.triGlobal = (TV.minDate.clone().add idx, 'Q').year()
         console.log 'TRI', TV.triGlobal
   # Specific behavior for the investment chart
   if @data.chartName is 'investmentChart'
