@@ -269,7 +269,7 @@ Template.scenarioForm.events
       for key, array of action_array
         action_array[key] = _.groupBy array, (item)->
           return item.criterion_priority["#{iterator}"]
-        console.log "ordered_actions are NOW: ", action_array
+        # console.log "ordered_actions are NOW: ", action_array
         if iterator < limit
           orderArrayByCriterion(action_array[key], iterator+1, limit)
 
@@ -282,7 +282,18 @@ Template.scenarioForm.events
       orderArrayByCriterion(ordered_actions, 1, scenario.criterion_list.length-1)
     console.log "FINISHED RECURSION! ", ordered_actions
 
-    scenario.planned_actions = _.chain(ordered_actions).flatten().map((item) -> _.flatten(item)).flatten().map((item) -> _.flatten(item)).flatten().value()
+    flattenSortedActions = (object)->
+      i = 0
+      result = _.flatten(object)
+      while i < criterion_list.length-1
+        result = _.chain(result).map((item)-> _.flatten(item)).flatten().value()
+        i++
+        console.log "tmp result is ", result
+      return result
+
+    # scenario.planned_actions = _.chain(ordered_actions).flatten().map((item) -> _.flatten(item)).flatten().map((item) -> _.flatten(item)).flatten().value()
+    scenario.planned_actions = flattenSortedActions(ordered_actions)
+
     #  console.log "scenario.planned_actions is noooow ", scenario.planned_actions
 
 
