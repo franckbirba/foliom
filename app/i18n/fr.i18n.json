@@ -444,6 +444,9 @@
     "priority_to_gobal_obsolescence_desc": "Priorité aux bâtiments dont l’indicateur « Indice d’obsolescence » est le plus fort",
 
     "priority_to_techField": "Priorité à un/des lots techniques",
+
+    "gain_energy_consumption_kwhef_greater_than": "Gain sur les consommations d’énergie > X kWh/an",
+
     "select_value": "Choisissez un élément",
 
     "scenario_validate": "Enregistrer & voir les résultats",

@@ -433,6 +433,9 @@
     "priority_to_gobal_obsolescence_desc": "Priority to Buildings whose Obsolescence index is the highest",
 
     "priority_to_techField": "Priority to one or more technical fields",
+
+    "gain_energy_consumption_kwhef_greater_than": "Gain on energy consumptions > X kWh/year",
+
     "select_value": "Select one",
 
     "scenario_validate": "Save and see results",

@@ -8,19 +8,13 @@
   )
 
   # Go through each Criterion, find relevant Actions, and apply priority
+
   priority = 0
   _.each scenario.criterion_list, (criterion) ->
     switch criterion.label
       when 'yearly_expense_max'
-        # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
-        yearly_sum = 0
-        nb_toAdd = 0
-        _.each scenario.planned_actions, (paction)->
-          yearly_sum += paction.action.subventions.residual_cost
-          if yearly_sum > criterion.input
-            yearly_sum = paction.action.subventions.residual_cost # reset cost to current cost
-            nb_toAdd++ #increment counter
-          paction.start.add nb_toAdd, 'Y'
+        # 'yearly_expense_max' is always applied at the end, once the Actions have already been sorted
+        # So don't do anything here
         break
       when 'obsolescence_lifetime_greater_than'
         _.each scenario.planned_actions, (paction, index)->
@@ -76,7 +70,6 @@
         actions = []
         # For each input, find the Actions that target this Technical field
         for input in criterion.input
-          # actions = _.where scenario.planned_actions.technical_field, {building_id: building._id}
           actions.push _.filter scenario.planned_actions, (obj) ->
                 # return _.where(obj.technical_field, input).length >0
                 tmp_array = _.filter obj.technical_field, (item)->
@@ -125,12 +118,33 @@
   scenario.planned_actions = flattenSortedActions(ordered_actions, scenario.criterion_list.length)
 
 
+  # ---------------
+  # LAST OPERATIONS
+  # ---------------
+  # yearly_expense_max criterion: if it's activated, apply it now
+  yearly_expense_max_criterion = _.find scenario.criterion_list, (obj) ->
+      return obj.label is "yearly_expense_max"
+  if yearly_expense_max_criterion isnt undefined
+    # Go through all Actions, and add 1 Year if the yearly expense is above the criterion input
+    yearly_sum = 0
+    nb_toAdd = 0
+    _.each scenario.planned_actions, (action)->
+      yearly_sum += action.subventions.residual_cost
+      if yearly_sum > yearly_expense_max_criterion.input
+        yearly_sum = action.subventions.residual_cost # reset cost to current cost
+        nb_toAdd++ #increment counter
+      action.start.add nb_toAdd, 'Y'
+
   # TOTAL EXPENDITURE FILTER: set action.start to null if we are over budget
   added_action_cost = 0
-  _.each scenario.planned_actions, (paction)->
-    added_action_cost += paction.action.subventions.residual_cost
+  _.each scenario.planned_actions, (action)->
+    added_action_cost += action.subventions.residual_cost
     if added_action_cost > scenario.total_expenditure
       paction.start = null
+
+  # To Do
+  # > Si le TRI global (voir infos plus bas sur le calcul des gains globaux d’un scénario ≠ somme des gains unitaires des actions) de ce panel d’actions est inférieur au TRI autorisé, tout va bien et on passe à la suite.
+  # > Si le TRI global de ce panel d’actions est supérieur au TRI autorisé, on retire l’action la plus bas dans la liste dont le TRI unitaire est > au TRI global, et on refait le calcul. Si ça ne marche toujours pas rebelote (ça ne sert à rien d’enlever les actions en bas de liste, dont le TRI est < au TRI global : le calcul du TRI global de sera pas amélioré).
 
 
   # Add the unplanned actions at the end of the planned_actions
