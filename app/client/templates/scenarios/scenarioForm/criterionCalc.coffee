@@ -44,8 +44,8 @@
                 console.log "removing action"
                 action.start = null
                 unplanned_actions = unplanned_actions.concat scenario.planned_actions.splice(index, 1)
-              #   breakLoop1 = true; break
-              # break if breakLoop1
+                breakLoop1 = true; break
+              break if breakLoop1
         break
 
       when 'priority_to_gobal_obsolescence'
