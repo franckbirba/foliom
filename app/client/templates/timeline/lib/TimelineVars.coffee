@@ -2,7 +2,6 @@
 
 # Isolate calculated value in a namespace
 @TimelineVars =
-  rxTriGlobal: new ReactiveVar
   rxKwhSpare: new ReactiveVar
   rxWaterSpare: new ReactiveVar
   rxCo2Spare: new ReactiveVar
@@ -36,7 +35,6 @@
     @totalCost = 0
     @triGlobal = 0
     # Appraisal reactive values
-    @rxTriGlobal.set 0
     @rxKwhSpare.set 0
     @rxWaterSpare.set 0
     @rxCo2Spare.set 0
