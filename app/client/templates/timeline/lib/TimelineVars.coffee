@@ -34,6 +34,7 @@
       invoiceAll: []
     # Appraisal non reactive values
     @totalCost = 0
+    @triGlobal = 0
     # Appraisal reactive values
     @rxTriGlobal.set 0
     @rxKwhSpare.set 0
@@ -45,6 +46,7 @@
       consumption: water: [], co2: [], kwh: []
       invoice: water: [], electricity: [], cool: [], heat: []
       investment: raw: [], subventionned: []
+      invoiceAll: []
     # Others
     @currentFilter = null
   ###*
@@ -423,51 +425,79 @@
     for type in ['water', 'electricity', 'cool', 'heat']
       @actionCharts.invoice[type] = @charts.invoice[type].slice()
     # Reset charts by symply creating an Array with value as 0
+    zeroArr = @createArrayFilledWithZero @charts.ticks.length
     for type in ['raw', 'subventionned']
-      @actionCharts.investment[type] = \
-        @createArrayFilledWithZero @charts.ticks.length
-    @charts.invoiceAll = @createArrayFilledWithZero @charts.ticks.length
-    # Iterate over actions for filling charts
-    for paction in @scenario.planned_actions when paction.start isnt null
-      for idx in [0...@charts.ticks.length]
-        @itFctConsumptionWate paction, idx
-        @itFctConsumptionCo2 paction, idx
-        @itFctConsumptionKwh paction, idx
-        @itFctInvoiceWater paction, idx
-        @itFctInvoiceElectricity paction, idx
-        @itFctInvoiceCool paction, idx
-        @itFctInvoiceHeat paction, idx
-        @itFctInvestmentRaw paction, idx
-        @itFctInvestmentSubventionned paction, idx
-        @itInvoicesAll paction, idx
+      @actionCharts.investment[type] = zeroArr.slice()
+    @charts.invoiceAll = zeroArr.slice()
+    @totalGain = zeroArr.slice()
+    @cumulativeTotalGain = zeroArr.slice()
+    @actionCharts.invoiceAll = zeroArr.slice()
+    # Iterate over actions and quarters for filling charts
+    @triGlobal = 0
+    quarter = @minDate.clone()
+    for idx in [0...@charts.ticks.length]
+      for paction in @scenario.planned_actions when paction.start isnt null
+        @itFctConsumptionWate paction, idx, quarter
+        @itFctConsumptionCo2 paction, idx, quarter
+        @itFctConsumptionKwh paction, idx, quarter
+        @itFctInvoiceWater paction, idx, quarter
+        @itFctInvoiceElectricity paction, idx, quarter
+        @itFctInvoiceCool paction, idx, quarter
+        @itFctInvoiceHeat paction, idx, quarter
+        @itFctInvestmentRaw paction, idx, quarter
+        @itFctInvestmentSubventionned paction, idx, quarter
+        @itTotalGain paction, idx
+      @itInvoicesAll idx, quarter
+      @itCumulativeTotalGain idx, quarter
+      @itTotalCostWithAction idx, quarter
+      quarter.add 1, 'Q'
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
   # Functors for calculatings series
-  itFctConsumptionWate: (paction, idx) ->
+  itFctConsumptionWate: (paction, idx, quarter) ->
     @actionCharts.consumption.water[idx] += paction.consumptionWater[idx]
-  itFctConsumptionCo2: (paction, idx) ->
+  itFctConsumptionCo2: (paction, idx, quarter) ->
     @actionCharts.consumption.co2[idx] += paction.consumptionCo2[idx]
-  itFctConsumptionKwh: (paction, idx) ->
+  itFctConsumptionKwh: (paction, idx, quarter) ->
     @actionCharts.consumption.kwh[idx] += paction.consumptionKwh[idx]
-  itFctInvoiceWater: (paction, idx) ->
+  itFctInvoiceWater: (paction, idx, quarter) ->
     @actionCharts.invoice.water[idx] += paction.invoiceWater[idx]
-  itFctInvoiceElectricity: (paction, idx) ->
+  itFctInvoiceElectricity: (paction, idx, quarter) ->
     @actionCharts.invoice.electricity[idx] += paction.invoiceElectricity[idx]
-  itFctInvoiceCool: (paction, idx) ->
+  itFctInvoiceCool: (paction, idx, quarter) ->
     @actionCharts.invoice.cool[idx] += paction.invoiceCool[idx]
-  itFctInvoiceHeat: (paction, idx) ->
+  itFctInvoiceHeat: (paction, idx, quarter) ->
     @actionCharts.invoice.heat[idx] += paction.invoiceHeat[idx]
-  itFctInvestmentRaw: (paction, idx) ->
+  itFctInvestmentRaw: (paction, idx, quarter) ->
     @actionCharts.investment.raw[idx] += paction.investment[idx]
-  itFctInvestmentSubventionned: (paction, idx) ->
+  itFctInvestmentSubventionned: (paction, idx, quarter) ->
     @actionCharts.investment.subventionned[idx] += \
       paction.investmentSubventioned[idx]
-  itInvoicesAll: (paction, idx) ->
+  # Specific behavior for CO2 / Water / link actions emission chart
+  # @TODO Use TV.endBuildAction for setting the end of spares
+  itTotalGain: (paction, idx, quarter) ->
+    @totalGain[idx] += paction.allGains[idx]
+  itInvoicesAll: (idx, quarter) ->
     @charts.invoiceAll[idx] = @charts.invoice.water[idx] + \
       @charts.invoice.electricity[idx] + @charts.invoice.cool[idx] + \
       @charts.invoice.heat[idx]
+    # This chart is cumulative
     unless idx is 0
       @charts.invoiceAll[idx] += @charts.invoiceAll[idx - 1]
+  itCumulativeTotalGain: (idx, quarter) ->
+    @cumulativeTotalGain[idx] = @totalGain[idx]
+    # This serie is cumulative
+    unless idx is 0
+      @cumulativeTotalGain[idx] += @cumulativeTotalGain[idx - 1]
+  itTotalCostWithAction: (idx, quarter) ->
+    # Add cumulative value after there.
+    @actionCharts.invoiceAll[idx] = @charts.invoiceAll[idx] + \
+      @cumulativeTotalGain[idx] + @actionCharts.investment.subventionned[idx]
+    if @triGlobal is 0
+      if @actionCharts.invoiceAll[idx] < @charts.invoiceAll[idx]
+        # In this case, we got our global return of invest
+        @triGlobal = quarter.diff @minDate, 'year'
+        console.log 'TRI', @triGlobal
 
   ###*
    * Create an Array of the provided size filled with 0.

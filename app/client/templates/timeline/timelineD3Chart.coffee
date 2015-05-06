@@ -139,8 +139,11 @@ ChartFct =
         style: 'action violet'
         data: TV.charts.invoiceAll
       }
-      # @NOTE Total costs with actions is achieved once all other
-      # charts have been calculated.
+      {
+        name: TAPi18n.__ 'total_cost_action'
+        style: 'action red'
+        data: TV.actionCharts.invoiceAll
+      }
     ]
 
 ###*
@@ -186,30 +189,6 @@ Template.timelineD3Chart.rendered = ->
   pactions = _.filter TV.rxPlannedActions.get(), (action) ->
     action.start isnt null
   @chartData = @chartFct pactions
-  @calculateTotalCostChart = ->
-    @chartData.series.push
-      name: TAPi18n.__ 'total_cost_action'
-      style: 'action red'
-      data: []
-    subventionnedInvestment = @chartData.series[2].data
-    noAction = @chartData.series[3].data
-    withAction = @chartData.series[4].data
-    totalGain = 0
-    triGlobal = 0
-    for quarter, idx in @chartData.quarters
-      totalGain += paction.allGains[idx] for paction in pactions
-      # @NOTE Gain are negative values.
-      withAction.push noAction[idx] + subventionnedInvestment[idx] + totalGain
-      # Check if action chart cross no action chart
-      if withAction[idx] < noAction[idx] and triGlobal is 0
-        # In this case, we got our global return of invest
-        m = moment.duration()
-        triGlobal = (m.add idx, 'Q').years()
-    TV.rxTriGlobal.set triGlobal
-  # Specific behavior for CO2 / Water / link actions emission chart
-  # @TODO Use TV.endBuildAction for setting the end of spares
-  # Specific behavior for the investment chart
-  @calculateTotalCostChart() if @data.chartName is 'investmentChart'
   # An autorun is used for drawing the chart as its layout may change
   #  when the legend show/hide button is toggled.
   @autorun (computation) =>
@@ -242,9 +221,6 @@ Template.timelineD3Chart.rendered = ->
       action.start isnt null
     unless computation.firstRun
       @chartData = @chartFct pactions
-      # Specific behavior for the investment chart
-      if Template.instance().data.chartName is 'investmentChart'
-        @calculateTotalCostChart()
       @chart.updateData @chartData
 
 ###*
