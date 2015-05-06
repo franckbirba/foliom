@@ -11,28 +11,41 @@
    * Reset current object to its default values.
   ###
   reset: ->
-    @totalCost = 0
+    # Denormalized data
     @scenario = null
     @buildings = []
     @portfolios = []
+    # Dates
     @minDate = null
     @maxDate = null
     @endBuildAction = null
+    # Coefs and indices
     @fluidInSettings = {}
     @coefs = {}
     @projectTypeIndexes = {}
     @actualizationRate = 0
     @consumptionDegradation = 0
+    # Charts independant from actions (before action charts)
     @charts =
       ticks: []
       budget: []
       consumption: water: [], co2: [], kwh: []
       invoice: water: [], electricity: [], cool: [], heat: []
+      invoiceAll: []
+    # Appraisal non reactive values
+    @totalCost = 0
+    # Appraisal reactive values
     @rxTriGlobal.set 0
     @rxKwhSpare.set 0
     @rxWaterSpare.set 0
     @rxCo2Spare.set 0
     @rxInvoiceSpare.set 0
+    # Charts dependant from actions (after action charts)
+    @actionCharts =
+      consumption: water: [], co2: [], kwh: []
+      invoice: water: [], electricity: [], cool: [], heat: []
+      investment: raw: [], subventionned: []
+    # Others
     @currentFilter = null
   ###*
    * Get the scenario, the buildings and the portfolios from the router's data.
@@ -404,8 +417,65 @@
         # Increment by 1 quarter
         quarter.add 1, 'Q'
         nextQuarter.add 1, 'Q'
+    # Reset charts by duplicating the content of the no action charts
+    for type in ['water', 'co2', 'kwh']
+      @actionCharts.consumption[type] = @charts.consumption[type].slice()
+    for type in ['water', 'electricity', 'cool', 'heat']
+      @actionCharts.invoice[type] = @charts.invoice[type].slice()
+    # Reset charts by symply creating an Array with value as 0
+    for type in ['raw', 'subventionned']
+      @actionCharts.investment[type] = \
+        @createArrayFilledWithZero @charts.ticks.length
+    @charts.invoiceAll = @createArrayFilledWithZero @charts.ticks.length
+    # Iterate over actions for filling charts
+    for paction in @scenario.planned_actions when paction.start isnt null
+      for idx in [0...@charts.ticks.length]
+        @itFctConsumptionWate paction, idx
+        @itFctConsumptionCo2 paction, idx
+        @itFctConsumptionKwh paction, idx
+        @itFctInvoiceWater paction, idx
+        @itFctInvoiceElectricity paction, idx
+        @itFctInvoiceCool paction, idx
+        @itFctInvoiceHeat paction, idx
+        @itFctInvestmentRaw paction, idx
+        @itFctInvestmentSubventionned paction, idx
+        @itInvoicesAll paction, idx
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
+  # Functors for calculatings series
+  itFctConsumptionWate: (paction, idx) ->
+    @actionCharts.consumption.water[idx] += paction.consumptionWater[idx]
+  itFctConsumptionCo2: (paction, idx) ->
+    @actionCharts.consumption.co2[idx] += paction.consumptionCo2[idx]
+  itFctConsumptionKwh: (paction, idx) ->
+    @actionCharts.consumption.kwh[idx] += paction.consumptionKwh[idx]
+  itFctInvoiceWater: (paction, idx) ->
+    @actionCharts.invoice.water[idx] += paction.invoiceWater[idx]
+  itFctInvoiceElectricity: (paction, idx) ->
+    @actionCharts.invoice.electricity[idx] += paction.invoiceElectricity[idx]
+  itFctInvoiceCool: (paction, idx) ->
+    @actionCharts.invoice.cool[idx] += paction.invoiceCool[idx]
+  itFctInvoiceHeat: (paction, idx) ->
+    @actionCharts.invoice.heat[idx] += paction.invoiceHeat[idx]
+  itFctInvestmentRaw: (paction, idx) ->
+    @actionCharts.investment.raw[idx] += paction.investment[idx]
+  itFctInvestmentSubventionned: (paction, idx) ->
+    @actionCharts.investment.subventionned[idx] += \
+      paction.investmentSubventioned[idx]
+  itInvoicesAll: (paction, idx) ->
+    @charts.invoiceAll[idx] = @charts.invoice.water[idx] + \
+      @charts.invoice.electricity[idx] + @charts.invoice.cool[idx] + \
+      @charts.invoice.heat[idx]
+    unless idx is 0
+      @charts.invoiceAll[idx] += @charts.invoiceAll[idx - 1]
+
+  ###*
+   * Create an Array of the provided size filled with 0.
+   * @param {Number} size Size of the expected Array.
+   * @return {Array} The created Array.
+  ###
+  createArrayFilledWithZero: (size) ->
+    (Array.apply null, new Array size).map Number.prototype.valueOf, 0
   ###*
    * Update the scenario in th DB.
   ###
