@@ -195,7 +195,9 @@ Template.scenarioForm.events
     # console.log "AFTER CRITERION - scenario.planned_actions is now ", scenario.planned_actions
 
     # FORMAT planned_actions to just the _id and start date
-    scenario.planned_actions = _.map(scenario.planned_actions, (action) ->
+    console.log "before bug", scenario.planned_actions
+    scenario.planned_actions = _.map(scenario.planned_actions, (action, index) ->
+      console.log "index is #{index}"
       action=
         action_id: action._id
         start: if action.start is null then null else action.start.toDate()

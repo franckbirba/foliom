@@ -174,6 +174,7 @@
   # Add starred property to all starred Actions
   for action in starredActions_a
     action.starred = true
+    action.start = moment()
   # Add the starred Actions at the beginning of the Array
   scenario.planned_actions = starredActions_a.concat(scenario.planned_actions)
 
