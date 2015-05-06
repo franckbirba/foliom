@@ -17,23 +17,44 @@
     <h3>In dapibus fringilla ante, a ornare ligula pulvinar aliquam.</h3>
     <p>Suspendisse facilisis sit amet enim rutrum ullamcorper. Duis varius accumsan dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur bibendum massa diam, id auctor sapien aliquet sit amet. Nunc fringilla ex in nunc malesuada tristique. Curabitur vitae purus sit amet turpis congue tristique ac mollis lacus. Integer interdum vel velit in faucibus. Nam eget tellus sem. Praesent magna risus, molestie vel nisi ut, malesuada pretium sem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla facilisi. Aenean eu blandit justo. Vestibulum rutrum hendrerit semper. Vivamus non tristique ex. Nullam sit amet sodales quam, a interdum diam.</p>",
 
-  // confidentiality
-  "confidentiality_content":
-    "<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit (FR).</h1>
-    <h2>Proin imperdiet enim a lectus viverra, quis ultrices massa pretium.</h2>
-    <h3>In dapibus fringilla ante, a ornare ligula pulvinar aliquam.</h3>
-    <p>Donec vel gravida lorem. Etiam sed elit ullamcorper, venenatis nisl et, suscipit augue. Fusce ultrices augue id venenatis vulputate. Praesent interdum urna ac tempor interdum. Morbi et semper nisi, vel scelerisque dui. Morbi non libero ut augue suscipit pulvinar et sit amet enim. Nunc convallis orci vitae dolor aliquam, eget faucibus nisi hendrerit. Cras rhoncus nibh urna, at feugiat nisi interdum vel. Fusce finibus a dolor non vulputate. Donec suscipit pulvinar neque, vel tempor enim venenatis quis.</p>
+  // term_of_use
+  "term_of_use_content":
+    "<h3>E-portoflio est l’outil de pilotage de votre projet de rénovation énergétique de votre patrimoine immobilier : il est le support de la gestion et du suivi dans le temps de la performance de votre opération, tant au niveau stratégique, qu’au niveau opérationnel.</h3>
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vestibulum ipsum id bibendum finibus. Pellentesque porta commodo lorem eget congue. Mauris mollis varius nisi in porttitor. Donec quis risus sed magna tincidunt dignissim non vel magna. Cras molestie, nunc sit amet dictum sollicitudin, orci sapien fringilla enim, eu varius ante nulla vel purus. Morbi a pellentesque turpis.</p>
+    <div class=\"text-center\">
+        <img src=/img/term_of_use_ipad.jpg />
+    </div>
 
-    <h2>Proin imperdiet enim a lectus viverra, quis ultrices massa pretium.</h2>
-    <p>Ut accumsan ex ex, ut vulputate risus tristique in. In nec euismod nunc. Donec imperdiet dictum augue id gravida. Pellentesque fringilla eros vel turpis vestibulum cursus. Sed sodales, nibh ultrices consectetur rhoncus, quam ante semper lectus, at convallis ex elit molestie felis. Nulla rutrum tortor augue, quis ornare ante molestie non. Suspendisse facilisis eros a orci ornare, eget lobortis nisl ullamcorper. Vestibulum in nisl blandit mi porta consectetur. Phasellus maximus turpis a arcu tempor, quis scelerisque est cursus. Cras viverra sit amet arcu sit amet aliquet. Praesent efficitur dolor quis fringilla finibus. Mauris auctor, risus in feugiat auctor, purus ante porta mi, et blandit dolor ligula sed nibh. Vestibulum consectetur arcu arcu, pulvinar aliquet nibh pellentesque tincidunt.</p>
+    <p>Il permet :</p>
+    <ul>
+        <li>Le suivi de la réalisation des actions d’économie d’énergie, et la mise en jour des données d’entrées structurantes au fur et à mesure de l’évolution du projet et de son contexte ;</li>
+        <li>La comparaison des performances réellement atteintes avec les performances théoriques visées, et ainsi, de faire apparaître les actions menées avec succès et le cas échéant, d’identifier les éventuels blocages/échecs ;<br/>E-portfolio est une plateforme collaborative. Il doit être accessible par plusieurs utilisateurs en simultané, qui pourront disposer de droits d’accès différents (paramétrables par l’administrateur et par le gestionnaire).</li>
+    </ul>
 
-    <h3>In dapibus fringilla ante, a ornare ligula pulvinar aliquam.</h3>
-    <p>Nam urna elit, volutpat a convallis sed, ornare id neque. Nullam dictum ut libero ac auctor. Aliquam erat volutpat. Sed eget libero mollis, facilisis mauris eget, scelerisque diam. Sed lacinia ullamcorper nunc, vitae volutpat ex gravida at. Proin posuere ex augue, a suscipit purus ornare ac. Donec sed leo magna. Fusce mattis, purus ac euismod elementum, leo mauris imperdiet elit, vitae condimentum neque urna eget mi.</p>
-
-    <h3>In dapibus fringilla ante, a ornare ligula pulvinar aliquam.</h3>
-    <p>Suspendisse facilisis sit amet enim rutrum ullamcorper. Duis varius accumsan dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur bibendum massa diam, id auctor sapien aliquet sit amet. Nunc fringilla ex in nunc malesuada tristique. Curabitur vitae purus sit amet turpis congue tristique ac mollis lacus. Integer interdum vel velit in faucibus. Nam eget tellus sem. Praesent magna risus, molestie vel nisi ut, malesuada pretium sem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla facilisi. Aenean eu blandit justo. Vestibulum rutrum hendrerit semper. Vivamus non tristique ex. Nullam sit amet sodales quam, a interdum diam.</p>",
+    <p><u>Ses fonctions suivantes :</u></p>
+    <ul>
+        <li><b>OBSERVATOIRE DE L’IMMOBILIER</b> : Rassembler, organiser et archiver les informations techniques, énergétiques, économiques et contractuelles relatives à la gestion patrimoniale, dans une base de données et de documents dédiée.
+        </li>
+        <li>
+            <p>
+                <b>PLANIFICATION ET SUIVI DES TRAVAUX</b> : Définir, planifier et budgéter des actions d’entretien ou d’amélioration du patrimoine (travaux de GER et/ou de rénovation, mise en conformité réglementaire, actions d’efficacité énergétique, etc.). Suivre l’avancement des actions planifiées et comparer les résultats obtenus aux objectifs initialement définis (en termes de performance, de délais et de coût).
+            </p>
+            <div class=\"text-center\">
+                <p><img src=/img/term_of_use_action_home.jpg /></p>
+                <p><img src=/img/term_of_use_timeline.jpg /></p>
+            </div>
+        </li>
+        <li>
+            <div>
+                <b>REPORTING DÉCISIONNEL</b> (en cours de développement) : Produire des rapports paramétrables (comprenant des tableaux de bord, des graphiques, etc.) caractérisant l’état et les performances du patrimoine immobilier, ainsi que son évolution dans le temps (état passé, état actuel et état futur). Ces rapports sont destinés à :</div>
+            <ul>
+                <li>Synthétiser la performance du patrimoine sur la base d’indicateurs prédéfinis par le gestionnaire et tracer son évolution dans le temps, à des fins de reporting ;</li>
+                <li>Identifier les marges de progrès par rapport à des indicateurs de référence</li>
+                <li>Optimiser et faciliter la prise de décision du gestionnaire de patrimoine immobilier, pour ce qui concerne la définition, la hiérarchisation et la priorisation de ses investissements</li>
+                <li>Faciliter la communication institutionnelle, auprès des décideurs stratégiques, et des clients</li>
+            </ul>
+        <li><b>VEILLE SECTORIELLE ET RÉGLEMENTAIRE et FLUX RSS SPECIALISE</b> (en cours de développement): Rester informé des évolutions réglementaires et normatives, susceptibles de générer des besoins d’interventions sur le patrimoine. Suivre l’évolution des coûts d’investissement et d’exploitation en fonction de l’évolution des facteurs exogènes (coûts de la construction, coûts de la main d’oeuvre, évolution des prix de l’eau et de l’énergie, etc).
+        </li>",
 
   // help
   "help_content":

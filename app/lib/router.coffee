@@ -42,7 +42,7 @@ Router.map ->
   routes = [
     'join', 'signin', 'settings', 'portfolios', 'observatory'
     'user', 'selectors', 'scenarioForm_old', 'scenarioList', 'leaseForm',
-    'about', 'help', 'confidentiality'
+    'about', 'help', 'termOfUse'
     # Buildings
     'buildings', 'building-new', 'building-form'
     # Estates
