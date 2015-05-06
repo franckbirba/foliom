@@ -448,6 +448,7 @@
     "gain_energy_consumption_kwhef_greater_than": "Gain sur les consommations d’énergie doit être > X kWh/an",
     "gain_water_consumption_greater_than": "Gain sur les consommations d'eau doit être > X m³/an",
     "gain_euro_savings_greater_than": "Gain sur la facture d’énergie et de fluide doit être > X €HT/an",
+    "gain_CO2_savings_greater_than": "Gain sur les émissions de CO2 > X kgeqCO2/an",
 
     "select_value": "Choisissez un élément",
 
@@ -481,6 +482,7 @@
     "u_euro_year": "€ HT / an",
     "u_euro_m2_year": "€ HT / m².an",
     "u_kg_eqC02_m2_year": "kg (eq. C02) / m².an",
+    "u_kg_eqC02_year": "kg (eq. C02) / an",
     "u_m2_shon": "m² SHON",
     "u_m2_useful": "m² utiles",
     "u_kwh_m2_year_primEnergy": "kWh / m².an (énergie primaire)",

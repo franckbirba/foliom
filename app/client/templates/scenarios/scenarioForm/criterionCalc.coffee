@@ -1,9 +1,9 @@
-@criterionCalc = (scenario, building_list) ->
+@criterionCalc = (scenario, building_list, starredActions_a) ->
   unplanned_actions = new Array
 
   # Preliminary - apply the default sort: by internal_return
-  scenario.planned_actions = _.sortBy(scenario.planned_actions, (paction) ->
-    paction.action.internal_return
+  scenario.planned_actions = _.sortBy(scenario.planned_actions, (action) ->
+    action.internal_return
     #sortBy ranks in ascending order (use a - to change order)
   )
 
@@ -132,10 +132,10 @@
         # Keep action Ids
         actions_Ids = _.pluck(actions, '_id')
         # Set priority in scenario.planned_actions
-        for paction in scenario.planned_actions
+        for action in scenario.planned_actions
           # If the planned action's Id is in the actions_Ids array: we give it priority (1), otherwise it's not prioritary (thus a priority of 2)
-          if _.contains(actions_Ids, paction._id) then paction.criterion_priority[priority] = 1
-          else paction.criterion_priority[priority] = 2
+          if _.contains(actions_Ids, action._id) then action.criterion_priority[priority] = 1
+          else action.criterion_priority[priority] = 2
         # Increment priority index
         priority++
         break
@@ -171,6 +171,12 @@
   # ---------------
   # LAST OPERATIONS
   # ---------------
+  # Add starred property to all starred Actions
+  for action in starredActions_a
+    action.starred = true
+  # Add the starred Actions at the beginning of the Array
+  scenario.planned_actions = starredActions_a.concat(scenario.planned_actions)
+
   # yearly_expense_max criterion: if it's activated, apply it now
   yearly_expense_max_criterion = _.find scenario.criterion_list, (obj) ->
       return obj.label is "yearly_expense_max"

@@ -66,6 +66,10 @@ Scenarios.attachSchema(new SimpleSchema({
     defaultValue: null,
     optional: true
   },
+  'planned_actions.$.starred': {
+    type: Boolean,
+    optional: true
+  },
   // 'planned_actions.$.efficiency_ratio': {
   //   type: Number,
   //   decimal: true,

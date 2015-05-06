@@ -1,19 +1,25 @@
-root = exports ? this
-
 Template.scenarioForm.created = ->
   console.log "@data", @data
 
   instance = this
   instance.criterion_list = new ReactiveVar([])
   instance.flattend_toAddCriterionList = new ReactiveVar([])
+  instance.starredActions = new ReactiveVar([])
+
+  # Find starred Actions in the scenario
+  starredActions = _.map(@data.scenario.planned_actions, (item) ->
+    if item.starred is true then return item.action)
+  console.log "starredActions is", _.compact(starredActions)
+  instance.starredActions.set(_.compact(starredActions)) # Use compact to remove undefined values
 
   # Create a flattened version of toAddCriterionList (and without the types)
   flattend_toAddCriterionList = _.chain(toAddCriterionList)
                                 .pluck( 'criterion')
                                 .flatten()
                                 .value()
-  # Set reactive vars
   instance.flattend_toAddCriterionList.set(flattend_toAddCriterionList)
+
+  # Set other reactive vars
   instance.criterion_list.set(@data.scenario.criterion_list)
 
   # For debug
@@ -23,6 +29,9 @@ Template.scenarioForm.created = ->
   this.autorun ->
     console.log "instance.criterion_list.get()"
     console.log instance.criterion_list.get()
+
+    console.log "instance.starredActions.get()"
+    console.log instance.starredActions.get()
 
 Template.scenarioForm.rendered = ->
   # Init sortable function
@@ -69,6 +78,21 @@ Template.scenarioForm.helpers
   displayStart: (startMoment) ->
     if startMoment is null then return "-"
     else return "#{TAPi18n.__ 'quarter_abbreviation'}#{startMoment.format('Q-YYYY')}"
+  isStarred: () ->
+    # starredActions_a = Template.instance().starredActions.get()
+    # action_id = this._id
+    # # Look if we find the id in starredActions_a
+    # is_in_starred_array = _.find starredActions_a, (obj) ->
+    #   return obj._id is action_id
+    # console.log "is_in_starred_array"
+    # console.log is_in_starred_array
+    # if is_in_starred_array isnt undefined
+    #   console.log "this jq is"
+    #   console.log $(this)
+    #   $(this).toggleClass('starAction_selected')
+    console.log $(this)
+    if this.starred
+      $(this).toggleClass('starAction_selected')
 
   display_impact_fluids: ->
     # Return gain kwhef and water - unless there is no water savings
@@ -95,6 +119,30 @@ Template.scenarioForm.events
     return
   'click .removeCriterion': (e) ->
     $(e.currentTarget).parents('li').remove()
+    return
+  'click .starAction': (e) ->
+    # $(e.currentTarget).toggleClass('starAction_selected')
+    # push or remove the Action from the starred Actions array
+    starredActions_a = Template.instance().starredActions.get()
+    console.log "starredActions_a:", starredActions_a
+    this_action = this
+    console.log "this_action is", this_action
+    unless this_action.starred?
+      console.log "case 1"
+      this_action.starred = true
+      starredActions_a.push this_action.action # Keep clean Action copy
+    else
+      console.log "case 2"
+      delete this_action.starred
+      # test
+      for action, index in starredActions_a
+        if action._id is this_action.action_id then starredActions_a.splice(index, 1)
+      # starredActions_a = _.without(starredActions_a, this_action.action)
+    Template.instance().starredActions.set(starredActions_a)
+    console.log "starredActions_a:", starredActions_a
+    # debugger
+    # Finally, submit the form to trigger the sorting
+    $('form#scenarioForm').submit();
     return
   'submit form': (e, scenarioForm_template) ->
     e.preventDefault()
@@ -130,10 +178,16 @@ Template.scenarioForm.events
     # GET BUILDING LIST
     building_list = Template.currentData().buildings
     # RESET SCENARIO.PLANNED_ACTIONS (to the list in @data)
-    scenario.planned_actions = Template.currentData().action_list
+    # However: first we remove starred actions (we don't want to include them in the sorting)
+    starredActions_a = Template.instance().starredActions.get()
+    clean_action_list = _.pluck(Template.currentData().action_list, "action")
+    scenario.planned_actions = _.difference(clean_action_list, starredActions_a)
+    for action in scenario.planned_actions
+      action.start = moment()
+      action.criterion_priority = {}
 
     # Apply criterion and sort
-    scenario = criterionCalc(scenario, building_list)
+    scenario = criterionCalc(scenario, building_list, starredActions_a)
 
 
     # @BSE - temp : display in array
@@ -141,10 +195,11 @@ Template.scenarioForm.events
     # console.log "AFTER CRITERION - scenario.planned_actions is now ", scenario.planned_actions
 
     # FORMAT planned_actions to just the _id and start date
-    scenario.planned_actions = _.map(scenario.planned_actions, (paction) ->
+    scenario.planned_actions = _.map(scenario.planned_actions, (action) ->
       action=
-        action_id: paction.action._id
-        start: if paction.start is null then null else paction.start.toDate()
+        action_id: action._id
+        start: if action.start is null then null else action.start.toDate()
+        starred: if action.starred? then action.starred
       )
 
     console.log "scenario", scenario

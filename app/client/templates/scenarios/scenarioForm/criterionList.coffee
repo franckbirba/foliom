@@ -8,7 +8,7 @@
       {"label": "obsolescence_lifetime_greater_than", "type":"selector"},
 
 
-      {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent"},
+      # {"label": "energy_consum_atLeast_in_E_year", "unit": "u_percent"},
     ]
   }
   {
@@ -26,6 +26,7 @@
       {"label": "gain_energy_consumption_kwhef_greater_than", "unit":"u_kwhEF_year"},
       {"label": "gain_water_consumption_greater_than", "unit":"u_m3_year"},
       {"label": "gain_euro_savings_greater_than", "unit":"u_euro_year"},
+      # {"label": "gain_CO2_savings_greater_than", "unit":"u_kg_eqC02_year"},
     ]
   }
 ]

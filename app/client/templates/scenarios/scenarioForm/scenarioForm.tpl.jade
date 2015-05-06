@@ -3,7 +3,7 @@
   with scenario
     .row: .col-md-12: h1.page-title.mFadeInDown {{_ 'create_scenario'}}
     //General form
-    form.mFadeInUp
+    form#scenarioForm.mFadeInUp
       .row: .col-md-12: .form-horizontal
         .form-group
           label.col-sm-3.control-label(for="scenario_name") {{_ 'name'}}
@@ -77,6 +77,7 @@
           th {{_ 'actualised_roi'}}
           th {{_ 'comfort_impact'}}
           th priority
+          th.actionToggle
         each this.planned_actions
           tr
             td.text-center {{displayStart start}}
@@ -103,6 +104,12 @@
                   | {{_ this.valueOf}}
                   br
               td {{getCriterion_priority _id}}
+            //- td.actionToggle: span.starAction.glyphicon.glyphicon-star(aria-hidden="true" $dyn=isStarred)
+            td.actionToggle
+              if starred
+                span.starAction.starAction_selected.glyphicon.glyphicon-star(aria-hidden="true")
+              else
+                span.starAction.glyphicon.glyphicon-star(aria-hidden="true")
       // Timeline link
       #timelineLink
         a.btn.btn-primary(role='button' href='{{pathFor "timeline"}}') {{_ "go_to_timeline"}}

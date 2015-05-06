@@ -96,11 +96,12 @@ Router.map ->
         }, sort: name: 1).fetch()
         # Go through all Actions and push them to the planned_actions array
         # Note: heavy design - we have to respect the format needed by the Timeline, but we also need to denormalize the Action to have easier filtering for the criterions
-        # Thus, the Action data is present two times
+        # Thus, the Action data is present two times. But has the advantage of always having a clean Action copy
         for action in actions
+          action_clone = clone action # avoid circular ref.
           action.start = moment()
           action.criterion_priority = {}
-          action.action = action
+          action.action = action_clone
           action_list.push action
           # action_list.push
           #   'action': action
