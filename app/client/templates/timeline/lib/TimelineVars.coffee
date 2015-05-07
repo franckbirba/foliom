@@ -2,10 +2,6 @@
 
 # Isolate calculated value in a namespace
 @TimelineVars =
-  rxKwhSpare: new ReactiveVar
-  rxWaterSpare: new ReactiveVar
-  rxCo2Spare: new ReactiveVar
-  rxInvoiceSpare: new ReactiveVar
   ###*
    * Reset current object to its default values.
   ###
@@ -31,14 +27,10 @@
       consumption: water: [], co2: [], kwh: []
       invoice: water: [], electricity: [], cool: [], heat: []
       invoiceAll: []
-    # Appraisal non reactive values
-    @totalCost = 0
-    @triGlobal = 0
-    # Appraisal reactive values
-    @rxKwhSpare.set 0
-    @rxWaterSpare.set 0
-    @rxCo2Spare.set 0
-    @rxInvoiceSpare.set 0
+    # Appraisal values
+    @totalCost = @triGlobal = 0
+    @kwhSpare = @waterSpare = @co2Spare = @invoiceSpare = 0
+    @co2EndBuildNoAction = @co2EndBuildAction = 0
     # Charts dependant from actions (after action charts)
     @actionCharts =
       consumption: water: [], co2: [], kwh: []
@@ -432,6 +424,8 @@
     @actionCharts.invoiceAll = zeroArr.slice()
     # Iterate over actions and quarters for filling charts
     @triGlobal = 0
+    @kwhSpare = @waterSpare = @co2Spare = @invoiceSpare = 0
+    @co2EndBuildNoAction = @co2EndBuildAction = 0
     quarter = @minDate.clone()
     for idx in [0...@charts.ticks.length]
       for paction in @scenario.planned_actions when paction.start isnt null
@@ -448,7 +442,11 @@
       @itInvoicesAll idx, quarter
       @itCumulativeTotalGain idx, quarter
       @itTotalCostWithAction idx, quarter
+      @itCo2Spare idx, quarter
       quarter.add 1, 'Q'
+    # Set last appraisal values
+    @co2Spare = 100 * (@co2EndBuildAction - @co2EndBuildNoAction) / \
+      @co2EndBuildNoAction
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
   # Functors for calculatings series
@@ -471,8 +469,6 @@
   itFctInvestmentSubventionned: (paction, idx, quarter) ->
     @actionCharts.investment.subventionned[idx] += \
       paction.investmentSubventioned[idx]
-  # Specific behavior for CO2 / Water / link actions emission chart
-  # @TODO Use TV.endBuildAction for setting the end of spares
   itTotalGain: (paction, idx, quarter) ->
     @totalGain[idx] += paction.allGains[idx]
   itInvoicesAll: (idx, quarter) ->
@@ -480,13 +476,11 @@
       @charts.invoice.electricity[idx] + @charts.invoice.cool[idx] + \
       @charts.invoice.heat[idx]
     # This chart is cumulative
-    unless idx is 0
-      @charts.invoiceAll[idx] += @charts.invoiceAll[idx - 1]
+    @charts.invoiceAll[idx] += @charts.invoiceAll[idx-1] unless idx is 0
   itCumulativeTotalGain: (idx, quarter) ->
     @cumulativeTotalGain[idx] = @totalGain[idx]
     # This serie is cumulative
-    unless idx is 0
-      @cumulativeTotalGain[idx] += @cumulativeTotalGain[idx - 1]
+    @cumulativeTotalGain[idx] += @cumulativeTotalGain[idx-1] unless idx is 0
   itTotalCostWithAction: (idx, quarter) ->
     # Add cumulative value after there.
     @actionCharts.invoiceAll[idx] = @charts.invoiceAll[idx] + \
@@ -495,7 +489,10 @@
       if @actionCharts.invoiceAll[idx] < @charts.invoiceAll[idx]
         # In this case, we got our global return of invest
         @triGlobal = quarter.diff @minDate, 'year'
-        console.log 'TRI', @triGlobal
+  itCo2Spare: (idx, quarter) ->
+    if quarter.isBefore @endBuildAction
+      @co2EndBuildNoAction += @charts.consumption.co2[idx]
+      @co2EndBuildAction += @actionCharts.consumption.co2[idx]
 
   ###*
    * Create an Array of the provided size filled with 0.
