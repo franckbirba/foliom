@@ -445,8 +445,7 @@
       @itCo2Spare idx, quarter
       quarter.add 1, 'Q'
     # Set last appraisal values
-    @co2Spare = 100 * (@co2EndBuildAction - @co2EndBuildNoAction) / \
-      @co2EndBuildNoAction
+    @co2Spare = 100 * (@co2EndBuildAction / @co2EndBuildNoAction - 1)
     # Assign reactive vars
     @rxPlannedActions.set @scenario.planned_actions
   # Functors for calculatings series
@@ -489,6 +488,10 @@
       if @actionCharts.invoiceAll[idx] < @charts.invoiceAll[idx]
         # In this case, we got our global return of invest
         @triGlobal = quarter.diff @minDate, 'year'
+    # Calculate invoice gain
+    if quarter.isBefore @endBuildAction
+      @invoiceSpare = 100 * (@actionCharts.invoiceAll[idx] / \
+        @charts.invoiceAll[idx] - 1)
   itCo2Spare: (idx, quarter) ->
     if quarter.isBefore @endBuildAction
       @co2EndBuildNoAction += @charts.consumption.co2[idx]
