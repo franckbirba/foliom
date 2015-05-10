@@ -129,6 +129,7 @@
     "fluid_electricity": "Electricité",
     "fluid_water": "Eau",
     "fluid_heat": "Chaud",
+    "fluid_cooling": "Froid",
     "fluid_id": "fluide",
 
 

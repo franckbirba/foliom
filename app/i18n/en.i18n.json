@@ -126,6 +126,7 @@
     "fluid_electricity": "Electricity",
     "fluid_water": "Water",
     "fluid_heat": "Heat",
+    "fluid_cooling": "Cooling",
     "fluid_id": "Fluid",
 
     /* Estates */
