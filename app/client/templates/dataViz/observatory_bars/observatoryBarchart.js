@@ -28,6 +28,17 @@ Template.observatoryBarchart.created = function () {
 
   var building_prop = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch();
 
+  // SPECIAL CASE FOR BUILDINGS BEING CREATED:
+  // As they don't have Leases yet, we exclude buildings who don't have the 'properties' field
+  building_prop = _.chain(building_prop)
+                    .map( function(building) {
+                      if(building.hasOwnProperty('properties')){
+                        return building;
+                      } else {return false;}
+                    })
+                    .compact()
+                    .value()
+
   // ges Data
   var dpe_co2_emission_data = building_prop.map(function(x){
         return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade, frequency:x.building_name };
