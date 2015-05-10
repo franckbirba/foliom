@@ -92,7 +92,11 @@
     "sort": "Sort",
     "nb_buildings": "Building count",
 
+    "settings_selectors": "Settings",
+
     /* Configuration Compass */
+
+    "settings_indexes": "Indexes",
 
     "icc": "Construction Cost Index",
     "ipc": "Consumption Price Index",

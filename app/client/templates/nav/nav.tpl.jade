@@ -11,10 +11,10 @@ nav.navbar.navbar-default(role='navigation'): .container: .col-sm-12
           | Menu
           span.caret
         ul.dropdown-menu(role='menu')
-          li: a(href='/settings', class="{{activPage 'settings'}}") Settings
-          li: a(href='/user') Users
-          li: a(href='{{pathFor "estatesList"}}') Estate list
-          li: a(href='/selectors') Selectors
+          li: a(href='/settings', class="{{activPage 'settings'}}") {{_ 'settings_indexes'}}
+          li: a(href='/user') {{_ 'user_collection'}}
+          li: a(href='{{pathFor "estatesList"}}') {{_ 'estates'}}
+          li: a(href='/selectors') {{_ 'settings_selectors'}}
       ul.nav.navbar-nav: li.dropdown
         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
           | {{currentEstate}}
