@@ -127,6 +127,12 @@
     "fluid_water": "Water",
     "fluid_heat": "Heat",
     "fluid_cooling": "Cooling",
+
+    "fluid_naturalGas": "Natural gas",
+    "fluid_fuelOil_household": "Oil - household",
+    "fluid_fuelOil_heavy": "Oil - heavy",
+    "fluid_woodEnergy": "Wood (energy)",
+
     "fluid_id": "Fluid",
 
     /* Estates */

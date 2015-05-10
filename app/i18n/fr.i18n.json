@@ -130,6 +130,12 @@
     "fluid_water": "Eau",
     "fluid_heat": "Chaud",
     "fluid_cooling": "Froid",
+
+    "fluid_naturalGas": "Gaz naturel",
+    "fluid_fuelOil_household": "Fioul domestique",
+    "fluid_fuelOil_heavy": "Fioul lourd",
+    "fluid_woodEnergy": "Bois (énergie)",
+
     "fluid_id": "fluide",
 
 

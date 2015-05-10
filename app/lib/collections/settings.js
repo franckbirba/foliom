@@ -103,7 +103,7 @@ Fluids2 = new SimpleSchema({
     },
     kwhef_to_co2_coefficient:{
         type: String,
-        label: transr("global_evolution_index"),
+        label: transr("kwhef_to_co2_coefficient"),
         autoform: {
             type: "select",
             options: function () {
