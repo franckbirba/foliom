@@ -326,11 +326,6 @@ Configurations.attachSchema(new SimpleSchema({
             template:'fluidsArray',
             //omit:true
         }
-    },
-    mailing_list: {
-        type: String,
-        label: transr("mailing_list"),
-			optional: true
     }
 }));
 
