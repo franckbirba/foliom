@@ -32,6 +32,7 @@
 
 	/* Estate */
 	"new_estate": "New estate",
+    "multiple_estates_pick_one": "Your account has access to multiple Estates - choose the one you will work on:",
 
 	/* Settings */
 	"settings": "Settings",
@@ -69,7 +70,8 @@
 	"high": "High",
 	"low": "Low",
 
-	"estate": "Estate",
+    "estate": "Estate",
+	"estates": "Estates",
 	"portfolio": "Portfolio",
 		"new_portfolio": "New portfolio",
 	"building": "Building",

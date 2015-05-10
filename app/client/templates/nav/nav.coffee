@@ -17,6 +17,10 @@ Template.nav.created = ->
       # Empty the current Portfolio doc
       #Session.set 'current_portfolio_doc', undefined
 
+  # If there is only one Estate: select it
+  if Estates.find().fetch().length is 1
+    Session.set 'current_estate_doc', Estates.findOne()
+
 Template.nav.events
   'click .js-logout': ->
     Meteor.logout()
@@ -52,10 +56,7 @@ Template.nav.helpers
     ''
 
 Template.nav.rendered = ->
+  # If the user is an Admin and has no Estate selected: display modal
   if Meteor.user().roles.indexOf('admin') >= 0 and \
       not Session.get('current_estate_doc')?
-    # If there is only one Estate: select it
-    if Estates.find().fetch().length is 1
-      Session.set 'current_estate_doc', Estates.findOne()
-    else
-      $('#SelectEstateForm').modal 'show'
+    $('#SelectEstateForm').modal 'show'
