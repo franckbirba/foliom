@@ -53,7 +53,7 @@ YearlyValues = new SimpleSchema({
   }
 });
 
-Fluids = new SimpleSchema({
+Fluids2 = new SimpleSchema({
     fluid_type: {
         type: String,
         label: transr("fluid_type"),
@@ -319,7 +319,7 @@ Configurations.attachSchema(new SimpleSchema({
 
     fluids: {
 		optional: true,
-        type: [Fluids],
+        type: [Fluids2],
         autoform: {
             // template:'eportfolio-settings'
             // template:'bootstrap3'

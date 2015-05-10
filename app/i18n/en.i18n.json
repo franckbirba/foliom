@@ -101,6 +101,7 @@
     "icc": "Construction Cost Index",
     "ipc": "Consumption Price Index",
     "global_evolution_index": "Global evolution index",
+    "kwhef_to_co2_coefficients": "Greehouse gas emission indexes",
 
     "project_type_static_index": "Project type - static indexes",
     "classic": "Classic",

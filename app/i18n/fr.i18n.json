@@ -102,6 +102,7 @@
     "icc": "Indice du coût de la construction (ICC)",
     "ipc": "Indice des Prix de la Consommation (IPC)",
     "global_evolution_index": "Indice global d'évolution",
+    "kwhef_to_co2_coefficients": "Coefficients d’émission de gaz à effet de serre",
 
     "project_type_static_index": "Coefficients « fixes » de montage",
     "classic": "Classique",
