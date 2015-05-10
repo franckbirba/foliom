@@ -64,6 +64,11 @@ Meteor.publish("userData", function () {
   }
 });
 
+
+Meteor.publish('fluids', function() {
+  return Fluids.find();
+});
+
 Meteor.publish('selectors', function() {
   return Selectors.find();
 });
