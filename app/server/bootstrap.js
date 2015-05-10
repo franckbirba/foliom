@@ -487,7 +487,7 @@ Meteor.startup(function () {
                   {
                     "year": 2020,
                     "cost": 10.2,
-                    "evolution_index": 0.99
+                    "evolution_index": 1
                   },
                   {
                     "year": 2021,
@@ -517,7 +517,7 @@ Meteor.startup(function () {
                   {
                     "year": 2026,
                     "cost": 10.3,
-                    "evolution_index": 0.98
+                    "evolution_index": 1
                   },
                   {
                     "year": 2027,
@@ -547,7 +547,7 @@ Meteor.startup(function () {
                   {
                     "year": 2032,
                     "cost": 10.4,
-                    "evolution_index": 0.971
+                    "evolution_index": 1
                   },
                   {
                     "year": 2033,
@@ -572,7 +572,7 @@ Meteor.startup(function () {
                   {
                     "year": 2037,
                     "cost": 10.5,
-                    "evolution_index": 0.962
+                    "evolution_index": 1
                   },
                   {
                     "year": 2038,
@@ -651,7 +651,7 @@ Meteor.startup(function () {
                   {
                     "year": 2020,
                     "cost": 10.2,
-                    "evolution_index": 0.99
+                    "evolution_index": 1
                   },
                   {
                     "year": 2021,
@@ -681,7 +681,7 @@ Meteor.startup(function () {
                   {
                     "year": 2026,
                     "cost": 10.3,
-                    "evolution_index": 0.98
+                    "evolution_index": 1
                   },
                   {
                     "year": 2027,
@@ -711,7 +711,7 @@ Meteor.startup(function () {
                   {
                     "year": 2032,
                     "cost": 10.4,
-                    "evolution_index": 0.971
+                    "evolution_index": 1
                   },
                   {
                     "year": 2033,
@@ -736,7 +736,7 @@ Meteor.startup(function () {
                   {
                     "year": 2037,
                     "cost": 10.5,
-                    "evolution_index": 0.962
+                    "evolution_index": 1
                   },
                   {
                     "year": 2038,
@@ -820,7 +820,7 @@ Meteor.startup(function () {
                   {
                     "year": 2021,
                     "cost": 20.2,
-                    "evolution_index": 0.498
+                    "evolution_index": 0.5
                   },
                   {
                     "year": 2022,
@@ -870,7 +870,7 @@ Meteor.startup(function () {
                   {
                     "year": 2031,
                     "cost": 20.3,
-                    "evolution_index": 0.495
+                    "evolution_index": 0.5
                   },
                   {
                     "year": 2032,
@@ -1009,7 +1009,7 @@ Meteor.startup(function () {
                   {
                     "year": 2026,
                     "cost": 30.1,
-                    "evolution_index": 0.333
+                    "evolution_index": 0.3
                   },
                   {
                     "year": 2027,
@@ -1079,7 +1079,7 @@ Meteor.startup(function () {
                   {
                     "year": 2040,
                     "cost": 30.2,
-                    "evolution_index": 0.332
+                    "evolution_index": 0.3
                   },
                   {
                     "year": 2041,
@@ -1089,12 +1089,12 @@ Meteor.startup(function () {
                   {
                     "year": 2042,
                     "cost": 30,
-                    "evolution_index": -0.662
+                    "evolution_index": -0.7
                   },
                   {
                     "year": 2043,
                     "cost": 31,
-                    "evolution_index": 3.333
+                    "evolution_index": 3.3
                   },
                   {
                     "year": 2044,
@@ -1107,7 +1107,7 @@ Meteor.startup(function () {
                     "evolution_index": 0
                   }
                 ],
-                "global_evolution_index": 3.333,
+                "global_evolution_index": 3.3,
                 "kwhef_to_co2_coefficient": "fluid_electricity"
               },
               {
@@ -1123,7 +1123,7 @@ Meteor.startup(function () {
                   {
                     "year": 2016,
                     "cost": 12.1,
-                    "evolution_index": 0.833
+                    "evolution_index": 0.8
                   },
                   {
                     "year": 2017,
@@ -1163,7 +1163,7 @@ Meteor.startup(function () {
                   {
                     "year": 2024,
                     "cost": 12.2,
-                    "evolution_index": 0.826
+                    "evolution_index": 0.8
                   },
                   {
                     "year": 2025,
@@ -1271,7 +1271,7 @@ Meteor.startup(function () {
                     "evolution_index": 0
                   }
                 ],
-                "global_evolution_index": 1.667,
+                "global_evolution_index": 1.7,
                 "kwhef_to_co2_coefficient": "fluid_fuelOil_household"
               }
             ];

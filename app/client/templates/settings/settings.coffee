@@ -6,7 +6,7 @@ Template.settings.rendered = () ->
   # Function to calc the difference between Last & First val
   calcEvolutionIndex = (currentVal, previousVal) ->
     total_in_percent = ( (currentVal / previousVal) - 1 ) * 100
-    total_in_percent.toFixed(3) * 1
+    total_in_percent.toFixed(1) * 1
 
 
   applyEvolutionIndex = (object_name, index) ->
