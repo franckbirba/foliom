@@ -433,8 +433,7 @@ Meteor.startup(function () {
             "actualization_rate": 0.02,
             "consumption_degradation": 0.05,
           },
-        	fluids: [],
-        	mailing_list: "admin@test.com"
+        	fluids: []
 		};
 		var masterCfgId = Configurations.insert(tmpMasterConfig);
 		console.log('created master configuration ' + masterCfgId);
@@ -1275,7 +1274,6 @@ Meteor.startup(function () {
                 "kwhef_to_co2_coefficient": "fluid_fuelOil_household"
               }
             ];
-        estateCfg.mailing_list = "test@test.com"
         var cfgId = Configurations.insert(estateCfg);
         console.log('Inserted Cfg for estate 77 ' +  cfgId);
     }
