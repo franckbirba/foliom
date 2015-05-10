@@ -98,6 +98,7 @@
     /* Configuration Compass */
 
     "settings_indexes": "Indices",
+    "edit_master_config": "Editer les paramètres par défaut",
 
     "icc": "Indice du coût de la construction (ICC)",
     "ipc": "Indice des Prix de la Consommation (IPC)",
