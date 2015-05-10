@@ -115,9 +115,15 @@
     "actualization_rate": "Taux d'actualisation",
     "consumption_degradation": "Dégradation de la consommation (taux annuel)",
 
+    "global_evolution_index": "Indice d'évolution global",
+
     "mailing_list": "Envoi d’une alerte chaque année, pour actualisation des données",
 
     /* Fluids */
+
+    "fluid_type": "Type",
+    "fluid_provider": "Fournisseur",
+    "fluid_unit": "Unité",
 
     "fluid_electricity": "Electricité",
     "fluid_water": "Eau",

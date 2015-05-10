@@ -118,6 +118,10 @@
 
     /* Fluids */
 
+    "fluid_type": "Type",
+    "fluid_provider": "Provider",
+    "fluid_unit": "Unit",
+
     "fluid_electricity": "Electricity",
     "fluid_water": "Water",
     "fluid_heat": "Heat",

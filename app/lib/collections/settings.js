@@ -53,9 +53,10 @@ YearlyValues = new SimpleSchema({
   }
 });
 
-Fluids2 = new SimpleSchema({
+Fluids = new SimpleSchema({
     fluid_type: {
         type: String,
+        label: transr("fluid_type"),
         autoform: {
             type: "select",
             options: function () {
@@ -65,6 +66,7 @@ Fluids2 = new SimpleSchema({
     },
     fluid_provider: {
         type: String,
+        label: transr("fluid_provider"),
         autoform: {
             type: "select",
             options: function () {
@@ -74,6 +76,7 @@ Fluids2 = new SimpleSchema({
     },
     fluid_unit: {
         type: String,
+        label: transr("fluid_unit"),
         autoform: {
             type: "select",
             options: function () {
@@ -93,9 +96,14 @@ Fluids2 = new SimpleSchema({
     global_evolution_index: {
         type: Number,
         decimal: true,
+        label: transr("global_evolution_index"),
+        autoform: {
+            readonly:true,
+        }
     },
     kwhef_to_co2_coefficient:{
         type: String,
+        label: transr("global_evolution_index"),
         autoform: {
             type: "select",
             options: function () {
@@ -311,7 +319,7 @@ Configurations.attachSchema(new SimpleSchema({
 
     fluids: {
 		optional: true,
-        type: [Fluids2],
+        type: [Fluids],
         autoform: {
             // template:'eportfolio-settings'
             // template:'bootstrap3'
