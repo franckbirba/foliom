@@ -1,7 +1,7 @@
 Template.nav.created = ->
   # Subscribe to roles
   Meteor.subscribe 'roles', null
-  # Subscribe for the correct configurations
+  # Subscribe to the correct configurations
   @autorun ->
     currentEstate = Session.get 'current_estate_doc'
     if currentEstate?

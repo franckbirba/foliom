@@ -25,7 +25,10 @@ Template.user.helpers({
     return Schema.User;
   },
   roles: function(){
-    return [{label:'admin', value:'admin'}, {label:'user', value:'user'}];
+    all_roles = Meteor.roles.find({},{sort: {name:1}}).fetch().map(function(item){
+      return item.name;
+    });
+    return buildOptions(all_roles);
   },
   getType: function(){
     var curUser = Session.get('update_user');

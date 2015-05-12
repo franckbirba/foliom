@@ -95,6 +95,14 @@
     "settings_selectors": "Paramètres",
 
 
+    /* Users */
+    "admin": "Administrateur",
+    "estate_manager": "Estate manager",
+    "portfolio_manager": "Portfolio manager",
+    "user": "User",
+    "read_only": "Read only",
+
+
     /* Configuration Compass */
 
     "settings_indexes": "Indices",
