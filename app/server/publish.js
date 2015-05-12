@@ -73,6 +73,13 @@ Meteor.publish('selectors', function() {
   return Selectors.find();
 });
 
-Meteor.publish("roles", function (){
-  return Meteor.roles.find({})
+Meteor.publish('roles', function (){
+  // Return roles list if authorized
+  if (Roles.userIsInRole(this.userId, ['admin', 'estate_manager'])) {
+    return Meteor.roles.find({});
+  } else {
+    // user not authorized. do not publish roles
+    this.stop();
+    return;
+  }
 });

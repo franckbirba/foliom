@@ -1,4 +1,6 @@
 Template.nav.created = ->
+  # Subscribe to roles
+  Meteor.subscribe 'roles', null
   # Subscribe for the correct configurations
   @autorun ->
     currentEstate = Session.get 'current_estate_doc'
@@ -16,6 +18,7 @@ Template.nav.created = ->
       Meteor.subscribe 'scenarios', estate_doc_id
       # Empty the current Portfolio doc
       #Session.set 'current_portfolio_doc', undefined
+
 
   # If there is only one Estate: select it
   if Estates.find().fetch().length is 1

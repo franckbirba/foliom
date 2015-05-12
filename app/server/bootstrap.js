@@ -87,8 +87,9 @@ Meteor.startup(function () {
       password: "admin"
     });
 
+    // List of all possible roles: Admin / Estate manager / Portfolio manager / User / Read-only
     Roles.addUsersToRoles(testUser, ['user']);
-    Roles.addUsersToRoles(Admin, ['admin']);
+    Roles.addUsersToRoles(Admin, ['admin', 'estate_manager', 'portfolio_manager', 'user', 'read_only']);
 	}
 	if(Configurations.find().count() === 0) {
 		var tmpMasterConfig = {
