@@ -217,7 +217,8 @@ Actions.attachSchema(new SimpleSchema({
   },
   name: {
     type: String,
-    label: transr('name')
+    label: transr('name'),
+    max: 50
   },
   logo: {
     type: String,
