@@ -12,6 +12,11 @@ LeaseNumber.attachSchema(new SimpleSchema({
   }
 }));
 
+Template.buildingNew.rendered = function() {
+  // Hide the steps that are automatically added by the Wizard
+  $(".steps").hide();
+};
+
 Template.buildingNew.helpers({
   steps: function() {
     return [{
