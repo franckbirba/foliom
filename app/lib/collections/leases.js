@@ -415,7 +415,7 @@ Leases.attachSchema(new SimpleSchema({
     autoform: {
       type: "select",
       options: function() {
-        return buildOptions(["empty", "rented", "multitenant"])
+        return buildOptions(["NA", "empty", "rented"]);
       }
     }
   },
