@@ -37,22 +37,13 @@ Template.user.helpers({
   getUser: function(){
     return Session.get('update_user') ? Session.get('update_user') : null;
   },
-  // beforeRemove: function () {
-  //     return function (collection, id) {
-  //       var doc = collection.findOne(id);
-  //       console.log(doc);
-  //       if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
-  //         this.remove();
-  //       }
-  //     };
-  //   },
-    getFormTitle: function(){
-      var tmpUser = Session.get('update_user');
-      if(tmpUser){
-        return tmpUser.profile.firstName + " " + tmpUser.profile.lastName;
-      }
-      return "New User";
+  getFormTitle: function(){
+    var tmpUser = Session.get('update_user');
+    if(tmpUser){
+      return tmpUser.profile.firstName + " " + tmpUser.profile.lastName;
     }
+    return "New User";
+  }
 });
 
 Template.user.events({
@@ -105,11 +96,6 @@ Template.user.events({
         }
         template.$("#userform")[0].reset();
     });
-    /*if(roles){
-        var tmpUser = Meteor.users.find({email:email}).fetch();
-        console.log(email,tmpUser);
-       Roles.addUsersToRoles(tmpUser, roles.split(','));
-      }*/
   }
 });
 
@@ -125,17 +111,12 @@ AutoForm.hooks({
         };
 
         Meteor.call("addUser", tmpDoc, function(error, result) {
-            if(insertDoc.roles){
-              Meteor.call("addRole", result, insertDoc.roles,function(error, result) {
-                $('#userformmodal').modal('hide');
-                Session.set('update_user', null);
-              });
-            }
-            // if(roles){
-            //   Meteor.call("addRole", result, roles.split(','),function(error, result){
-            //     console.log(error, result);
-            //   });
-            // }
+          if(insertDoc.roles){
+            Meteor.call("addRole", result, insertDoc.roles,function(error, result) {
+              $('#userformmodal').modal('hide');
+              Session.set('update_user', null);
+            });
+          }
         });
       } else {
         Meteor.call("updateUser", {update: updateDoc, id: currentDoc._id}, function(error, result){
