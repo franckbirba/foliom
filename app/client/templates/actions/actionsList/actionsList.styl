@@ -6,8 +6,13 @@
     color color1
   div span.fa-stack.fa-lg
     margin-bottom .5em
-  .newActionFromMaster, .actionUserTemplate, .actionCreate
-    float left
+  // .newActionFromMaster, .actionUserTemplate, .actionCreate
+  .actionContainer
+    // flexbox
+    display flex
+    flex-direction column
+    justify-content: flex-start
+    // other
     text-align center
     size 140px 140px
     margin-bottom 1em
@@ -18,10 +23,13 @@
     // So that we can position the Edit button
     transition background-color defaultAnimation
     position relative
+    .childContainer
+      margin: auto;
     .logo
       font-family 'foliom-picto'
-      font-size: 65px
-      margin-bottom: -12px
+      font-size 65px
+      margin-top 0px
+      margin-bottom -12px
     .actionTitle
       font-style italic
       font-size: 0.8em
@@ -32,7 +40,8 @@
     color color4
 
   .addUTactionLogo
-    margin-top 25px
+    margin-top 15px
+    margin-bottom -12px
 
   .newActionFromMaster
     background-color color0
@@ -47,8 +56,3 @@
     margin-top 1em
     a
       width 100%
-
-  .actionStuff
-    clear both
-    margin-top 25px
-    color color3
