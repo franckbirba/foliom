@@ -1,14 +1,20 @@
 LeaseNumber = new Mongo.Collection("LeaseNumber");
 LeaseNumber.attachSchema(new SimpleSchema({
   one_lease: {
-    type: String,
-    allowedValues: ["Dispose d’un seul usage", "Dispose de plusieurs usages"],
-    label: "Le Batiment",
+    type: Boolean,
+    autoform: {
+      type: "boolean-radios",
+      trueLabel: transr("multiple_uses"),
+      falseLabel: transr("one_use"),
+      value: false
+    },
+    // allowedValues: [transr("one_use"), transr("multiple_uses")],
+    label: transr("the_building"),
   },
   n_lease: {
     type: String,
     optional: true,
-    label: "Nombre d'usages"
+    label: transr("usage_number")
   }
 }));
 

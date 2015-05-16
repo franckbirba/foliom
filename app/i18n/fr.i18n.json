@@ -77,8 +77,8 @@
     "building": "Bâtiment",
 		"buildings": "Bâtiments",
 		"new_building": "Nouveau bâtiment",
-    "lease": "Bail",
-        "leases": "Baux",
+    "lease": "Usage",
+        "leases": "Usages",
     "fluid": "Fluide",
 		"import": "Importer",
 
@@ -168,7 +168,7 @@
     "carpark_spaces": "Nombre de places de parking",
     "carpark_area": "Surface de parking",
 
-    "import_building_lease": "Importer des Bâtiments et Baux",
+    "import_building_lease": "Importer des Bâtiments",
 
     /* Building Selectors */
     "control_full": "Pleine propriété",
@@ -185,16 +185,22 @@
 		"low_emission_of_greenhouse_gases": "Faible émission de GES",
 		"strong_emission_of_greenhouse_gases": "Forte émission de GES",
 
-    "all_leases": "Tous les baux",
+    "all_leases": "Tous les usages",
 
     "energy_cons_by_endUse":"Consommations énergétiques par usage",
     "water_consumption": "Consommation d'eau",
 
-    /* Leases */
-    "create_new_lease": "Nouveau Bail",
-    "leasesToCreate": "Baux à créer :",
+    /* Building wizard */
+    "the_building": "Le Batiment",
+    "one_use": "Dispose d’un seul usage",
+    "multiple_uses": "Dispose de plusieurs usages",
+    "usage_number": "Nombre d'usages",
 
-    "lease_name": "Nom du Bail",
+    /* Leases / Usages */
+    "create_new_lease": "Nouvel Usage",
+    "leasesToCreate": "Usages à créer :",
+
+    "lease_name": "Nom de l'Usage",
     "rental_status": "Statut locatif",
     "rent": "Loyer",
     "last_significant_renovation": "Dernière rénovation significative",
@@ -282,7 +288,7 @@
     "or_due_date": "Ou : Echéance",
     "last_diagnostic": "Date du dernier diagnostic",
 
-    /* Leases Selectors */
+    /* Leases / Usage Selectors */
     "empty": "Vide",
     "rented": "Loué",
     "multitenant": "Multilocataires",

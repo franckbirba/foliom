@@ -16,7 +16,7 @@
 
         <fieldset>
             {{> afQuickField name="one_lease" options="allowed" noselect=true}}
-            {{#if afFieldValueIs name="one_lease" value="Dispose de plusieurs usages"}}
+            {{#if afFieldValueIs name="one_lease" value=true}}
                 {{> afQuickField name="n_lease"}}
             {{/if}}
         </fieldset>

@@ -77,8 +77,8 @@
 	"building": "Building",
 		"buildings": "Buildings",
 		"new_building": "New building",
-	"lease": "Lease",
-        "leases": "Leases",
+	"lease": "Usage",
+        "leases": "Usages",
 	"fluid": "Fluid",
 	"import": "Import",
 
@@ -163,7 +163,7 @@
     "carpark_spaces": "Carpark spaces",
     "carpark_area": "Carpark area",
 
-    "import_building_lease": "Import Buildings and Leases",
+    "import_building_lease": "Import Buildings",
 
     /* Building Selectors */
     "control_full": "Full",
@@ -185,17 +185,23 @@
     "energy_cons_by_endUse":"Energy consumption by End-use",
     "water_consumption": "Water consumption",
 
-    /* Leases */
-    "create_new_lease": "New lease",
-    "leasesToCreate": "Leases to create:",
+    /* Building wizard */
+    "the_building": "The Building",
+    "one_use": "Has only one Usage",
+    "multiple_uses": "Has multiple Usages",
+    "usage_number": "Number of Usages",
 
-    "lease_name": "Lease name",
+    /* Leases / Usages */
+    "create_new_lease": "New Usage",
+    "leasesToCreate": "Usages to create:",
+
+    "lease_name": "Usage name",
     "rental_status": "Rental status",
     "rent": "Rent",
     "last_significant_renovation": "Last significant renovation",
-    "lease_usage": "Lease usage",
-    "area_by_usage": "Area by usage",
-    "lease_nb_floors": "Lease - Number of floors (including ground floor)",
+    "lease_usage": "Usage",
+    "area_by_usage": "Area",
+    "lease_nb_floors": "Number of floors (including ground floor)",
     "igh": "IGH",
     "erp_status": "ERP status",
     "erp_category": "ERP category",
@@ -277,7 +283,7 @@
     "or_due_date": "Or: Due date",
     "last_diagnostic": "Date of the last diagnostic",
 
-    /* Leases Selectors */
+    /* Leases / Usages Selectors */
     "empty": "Empty",
     "rented": "Rented",
     "multitenant": "Multitenant",
