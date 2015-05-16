@@ -25,6 +25,20 @@
     $(target).val(calc_qualitative_assessment_array(array)).change()
   return
 
+# Hide/show or auto-fill some fields
+@leaseFieldRules = ->
+  # Only display 'rent' if 'rental_status' is 'rented'
+  $('[name="rental_status"]').change ->
+    hideDependingOnOtherField('rent', $(@).val(), 'rented')
+  # Trigger one change at render to hide or show the field
+  $('[name="rental_status"]').change()
+
+
+@hideDependingOnOtherField = (fieldToHide, sourceValue, sourceCriterion) ->
+  if sourceValue isnt sourceCriterion
+    $("[name='#{fieldToHide}']").parents(".form-group").hide()
+  else
+    $("[name='#{fieldToHide}']").parents(".form-group").show()
 
 
 ### Auto-values: used to auto-fill part of the form - for dev. purposes ###

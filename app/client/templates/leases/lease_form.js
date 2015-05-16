@@ -105,8 +105,14 @@ Template.leaseForm.rendered = function () {
     fillLeaseForm(false); // Set to true to activate
   }
 
+  // Hide or auto-fill some fields
+  leaseFieldRules();
+
+  //-----------------------------------
+  // @ BSE : CHECK IF STILL RELEVANT
+
   //Apply End-Use to correct field
-  var endUses = EndUse.find().fetch() ; // ToDo: check possible collision?
+  var EndUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
   // Set textfields that have to be auto-filled and make them readonly
   if( !Session.get('leaseToEdit') ){
@@ -117,6 +123,10 @@ Template.leaseForm.rendered = function () {
     });
 
   }
+  //-----------------------------------
+
+
+
 
   // comfort_qualitative_assessment, tcc_lifetime & tcc_conformity: monitor all selects, then calc the value and sets it
   class_to_calc_qualitative_assessment_array(".comformt_QA", "[name='comfort_qualitative_assessment.global_comfort_index']");
