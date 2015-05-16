@@ -26,12 +26,19 @@
   return
 
 # Hide/show or auto-fill some fields
-@leaseFieldRules = ->
+@leaseFieldRules = (newLease) ->
   # Only display 'rent' if 'rental_status' is 'rented'
   $('[name="rental_status"]').change ->
     hideDependingOnOtherField('rent', $(@).val(), 'rented')
   # Trigger one change at render to hide or show the field
   $('[name="rental_status"]').change()
+
+  # If newLease, then set the last_significant_renovation to the building creating date
+  if newLease is true
+    console.log "New Lease!"
+    $('[name="last_significant_renovation"]').val(
+      Session.get('current_building_doc').building_info.construction_year
+    )
 
 
 @hideDependingOnOtherField = (fieldToHide, sourceValue, sourceCriterion) ->

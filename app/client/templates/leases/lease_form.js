@@ -106,7 +106,8 @@ Template.leaseForm.rendered = function () {
   }
 
   // Hide or auto-fill some fields
-  leaseFieldRules();
+  // Parameter: true if we're editing a new lease
+  leaseFieldRules(!Session.get('leaseToEdit'));
 
   //-----------------------------------
   // @ BSE : CHECK IF STILL RELEVANT
