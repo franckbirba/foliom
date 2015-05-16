@@ -8,9 +8,13 @@
   div span.fa-stack.fa-lg
       margin-bottom .5em
   .scenarioItem
-    float left
+    // flexbox
+    display flex
+    flex-direction column
+    justify-content: flex-start
+    // other
     text-align center
-    size 100% 130px
+    size 130px 130px
     margin-bottom 1em
     background-color color0
     border 1px solid darken(color0, 20%)
@@ -21,6 +25,8 @@
     font-style italic
     cursor pointer
     transition background-color defaultAnimation
+    .childContainer
+      margin: auto;
     .scenarioName
       color color1
       text-decoration none

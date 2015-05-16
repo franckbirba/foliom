@@ -5,14 +5,15 @@
   .col-md-9
     .row: .mFadeInDown
       each getScenarios
-        .col-md-3
+        .col-md-2
           .scenarioItem
             +itemBlockMedium
-            img(src="#{logo}", width='75')
-            .scenarioName= name
-      .col-md-3
+            .childContainer: img(src="#{logo}", width='75')
+            .childContainer.scenarioName= name
+      .col-md-2
         #scenarioCreate.scenarioItem
-          .addButtonHolder: span.fa-stack.fa-lg
-            i.fa.fa-circle-o.fa-stack-2x
-            i.fa.fa-plus
-          div {{_ "create_scenario"}}
+          .childContainer
+            .addButtonHolder: span.fa-stack.fa-lg
+              i.fa.fa-circle-o.fa-stack-2x
+              i.fa.fa-plus
+          .childContainer {{_ "create_scenario"}}
