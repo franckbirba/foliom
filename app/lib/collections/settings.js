@@ -301,6 +301,50 @@ Configurations.attachSchema(new SimpleSchema({
             }
         }
     },
+    'kwhef_to_co2_coefficients.coefficient_1': {
+        type: Number,
+        optional: true,
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
+    'kwhef_to_co2_coefficients.coefficient_2': {
+        type: Number,
+        optional: true,
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
+    'kwhef_to_co2_coefficients.coefficient_3': {
+        type: Number,
+        optional: true,
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
+    'kwhef_to_co2_coefficients.coefficient_4': {
+        type: Number,
+        optional: true,
+        decimal: true,
+        autoform: {
+            afFieldInput: {
+                type: 'number_u',
+                unit: transr("u_kgeqCO2_kwhEF"),
+            }
+        }
+    },
 
     other_indexes: {
         type: Object,
