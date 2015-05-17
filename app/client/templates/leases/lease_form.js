@@ -66,6 +66,7 @@ AutoForm.hooks({
                     });
         } else {
             Session.set('nbLeases_2create', 0);
+            Session.set('nbLeases_2create_onlyOne', false);
             Router.go('building-detail', {_id: Session.get('current_building_doc')._id });
         }
       }

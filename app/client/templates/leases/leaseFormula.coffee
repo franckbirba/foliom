@@ -33,12 +33,24 @@
   # Trigger one change at render to hide or show the field
   $('[name="rental_status"]').change()
 
-  # If newLease, then set the last_significant_renovation to the building creating date
+  # If newLease
   if newLease is true
-    console.log "New Lease!"
+    # Set the last_significant_renovation to the building creating date
     $('[name="last_significant_renovation"]').val(
       Session.get('current_building_doc').building_info.construction_year
     )
+    # If only one lease to create
+    if Session.get('nbLeases_2create_onlyOne')
+      # area_by_usage = building_info.area_useful (and hide field)
+      $('[name="area_by_usage"]').val(
+        Session.get('current_building_doc').building_info.area_useful
+      )
+      $("[name='area_by_usage']").parents(".form-group").hide()
+      # lease_nb_floors = building_info.building_nb_floors (and hide field)
+      $('[name="lease_nb_floors"]').val(
+        Session.get('current_building_doc').building_info.building_nb_floors
+      )
+      $("[name='lease_nb_floors']").parents(".form-group").hide()
 
 
 @hideDependingOnOtherField = (fieldToHide, sourceValue, sourceCriterion) ->

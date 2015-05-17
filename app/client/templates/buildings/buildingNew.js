@@ -72,6 +72,8 @@ Template.buildingNew.helpers({
                         Session.set('nbLeases_2create', nbL_create);
                     } else { // Else: 1 Lease to create
                         Session.set('nbLeases_2create', 1);
+                        // We use a session var to save the fact that we'll only create one lease
+                        Session.set('nbLeases_2create_onlyOne', true);
                     }
 
                     // console.log('nb of Leases to create: '+ Session.get('nbLeases_2create') );
