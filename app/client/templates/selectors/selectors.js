@@ -27,6 +27,20 @@ Template.selectors.helpers({
             ]
         }).fetch();
     },
+    usageTypesForCurrentEstate: function () {
+        return Selectors.find({
+            $or: [
+                { // get usage_type that are generic (no estate_id)
+                    "name": "lease_usage",
+                    "estate_id": { $exists: false }
+                },
+                { // and get usage_type that are linked to this estate
+                    "name": "lease_usage",
+                    "estate_id": Session.get('current_estate_doc')._id
+                 }
+            ]
+        }).fetch();
+    },
   // beforeRemoveFluidTypes: function () {
   //   return function (collection, name) {
   //     // var doc = collection.findOne(id);
@@ -46,6 +60,10 @@ Template.selectors.events({
     Session.set('update_selector', null);
     Session.set('selectorType', "fluid_provider");
   },
+  'click .addUsageTypeBtn' : function(){
+    Session.set('update_selector', null);
+    Session.set('selectorType', "lease_usage");
+  },
   // 'click .update-fluidTypes': function(e, template){ // ToDo: update
   //   Session.set('update_selector', this.valueOf());
   //   // Session.set('update_selectorType', "fluid_type");
@@ -59,5 +77,10 @@ Template.selectors.events({
     if (confirm('Really delete "' + this.valueOf() +'"?')) {
         Meteor.call("updateSelector", "fluid_provider", this.valueOf() );
     };
-  }
+  },
+  'click .remove-leaseUsage': function(){
+    if (confirm('Really delete "' + this.valueOf() +'"?')) {
+        Meteor.call("updateSelector", "lease_usage", this.valueOf() );
+    };
+  },
 });

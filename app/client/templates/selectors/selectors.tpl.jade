@@ -1,5 +1,6 @@
 .page.evaluate
   .container
+    p= "These forms allow you to add Selectors. Remember that they are saved for the current Estate."
     .row
       .col-md-6
         h4 Fluid types
@@ -7,11 +8,11 @@
         button.btn.btn-success.addFluidTypeBtn(style='border:none !important;background-color:transparent;color:green;', data-toggle='modal', data-target='#selectorFormModal')
           span.glyphicon.glyphicon-plus
         ul.list-group(style='width:400px;position:relative;')
-          +each fluidTypesForCurrentEstate}}
+          +each fluidTypesForCurrentEstate
             +each labels
               li.list-group-item
                 span.update-fluidTypes(style='width:100%') {{_ this.valueOf}}
-                span.glyphicon.glyphicon-trash.btn.btn-xs.btn-danger.remove-fluidTypes(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
+                span.glyphicon.glyphicon-trash.remove-fluidTypes(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
       .col-md-6
         h4 Fluid providers
         p: i Fluid providers can only be deleted, not updated
@@ -22,5 +23,19 @@
             each labels
               li.list-group-item
                 span.update-fluidProviders(style='width:100%') {{_ this.valueOf}}
-                span.glyphicon.glyphicon-trash.btn.btn-xs.btn-danger.remove-fluidProviders(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
+                span.glyphicon.glyphicon-trash.remove-fluidProviders(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
+    .row
+      .col-md-6
+        h4 Usage types
+        p: i Usage types can only be deleted, not updated
+        button.btn.btn-success.addUsageTypeBtn(style='border:none !important;background-color:transparent;color:green;', data-toggle='modal', data-target='#selectorFormModal')
+          span.glyphicon.glyphicon-plus
+        ul.list-group(style='width:400px;position:relative;')
+          +each usageTypesForCurrentEstate
+            +each labels
+              li.list-group-item
+                span.update-leaseUsage(style='width:100%') {{_ this.valueOf}}
+                //- +quickRemoveButton collection="Selectors" _id=../_id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
+                //-   span.glyphicon.glyphicon-trash
+                span.glyphicon.glyphicon-trash.remove-leaseUsage(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
   +SelectorForm

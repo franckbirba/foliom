@@ -113,9 +113,9 @@ Template.registerHelper("getBuildingName",
 
 Template.registerHelper("beforeRemove",
     function(){
-        return function (collection, id) {
+        return function (collection, id, param) {
+            console.log("param is", param);
             var doc = collection.findOne(id);
-            // console.log(doc);
             if( doc.hasOwnProperty('profile.firstName') ){
                 if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
                   this.remove();
@@ -136,6 +136,14 @@ Template.registerHelper("beforeRemove",
                 if (confirm('Really delete "' + doc.name + '"?')) {
                   this.remove();
                 }
+            } else if( collection._name === "selectors" ){
+                console.log(this.valueOf());
+                console.log(doc);
+                if (confirm('Really delete "' + doc.labels + '"?')) {
+                  // Meteor.call("updateSelector", doc.name, this.valueOf() );
+                }
+            } else {
+                console.log("collection is: ", collection);
             }
 
           };
