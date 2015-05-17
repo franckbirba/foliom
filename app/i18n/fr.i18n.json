@@ -334,12 +334,12 @@
     "dpe_H": "H",
     "dpe_I": "I",
 
-    "new_dvr": "Neuf",
+    "new_dvr": "Neuf ou Sans objet",
     "good_dvr": "Bon état (DVR > 10)",
     "average_dvr": "Etat moyen (5 < DVR < 10)",
     "bad_dvr": "Mauvais état (DVR < 5)",
 
-    "compliant": "Conforme",
+    "compliant": "Conforme ou Sans objet",
     "not_compliant_minor": "Non conformité mineure",
     "not_compliant_major": "Non conformité majeure",
 

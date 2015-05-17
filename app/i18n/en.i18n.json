@@ -329,12 +329,12 @@
     "dpe_H": "H",
     "dpe_I": "I",
 
-    "new_dvr": "New",
+    "new_dvr": "New or NA",
     "good_dvr": "Good condition (DVR > 10)",
     "average_dvr": "Average condition (5 < DVR < 10)",
     "bad_dvr": "Bad condition (DVR < 5)",
 
-    "compliant": "Compliant",
+    "compliant": "Compliant or NA",
     "not_compliant_minor": "Minor non compliance",
     "not_compliant_major": "Major non compliance",
 

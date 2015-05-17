@@ -237,6 +237,7 @@ technical_compliance_categorySchema = new SimpleSchema({
     autoform: {
       afFieldInput: {
         type: "select",
+        defaultValue: "new_dvr",
         options: function() {
           return buildOptions(["new_dvr", "good_dvr", "average_dvr", "bad_dvr"]);
         },
@@ -253,6 +254,7 @@ technical_compliance_categorySchema = new SimpleSchema({
     autoform: {
       afFieldInput: {
         type: "select",
+        defaultValue: "compliant",
         options: function() {
           return getSelectors('conformity_options');
         },
@@ -857,6 +859,7 @@ Leases.attachSchema(new SimpleSchema({
     autoform: {
       afFieldInput: {
         readonly: true,
+        defaultValue:0
       }
     }
   },
@@ -866,6 +869,7 @@ Leases.attachSchema(new SimpleSchema({
     label: transr("global_conformity"),
     autoform: {
       readonly: true,
+      defaultValue:0
       // template:"consumptionByEndUse"
     }
   },
