@@ -26,3 +26,7 @@ Template.settings.events({
 		Session.set('editingMasterCfg', true);
 	}
 });
+
+Template.settings.destroyed = function () {
+	Session.set('editingMasterCfg', false);
+};

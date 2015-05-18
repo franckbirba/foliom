@@ -115,6 +115,12 @@ if (Meteor.isClient) {
       return labelAtts;
     }
   });
+  Template.afArrayField_arraySettings.events({
+    'click .quickAdd' : function(){
+      Session.set('quickAdd_for', this.atts.name);
+    },
+  });
+
   Template["afArrayField_fluidsArray"].helpers({
     rightColumnClass: function () {
       var atts = this.atts || {};

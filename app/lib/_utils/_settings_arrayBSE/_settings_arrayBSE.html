@@ -52,6 +52,14 @@
   <!-- <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div> -->
   <!-- Not necessary for ICC and IPC -->
 
+  <!-- QuickAdd modal -->
+  <div class="" style="text-align: right;">
+    <!-- <a class="btn btn-primary" href="#quickAddYearlyValues_modal" data-toggle="modal"> QuickAdd &plus;</a> -->
+    <a class="quickAdd" href="#quickAddYearlyValues_modal" data-toggle="modal"> QuickAdd &plus;</a>
+  </div>
+  {{> quickAddYearlyValues}}
+  <!--  -->
+
   <div class="yearly_values_titleBlock yearly_values_item">
     <div class="yearly_values_title">{{_ "year"}}</div>
     <div class="yearly_values_title">{{_ "evolution"}}</div>
