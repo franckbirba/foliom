@@ -50,7 +50,9 @@ Template.map.rendered = ->
       panControl: false
     )
     query = {}
-    Tracker.autorun ->
+
+    # Construct the map in an autorun, so that the map is reactive
+    this.autorun ->
       current_estate = Session.get('current_estate_doc')  if Session.get('current_estate_doc') isnt undefined
       if Session.get('current_portfolio_doc') isnt undefined
         query = portfolio_id: Session.get('current_portfolio_doc')._id
