@@ -33,9 +33,10 @@ Template.nav.events
     Router.go 'signin'
   'click .en-lang': -> setLanguage 'en'
   'click .fr-lang': -> setLanguage 'fr'
-  'click .select_estate': -> #??
+  'click .select_estate': ->
     est = Estates.findOne(_id: @_id)
     Session.set 'current_estate_doc', est
+    Session.set 'current_portfolio_doc', undefined
     Session.set 'editingMasterCfg', false
 
 Template.nav.helpers
