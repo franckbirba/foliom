@@ -52,14 +52,15 @@ Template.map.rendered = ->
     query = {}
 
     # Construct the map in an autorun, so that the map is reactive
-    this.autorun ->
-      current_estate = Session.get('current_estate_doc')  if Session.get('current_estate_doc') isnt undefined
+    tmpl.autorun ->
+      # Get all buildings from router
+      buildings = Template.currentData().buildings
+      # If a Portfolio is defined: only keep relevant buildings. Otherwise, keep them all
       if Session.get('current_portfolio_doc') isnt undefined
-        query = portfolio_id: Session.get('current_portfolio_doc')._id
-      else
-        query = {}
+        buildings = _.where(buildings, {portfolio_id: Session.get('current_portfolio_doc')._id})
+      # Build the buildingGeoList, ie. items in the map
       buildingGeoList = []
-      Buildings.find(query).forEach (building) ->
+      for building in buildings
         if building.address.gps_lat isnt undefined
           latlng = new google.maps.LatLng(building.address.gps_lat, building.address.gps_long)
           buildingGeoList.push latlng

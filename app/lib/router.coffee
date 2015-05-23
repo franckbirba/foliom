@@ -40,7 +40,7 @@ if Meteor.isClient
 Router.map ->
   # Routes that matches their template's name
   routes = [
-    'join', 'signin', 'settings', 'portfolios', 'observatory'
+    'join', 'signin', 'settings', 'portfolios',
     'user', 'selectors', 'scenarioForm_old', 'scenarioList', 'leaseForm',
     'about', 'help', 'termOfUse'
     # Buildings
@@ -58,6 +58,22 @@ Router.map ->
   @route 'treeTplt', path: '/tree'
 
   # Routes with specific parameters
+  @route '/observatory',
+    name: 'observatory'
+    data: ->
+      # GET BUILDING LIST (for the Estate, ie. all Portfolios in the Estate)
+      buildings = _.chain(Session.get('current_estate_doc').portfolio_collection)
+                      .map ((portfolio_id) ->
+                        Buildings.find({ portfolio_id: portfolio_id }).fetch()
+                      )
+                      .flatten()
+                      .value()
+      console.log buildings
+      return {
+        buildings: buildings
+      }
+
+
   @route '/buildings/:_id',
     name: 'building-detail'
     data: ->
