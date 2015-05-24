@@ -17,10 +17,13 @@ Template.observatoryBarchart.created = function () {
   var instance = this ;
   instance.barchartData = new ReactiveVar({})
 
+  // To be displayed in the barchart, the Data has to be structured as follows:
   // var data = [
   //   {letter: "A", frequency: .08167},
   //   {letter: "B", frequency: .04780},
   // ];
+  // We will add a third param (building_IDs): an array to store the corresponding building IDs, so that when the User clicks on a bar, we know the corresponding buildings
+
   // construction_year_data
   instance.barchartData.construction_year_data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "building_info.construction_year" : 1} }).fetch().map(function(x){
         return {letter:x.building_name, frequency: x.building_info.construction_year};
@@ -41,13 +44,31 @@ Template.observatoryBarchart.created = function () {
 
   // ges Data
   var dpe_co2_emission_data = building_prop.map(function(x){
-        return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade, frequency:x.building_name };
+        return {
+          letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade,
+          frequency:x.building_name,
+          id: x._id
+        };
       });
-  dpe_co2_emission_data = _.countBy(dpe_co2_emission_data, 'letter');
+  console.log("dpe_co2_emission_data:", dpe_co2_emission_data);
+
+  dpe_co2_emission_data = _.groupBy(dpe_co2_emission_data, 'letter');
   dpe_co2_emission_data = _.map(dpe_co2_emission_data,function(value, key){
-    return {letter:transr(key)(), frequency: value};
-    });
+    return {
+      letter:transr(key)(),
+      frequency: value.length,
+      building_IDs: _.pluck(value, 'id')
+      };
+  });
+  console.log("dpe_co2_emission_data:", dpe_co2_emission_data);
   instance.barchartData.dpe_co2_emission_data = dpe_co2_emission_data;
+
+
+  // dpe_co2_emission_data = _.countBy(dpe_co2_emission_data, 'letter');
+  // dpe_co2_emission_data = _.map(dpe_co2_emission_data,function(value, key){
+  //   return {letter:transr(key)(), frequency: value};
+  //   });
+  // instance.barchartData.dpe_co2_emission_data = dpe_co2_emission_data;
 
   // dpe_energy_consuption Data
   var dpe_energy_consuption_data = building_prop.map(function(x){
@@ -196,6 +217,7 @@ Template.observatoryBarchart.rendered = function () {
       //   default code block
     }
 
+    console.log("data is: ", data);
 
 
     data.forEach(function(d) {
@@ -235,7 +257,8 @@ Template.observatoryBarchart.rendered = function () {
         .attr("x", function(d) { return x(d.letter); })
         .attr("width", x.rangeBand())
         .attr("y", function(d) { return y(d.frequency); })
-        .attr("height", function(d) { return height - y(d.frequency); });
+        .attr("height", function(d) { return height - y(d.frequency); })
+        .on("click", barClick);
 
 
     d3.select("#sortBarchartValues").on("change", change);
@@ -243,6 +266,11 @@ Template.observatoryBarchart.rendered = function () {
     var sortTimeout = setTimeout(function() {
       d3.select("#sortBarchartValues").property("checked", true).each(change);
     }, 2000);
+
+    function barClick(d) {
+      console.log("d is:", d);
+      Session.set('obs_barchart_buildings', d.building_IDs);
+    };
 
     function change() {
       clearTimeout(sortTimeout);

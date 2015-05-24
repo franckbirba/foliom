@@ -37,6 +37,9 @@ mapOptions = styles: [
   }
 ]
 
+Template.map.destroyed = ->
+  Session.set('obs_barchart_buildings', undefined)
+
 Template.map.rendered = ->
   tmpl = this
   VazcoMaps.init {}, ->
@@ -49,16 +52,32 @@ Template.map.rendered = ->
       options: mapOptions
       panControl: false
     )
-    query = {}
 
     # Construct the map in an autorun, so that the map is reactive
     tmpl.autorun ->
-      # Get all buildings from router
+      # Start each run with a clean set of buildings
       buildings = Template.currentData().buildings
+      # Remove all markers
+      tmpl.newMap2.removeMarkers()
+
+      # First: filter the building list if relevant
       # If a Portfolio is defined: only keep relevant buildings. Otherwise, keep them all
       if Session.get('current_portfolio_doc') isnt undefined
         buildings = _.where(buildings, {portfolio_id: Session.get('current_portfolio_doc')._id})
-      # Build the buildingGeoList, ie. items in the map
+      # If the User clicks on a bar, the only keep relevant buildings
+      if Session.get('obs_barchart_buildings')?
+        buildings = _.filter(buildings, (building) ->
+          return _.find(Session.get('obs_barchart_buildings'), (id) ->
+              return building._id is id
+          );
+        )
+      #   _.filter(aaa, function(a){
+      #     return _.find(bbb, function(b){
+      #         return b.id === a.id;
+      #     });
+      # });
+
+      # Then build the buildingGeoList, ie. items in the map
       buildingGeoList = []
       for building in buildings
         if building.address.gps_lat isnt undefined

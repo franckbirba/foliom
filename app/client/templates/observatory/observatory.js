@@ -17,6 +17,7 @@ Template.observatory.helpers({
 Template.observatory.events({
   'click .select_portfolio': function() {
       Session.set('current_portfolio_doc', this); // "this" is passed by Meteor - it's the current item
+      Session.set('obs_barchart_buildings', undefined); // remove barchart filter
 
       if ( Session.get('portfolio_level') ) {
           Session.set('portfolio_level', false);
@@ -28,6 +29,7 @@ Template.observatory.events({
   },
   'click .glyphicon-globe': function() {
       Session.set('current_portfolio_doc', undefined);
+      Session.set('obs_barchart_buildings', undefined); // remove barchart filter
   },
   'click .glyphicon-cog': function() {
       $("#buildingAndLeaseImport").modal('show');
