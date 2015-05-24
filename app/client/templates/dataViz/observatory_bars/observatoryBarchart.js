@@ -16,6 +16,7 @@ Template.observatoryBarchart.created = function () {
   Session.set("observatoryBarchartDisplaySelector", "dpe_co2_emission" );
   var instance = this ;
   instance.barchartData = new ReactiveVar({})
+  buildings = Template.currentData().buildings
 
   // To be displayed in the barchart, the Data has to be structured as follows:
   // var data = [
@@ -24,16 +25,10 @@ Template.observatoryBarchart.created = function () {
   // ];
   // We will add a third param (building_IDs): an array to store the corresponding building IDs, so that when the User clicks on a bar, we know the corresponding buildings
 
-  // construction_year_data
-  instance.barchartData.construction_year_data = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "building_info.construction_year" : 1} }).fetch().map(function(x){
-        return {letter:x.building_name, frequency: x.building_info.construction_year};
-      });
-
-  var building_prop = Buildings.find({},{sort: {name: 1}, fields: {building_name: 1, "properties" : 1} }).fetch();
 
   // SPECIAL CASE FOR BUILDINGS BEING CREATED:
   // As they don't have Leases yet, we exclude buildings who don't have the 'properties' field
-  building_prop = _.chain(building_prop)
+  buildings = _.chain(buildings)
                     .map( function(building) {
                       if(building.hasOwnProperty('properties')){
                         return building;
@@ -42,8 +37,14 @@ Template.observatoryBarchart.created = function () {
                     .compact()
                     .value()
 
+  // construction_year_data
+  instance.barchartData.construction_year_data = buildings.map(function(x){
+        return {letter:x.building_name, frequency: x.building_info.construction_year};
+      });
+
+
   // ges Data
-  var dpe_co2_emission_data = building_prop.map(function(x){
+  var dpe_co2_emission_data = buildings.map(function(x){
         return {
           letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade,
           frequency:x.building_name,
@@ -71,7 +72,7 @@ Template.observatoryBarchart.created = function () {
   // instance.barchartData.dpe_co2_emission_data = dpe_co2_emission_data;
 
   // dpe_energy_consuption Data
-  var dpe_energy_consuption_data = building_prop.map(function(x){
+  var dpe_energy_consuption_data = buildings.map(function(x){
         return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_energy_consuption.grade, frequency:x.building_name };
       });
   dpe_energy_consuption_data = _.countBy(dpe_energy_consuption_data, 'letter');
@@ -81,7 +82,7 @@ Template.observatoryBarchart.created = function () {
   instance.barchartData.dpe_energy_consuption_data = dpe_energy_consuption_data;
 
   // global_comfort_index Data
-  var global_comfort_index_data = building_prop.map(function(x){
+  var global_comfort_index_data = buildings.map(function(x){
         return {
           letter: (x.properties.leases_averages.global_comfort_index).toFixed(1)*1,
           frequency:x.building_name
@@ -94,7 +95,7 @@ Template.observatoryBarchart.created = function () {
   instance.barchartData.global_comfort_index_data = global_comfort_index_data;
 
   // technical_compliance global_lifetime and global_conformity
-  var global_tc_lifetime_data = building_prop.map(function(x){
+  var global_tc_lifetime_data = buildings.map(function(x){
         return {
           letter: (x.properties.leases_averages.technical_compliance.global_lifetime).toFixed(1)*1,
           frequency:x.building_name
@@ -106,7 +107,7 @@ Template.observatoryBarchart.created = function () {
     });
   instance.barchartData.global_tc_lifetime_data = global_tc_lifetime_data;
 
-  var global_tc_conformity_data = building_prop.map(function(x){
+  var global_tc_conformity_data = buildings.map(function(x){
         return {
           letter: (x.properties.leases_averages.technical_compliance.global_conformity).toFixed(1)*1,
           frequency:x.building_name
@@ -131,7 +132,6 @@ Template.observatoryBarchart.rendered = function () {
   // var container_width = setTimeout(function() { $("#observatory_barchart_placeholder").width() }, 2000);
   var container_width = $("#observatory_barchart_placeholder").width();
   var data, display, y_legend, y_domain_start, x_legend_rotation;
-  console.log("Template.currentData() is: ", Template.currentData() );
 
   this.autorun(function () {
     var margin = {top: 20, right: 20, bottom: 70, left: 40},
@@ -268,7 +268,6 @@ Template.observatoryBarchart.rendered = function () {
     }, 2000);
 
     function barClick(d) {
-      console.log("d is:", d);
       Session.set('obs_barchart_buildings', d.building_IDs);
     };
 
