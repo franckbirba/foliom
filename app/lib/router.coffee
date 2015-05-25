@@ -68,7 +68,6 @@ Router.map ->
                       )
                       .flatten()
                       .value()
-      console.log buildings
       return {
         buildings: buildings
       }

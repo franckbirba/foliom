@@ -8,6 +8,8 @@
 Template.observatoryBarchart.events({
   'change #barchartDisplaySelector': function(e, tplt){
     Session.set("observatoryBarchartDisplaySelector", $(e.currentTarget).val() );
+    // Reinit the map
+    Session.set('obs_barchart_buildings', undefined);
     // console.log(tplt.this);
   },
 });
@@ -15,123 +17,14 @@ Template.observatoryBarchart.events({
 Template.observatoryBarchart.created = function () {
   Session.set("observatoryBarchartDisplaySelector", "dpe_co2_emission" );
   var instance = this ;
-  instance.barchartData = new ReactiveVar({})
-  buildings = Template.currentData().buildings
+  instance.barchartData = new ReactiveVar({});
+  buildings = Template.currentData().buildings;
 
-  // To be displayed in the barchart, the Data has to be structured as follows:
-  // var data = [
-  //   {letter: "A", frequency: .08167},
-  //   {letter: "B", frequency: .04780},
-  // ];
-  // We will add a 2 additional parameters
-  // building_IDs: an array to store the corresponding building IDs, so that when the User clicks on a bar, we know the corresponding buildings
-  // tooltip: an array to store the data we want to display in the tooltip
-
-
-  // SPECIAL CASE FOR BUILDINGS BEING CREATED:
-  // As they don't have Leases yet, we exclude buildings who don't have the 'properties' field
-  buildings = _.chain(buildings)
-                    .map( function(building) {
-                      if(building.hasOwnProperty('properties')){
-                        return building;
-                      } else {return false;}
-                    })
-                    .compact()
-                    .value()
-
-  // construction_year_data
-  instance.barchartData.construction_year_data = buildings.map(function(x){
-        return {
-          letter:x.building_name,
-          frequency: x.building_info.construction_year,
-          tooltip: [x.building_info.construction_year]
-        };
-    });
-
-
-  // ges Data
-  var dpe_co2_emission_data = buildings.map(function(x){
-        return {
-          letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_co2_emission.grade,
-          frequency:x.building_name,
-          id: x._id
-        };
-      });
-  console.log("dpe_co2_emission_data:", dpe_co2_emission_data);
-
-  dpe_co2_emission_data = _.groupBy(dpe_co2_emission_data, 'letter');
-  dpe_co2_emission_data = _.map(dpe_co2_emission_data,function(value, key){
-    return {
-      letter:transr(key)(),
-      frequency: value.length,
-      building_IDs: _.pluck(value, 'id'),
-      tooltip: _.pluck(value, 'frequency') // List of all building names, in an array
-      };
+  // Call the method to calc the Data for the Barchart, in an Autorun
+  this.autorun(function () {
+    data = calc_observatoryBarchart_data(buildings);
+    instance.barchartData.set(data);
   });
-  console.log("dpe_co2_emission_data:", dpe_co2_emission_data);
-  instance.barchartData.dpe_co2_emission_data = dpe_co2_emission_data;
-
-
-  // dpe_co2_emission_data = _.countBy(dpe_co2_emission_data, 'letter');
-  // dpe_co2_emission_data = _.map(dpe_co2_emission_data,function(value, key){
-  //   return {letter:transr(key)(), frequency: value};
-  //   });
-  // instance.barchartData.dpe_co2_emission_data = dpe_co2_emission_data;
-
-  // dpe_energy_consuption Data
-  var dpe_energy_consuption_data = buildings.map(function(x){
-        return {letter:x.properties.leases_averages.merged_dpe_ges_data.dpe_energy_consuption.grade, frequency:x.building_name };
-      });
-  dpe_energy_consuption_data = _.countBy(dpe_energy_consuption_data, 'letter');
-  dpe_energy_consuption_data = _.map(dpe_energy_consuption_data,function(value, key){
-    return {letter:transr(key)(), frequency: value};
-    });
-  instance.barchartData.dpe_energy_consuption_data = dpe_energy_consuption_data;
-
-  // global_comfort_index Data
-  var global_comfort_index_data = buildings.map(function(x){
-        return {
-          letter: (x.properties.leases_averages.global_comfort_index).toFixed(1)*1,
-          frequency:x.building_name
-        };
-      });
-  global_comfort_index_data = _.countBy(global_comfort_index_data, 'letter');
-  global_comfort_index_data = _.map(global_comfort_index_data,function(value, key){
-    return {letter:transr(key)(), frequency: value};
-    });
-  instance.barchartData.global_comfort_index_data = global_comfort_index_data;
-
-  // technical_compliance global_lifetime and global_conformity
-  var global_tc_lifetime_data = buildings.map(function(x){
-        return {
-          letter: (x.properties.leases_averages.technical_compliance.global_lifetime).toFixed(1)*1,
-          frequency:x.building_name
-        };
-      });
-  global_tc_lifetime_data = _.countBy(global_tc_lifetime_data, 'letter');
-  global_tc_lifetime_data = _.map(global_tc_lifetime_data,function(value, key){
-    return {letter:transr(key)(), frequency: value};
-    });
-  instance.barchartData.global_tc_lifetime_data = global_tc_lifetime_data;
-
-  var global_tc_conformity_data = buildings.map(function(x){
-        return {
-          letter: (x.properties.leases_averages.technical_compliance.global_conformity).toFixed(1)*1,
-          frequency:x.building_name
-        };
-      });
-  global_tc_conformity_data = _.countBy(global_tc_conformity_data, 'letter');
-  global_tc_conformity_data = _.map(global_tc_conformity_data,function(value, key){
-    return {letter:transr(key)(), frequency: value};
-    });
-  instance.barchartData.global_tc_conformity_data = global_tc_conformity_data;
-
-
-  // console.log("instance.barchartData");
-  // console.log(instance.barchartData);
-  // Save the object in the reactive var
-  instance.barchartData.set(instance.barchartData);
-
 
 };
 
