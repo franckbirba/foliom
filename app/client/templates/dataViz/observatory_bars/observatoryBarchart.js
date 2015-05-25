@@ -23,7 +23,9 @@ Template.observatoryBarchart.created = function () {
   //   {letter: "A", frequency: .08167},
   //   {letter: "B", frequency: .04780},
   // ];
-  // We will add a third param (building_IDs): an array to store the corresponding building IDs, so that when the User clicks on a bar, we know the corresponding buildings
+  // We will add a 2 additional parameters
+  // building_IDs: an array to store the corresponding building IDs, so that when the User clicks on a bar, we know the corresponding buildings
+  // tooltip: an array to store the data we want to display in the tooltip
 
 
   // SPECIAL CASE FOR BUILDINGS BEING CREATED:
@@ -39,8 +41,12 @@ Template.observatoryBarchart.created = function () {
 
   // construction_year_data
   instance.barchartData.construction_year_data = buildings.map(function(x){
-        return {letter:x.building_name, frequency: x.building_info.construction_year};
-      });
+        return {
+          letter:x.building_name,
+          frequency: x.building_info.construction_year,
+          tooltip: [x.building_info.construction_year]
+        };
+    });
 
 
   // ges Data
@@ -59,7 +65,7 @@ Template.observatoryBarchart.created = function () {
       letter:transr(key)(),
       frequency: value.length,
       building_IDs: _.pluck(value, 'id'),
-      building_names: _.pluck(value, 'frequency')
+      tooltip: _.pluck(value, 'frequency') // List of all building names, in an array
       };
   });
   console.log("dpe_co2_emission_data:", dpe_co2_emission_data);
@@ -124,7 +130,7 @@ Template.observatoryBarchart.created = function () {
   // console.log("instance.barchartData");
   // console.log(instance.barchartData);
   // Save the object in the reactive var
-  instance.barchartData.set(instance.barchartData)
+  instance.barchartData.set(instance.barchartData);
 
 
 };
@@ -276,7 +282,7 @@ Template.observatoryBarchart.rendered = function () {
           content = tooltip.find('span');
           rect = d3.select(this).node().getBoundingClientRect();
 
-          content.html("<strong>"+d.building_names.join("<br>")+"</strong>");
+          content.html("<strong>"+d.tooltip.join("<br>")+"</strong>");
           tooltip.css('transform', "translate3d(" + (rect.left + .5 * (rect.width - self.tooltip.width())) + "px," + (rect.top - self.tooltip.height() - 5) + "px, 0)");
           showTip(tooltip);
         })
