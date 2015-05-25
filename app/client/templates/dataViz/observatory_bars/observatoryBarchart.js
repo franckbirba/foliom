@@ -58,7 +58,8 @@ Template.observatoryBarchart.created = function () {
     return {
       letter:transr(key)(),
       frequency: value.length,
-      building_IDs: _.pluck(value, 'id')
+      building_IDs: _.pluck(value, 'id'),
+      building_names: _.pluck(value, 'frequency')
       };
   });
   console.log("dpe_co2_emission_data:", dpe_co2_emission_data);
@@ -250,6 +251,15 @@ Template.observatoryBarchart.rendered = function () {
         .text( transr(y_legend)() );
 
 
+    function showHideTip(item) {
+      item.toggleClass('show');
+    };
+    function showTip(item) {
+      Meteor.setTimeout(function(){
+        item.addClass('show')}, 300
+    )};
+    var lazyShowHideTip = _.debounce(showHideTip, 300);
+
     svg.selectAll(".bar")
         .data(data)
       .enter().append("rect")
@@ -258,8 +268,23 @@ Template.observatoryBarchart.rendered = function () {
         .attr("width", x.rangeBand())
         .attr("y", function(d) { return y(d.frequency); })
         .attr("height", function(d) { return height - y(d.frequency); })
-        .on("click", barClick);
+        .on("click", barClick)
+        .on('mouseover', function(d, i){
+          // parent = this.parentElement;
+          parent_container = $(this).parents('#observatory_barchart_container');
+          tooltip = parent_container.find('.tooltip');
+          content = tooltip.find('span');
+          rect = d3.select(this).node().getBoundingClientRect();
 
+          content.html("<strong>"+d.building_names.join("<br>")+"</strong>");
+          tooltip.css('transform', "translate3d(" + (rect.left + .5 * (rect.width - self.tooltip.width())) + "px," + (rect.top - self.tooltip.height() - 5) + "px, 0)");
+          showTip(tooltip);
+        })
+        .on('mouseleave', function(d, i){
+          parent_container = $(this).parents('#observatory_barchart_container');
+          tooltip = parent_container.find('.tooltip');
+          lazyShowHideTip(tooltip);
+        });
 
     d3.select("#sortBarchartValues").on("change", change);
 
