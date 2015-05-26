@@ -65,6 +65,65 @@
     $("[name='#{fieldToHide}']").parents(".form-group").show()
 
 
+@alertManager = () ->
+  ### ALERTS for conformity_information_items
+
+  conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'dpe', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
+
+  Alert cases (only to be triggered IF eligibility is true)
+  IF (last_diagnostic + periodicity) < today
+  OR IF due_date >= last_diagnostic
+  OR IF last_diagnostic is empty
+
+  Could have been done with Autoform/ But as of April 2015, the performances of Autoform.getFieldValue() in Autoform5 are way worse than what they used to be in Autoform4. Thus the solution in jQuery.
+  ###
+
+  conformity_information_items_div = $('.CiS_block')
+
+  _.each conformity_information_items, (item) ->
+
+    eligibility_selector = '[name="conformity_information.' + item + '.eligibility"]'
+    last_diagnostic_selector = '[name="conformity_information.' + item + '.last_diagnostic"]'
+    diagnostic_alert_selector = '[name="conformity_information.' + item + '.diagnostic_alert"]'
+    periodicity_selector = '[name="conformity_information.' + item + '.periodicity"]'
+    due_date_selector = '[name="conformity_information.' + item + '.due_date"]'
+
+    # Monitor 'change' event for all items, on relevant fields
+    conformity_information_items_div.on 'change', (eligibility_selector + ',' + last_diagnostic_selector + ',' + periodicity_selector + ',' + due_date_selector), ->
+
+      eligibility = conformity_information_items_div.find(eligibility_selector).prop('checked')
+      span_item = $(last_diagnostic_selector).siblings('span')
+      # Only trigger alerts if eligibility is true
+      if eligibility == true
+        last_diagnostic_val = conformity_information_items_div.find(last_diagnostic_selector).val()
+        periodicity = conformity_information_items_div.find(periodicity_selector).val()
+        due_date = conformity_information_items_div.find(due_date_selector).val()
+        last_diagnostic_moment = moment(last_diagnostic_val)
+        periodicity_moment = periodicityToMoment(periodicity)
+        due_date_moment = moment(due_date)
+        today = moment()
+        # Apply Alert cases:
+        if last_diagnostic_moment.add(periodicity_moment) < today or due_date >= last_diagnostic_val or last_diagnostic_val == null
+          warning_text = transr('last_diagnostic_obsolete')
+          span_item.text(warning_text).css 'color', 'red'
+          $(diagnostic_alert_selector).val true
+        else
+          # Remove alert and the message
+          span_item.text ''
+          $(diagnostic_alert_selector).val false
+      else
+        # Remove alert and the message
+        span_item.text ''
+        $(diagnostic_alert_selector).val false
+    # End of on.change()
+
+    # Trigger a change a first time, so that the Alerts are checked at render
+    $('[name^="conformity_information."][name$=".eligibility"]').change()
+
+    return
+
+
+
 ### Auto-values: used to auto-fill part of the form - for dev. purposes ###
 @fillLeaseForm = (activate) ->
   if activate
