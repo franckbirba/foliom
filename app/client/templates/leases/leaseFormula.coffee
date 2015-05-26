@@ -41,6 +41,11 @@
     )
     # If only one lease to create
     if Session.get('nbLeases_2create_onlyOne')
+      # lease_name = building_name (and hide field)
+      $('[name="lease_name"]').val(
+        Session.get('current_building_doc').building_name
+      )
+      $("[name='lease_name']").parents(".form-group").hide()
       # area_by_usage = building_info.area_useful (and hide field)
       $('[name="area_by_usage"]').val(
         Session.get('current_building_doc').building_info.area_useful
