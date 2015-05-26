@@ -71,11 +71,6 @@ Template.map.rendered = ->
               return building._id is id
           );
         )
-      #   _.filter(aaa, function(a){
-      #     return _.find(bbb, function(b){
-      #         return b.id === a.id;
-      #     });
-      # });
 
       # Then build the buildingGeoList, ie. items in the map
       buildingGeoList = []
