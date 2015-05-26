@@ -39,10 +39,8 @@ Leases.after.update ((userId, doc, fieldNames, modifier, options) ->
 Leases.after.remove (userId, doc) ->
   computeAverages(doc)
 
-
-
-
-triggerAlerts = (id, fields) ->
+root = @
+triggerAlerts = (id, fields) =>
   # Only trigger alerts if both eligibility and diagnostic_alert are true
   alerts = _.where(fields.conformity_information, {eligibility: true, diagnostic_alert: true})
 
@@ -56,9 +54,12 @@ triggerAlerts = (id, fields) ->
       if value.diagnostic_alert is true
         # Create the message
         # As the server does not have access to the session lang, use the preferred lang for the user
+        user_lang = root.current_user.profile.lang
+        # Example: TAPi18n.__("tree_mode_select", { lng: "en" } )
+        # NB: don't put lng as an object when passing parameters (TAPi18n is designed this way)
         msgTxt = TAPi18n.__("alert_message",
-          { lease_name: lease_name, key: TAPi18n.__(key) },
-          { lng: Meteor.user().profile.lang }
+          { lease_name: lease_name, key: TAPi18n.__(key, { lng: user_lang }) },
+          user_lang
         )
         msgContent =
           name: 'EGIS-notifications'
