@@ -194,6 +194,7 @@
     /* Leases / Usages */
     "create_new_lease": "New Usage",
     "leasesToCreate": "Usages to create:",
+    "invalid_lease_msg": "The form is invalid. Please check the values and submit the form again.",
 
     "lease_name": "Usage name",
     "rental_status": "Rental status",
@@ -441,6 +442,10 @@
     "messages": "Messages & Alerts",
     "type_msg_here": "Type your message here...",
     "send": "Send",
+
+    /* Alerts */
+    "alert_message": "Alert - Usage __lease_name__: last diagnostic for __key__ is obsolete",
+    // "inbox_status": "__username__, You have a new message (inbox last checked %s)"
 
     /* Scenarios */
     "schemaDir_create": "Develop blueprint",

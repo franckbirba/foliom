@@ -25,6 +25,15 @@
     $(target).val(calc_qualitative_assessment_array(array)).change()
   return
 
+# Error monitor: track if the form has any error
+# If so: display a small message next to the Submit button
+@lease_form_error_monitor = (template) ->
+  template.autorun ->
+    if !AutoForm.getValidationContext('insertLeaseForm').isValid()
+      # Display a warning message (but only once)
+      if $('.AF_submit_button').siblings().length == 0
+        $('.AF_submit_button').parent().prepend('<div style="text-align:center; color: red;">'+transr("invalid_lease_msg")()+'</div>')
+
 # Hide/show or auto-fill some fields
 @leaseFieldRules = (newLease) ->
   # Only display 'rent' if 'rental_status' is 'rented'

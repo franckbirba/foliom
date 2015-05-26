@@ -199,6 +199,7 @@
     /* Leases / Usages */
     "create_new_lease": "Nouvel Usage",
     "leasesToCreate": "Usages à créer :",
+    "invalid_lease_msg": "Certains champs sont invalides. Veuillez les vérifier et soumettre le formulaire à nouveau.",
 
     "lease_name": "Nom de l'Usage",
     "rental_status": "Statut locatif",

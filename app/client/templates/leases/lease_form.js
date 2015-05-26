@@ -101,6 +101,9 @@ Template.leaseForm.created = function () {
 
 Template.leaseForm.rendered = function () {
 
+  // Monitor any errors. If so, display a message next to the Submit button
+  lease_form_error_monitor(this);
+
   // Activate auto-fill for new leases if needed
   if( !Session.get('leaseToEdit') ){
     fillLeaseForm(false); // Set to true to activate
