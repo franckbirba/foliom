@@ -445,7 +445,6 @@
 
     /* Alerts */
     "alert_message": "Alert - Usage __lease_name__: last diagnostic for __key__ is obsolete",
-    // "inbox_status": "__username__, You have a new message (inbox last checked %s)"
 
     /* Scenarios */
     "schemaDir_create": "Develop blueprint",

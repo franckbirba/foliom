@@ -455,6 +455,8 @@
 		"type_msg_here": "Tapez votre message ici...",
 		"send": "Envoyer",
 
+    /* Alerts */
+    "alert_message": "Alerte - Usage __lease_name__ : le dernier diagnostic pour __key__ est obsolète",
 
     /* Scenarios */
     "schemaDir_create": "Développer le schéma directeur",

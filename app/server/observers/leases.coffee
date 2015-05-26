@@ -54,7 +54,12 @@ triggerAlerts = (id, fields) ->
 
     for key, value of fields.conformity_information
       if value.diagnostic_alert is true
-        msgTxt = "Alert - Lease #{lease_name}: last diagnostic for #{key} is obsolete"
+        # Create the message
+        # As the server does not have access to the session lang, use the preferred lang for the user
+        msgTxt = TAPi18n.__("alert_message",
+          { lease_name: lease_name, key: TAPi18n.__(key) },
+          { lng: Meteor.user().profile.lang }
+        )
         msgContent =
           name: 'EGIS-notifications'
           message: msgTxt
