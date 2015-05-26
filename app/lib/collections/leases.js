@@ -280,16 +280,27 @@ technical_compliance_categorySchema = new SimpleSchema({
 Schema.technical_compliance_categories = technical_compliance_categorySchema;
 
 
+
+// validate_based_on_eligibility = function(current_field_name, current_this){
+//   // current field looks like "conformity_information.chiller_system.due_date"
+//   // Extract "conformity_information.chiller_system"
+//   eligibility_field = current_field_name.split('.').slice(0,-1).join('.');
+//   // Get eligibility_value
+//   eligibility_value = current_this.field(eligibility_field + '.eligibility').value;
+
+//   console.log('eligibility_field & eligibility_value:', eligibility_field, eligibility_value);
+//   // Return "required" eligibility_value is true
+//   if (eligibility_value == true) {
+//     return "required"
+//   }
+
+// };
+
 conformity_infoSchema = new SimpleSchema({
   eligibility: {
     type: Boolean,
     label: transr("is_eligibile"),
     autoform: {
-      // template:'eportfolio-horizontal',
-      /*type: "select-checkbox",
-      options: function () {
-          return buildOptions(["yes"]);
-      }*/
     },
     optional: true,
   },
@@ -303,9 +314,6 @@ conformity_infoSchema = new SimpleSchema({
           return getSelectors('conformity_periodicity');
         },
       },
-      // afFormGroup:{
-      //     style: "display: inline-block; width: 45%;"
-      // }
     },
     optional: true,
   },
@@ -316,9 +324,6 @@ conformity_infoSchema = new SimpleSchema({
       afFieldInput: {
         type: "date",
       },
-      // afFormGroup:{
-      //     style: "display: inline-block; width: 45%; float: right;"
-      // }
     },
     optional: true,
   },

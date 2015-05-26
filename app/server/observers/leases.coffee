@@ -15,26 +15,7 @@ Leases.find().observeChanges
 
 
     # ALERTS
-    alerts = _.where(fields.conformity_information, {diagnostic_alert: true})
-
-    if alerts.length > 0
-      lease_name = Leases.findOne({_id:id}).lease_name
-      building_name = buildingName_fromLeaseId(id)
-      building_id = buildingId_fromLeaseId(id)
-      today = Date.now()
-
-      for key, value of fields.conformity_information
-        if value.diagnostic_alert is true
-          msgTxt = "Alert - Lease #{lease_name}: last diagnostic for #{key} is obsolete"
-          msgContent =
-            name: 'EGIS-notifications'
-            message: msgTxt
-            time: today
-            # link: entry.link
-            # feed_id: id
-            building_id: building_id
-
-          Messages.upsert {time: today, message: msgTxt, building_id: building_id}, {$set: msgContent}
+    triggerAlerts(id, fields)
 
 
 # Leases.find().observe
@@ -46,7 +27,8 @@ Leases.find().observeChanges
   #   computeAverages(newDocument)
 
 
-# Using Collection hooks instead of Observe. BEWARE: hooks don't work when directly modifying MondoDB
+# Using Collection hooks instead of Observe, because of its erratic behaviour (ex: triggering multiple times for one update)
+# BEWARE: hooks don't work when directly modifying MondoDB
 Leases.after.insert (userId, doc) ->
   computeAverages(doc)
 
@@ -57,6 +39,31 @@ Leases.after.update ((userId, doc, fieldNames, modifier, options) ->
 Leases.after.remove (userId, doc) ->
   computeAverages(doc)
 
+
+
+
+triggerAlerts = (id, fields) ->
+  # Only trigger alerts if both eligibility and diagnostic_alert are true
+  alerts = _.where(fields.conformity_information, {eligibility: true, diagnostic_alert: true})
+
+  if alerts.length > 0
+    lease_name = Leases.findOne({_id:id}).lease_name
+    building_name = buildingName_fromLeaseId(id)
+    building_id = buildingId_fromLeaseId(id)
+    today = Date.now()
+
+    for key, value of fields.conformity_information
+      if value.diagnostic_alert is true
+        msgTxt = "Alert - Lease #{lease_name}: last diagnostic for #{key} is obsolete"
+        msgContent =
+          name: 'EGIS-notifications'
+          message: msgTxt
+          time: today
+          # link: entry.link
+          # feed_id: id
+          building_id: building_id
+
+        Messages.upsert {time: today, message: msgTxt, building_id: building_id}, {$set: msgContent}
 
 computeAverages = (document) ->
   doc_buiding_id = document.building_id
