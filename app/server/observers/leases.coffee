@@ -1,6 +1,6 @@
 #Each time a new lease is inserted, save the technical_compliance categories
-Leases.find().observeChanges
-  changed:(id, fields) ->
+# Leases.find().observeChanges
+#   changed:(id, fields) ->
 
     # #Save all technical_compliance categories NAMES
     # curr_portfolio_id = Buildings.findOne(entry.building_id).portfolio_id
@@ -15,7 +15,7 @@ Leases.find().observeChanges
 
 
     # ALERTS
-    triggerAlerts(id, fields)
+    # triggerAlerts(id, fields)
 
 
 # Leases.find().observe
@@ -31,18 +31,20 @@ Leases.find().observeChanges
 # BEWARE: hooks don't work when directly modifying MondoDB
 Leases.after.insert (userId, doc) ->
   computeAverages(doc)
+  triggerAlerts(this._id, doc)
 
 Leases.after.update ((userId, doc, fieldNames, modifier, options) ->
   computeAverages(doc)
+  triggerAlerts(doc._id, doc)
 ), fetchPrevious: false
 
 Leases.after.remove (userId, doc) ->
   computeAverages(doc)
 
 root = @
-triggerAlerts = (id, fields) =>
+triggerAlerts = (id, doc) =>
   # Only trigger alerts if both eligibility and diagnostic_alert are true
-  alerts = _.where(fields.conformity_information, {eligibility: true, diagnostic_alert: true})
+  alerts = _.where(doc.conformity_information, {eligibility: true, diagnostic_alert: true})
 
   if alerts.length > 0
     lease_name = Leases.findOne({_id:id}).lease_name
@@ -50,8 +52,8 @@ triggerAlerts = (id, fields) =>
     building_id = buildingId_fromLeaseId(id)
     today = Date.now()
 
-    for key, value of fields.conformity_information
-      if value.diagnostic_alert is true
+    for key, value of doc.conformity_information
+      if value.diagnostic_alert is true and value.eligibility is true
         # Create the message
         # As the server does not have access to the session lang, use the preferred lang for the user
         user_lang = root.current_user.profile.lang

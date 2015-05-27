@@ -456,6 +456,7 @@
 		"send": "Envoyer",
 
     /* Alerts */
+    "alerts": "Alertes",
     "alert_message": "Alerte - Usage __lease_name__ : le dernier diagnostic pour __key__ est obsolète",
 
     /* Scenarios */

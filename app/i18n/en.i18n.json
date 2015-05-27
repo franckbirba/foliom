@@ -444,6 +444,7 @@
     "send": "Send",
 
     /* Alerts */
+    "alerts": "Alerts",
     "alert_message": "Alert - Usage __lease_name__: last diagnostic for __key__ is obsolete",
 
     /* Scenarios */
