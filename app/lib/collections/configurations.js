@@ -97,6 +97,7 @@ Fluids2 = new SimpleSchema({
         type: Number,
         decimal: true,
         label: transr("global_evolution_index"),
+        defaultValue:0,
         autoform: {
             readonly:true,
         }
@@ -168,6 +169,7 @@ Configurations.attachSchema(new SimpleSchema({
         type: Number,
         decimal: true,
         label: transr("global_evolution_index"),
+        defaultValue:0,
         autoform: {
             readonly:true,
         }
@@ -202,6 +204,7 @@ Configurations.attachSchema(new SimpleSchema({
         type: Number,
         decimal: true,
         label: transr("global_evolution_index"),
+        defaultValue:0,
         autoform: {
             readonly:true,
         }
