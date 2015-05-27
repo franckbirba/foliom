@@ -1,7 +1,7 @@
 if (Meteor.isClient) {
 
-  AutoForm.addInputType('text_disabledAutotranslate', {
-    template: 'afInputText_disabledAutotranslate',
+  AutoForm.addInputType('text_autotranslate', {
+    template: 'afInputText_autotranslate',
     valueOut: function() {
       return this.val();
     },

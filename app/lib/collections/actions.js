@@ -424,7 +424,8 @@ Actions.attachSchema(new SimpleSchema({
     },
     autoform: {
       afFieldInput: {
-        type: 'text_disabledAutotranslate'
+        type: 'text_autotranslate',
+        readonly: true,
       }
     }
   },
