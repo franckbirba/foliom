@@ -12,6 +12,8 @@ technical_compliance_items = ['core_and_shell', 'facade', 'roof_terrasse', 'heat
 
 conformity_information_items = ['accessibility', 'elevators', 'ssi', 'asbestos', 'lead', 'legionella', 'electrical_installation', 'dpe', 'indoor_air_quality', 'radon', 'chiller_terminal', 'lead_disconnector', 'automatic_doors', 'chiller_system'];
 
+endUseList = ["end_use_heating", "end_use_AC", "end_use_ventilation", "end_use_lighting", "end_use_aux", "end_use_ecs", "end_use_specific"];
+
 
 
 // Translate reactively

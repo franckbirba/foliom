@@ -106,7 +106,20 @@ consumption_by_end_use = new SimpleSchema({
     type: String,
     autoform: {
       afFieldInput: {
-        class: 'end_use_name' // makes it easier to select
+        class: 'end_use_name', // makes it easier to select
+        defaultValue:function(){
+          // "this" looks like: {name: "consumption_by_end_use.0.end_use_name"}
+          // return Number(new Date().getFullYear()) + Number(this.name.split('.')[3]);
+          // console.log(this);
+          end_use_index = this.name.split('.')[1];
+          return endUseList[end_use_index];
+        },
+        // readonly: true,
+        readonly: function(){
+          // Readonly for the first end_uses
+          end_use_index = this.name.split('.')[1];
+          if (end_use_index < endUseList.length) { return true; }
+        }
       }
     },
   },

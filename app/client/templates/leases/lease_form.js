@@ -2,20 +2,7 @@ AutoForm.hooks({
   insertLeaseForm: {
     before: {
       insert: function(doc) {
-        //  var testDoc = jQuery.extend(true, {}, doc);
-        // console.log(testDoc);
 
-        //Hack for textfields that we always want in English
-        //If language is not English
-            // if ( TAPi18n.getLanguage() !== 'en') {
-            //     _.each(doc.consumption_by_end_use, function(end_use, i) {
-            //          // var endUseinEN = Meteor.call("toEnglish", end_use.end_use_name);
-            //          var endUseinEN = TAPi18n.__(end_use.end_use_name, null, 'fr' );
-            //          doc.consumption_by_end_use[i].end_use_name = endUseinEN;
-            //     });
-            // }
-        // console.log(doc);
-        // debugger
 
         /* ------------------------------------- */
         /* --- Insert EndUse data in Estate --- */
@@ -116,18 +103,18 @@ Template.leaseForm.rendered = function () {
   //-----------------------------------
   // @ BSE : CHECK IF STILL RELEVANT
 
-  //Apply End-Use to correct field
-  var EndUses = EndUse.find().fetch() ; // ToDo: check possible collision?
+  // //Apply End-Use to correct field
+  // var EndUses = EndUse.find().fetch() ; // ToDo: check possible collision?
 
-  // Set textfields that have to be auto-filled and make them readonly
-  if( !Session.get('leaseToEdit') ){
-    // end_use_name
-    $(".end_use_name").each(function( index ) {
-        $(this).val( transr(endUses[index].end_use_name) );
-        $(this).prop("readonly","readonly") ;
-    });
+  // // Set textfields that have to be auto-filled and make them readonly
+  // if( !Session.get('leaseToEdit') ){
+  //   // end_use_name
+  //   $(".end_use_name").each(function( index ) {
+  //       $(this).val( transr(endUses[index].end_use_name) );
+  //       $(this).prop("readonly","readonly") ;
+  //   });
 
-  }
+  // }
   //-----------------------------------
 
 
