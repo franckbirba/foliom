@@ -15,13 +15,14 @@
     .col-md-4: .panel.panel-primary
       .panel-heading: h3.panel-title.text-center {{_ "summary"}}
       #buildingSummary.panel-body
-        p Leases present:
         each getLeases
-          div: a.update_lease(href='#') {{_ lease_name}}
+          div#lease_name: a.update_lease(href='#') {{_ lease_name}}
           div {{_ 'lease_usage'}}: {{_ lease_usage}}
           div {{_ 'area_by_usage'}}: {{_ area_by_usage}}
-          div {{_ 'dpe_energy_consuption'}}: {{_ dpe_energy_consuption.grade}} / {{_ dpe_energy_consuption.value}}
-          p {{_ 'dpe_co2_emission'}}: {{_ dpe_co2_emission.grade}} / {{_ dpe_co2_emission.value}}
+          if has_alerts conformity_information
+            ul#alerts {{_ 'alerts'}}
+            each getConformity_information_alerts conformity_information
+              li {{_ key}}
     // Assesment
     .col-md-8: .panel.panel-primary
       .panel-heading: h3.panel-title {{_ "assessment"}}

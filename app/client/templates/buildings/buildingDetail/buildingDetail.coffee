@@ -106,6 +106,17 @@ Template.buildingDetail.helpers
   getLeases: ->
     result = Leases.find({ building_id: Session.get('current_building_doc')._id }, sort: lease_name: 1).fetch()
     result
+  has_alerts: (conformity_object) ->
+    alerts = _.where(conformity_object, {eligibility: true, diagnostic_alert: true})
+    if alerts.length > 0 then return true else return false
+  getConformity_information_alerts: (conformity_object) ->
+    result = []
+    for key, value of conformity_object
+      if value.diagnostic_alert is true
+        result.push
+          key: key
+          value: value
+    return result
   dpe_ges_dataH: ->
     lease_dpe_ges_data = Template.instance().lease_dpe_ges_data.get() #get all lease DPE_GES DATA
     merged_dpe_ges_data = Template.instance().merged_dpe_ges_data.get() #get merged DPE_GES DATA
