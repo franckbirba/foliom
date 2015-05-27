@@ -125,7 +125,5 @@
     }
   )
 
-
-  console.log "barchartData", barchartData
   # Return data
   return barchartData
