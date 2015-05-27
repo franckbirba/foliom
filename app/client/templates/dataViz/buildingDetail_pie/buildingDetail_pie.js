@@ -5,7 +5,7 @@
 
 */
 
-Template.pie.rendered = function () {
+Template.buildingDetail_pie.rendered = function () {
     var svg = d3.select(".piechart")
         .append("g")
 
@@ -79,6 +79,16 @@ Template.pie.rendered = function () {
             // change(randomData());
             change(data);
 
+            function showHideTip(item) {
+              item.toggleClass('show');
+            };
+            function showTip(item) {
+              Meteor.setTimeout(function(){
+                item.addClass('show')}, 300
+            )};
+            var lazyShowHideTip = _.debounce(showHideTip, 300);
+
+
             function change(data) {
 
                 /* ------- PIE SLICES -------*/
@@ -92,6 +102,22 @@ Template.pie.rendered = function () {
                     .attr("data-legend",function(d) {
                         // return transr(d.data.label)();
                         return d.data.label;
+                    })
+                    .on('mouseover', function(d, i){
+                      // parent = this.parentElement;
+                      parent_container = $(this).parents('#buildingDetail_pie_tplt');
+                      tooltip = parent_container.find('.tooltip');
+                      content = tooltip.find('span');
+                      rect = d3.select(this).node().getBoundingClientRect();
+
+                      content.html("<strong>"+d.data.value+" "+TAPi18n.__("u_kwhEF")+"</strong>");
+                      tooltip.css('transform', "translate3d(" + (rect.left + .5 * (rect.width - self.tooltip.width())) + "px," + (rect.top - self.tooltip.height() - 5) + "px, 0)");
+                      showTip(tooltip);
+                    })
+                    .on('mouseleave', function(d, i){
+                      parent_container = $(this).parents('#buildingDetail_pie_tplt');
+                      tooltip = parent_container.find('.tooltip');
+                      lazyShowHideTip(tooltip);
                     });
 
                 slice
