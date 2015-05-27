@@ -88,6 +88,12 @@ Template.buildingDetail_pie.rendered = function () {
             )};
             var lazyShowHideTip = _.debounce(showHideTip, 300);
 
+            // we hide tooltip on the "slice" class, to prevent it from disappearing when the user changes slices
+            svg.select(".slices").on('mouseleave', function(d, i){
+                      parent_container = $(this).parents('#buildingDetail_pie_tplt');
+                      tooltip = parent_container.find('.tooltip');
+                      lazyShowHideTip(tooltip);
+                    });
 
             function change(data) {
 
@@ -113,11 +119,6 @@ Template.buildingDetail_pie.rendered = function () {
                       content.html("<strong>"+d.data.value+" "+TAPi18n.__("u_kwhEF")+"</strong>");
                       tooltip.css('transform', "translate3d(" + (rect.left + .5 * (rect.width - self.tooltip.width())) + "px," + (rect.top - self.tooltip.height() - 5) + "px, 0)");
                       showTip(tooltip);
-                    })
-                    .on('mouseleave', function(d, i){
-                      parent_container = $(this).parents('#buildingDetail_pie_tplt');
-                      tooltip = parent_container.find('.tooltip');
-                      lazyShowHideTip(tooltip);
                     });
 
                 slice
