@@ -50,6 +50,7 @@ Estates.attachSchema(new SimpleSchema({
   'estate_properties.endUseList': {
     type: [String],
     optional: true,
+    defaultValue: endUseList,
     autoform: {
       omit: true
     }

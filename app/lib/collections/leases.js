@@ -104,21 +104,28 @@ var comfort_values = [{
 consumption_by_end_use = new SimpleSchema({
   end_use_name: {
     type: String,
+    defaultValue:function(){
+          // "this" looks like: {name: "consumption_by_end_use.0.end_use_name"}
+          end_use_index = this.name.split('.')[1];
+          if (index < endUseList.length){
+            return endUseList[end_use_index];
+          } else { return ""; }
+        },
+    // autoValue:function(){
+    //   // "this" looks like: {name: "consumption_by_end_use.0.end_use_name"}
+    //   console.log("this is:", this);
+    //   end_use_index = this.name.split('.')[1];
+    //   return endUseList[end_use_index];
+    // },
     autoform: {
       afFieldInput: {
+        type: 'text_autotranslate',
         class: 'end_use_name', // makes it easier to select
-        defaultValue:function(){
-          // "this" looks like: {name: "consumption_by_end_use.0.end_use_name"}
-          // return Number(new Date().getFullYear()) + Number(this.name.split('.')[3]);
-          // console.log(this);
-          end_use_index = this.name.split('.')[1];
-          return endUseList[end_use_index];
-        },
         // readonly: true,
         readonly: function(){
-          // Readonly for the first end_uses
+          // Readonly for the first 7 end_uses
           end_use_index = this.name.split('.')[1];
-          if (end_use_index < endUseList.length) { return true; }
+          if (end_use_index < 7) { return true; }
         }
       }
     },

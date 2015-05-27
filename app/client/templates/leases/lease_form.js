@@ -3,6 +3,12 @@ AutoForm.hooks({
     before: {
       insert: function(doc) {
 
+        // END_USE: Revert first 7 end_uses to their original value
+        _.each(doc.consumption_by_end_use, function(end_use, i) {
+          if(i<7){
+            doc.consumption_by_end_use[i].end_use_name = endUseList[i];
+          }
+        });
 
         /* ------------------------------------- */
         /* --- Insert EndUse data in Estate --- */
@@ -189,7 +195,7 @@ Template.leaseForm.rendered = function () {
 
     if (index != 6) { // Exclude 6 as it's the specific field
         var firstYearValue = consumption_by_end_use_table.find("[name='consumption_by_end_use."+index+".first_year_value']").val()*1;
-        console.log("firstYearValue is ", firstYearValue)
+        // console.log("firstYearValue is ", firstYearValue)
         if(!isNaN(firstYearValue)) {endUseVal_array[index] = firstYearValue ;}
     } else {
         endUseVal_array[index] = 0;

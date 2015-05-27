@@ -418,8 +418,9 @@ Actions.attachSchema(new SimpleSchema({
   'gain_fluids_water.$.opportunity': {
     type: String,
     label: transr('fluid_water'),
-    defaultValue: transr('fluid_water'),
+    defaultValue: 'fluid_water',
     autoValue: function() {
+      // Add autoValue, otherwise field will be saved as its translation
       return 'fluid_water';
     },
     autoform: {
