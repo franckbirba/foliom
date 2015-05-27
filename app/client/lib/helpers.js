@@ -114,9 +114,10 @@ Template.registerHelper("getBuildingName",
 Template.registerHelper("beforeRemove",
     function(){
         return function (collection, id, param) {
-            console.log("param is", param);
             var doc = collection.findOne(id);
-            if( doc.hasOwnProperty('profile.firstName') ){
+            console.log("collection is", collection);
+            console.log("doc is", doc);
+            if( collection._name === "users" ){
                 if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
                   this.remove();
                 }

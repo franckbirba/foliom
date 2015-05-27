@@ -7,7 +7,7 @@
       each getAllUsers
         li.list-group-item
           span.update-user(style='width:100%', data-toggle='modal', data-target='#userformmodal') {{profile.firstName}} {{profile.lastName}}
-          +quickRemoveButton collection=users _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
+          +quickRemoveButton collection="Meteor.users" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
             span.glyphicon.glyphicon-trash
     .content-scrollable
       .wrapper-auth
