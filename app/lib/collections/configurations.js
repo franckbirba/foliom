@@ -36,7 +36,7 @@ YearlyValues = new SimpleSchema({
     autoform: {
       afFieldInput: {
         class: 'AF_array_mainCell',
-        defaultValue:0
+        defaultValue:1
       }
     }
   },
