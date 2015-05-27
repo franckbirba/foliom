@@ -1,31 +1,3 @@
-#Each time a new lease is inserted, save the technical_compliance categories
-# Leases.find().observeChanges
-#   changed:(id, fields) ->
-
-    # #Save all technical_compliance categories NAMES
-    # curr_portfolio_id = Buildings.findOne(entry.building_id).portfolio_id
-    # curr_estate = Estates.findOne({portfolio_collection: curr_portfolio_id })
-
-    # all_categories = _.pluck entry.technical_compliance.categories, 'name' #get all catogorie names
-    # unique_names = _.union curr_estate.estate_properties.technical_compliance_categoriesList, all_categories #remove all duplicates
-
-    # Estates.update {_id: curr_estate._id}, {
-    #   $set: {'estate_properties.technical_compliance_categoriesList': unique_names}
-    # }
-
-
-    # ALERTS
-    # triggerAlerts(id, fields)
-
-
-# Leases.find().observe
-  # added: (doc) ->
-  #   # computeAverages(doc)
-  #   console.log "in ADDED"
-  #   console.log doc
-  # changed: (newDocument, oldDocument) ->
-  #   computeAverages(newDocument)
-
 
 # Using Collection hooks instead of Observe, because of its erratic behaviour (ex: triggering multiple times for one update)
 # BEWARE: hooks don't work when directly modifying MondoDB
@@ -40,6 +12,9 @@ Leases.after.update ((userId, doc, fieldNames, modifier, options) ->
 
 Leases.after.remove (userId, doc) ->
   computeAverages(doc)
+
+
+
 
 root = @
 triggerAlerts = (id, doc) =>

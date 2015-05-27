@@ -107,10 +107,11 @@ consumption_by_end_use = new SimpleSchema({
     defaultValue:function(){
           // "this" looks like: {name: "consumption_by_end_use.0.end_use_name"}
           end_use_index = this.name.split('.')[1];
-          if (index < endUseList.length){
+          if (end_use_index < endUseList.length){
             return endUseList[end_use_index];
           } else { return ""; }
         },
+    // autoValue is not called for new documents >> the code below had to be replaced with jQuery functions in the template
     // autoValue:function(){
     //   // "this" looks like: {name: "consumption_by_end_use.0.end_use_name"}
     //   console.log("this is:", this);
@@ -125,7 +126,7 @@ consumption_by_end_use = new SimpleSchema({
         readonly: function(){
           // Readonly for the first 7 end_uses
           end_use_index = this.name.split('.')[1];
-          if (end_use_index < 7) { return true; }
+          if (end_use_index < endUseList.length) { return true; }
         }
       }
     },
