@@ -72,7 +72,23 @@ docker build -t pem/eportfolio .
 
 ## Launch the Dockered ePortfolio
 ### On localhost
+Before anything create an account on [Docker Hub](https://hub.docker.com/).
+
 ```bash
+# Login to Docker Hub
+docker login
+# Enter your login, password and email as used on Docker Hub
+# Get the IP of the Docker Host
+boot2docker ip
+# Also available via the environment variables set previously
+echo $DOCKER_HOST
+# Launch MongoDb
+# -d: Daemon mode
+# -v: Print version
+# --name:
+docker run --name mongo-dev -d -v /opt/mongodb:/data/db -p 27017 mymongo
+
+# Run the Docker container
 docker run --rm \
 -e ROOT_URL=http://localhost.com \
 -e MONGO_URL=mongodb://url \
@@ -82,9 +98,12 @@ pem/eportfolio
 ```
 
 ### On production server
+```bash
+docker run --name eportfolioDb -d mongo
 docker run --rm \
 -e ROOT_URL=http://www.eportfolio.com \
 -e MONGO_URL=mongodb://url \
 -e MONGO_OPLOG_URL=mongodb://oplog_url \
 -p 8080:80 \
 pem/eportfolio
+```
