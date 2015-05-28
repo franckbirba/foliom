@@ -8,8 +8,6 @@
       # Use modulo to keep track of where we are
       # Add +1 as the line titles have the same class
       current_loop = index%%(nb_years+1)
-      console.log "current_loop: #{current_loop}"
-      console.log "current index: #{index}"
       unless current_loop is 0
         if current_loop > Session.get('current_estate_doc').visible_years
           $(this).hide()
