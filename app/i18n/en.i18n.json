@@ -33,6 +33,7 @@
 	/* Estate */
 	"new_estate": "New estate",
     "multiple_estates_pick_one": "Your account has access to multiple Estates - choose the one you will work on:",
+    "visible_years": "Indexes: number of years a standard user can see",
 
 	/* Settings */
 	"settings": "Settings",

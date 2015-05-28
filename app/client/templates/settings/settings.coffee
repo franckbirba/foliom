@@ -6,7 +6,13 @@ Template.settings.rendered = () ->
   $(document).bind 'DOMSubtreeModified', ->
     $("[name$='.cost']").off()
     monitorSettingsCosts()
+    restrict_visible_years()
     return
+
+  # Restrict visible years for users who are not 'admin' or 'estate_manager'
+  restrict_visible_years()
+
+
 
 Template.settings.events
   'click #edit-master': (event, template) ->

@@ -39,8 +39,8 @@ AutoForm.addHooks(null, {
 AutoForm.hooks({
     AFestateForm: {
         onSuccess: function(formType, result) {
+            Session.set('current_estate_doc', Estates.findOne(this.docId));
 
-            // console.log("Success : formType is " + formType);
             if (formType == "insert") {
                 $('#estateForm').modal('hide');
                 Meteor.call("copyMasterCfg", result, function(error, result){

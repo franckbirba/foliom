@@ -12,6 +12,11 @@ Estates.attachSchema(new SimpleSchema({
       rows: 5
     }
   },
+  visible_years: {
+    type: Number,
+    label: transr("visible_years"),
+    defaultValue:10,
+  },
   images: { // ToDo : gérer le multi-images
     type: String,
     label: transr("images"),

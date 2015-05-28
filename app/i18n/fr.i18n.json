@@ -33,6 +33,7 @@
 	/* Estate */
 	"new_estate": "Nouvel estate",
     "multiple_estates_pick_one": "Votre compte est associé à plusieurs Patrimoines - choisissez celui sur lequel vous souhaitez travailler :",
+    "visible_years": "Indexes : nombre d'années visibles par un utilisateur standard",
 
 	/* Settings */
 	"settings": "Réglages",

@@ -1,3 +1,20 @@
+# Restrict visible years for users who are not 'admin' or 'estate_manager'
+@restrict_visible_years = () ->
+  if !Roles.userIsInRole(this.userId, ['admin', 'estate_manager'])
+    # Total number of years
+    nb_years = $("[name^='icc.evolution_index'][name$='.cost']").length
+    # Go through each item and hide it if necessary
+    $('.yearly_values_item').each (index)->
+      # Use modulo to keep track of where we are
+      # Add +1 as the line titles have the same class
+      current_loop = index%%(nb_years+1)
+      console.log "current_loop: #{current_loop}"
+      console.log "current index: #{index}"
+      unless current_loop is 0
+        if current_loop > Session.get('current_estate_doc').visible_years
+          $(this).hide()
+
+
 # Function to calc the difference between Last & First val
 calcEvolutionIndex = (currentVal, previousVal) ->
   total_in_percent = ((currentVal / previousVal) - 1 ) * 100
