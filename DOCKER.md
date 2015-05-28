@@ -9,8 +9,6 @@ brew install boot2docker
 ln -sfv /usr/local/opt/boot2docker/*.plist ~/Library/LaunchAgents
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.boot2docker.plist
 brew cask install boot2docker-status
-brew install fig
-sudo pip install -U fig
 ```
 
 > Info on using [boot2docker-status](https://github.com/nickgartmann/boot2docker-status)
