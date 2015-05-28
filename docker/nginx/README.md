@@ -1,6 +1,7 @@
 # NGinx for ePortfolio
 ## Development workflow
 Build
+- `-t`: Tag used on Docker Hub
 ```bash
 docker build -t pemarchandet/nginx-eportfolio .
 ```
@@ -9,7 +10,7 @@ Run
 - `-t`: Tag
 - `-p`: Port on the Docker Host and port on the Docker Container
 ```bash
-docker run -d -t pemarchandet/nginx-eportfolio .
+docker run --name nginx-eportfolio -d -p 80:80 pemarchandet/nginx-eportfolio
 ```
 Checking status
 ```bash
@@ -41,6 +42,37 @@ open http://$(boot2docker ip)/test.hmtl
   ```bash
   open http://boot2docker.me/test.html
   ```
+### Troubleshooting
+Stop the running container
+```bash
+# Get all container ID
+docker ps
+# Use the first relevant digits of the container id, here 049
+docker rm -f 049
+# Next perform the rebuild
+```
+Remove a stopped container
+```bash
+# Get all container ID
+docker ps -a
+# Use the first relevant digits of the container id, here 049
+docker rm 049
+```
+Remove all containers
+```bash
+docker rm $(docker ps -a -q)
+```
+Remove all images
+```bash
+docker rmi $(docker images -q)
+```
+Connect to the container
+```bash
+docker exec -i -t nginx-eportfolio bash
+```
+
+> **NOTE** Use bash or zsh. fish doesn't like execution contexts.
+
 ## Deployment on Docker hub
 ```bash
 open http://boot2docker.me/test.html
