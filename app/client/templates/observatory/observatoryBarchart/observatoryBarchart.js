@@ -18,14 +18,15 @@ Template.observatoryBarchart.created = function () {
   Session.set("observatoryBarchartDisplaySelector", "dpe_co2_emission" );
   var instance = this ;
   instance.barchartData = new ReactiveVar({});
-  buildings = Template.currentData().buildings;
+  if (Template.currentData()) {
+    buildings = Template.currentData().buildings;
 
-  // Call the method to calc the Data for the Barchart, in an Autorun
-  this.autorun(function () {
-    data = calc_observatoryBarchart_data(buildings);
-    instance.barchartData.set(data);
-  });
-
+    // Call the method to calc the Data for the Barchart, in an Autorun
+    this.autorun(function () {
+      data = calc_observatoryBarchart_data(buildings);
+      instance.barchartData.set(data);
+    });
+  }
 };
 
 Template.observatoryBarchart.rendered = function () {
