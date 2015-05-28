@@ -83,11 +83,6 @@ Meteor.startup(function () {
             "name": "ICC",
             "evolution_index": [
               {
-                "year": 2014,
-                "cost": 0.01,
-                "evolution_index": 0
-              },
-              {
                 "year": 2015,
                 "cost": 0.01,
                 "evolution_index": 0
@@ -234,6 +229,11 @@ Meteor.startup(function () {
               },
               {
                 "year": 2044,
+                "cost": 0.01,
+                "evolution_index": 0
+              },
+              {
+                "year": 2045,
                 "cost": 0.01,
                 "evolution_index": 0
               }
@@ -243,11 +243,6 @@ Meteor.startup(function () {
             "name": "IPC",
             "evolution_index": [
               {
-                "year": 2014,
-                "cost": 0.01,
-                "evolution_index": 0
-              },
-              {
                 "year": 2015,
                 "cost": 0.01,
                 "evolution_index": 0
@@ -394,6 +389,11 @@ Meteor.startup(function () {
               },
               {
                 "year": 2044,
+                "cost": 0.01,
+                "evolution_index": 0
+              },
+              {
+                "year": 2045,
                 "cost": 0.01,
                 "evolution_index": 0
               }
