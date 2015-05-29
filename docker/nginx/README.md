@@ -76,7 +76,7 @@ docker exec -i -t nginx-eportfolio bash
 ```
 Connect to a failed container (container that has exited)
 ```bash
-docker run -i -P pemarchandet/nginx-eportfolio bash
+docker run -ti -P pemarchandet/nginx-eportfolio bash
 ```
 Check the logs of a container
 ```bash

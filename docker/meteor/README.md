@@ -1,16 +1,16 @@
-# NGinx for ePortfolio
+# Meteor for ePortfolio
 ## Development workflow
 Build
 - `-t`: Tag used on Docker Hub
 ```bash
-docker build -t pemarchandet/mongo-eportfolio .
+docker build -t pemarchandet/meteor-eportfolio .
 ```
 Run
 - `-d`: Deamon mode
 - `--name`: Name used for linking containers
 - `-p`: Port on the Docker Host and port on the Docker Container
 ```bash
-docker run --name mongo-eportfolio -d -p 27017:27017 pemarchandet/mongo-eportfolio
+docker run --name meteor-eportfolio -d -p 3000:3000 pemarchandet/meteor-eportfolio
 ```
 Checking status
 ```bash
@@ -24,16 +24,16 @@ Hereafter only command specific to this container are exposed:
 
 Connect (attach) to the container
 ```bash
-docker exec -i -t mongo-eportfolio bash
+docker exec -i -t meteor-eportfolio bash
 ```
 Connect to a failed container (container that has exited)
 ```bash
-docker run -ti -P pemarchandet/mongo-eportfolio bash
+docker run -ti -P pemarchandet/meteor-eportfolio bash
 ```
 Check the logs of a container
 ```bash
 # Checking log with exiting
-docker logs -f pemarchandet/mongo-eportfolio
+docker logs -f pemarchandet/meteor-eportfolio
 # Checking the last log and exit
-docker logs pemarchandet/mongo-eportfolio
+docker logs pemarchandet/meteor-eportfolio
 ```
