@@ -1,4 +1,15 @@
 FROM node
 MAINTAINER Pierre-Eric Marchandet <pemarchandet@gmail.com>
 
-# PORT=3000 MONGO_URL=<your_uri> MONGO_OPLOG_URL=<your_local_uri> node bundle/main.js
+# Import the complete app
+ADD bundle /bundle
+
+
+# Lanch application
+# ENV PORT 3000
+# ENV MONGO_URL 127.0.0.1
+# ENV MONGO_OPLOG_URL 127.0.0.1
+# RUN ['node', 'bundle/main.js']
+#
+# # Not necessary but clearer in development
+# EXPOSE 3000
