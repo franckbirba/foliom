@@ -11,4 +11,4 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # Not necessary but clearer in development
 EXPOSE 80
-CMS ['nginx']
+CMD ['nginx']
