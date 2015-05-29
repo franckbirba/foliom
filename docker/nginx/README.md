@@ -70,6 +70,15 @@ Connect to the container
 ```bash
 docker exec -i -t nginx-eportfolio bash
 ```
+Connect to a failed container (container that has exited)
+```bash
+docker run -i -P pemarchandet/nginx-eportfolio /bin/bash
+```
+Check the logs of a container
+```bash
+docker logs -f pemarchandet/nginx-eportfolio
+```
+
 
 > **NOTE** Use **bash** or **zsh**. Remove $ for **fish**.
 
