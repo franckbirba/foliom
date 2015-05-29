@@ -66,13 +66,13 @@ Remove all images
 ```bash
 docker rmi $(docker images -q)
 ```
-Connect to the container
+Connect (attach) to the container
 ```bash
 docker exec -i -t nginx-eportfolio bash
 ```
 Connect to a failed container (container that has exited)
 ```bash
-docker run -i -P pemarchandet/nginx-eportfolio /bin/bash
+docker run -i -P pemarchandet/nginx-eportfolio bash
 ```
 Check the logs of a container
 ```bash
