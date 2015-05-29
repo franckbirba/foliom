@@ -71,7 +71,7 @@ Connect to the container
 docker exec -i -t nginx-eportfolio bash
 ```
 
-> **NOTE** Use bash or zsh. fish doesn't like execution contexts.
+> **NOTE** Use **bash** or **zsh**. Remove $ for **fish**.
 
 ## Deployment on Docker hub
 ```bash
