@@ -4,8 +4,10 @@
 
 ## Requirements
 ### OSX
+Boot2Docker and Docker installation:
 ```bash
 brew install boot2docker
+# Launch Boot2Docker at startup
 ln -sfv /usr/local/opt/boot2docker/*.plist ~/Library/LaunchAgents
 launchctl load ~/Library/LaunchAgents/homebrew.mxcl.boot2docker.plist
 brew cask install boot2docker-status
@@ -14,12 +16,13 @@ brew cask install boot2docker-status
 > **NOTE** Info on using [boot2docker-status](https://github.com/nickgartmann/boot2docker-status)
 > On the menu, use cmd+click
 
+For Bash completion:
 ```bash
 brew install homebrew/completions/boot2docker-completion
 brew install homebrew/completions/docker-completion
 ```
 
-> **NOTE** For bash, zsh and fish completion, please refer to the following
+> **NOTE** For zsh and fish completion, please refer to the following
 > repository: https://github.com/docker/docker/tree/master/contrib/completion
 
 
@@ -31,7 +34,7 @@ boot2docker up
 boot2docker status
 boot2docker info
 # Setting shell variables
-# # COPY THE ENV VARIABLE AS DOCKER SAYS IT
+# /!\ COPY THE ENV VARIABLE AS DOCKER SAYS IT /!\
 boot2docker shellinit
 # Connecting to local Docker via SSH
 boot2docker ssh
