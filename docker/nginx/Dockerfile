@@ -1,4 +1,5 @@
 FROM nginx
+MAINTAINER Pierre-Eric Marchandet <pemarchandet@gmail.com>
 
 # Configuration
 ADD h5bp-nginx-cfg/nginx.conf /etc/nginx/nginx.conf
