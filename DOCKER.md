@@ -11,8 +11,17 @@ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.boot2docker.plist
 brew cask install boot2docker-status
 ```
 
-> Info on using [boot2docker-status](https://github.com/nickgartmann/boot2docker-status)
+> **NOTE** Info on using [boot2docker-status](https://github.com/nickgartmann/boot2docker-status)
 > On the menu, use cmd+click
+
+```bash
+brew install homebrew/completions/boot2docker-completion
+brew install homebrew/completions/docker-completion
+```
+
+> **NOTE** For bash, zsh and fish completion, please refer to the following
+> repository: https://github.com/docker/docker/tree/master/contrib/completion
+
 
 Launching Docker Host:
 ```bash
