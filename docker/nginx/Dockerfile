@@ -3,6 +3,7 @@ FROM nginx
 # Configuration
 ADD h5bp-nginx-cfg/nginx.conf /etc/nginx/nginx.conf
 ADD h5bp-nginx-cfg/mime.types /etc/nginx/mime.types
+ADD h5bp-nginx-cfg/h5bp /etc/nginx/h5bp
 ADD h5bp-nginx-cfg/sites-available/default.conf /etc/nginx/conf.d/default.conf
 
 # Source
