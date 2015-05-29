@@ -1,5 +1,9 @@
 # NGinx for ePortfolio
 ## Development workflow
+Import the static assets
+```bash
+./import.sh
+```
 Build
 - `-t`: Tag used on Docker Hub
 ```bash
@@ -78,7 +82,6 @@ Check the logs of a container
 ```bash
 docker logs -f pemarchandet/nginx-eportfolio
 ```
-
 
 > **NOTE** Use **bash** or **zsh**. Remove $ for **fish**.
 
