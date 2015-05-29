@@ -80,7 +80,10 @@ docker run -i -P pemarchandet/nginx-eportfolio bash
 ```
 Check the logs of a container
 ```bash
+# Checking log with exiting
 docker logs -f pemarchandet/nginx-eportfolio
+# Checking the last log and exit
+docker logs pemarchandet/nginx-eportfolio
 ```
 
 > **NOTE** Use **bash** or **zsh**. Remove $ for **fish**.
