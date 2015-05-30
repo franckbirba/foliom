@@ -172,6 +172,8 @@
     "import_building_lease": "Importer des Bâtiments",
 
     /* Building Selectors */
+    "select_default_value": "Choisissez une valeur",
+
     "control_full": "Pleine propriété",
     "control_shared": "Co-propriété",
     "own_use": "Own use",

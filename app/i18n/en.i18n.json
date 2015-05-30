@@ -167,6 +167,8 @@
     "import_building_lease": "Import Buildings",
 
     /* Building Selectors */
+    "select_default_value": "Select one",
+
     "control_full": "Full",
     "control_shared": "Shared",
     "own_use": "Own use",

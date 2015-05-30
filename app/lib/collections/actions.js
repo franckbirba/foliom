@@ -255,9 +255,12 @@ Actions.attachSchema(new SimpleSchema({
     type: String,
     label: transr('project_type'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions(['NA', 'classic', 'cpe', 'cr', 'crem', 'ppp', 'cpi']);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions(['NA', 'classic', 'cpe', 'cr', 'crem', 'ppp', 'cpi']);
+        }
       }
     }
   },
@@ -265,9 +268,11 @@ Actions.attachSchema(new SimpleSchema({
     type: [String],
     label: transr('technical_field'),
     autoform: {
-      type: 'select-multiple',
-      options: function() {
-        return buildOptions(['comfort_qualitative_assessment']).concat(buildOptions(technical_compliance_items));
+      afFieldInput: {
+        type: 'select-multiple',
+        options: function() {
+          return buildOptions(['comfort_qualitative_assessment']).concat(buildOptions(technical_compliance_items));
+        }
       }
     }
   },
@@ -275,9 +280,12 @@ Actions.attachSchema(new SimpleSchema({
     type: String,
     label: transr('feasable_while_occupied'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions(['NA', 'yes', 'no']);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions(['NA', 'yes', 'no']);
+        }
       }
     }
   },
@@ -285,9 +293,12 @@ Actions.attachSchema(new SimpleSchema({
     type: String,
     label: transr('priority'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions(['normal', 'high', 'low']);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions(['normal', 'high', 'low']);
+        }
       }
     }
   },
@@ -329,9 +340,11 @@ Actions.attachSchema(new SimpleSchema({
     label: transr('action_link'),
     optional: true,
     autoform: {
-      type: 'select-multiple',
-      options: function() {
-        return getActions();
+      afFieldInput: {
+        type: 'select-multiple',
+        options: function() {
+          return getActions();
+        }
       }
     }
   },
@@ -358,14 +371,17 @@ Actions.attachSchema(new SimpleSchema({
     label: transr('opportunity'),
     optional: true,
     autoform: {
-      type: 'select',
-      options: function() {
-        if (Meteor.isClient) {
-          if (Session.get('current_estate_doc')) {
-            var globalEndUseList = Estates.findOne({
-              _id: Session.get('current_estate_doc')._id
-            }).estate_properties.endUseList;
-            return buildOptions(globalEndUseList);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          if (Meteor.isClient) {
+            if (Session.get('current_estate_doc')) {
+              var globalEndUseList = Estates.findOne({
+                _id: Session.get('current_estate_doc')._id
+              }).estate_properties.endUseList;
+              return buildOptions(globalEndUseList);
+            }
           }
         }
       }
@@ -576,8 +592,12 @@ Actions.attachSchema(new SimpleSchema({
     type: String,
     label: transr('technical_compliance_a'),
     autoform: {
-      options: function() {
-        return buildOptions(['NA']).concat(getSelectors('conformity_options'));
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions(['NA']).concat(getSelectors('conformity_options'));
+        }
       }
     }
   },
@@ -585,9 +605,12 @@ Actions.attachSchema(new SimpleSchema({
     type: String,
     label: transr('regulatory_compliance'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions(['yes', 'no']);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions(['yes', 'no']);
+        }
       }
     }
   },
@@ -595,9 +618,12 @@ Actions.attachSchema(new SimpleSchema({
     type: String,
     label: transr('residual_lifetime'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions(['yes', 'no']);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions(['yes', 'no']);
+        }
       }
     }
   },
