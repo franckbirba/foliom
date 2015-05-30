@@ -87,28 +87,26 @@ Buildings.attachSchema(new SimpleSchema({
     type: String,
     label: transr('building_control'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions(['control_full', 'control_shared']);
+      afFieldInput: {
+        firstOption:transr("select_default_value"),
+        type: 'select',
+        options: function() {
+          return buildOptions(['control_full', 'control_shared']);
+        }
       }
-      // [
-      //     {label : transr("control_full") },
-      //     {label : transr("control_shared") }
-      //     ]
     }
   },
   'building_info.building_user': {
     type: String,
     label: transr('building_user'),
     autoform: {
-      type: 'select',
-      options: function() {
-          return buildOptions(['own_use', 'rented']);
-        }
-        // options: [
-        //     {label : transr("own_use") },
-        //     {label : transr("rented") }
-        //     ]
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+            return buildOptions(['own_use', 'rented']);
+          }
+      }
     }
   },
   'building_info.area_total': {
