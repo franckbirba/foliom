@@ -47,7 +47,7 @@ open http://$(boot2docker ip)/test.hmtl
   open http://boot2docker.me/test.html
   ```
 ### Troubleshooting
-Stop the running container
+#### Stop the running container
 ```bash
 # Get all container ID
 docker ps
@@ -55,30 +55,30 @@ docker ps
 docker rm -f 049
 # Next perform the rebuild
 ```
-Remove a stopped container
+#### Remove a stopped container
 ```bash
 # Get all container ID
 docker ps -a
 # Use the first relevant digits of the container id, here 049
 docker rm 049
 ```
-Remove all containers
+#### Remove all containers
 ```bash
 docker rm $(docker ps -a -q)
 ```
-Remove all images
+#### Remove all images
 ```bash
 docker rmi $(docker images -q)
 ```
-Connect (attach) to the container
+#### Connect (attach) to the container
 ```bash
 docker exec -i -t nginx-eportfolio bash
 ```
-Connect to a failed container (container that has exited)
+#### Connect to a failed container (container that has exited)
 ```bash
 docker run -ti -P pemarchandet/nginx-eportfolio bash
 ```
-Check the logs of a container
+#### Check the logs of a container
 ```bash
 # Checking log with exiting
 docker logs -f pemarchandet/nginx-eportfolio
@@ -87,6 +87,28 @@ docker logs pemarchandet/nginx-eportfolio
 ```
 
 > **NOTE** Use **bash** or **zsh**. Remove $ for **fish**.
+
+#### Not enough space on the device
+Create a `~/.boot2docker/profile` file
+```bash
+mkdir -p ~/.boot2docker
+touch ~/.boot2docker/profile
+# Edit the file
+vi ~/.boot2docker/profile
+# Add the following
+  # Disk image size in MB
+  DiskSize = 2048
+# Save and exit with :x
+# Relaunch boot2docker /!\ This will force the download of every Docker images
+boot2docker stop
+boot2docker destroy
+boot2docker init
+boot2docker up
+# Check if size has been modifier
+boot2docker ssh
+df -h
+# Reset your environment variables and adapt your /etc/hosts
+```
 
 ## Deployment on Docker hub
 ```bash
