@@ -1,6 +1,6 @@
 {
-  // about
-  "about_content":
+  // confidentiality_content
+  "confidentiality_content":
     "<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit (EN).</h1>
     <h2>Proin imperdiet enim a lectus viverra, quis ultrices massa pretium.</h2>
     <h3>In dapibus fringilla ante, a ornare ligula pulvinar aliquam.</h3>
@@ -17,8 +17,8 @@
     <h3>In dapibus fringilla ante, a ornare ligula pulvinar aliquam.</h3>
     <p>Suspendisse facilisis sit amet enim rutrum ullamcorper. Duis varius accumsan dictum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur bibendum massa diam, id auctor sapien aliquet sit amet. Nunc fringilla ex in nunc malesuada tristique. Curabitur vitae purus sit amet turpis congue tristique ac mollis lacus. Integer interdum vel velit in faucibus. Nam eget tellus sem. Praesent magna risus, molestie vel nisi ut, malesuada pretium sem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla facilisi. Aenean eu blandit justo. Vestibulum rutrum hendrerit semper. Vivamus non tristique ex. Nullam sit amet sodales quam, a interdum diam.</p>",
 
-  // confidentiality
-  "confidentiality_content":
+  // about_content
+  "about_content":
     "<h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit (EN).</h1>
     <h2>Proin imperdiet enim a lectus viverra, quis ultrices massa pretium.</h2>
     <h3>In dapibus fringilla ante, a ornare ligula pulvinar aliquam.</h3>
