@@ -10,11 +10,16 @@ Run
 - `--name`: Name used for linking containers
 - `-p`: Port on the Docker Host and port on the Docker Container
 ```bash
-docker run --name mongo-eportfolio -d -p 27017:27017 pemarchandet/mongo-eportfolio
+docker run -d -p 27017:27017 --name mongo-eportfolio pemarchandet/mongo-eportfolio
 ```
 Checking status
 ```bash
 docker ps
+```
+
+## Production commands
+```bash
+docker run -d -p 27017:27017 --name mongo-eportfolio pemarchandet/mongo-eportfolio
 ```
 
 ### Troubleshooting
@@ -24,7 +29,7 @@ Hereafter only command specific to this container are exposed:
 
 Connect (attach) to the container
 ```bash
-docker exec -i -t mongo-eportfolio bash
+docker exec -ti mongo-eportfolio bash
 ```
 Connect to a failed container (container that has exited)
 ```bash

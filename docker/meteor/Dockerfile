@@ -9,6 +9,8 @@ USER root
 # Update system
 RUN apt-get update
 RUN apt-get autoremove
+
+# Install the necessary package
 RUN apt-get install -y curl
 
 # Install Meteor
