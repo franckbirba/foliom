@@ -6,8 +6,14 @@ Meteor.publish('configurations', function(estateId) {
   return Configurations.find({estate_id: estateId});
 });
 
-Meteor.publish('estates', function(userId) {
-  return Estates.find({users: userId});
+Meteor.publish('estates', function(userId, admin) {
+  // If the current user is an Admin, return all Estates. Otherwise, return relevant Estates
+  if (admin) {
+    return Estates.find();
+  }
+  else {
+    return Estates.find({users: userId});
+  }
 });
 
 Meteor.publish('images', function() {

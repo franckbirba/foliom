@@ -2,9 +2,9 @@ Template.nav.created = ->
   # Subscribe to roles
   Meteor.subscribe 'roles', null
   # Subscribe to the correct configurations
-  @autorun ->
+  @autorun =>
     # ESTATES
-    Meteor.subscribe 'estates', Meteor.user()._id
+    Meteor.subscribe 'estates', Meteor.user()._id, Roles.userIsInRole(Meteor.user()._id, ['admin'])
 
     currentEstate = Session.get 'current_estate_doc'
     if !currentEstate?
@@ -69,6 +69,9 @@ Template.nav.helpers
 Template.nav.rendered = ->
   # If the user is an Admin and has no Estate selected: display modal
   @autorun ->
-    if Meteor.user().roles.indexOf('admin') >= 0 and \
+    if Roles.userIsInRole(Meteor.user()._id, ['admin']) and \
         not Session.get('current_estate_doc')?
       $('#SelectEstateForm').modal 'show'
+
+Template.nav.destroyed = ->
+  Session.set('current_estate_doc', undefined)
