@@ -69,8 +69,9 @@ Meteor.publish('fluids', function() {
   return Fluids.find();
 });
 
-Meteor.publish('selectors', function() {
-  return Selectors.find();
+Meteor.publish('selectors', function(estateId) {
+  // Return Selectors that have the estate_id prop, or have no estate_id set
+  return Selectors.find({ $or: [ {estate_id: estateId}, {estate_id: { $exists: false }} ] });
 });
 
 Meteor.publish('roles', function (){

@@ -9,7 +9,6 @@ basicWaitOn = -> [
   Meteor.subscribe 'buildings', null
   Meteor.subscribe 'leases', null
   Meteor.subscribe 'fluids', null
-  Meteor.subscribe 'selectors', null
   Meteor.subscribe 'endUses', null
   Meteor.subscribe 'messages', null
   Meteor.subscribe 'images'
