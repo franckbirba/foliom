@@ -23,15 +23,11 @@ AddressSchema = new SimpleSchema({
   gps_long: {
     type: String,
     optional: true,
-    autoform: {
-      omit: true
-    }
+    label: transr('gps_long')
   },
   gps_lat: {
     type: String,
     optional: true,
-    autoform: {
-      omit: true
-    }
+    label: transr('gps_long')
   }
 });

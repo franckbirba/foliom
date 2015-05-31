@@ -1,6 +1,6 @@
 # Restrict visible years for users who are not 'admin' or 'estate_manager'
 @restrict_visible_years = () ->
-  if !Roles.userIsInRole(this.userId, ['admin', 'estate_manager'])
+  if !Roles.userIsInRole(Meteor.user()._id, ['admin', 'estate_manager'])
     # Total number of years
     nb_years = $("[name^='icc.evolution_index'][name$='.cost']").length
     # Go through each item and hide it if necessary

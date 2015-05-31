@@ -136,22 +136,50 @@
 ### Auto-values: used to auto-fill part of the form - for dev. purposes ###
 @fillLeaseForm = (activate) ->
   if activate
+    # First fields
+    $('[name="rental_status"]').val("NA")
+    $('[name="headcount"]').val(100)
+    $('[name="dpe_type"]').val("housing")
+    $('[name="dpe_energy_consuption.grade"]').val("dpe_A")
+    $('[name="dpe_energy_consuption.value"]').val(1)
+    $('[name="dpe_co2_emission.grade"]').val("dpe_A")
+    $('[name="dpe_co2_emission.value"]').val(1)
+
+
+    # fluid_consumption_meter
+    $('[name="fluid_consumption_meter.0.fluid_id"]').val("Lyonnaise des Eaux - fluid_water")
+    $('[name="fluid_consumption_meter.1.fluid_id"]').val("EDF - fluid_heat")
+    $('[name="fluid_consumption_meter.2.fluid_id"]').val("EDF - fluid_cooling")
+
     $('[name^=\'fluid_consumption_meter.\'][name$=\'.first_year_value\']').each (index) ->
-      $(this).val randomIntFromInterval(0, 100)
-      return
+      $(this).val(randomIntFromInterval(0, 100)).change()
     $('[name^=\'fluid_consumption_meter.\'][name$=\'.yearly_subscription\']').each (index) ->
-      $(this).val randomIntFromInterval(0, 100)
-      return
+      $(this).val(randomIntFromInterval(0, 100)).change()
+
+    $('[name^=\'consumption_by_end_use.\'][name$=\'.fluid_id\']').each (index) ->
+      $(this).prop('selectedIndex', 3).change()
+    $('[name^=\'consumption_by_end_use.\'][name$=\'.first_year_value\']').each (index) ->
+      if (index < 6)
+        $(this).val(1).change()
+
+    $('[name^=\'consumption_by_end_use.\'][name$=\'.first_year_value\']').each (index) ->
+      if (index < 6)
+        $(this).val(1).change()
+
+    $('[name="comfort_qualitative_assessment.acoustic"]').prop('selectedIndex', 1).change()
+    $('[name="comfort_qualitative_assessment.visual"]').prop('selectedIndex', 1).change()
+    $('[name="comfort_qualitative_assessment.thermic"]').prop('selectedIndex', 1).change()
+
+
     $('[name^=\'technical_compliance.categories.\'][name$=\'.lifetime\']').each (index) ->
-      $(this).val 'bad_dvr'
-      return
+      $(this).val('bad_dvr').change()
     $('[name^=\'technical_compliance.categories.\'][name$=\'.conformity\']').each (index) ->
-      $(this).val 'compliant'
-      return
+      $(this).val('compliant').change()
+
     $('[name^=\'conformity_information.\'][name$=\'.eligibility\']').each (index) ->
       if randomIntFromInterval(0, 1) > 0
-        $(this).prop 'checked', true
-      return
+        $(this).prop('checked', true).change()
+
 
     fakeOptionInput = (name1, name2) ->
       options = $('[name=\'' + name1 + '.0.' + name2 + '\'] option').map(->
@@ -169,10 +197,4 @@
       return
     $('[name^=\'conformity_information.\'][name$=\'.last_diagnostic\']').each (index) ->
       $(this).val '2015-01-16'
-      return
-    options = $('[name=\'consumption_by_end_use.0.fluid_id\'] option').map(->
-      $(this).val()
-    )
-    $('[name^=\'consumption_by_end_use.\'][name$=\'.fluid_id\']').each (index) ->
-      $(this).val options[3]
       return

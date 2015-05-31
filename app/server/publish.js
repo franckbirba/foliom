@@ -6,8 +6,14 @@ Meteor.publish('configurations', function(estateId) {
   return Configurations.find({estate_id: estateId});
 });
 
-Meteor.publish('estates', function() {
-  return Estates.find();
+Meteor.publish('estates', function(userId, admin) {
+  // If the current user is an Admin, return all Estates. Otherwise, return relevant Estates
+  if (admin) {
+    return Estates.find();
+  }
+  else {
+    return Estates.find({users: userId});
+  }
 });
 
 Meteor.publish('images', function() {
@@ -69,8 +75,9 @@ Meteor.publish('fluids', function() {
   return Fluids.find();
 });
 
-Meteor.publish('selectors', function() {
-  return Selectors.find();
+Meteor.publish('selectors', function(estateId) {
+  // Return Selectors that have the estate_id prop, or have no estate_id set
+  return Selectors.find({ $or: [ {estate_id: estateId}, {estate_id: { $exists: false }} ] });
 });
 
 Meteor.publish('roles', function (){

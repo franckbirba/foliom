@@ -3,13 +3,11 @@
 basicWaitOn = -> [
   Meteor.subscribe 'configurationMaster'
   Meteor.subscribe 'userData'
-  Meteor.subscribe 'estates', null
   # @NOTE Portfolio sub. is now done when Estate is set (in nav.coffee)
   # Meteor.subscribe 'portfolios', null
   Meteor.subscribe 'buildings', null
   Meteor.subscribe 'leases', null
   Meteor.subscribe 'fluids', null
-  Meteor.subscribe 'selectors', null
   Meteor.subscribe 'endUses', null
   Meteor.subscribe 'messages', null
   Meteor.subscribe 'images'

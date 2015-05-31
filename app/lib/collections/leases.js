@@ -134,9 +134,12 @@ consumption_by_end_use = new SimpleSchema({
   fluid_id: {
     type: String,
     autoform: {
-      type: 'select',
-      options: function() {
-        return getFluids("u_euro_kwhEF");
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getFluids("u_euro_kwhEF");
+        }
       }
     }
   },
@@ -161,9 +164,12 @@ fluidConsumptionMeterSchema = new SimpleSchema({
     optional: true, // ToDo : a dynamiser
     label: transr('fluid'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return getFluids();
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getFluids();
+        }
       },
       class: 'fluidConsumptionMeter_fluidID'
     }
@@ -199,9 +205,12 @@ certificationsSchema = new SimpleSchema({
     type: String,
     label: transr('cert_id'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return getSelectors('certifications');
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getSelectors('certifications');
+        }
       }
     }
   },
@@ -429,13 +438,14 @@ Leases.attachSchema(new SimpleSchema({
       omit: true
     }
   },
+  draft: {
+    type: Boolean,
+    label: transr("lease_draft"),
+    optional: true,
+  },
   lease_name: {
     type: String,
     label: transr("lease_name"),
-    // Test to check if defaultValue can be used with session vars -> yes
-    // defaultValue: function() {
-    //     return Session.get('current_estate_doc')._id;
-    // }
   },
   rental_status: {
     type: String,
@@ -527,7 +537,7 @@ Leases.attachSchema(new SimpleSchema({
     autoform: {
       type: "select",
       options: function() {
-        return buildOptions(["erp_1", "erp_2", "erp_3", "erp_4", "erp_5"])
+        return buildOptions(["NA", "erp_1", "erp_2", "erp_3", "erp_4", "erp_5"])
       }
     }
   },
@@ -558,7 +568,7 @@ Leases.attachSchema(new SimpleSchema({
     autoform: {
       type: "select",
       options: function() {
-        return buildOptions(["dpe_A", "dpe_B", "dpe_C", "dpe_D", "dpe_E"])
+        return buildOptions(["dpe_A", "dpe_B", "dpe_C", "dpe_D", "dpe_E", "dpe_F", "dpe_G", "dpe_H", "dpe_I"])
       }
     },
     optional: function() {
@@ -667,7 +677,7 @@ Leases.attachSchema(new SimpleSchema({
     type: Object,
     label: transr("comfort_qualitative_assessment"),
     autoform: {
-      template: "inline"
+      // template: "inline"
     },
     optional: function() {
       return debugMode;
@@ -729,9 +739,7 @@ Leases.attachSchema(new SimpleSchema({
       rows: 6,
       // placeholder:"schemaLabel"
     },
-    optional: function() {
-      return debugMode;
-    },
+    optional: true
   },
 
   technical_compliance: {

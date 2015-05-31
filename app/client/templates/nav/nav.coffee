@@ -2,9 +2,16 @@ Template.nav.created = ->
   # Subscribe to roles
   Meteor.subscribe 'roles', null
   # Subscribe to the correct configurations
-  @autorun ->
+  @autorun =>
+    # ESTATES
+    Meteor.subscribe 'estates', Meteor.user()._id, Roles.userIsInRole(Meteor.user()._id, ['admin'])
+
     currentEstate = Session.get 'current_estate_doc'
-    if currentEstate?
+    if !currentEstate?
+      # If there is only one Estate: select it
+      if Estates.find().fetch().length is 1
+        Session.set 'current_estate_doc', Estates.findOne()
+    else
       estate_doc_id = currentEstate._id
       # CONFIGURATIONS
       #Subscribe to the Estate config
@@ -12,17 +19,17 @@ Template.nav.created = ->
       #Also set a Session var
       curr_config = Configurations.findOne master: false
       Session.set 'current_config', curr_config  if curr_config
-      #PORTFOLIOS
+      # PORTFOLIOS
       Meteor.subscribe 'portfolios', estate_doc_id
-      #SCENARIOS
+      # SCENARIOS
       Meteor.subscribe 'scenarios', estate_doc_id
+      # SELECTORS
+      Meteor.subscribe 'selectors', estate_doc_id
       # Empty the current Portfolio doc
       #Session.set 'current_portfolio_doc', undefined
 
 
-  # If there is only one Estate: select it
-  if Estates.find().fetch().length is 1
-    Session.set 'current_estate_doc', Estates.findOne()
+
 
 Template.nav.events
   'click .js-logout': ->
@@ -52,7 +59,7 @@ Template.nav.helpers
     ''
   activEstate: (estate_id) ->
     if Session.get('current_estate_doc')?._id is estate_id then 'active' else ''
-  estates: -> Estates.find().fetch()
+  # estates: -> Estates.find().fetch()
   username: -> Meteor.user() and Meteor.user().emails.shift().address
   lang: -> TAPi18n.getLanguage()
   langActiv: (lang) ->
@@ -61,6 +68,10 @@ Template.nav.helpers
 
 Template.nav.rendered = ->
   # If the user is an Admin and has no Estate selected: display modal
-  if Meteor.user().roles.indexOf('admin') >= 0 and \
-      not Session.get('current_estate_doc')?
-    $('#SelectEstateForm').modal 'show'
+  @autorun ->
+    if Roles.userIsInRole(Meteor.user()._id, ['admin']) and \
+        not Session.get('current_estate_doc')?
+      $('#SelectEstateForm').modal 'show'
+
+Template.nav.destroyed = ->
+  Session.set('current_estate_doc', undefined)

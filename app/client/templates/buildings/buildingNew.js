@@ -51,11 +51,13 @@ Template.buildingNew.helpers({
             address: tmp_address,
             callback: function(results, status) {
               if (status == 'OK') {
-                var latlng = results[0].geometry.location;
-                // console.log(latlng);
-
-                building_doc.address.gps_lat = latlng.lat();
-                building_doc.address.gps_long = latlng.lng();
+                var latlng;
+                // If no gps_long has been entered, use the geocode result
+                if (!building_doc.address.hasOwnProperty('gps_long')){
+                  var latlng = results[0].geometry.location;
+                  building_doc.address.gps_lat = latlng.lat();
+                  building_doc.address.gps_long = latlng.lng();
+                }
 
                 Buildings.insert(building_doc, function(err, id) {
                   if (err) {

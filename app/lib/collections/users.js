@@ -3,40 +3,34 @@ if (typeof Schema === "undefined") Schema = {};
 Schema.UserProfile = new SimpleSchema({
   firstName: {
     type: String,
-    regEx: /^[a-zA-Z-]{2,25}$/
+    label: transr('firstName'),
   },
   lastName: {
     type: String,
-    regEx: /^[a-zA-Z]{2,25}$/
-  },
-  gender: {
-    type: String,
-    allowedValues: ['Male', 'Female'],
-    optional: true,
-    autoform: {
-      omit: true
-    }
+    label: transr('lastName'),
   },
   phoneNumber: {
     optional: true,
     type: Number,
-    min: 9,
-    max: 10
+    label: transr('phoneNumber')
   },
   lang: {
     type: String,
     label: transr('lang'),
     defaultValue: 'fr',
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions([{
-          label: 'Français',
-          value: 'fr'
-        }, {
-          label: 'English',
-          value: 'en'
-        }]);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions([{
+            label: 'Français',
+            value: 'fr'
+          }, {
+            label: 'English',
+            value: 'en'
+          }]);
+        }
       }
     },
     optional: true
@@ -72,40 +66,17 @@ Schema.User = new SimpleSchema({
   },
   profile: {
     type: Schema.UserProfile,
+    label: transr('profile'),
+  },
+  field_for_password: {
+    type: String,
+    label: transr("password"),
+    optional: true,
   },
   services: {
     type: Object,
     optional: true,
     blackbox: true
-  },
-  'services.password': {
-    type: Object
-  },
-  'services.password.bcrypt': {
-    type: String,
-    autoform: {
-      omit: true
-    }
-  },
-  'services.resume': {
-    type: Object,
-    optional: true
-  },
-  'services.resume.loginTokens': {
-    type: Object,
-    optional: true
-  },
-  'services.resume.loginTokens.$': {
-    type: Object,
-    optional: true
-  },
-  'services.resume.loginTokens.$.when': {
-    type: Date,
-    optional: true
-  },
-  'services.resume.loginTokens.$.hashedToken': {
-    type: String,
-    optional: true
   },
   roles: {
     blackbox: true,

@@ -97,34 +97,17 @@ Template.leaseForm.rendered = function () {
   // Monitor any errors. If so, display a message next to the Submit button
   lease_form_error_monitor(this);
 
-  // Activate auto-fill for new leases if needed
-  if( !Session.get('leaseToEdit') ){
-    fillLeaseForm(false); // Set to true to activate
-  }
-
   // Hide or auto-fill some fields
   // Parameter: true if we're editing a new lease
   leaseFieldRules(!Session.get('leaseToEdit'));
 
-  //-----------------------------------
-  // @ BSE : CHECK IF STILL RELEVANT
 
-  // //Apply End-Use to correct field
-  // var EndUses = EndUse.find().fetch() ; // ToDo: check possible collision?
-
-  // // Set textfields that have to be auto-filled and make them readonly
-  // if( !Session.get('leaseToEdit') ){
-  //   // end_use_name
-  //   $(".end_use_name").each(function( index ) {
-  //       $(this).val( transr(endUses[index].end_use_name) );
-  //       $(this).prop("readonly","readonly") ;
-  //   });
-
-  // }
-  //-----------------------------------
-
-
-
+  // Monitor "draft" checkbox, and if it's checked: activate auto-fill
+  $("[name='draft']").on('change', function() {
+    if ($(this).prop('checked')){
+      fillLeaseForm(true);
+    }
+  });
 
   // comfort_qualitative_assessment, tcc_lifetime & tcc_conformity: monitor all selects, then calc the value and sets it
   class_to_calc_qualitative_assessment_array(".comformt_QA", "[name='comfort_qualitative_assessment.global_comfort_index']");
