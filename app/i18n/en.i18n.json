@@ -209,6 +209,7 @@
     "invalid_lease_msg": "The form is invalid. Please check the values and submit the form again.",
 
     "lease_name": "Usage name",
+    "lease_draft": "Draft (fills the form with default values)",
     "rental_status": "Rental status",
     "rent": "Rent",
     "last_significant_renovation": "Last significant renovation",

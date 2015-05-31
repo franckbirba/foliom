@@ -1,7 +1,7 @@
 /*   --------------     */
 /*   Form utilities     */
 /*   --------------     */
-debugMode = true;
+debugMode = false;
 
 // Global variables
 // conformity_options = ["compliant", "not_compliant_minor", "not_compliant_major"] ;

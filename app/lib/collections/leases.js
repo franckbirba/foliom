@@ -438,13 +438,14 @@ Leases.attachSchema(new SimpleSchema({
       omit: true
     }
   },
+  draft: {
+    type: Boolean,
+    label: transr("lease_draft"),
+    optional: true,
+  },
   lease_name: {
     type: String,
     label: transr("lease_name"),
-    // Test to check if defaultValue can be used with session vars -> yes
-    // defaultValue: function() {
-    //     return Session.get('current_estate_doc')._id;
-    // }
   },
   rental_status: {
     type: String,
@@ -536,7 +537,7 @@ Leases.attachSchema(new SimpleSchema({
     autoform: {
       type: "select",
       options: function() {
-        return buildOptions(["erp_1", "erp_2", "erp_3", "erp_4", "erp_5"])
+        return buildOptions(["NA", "erp_1", "erp_2", "erp_3", "erp_4", "erp_5"])
       }
     }
   },
@@ -567,7 +568,7 @@ Leases.attachSchema(new SimpleSchema({
     autoform: {
       type: "select",
       options: function() {
-        return buildOptions(["dpe_A", "dpe_B", "dpe_C", "dpe_D", "dpe_E"])
+        return buildOptions(["dpe_A", "dpe_B", "dpe_C", "dpe_D", "dpe_E", "dpe_F", "dpe_G", "dpe_H", "dpe_I"])
       }
     },
     optional: function() {
@@ -676,7 +677,7 @@ Leases.attachSchema(new SimpleSchema({
     type: Object,
     label: transr("comfort_qualitative_assessment"),
     autoform: {
-      template: "inline"
+      // template: "inline"
     },
     optional: function() {
       return debugMode;
@@ -738,9 +739,7 @@ Leases.attachSchema(new SimpleSchema({
       rows: 6,
       // placeholder:"schemaLabel"
     },
-    optional: function() {
-      return debugMode;
-    },
+    optional: true
   },
 
   technical_compliance: {
