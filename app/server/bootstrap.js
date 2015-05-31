@@ -10,7 +10,12 @@ Meteor.startup(function () {
         addRole: function(user, roles){
           return Roles.addUsersToRoles(Meteor.users.findOne({_id:user}), roles);
         },
+        setPassword: function(user){
+          return Accounts.setPassword(user.userId, user.newPassword);
+        },
         updateUser: function(user){
+
+          console.log("user is ", user);
 
           return Meteor.users.update(user.id, user.update);
         },

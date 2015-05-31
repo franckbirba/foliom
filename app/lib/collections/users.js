@@ -76,39 +76,15 @@ Schema.User = new SimpleSchema({
   profile: {
     type: Schema.UserProfile,
   },
+  field_for_password: {
+    type: String,
+    label: transr("password"),
+    optional: true,
+  },
   services: {
     type: Object,
     optional: true,
     blackbox: true
-  },
-  'services.password': {
-    type: Object
-  },
-  'services.password.bcrypt': {
-    type: String,
-    autoform: {
-      omit: true
-    }
-  },
-  'services.resume': {
-    type: Object,
-    optional: true
-  },
-  'services.resume.loginTokens': {
-    type: Object,
-    optional: true
-  },
-  'services.resume.loginTokens.$': {
-    type: Object,
-    optional: true
-  },
-  'services.resume.loginTokens.$.when': {
-    type: Date,
-    optional: true
-  },
-  'services.resume.loginTokens.$.hashedToken': {
-    type: String,
-    optional: true
   },
   roles: {
     blackbox: true,

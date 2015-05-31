@@ -24,8 +24,9 @@
               +autoForm schema=userSchema collection=users doc=getUser id="userAutoForm" template="eportfolio-horizontal"
                 fieldset
                   +afQuickField name='emails' template='eportfolio-horizontal'
-                  if isInRole 'admin'
-                    +afQuickField name='services.password.bcrypt'
+                  //- if isInRole 'admin'
+                  //-   +afQuickField name='services.password.bcrypt' label="pass"
+                  +afQuickField name='field_for_password'
                   +afObjectField name='profile'
                   +afQuickField name='roles' options=roles
                 button.btn.btn-primary(type='submit') Ok
