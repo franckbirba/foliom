@@ -27,5 +27,6 @@ ENV MONGO_URL "mongodb://mongo-eportfolio:27017"
 # ROOT_URL="http://yourapp.com"
 
 # Launch Meteor
-COPY startMeteor.sh /app/startMeteor.sh
-CMD ["/app/startMeteor.sh"]
+# COPY startMeteor.sh /app/startMeteor.sh
+# CMD ["/app/startMeteor.sh"]
+CMD ["meteor", "--production"]

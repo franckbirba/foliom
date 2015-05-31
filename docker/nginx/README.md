@@ -14,7 +14,7 @@ Run
 - `-t`: Tag
 - `-p`: Port on the Docker Host and port on the Docker Container
 ```bash
-docker run --name nginx-eportfolio -d -p 80:80 pemarchandet/nginx-eportfolio
+docker run --link meteor-eportfolio:meteor-eportfolio --name nginx-eportfolio -d -p 80:80 pemarchandet/nginx-eportfolio
 ```
 Checking status
 ```bash
@@ -46,6 +46,10 @@ open http://$(boot2docker ip)/test.hmtl
   ```bash
   open http://boot2docker.me/test.html
   ```
+## Production
+```bash
+docker run --link meteor-eportfolio:meteor-eportfolio --name nginx-eportfolio -d -p 80:80 pemarchandet/nginx-eportfolio
+```
 ### Troubleshooting
 #### Stop the running container
 ```bash
@@ -72,7 +76,7 @@ docker rmi $(docker images -q)
 ```
 #### Connect (attach) to the container
 ```bash
-docker exec -i -t nginx-eportfolio bash
+docker exec -ti nginx-eportfolio bash
 ```
 #### Connect to a failed container (container that has exited)
 ```bash
