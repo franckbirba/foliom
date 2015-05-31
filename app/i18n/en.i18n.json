@@ -103,6 +103,11 @@
     "read_only": "Read only",
 
     "new_user": "New user",
+    "profile": "Profile",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phoneNumber": "Phone number",
+    "lang": "Preferred language",
 
     /* Configuration Compass */
 

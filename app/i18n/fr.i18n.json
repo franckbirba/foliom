@@ -104,6 +104,11 @@
     "read_only": "Read only",
 
     "new_user": "Nouvel utilisateur",
+    "profile": "Profil",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "phoneNumber": "Téléphone",
+    "lang": "Langue préferrée",
 
 
     /* Configuration Compass */

@@ -3,25 +3,16 @@ if (typeof Schema === "undefined") Schema = {};
 Schema.UserProfile = new SimpleSchema({
   firstName: {
     type: String,
-    regEx: /^[a-zA-Z-]{2,25}$/
+    label: transr('firstName'),
   },
   lastName: {
     type: String,
-    regEx: /^[a-zA-Z]{2,25}$/
-  },
-  gender: {
-    type: String,
-    allowedValues: ['Male', 'Female'],
-    optional: true,
-    autoform: {
-      omit: true
-    }
+    label: transr('lastName'),
   },
   phoneNumber: {
     optional: true,
     type: Number,
-    min: 9,
-    max: 10
+    label: transr('phoneNumber')
   },
   lang: {
     type: String,
@@ -75,6 +66,7 @@ Schema.User = new SimpleSchema({
   },
   profile: {
     type: Schema.UserProfile,
+    label: transr('profile'),
   },
   field_for_password: {
     type: String,

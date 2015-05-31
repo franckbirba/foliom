@@ -120,7 +120,7 @@ AutoForm.hooks({
         });
       } else {
         // Check if the password was changed: if so, call the corresponding method
-        if (updateDoc.$set.field_for_password !== ""){
+        if (updateDoc.$set.hasOwnProperty('field_for_password') && updateDoc.$set.field_for_password.length>0){
           Meteor.call("setPassword", {userId: currentDoc._id, newPassword: updateDoc.$set.field_for_password}, function(error, result){
             console.log(error,result);
           });
