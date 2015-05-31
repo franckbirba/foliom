@@ -47,27 +47,36 @@ Schema.Fluids = new SimpleSchema({
   fluid_type: {
     type: String,
     autoform: {
-      type: 'select',
-      options: function() {
-        return getSelectors('fluid_type');
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getSelectors('fluid_type');
+        }
       }
     }
   },
   fluid_provider: {
     type: String,
     autoform: {
-      type: 'select',
-      options: function() {
-        return getSelectors('fluid_provider');
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getSelectors('fluid_provider');
+        }
       }
     }
   },
   fluid_unit: {
     type: String,
     autoform: {
-      type: 'select',
-      options: function() {
-        return getSelectors('fluid_unit');
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getSelectors('fluid_unit');
+        }
       }
     }
   },
@@ -86,9 +95,12 @@ Schema.Fluids = new SimpleSchema({
   kwhef_to_co2_coefficient: {
     type: String,
     autoform: {
-      type: 'select',
-      options: function() {
-        return getSelectors('kwhef_to_co2_coefficients');
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getSelectors('kwhef_to_co2_coefficients');
+        }
       }
     }
   }
