@@ -134,9 +134,12 @@ consumption_by_end_use = new SimpleSchema({
   fluid_id: {
     type: String,
     autoform: {
-      type: 'select',
-      options: function() {
-        return getFluids("u_euro_kwhEF");
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getFluids("u_euro_kwhEF");
+        }
       }
     }
   },
@@ -161,11 +164,14 @@ fluidConsumptionMeterSchema = new SimpleSchema({
     optional: true, // ToDo : a dynamiser
     label: transr('fluid'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return getFluids();
-      },
-      class: 'fluidConsumptionMeter_fluidID'
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getFluids();
+        },
+        class: 'fluidConsumptionMeter_fluidID'
+      }
     }
   },
   yearly_subscription: {
@@ -199,9 +205,12 @@ certificationsSchema = new SimpleSchema({
     type: String,
     label: transr('cert_id'),
     autoform: {
-      type: 'select',
-      options: function() {
-        return getSelectors('certifications');
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return getSelectors('certifications');
+        }
       }
     }
   },
