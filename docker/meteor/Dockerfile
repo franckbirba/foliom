@@ -1,7 +1,7 @@
 FROM debian:latest
 MAINTAINER Pierre-Eric Marchandet <pemarchandet@gmail.com>
 
-# ENV MONGO_URL="mongodb://url" MONGO_OPLOG_URL="mongodb://oplog_url" ROOT_URL="http://yourapp.com"
+# Import sources
 ADD bundle /app
 WORKDIR /app
 USER root
@@ -21,6 +21,11 @@ RUN curl https://install.meteor.com/ | sh
 # Environment variables
 EXPOSE 3000
 
+# Set environment variables for Meteor
+ENV MONGO_URL "mongodb://mongo-eportfolio:27017"
+# MONGO_OPLOG_URL="mongodb://oplog_url"
+# ROOT_URL="http://yourapp.com"
+
 # Launch Meteor
-ENTRYPOINT ["meteor"]
-CMD ["--production"]
+COPY startMeteor.sh /app/startMeteor.sh
+CMD ["/app/startMeteor.sh"]

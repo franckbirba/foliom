@@ -21,9 +21,9 @@ VOLUME /db
 # Create admin account, eportfolio DB and eportfolio user
 ENV PROJECT_NAME eportfolio
 COPY mongodbInit.conf /etc/mongodb.conf
-COPY initAccount.sh /initAccount.sh
-RUN /initAccount.sh
-RUN rm /initAccount.sh
+# COPY initAccount.sh /initAccount.sh
+# RUN /initAccount.sh
+# RUN rm /initAccount.sh
 
 # Create the replica set and the oplog account
 #COPY mongodb.conf /etc/mongodb.conf

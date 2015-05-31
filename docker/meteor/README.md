@@ -20,6 +20,10 @@ Checking status
 ```bash
 docker ps
 ```
+## Production commands
+```bash
+docker run -d -p 3000:3000 --link mongo-eportfolio:mongo-eportfolio --name meteor-eportfolio pemarchandet/meteor-eportfolio
+```
 
 ## Troubleshooting
 See NGinx's README.md for basic troubleshooting.
@@ -28,7 +32,7 @@ Hereafter only command specific to this container are exposed:
 
 ### Connect (attach) to the container
 ```bash
-docker exec -i -t meteor-eportfolio bash
+docker exec -ti meteor-eportfolio bash
 ```
 ### Connect to a failed container (container that has exited)
 ```bash

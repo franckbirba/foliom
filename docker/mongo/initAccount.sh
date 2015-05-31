@@ -13,6 +13,7 @@ mongo admin --eval "
       'userAdminAnyDatabase',
       'readWriteAnyDatabase',
       'dbAdminAnyDatabase',
+      {role: 'root', db: 'admin'}
     ]
   });
 "
