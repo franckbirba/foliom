@@ -1,5 +1,7 @@
-Template.home.helpers username: ->
-  Meteor.user() and Meteor.user().emails.shift().address
+Template.home.helpers
+  username: ->
+    user_profile = Meteor.user().profile
+    return "#{user_profile.firstName} #{user_profile.lastName}"
 
 Template.home.created = ->
   # Ensure the mesageBox is unfiltered
