@@ -17,10 +17,6 @@ Template.user.helpers({
   users: function () {
     return Meteor.users;
   },
-  creation: function(){
-    var curUser = Session.get('update_user');
-      return curUser ? false : true;
-  },
   userSchema: function () {
     return Schema.User;
   },
@@ -41,8 +37,9 @@ Template.user.helpers({
     var tmpUser = Session.get('update_user');
     if(tmpUser){
       return tmpUser.profile.firstName + " " + tmpUser.profile.lastName;
+    } else {
+      return TAPi18n.__("new_user");
     }
-    return "New User";
   }
 });
 

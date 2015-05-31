@@ -102,6 +102,8 @@
     "user": "User",
     "read_only": "Read only",
 
+    "new_user": "New user",
+
     /* Configuration Compass */
 
     "settings_indexes": "Indexes",

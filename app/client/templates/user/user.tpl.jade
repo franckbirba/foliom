@@ -24,7 +24,7 @@
               +autoForm schema=userSchema collection=users doc=getUser id="userAutoForm" template="eportfolio-horizontal"
                 fieldset
                   +afQuickField name='emails' template='eportfolio-horizontal'
-                  if creation
+                  if isInRole 'admin'
                     +afQuickField name='services.password.bcrypt'
                   +afObjectField name='profile'
                   +afQuickField name='roles' options=roles
