@@ -169,9 +169,9 @@ fluidConsumptionMeterSchema = new SimpleSchema({
         firstOption:transr("select_default_value"),
         options: function() {
           return getFluids();
-        },
-        class: 'fluidConsumptionMeter_fluidID'
-      }
+        }
+      },
+      class: 'fluidConsumptionMeter_fluidID'
     }
   },
   yearly_subscription: {
