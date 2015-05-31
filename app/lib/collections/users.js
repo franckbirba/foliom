@@ -28,15 +28,18 @@ Schema.UserProfile = new SimpleSchema({
     label: transr('lang'),
     defaultValue: 'fr',
     autoform: {
-      type: 'select',
-      options: function() {
-        return buildOptions([{
-          label: 'Français',
-          value: 'fr'
-        }, {
-          label: 'English',
-          value: 'en'
-        }]);
+      afFieldInput: {
+        type: 'select',
+        firstOption:transr("select_default_value"),
+        options: function() {
+          return buildOptions([{
+            label: 'Français',
+            value: 'fr'
+          }, {
+            label: 'English',
+            value: 'en'
+          }]);
+        }
       }
     },
     optional: true
