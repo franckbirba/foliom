@@ -52,6 +52,8 @@
     "city": "Ville",
     "area": "Secteur",
     "country": "Pays",
+    "gps_long": "GPS - longitude",
+    "gps_lat": "GPS - latitude",
 
     "yes": "Oui",
     "no": "Non",

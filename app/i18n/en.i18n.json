@@ -52,6 +52,8 @@
 	"city": "City",
 	"area": "Aera",
 	"country": "Country",
+    "gps_long": "GPS - longitude",
+    "gps_lat": "GPS - latitude",
 
 	"yes": "Yes",
 	"no": "No",
