@@ -1,3 +1,5 @@
 #!/bin/bash
 rm -rf bundle
-cp -Ra ../../app bundle
+cd ../../app
+demeteorizer -o ../docker/meteor/bundle -a eportfolio
+cd -

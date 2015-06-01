@@ -1,5 +1,10 @@
 # Meteor for ePortfolio
 ## Development workflow
+### Requirements
+The source import is based on [demeteorizer](https://github.com/onmodulus/demeteorizer):
+```bash
+npm install -g demeteorizer
+```
 ### Import sources
 ```bash
 ./import.sh
