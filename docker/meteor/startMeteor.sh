@@ -1,3 +1,0 @@
-#!/bin/bash
-export MONGO_URL="mongodb://$MONGO_EPORTFOLIO_PORT_27017_TCP_ADDR:$MONGO_EPORTFOLIO_PORT_27017_TCP_PORT"
-meteor --production

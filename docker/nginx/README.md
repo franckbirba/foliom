@@ -48,6 +48,7 @@ open http://$(boot2docker ip)/test.hmtl
   ```
 ## Production
 ```bash
+docker pull pemarchandet/nginx-eportfolio:latest
 docker run --link meteor-eportfolio:meteor-eportfolio --name nginx-eportfolio -d -p 80:80 pemarchandet/nginx-eportfolio
 ```
 ### Troubleshooting

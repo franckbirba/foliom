@@ -19,6 +19,7 @@ docker ps
 
 ## Production commands
 ```bash
+docker pull pemarchandet/mongo-eportfolio:latest
 docker run -d -p 27017:27017 --name mongo-eportfolio pemarchandet/mongo-eportfolio
 ```
 

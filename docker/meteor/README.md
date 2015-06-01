@@ -27,6 +27,7 @@ docker ps
 ```
 ## Production commands
 ```bash
+docker pull pemarchandet/meteor-eportfolio:latest
 docker run -d -p 3000:3000 --link mongo-eportfolio:mongo-eportfolio --name meteor-eportfolio pemarchandet/meteor-eportfolio
 ```
 
