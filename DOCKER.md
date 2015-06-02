@@ -25,7 +25,6 @@ brew install homebrew/completions/docker-completion
 > **NOTE** For zsh and fish completion, please refer to the following
 > repository: https://github.com/docker/docker/tree/master/contrib/completion
 
-
 Launching Docker Host:
 ```bash
 boot2docker init
@@ -64,8 +63,6 @@ Troubleshooting
     boot2docker up
     ```
 
-
-
 ### Linux
 * https://github.com/docker/machine
 
@@ -94,28 +91,33 @@ docker login
 boot2docker ip
 # Also available via the environment variables set previously
 echo $DOCKER_HOST
-# Launch MongoDb
-# -d: Daemon mode
-# -v: Print version
-# --name:
-docker run --name mongo-dev -d -v /opt/mongodb:/data/db -p 27017 mymongo
-
-# Run the Docker container
-docker run --rm \
--e ROOT_URL=http://localhost.com \
--e MONGO_URL=mongodb://url \
--e MONGO_OPLOG_URL=mongodb://oplog_url \
--p 8080:80 \
-pem/eportfolio
 ```
+Now refers to each appropriate README page in the subdirectories for build
+and run instructions.
 
 ### On production server
+ePortfolio is built with 3 containers:
+* pemarchandet/mongo-eportfolio: The Mongo DB with a specific volume named **db**.
+* pemarchandet/meteor-eportfolio: The application server.
+* pemarchandet/nginx-eportfolio: The proxy cache with GZip enabled.
+
+Each container is linked in a natural way so that they pass the appropriate
+environment variables to their calling container using the Docker Link
+properties as well as the hosts file automatic creation.
+
+:warning: On the Docker Host only the port 80 have to be exposed.
+
 ```bash
-docker run --name eportfolioDb -d mongo
-docker run --rm \
--e ROOT_URL=http://www.eportfolio.com \
--e MONGO_URL=mongodb://url \
--e MONGO_OPLOG_URL=mongodb://oplog_url \
--p 8080:80 \
-pem/eportfolio
+# Get the Mongo DB from Docker Hub
+docker pull pemarchandet/mongo-eportfolio:latest
+# Launch the Mongo DB on the Docker Host
+docker run -d -p 27017:27017 --name mongo-eportfolio pemarchandet/mongo-eportfolio
+# Get the application server from Docker Hub
+docker pull pemarchandet/meteor-eportfolio:latest
+# Launch the application server on the Docker Host
+docker run -d -p 3000:3000 --link mongo-eportfolio:mongo-eportfolio --name meteor-eportfolio pemarchandet/meteor-eportfolio
+# Get the proxy cache from Docker Hub
+docker pull pemarchandet/nginx-eportfolio:latest
+# Launch the application server on the Docker Host
+docker run --link meteor-eportfolio:meteor-eportfolio --name nginx-eportfolio -d -p 80:80 pemarchandet/nginx-eportfolio
 ```

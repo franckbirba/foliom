@@ -1,5 +1,10 @@
 # Meteor for ePortfolio
 ## Development workflow
+### Requirements
+The source import is based on [demeteorizer](https://github.com/onmodulus/demeteorizer):
+```bash
+npm install -g demeteorizer
+```
 ### Import sources
 ```bash
 ./import.sh
@@ -14,11 +19,16 @@ docker build -t pemarchandet/meteor-eportfolio .
 - `--name`: Name used for linking containers
 - `-p`: Port on the Docker Host and port on the Docker Container
 ```bash
-docker run --name meteor-eportfolio -d -P pemarchandet/meteor-eportfolio
+docker run -d -p 3000:3000 --link mongo-eportfolio:mongo-eportfolio --name meteor-eportfolio pemarchandet/meteor-eportfolio
 ```
 Checking status
 ```bash
 docker ps
+```
+## Production commands
+```bash
+docker pull pemarchandet/meteor-eportfolio:latest
+docker run -d -p 3000:3000 --link mongo-eportfolio:mongo-eportfolio --name meteor-eportfolio pemarchandet/meteor-eportfolio
 ```
 
 ## Troubleshooting
@@ -28,7 +38,7 @@ Hereafter only command specific to this container are exposed:
 
 ### Connect (attach) to the container
 ```bash
-docker exec -i -t meteor-eportfolio bash
+docker exec -ti meteor-eportfolio bash
 ```
 ### Connect to a failed container (container that has exited)
 ```bash
