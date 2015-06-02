@@ -32,7 +32,6 @@ cfs:gridfs
 # Collection
 aldeed:simple-schema
 aldeed:collection2
-aldeed:autoform
 aldeed:delete-button
 forwarder:autoform-wizard
 matb33:collection-hooks
@@ -54,3 +53,4 @@ mizzao:jquery-ui
 natestrauser:select2
 bse:autoform-file-custom
 multiply:iron-router-progress
+aldeed:autoform
