@@ -3,36 +3,6 @@ AutoForm.hooks({
     before: {
       insert: function(doc) {
         lease_common_hook_before_insert_update(doc);
-        // // END_USE: Revert first 7 end_uses to their original value
-        // _.each(doc.consumption_by_end_use, function(end_use, i) {
-        //   if(i<7){
-        //     doc.consumption_by_end_use[i].end_use_name = endUseList[i];
-        //   }
-        // });
-
-        /* ------------------------------------- */
-        /* --- Insert EndUse data in Estate --- */
-        /* ------------------------------------- */
-        // var leaseEndUses = _.pluck(doc.consumption_by_end_use, "end_use_name"); // extract all EndUses from the Lease doc
-        // console.log(leaseEndUses);
-
-        // var currEstate = Estates.findOne(Session.get('current_estate_doc')._id) ;
-
-        // if(currEstate.estate_properties && currEstate.estate_properties.endUseList) {
-        //     var estateEndUseList = currEstate.estate_properties.endUseList ;
-        // } else {
-        //     estateEndUseList = [] ;
-        // }
-        // // Use union method to keep all unique endUses
-        // var newEndUseList = _.union(estateEndUseList, leaseEndUses) ;
-
-        // Estates.update(Session.get('current_estate_doc')._id,
-        //     { $set: {
-        //         "estate_properties.endUseList" : newEndUseList
-        //       }
-        //     },
-        //     {validate: false}
-        // );
 
         // Insert only: insert relevant data in Lease
         doc.building_id = Session.get('current_building_doc')._id;
@@ -42,7 +12,7 @@ AutoForm.hooks({
       },
       update: function(doc) {
         console.log("before update - doc is: ", doc);
-        lease_common_hook_before_insert_update(doc);
+        lease_common_hook_before_insert_update(doc.$set);
         // END
         return doc;
       }
