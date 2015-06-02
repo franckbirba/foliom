@@ -19,7 +19,7 @@ docker build -t pemarchandet/meteor-eportfolio .
 - `--name`: Name used for linking containers
 - `-p`: Port on the Docker Host and port on the Docker Container
 ```bash
-docker run --name meteor-eportfolio -d -P pemarchandet/meteor-eportfolio
+docker run -d -p 3000:3000 --link mongo-eportfolio:mongo-eportfolio --name meteor-eportfolio pemarchandet/meteor-eportfolio
 ```
 Checking status
 ```bash
