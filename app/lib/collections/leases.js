@@ -331,6 +331,9 @@ conformity_infoSchema = new SimpleSchema({
     type: Boolean,
     label: transr("is_eligibile"),
     autoform: {
+      afFieldInput: {
+        type: "boolean-checkbox"
+      }
     },
     optional: true,
   },

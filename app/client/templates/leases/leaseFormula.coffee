@@ -1,3 +1,43 @@
+@correct_autoform_boolean_bug_insert = (doc) ->
+  # Correct weird bug in AutoForm for Booleans (returned as string instead of Booleans)
+  for item in conformity_information_items
+    if doc.conformity_information[item].eligibility is "true"
+      doc.conformity_information[item].eligibility = true
+      console.log "passed to TRUE!"
+    else doc.conformity_information[item].eligibility = false
+  return doc
+
+@correct_autoform_boolean_bug_update = (doc) ->
+  # Correct weird bug in AutoForm for Booleans (returned as string instead of Booleans)
+  for item in conformity_information_items
+    selector = "conformity_information.#{item}.eligibility"
+    if doc[selector] is "true"
+      doc[selector] = true
+    else doc[selector] = false
+  return doc
+
+@lease_common_hook_before_insert_update = (doc) ->
+  # END_USE: Revert first 7 end_uses to their original value
+  _.each doc.consumption_by_end_use, (end_use, i) ->
+    if i < 7
+      doc.consumption_by_end_use[i].end_use_name = endUseList[i]
+    return
+
+  # Insert EndUse data in Estate
+  leaseEndUses = _.pluck(doc.consumption_by_end_use, 'end_use_name')
+  # extract all EndUses from the Lease doc
+  currEstate = Estates.findOne(Session.get('current_estate_doc')._id)
+  if currEstate.estate_properties and currEstate.estate_properties.endUseList
+    estateEndUseList = currEstate.estate_properties.endUseList
+  else
+    estateEndUseList = []
+  # Use union method to keep all unique endUses
+  newEndUseList = _.union(estateEndUseList, leaseEndUses)
+  Estates.update Session.get('current_estate_doc')._id, { $set: 'estate_properties.endUseList': newEndUseList }, validate: false
+
+  # Insert relevant data in Lease
+
+
 @isERP = (param) ->
   if param is "" or param is "NA" then false
   else true
@@ -137,7 +177,11 @@
 @fillLeaseForm = (activate) ->
   if activate
     # First fields
-    $('[name="rental_status"]').val("NA")
+    $('[name="rental_status"]').val("NA").change()
+    $('[name="lease_usage"]').prop('selectedIndex', 1).change()
+    $('[name="igh"]').prop('selectedIndex', 1).change()
+    $('[name="erp_status"]').prop('selectedIndex', 1).change()
+    $('[name="erp_category"]').prop('selectedIndex', 1).change()
     $('[name="headcount"]').val(100)
     $('[name="dpe_type"]').val("housing")
     $('[name="dpe_energy_consuption.grade"]').val("dpe_A")
@@ -176,9 +220,6 @@
     $('[name^=\'technical_compliance.categories.\'][name$=\'.conformity\']').each (index) ->
       $(this).val('compliant').change()
 
-    $('[name^=\'conformity_information.\'][name$=\'.eligibility\']').each (index) ->
-      if randomIntFromInterval(0, 1) > 0
-        $(this).prop('checked', true).change()
 
 
     fakeOptionInput = (name1, name2) ->
@@ -190,11 +231,15 @@
         return
       return
 
-    fakeOptionInput 'conformity_information', 'periodicity'
-    fakeOptionInput 'conformity_information', 'conformity'
-    $('[name^=\'conformity_information.\'][name$=\'.due_date\']').each (index) ->
-      $(this).val '2015-01-16'
-      return
-    $('[name^=\'conformity_information.\'][name$=\'.last_diagnostic\']').each (index) ->
-      $(this).val '2015-01-16'
-      return
+    # Not necessary since conformity_information is now optionnal
+    # $('[name^=\'conformity_information.\'][name$=\'.eligibility\']').each (index) ->
+    #   if randomIntFromInterval(0, 1) > 0
+    #     $(this).prop('checked', true).change()
+    # fakeOptionInput 'conformity_information', 'periodicity'
+    # fakeOptionInput 'conformity_information', 'conformity'
+    # $('[name^=\'conformity_information.\'][name$=\'.due_date\']').each (index) ->
+    #   $(this).val '2015-01-16'
+    #   return
+    # $('[name^=\'conformity_information.\'][name$=\'.last_diagnostic\']').each (index) ->
+    #   $(this).val '2015-01-16'
+    #   return

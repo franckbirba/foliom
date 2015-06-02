@@ -2,6 +2,7 @@ AutoForm.hooks({
   insertLeaseForm: {
     before: {
       insert: function(doc) {
+        doc = correct_autoform_boolean_bug_insert(doc);
         lease_common_hook_before_insert_update(doc);
 
         // Insert only: insert relevant data in Lease
@@ -11,7 +12,7 @@ AutoForm.hooks({
         return doc;
       },
       update: function(doc) {
-        console.log("before update - doc is: ", doc);
+        doc.$set = correct_autoform_boolean_bug(doc.$set);
         lease_common_hook_before_insert_update(doc.$set);
         // END
         return doc;
