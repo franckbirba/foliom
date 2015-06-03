@@ -234,7 +234,7 @@ Template.buildingAndLeaseImport.events({
 
                 tmpLease.technical_compliance.categories[name] = {
                   "lifetime" : element[lifetime],
-                  "conformity" : element[lifetime],
+                  "conformity" : element[conformity],
                   "description" : element[description],
                 }
 
@@ -263,22 +263,25 @@ Template.buildingAndLeaseImport.events({
                 var due_date = item + ".due_date";
                 var conformity = item + ".conformity";
                 var description = item + ".description";
+                var diagnostic_alert = item + ".diagnostic_alert";
 
                 tmpLease.conformity_information[item] = {
                   "eligibility" : element[eligibility],
                   "periodicity" : element[periodicity],
                   "due_date" : element[due_date],
                   "conformity" : element[conformity],
-                  "description" : element[description]
+                  "description" : element[description],
+                  "diagnostic_alert" : element[diagnostic_alert]
                 };
 
               });
 
 
-              console.log("tmpLease is");
-              console.log(tmpLease);
+              console.log("tmpLease is ", tmpLease);
+              lease_common_hook_before_insert_update(tmpLease);
+              console.log("tmpLease after common hook ", tmpLease);
 
-              // var newId = Leases.insert(tmpLease);
+              Leases.insert(tmpLease);
 
 
 

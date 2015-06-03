@@ -12,7 +12,7 @@ AutoForm.hooks({
         return doc;
       },
       update: function(doc) {
-        doc.$set = correct_autoform_boolean_bug(doc.$set);
+        doc.$set = correct_autoform_boolean_bug_update(doc.$set);
         lease_common_hook_before_insert_update(doc.$set);
         // END
         return doc;
