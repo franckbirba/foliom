@@ -101,6 +101,7 @@
     "settings_selectors": "Paramètres",
 
     /* Selectors */
+    "selector_page_intro": "Ces formulaires vous permettent d'ajouter des Selecteurs. Notez que les Selecteurs seront sauvegardés pour le Patrimoine courant.",
     "add_selector": "Ajouter un Selecteur",
 
     "fluid_types": "Fluides (types)",

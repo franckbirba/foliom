@@ -99,6 +99,7 @@
     "settings_selectors": "Settings",
 
     /* Selectors */
+    "selector_page_intro": "These forms allow you to add Selectors. Remember that they are saved for the current Estate.",
     "add_selector": "Add a Selector",
 
     "fluid_types": "Fluid types",
