@@ -32,7 +32,8 @@ Template.observatory.events({
       Session.set('obs_barchart_buildings', undefined); // remove barchart filter
   },
   'click .glyphicon-cog': function() {
-      $("#buildingAndLeaseImport").modal('show');
+      // $("#buildingAndLeaseImport").modal('show');
+      Router.go('buildingAndLeaseImport');
   },
   'click .select_building': function(e) {
       e.preventDefault();

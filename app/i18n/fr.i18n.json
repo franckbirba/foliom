@@ -178,7 +178,8 @@
     "carpark_spaces": "Nombre de places de parking",
     "carpark_area": "Surface de parking",
 
-    "import_building_lease": "Importer des Bâtiments",
+    "import_building_lease": "Importer des Bâtiments et Usages",
+    "building_and_lease_list": "Liste des Bâtiments et Usages",
 
     /* Building Selectors */
     "select_default_value": "Choisissez une valeur",

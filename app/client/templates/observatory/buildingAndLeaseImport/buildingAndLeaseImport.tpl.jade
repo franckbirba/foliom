@@ -1,32 +1,34 @@
-#buildingAndLeaseImport.modal.fade
-  .modal-dialog.modal-lg: .modal-content
-    .modal-header
-      button.close(type='button', data-dismiss='modal')
-        span(aria-hidden='true') ×
-        span.sr-only Close
-      h4.modal-title {{_ 'import_building_lease'}}
-    .modal-body.import_zoning
-      .import_item
-        ul.list-group
-          each getBuildingList
-            //- Building
+.page.observe.observatory: .container
+  // Dynamic page title
+  .row: .col-md-12
+    h1.page-title.mFadeInDown
+      .modal-title {{_ 'import_building_lease'}}
+  // Content
+  .row.mFadeInDown
+    // Building and Leases list
+    .col-md-6
+      h4 {{_ 'building_and_lease_list'}}
+      ul.list-group
+        each getBuildingList
+          //- Building
+          li.list-group-item
+            | {{building_name}}
+            +quickRemoveButton collection="Buildings" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
+              span.glyphicon.glyphicon-trash
+          //- Leases
+          each getLeases _id
             li.list-group-item
-              | {{building_name}} - {{_id}}
-              +quickRemoveButton collection="Buildings" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
+              span.glyphicon.glyphicon-list-alt(aria-hidden='true')
+              | {{lease_name}}
+              +quickRemoveButton collection="Leases" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
                 span.glyphicon.glyphicon-trash
-            //- Leases
-            each getLeases _id
-              li.list-group-item
-                span.glyphicon.glyphicon-list-alt(aria-hidden='true')
-                | {{lease_name}}
-                +quickRemoveButton collection="Leases" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
-                  span.glyphicon.glyphicon-trash
-      .import_item
-        .csv_import
-          h4 {{_ 'import'}} {{_ 'buildings'}}
-          input#importBuildings(type='file')
-          a.importButton.importBuildings.btn.btn-primary(href='', role='button') {{_ 'import'}}
-        .csv_import
-          h4 {{_ 'import'}} {{_ 'leases'}}
-          input#importLeases(type='file')
-          a.importButton.importLeases.btn.btn-primary(href='', role='button') {{_ 'import'}}
+    // Import zone
+    .col-md-6
+      .csv_import
+        h4 {{_ 'import'}} {{_ 'buildings'}}
+        input#importBuildings(type='file')
+        a.importButton.importBuildings.btn.btn-primary(href='', role='button') {{_ 'import'}}
+      .csv_import
+        h4 {{_ 'import'}} {{_ 'leases'}}
+        input#importLeases(type='file')
+        a.importButton.importLeases.btn.btn-primary(href='', role='button') {{_ 'import'}}

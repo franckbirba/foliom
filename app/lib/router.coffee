@@ -42,7 +42,7 @@ Router.map ->
     'user', 'selectors', 'scenarioForm_old', 'scenarioList', 'leaseForm',
     'about', 'help', 'termOfUse'
     # Buildings
-    'buildings', 'building-new', 'building-form'
+    'buildings', 'building-new', 'building-form', 'buildingAndLeaseImport'
     # Estates
     'estatesList', 'estate-form'
     # Actions

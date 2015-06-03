@@ -173,7 +173,8 @@
     "carpark_spaces": "Carpark spaces",
     "carpark_area": "Carpark area",
 
-    "import_building_lease": "Import Buildings",
+    "import_building_lease": "Import Buildings and Usages",
+    "building_and_lease_list": "Buildings and Usages list",
 
     /* Building Selectors */
     "select_default_value": "Select one",
