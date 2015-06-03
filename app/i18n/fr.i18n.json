@@ -427,7 +427,7 @@
     "or_m3": "Ou : en m³ / an",
     "yearly_savings": "En € / an",
 
-    "gain_operating": "Gains sur les autres charges d’exploitations (hors énergie et fluides)",
+    "gain_operating": "Gains sur les autres charges d’exploitations (ex : maintenance, renouvellement, abonnement...)",
 
     "operating_total_gain": "Gains totaux sur les charges d'exploitation",
     "euro_per_m2_year": "En € / m² an",
