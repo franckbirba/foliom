@@ -35,8 +35,6 @@
   newEndUseList = _.union(estateEndUseList, leaseEndUses)
   Estates.update Session.get('current_estate_doc')._id, { $set: 'estate_properties.endUseList': newEndUseList }, validate: false
 
-  # Insert relevant data in Lease
-
 
 @isERP = (param) ->
   if param is "" or param is "NA" then false
