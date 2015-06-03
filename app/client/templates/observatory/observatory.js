@@ -23,16 +23,12 @@ Template.observatory.events({
           Session.set('portfolio_level', false);
           $( "#building_list" ).fadeIn();
       };
-
-      // Meteor.subscribe('configurations', this._id);
-      // console.log('INSERT - update_estate_var is now: ' +  Session.get('update_estate_var'));
   },
   'click .glyphicon-globe': function() {
       Session.set('current_portfolio_doc', undefined);
       Session.set('obs_barchart_buildings', undefined); // remove barchart filter
   },
   'click .glyphicon-cog': function() {
-      // $("#buildingAndLeaseImport").modal('show');
       Router.go('buildingAndLeaseImport');
   },
   'click .select_building': function(e) {
