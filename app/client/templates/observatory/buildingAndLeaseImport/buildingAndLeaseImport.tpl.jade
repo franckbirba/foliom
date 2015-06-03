@@ -12,7 +12,7 @@
         each getBuildingList
           //- Building
           li.list-group-item
-            | {{building_name}}
+            | {{building_name}} - {{_id}}
             +quickRemoveButton collection="Buildings" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
               span.glyphicon.glyphicon-trash
           //- Leases
