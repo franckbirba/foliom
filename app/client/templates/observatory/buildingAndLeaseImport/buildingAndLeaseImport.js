@@ -26,8 +26,7 @@ Template.buildingAndLeaseImport.events({
             _.each(results.data, function(element, index, list){
               // console.log("[%d] - Portfolio: %s - Building: %s", index, element[0], element[1]);
 
-              getGeocoding({street: element.address1, city: element.city, country: element.country},function(geo){
-                var tmpBuilding = {
+              var tmpBuilding = {
                   "building_name": element.building_name,
                   "address": {
                     "street": element.address1,
@@ -35,8 +34,8 @@ Template.buildingAndLeaseImport.events({
                     "city": element.city,
                     "area": element.area,
                     "country": element.country,
-                    "gps_lat": geo.gps_lat,
-                    "gps_long": geo.gps_long
+                    "gps_lat": "",
+                    "gps_long": ""
                   },
                   "building_info": {
                     "construction_year": element.construction_year,
@@ -50,11 +49,23 @@ Template.buildingAndLeaseImport.events({
                   },
                   "portfolio_id": Session.get('current_portfolio_doc')._id
                 };
-                 // console.log("tmpBuilding is");
-                 // console.log(tmpBuilding);
-              var newId = Buildings.insert(tmpBuilding);
-              // console.log('New building %s: %s created', tmpBuilding.building_name, newId);
-              });
+
+              // If no gps_long has been entered, use the geocode result
+              // Else: use what was inside the CSV
+              if (element.gps_lat.length == 0 && element.gps_long.length == 0){
+                console.log("no lat / long > GEOCODING");
+                getGeocoding({street: element.address1, city: element.city, country: element.country},function(geo){
+                    tmpBuilding.address.gps_lat = geo.gps_lat;
+                    tmpBuilding.address.gps_long = geo.gps_long;
+                    Buildings.insert(tmpBuilding);
+                });
+              } else {
+                // Use what was inside the CSV
+                console.log("lat / long present")
+                tmpBuilding.address.gps_lat = element.gps_lat;
+                tmpBuilding.address.gps_long = element.gps_long;
+                Buildings.insert(tmpBuilding);
+              }
 
             });
 
