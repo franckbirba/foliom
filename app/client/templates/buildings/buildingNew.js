@@ -51,7 +51,7 @@ Template.buildingNew.helpers({
             address: tmp_address,
             callback: function(results, status) {
               if (status == 'OK') {
-                var latlng;
+
                 // If no gps_long has been entered, use the geocode result
                 if (!building_doc.address.hasOwnProperty('gps_long')){
                   var latlng = results[0].geometry.location;
