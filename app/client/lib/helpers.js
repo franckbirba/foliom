@@ -111,6 +111,10 @@ Template.registerHelper("beforeRemove", function(){
       if (confirm('Really delete "' + doc.profile.firstName + '"?')) {
         this.remove();
       }
+    } else if( collection._name === "estates" ){
+      if (confirm('Really delete "' + doc.estate_name + '"?')) {
+        this.remove();
+      }
     } else if( collection._name === "buildings" ){
       // Confirm that the Leases will also be deleted
       if (confirm('Really delete "' + doc.building_name + '" and its associated usages?')) {
