@@ -82,7 +82,8 @@
 		"new_building": "New building",
 	"lease": "Usage",
         "leases": "Usages",
-	"fluid": "Fluid",
+    "fluid": "Fluid",
+	   "fluids": "Fluids",
 	"import": "Import",
 
     "In": "in",
@@ -96,6 +97,15 @@
     "nb_buildings": "Building count",
 
     "settings_selectors": "Settings",
+
+    /* Selectors */
+    "add_selector": "Add a Selector",
+
+    "fluid_types": "Fluid types",
+    "fluid_types_info": "Fluid types can only be deleted (not updated)",
+    "fluid_provider_info": "Fluid providers can only be deleted (not updated)",
+    "usage_types": "Usage types",
+    "usage_types_info": "Usage types can only be deleted (not updated)",
 
     /* Users */
     "admin": "Admin",
@@ -133,7 +143,8 @@
     "actualization_rate": "Actualization rate",
     "consumption_degradation": "Yearly consumption degradation",
 
-    "mailing_list": "A notification will be sent each year to keep updated data",
+    "initial_value": "Initial value",
+    "evolution_index_percent": "Evolution index (%)",
 
     /* Fluids */
 

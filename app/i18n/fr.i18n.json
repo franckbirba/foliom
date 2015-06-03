@@ -6,6 +6,8 @@
     "copy": "Copier",
     "delete": "Supprimer",
 
+    "the": "Les",
+
 	/* Home */
 	"observe": "Observer",
 	"plan": "Planifier",
@@ -83,7 +85,8 @@
     "lease": "Usage",
         "leases": "Usages",
     "fluid": "Fluide",
-		"import": "Importer",
+        "fluids": "Fluides",
+	"import": "Importer",
 
     "In": "En",
 
@@ -96,6 +99,15 @@
     "nb_buildings": "Nombre de Bâtiments",
 
     "settings_selectors": "Paramètres",
+
+    /* Selectors */
+    "add_selector": "Ajouter un Selecteur",
+
+    "fluid_types": "Fluides (types)",
+    "fluid_types_info": "Les Fluides (types) peuvent seulement être supprimés (pas mis à jour)",
+    "fluid_provider_info": "Les Fournisseurs peuvent seulement être supprimés (pas mis à jour)",
+    "usage_types": "Types d'usages",
+    "usage_types_info": "Les types d'usages peuvent seulement être supprimés (pas mis à jour)",
 
 
     /* Users */
@@ -137,7 +149,8 @@
 
     "global_evolution_index": "Indice d'évolution global",
 
-    "mailing_list": "Envoi d’une alerte chaque année, pour actualisation des données",
+    "initial_value": "Valeur initiale",
+    "evolution_index_percent": "Indice d'évolution (%)",
 
     /* Fluids */
 

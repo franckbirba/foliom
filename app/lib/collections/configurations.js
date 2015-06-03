@@ -367,6 +367,7 @@ Configurations.attachSchema(new SimpleSchema({
     fluids: {
 		optional: true,
         type: [Fluids2],
+        label: transr("fluids"),
         autoform: {
             // template:'eportfolio-settings'
             // template:'bootstrap3'

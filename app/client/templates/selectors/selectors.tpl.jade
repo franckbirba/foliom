@@ -3,8 +3,8 @@
     p= "These forms allow you to add Selectors. Remember that they are saved for the current Estate."
     .row
       .col-md-6
-        h4 Fluid types
-        p: i Fluid types can only be deleted, not updated
+        h4 {{_ 'fluid_types'}}
+        p: i {{_ 'fluid_types_info'}}
         button.btn.btn-success.addFluidTypeBtn(style='border:none !important;background-color:transparent;color:green;', data-toggle='modal', data-target='#selectorFormModal')
           span.glyphicon.glyphicon-plus
         ul.list-group(style='width:400px;position:relative;')
@@ -14,8 +14,8 @@
                 span.update-fluidTypes(style='width:100%') {{_ this.valueOf}}
                 span.glyphicon.glyphicon-trash.remove-fluidTypes(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
       .col-md-6
-        h4 Fluid providers
-        p: i Fluid providers can only be deleted, not updated
+        h4 {{_ 'fluid_provider'}}s
+        p: i {{_ 'fluid_provider_info'}}
         button.btn.btn-success.addFluidProviderBtn(style='border:none !important;background-color:transparent;color:green;', data-toggle='modal', data-target='#selectorFormModal')
           span.glyphicon.glyphicon-plus
         ul.list-group(style='width:400px;position:relative;')
@@ -26,8 +26,8 @@
                 span.glyphicon.glyphicon-trash.remove-fluidProviders(style='position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;')
     .row
       .col-md-6
-        h4 Usage types
-        p: i Usage types can only be deleted, not updated
+        h4 {{_ 'usage_types'}}
+        p: i {{_ 'usage_types_info'}}
         button.btn.btn-success.addUsageTypeBtn(style='border:none !important;background-color:transparent;color:green;', data-toggle='modal', data-target='#selectorFormModal')
           span.glyphicon.glyphicon-plus
         ul.list-group(style='width:400px;position:relative;')

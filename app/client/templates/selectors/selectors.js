@@ -73,7 +73,7 @@ Template.selectors.events({
         Meteor.call("updateSelector", "fluid_type", this.valueOf() );
     };
   },
-  'click .remove-fluidProvider': function(){
+  'click .remove-fluidProviders': function(){
     if (confirm('Really delete "' + this.valueOf() +'"?')) {
         Meteor.call("updateSelector", "fluid_provider", this.valueOf() );
     };
