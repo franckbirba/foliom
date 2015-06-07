@@ -19,8 +19,8 @@ Template.nav.created = ->
       #Also set a Session var
       curr_config = Configurations.findOne master: false
       Session.set 'current_config', curr_config  if curr_config
-      # PORTFOLIOS
-      Meteor.subscribe 'portfolios', estate_doc_id
+      # PORTFOLIOS, BUILDINGS, LEASES
+      Meteor.subscribe 'portfolios_buildings_leases', estate_doc_id
       # SCENARIOS
       Meteor.subscribe 'scenarios', estate_doc_id
       # SELECTORS
@@ -29,11 +29,6 @@ Template.nav.created = ->
       Meteor.subscribe 'messages', estate_doc_id
       # ACTIONS
       Meteor.subscribe 'actions', estate_doc_id
-      # Empty the current Portfolio doc
-      #Session.set 'current_portfolio_doc', undefined
-
-
-
 
 Template.nav.events
   'click .js-logout': ->
