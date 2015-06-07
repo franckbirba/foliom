@@ -25,6 +25,8 @@ Template.nav.created = ->
       Meteor.subscribe 'scenarios', estate_doc_id
       # SELECTORS
       Meteor.subscribe 'selectors', estate_doc_id
+      # MESSAGES
+      Meteor.subscribe 'messages', estate_doc_id
       # Empty the current Portfolio doc
       #Session.set 'current_portfolio_doc', undefined
 

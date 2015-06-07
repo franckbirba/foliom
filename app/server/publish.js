@@ -44,8 +44,9 @@ Meteor.publish('endUses', function(portfolioId) {
   return EndUse.find(); // TODO : only send relevant EndUses
 });
 
-Meteor.publish('messages', function(portfolioId) {
-  return Messages.find(); // TODO : only send relevant Messages
+Meteor.publish('messages', function(estateId) {
+  // Only send Messages linked to the current Estate, or sent by 'EGIS-news'
+  return Messages.find({ $or: [ {estate_id: estateId}, {name: 'EGIS-news'} ] });
 });
 
 Meteor.publish('actions', function(portfolioId) {
