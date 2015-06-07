@@ -49,8 +49,9 @@ Meteor.publish('messages', function(estateId) {
   return Messages.find({ $or: [ {estate_id: estateId}, {name: 'EGIS-news'} ] });
 });
 
-Meteor.publish('actions', function(portfolioId) {
-  return Actions.find(); // TODO : only send relevant Actions
+Meteor.publish('actions', function(estateId) {
+  // Only send Actions linked to the current Estate, or that are generic Actions
+  return Actions.find({ $or: [ {estate_id: estateId}, {"action_type": "generic"} ] });
 });
 
 Meteor.publish('scenarios', function(estateId) {

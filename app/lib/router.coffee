@@ -10,7 +10,6 @@ basicWaitOn = -> [
   Meteor.subscribe 'fluids', null
   Meteor.subscribe 'endUses', null
   Meteor.subscribe 'images'
-  Meteor.subscribe 'actions'
   # @NOTE Portfolio sub. is now done when Estate is set (in nav.coffee)
   # Meteor.subscribe 'scenarios'
 ]
