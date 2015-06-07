@@ -3,7 +3,6 @@
   for item in conformity_information_items
     if doc.conformity_information[item].eligibility is "true"
       doc.conformity_information[item].eligibility = true
-      console.log "passed to TRUE!"
     else doc.conformity_information[item].eligibility = false
   return doc
 
