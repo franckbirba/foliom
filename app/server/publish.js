@@ -17,51 +17,26 @@ Meteor.publish('estates', function(userId, admin) {
 });
 
 Meteor.publish('images', function() {
-  return Images.find();
+  return Images.find(); // TODO : see if it's possible to add Estate_id to Images & docs
 });
 
-Meteor.publish('portfolios_buildings_leases', function(estateId) {
-    // return Portfolios.find(); // TODO : if(!Admin) then : only send relevant Portfolios
-    var portforlio_cursor, building_cursor, leases_cursor;
-    var cursor_arrray = [];
-    var curr_est_doc = Estates.findOne(estateId);
-
-    // only return smthg if curr_est_doc is defined and has a "portfolio_collection"
-    if (curr_est_doc !== undefined && curr_est_doc.hasOwnProperty("portfolio_collection") ) {
-      // Portfolios
-      portforlio_cursor = Portfolios.find({_id: {$in : curr_est_doc.portfolio_collection} },
-                          {sort: {name:1}}
-                          );
-      cursor_arrray.push(portforlio_cursor);
-
-      if (portforlio_cursor.count() > 0){
-        // Buildings
-        building_cursor = Buildings.find({portfolio_id: {$in: curr_est_doc.portfolio_collection}});
-        cursor_arrray.push(building_cursor);
-
-        if (building_cursor.count() > 0){
-          // Leases
-          buildings = building_cursor.fetch();
-          buildingIds = _.pluck(buildings, '_id');
-          leases_cursor = Leases.find({building_id: {$in: buildingIds}});
-          cursor_arrray.push(leases_cursor);
-        }
-      }
-    } else {
-      console.log("- EMPTY ESTATE -")
-    }
-
-    return cursor_arrray;
+Meteor.publish('portfolios', function(portfolio_collection) {
+  return Portfolios.find({_id: {$in : portfolio_collection} },
+                      {sort: {name:1}}
+                      );
 });
-
-
-
-// Meteor.publish('leases', function(portfolioId) {
-//   return Leases.find(); // TODO : only send relevant Leases
-// });
+Meteor.publish('buildings', function(portfolio_collection) {
+  return Buildings.find({portfolio_id: {$in: portfolio_collection}});
+});
+Meteor.publish('leases', function(building_Ids) {
+  return Leases.find({building_id: {$in: building_Ids}});
+});
 
 Meteor.publish('endUses', function(portfolioId) {
-  return EndUse.find(); // TODO : only send relevant EndUses
+  return EndUse.find(); // TODO : REMOVE EndUses
+});
+Meteor.publish('fluids', function() {
+  return Fluids.find(); // TODO : REMOVE fluids
 });
 
 Meteor.publish('messages', function(estateId) {
@@ -90,11 +65,6 @@ Meteor.publish("userData", function () {
   } else {
     this.ready();
   }
-});
-
-
-Meteor.publish('fluids', function() {
-  return Fluids.find();
 });
 
 Meteor.publish('selectors', function(estateId) {

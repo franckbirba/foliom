@@ -19,8 +19,16 @@ Template.nav.created = ->
       #Also set a Session var
       curr_config = Configurations.findOne master: false
       Session.set 'current_config', curr_config  if curr_config
-      # PORTFOLIOS, BUILDINGS, LEASES
-      Meteor.subscribe 'portfolios_buildings_leases', estate_doc_id
+      # PORTFOLIOS (only subscribe if at least one Portfolio exists)
+      if currentEstate.hasOwnProperty("portfolio_collection")
+        Meteor.subscribe 'portfolios', currentEstate.portfolio_collection
+        if Portfolios.find().count() > 0
+          # BUILDINGS
+          Meteor.subscribe 'buildings', currentEstate.portfolio_collection
+          # LEASES
+          all_buildings_ids = Buildings.find({},{fields: {'_id':1}}).map( (b)->
+            return b._id )
+          Meteor.subscribe 'leases', all_buildings_ids
       # SCENARIOS
       Meteor.subscribe 'scenarios', estate_doc_id
       # SELECTORS
