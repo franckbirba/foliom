@@ -21,7 +21,7 @@ Template.nav.created = ->
       Session.set 'current_config', curr_config  if curr_config
       # PORTFOLIOS (only subscribe if at least one Portfolio exists)
       if currentEstate.hasOwnProperty("portfolio_collection")
-        Meteor.subscribe 'portfolios', currentEstate.portfolio_collection
+        Meteor.subscribe 'portfolios', currentEstate.portfolio_collection, Roles.userIsInRole(Meteor.user()._id, ['admin'])
         if Portfolios.find().count() > 0
           # BUILDINGS
           Meteor.subscribe 'buildings', currentEstate.portfolio_collection

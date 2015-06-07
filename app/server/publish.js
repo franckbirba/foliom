@@ -7,7 +7,7 @@ Meteor.publish('configurations', function(estateId) {
 });
 
 Meteor.publish('estates', function(userId, admin) {
-  // If the current user is an Admin, return all Estates. Otherwise, return relevant Estates
+  // If the current user is an Admin, return all Estates. Otherwise, return relevant ones
   if (admin) {
     return Estates.find();
   }
@@ -20,10 +20,16 @@ Meteor.publish('images', function() {
   return Images.find(); // TODO : see if it's possible to add Estate_id to Images & docs
 });
 
-Meteor.publish('portfolios', function(portfolio_collection) {
-  return Portfolios.find({_id: {$in : portfolio_collection} },
-                      {sort: {name:1}}
-                      );
+Meteor.publish('portfolios', function(portfolio_collection, admin) {
+  // If the current user is an Admin, return all Portfolios. Otherwise, return relevant ones
+  if (admin) {
+    return Portfolios.find();
+  }
+  else {
+    return Portfolios.find({_id: {$in : portfolio_collection} },
+                        {sort: {name:1}}
+                        );
+  }
 });
 Meteor.publish('buildings', function(portfolio_collection) {
   return Buildings.find({portfolio_id: {$in: portfolio_collection}});
