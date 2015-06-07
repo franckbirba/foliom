@@ -5,6 +5,12 @@
   building_id = buildingId_fromLeaseId(id)
   building_name = Buildings.findOne({_id:building_id}, {fields: {building_name: 1}}).building_name
 
+@estateId_fromBuildingId = (id) ->
+  building = Buildings.findOne {_id:id}
+  curr_portfolio = Portfolios.findOne(building.portfolio_id)
+  curr_estate = Estates.findOne({portfolio_collection: curr_portfolio._id})
+  return curr_estate._id
+
 # UTILITIES
 
 # Check if var is an array or not

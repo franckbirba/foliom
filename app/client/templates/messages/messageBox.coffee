@@ -45,5 +45,6 @@ sendMessage = (t) ->
     if Router.current().route.getName() is 'building-detail'
       currentBuilding = Session.get 'current_building_doc'
     msgContent.building_id = currentBuilding._id if currentBuilding
+    msgContent.estate_id = Session.get('current_estate_doc')._id
     Messages.insert msgContent
     $message.value = ''

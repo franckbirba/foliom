@@ -23,9 +23,12 @@ triggerAlerts = (id, doc) =>
 
   if alerts.length > 0
     lease_name = Leases.findOne({_id:id}).lease_name
-    building_name = buildingName_fromLeaseId(id)
     building_id = buildingId_fromLeaseId(id)
+    building = Buildings.findOne {_id:building_id}
+    building_name = building.building_name
     today = Date.now()
+
+    estate_id = estateId_fromBuildingId(building_id)
 
     for key, value of doc.conformity_information
       if value.diagnostic_alert is true and value.eligibility is true
@@ -42,9 +45,8 @@ triggerAlerts = (id, doc) =>
           name: 'EGIS-notifications'
           message: msgTxt
           time: today
-          # link: entry.link
-          # feed_id: id
           building_id: building_id
+          estate_id: estate_id
 
         Messages.upsert {time: today, message: msgTxt, building_id: building_id}, {$set: msgContent}
 
