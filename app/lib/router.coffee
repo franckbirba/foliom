@@ -79,6 +79,7 @@ Router.map ->
       curr_portfolio = Portfolios.findOne curr_building.portfolio_id
       return false unless curr_portfolio
       curr_estate = Estates.findOne portfolio_collection: curr_portfolio._id
+      return false unless curr_estate
       # Set Session var for Estate & Building
       Session.set 'current_building_doc', curr_building
       Session.set 'current_portfolio_doc', curr_portfolio
