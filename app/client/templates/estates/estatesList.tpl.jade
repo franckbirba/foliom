@@ -13,5 +13,11 @@
           .update_estate(style='width:100%') {{estate_name}}
           +quickRemoveButton collection="Estates" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
             span.glyphicon.glyphicon-trash
+        each getPortfolios _id
+          li.list-group-item
+            span.glyphicon.glyphicon-list-alt(aria-hidden='true')
+            | {{name}}
+            +quickRemoveButton collection="Portfolios" _id=this._id beforeRemove=beforeRemove style="position:absolute;right:10px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger"
+              span.glyphicon.glyphicon-trash
 
     +estateForm

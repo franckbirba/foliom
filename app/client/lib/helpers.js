@@ -115,9 +115,22 @@ Template.registerHelper("beforeRemove", function(){
       if (confirm('Really delete "' + doc.estate_name + '"?')) {
         this.remove();
       }
+    } else if( collection._name === "portfolios" ){
+      if (confirm('Really delete "' + doc.name + '" and its associated Buildings and usages?')) {
+        // Delete all Buildings and Leases in this Portfolio
+        _.each( Buildings.find({portfolio_id: id}).fetch(), function(building){
+          // Delete each Lease
+          _.each( Leases.find({'building_id': building._id}, {fields: {'_id':1}}).fetch() , function(lease){
+            Leases.remove(lease._id);
+          });
+          // Delete Building
+          Buildings.remove(building._id);
+        });
+        this.remove();
+      }
     } else if( collection._name === "buildings" ){
       // Confirm that the Leases will also be deleted
-      if (confirm('Really delete "' + doc.building_name + '" and its associated usages?')) {
+      if (confirm('Really delete "' + doc.building_name + '" and its associated Usages?')) {
         // Delete each Lease
         _.each( Leases.find({'building_id': doc._id}, {fields: {'_id':1}}).fetch() , function(lease){
           Leases.remove(lease._id);
