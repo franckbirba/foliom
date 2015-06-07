@@ -131,10 +131,10 @@ Template.buildingDetail.helpers
     else
       result = Leases.find({ building_id: Session.get('current_building_doc')._id }, {fields: {certifications: 1}}).fetch()
 
-      allCerts = _.flatten _.map result, (lease) ->
-        return lease.certifications #Each lease.certifications is an array, hence the _.flatten
-      result.certifications = _.uniq allCerts
-
+      if result.hasOwnProperty('certifications')
+        allCerts = _.flatten _.map result, (lease) ->
+          return lease.certifications #Each lease.certifications is an array, hence the _.flatten
+        result.certifications = _.uniq allCerts
 
     if result.certifications
       for cert in result.certifications
