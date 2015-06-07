@@ -6,7 +6,7 @@ feedReader = ->
   Feed.collections collections
   egis_feed =
     _id: 'EGIS News'
-    link: 'http://www.egis.fr/rss.xml'
+    link: 'http://www.queryfeed.net/twitter?q=@ePortfolio_twit&geocode='
     refresh_interval: 60000
   Feed.createAtomFeed egis_feed
   # invoke Feed.read() to get real-time reactive social stream
