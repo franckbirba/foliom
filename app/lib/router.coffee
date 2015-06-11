@@ -92,7 +92,6 @@ Router.map ->
       portfolioIds = Session.get('current_estate_doc').portfolio_collection
       # GET BUILDING LIST (for the Estate, ie. all Portfolios in the Estate)
       buildings = Buildings.find({ portfolio_id: {$in: portfolioIds} }).fetch()
-      console.log "buildings: ", buildings
       buildingIds = _.pluck buildings, '_id'
       # GET ALL RELEVANT ACTIONS
       action_list = actions = []

@@ -9,7 +9,6 @@ Template.scenarioForm.created = ->
   # Find starred Actions in the scenario
   starredActions = _.map(@data.scenario.planned_actions, (item) ->
     if item.starred is true then return item.action)
-  console.log "starredActions is", _.compact(starredActions)
   instance.starredActions.set(_.compact(starredActions)) # Use compact to remove undefined values
 
   # Create a flattened version of toAddCriterionList (and without the types)
