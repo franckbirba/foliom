@@ -89,13 +89,10 @@ Router.map ->
   @route '/scenario-form/:_id?',
     name: 'scenario-form'
     data: ->
+      portfolioIds = Session.get('current_estate_doc').portfolio_collection
       # GET BUILDING LIST (for the Estate, ie. all Portfolios in the Estate)
-      buildings = _.chain(Session.get('current_estate_doc').portfolio_collection)
-                      .map ((portfolio_id) ->
-                        Buildings.find({ portfolio_id: portfolio_id }).fetch()
-                      )
-                      .flatten()
-                      .value()
+      buildings = Buildings.find({ portfolio_id: {$in: portfolioIds} }).fetch()
+      console.log "buildings: ", buildings
       buildingIds = _.pluck buildings, '_id'
       # GET ALL RELEVANT ACTIONS
       action_list = actions = []
@@ -118,7 +115,6 @@ Router.map ->
           #   'action': action
           #   'start': moment() # Add start date (today)
       # Get each portfolios for each buildings
-      portfolioIds = Session.get('current_estate_doc').portfolio_collection
       portfolios = (Portfolios.find _id: $in: portfolioIds).fetch()
       # Get all leases for all building, this action is done in a single DB
       # call for avoiding too much latency on the screen's creation
