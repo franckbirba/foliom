@@ -30,7 +30,8 @@ Template.scenarioForm.created = ->
     console.log instance.criterion_list.get()
 
     console.log "instance.starredActions.get()"
-    console.log instance.starredActions.get()
+    console.log instance.starredActions.get(), instance.starredActions.get().length
+
 
 Template.scenarioForm.rendered = ->
   # Init sortable function
@@ -127,19 +128,15 @@ Template.scenarioForm.events
     this_action = this
     console.log "this_action is", this_action
     unless this_action.starred?
-      console.log "case 1"
+      # Add starred parameter to action, and add action to array
       this_action.starred = true
       starredActions_a.push this_action.action # Keep clean Action copy
     else
-      console.log "case 2"
+      # Remove starred parameter, and remove starred action from array
       delete this_action.starred
-      # test
       for action, index in starredActions_a
         if action._id is this_action.action_id then starredActions_a.splice(index, 1)
-      # starredActions_a = _.without(starredActions_a, this_action.action)
     Template.instance().starredActions.set(starredActions_a)
-    console.log "starredActions_a:", starredActions_a
-    # debugger
     # Finally, submit the form to trigger the sorting
     $('form#scenarioForm').submit();
     return
@@ -176,11 +173,15 @@ Template.scenarioForm.events
     scenario.estate_id = current_estate._id
     # GET BUILDING LIST
     building_list = Template.currentData().buildings
-    # RESET SCENARIO.PLANNED_ACTIONS (to the list in @data)
+    # RESET SCENARIO.PLANNED_ACTIONS (to the list from @data)
     # However: first we remove starred actions (we don't want to include them in the sorting)
     starredActions_a = Template.instance().starredActions.get()
+    starredActions_a_Ids = _.pluck(starredActions_a, '_id')
     clean_action_list = _.pluck(Template.currentData().action_list, "action")
-    scenario.planned_actions = _.difference(clean_action_list, starredActions_a)
+    scenario.planned_actions = _.filter(clean_action_list, (item) ->
+      # Filter the clean_action_list: we only return items whose id isn't in starredActions_a_Ids
+      return !_.contains(starredActions_a_Ids, item._id) )
+    # Init actions: start and priotity
     for action in scenario.planned_actions
       action.start = moment()
       action.criterion_priority = {}
@@ -194,9 +195,7 @@ Template.scenarioForm.events
     # console.log "AFTER CRITERION - scenario.planned_actions is now ", scenario.planned_actions
 
     # FORMAT planned_actions to just the _id and start date
-    console.log "before bug", scenario.planned_actions
     scenario.planned_actions = _.map(scenario.planned_actions, (action, index) ->
-      console.log "index is #{index}"
       action=
         action_id: action._id
         start: if action.start is null then null else action.start.toDate()

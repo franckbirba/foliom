@@ -178,6 +178,7 @@
   # Add the starred Actions at the beginning of the Array
   scenario.planned_actions = starredActions_a.concat(scenario.planned_actions)
 
+
   # yearly_expense_max criterion: if it's activated, apply it now
   yearly_expense_max_criterion = _.find scenario.criterion_list, (obj) ->
       return obj.label is "yearly_expense_max"
