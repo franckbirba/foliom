@@ -152,7 +152,8 @@
       if iterator < limit
         orderArrayByCriterion(action_array[key], iterator+1, limit)
       else
-        # INSERT FINAL SORTING HERE @BSE
+        # @BSE: check if need to add smthg here?
+
 
   # Do the first sort manually, to initiate the object structure
   # result will be in the form of: Object {1: Array[4], 2: Array[9]}
@@ -200,13 +201,31 @@
     if added_action_cost > scenario.total_expenditure
       action.start = null
 
+  # Add the unplanned actions at the end of the planned_actions
+  scenario.planned_actions = scenario.planned_actions.concat(unplanned_actions)
+
+
   # To Do
   # > Si le TRI global (voir infos plus bas sur le calcul des gains globaux d’un scénario ≠ somme des gains unitaires des actions) de ce panel d’actions est inférieur au TRI autorisé, tout va bien et on passe à la suite.
   # > Si le TRI global de ce panel d’actions est supérieur au TRI autorisé, on retire l’action la plus bas dans la liste dont le TRI unitaire est > au TRI global, et on refait le calcul. Si ça ne marche toujours pas rebelote (ça ne sert à rien d’enlever les actions en bas de liste, dont le TRI est < au TRI global : le calcul du TRI global de sera pas amélioré).
+  TV = TimelineVars
+  TV.reset()
+  # Get denormalized scenario, buildings and portfolios
+  TV_data =
+    scenario: scenario
+    buildings: building_list
+    portfolios: Template.currentData().portfolios
+  TV.getRouterData(TV_data)
+  # Set minimum and maximum date
+  TV.setMinMaxDate()
+  # Get fluids and coefficients
+  TV.getFluidsAndCoefs()
+  # Create ticks, consumption and budget charts
+  TV.calculateStaticCharts()
+  # Calc
+  TV.calculateTimelineTable
 
-
-  # Add the unplanned actions at the end of the planned_actions
-  scenario.planned_actions = scenario.planned_actions.concat(unplanned_actions)
+  console.log "TV.triGlobal: ", TV.triGlobal
 
   return scenario
 
