@@ -208,6 +208,16 @@
   # To Do
   # > Si le TRI global (voir infos plus bas sur le calcul des gains globaux d’un scénario ≠ somme des gains unitaires des actions) de ce panel d’actions est inférieur au TRI autorisé, tout va bien et on passe à la suite.
   # > Si le TRI global de ce panel d’actions est supérieur au TRI autorisé, on retire l’action la plus bas dans la liste dont le TRI unitaire est > au TRI global, et on refait le calcul. Si ça ne marche toujours pas rebelote (ça ne sert à rien d’enlever les actions en bas de liste, dont le TRI est < au TRI global : le calcul du TRI global de sera pas amélioré).
+
+  # Get actions that matches the Ids in the Scenario
+  pactions = scenario.planned_actions
+  actionIds = _.pluck pactions, '_id'
+  actions = (Actions.find  _id: $in: actionIds).fetch()
+  # Denormalize actions in the scenario and transform start date as moment
+  for paction in pactions
+    paction.action = _.findWhere actions, _id: paction._id
+    # paction.start = moment paction.start unless paction.start is null
+  # Init TV
   TV = TimelineVars
   TV.reset()
   # Get denormalized scenario, buildings and portfolios
@@ -215,6 +225,7 @@
     scenario: scenario
     buildings: building_list
     portfolios: Template.currentData().portfolios
+  console.log "TV_data ", TV_data
   TV.getRouterData(TV_data)
   # Set minimum and maximum date
   TV.setMinMaxDate()
@@ -223,7 +234,7 @@
   # Create ticks, consumption and budget charts
   TV.calculateStaticCharts()
   # Calc
-  TV.calculateTimelineTable
+  TV.calculateTimelineTable()
 
   console.log "TV.triGlobal: ", TV.triGlobal
 

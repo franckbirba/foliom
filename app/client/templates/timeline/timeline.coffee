@@ -15,6 +15,8 @@ Template.timeline.created = ->
   # Get denormalized scenario, buildings and portfolios from router
   Log.info 'Routed data'
   TV.getRouterData @data
+  console.log "data from router is", @data
+  # debugger
   # Set minimum and maximum date
   Log.info 'Min max date'
   TV.setMinMaxDate()
