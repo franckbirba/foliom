@@ -108,6 +108,12 @@
     "usage_types": "Usage types",
     "usage_types_info": "Usage types can only be deleted (not updated)",
 
+    /* JSON export */
+    "export": "Exporter",
+    "jsonExport": "Data export (JSON)",
+    "jsonExport_desc": "This features enables to export in JSON all the Estate data from the application (Estate, Portfolios, Buildings, Usages, Actions...) to a single file.",
+
+
     /* Users */
     "admin": "Admin",
     "estate_manager": "Estate manager",
@@ -171,6 +177,7 @@
     "create_estate": "New estate",
 
     /* Portfolios */
+    "portfolios": "Portfolios",
 
 
     /* Buildings */
@@ -399,6 +406,8 @@
     "bepos2013": "BEPOS 2013",
 
     /* Action Form */
+    "actions_collection": "Actions",
+
     "opportunity": "Opportunity",
     "project_type": "Project type",
     "technical_field": "Technical and architectural packages",
@@ -474,6 +483,8 @@
     "alert_message": "Alert - Usage __lease_name__: last diagnostic for __key__ is obsolete",
 
     /* Scenarios */
+    "scenarios": "Scenarios",
+
     "schemaDir_create": "Develop blueprint",
     "create_scenario": "Create scenario",
     "duration": "Duration",

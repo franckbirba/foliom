@@ -34,7 +34,7 @@ if Meteor.isClient
 Router.map ->
   # Routes that matches their template's name
   routes = [
-    'join', 'signin', 'settings', 'portfolios',
+    'join', 'signin', 'settings', 'portfolios', 'jsonExport'
     'user', 'selectors', 'scenarioForm_old', 'scenarioList', 'leaseForm',
     'about', 'help', 'termOfUse'
     # Buildings

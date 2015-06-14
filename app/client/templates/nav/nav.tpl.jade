@@ -15,6 +15,7 @@ nav.navbar.navbar-default(role='navigation'): .container: .col-sm-12
           li: a(href='/user') {{_ 'user_collection'}}
           li: a(href='{{pathFor "estatesList"}}') {{_ 'estates'}}
           li: a(href='/selectors') {{_ 'settings_selectors'}}
+          li: a(href='{{pathFor "jsonExport"}}') {{_ 'jsonExport'}}
       ul.nav.navbar-nav: li.dropdown
         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
           | {{currentEstate}}

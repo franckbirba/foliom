@@ -110,6 +110,11 @@
     "usage_types": "Types d'usages",
     "usage_types_info": "Les types d'usages peuvent seulement être supprimés (pas mis à jour)",
 
+    /* JSON export */
+    "export": "Exporter",
+    "jsonExport": "Export des données (JSON)",
+    "jsonExport_desc": "Cette fonction permet d'exporter les données de l'application (Estate, Portfolios, Bâtiments, Usages, Actions...) au format JSON, dans un fichier.",
+
 
     /* Users */
     "admin": "Administrateur",
@@ -178,6 +183,7 @@
     "create_estate": "Nouvel Estate",
 
     /* Portfolios */
+    "portfolios": "Portfolios",
 
 
     /* Buildings */
@@ -407,6 +413,7 @@
 
 
     /* Action Form */
+    "actions_collection": "Actions",
 
     "opportunity": "Gisement",
     "project_type": "Montage",
@@ -488,6 +495,8 @@
     "alert_message": "Alerte - Usage __lease_name__ : le dernier diagnostic pour __key__ est obsolète",
 
     /* Scenarios */
+    "scenarios": "Scenarios",
+
     "schemaDir_create": "Développer le schéma directeur",
 
     "create_scenario": "Nouveau scénario",
