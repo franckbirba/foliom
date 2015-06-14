@@ -189,6 +189,14 @@ Template.scenarioForm.events
     # Apply criterion and sort
     scenario = criterionCalc(scenario, building_list, starredActions_a)
 
+    # If tri_global < max_TRI (from form, ie. roi_less_than): OK, move on
+    # Otherwise: remove lowest ranking action whose TRI is > tri_global, and re-run calcs. Continue removing actions until tri_global < max_TRI
+      # NB: the is no point in removing actions whose TRI is < tri_global, as this won't change the results
+    portfolios = Template.currentData().portfolios
+    tri_global = calcTV(scenario, building_list, portfolios)
+    remove_actions_to_improve_TRI(scenario, building_list, portfolios, tri_global)
+
+
 
     # @BSE - temp : display in array
     Template.instance().tmpActionList.set(scenario.planned_actions)
