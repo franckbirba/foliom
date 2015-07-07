@@ -1,0 +1,64 @@
+<template name="afArrayField_leaseConformityInformation">
+    <div class="form-group {{rightColumnClass}}">
+        <!-- <label class="control-label" {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label> -->
+        <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+        <!-- <label class="control-label" {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label> -->
+
+      <div class="" style="">
+        {{#if afFieldIsInvalid name=this.atts.name}}
+        <div class="panel-body has-error">
+          <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+        </div>
+        {{/if}}
+
+        <div class="panel panel-default autoform-padding-fix col-sm-12 col-xs-12">
+          <div class="panel-body">
+            <table class="table table-responsive" >
+             <tr style="display:block;">
+             {{debugger}}
+              {{#each getconformityInfo_th name="conformity_information"}}
+                {{console_log this}}
+                {{debugger}}
+                {{#if isFirstValue getconformityInfo_th this}}
+                  <th style="float:left;font-size:8px;text-align: center;padding-bottom:10px;" class="col-sm-3 col-xs-3">
+                    {{this}}
+                  </th>
+                {{else}}
+                    <th style="float:left;font-size:8px;text-align: center;padding-bottom:10px;" class="col-sm-2 col-xs-2">
+                      {{this}}
+                    </th>
+                {{/if}}
+
+              {{/each}}
+            </tr>
+
+              {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+                  <!-- <td>
+                    {{> afObjectField name=this.name template="verylightBSE" label=false}}
+                  </td> -->
+                  <tr>
+                  {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+                      <button type="button" style="border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger autoform-remove-item pull-left"><span class="glyphicon glyphicon-trash"></span></button>
+                      {{/if}}
+                    {{> afObjectField name=this.name template="afFormGroup_verylightBSE_withoutLabel" }}
+                    </tr>
+              {{/afEachArrayItem}}
+              {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+                  <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+              {{/if}}
+
+            </table>
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+
+    </div>
+
+
+</template>

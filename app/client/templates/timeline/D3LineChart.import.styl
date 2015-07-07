@@ -1,0 +1,166 @@
+/**
+ * Function for isolating chart's tyles within a page.
+ * @param {String} page Class name of the page.
+ * @param {Numer} h Number in pixels.
+ */
+D3LineChart(page, h)
+  .{page}
+    // Set chart's size
+    .d3-chart-fixed-height
+      height h
+    // Make SVG responsive
+    .d3-svg-container
+      display inline-block
+      position relative
+      width 100%
+      padding-bottom 23%
+      vertical-align middle
+      overflow hidden
+      // Styles when in fullscreen
+      &:fullscreen
+        size 100% 100%
+        fixed top left
+        background white
+        min-width 100%
+        min-height 100%
+        font-family OpenSans
+    .d3-svg-content
+      display inline-block
+      position absolute
+      top 0
+      left 0
+    // Style SVG charts
+    path
+      stroke-width 1px
+      fill none
+    .x.axis, .y.axis
+      text
+        font-size 8px
+        fill color2
+      line, .minor, path
+        shape-rendering crispEdges
+        stroke color3
+      line
+        stroke-dasharray 2 3
+
+    // Styles for paths, circles, legends
+    path
+      &.action
+        stroke-width 2px
+      &.noaction
+        stroke-dasharray 5 2
+    path, circle
+      &.orange
+        stroke brandWarning
+      &.blue
+        stroke brandInfo
+      &.violet
+        stroke colorElec
+      &.darkgray
+        stroke color1
+      &.red
+        stroke brandDanger
+      &.green
+        stroke color0
+      &.gray
+        stroke color2
+    circle.action, circle.noaction
+      transition all defaultAnimation
+      stroke-width 2px
+    circle.action
+      &.orange
+        fill brandWarning
+      &.blue
+        fill brandInfo
+      &.violet
+        fill colorElec
+      &.darkgray
+        fill color1
+      &.red
+        fill brandDanger
+      &.green
+        fill color0
+      &.gray
+        fill color2
+    circle.noaction
+      fill white
+    text.legend
+      font-size 10px
+      font-weight normal
+      stroke none
+      &.orange
+        fill brandWarning
+      &.blue
+        fill brandInfo
+      &.violet
+        fill colorElec
+      &.darkgray
+        fill color1
+      &.red
+        fill brandDanger
+      &.green
+        fill color0
+      &.gray
+        fill color2
+
+    // Hovering surfaces for tooltips activation
+    g.point
+      rect
+        stroke none
+        fill white
+        fill-opacity 0
+      &:hover
+        circle
+          stroke-width 8px
+
+    // Show / hide legend button & Fullscreen button
+    .showhide-legend, .fullscreen
+      z-index 3
+      fill color1
+      stroke none
+      font-family FontAwesome
+      font-size 15px
+      user-select none
+      cursor pointer
+
+  // Tooltips
+  .d3-tip
+    z-index 3
+    .d3-tip-content
+      text-align center
+      font-size 10px
+      padding 5px
+      background color3
+      border 2px color2 solid
+      color color1
+      border-radius 2px
+      height auto
+      min-width 80px
+      max-width 250px
+      padding 4px
+      position relative
+      text-align center
+      width auto
+      pointer-events none
+      z-index 1
+      box-shadow 0 3px 8px rgba(black, .3)
+      // Creates a small triangle extender for the tooltip
+      &:after, &:before
+        absolute top 100% left 50%
+        border solid transparent
+        content ' '
+        size 0
+        pointer-events none
+      &:after
+        border-color transparent
+        border-top-color @background
+        border-width 10px
+        margin-left -(@border-width)
+      &:before
+        border-color transparent
+        border-top-color color2
+        border-width 13px
+        margin-left -(@border-width)
+      strong, span
+        pointer-events none
+        user-select none

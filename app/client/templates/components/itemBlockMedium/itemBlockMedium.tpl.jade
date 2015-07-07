@@ -1,0 +1,13 @@
+.itemBlockMedium
+  if isAllowedToEditItem
+    .dropdown.dropdownBtn
+      button(id="{{this._id}}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"): span.itemMenu.glyphicon.glyphicon-pencil(aria-hidden='true')
+      ul.dropdown-menu(role="menu" aria-labelledby="{{this._id}}")
+        li(role="presentation")
+          if isActionListTplt
+            a.editItem(role="menuitem" tabindex="-1") {{_ 'edit'}}
+          if isScenarioListTplt
+            a.copyItem(role="menuitem" tabindex="-1") {{_ 'copy'}}
+          a(role="menuitem" tabindex="-1")
+            +quickRemoveButton(collection=whichCollection _id=this._id beforeRemove=beforeRemove style="border:none !important;background-color:transparent; padding-left: 0;font-family: inherit;")
+              | {{_ 'delete'}}

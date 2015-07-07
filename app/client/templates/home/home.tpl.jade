@@ -1,0 +1,18 @@
+.page.home: .container
+  // Page's title as a welcome message
+  h1.mFadeInDown.page-title {{_ "hello"}} {{username}}
+  // Main row
+  section
+    nav
+      // Access to Observe section
+      a.sextan.mFadeInLeft(href='/observatory')
+        span {{_ 'observe'}}
+      // Access to Plan section
+      a.compass.mFadeInDown(href='/actions-home')
+        span {{_ 'plan'}}
+      // Follow-up tools
+      a.mFadeInUp(href='/actions-home')
+        span {{_ 'followup_tools'}}
+    // Message box
+    article.mFadeInRight
+      +messageBox

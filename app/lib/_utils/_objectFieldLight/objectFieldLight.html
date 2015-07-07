@@ -1,0 +1,33 @@
+<template name="afObjectField_verylight">
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+    {{#each afFieldNames name=this.name}}
+      {{> afFormGroup template="verylight" name=this.name options=afOptionsFromSchema}}
+    {{/each}}
+  </div>
+</template>
+
+
+<template name="afFormGroup_verylight">
+  <div style="width:50px;" class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+      {{> afFieldInput afFieldInputAtts}}
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
+  </div>
+</template>
+
+
+<template name="afFieldInput_verylight">
+  <div class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+      {{> afFieldInput afFieldInputAtts}}
+      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+  </div>
+</template>
+
+
+
+<template name="afInputNumber_verylight">
+  {{#if isYear atts}}
+    <input class="" readonly="readonly" style="width:40px;border: none;-webkit-appearance: none;" type="number" value="{{this.value}}" {{atts}}/>
+  {{else}}
+    <input class="" style="width:40px;border: none;-webkit-appearance: none;" placeholder="{{getPlaceHolder atts.name}}" type="number" value="{{this.value}}" {{atts}}/>
+  {{/if}}
+</template>

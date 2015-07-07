@@ -1,0 +1,24 @@
+<template name="SelectEstate">
+  <div class="modal fade" data-backdrop="static" id="SelectEstateForm">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">{{_ 'estates'}}</h4>
+        </div>
+        <div class="modal-body">
+          <p>{{_ 'multiple_estates_pick_one'}}</p>
+          <div>
+            <ul>
+              {{#each estates}}
+                <li><a href="#" class="select_estate">{{estate_name}}</a></li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+</template>

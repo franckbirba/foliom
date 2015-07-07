@@ -1,0 +1,609 @@
+{
+	/* Global keywords */
+	"hello": "Welcome to e-portfolio",
+
+    "edit": "Edit",
+    "copy": "Copy",
+    "delete": "Delete",
+
+	/* Home */
+	"observe": "Observe",
+	"plan": "Plan",
+	"followup_tools": "Follow-up tools",
+	"view_all_message": "View all messages",
+
+	/* Signin */
+	"hangs": "Design, monitor and evaluate your estate master plans",
+	"my_account": "My account",
+	"email": "Email",
+	"your_email": "Your email",
+	"email_required": "Your email is required.",
+	"password": "Password",
+	"your_password": "Your password",
+	"password_required": "Your password is required.",
+	"connect": "Connect",
+	"e_portfolio_what_is_it": "E-portfolio, what is it?",
+
+	/* Navbar */
+	"search": "Search",
+    "about": "About",
+    "help": "Help",
+    "term_of_use": "Term of use",
+
+	/* Estate */
+	"new_estate": "New estate",
+    "multiple_estates_pick_one": "Your account has access to multiple Estates - choose the one you will work on:",
+    "visible_years": "Indexes: number of years a standard user can see",
+
+	/* Settings */
+	"settings": "Settings",
+
+	/* Observatory */
+	"manage_portfolios": "Manage your portfolios",
+
+	"description": "Description",
+	"logo": "Logo",
+	"address": "Address",
+	"images": "Photos",
+	"name": "Name",
+
+	"street": "Street",
+	"zip": "Zip code",
+	"city": "City",
+	"area": "Aera",
+	"country": "Country",
+    "gps_long": "GPS - longitude",
+    "gps_lat": "GPS - latitude",
+
+	"yes": "Yes",
+	"no": "No",
+	"total": "Total",
+	"comments": "Comments",
+	"comments_small": "Small comments",
+	"NA": "NA",
+
+	"priority": "Priority",
+	"ratio": "Ratio",
+
+	"good": "Good",
+	"average": "Average",
+	"bad": "Bad",
+
+	"normal": "Normal",
+	"high": "High",
+	"low": "Low",
+
+    "estate": "Estate",
+	"estates": "Estates",
+	"portfolio": "Portfolio",
+		"new_portfolio": "New portfolio",
+	"building": "Building",
+		"buildings": "Buildings",
+		"new_building": "New building",
+	"lease": "Usage",
+        "leases": "Usages",
+    "fluid": "Fluid",
+	   "fluids": "Fluids",
+	"import": "Import",
+
+    "In": "in",
+
+	"custom_visual": "Visual",
+    "evolution": "Evolution",
+
+    "files": "Files",
+
+    "sort": "Sort",
+    "nb_buildings": "Building count",
+
+    "settings_selectors": "Settings",
+
+    /* Selectors */
+    "selector_page_intro": "These forms allow you to add Selectors. Remember that they are saved for the current Estate.",
+    "add_selector": "Add a Selector",
+
+    "fluid_types": "Fluid types",
+    "fluid_types_info": "Fluid types can only be deleted (not updated)",
+    "fluid_provider_info": "Fluid providers can only be deleted (not updated)",
+    "usage_types": "Usage types",
+    "usage_types_info": "Usage types can only be deleted (not updated)",
+
+    /* JSON export */
+    "export": "Exporter",
+    "jsonExport": "Data export (JSON)",
+    "jsonExport_desc": "This features enables to export in JSON all the Estate data from the application (Estate, Portfolios, Buildings, Usages, Actions...) to a single file.",
+
+
+    /* Users */
+    "admin": "Admin",
+    "estate_manager": "Estate manager",
+    "portfolio_manager": "Portfolio manager",
+    "user": "User",
+    "read_only": "Read only",
+
+    "new_user": "New user",
+    "profile": "Profile",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phoneNumber": "Phone number",
+    "lang": "Preferred language",
+
+    /* Configuration Compass */
+
+    "settings_indexes": "Indexes",
+    "edit_master_config": "Edit default settings",
+
+    "icc": "Construction Cost Index",
+    "ipc": "Consumption Price Index",
+    "global_evolution_index": "Global evolution index",
+    "kwhef_to_co2_coefficients": "Greehouse gas emission indexes",
+
+    "project_type_static_index": "Project type - static indexes",
+    "classic": "Classic",
+    "cpe": "CPE",
+    "cr": "CR",
+    "crem": "CREM",
+    "ppp": "PPP",
+    "cpi": "CPI",
+
+    "other_indexes": "Other indexes",
+    "actualization_rate": "Actualization rate",
+    "consumption_degradation": "Yearly consumption degradation",
+
+    "initial_value": "Initial value",
+    "evolution_index_percent": "Evolution index (%)",
+
+    /* Fluids */
+
+    "fluid_type": "Type",
+    "fluid_provider": "Provider",
+    "fluid_unit": "Unit",
+
+    "fluid_electricity": "Electricity",
+    "fluid_water": "Water",
+    "fluid_heat": "Heat",
+    "fluid_cooling": "Cooling",
+
+    "fluid_naturalGas": "Natural gas",
+    "fluid_fuelOil_household": "Oil - household",
+    "fluid_fuelOil_heavy": "Oil - heavy",
+    "fluid_woodEnergy": "Wood (energy)",
+
+    "fluid_id": "Fluid",
+
+    /* Estates */
+    "estate_name": "Estate name",
+    "user_collection": "Users",
+    "create_estate": "New estate",
+
+    /* Portfolios */
+    "portfolios": "Portfolios",
+
+
+    /* Buildings */
+    "building_name": "Building name",
+    "building_info": "Additional information",
+    "construction_year": "Construction year",
+    "building_control": "Control",
+    "building_user": "User",
+    "area_total": "Total area",
+    "area_useful": "Useful area",
+    "building_nb_floors": "Number of floors (including ground floor)",
+    "carpark_spaces": "Carpark spaces",
+    "carpark_area": "Carpark area",
+
+    "import_building_lease": "Import Buildings and Usages",
+    "building_and_lease_list": "Buildings and Usages list",
+
+    /* Building Selectors */
+    "select_default_value": "Select one",
+
+    "control_full": "Full",
+    "control_shared": "Shared",
+    "own_use": "Own use",
+    "rented": "Rented",
+
+    /* Building detail */
+    "summary": "Summary",
+    "assessment": "Assessment",
+    "actionRecap": "Actions summary",
+    "efficient_housing": "Efficient",
+    "high_energy_housing": "High energy consumption",
+    "low_emission_of_greenhouse_gases": "Low emission GHG",
+    "strong_emission_of_greenhouse_gases": "High emission GHG",
+
+    "all_leases": "All leases",
+
+    "energy_cons_by_endUse":"Energy consumption by End-use",
+    "water_consumption": "Water consumption",
+
+    /* Building wizard */
+    "the_building": "The Building",
+    "one_use": "Has only one Usage",
+    "multiple_uses": "Has multiple Usages",
+    "usage_number": "Number of Usages",
+
+    /* Leases / Usages */
+    "create_new_lease": "New Usage",
+    "leasesToCreate": "Usages to create:",
+    "invalid_lease_msg": "The form is invalid. Please check the values and submit the form again.",
+
+    "lease_name": "Usage name",
+    "lease_draft": "Draft (fills the form with default values)",
+    "rental_status": "Rental status",
+    "rent": "Rent",
+    "last_significant_renovation": "Last significant renovation",
+    "lease_usage": "Usage",
+    "area_by_usage": "Area",
+    "lease_nb_floors": "Number of floors (including ground floor)",
+    "igh": "IGH",
+    "erp_status": "ERP status",
+    "erp_category": "ERP category",
+    "headcount": "Headcount",
+
+    "dpe_energy_consuption": "DPE: energy consumption",
+    "grade": "Grade",
+    "value": "Value",
+    "dpe_co2_emission": "DPE: CO2 emission",
+
+    // end-use fluid_consumption_meter ("conso compteur fluides")
+    "fluid_consumption_meter": "Fluid consumption meter",
+    "yearly_subscription": "Yearly subscription (€)",
+    "first_year_value": "Meter consumption - first year (kWhEF or m³)",
+    "yearly_cost": "Yearly cost",
+
+    // end-use consumption_by_end_use ("Consommation d’énergie par poste")
+    "consumption_by_end_use": "Consumption by end-use",
+    "consumption_by_end_use_total": "Consumption by end-use: Total",
+
+    "end_use_heating": "Heating",
+    "end_use_AC": "Air-conditioning",
+    "end_use_ventilation": "Ventilation",
+    "end_use_lighting": "Lighting",
+    "end_use_aux": "Auxiliary",
+    "end_use_ecs": "Hot water",
+    "end_use_specific": "Specific",
+
+    //Inverted list to be able to use i18n to go back to english
+    // "Heating": "end_use_heating",
+    // "Air-conditioning": "end_use_AC",
+    // "Ventilation": "end_use_ventilation",
+    // "Lighting": "end_use_lighting",
+    // "Auxiliary": "end_use_aux",
+    // "ECS": "end_use_ecs",
+    // "Specific": "end_use_specific",
+
+    "certifications": "Certifications",
+    "custom_certifications": "Custom certifications",
+    "cert_id": "Certificate",
+    "cert_comments": "Remarks (version, details...):",
+
+    "comfort_qualitative_assessment": "Comfort qualitative assessment",
+    "acoustic": "Acoustic",
+    "visual": "Visual",
+    "thermic": "Thermic",
+    "global_comfort_index": "Global comfort index",
+    "cqa_comments": "Remarks: user feedbacks",
+
+    "technical_compliance": "Technical compliance",
+    "lifetime": "Lifetime",
+    "conformity": "Conformity",
+    "global_lifetime": "Global lifetime index",
+    "global_conformity": "Global conformity index",
+    "tc_comment": "General technical remarks",
+
+    "core_and_shell": "Core and shell",
+    "facade": "Facade",
+    "roof_terrasse": "Roof/terrasse",
+    "heat_production": "Heat production",
+    "chiller": "Chiller",
+    "power_supply": "Power supply",
+    "electrical_delivery": "Electrical delivery",
+    "thermal_delivery": "Thermal delivery",
+    "heating_terminal": "Heating terminals",
+    "chiller_terminal": "Chiller terminals",
+    "lighting_terminal": "Lighting terminals",
+    "GTC_GTB": "GTC/GTB",
+    "air_system": "Air system",
+    "ventilation_system": "Ventilation system",
+    "hot_water_production": "Hot water production",
+    "hot_water_delivery": "Hot water delivery",
+    "fire_security": "Fire security",
+
+    "conformity_information": "Regulatory compliance/Audits/Diagnostics",
+    "eligibility": "Eligibility",
+    "is_eligibile": "Eligible",
+    "due_date": "Due date",
+    "or_due_date": "Or: Due date",
+    "last_diagnostic": "Date of the last diagnostic",
+
+    /* Leases / Usages Selectors */
+    "empty": "Empty",
+    "rented": "Rented",
+    "multitenant": "Multitenant",
+    "office": "Office",
+    "retail": "Retail",
+    "residential": "Residential",
+
+    "erp_J": "J: Facilities for elderly people and disabled people",
+    "erp_L": "L: Audition rooms, conference rooms, meeting rooms, spectacles rooms or multiple usages rooms",
+    "erp_M": "M: Retail stores, shopping centers",
+    "erp_N": "N: Restaurants and beverage rooms",
+    "erp_O": "O: Hotels and other accomodations",
+    "erp_P": "P: Dancing rooms and playrooms",
+    "erp_R": "R: Discovery garden, teaching and training facilities, holiday and leisure centers without lodging",
+    "erp_S": "S: Libraries, documentation centers",
+    "erp_T": "T: Commercial exhibition areas",
+    "erp_U": "U: Health care establishments",
+    "erp_V": "V: Cult places",
+    "erp_W": "W: Administrations, banks, offices",
+    "erp_X": "X: Covered sport centers",
+    "erp_Y": "Y: Museums",
+
+    "erp_1": "1- More than 1 500 people",
+    "erp_2": "2- From 701 to 1 500 people",
+    "erp_3": "3- From 301 to 700 people",
+    "erp_4": "4- Less than 301 people (except facilities of cat. 5)",
+    "erp_5": "5- Facilities accomodating a number of people inferior to the threshold linked to the facility type",
+
+    "dpe_type": "DPE scale",
+    "housing": "Housing",
+    "tertiary_building_private": "Private tertiary building: offices, businesses, etc.",
+    "tertiary_building_public_std": "Public tertiary building: administrative or teaching building, etc.",
+    "tertiary_building_public_continuously_occ": "Public tertiary building with continuous occupation: hospitals, prisons, etc.",
+    "tertiary_building_public_other_types": "Other public tertiary buildings: gymnasiums, museums, auditoriums, etc.",
+
+    "dpe_A": "A",
+    "dpe_B": "B",
+    "dpe_C": "C",
+    "dpe_D": "D",
+    "dpe_E": "E",
+    "dpe_F": "F",
+    "dpe_G": "G",
+    "dpe_H": "H",
+    "dpe_I": "I",
+
+    "new_dvr": "New or NA",
+    "good_dvr": "Good condition (DVR > 10)",
+    "average_dvr": "Average condition (5 < DVR < 10)",
+    "bad_dvr": "Bad condition (DVR < 5)",
+
+    "compliant": "Compliant or NA",
+    "not_compliant_minor": "Minor non compliance",
+    "not_compliant_major": "Major non compliance",
+
+  "monthly": "monthly",
+    "quaterly": "quaterly",
+    "bi_annual": "bi annual",
+    "yearly": "yearly",
+    "2_years": "Every 2 years",
+    "5_years": "Every 5 years",
+    "7_years": "Every 7 years",
+    "10_years": "Every 10 years",
+
+    "accessibility": "Accessibility",
+    "elevators": "Elevators",
+    "ssi": "SSI (frequency depending on ERP/IGH category)",
+    "asbestos": "Asbestos (DTA)",
+    "lead": "Lead",
+    "legionella": "Legionella",
+    "electrical_installation": "Electrical installation",
+    "dpe": "DPE",
+    "indoor_air_quality": "Indoor air quality (IAQ)",
+    "radon": "Radon",
+
+    //"chiller_terminal": "Terminaux climatisation", // Deja présent
+    "lead_disconnector": "Lead disconnector",
+    "automatic_doors":"Automatic doors",
+    "chiller_system": "Chiller system",
+
+    "last_diagnostic_obsolete": "The latest diagnostic is obsolete",
+
+    "nf_hqe": "NF - HQE",
+    "breeam": "BREEAM",
+    "us_leed": "USGBC - LEED",
+    "effinergie": "Effinergie",
+    "bepos2013": "BEPOS 2013",
+
+    /* Action Form */
+    "actions_collection": "Actions",
+
+    "opportunity": "Opportunity",
+    "project_type": "Project type",
+    "technical_field": "Technical and architectural packages",
+    "feasable_while_occupied": "Feasable while occupied",
+
+    "design_duration": "Design duration",
+    "works_duration": "Works duration",
+    "action_lifetime": "Action lifetime",
+    "action_link": "Linked to another action",
+
+    "operating_gains_separator": "Gains on operating expenses",
+    // "impact_assessment_fluids_kwhef": "Gains sur les consommations d’énergie et de fluides",
+    "gain_fluids_kwhef": "Gains on energy and fluids consumption, in kWhEF",
+    "gain_fluids_water": "Gains on water consumption",
+    "per_cent": "in %",
+    "or_kwhEF": "Or: in kWh (final evergy) / year",
+    "or_m3": "Or: in m³ / year",
+    "yearly_savings": "In € / year",
+
+    "gain_operating": "Gains on other operating expenses (eg: maintenance, renewal, subscription...)",
+
+    "operating_total_gain": "Total gains on operating expenses",
+    "euro_per_m2_year": "In € / m² year",
+
+    "other_gains": "Other gains",
+    "comfort": "Comfort",
+    "technical_compliance_a": "Technical compliance",
+    "regulatory_compliance": "Regulatory compliance",
+    "residual_lifetime": "Residual lifetime",
+
+  	"investment_cost_separator": "Investments cost",
+    "investment": "Investments",
+    "investment_ratio": "Investment ratio",
+    "investment_cost": "Investment cost",
+
+    "subventions": "Investment subventions",
+    "subventions_per_cent": "Subventions: in %",
+    "or_euro": "Or: in €",
+    "euro_peryear": "In € / year",
+    "or_euro_peryear": "Or: in € / year",
+    "CEE_opportunity": "CEE opportunity",
+    "residual_cost": "Residual cost",
+
+  	"efficiency_calc": "Efficiency calculation",
+    "raw_roi": "Raw ROI",
+    "actualised_roi": "Actualised ROI",
+    "value_analysis": "Value analysis",
+    "lec": "LEC",
+    "internal_return": "Internal return",
+
+    "actionList_title": "Set generic actions",
+    "new_generic_action": "New generic action",
+    "newUserTemplateAction": "New action (blank)",
+    "apply_actions": "Apply actions",
+
+    /* Apply Actions */
+    "actions_apply": "Apply actions",
+    "select_portfolio": "Select a Portfolio",
+    "click_building_to_choose_actions": "Click a building to choose actions",
+
+    "tree_mode_select": "Organize by",
+    "building_to_actions": "Buildings / Actions",
+    "actions_to_buildings": "Actions / Buildings",
+
+
+    /* Message Box */
+    "messages": "Messages & Alerts",
+    "type_msg_here": "Type your message here...",
+    "send": "Send",
+
+    /* Alerts */
+    "alerts": "Alerts",
+    "alert_message": "Alert - Usage __lease_name__: last diagnostic for __key__ is obsolete",
+
+    /* Scenarios */
+    "scenarios": "Scenarios",
+
+    "schemaDir_create": "Develop blueprint",
+    "create_scenario": "Create scenario",
+    "duration": "Duration",
+    "total_expenditure": "Total expenditure",
+    "roi_less_than": "ROI less than",
+
+    "scenario_criterion": "Criterion to be applied, ranked by importance",
+    "add_criterion": "Add a criterion",
+
+    /* Criterion */
+    "select_criterion": "Select a criterion",
+    "scenarioLevelCriterion": "Scenario-level criterion",
+    "actionLevelCriterion": "Action-level criterion",
+    "buildingLevelCriterion": "Building-level criterion",
+
+    "yearly_expense_max": "Maximum yearly expense",
+    "energy_consum_atLeast_in_E_year": "Energy consumption in € / year: savings at least equal to",
+    "obsolescence_lifetime_greater_than": "Obsolescence: Remove Actions targeting technical fields whose lifetime is at least",
+    "priority_to_gobal_obsolescence": "Priority to the global obscolescence index",
+    "priority_to_gobal_obsolescence_desc": "Priority to Buildings whose Obsolescence index is the highest",
+
+    "priority_to_techField": "Priority to one or more technical fields",
+
+    "gain_energy_consumption_kwhef_greater_than": "Gain on energy consumptions must be > X kWh/year",
+    "gain_water_consumption_greater_than": "Gain on water consumptions must be > X m³/year",
+    "gain_euro_savings_greater_than": "Savings on the energy / fluid bill must be > X €HT/an",
+    "gain_CO2_savings_greater_than": "Savings on CO2 emissions > X kgeqCO2/an",
+
+    "select_value": "Select one",
+
+    "scenario_validate": "Save and see results",
+    "go_to_timeline": "Timeline",
+
+    /* Sorted actions */
+    "planned_for": "Planned for",
+    "action_type": "Action type",
+    "efficiency_in_percent": "Efficiency in %",
+    "efficiency_in_kWhEF": "Efficiency in kWhEF",
+    "tri_years": "IRR (years)",
+    "comfort_impact": "Comfort impact",
+
+    /* Units */
+
+    "u_months": "months",
+    "u_years": "years",
+    "u_kwhEF": "kWhEF",
+    "u_kwhEF_year": "kWhEF / year",
+    "u_kwhEF_euro": "kWhEF / € ex VAT",
+    "u_euro_kwhEF": "€ ex VAT / kWhEF",
+    "u_percent": "%",
+    "u_m3": "m³",
+    "u_m3_year": "m / year³",
+    "u_euro_m3": "€ ex VAT / m³",
+    "u_m2": "m²",
+    "u_euro_m2": "€ ex VAT / m²",
+    "u_euro_year": "€ ex VAT / year",
+    "u_euro_m2_year": "€ ex VAT / m².year",
+    "u_kg_eqC02_m2_year": "kg (eq. C02) / m².year",
+    "u_kg_eqC02_year": "kg (eq. C02) / year",
+    "u_m2_shon": "m² SHON",
+    "u_m2_useful": "m² useful",
+    "u_kwh_m2_year_primEnergy": "kWh / m².year (primary energy)",
+    "u_kg_eqC02_m2_year": "kg (eq. C02)/ m².year",
+    "u_euro": "€ ex VAT",
+
+    /* Timeline screen */
+    "scenario": "Scenario",
+    "timeline": "Timeline",
+    "all": "All",
+    "quarter_abbreviation": "Q",
+    "appraisal": "Appraisal",
+    "nb_actions": "Number of actions:",
+    "actions": "actions",
+    "total_cost": "Total cost (€ TDC):",
+    "global_tri": "Time for return of investment:",
+    "calculating": "...",
+    "energy_saving": "End-use energy consumption:",
+		"water_saving": "Water consumption:",
+		"co2_saving": "CO2 emissions:",
+		"budget_saving": "Energy and water invoice:",
+    "action_bucket": "Action bucket",
+    "all_female_plural": "All",
+    "planned_female_plural": "Planned",
+    "unplanned_female_plural": "Unplanned",
+    "unplanned_female": "Unplanned",
+    "quarter": "Quarter",
+		"year": "Year",
+    "action_type": "Action type",
+    "efficiency": "Efficiency",
+
+		"enrgy_type_water": "Water",
+		"enrgy_type_co2": "CO2",
+		"enrgy_type_kwh": "kWh",
+
+		"consumption_label": "Consumption over time",
+    "consumption_noaction": "Current consumption",
+    "consumption_action_co2": "Consumption after CO² actions",
+    "consumption_action_kwh": "Consumption after kWh actions",
+		"consumption_noaction_water": "Water consumption before actions",
+		"consumption_action_water": "Water consumption after actions",
+		"consumption_noaction_co2": "CO2 emission before actions",
+		"consumption_action_co2": "CO2 emission after actions",
+		"consumption_noaction_kwh": "Consumption by end-use without action",
+		"consumption_action_kwh": "Consumption by end-use after actions",
+
+		"invoice_label": "Expense over time before",
+		"invoice_noaction_water": "Water invoice before actions",
+		"invoice_noaction_electricity": "Electricity invoice before actions",
+		"invoice_noaction_cool": "Cooling invoice before actions",
+		"invoice_noaction_heat": "Heat invoice before actions",
+		"invoice_action_water": "Water invoice after actions",
+		"invoice_action_electricity": "Electricity invoice after actions",
+		"invoice_action_cool": "Cooling invoice after actions",
+		"invoice_action_heat": "Heat invoice after actions",
+
+		"investment_label": "Investment over time",
+    "investment_budget": "Budget",
+    "investment_raw": "Investments",
+    "investment_minus_subventions": "Investments - Subventions",
+		"total_cost_noaction": "Total costs before actions",
+		"total_cost_action": "Total costs after actions"
+}

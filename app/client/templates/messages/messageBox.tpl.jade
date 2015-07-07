@@ -1,0 +1,23 @@
+.panel.panel-primary.chat
+  .panel-heading: h3.panel-title.text-center
+    | {{_ "messages"}}
+    span.glyphicon.glyphicon-comment
+  #messages.panel-body.chat-panel
+    ul.chat
+      each messages
+        li.left.clearfix
+          .chat-body.clearfix
+            .header
+              strong.primary-font= name
+              small.pull-right.text-muted.chat-time
+                span.glyphicon.glyphicon-time
+                | {{prettifyDate time}}
+            if hasLink link
+              p: a(href=link, target='_blank')= message
+            else
+              p= message
+            unless isBuildingDetailTplt
+              a.small(href='{{pathFor route="building-detail" _id=building_id}}') {{getBuildingName building_id}}
+  .panel-footer: .input-group
+    input#message.form-control.input-sm(type='text', placeholder="{{_ 'type_msg_here'}}")
+    span.input-group-btn: button#btn-chat.btn.btn-sm {{_ 'send'}}

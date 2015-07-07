@@ -1,0 +1,91 @@
+@import 'client/templates/timeline/timeline.import'
+
+.timeline
+  .timeline-filter
+    background-color color2
+    size 180px headingHeight
+    margin-top -10px
+    margin-right -15px
+    padding-top 8px
+    color white
+    display table
+    .select2-container
+      cursor pointer
+      width inherit
+      .select2-choice, .select2-arrow, .select2-chosen, .select2-container-active
+        box-shadow none
+        border none
+        color white
+        background color2
+        b
+          background none
+          &:before
+            font-weight 100
+            font-family FontAwesome
+            content '\f0b0'
+  .timeline-year-panel
+    padding 0
+    max-height 668px
+    overflow-x hidden
+    overflow-y auto
+    border-bottom 3px color2 solid
+  .timeline-year-table
+    width 100%
+    >tr:nth-child(even)
+      background-color white
+    >tr
+      border-bottom 1px color2 solid
+  td[data-role='dropable-container'].dropable
+    transition background-color defaultAnimation
+    background-color color3
+    border-radius 5px
+  .timeline-quarter-table
+    width 100%
+    >tr:not(:last-child)
+      border-bottom 1px color2 dashed
+    td:first-child
+      width 1.6em
+      vertical-align top
+      h4.panel-inner-title
+        width 1.4em
+    td:not(:first-child)
+      height 43px
+      padding .1em
+      display flex
+  .timeline-year
+    padding .1em
+    text-align center
+    width 3.5em
+    border-right 3px color2 solid
+  .timeline-year, .appraisal-value
+    color color0
+    font-weight bold
+    font-size 1.4em
+  .timeline-action-items
+    // Set a hand as a cursor to denote draggable property
+    cursor grab
+    font-family 'foliom-picto'
+    background-color color0
+    color white
+    font-size rondFontSize
+    font-weight 100
+    size roundIconSize roundIconSize
+    border-radius roundIconSize
+    line-height roundIconSize
+    text-align center
+    margin .2em
+    position relative
+    >span
+      pointer-events none
+      background-color color2
+      font-family OpenSans
+      font-size .5em
+      font-weight bold
+      border-radius 1.5em
+      width @border-radius
+      min-width @border-radius
+      height @border-radius
+      line-height @border-radius
+      absolute top right
+    >span[data-value='1']
+      display none

@@ -1,0 +1,19 @@
+.page.plan.scenarioList: .container: .row
+  .col-md-3.text-center: .mFadeInLeft
+    div: span.fa.fa-gears.fa-5x
+    h4 {{_ "schemaDir_create"}}
+  .col-md-9
+    .row: .mFadeInDown
+      each getScenarios
+        .col-md-2
+          .scenarioItem
+            +itemBlockMedium
+            .childContainer: img(src="#{logo}", width='75')
+            .childContainer.scenarioName= name
+      .col-md-2
+        #scenarioCreate.scenarioItem
+          .childContainer
+            .addButtonHolder: span.fa-stack.fa-lg
+              i.fa.fa-circle-o.fa-stack-2x
+              i.fa.fa-plus
+          .childContainer {{_ "create_scenario"}}

@@ -1,0 +1,42 @@
+@import 'client/stylesheets/*.import'
+
+.scenarioList
+  .addButtonHolder
+    size 100% 75px
+    text-align center
+    line-height @height
+  div span.fa-stack.fa-lg
+      margin-bottom .5em
+  .scenarioItem
+    // flexbox
+    display flex
+    flex-direction column
+    justify-content: flex-start
+    // other
+    text-align center
+    size 130px 130px
+    margin-bottom 1em
+    background-color color0
+    border 1px solid darken(color0, 20%)
+    border-radius 2px
+    // So that we can position the Edit button
+    position relative
+    padding 5px
+    font-style italic
+    cursor pointer
+    transition background-color defaultAnimation
+    .childContainer
+      margin: auto;
+    .scenarioName
+      color color1
+      text-decoration none
+    img
+      transition all defaultAnimation
+    &:hover
+      background-color darken(color0, 20%)
+      .scenarioName
+        text-decoration none
+      img
+        filter brightness(0.82)
+  .scenarioName
+    color: color1

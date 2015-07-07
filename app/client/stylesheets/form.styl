@@ -1,0 +1,60 @@
+@import 'client/stylesheets/*.import'
+
+// Styling input's placeholders
+::-webkit-input-placeholder
+  font-style italic
+  font-weight lighter
+  font-size 0.8em
+::-moz-placeholder
+  font-style italic
+  font-weight lighter
+:-ms-input-placeholder
+  font-style italic
+  font-weight lighter
+input:-moz-placeholder
+  font-style italic
+  font-weight lighter
+input
+  padding-left .5em
+
+input-webkit-outer-spin-button, input-webkit-inner-spin-button
+  /* display none <- Crashes Chrome on hover */
+  -webkit-appearance none
+  margin 0 /* <-- Apparently some margin are still there even though it's hidden */
+
+select
+	-webkit-appearance none
+	border none
+	border-bottom solid 1px color3
+	border-radius 0px
+
+.input-group-addon
+	background-color white
+	border none
+	border-radius 0px
+	font-size 10px
+	padding 2px
+
+input.form-control
+	border-radius 0px
+	float  none
+	border none
+	border-bottom solid 1px color3
+
+.form-control
+	box-shadow none
+	padding 0
+	display inline
+
+.form-horizontal .form-group
+	margin 0
+
+.form-horizontal .control-label
+	font-size 11px
+	font-style normal
+
+.btn
+  transition background-color defaultAnimation
+
+button, button.btn.btn-default, button.btn.btn-default:active, button.btn.btn-default:focus, button.btn.btn-default.active
+  outline none

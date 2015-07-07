@@ -1,0 +1,21 @@
+if isDateSelectionDisplayed
+  form.date-selection.mFadeInDownSmall(data-value=action.action_id)
+    .quarter-years
+      .quarter-selection
+        p {{_ 'quarter'}}
+        .quarters
+          each quarters
+            input(type='radio', name='date-selection-quarter', value='{{value}}', id='date-selection-quarter-{{value}}', checked=checked)
+            label(for='date-selection-quarter-{{value}}')= name
+      .year-selection
+        p {{_ 'year'}}
+        each years
+          input(type='radio', name='date-selection-year', value='{{value}}', id='date-selection-year-{{value}}', checked=checked)
+          label(for='date-selection-year-{{value}}')= name
+    .buttons
+      span.cancel.fa.fa-eraser.text-warning(data-role='erase')
+      span.fa.fa-check.text-success(data-role='validate')
+      span.cancel.fa.fa-close.text-danger(data-role='cancel')
+.quarter-content
+  i.fa.fa-calendar
+  = action.quarter

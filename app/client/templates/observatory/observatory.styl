@@ -1,0 +1,37 @@
+@import 'nib'
+@import 'client/stylesheets/*.import'
+
+.observatory
+  .map-canvas
+    size 100% 300px
+    margin 1em 0
+    background-color navBarDefaultBg
+    .img_marker
+      float left
+      margin-right 10px
+  section
+    display flex
+    flex-direction row
+    flex-wrap nowrap
+    margin-bottom 1em
+    article
+      flex-grow 1
+      margin-right 1em
+      align-content stretch
+      transition all .3s
+    article:last-child
+      margin 0
+      padding 1em
+      flex-grow 2
+      background-color navBarDefaultBg
+      border-radius 2px
+      rect
+        fill color0
+      text
+        font-family OpenSans
+    .panel
+      margin-bottom 0
+    #building_panel
+      max-height 265px
+      overflow-y scroll
+      overflow-x hidden

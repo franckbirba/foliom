@@ -1,3 +1,6 @@
-local
 .DS_Store
+.vagrant
+app/.meteor/local
 .meteor/local
+salt/srv/salt/meteorApp/build
+salt/srv/salt/meteorApp/*tgz

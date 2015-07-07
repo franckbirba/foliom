@@ -1,0 +1,26 @@
+.action-bucket.panel.panel.panel-primary
+  .panel-heading.action-bucket-heading.noselect(data-trigger='timeline-action-bucket-toggle'): clearfix
+    h3.panel-title.pull-left {{ _'action_bucket'}}
+    .action-bucket-arrow.pull-right: span.action-bucket-arrow-icon.glyphicon.glyphicon-circle-arrow-up
+  if isActionBucketDisplayed
+    .panel-body.action-bucket-content
+      .btn-group.btn-group-xs.action-bucket-selector(data-role='filter-actions')
+        button.btn.btn-default(data-value='all') {{_ 'all_female_plural'}}
+        button.btn.btn-default(data-value='planned') {{_ 'planned_female_plural'}}
+        button.btn.btn-default(data-value='unplanned') {{_ 'unplanned_female_plural'}}
+      .action-bucket-table: table.table
+        thead: tr
+          each actionBucketTableHeadings
+            th(class=klass)= msg
+        tbody
+          each actionBucketTableBody
+            tr.noselect(data-role='draggable-action-bucket', data-value='{{action_id}}')
+              td
+                +timelineDateSelection action=this
+              td= action.name
+              td= buildingName
+              td= formattedCost
+              td {{{formattedPercentEfficiency}}}
+              td {{{formattedKwhEfficiency}}}
+              td= action.raw_roi
+.action-bucket-footer

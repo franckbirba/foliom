@@ -1,0 +1,41 @@
+.page.plan: .timeline.container
+  // Scenario being displayed
+  .row: .col-md-12: h1.page-title.mFadeInDown #{scenarioName}
+  .row
+    // Timeline table
+    .col-md-4
+      .mFadeInLeft
+        +timelineTable
+    // Appraisal, charts and available actions
+    .col-md-8
+      // Appraisal
+      .row: .col-md-12
+        .panel.panel-primary.mFadeInRight
+          +timelineAppraisal
+      // The charts
+      .row: .col-md-12: .panel.panel-primary
+        .panel-body.mFadeInRight
+          .btn-group.btn-group-xs(data-role='energy-type')
+            button.btn.btn-default(data-value='water')
+              i.fa.fa-tint
+              | {{_ 'enrgy_type_water'}}
+            button.btn.btn-default(data-value='co2')
+              i.fa.fa-cloud
+              | {{_ 'enrgy_type_co2'}}
+            button.btn.btn-default(data-value='kwh')
+              i.fa.fa-flash
+              | {{_ 'enrgy_type_kwh'}}
+          // The consumption chart
+          if(isEnergyTypeWater)
+            +timelineD3Chart chartName='waterConsumptionChart'
+          if(isEnergyTypeCo2)
+            +timelineD3Chart chartName='co2ConsumptionChart'
+          if(isEnergyTypeKwh)
+            +timelineD3Chart chartName='kwhConsumptionChart'
+          // The Expense chart
+          +timelineD3Chart chartName='invoiceChart'
+          // The Investment chart
+          +timelineD3Chart chartName='investmentChart'
+  // Action bucket
+  .row: .col-md-12: .mFadeInUp
+    +timelineBucket

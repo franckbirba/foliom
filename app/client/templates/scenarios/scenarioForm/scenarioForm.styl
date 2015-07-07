@@ -1,0 +1,126 @@
+@import 'client/stylesheets/*.import'
+
+// input[type="radio"]:checked + label
+//   border 5px solid color2
+
+.scenarioForm
+
+  //http://codepen.io/DavidBradbury/pen/HuCqx found here: http://stackoverflow.com/questions/3896156/how-do-i-style-radio-buttons-with-images-laughing-smiley-for-good-sad-smiley
+
+  .input-hidden
+    position: absolute
+    left: -9999px
+
+  input[type=radio]:checked + label>img
+    border: 4px solid color2
+
+  .img-logo
+    width: 75px
+    height: 75px
+    border: 4px solid white
+    // margin-left: 3px
+    margin-top: 5px
+    cursor pointer
+
+
+
+  // Criterion
+  .row-correct
+    margin-top: -5px //very ugly way to correct the vertical centering
+    // height: 60px
+    line-height: 60px
+
+  #scenarioCriterionTitle
+    margin-bottom: 10px
+
+  #sortable
+    list-style-type: none
+    margin: 0
+    padding: 0
+    width: 80%
+    margin-left: auto
+    margin-right: auto
+  #sortable li
+    margin-bottom: 3px
+    font-size: 1em
+    // min-height: 60px
+    // height: 60px
+    // line-height: 60px
+    border: 1px solid #d3d3d3
+    background-color #ececed
+
+  // Criterion Flex
+  .criterionContainer
+    display flex
+    justify-content space-around
+    align-items center
+    height 75px
+
+  .item2
+    width 36%
+
+  .critDetail
+    text-align: right
+    // padding-right: 15px
+
+  .formStyling
+    width: 320px !important
+
+  .critAddon
+    min-width: 70px
+
+
+  .criterion-desc
+    font-size: 0.8em
+    font-style: italic
+
+  #addCriterionLi
+    background-color: #BEDBC0 !important
+
+  #addCriterionSelect
+    width: 85%
+  .selectPlaceholder
+    style='display:none;'
+
+  .removeCriterion
+    color: rgb(189, 0, 0)
+    margin-left: 10px
+
+
+  #scenario-submit
+    margin-top: 20px
+    margin-left: auto
+    margin-right: auto
+    display: block
+
+  .actionTable
+    width:100%
+    margin-top: 50px
+    font-size: 0.8em
+    table, th, td
+      border: 1px solid black
+      border-collapse: collapse
+    th, td
+      padding: 7px
+    th
+      background-color: color0
+      text-align: center
+    tr:nth-child(2n+1)
+      background-color white
+    tr:nth-child(2n)
+      background-color color3
+    // background-color #ececed
+
+  .actionToggle
+    font-size 2em
+    background-color white !important
+    border none !important
+  .starAction_selected
+    color color0
+
+  #timelineLink
+    margin-top: 20px
+    margin-bottom: 40px
+    margin-left: auto
+    margin-right: auto
+    display: table // ugly?

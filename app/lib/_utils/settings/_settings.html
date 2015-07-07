@@ -1,0 +1,76 @@
+<template name="afObjectField_eportfolio-settings">
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+    <table>
+      <tr>
+        {{#each yearlyValues}}
+          <th>{{this}}</th>
+        {{/each}}
+      </tr>
+      <tr>
+        {{#each afFieldNames name=this.name}}
+          <td>
+            {{> afFormGroup name=this.name options=afOptionsFromSchema}}
+          </td>
+        {{/each}}
+      </tr>
+
+    </table>
+
+
+  </div>
+</template>
+
+
+<template name="afFormGroup_eportfolio-settings">
+  <div style="" class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+      {{> afFieldInput afFieldInputAtts}}
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
+  </div>
+</template>
+
+
+<template name="quickForm_eportfolio-settings">
+
+  {{#autoForm qfAutoFormContext}}
+    {{> afQuickFields input-col-class=inputClass label-class=labelClass}}
+    {{#if qfShouldRenderButton}}
+    <div class="form-group">
+      <div class="{{labelClass}}"></div>
+      <div class="{{inputClass}}">
+        <button type="submit" {{submitButtonAtts}}>
+        {{#with ../atts.buttonContent}}
+        {{this}}
+        {{else}}
+        Submit
+        {{/with}}
+        </button>
+      </div>
+    </div>
+    {{/if}}
+  {{/autoForm}}
+</template>
+
+
+<template name="afArrayField_eportfolio-settings">
+  <div style="" class="{{#if afFieldIsInvalid name=this.atts.name}}has-error{{/if}}">
+    <!-- <label {{afFieldLabelAtts}}>{{afFieldLabelText name=this.atts.name}}</label> -->
+    <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}
+    {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+        <button type="button" style="border:none !important;background-color:white;color:green;" class="btn btn-xs btn-success newfluid" data-toggle="modal" data-target="#fluidformmodal"><span class="glyphicon glyphicon-plus"></span></button>
+    {{/if}}
+    </div>
+
+    {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+
+      <div style="position:relative;">
+        {{> afObjectField name=this.name}}
+        {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+            <button type="button" style="position:absolute;right:0px;top:10px;border:none !important;background-color:white;color:red;" class="btn btn-xs btn-danger autoform-remove-item pull-left"><span class="glyphicon glyphicon-trash"></span></button>
+        {{/if}}
+      </div>
+
+    {{/afEachArrayItem}}
+
+  </div>
+
+</template>

@@ -1,0 +1,57 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+# MDG
+standard-app-packages
+reactive-var
+
+# Security
+insecure
+accounts-password
+alanning:roles
+
+# Easing development
+mquandalle:jade
+coffeescript
+mquandalle:stylus
+less
+msavin:mongol
+msavin:jetsetter
+
+# Style
+nemo64:bootstrap
+ian:accounts-ui-bootstrap-3
+fortawesome:fontawesome
+
+# FileSystem
+cfs:standard-packages
+cfs:gridfs
+
+# Collection
+aldeed:simple-schema
+aldeed:collection2
+aldeed:delete-button
+forwarder:autoform-wizard
+matb33:collection-hooks
+
+# Server & client utils
+iron:router
+harrison:babyparse
+harrison:papa-parse
+danielqiu:feed
+
+# Client utils
+tap:i18n
+momentjs:moment
+rzymek:moment-locale-fr
+numeral:numeral
+d3js:d3
+vazco:maps
+mizzao:jquery-ui
+natestrauser:select2
+bse:autoform-file-custom
+multiply:iron-router-progress
+aldeed:autoform
+pfafman:filesaver

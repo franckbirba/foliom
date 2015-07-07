@@ -1,0 +1,42 @@
+@import 'nib'
+
+// Use normalize for removing differences between browsers
+// http://necolas.github.io/normalize.css/
+normalize-html5()
+
+// Styles specific for pages
+html, body
+  height 100%
+  margin 0
+  border 0
+  padding 0
+
+// Mixin used for all background on page corner
+pageBgCorner(bgUrl)
+  background-image bgUrl
+  background-repeat no-repeat
+  background-size 170px
+
+.page
+  height 100%
+  padding 1em 0
+  background-color white
+
+  // Main page title
+  // @NOTE An h1 is used for semantic but the size in the design is equivalent
+  // to an h3, therefore we reduce it.
+  h1.page-title
+    padding-top 0
+    font-size 1.6em
+
+  // Corner icon as a paper map for all in the section "evaluate"
+  &.evaluate
+    pageBgCorner(url(/icon/bg_evaluate.svg))
+
+  // Corner icon as a sextant for all pages in the section "observe"
+  &.observe
+    pageBgCorner(url(/icon/bg_observe.svg))
+
+  // Corner icon as compass for all pages in the section "plan"
+  &.plan
+    pageBgCorner(url(/icon/bg_plan.svg))

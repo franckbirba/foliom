@@ -1,0 +1,29 @@
+<template name="afObjectField_verylightBSE">
+  <div class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+    <!-- {{console_log "in very_light objectField"}}
+    {{console_log this}} -->
+    {{#each afFieldNames name=this.name}}
+      <!-- {{> afFormGroup template="verylight" name=this options="auto"}} -->
+      {{#if isFirstValue this.name}}
+         <td class="col-sm-6 col-xs-6">
+            <!-- {{> afFormGroup name=this options="auto" template="verylightBSE"}} -->
+            {{> afFormGroup name=this.name options=afOptionsFromSchema template="verylightBSE"}}
+        </td>
+      {{else}}
+           <td class="col-sm-2 col-xs-2" style="vertical-align: middle;">
+            <!-- {{> afFormGroup name=this options="auto" template="verylightBSE"}} -->
+            {{> afFormGroup name=this.name options=afOptionsFromSchema template="verylightBSE"}}
+        </td>
+      {{/if}}
+
+    {{/each}}
+  </div>
+</template>
+
+
+ <template name="afFormGroup_verylightBSE">
+  <div style="" class="{{#if afFieldIsInvalid name=this.name}}has-error{{/if}}">
+      {{> afFieldInput afFieldInputAtts}}
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
+  </div>
+</template>

@@ -1,0 +1,25 @@
+#portfolioSelectZone {
+  margin-bottom: 40px;
+}
+
+#portfolioSelect {
+  width: 200px;
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+#actionsApplyTitle {
+  font-family: comfortaa;
+}
+
+.panel-actions {
+  min-height: 400px;
+}
+
+#actionListFiller {
+  text-align: center;
+}
+
+#scenarioLink {
+  margin-top: 20px
+}

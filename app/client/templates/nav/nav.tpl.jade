@@ -1,0 +1,50 @@
+nav.navbar.navbar-default(role='navigation'): .container: .col-sm-12
+  .navbar-header
+    // Button when menu is collapsed
+    button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-navbar-collapse'): span.fa.fa-bars
+    // Logo
+    a.navbar-brand(href='/'): img(width='150', src='/img/eportfolio.svg')
+  #bs-navbar-collapse.colapse.navbar-collapse
+    if isInRole 'admin,estate_manager,portfolio_manager'
+      ul.nav.navbar-nav: li.dropdown
+        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+          | Menu
+          span.caret
+        ul.dropdown-menu(role='menu')
+          li: a(href='/settings', class="{{activPage 'settings'}}") {{_ 'settings_indexes'}}
+          li: a(href='/user') {{_ 'user_collection'}}
+          li: a(href='{{pathFor "estatesList"}}') {{_ 'estates'}}
+          li: a(href='/selectors') {{_ 'settings_selectors'}}
+          li: a(href='{{pathFor "jsonExport"}}') {{_ 'jsonExport'}}
+      ul.nav.navbar-nav: li.dropdown
+        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+          | {{currentEstate}}
+          span.caret
+        ul.dropdown-menu(role='menu')
+          each estates
+            li: a.select_estate(href='#')= estate_name
+    // Search
+    //- form.navbar-form.navbar-left(role='search')
+    //-   #nav-search.input-group
+    //-     input.form-control(type='text', placeholder="{{_ 'search'}}")
+    //-     span.input-group-btn: button.btn.btn-default(type='submit'): span.fa.fa-search
+    ul.nav.navbar-nav.navbar-right
+      li: a(href='#')
+        +loginButtons
+      li.dropdown
+        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+          | {{lang}}
+          span.caret
+        ul.dropdown-menu(role='menu')
+          li: a.fr-lang(href='#', class="{{langActiv 'fr'}}") Français
+          li: a.en-lang(href='#', class="{{langActiv 'en'}}") English
+      li.dropdown
+        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+          //- | ?
+          .interrogation.pull-left ?
+          span.caret.help-caret
+        ul.dropdown-menu(role='menu')
+          li: a(href='{{pathFor "about"}}') {{_ 'about'}}
+          li: a(href='{{pathFor "help"}}') {{_ 'help'}}
+          li: a(href='{{pathFor "termOfUse"}}') {{_ 'term_of_use'}}
++SelectEstate

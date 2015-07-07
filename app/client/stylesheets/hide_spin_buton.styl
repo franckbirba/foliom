@@ -1,0 +1,9 @@
+// CSS to hide the spin-buttons, ie. the "arrows" that the browsers add for number inputs (at right of the field)
+// Ref.: http://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+
+input[type='number']
+  -moz-appearance:textfield
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button
+    -webkit-appearance: none

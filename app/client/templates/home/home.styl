@@ -1,0 +1,31 @@
+@import 'client/stylesheets/*.import'
+
+menuBig(home, sextan compass, png)
+
+navWidth = 640px
+
+.home
+  section
+    min-height 600px
+    margin 1em 0
+    display flex
+    flex-direction row
+    nav
+      min-width navWidth
+      margin-right 1em
+      flex-grow 0
+      display flex
+      flex-direction row
+      flex-wrap wrap
+      a:last-child
+        margin-top 1em
+        span
+          width navWidth
+        &::after
+          width navWidth
+          background-image url(/icon/evaluer.png)
+        width navWidth
+    article
+      flex-grow 1
+      .chat-panel
+        height 500px

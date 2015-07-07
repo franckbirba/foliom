@@ -1,0 +1,27 @@
+.page.plan.actionList: .container: .row
+  .col-md-3.text-center: .mFadeInLeft
+      div: span.fa.fa-gears.fa-5x
+      h4 {{_ "actionList_title"}}
+      if isInRole 'admin'
+        .newActionBtn: a.btn.btn-primary.newGenericActionBtn(role='button') {{_ "new_generic_action"}}
+      .newActionBtn: a.btn.btn-primary(href='{{pathFor "actions-apply"}}', role='button') {{_ 'apply_actions'}}
+  .col-md-9: .actionGrid: .row: .mFadeInDown
+    each getGenericActions
+      .col-md-2
+        .actionContainer.newActionFromMaster
+          +itemBlockMedium
+          .childContainer.logo !{logo}
+          .childContainer.actionTitle= name
+    each getUserTemplateActions
+      .col-md-2
+        .actionContainer.actionUserTemplate
+          +itemBlockMedium
+          .childContainer.logo !{logo}
+          .childContainer.actionTitle= name
+    .col-md-2
+      .actionContainer.newUserTempalteAction
+        .childContainer
+          .addUTactionLogo: span.fa-stack.fa-lg
+            i.fa.fa-circle-o.fa-stack-2x
+            i.fa.fa-plus
+        .childContainer.blackLink.actionTitle {{_ "newUserTemplateAction"}}

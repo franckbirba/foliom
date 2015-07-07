@@ -1,0 +1,42 @@
+.page.plan: .container
+  #portfolioSelectZone.mFadeInDown
+    h3.pull-left#actionsApplyTitle {{_ "select_portfolio"}}
+    select#portfolioSelect.form-control
+      option(value='', disabled='', selected='') {{_ "select_portfolio"}}
+      each getPortfolioList
+        option(value=_id)= name
+  .row
+    .col-md-3.mFadeInLeft
+      .panel.panel-primary
+        .panel-heading: h3.panel-title.text-center Actions {{currentBuildingName}}
+        .panel-body.panel-actions
+          if session_equals 'current_tree_mode' 'building_to_actions'
+            if session 'current_building_doc'
+              each getUsableActions
+                .checkbox
+                  label
+                    input.ActionCheckbox(type='checkbox', value='{{_id}}')
+                    | {{name}}
+            else
+              #actionListFiller {{_ "click_building_to_choose_actions"}}
+          else if session_equals 'current_tree_mode' 'actions_to_buildings'
+            //- if session 'current_action_doc'
+            //-   each getUsableBuildings
+            //-     .checkbox
+            //-       label
+            //-         input.ActionCheckbox(type='checkbox', value='{{_id}}')
+            //-         | {{building_name}}
+            //- else
+            //-   #buildingListFiller {{_ "click_action_to_choose_building"}}
+      // Timeline link
+      #scenarioLink
+        a.btn.btn-primary(role='button' href='{{pathFor "scenarioList"}}') {{_ 'schemaDir_create'}}
+    .col-md-9.treeViz.mFadeInRight
+      .pull-right
+        .form-inline
+          .form-group
+            label(for="treeModeSelect") {{_ "tree_mode_select"}}
+            .form-control: select#treeModeSelect.form-control
+              option(value='building_to_actions', selected) {{_ "building_to_actions"}}
+              option(value='actions_to_buildings') {{_ "actions_to_buildings"}}
+      +treeTplt

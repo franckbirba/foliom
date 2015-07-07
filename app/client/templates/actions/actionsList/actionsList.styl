@@ -1,0 +1,58 @@
+@import 'nib'
+@import 'client/stylesheets/*.import'
+
+.actionList
+  .fa
+    color color1
+  div span.fa-stack.fa-lg
+    margin-bottom .5em
+  // .newActionFromMaster, .actionUserTemplate, .actionCreate
+  .actionContainer
+    // flexbox
+    display flex
+    flex-direction column
+    justify-content: flex-start
+    // other
+    text-align center
+    size 140px 140px
+    margin-bottom 1em
+    cursor pointer
+    border-radius 2px
+    border 1px solid darken(color0, 20%)
+    padding 5px
+    // So that we can position the Edit button
+    transition background-color defaultAnimation
+    position relative
+    .childContainer
+      margin: auto;
+    .logo
+      font-family 'foliom-picto'
+      font-size 65px
+      margin-top 0px
+      margin-bottom -12px
+    .actionTitle
+      font-style italic
+      font-size: 0.8em
+    &:hover
+      background-color darken(color0, 20%)
+
+  .blackLink
+    color color4
+
+  .addUTactionLogo
+    margin-top 15px
+    margin-bottom -12px
+
+  .newActionFromMaster
+    background-color color0
+
+  .actionUserTemplate
+    background-color color3
+
+  .actionCreate
+    border-color black
+
+  .newActionBtn
+    margin-top 1em
+    a
+      width 100%

@@ -1,0 +1,310 @@
+<template name="quickForm_conformity_infoSchema">
+  {{#autoForm this.qfAutoFormContext}}
+    {{> afQuickFields id-prefix=idPrefix}}
+    {{#if qfShouldRenderButton}}
+    <div class="form-group">
+      <button type="submit" {{submitButtonAtts}}>
+      {{#with ../atts.buttonContent}}
+      {{this}}
+      {{else}}
+      Submit
+      {{/with}}
+      </button>
+    </div>
+    {{/if}}
+  {{/autoForm}}
+</template>
+
+<template name="afFormGroup_conformity_infoSchema">
+  <div class="form-group{{#if afFieldIsInvalid name=this.name}} has-error{{/if}}">
+    {{#unless skipLabel}}
+    <label {{bsFieldLabelAtts}}>{{#if this.labelText}}{{this.labelText}}{{else}}{{afFieldLabelText name=this.name}}{{/if}}</label>
+    {{/unless}}
+    {{> afFieldInput this.afFieldInputAtts}}
+    <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
+  </div>
+</template>
+
+<template name="afObjectField_conformity_infoBlock">
+  <div class="form-group {{#if afFieldIsInvalid name=this.name}}has-error{{/if}} extraFormStyle">
+    <div class="objectTitleAF">{{afFieldLabelText name=this.name}}</div>
+    <div class="CiS_block">
+      {{> afQuickFields name=this.name }}
+    </div>
+  </div>
+</template>
+
+<template name="afObjectField_conformity_infoSchema">
+  <div class="panel panel-default CiS_item">
+    {{#with afFieldLabelText name=this.name}}
+    <div class="panel-heading">
+      <h3 class="panel-title">{{this}}</h3>
+    </div>
+    {{/with}}
+    <div class="panel-body">
+      {{#if afFieldIsInvalid name=this.name}}
+      <span class="help-block">{{{afFieldMessage name=this.name}}}</span>
+      {{/if}}
+      {{> afQuickFields name=this.name}}
+    </div>
+  </div>
+</template>
+
+<!-- <template name="afArrayField_conformity_infoSchema">
+  <div class="panel panel-default">
+    <div class="panel-heading">{{afFieldLabelText name=this.atts.name}}</div>
+    {{#if afFieldIsInvalid name=this.atts.name}}
+    <div class="panel-body has-error">
+      <span class="help-block">{{{afFieldMessage name=this.atts.name}}}</span>
+    </div>
+    {{/if}}
+    <ul class="list-group">
+      {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <li class="list-group-item autoform-array-item">
+        <div class="media">
+          {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+          <button type="button" class="btn btn-primary autoform-remove-item pull-left"><span class="glyphicon glyphicon-minus"></span></button>
+          {{/if}}
+          <div class="media-body">
+            {{> afQuickField name=this.name label=false options="auto"}}
+          </div>
+        </div>
+      </li>
+      {{/afEachArrayItem}}
+      {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <li class="list-group-item">
+        <button type="button" class="btn btn-primary autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}"><span class="glyphicon glyphicon-plus"></span></button>
+      </li>
+      {{/if}}
+    </ul>
+  </div>
+</template> -->
+
+<template name="afArrayField_conformity_infoSchema">
+  <div class="objectTitleAF">{{afFieldLabelText name=this.atts.name}}</div>
+
+  <!-- <div class="yearly_values_titleBlock yearly_values_item">
+    <div class="yearly_values_title">{{_ "year"}}</div>
+    <div class="yearly_values_title">%</div>
+    <div class="yearly_values_title">{{_ "evolution"}}</div>
+  </div> -->
+
+  <div class="CiS_block">
+
+    {{#if afFieldIsInvalid name=this.atts.name}}
+      <div class="autoform-array-field-error">{{{afFieldMessage name=this.atts.name}}}</div>
+    {{/if}}
+
+    {{#afEachArrayItem name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+      <!-- Testing display settings at the ArrayField level -->
+      <!-- <div class="yearly_values_item"> -->
+      <div class="CiS_item">
+        {{> afQuickField name=this.name label=false}}
+
+        {{#if afArrayFieldHasMoreThanMinimum name=../atts.name minCount=../atts.minCount maxCount=../atts.maxCount}}
+        <button type="button" class="autoform-remove-item">Remove</button>
+        {{/if}}
+      </div>
+    {{/afEachArrayItem}}
+
+    {{#if afArrayFieldHasLessThanMaximum name=this.atts.name minCount=this.atts.minCount maxCount=this.atts.maxCount}}
+    <div style="margin-top: 20px;">
+      <button type="button" class="autoform-add-item" data-autoform-field="{{this.atts.name}}" data-autoform-minCount="{{this.atts.minCount}}" data-autoform-maxCount="{{this.atts.maxCount}}">Add</button>
+    </div>
+    {{/if}}
+
+  </div>
+</template>
+
+<template name="afCheckbox_conformity_infoSchema">
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" value="true" {{atts}} />
+      {{afFieldLabelText name=this.name}}
+    </label>
+  </div>
+</template>
+
+<template name="afCheckboxGroup_conformity_infoSchema">
+  <div class="af-checkbox-group" {{dsk}}>
+    {{#each this.items}}
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" value="{{this.value}}" {{atts}} />
+          {{this.label}}
+        </label>
+      </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="afCheckboxGroupInline_conformity_infoSchema">
+  <div class="af-checkbox-group" {{dsk}}>
+    {{#each this.items}}
+      <label class="checkbox-inline">
+        <input type="checkbox" value="{{this.value}}" {{atts}} />
+        {{this.label}}
+      </label>
+    {{/each}}
+  </div>
+</template>
+
+<template name="afRadio_conformity_infoSchema">
+  <div class="radio">
+    <label>
+      <input type="radio" value="{{this.value}}" {{atts}} />
+      {{afFieldLabelText name=this.name}}
+    </label>
+  </div>
+</template>
+
+<template name="afRadioGroup_conformity_infoSchema">
+  <div class="af-radio-group" {{dsk}}>
+    {{#each this.items}}
+      <div class="radio">
+        <label>
+          <input type="radio" value="{{this.value}}" {{atts}} />
+          {{this.label}}
+        </label>
+      </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="afRadioGroupInline_conformity_infoSchema">
+  <div class="af-radio-group" {{dsk}}>
+    {{#each this.items}}
+      <label class="radio-inline">
+        <input type="radio" value="{{this.value}}" {{atts}} />
+        {{this.label}}
+      </label>
+    {{/each}}
+  </div>
+</template>
+
+<template name="afBooleanRadioGroup_conformity_infoSchema">
+  <div {{dsk}}>
+    <div class="radio">
+      <label><input type="radio" value="false" name="{{this.name}}" {{falseAtts}} /> {{#with this.atts.falseLabel}}{{this}}{{else}}False{{/with}}</label>
+    </div>
+    <div class="radio">
+      <label><input type="radio" value="true" name="{{this.name}}" {{trueAtts}} /> {{#with this.atts.trueLabel}}{{this}}{{else}}True{{/with}}</label>
+    </div>
+  </div>
+</template>
+
+<template name="afSelect_conformity_infoSchema">
+  <select {{atts}}>
+    {{#each this.items}}
+      {{#if this.optgroup}}
+        <optgroup label="{{this.optgroup}}">
+        {{#each this.items}}
+        <option {{optionAtts}}>{{this.label}}</option>
+        {{/each}}
+        </optgroup>
+      {{else}}
+        <option {{optionAtts}}>{{this.label}}</option>
+      {{/if}}
+    {{/each}}
+  </select>
+</template>
+
+<template name="afBooleanSelect_conformity_infoSchema">
+  <select {{atts}}>
+    {{#each this.items}}
+      <option {{optionAtts}}>{{this.label}}</option>
+    {{/each}}
+  </select>
+</template>
+
+<template name="afSelectMultiple_conformity_infoSchema">
+  <select {{atts}} multiple>
+    {{#each this.items}}
+      {{#if this.optgroup}}
+        <optgroup label="{{this.optgroup}}">
+        {{#each this.items}}
+        <option {{optionAtts}}>{{this.label}}</option>
+        {{/each}}
+        </optgroup>
+      {{else}}
+        <option {{optionAtts}}>{{this.label}}</option>
+      {{/if}}
+    {{/each}}
+  </select>
+</template>
+
+<template name="afTextarea_conformity_infoSchema">
+  <textarea {{atts}}>{{this.value}}</textarea>
+</template>
+
+<template name="afInputText_conformity_infoSchema">
+  <input type="text" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputPassword_conformity_infoSchema">
+  <input type="password" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputButton_conformity_infoSchema">
+  <input type="button" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputSubmit_conformity_infoSchema">
+  <input type="submit" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputReset_conformity_infoSchema">
+  <input type="reset" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputDateTime_conformity_infoSchema">
+  <input type="datetime" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputDateTimeLocal_conformity_infoSchema">
+  <input type="datetime-local" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputDate_conformity_infoSchema">
+  <input type="date" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputMonth_conformity_infoSchema">
+  <input type="month" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputTime_conformity_infoSchema">
+  <input type="time" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputWeek_conformity_infoSchema">
+  <input type="week" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputNumber_conformity_infoSchema">
+  <input type="number" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputRange_conformity_infoSchema">
+  <input type="range" value="{{this.value}}" {{this.atts}}/>
+</template>
+
+<template name="afInputEmail_conformity_infoSchema">
+  <input type="email" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputUrl_conformity_infoSchema">
+  <input type="url" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputSearch_conformity_infoSchema">
+  <input type="search" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputTel_conformity_infoSchema">
+  <input type="tel" value="{{this.value}}" {{atts}}/>
+</template>
+
+<template name="afInputColor_conformity_infoSchema">
+  <input type="color" value="{{this.value}}" {{atts}}/>
+</template>
